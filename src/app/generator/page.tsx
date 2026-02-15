@@ -42,63 +42,80 @@ export default function Generator() {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedNotes);
-    alert("Notes copied to clipboard!");
+    alert("✓ Notes copied to clipboard!");
   };
 
   const characterCount = inputText.length;
-  const estimatedTime = Math.ceil(characterCount / 200); // rough estimate
+  const estimatedTime = Math.ceil(characterCount / 200);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c] p-4 sm:p-8">
-      <div className="mx-auto max-w-4xl">
-        {/* Header with Back Button */}
-        <div className="mb-8 flex items-center justify-between">
+    <main className="min-h-screen bg-gray-50">
+      {/* Navigation */}
+      <nav className="border-b border-gray-200 bg-white">
+        <div className="container mx-auto flex items-center justify-between px-6 py-4">
+          <Link href="/" className="flex items-center gap-3">
+            <img 
+              src="/StudyForge-logo.png" 
+              alt="StudyForge" 
+              className="h-8 w-8"
+            />
+            <span className="text-xl font-semibold text-gray-900">StudyForge</span>
+          </Link>
           <Link
             href="/"
-            className="rounded-full bg-white/10 px-6 py-2 text-white transition hover:bg-white/20"
+            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
           >
             ← Back to Home
           </Link>
-          <h1 className="text-3xl font-bold text-white sm:text-4xl">
-            <span className="text-[hsl(280,100%,70%)]">StudyForge</span> Generator
+        </div>
+      </nav>
+
+      <div className="container mx-auto max-w-4xl px-6 py-12">
+        {/* Header */}
+        <div className="mb-8 text-center">
+          <h1 className="mb-2 text-4xl font-bold text-gray-900">
+            Note Generator
           </h1>
+          <p className="text-lg text-gray-600">
+            Paste your study material and let AI do the work
+          </p>
         </div>
 
         {/* Input Section */}
-        <div className="mb-6 rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
-          <div className="mb-2 flex items-center justify-between">
-            <label className="text-lg font-semibold text-white">
-              Paste Your Notes or Content:
+        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="mb-3 flex items-center justify-between">
+            <label className="text-sm font-semibold text-gray-900">
+              Your Notes or Content
             </label>
-            <span className="text-sm text-white/60">
+            <span className="text-sm text-gray-500">
               {characterCount} characters
-              {characterCount > 0 && ` • ~${estimatedTime}s to generate`}
+              {characterCount > 0 && ` • ~${estimatedTime}s`}
             </span>
           </div>
           <textarea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder="Try pasting lecture notes, textbook paragraphs, or study material here...
+            placeholder="Paste lecture notes, textbook paragraphs, or study material here...
 
-Example: 'Photosynthesis is the process by which plants convert sunlight into energy...'"
-            className="h-64 w-full rounded-xl bg-white/20 p-4 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[hsl(280,100%,70%)]"
+Example: 'Photosynthesis is the process by which plants convert sunlight into energy. It occurs in the chloroplasts and involves...'"
+            className="h-64 w-full resize-none rounded-lg border border-gray-300 p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
         </div>
 
         {/* Format Selection */}
-        <div className="mb-6 rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
-          <label className="mb-3 block text-lg font-semibold text-white">
-            Choose Output Format:
+        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <label className="mb-3 block text-sm font-semibold text-gray-900">
+            Output Format
           </label>
           <select
             value={outputFormat}
             onChange={(e) => setOutputFormat(e.target.value)}
-            className="w-full rounded-xl bg-white/20 p-4 text-white focus:outline-none focus:ring-2 focus:ring-[hsl(280,100%,70%)]"
+            className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
-            <option value="summary">📝 Summary - Quick overview of main points</option>
-            <option value="detailed">📚 Detailed Notes - Comprehensive study guide</option>
-            <option value="flashcards">🎯 Flashcards - Question & answer format</option>
-            <option value="questions">❓ Practice Questions - Test your knowledge</option>
+            <option value="summary">Summary - Quick overview of main points</option>
+            <option value="detailed">Detailed Notes - Comprehensive study guide</option>
+            <option value="flashcards">Flashcards - Question & answer format</option>
+            <option value="questions">Practice Questions - Test your knowledge</option>
           </select>
         </div>
 
@@ -106,40 +123,46 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
         <button
           onClick={handleGenerate}
           disabled={!inputText || isLoading}
-          className="mb-6 w-full rounded-xl bg-[hsl(280,100%,70%)] px-8 py-5 text-xl font-bold text-white shadow-2xl transition-all hover:scale-105 hover:bg-[hsl(280,100%,60%)] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+          className="mb-6 w-full rounded-lg bg-blue-600 py-4 text-lg font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
         >
           {isLoading ? (
             <span className="flex items-center justify-center gap-2">
-              <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-              Generating with AI... (~{estimatedTime}s)
+              <svg className="h-5 w-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Generating... (~{estimatedTime}s)
             </span>
           ) : (
-            "✨ Generate Notes"
+            "Generate Notes"
           )}
         </button>
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 rounded-xl bg-red-500/20 p-4 text-red-200 backdrop-blur-sm">
-            ⚠️ {error}
+          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+            {error}
           </div>
         )}
 
         {/* Output Section */}
         {generatedNotes && (
-          <div className="rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">
-                Your AI-Generated Study Notes:
+          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-4">
+              <h2 className="text-xl font-semibold text-gray-900">
+                Your Study Notes
               </h2>
               <button
                 onClick={handleCopy}
-                className="rounded-lg bg-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/30"
+                className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
               >
-                📋 Copy to Clipboard
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                Copy
               </button>
             </div>
-            <div className="whitespace-pre-wrap rounded-xl bg-white/20 p-6 text-white shadow-inner">
+            <div className="prose max-w-none whitespace-pre-wrap text-gray-700">
               {generatedNotes}
             </div>
           </div>
