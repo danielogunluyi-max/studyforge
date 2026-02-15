@@ -8,7 +8,9 @@ export default function Generator() {
   const [outputFormat, setOutputFormat] = useState("summary");
   const [generatedNotes, setGeneratedNotes] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
+  const [saveSuccess, setSaveSuccess] = useState(false);
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
   const [quizAnswers, setQuizAnswers] = useState<{[key: number]: string}>({});
   const [checkedAnswers, setCheckedAnswers] = useState<Set<number>>(new Set());
@@ -16,6 +18,7 @@ export default function Generator() {
   const handleGenerate = async () => {
     setIsLoading(true);
     setError("");
+    setSaveSuccess(false);
     setFlippedCards(new Set());
     setQuizAnswers({});
     setCheckedAnswers(new Set());
@@ -46,9 +49,44 @@ export default function Generator() {
     }
   };
 
+  const handleSave = async () => {
+    setIsSaving(true);
+    setSaveSuccess(false);
+    setError("");
+
+    try {
+      // Create a title from the input text (first 50 chars)
+      const title = inputText.slice(0, 50) + (inputText.length > 50 ? "..." : "");
+
+      const response = await fetch("/api/notes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          content: generatedNotes,
+          format: outputFormat,
+        }),
+      });
+
+      if (response.ok) {
+        setSaveSuccess(true);
+        setTimeout(() => setSaveSuccess(false), 3000); // Hide after 3 seconds
+      } else {
+        setError("Failed to save note");
+      }
+    } catch (err) {
+      setError("Something went wrong while saving.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleClear = () => {
     setGeneratedNotes("");
     setError("");
+    setSaveSuccess(false);
     setFlippedCards(new Set());
     setQuizAnswers({});
     setCheckedAnswers(new Set());
@@ -107,29 +145,22 @@ export default function Generator() {
   const parseQuestions = (text: string) => {
     const questions = [];
     
-    // Remove any "Answer:" labels that might exist
     const cleanedText = text.replace(/Answer:\s*/gi, '');
-    
-    // Split by question numbers
     const sections = cleanedText.split(/(?=\d+\.\s)/);
     
     for (let section of sections) {
       const trimmed = section.trim();
       if (!trimmed) continue;
       
-      // Find the first line (question) and rest (answer)
       const lines = trimmed.split('\n').filter(l => l.trim());
       if (lines.length === 0) continue;
       
-      // First line is the question (remove the number)
       const questionLine = lines[0].replace(/^\d+\.\s*/, '').trim();
       
-      // Skip if it looks like an answer or option
       if (questionLine.match(/^[A-D]\)/i) || questionLine.toLowerCase().startsWith('answer')) {
         continue;
       }
       
-      // Everything after the first line is the answer
       const answerLines = lines.slice(1);
       const answer = answerLines.join(' ').trim();
       
@@ -158,15 +189,24 @@ export default function Generator() {
             <h2 className="text-xl font-semibold text-gray-900">
               Your Flashcards ({cards.length} cards)
             </h2>
-            <button
-              onClick={handleCopy}
-              className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
-              Copy All
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={handleSave}
+                disabled={isSaving}
+                className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+              >
+                {isSaving ? "Saving..." : "💾 Save"}
+              </button>
+              <button
+                onClick={handleCopy}
+                className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                Copy
+              </button>
+            </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {cards.map((card, index) => (
@@ -176,13 +216,11 @@ export default function Generator() {
                 className="group relative h-48 cursor-pointer perspective"
               >
                 <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(index) ? 'rotate-y-180' : ''}`}>
-                  {/* Front of card */}
                   <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-blue-50 p-6 backface-hidden">
                     <p className="text-center text-lg font-medium text-gray-900">
                       {card.question}
                     </p>
                   </div>
-                  {/* Back of card */}
                   <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-green-50 p-6 backface-hidden rotate-y-180">
                     <p className="text-center text-gray-700">
                       {card.answer}
@@ -207,15 +245,24 @@ export default function Generator() {
             <h2 className="text-xl font-semibold text-gray-900">
               Practice Quiz ({questions.length} questions)
             </h2>
-            <button
-              onClick={handleCopy}
-              className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
-              Copy
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={handleSave}
+                disabled={isSaving}
+                className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+              >
+                {isSaving ? "Saving..." : "💾 Save"}
+              </button>
+              <button
+                onClick={handleCopy}
+                className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                Copy
+              </button>
+            </div>
           </div>
           <div className="space-y-6">
             {questions.map((q, index) => (
@@ -259,22 +306,30 @@ export default function Generator() {
       );
     }
 
-    // Summary and Detailed Notes
     return (
       <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-4">
           <h2 className="text-xl font-semibold text-gray-900">
             Your Study Notes
           </h2>
-          <button
-            onClick={handleCopy}
-            className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-            Copy
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handleSave}
+              disabled={isSaving}
+              className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+            >
+              {isSaving ? "Saving..." : "💾 Save"}
+            </button>
+            <button
+              onClick={handleCopy}
+              className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              Copy
+            </button>
+          </div>
         </div>
         <div className="prose max-w-none whitespace-pre-wrap text-gray-700">
           {generatedNotes}
@@ -285,7 +340,6 @@ export default function Generator() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Navigation */}
       <nav className="border-b border-gray-200 bg-white">
         <div className="container mx-auto flex items-center justify-between px-6 py-4">
           <Link href="/" className="flex items-center gap-3">
@@ -296,17 +350,24 @@ export default function Generator() {
             />
             <span className="text-xl font-semibold text-gray-900">StudyForge</span>
           </Link>
-          <Link
-            href="/"
-            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-          >
-            ← Back to Home
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link
+              href="/my-notes"
+              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            >
+              My Notes
+            </Link>
+            <Link
+              href="/"
+              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            >
+              ← Back to Home
+            </Link>
+          </div>
         </div>
       </nav>
 
       <div className="container mx-auto max-w-4xl px-6 py-12">
-        {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="mb-2 text-4xl font-bold text-gray-900">
             Note Generator
@@ -316,7 +377,6 @@ export default function Generator() {
           </p>
         </div>
 
-        {/* Input Section */}
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="mb-3 flex items-center justify-between">
             <label className="text-sm font-semibold text-gray-900">
@@ -337,7 +397,6 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           />
         </div>
 
-        {/* Format Selection */}
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <label className="mb-3 block text-sm font-semibold text-gray-900">
             Output Format
@@ -354,7 +413,6 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           </select>
         </div>
 
-        {/* Generate/Clear Buttons */}
         <div className="mb-6 flex gap-3">
           <button
             onClick={handleGenerate}
@@ -383,14 +441,18 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           )}
         </div>
 
-        {/* Error Message */}
+        {saveSuccess && (
+          <div className="mb-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+            ✓ Note saved successfully! <Link href="/my-notes" className="font-semibold underline">View all notes</Link>
+          </div>
+        )}
+
         {error && (
           <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
             {error}
           </div>
         )}
 
-        {/* Output Section */}
         {renderOutput()}
       </div>
     </main>
