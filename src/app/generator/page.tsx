@@ -154,7 +154,11 @@ export default function Generator() {
       const lines = trimmed.split('\n').filter(l => l.trim());
       if (lines.length === 0) continue;
       
-      const questionLine = lines[0].replace(/^\d+\.\s*/, '').trim();
+      // FIXED: Added safety check
+      const firstLine = lines[0];
+      if (!firstLine) continue;
+      
+      const questionLine = firstLine.replace(/^\d+\.\s*/, '').trim();
       
       if (questionLine.match(/^[A-D]\)/i) || questionLine.toLowerCase().startsWith('answer')) {
         continue;
