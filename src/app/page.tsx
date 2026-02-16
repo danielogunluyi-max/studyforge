@@ -14,12 +14,20 @@ export default function Home() {
             />
             <span className="text-xl font-semibold text-gray-900">StudyForge</span>
           </div>
-          <Link
-            href="/generator"
-            className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
-          >
-            Try It Free
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/my-notes"
+              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            >
+              My Notes
+            </Link>
+            <Link
+              href="/generator"
+              className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
+            >
+              Try It Free
+            </Link>
+          </div>
         </div>
       </nav>
 

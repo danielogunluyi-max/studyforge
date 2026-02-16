@@ -55,7 +55,6 @@ export default function Generator() {
     setError("");
 
     try {
-      // Create a title from the input text (first 50 chars)
       const title = inputText.slice(0, 50) + (inputText.length > 50 ? "..." : "");
 
       const response = await fetch("/api/notes", {
@@ -72,7 +71,7 @@ export default function Generator() {
 
       if (response.ok) {
         setSaveSuccess(true);
-        setTimeout(() => setSaveSuccess(false), 3000); // Hide after 3 seconds
+        setTimeout(() => setSaveSuccess(false), 3000);
       } else {
         setError("Failed to save note");
       }
