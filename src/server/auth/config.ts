@@ -32,8 +32,12 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authConfig = {
+  pages: {
+    error: "/error",
+  },
   trustHost: true,
   secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  basePath: "/api/auth",
   providers: [
     CredentialsProvider({
       name: "Credentials",
