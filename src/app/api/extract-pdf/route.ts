@@ -17,6 +17,36 @@ function decodePdfText(value: string): string {
   }
 }
 
+function normalizeExtractedText(text: string): string {
+  let normalized = text.replace(/\u0000/g, "").replace(/\s+/g, " ").trim();
+
+  const lines = normalized
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const repairedLines = lines.map((line) => {
+    const tokens = line.split(/\s+/).filter(Boolean);
+    if (tokens.length < 8) {
+      return line;
+    }
+
+    const singleCharAlnum = tokens.filter(
+      (token) => token.length === 1 && /[A-Za-z0-9]/.test(token),
+    ).length;
+    const ratio = singleCharAlnum / tokens.length;
+
+    if (ratio >= 0.85) {
+      return tokens.join("");
+    }
+
+    return line;
+  });
+
+  normalized = repairedLines.join("\n").trim();
+  return normalized;
+}
+
 async function extractTextFromPdfBuffer(buffer: Buffer): Promise<string> {
   const { default: PDFParser } = await import("pdf2json");
 
@@ -37,21 +67,23 @@ async function extractTextFromPdfBuffer(buffer: Buffer): Promise<string> {
       for (const page of pages) {
         const words: string[] = [];
         for (const textItem of page.Texts ?? []) {
-          for (const run of textItem.R ?? []) {
-            const decoded = decodePdfText(run.T ?? "").trim();
-            if (decoded) {
-              words.push(decoded);
-            }
+          const token = (textItem.R ?? [])
+            .map((run) => decodePdfText(run.T ?? ""))
+            .join("")
+            .trim();
+
+          if (token) {
+            words.push(token);
           }
         }
 
-        const pageText = words.join(" ").replace(/\s+/g, " ").trim();
+        const pageText = normalizeExtractedText(words.join(" "));
         if (pageText) {
           lines.push(pageText);
         }
       }
 
-      resolve(lines.join("\n\n").trim());
+      resolve(normalizeExtractedText(lines.join("\n\n").trim()));
     });
 
     parser.parseBuffer(buffer);

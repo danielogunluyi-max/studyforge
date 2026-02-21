@@ -210,7 +210,14 @@ export default function Generator() {
     setError("");
 
     try {
-      const title = inputText.slice(0, 50) + (inputText.length > 50 ? "..." : "");
+      const contentToSave = generatedNotes.trim() || inputText.trim();
+      if (!contentToSave) {
+        setError("Nothing to save yet. Generate notes or upload/paste content first.");
+        return;
+      }
+
+      const sourceForTitle = inputText.trim() || contentToSave;
+      const title = sourceForTitle.slice(0, 50) + (sourceForTitle.length > 50 ? "..." : "");
 
       const response = await fetch("/api/notes", {
         method: "POST",
@@ -219,16 +226,18 @@ export default function Generator() {
         },
         body: JSON.stringify({
           title,
-          content: generatedNotes,
+          content: contentToSave,
           format: outputFormat,
         }),
       });
+
+      const result = (await response.json().catch(() => ({}))) as { error?: string };
 
       if (response.ok) {
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 3000);
       } else {
-        setError("Failed to save note");
+        setError(result.error ?? "Failed to save note");
       }
     } catch (err) {
       void err;
