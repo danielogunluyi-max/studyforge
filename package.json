@@ -34,10 +34,12 @@
     "next": "^15.2.3",
     "next-auth": "5.0.0-beta.25",
     "pdf-parse": "^2.4.5",
+    "pdfjs-dist": "^5.4.624",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "server-only": "^0.0.1",
     "superjson": "^2.2.1",
+    "tesseract.js": "^7.0.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
