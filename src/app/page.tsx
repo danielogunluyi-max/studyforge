@@ -23,6 +23,12 @@ export default function Home() {
               My Notes
             </Link>
             <Link
+              href="/login"
+              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            >
+              Log In
+            </Link>
+            <Link
               href="/signup"
               className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
             >
