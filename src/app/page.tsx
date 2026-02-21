@@ -23,6 +23,12 @@ export default function Home() {
               My Notes
             </Link>
             <Link
+              href="/signup"
+              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            >
+              Sign Up
+            </Link>
+            <Link
               href="/generator"
               className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
             >
@@ -54,6 +60,12 @@ export default function Home() {
               className="w-full rounded-lg bg-blue-600 px-8 py-4 text-lg font-semibold text-white transition hover:bg-blue-700 sm:w-auto"
             >
               Get Started Free →
+            </Link>
+            <Link
+              href="/signup"
+              className="w-full rounded-lg border border-gray-300 bg-white px-8 py-4 text-lg font-semibold text-gray-700 transition hover:bg-gray-50 sm:w-auto"
+            >
+              Create Account
             </Link>
             <Link
               href="/generator"

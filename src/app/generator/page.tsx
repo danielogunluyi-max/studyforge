@@ -368,6 +368,12 @@ export default function Generator() {
               My Notes
             </Link>
             <Link
+              href="/signup"
+              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            >
+              Sign Up
+            </Link>
+            <Link
               href="/"
               className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
             >
