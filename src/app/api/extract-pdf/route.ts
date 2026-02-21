@@ -49,40 +49,43 @@ async function getPdfBytes(request: Request): Promise<Uint8Array> {
 }
 
 function getErrorStatus(message: string): number {
-  if (message.toLowerCase().includes("too large")) return 413;
-  if (message.toLowerCase().includes("invalid file type")) return 415;
-  if (message.toLowerCase().includes("no pdf")) return 400;
-  if (message.toLowerCase().includes("empty") || message.toLowerCase().includes("blank")) return 422;
+  const lower = message.toLowerCase();
+  if (lower.includes("too large")) return 413;
+  if (lower.includes("invalid file type")) return 415;
+  if (lower.includes("no pdf")) return 400;
+  if (lower.includes("password") || lower.includes("encrypted")) return 422;
+  if (lower.includes("invalidpdf") || lower.includes("invalid pdf")) return 422;
+  if (lower.includes("empty") || lower.includes("blank") || lower.includes("no readable text")) return 422;
   return 500;
 }
 
-export async function POST(request: Request) {
+async function extractTextWithPdfParse(pdfBytes: Uint8Array): Promise<string> {
+  const { PDFParse } = await import("pdf-parse");
+  const parser = new PDFParse({ data: pdfBytes });
+
   try {
-    const pdfBytes = await getPdfBytes(request);
+    const result = await parser.getText();
+    return result.text.replace(/\s+/g, " ").trim();
+  } finally {
+    await parser.destroy();
+  }
+}
 
-    if (!pdfBytes.byteLength) {
-      return NextResponse.json(
-        { error: "The uploaded PDF is empty." },
-        { status: 400 },
-      );
-    }
+async function extractTextWithPdfJs(pdfBytes: Uint8Array): Promise<string> {
+  const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const loadingTask = pdfjs.getDocument({
+    data: pdfBytes,
+    isEvalSupported: false,
+    useWorkerFetch: false,
+    useSystemFonts: true,
+    verbosity: 0,
+  });
 
-    const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const document = await loadingTask.promise;
 
-    const loadingTask = pdfjs.getDocument({
-      data: pdfBytes,
-      isEvalSupported: false,
-      useWorkerFetch: false,
-      useSystemFonts: true,
-      verbosity: 0,
-    });
-
-    const document = await loadingTask.promise;
+  try {
     if (!document.numPages) {
-      return NextResponse.json(
-        { error: "No pages found in this PDF." },
-        { status: 422 },
-      );
+      return "";
     }
 
     const pageTexts: string[] = [];
@@ -101,9 +104,31 @@ export async function POST(request: Request) {
       }
     }
 
+    return pageTexts.join("\n\n").trim();
+  } finally {
     await document.destroy();
+  }
+}
 
-    const extractedText = pageTexts.join("\n\n").trim();
+export async function POST(request: Request) {
+  try {
+    const pdfBytes = await getPdfBytes(request);
+
+    if (!pdfBytes.byteLength) {
+      return NextResponse.json(
+        { error: "The uploaded PDF is empty." },
+        { status: 400 },
+      );
+    }
+
+    let extractedText = "";
+
+    try {
+      extractedText = await extractTextWithPdfParse(pdfBytes);
+    } catch (primaryError) {
+      console.warn("pdf-parse failed, falling back to pdfjs-dist:", primaryError);
+      extractedText = await extractTextWithPdfJs(pdfBytes);
+    }
 
     if (!extractedText) {
       return NextResponse.json(
