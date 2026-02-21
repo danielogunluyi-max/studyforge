@@ -4,56 +4,58 @@ export const runtime = "nodejs";
 
 const MAX_PDF_SIZE_BYTES = 10 * 1024 * 1024;
 
-// Simple PDF text extraction using just byte parsing for text objects
-function extractTextFromPdfBuffer(buffer: Buffer): string {
-  try {
-    // Convert buffer to string for regex matching (handles most PDFs)
-    const text = buffer.toString("latin1");
-    
-    // Extract text from PDF streams - look for text showing operators
-    const matches: string[] = [];
-    
-    // Pattern 1: Regular text in parentheses (...)
-    const parenMatches = text.match(/\((.*?)\)/g) || [];
-    for (const match of parenMatches) {
-      const cleaned = match
-        .slice(1, -1)
-        .replace(/\\(.{0,2})/g, (m) => {
-          if (m === "\\n") return "\n";
-          if (m === "\\r") return "\n";
-          if (m === "\\t") return "\t";
-          if (m === "\\\\") return "\\";
-          if (m === "\\(") return "(";
-          if (m === "\\)") return ")";
-          return m.length > 1 ? String.fromCharCode(parseInt(m.slice(1), 8)) : m[1] || "";
-        });
-      if (cleaned && /\S/.test(cleaned)) {
-        matches.push(cleaned);
-      }
-    }
-    
-    // Pattern 2: Hex strings <...>
-    const hexMatches = text.match(/<([0-9A-Fa-f]+)>/g) || [];
-    for (const match of hexMatches) {
-      try {
-        const hex = match.slice(1, -1);
-        const cleaned = Buffer.from(hex, "hex")
-          .toString("latin1")
-          .replace(/[\x00-\x1F\x7F-\x9F]/g, "");
-        if (cleaned && /\S/.test(cleaned)) {
-          matches.push(cleaned);
-        }
-      } catch {
-        // Skip invalid hex
-      }
-    }
+type Pdf2JsonTextRun = { T?: string };
+type Pdf2JsonTextItem = { R?: Pdf2JsonTextRun[] };
+type Pdf2JsonPage = { Texts?: Pdf2JsonTextItem[] };
+type Pdf2JsonData = { Pages?: Pdf2JsonPage[] };
 
-    const result = matches.join(" ").replace(/\s+/g, " ").trim();
-    return result;
-  } catch (error) {
-    console.error("Error extracting text from PDF buffer:", error);
-    return "";
+function decodePdfText(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
   }
+}
+
+async function extractTextFromPdfBuffer(buffer: Buffer): Promise<string> {
+  const { default: PDFParser } = await import("pdf2json");
+
+  return new Promise((resolve, reject) => {
+    const parser = new PDFParser();
+
+    parser.on("pdfParser_dataError", (errorData: Error | { parserError: Error }) => {
+      const parserError =
+        errorData instanceof Error ? errorData : errorData?.parserError;
+      const message = parserError instanceof Error ? parserError.message : "Failed to parse PDF";
+      reject(new Error(message));
+    });
+
+    parser.on("pdfParser_dataReady", (pdfData: Pdf2JsonData) => {
+      const pages = pdfData.Pages ?? [];
+      const lines: string[] = [];
+
+      for (const page of pages) {
+        const words: string[] = [];
+        for (const textItem of page.Texts ?? []) {
+          for (const run of textItem.R ?? []) {
+            const decoded = decodePdfText(run.T ?? "").trim();
+            if (decoded) {
+              words.push(decoded);
+            }
+          }
+        }
+
+        const pageText = words.join(" ").replace(/\s+/g, " ").trim();
+        if (pageText) {
+          lines.push(pageText);
+        }
+      }
+
+      resolve(lines.join("\n\n").trim());
+    });
+
+    parser.parseBuffer(buffer);
+  });
 }
 
 function decodeBase64ToBytes(input: string): Uint8Array {
@@ -122,7 +124,7 @@ export async function POST(request: Request) {
     }
 
     const pdfBuffer = Buffer.from(pdfBytes);
-    const extractedText = extractTextFromPdfBuffer(pdfBuffer);
+    const extractedText = await extractTextFromPdfBuffer(pdfBuffer);
 
     if (!extractedText) {
       return NextResponse.json(
