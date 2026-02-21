@@ -35,7 +35,7 @@ export default function Generator() {
         }),
       });
 
-      const data = await response.json() as { notes?: string; error?: string };
+      const data = (await response.json()) as { notes?: string; error?: string };
 
       if (response.ok) {
         setGeneratedNotes(data.notes ?? "");
@@ -94,7 +94,7 @@ export default function Generator() {
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(generatedNotes);
+    void navigator.clipboard.writeText(generatedNotes);
     alert("✓ Notes copied to clipboard!");
   };
 
@@ -109,11 +109,15 @@ export default function Generator() {
   };
 
   const handleQuizAnswer = (index: number, answer: string) => {
-    setQuizAnswers({...quizAnswers, [index]: answer});
+    const newAnswers = { ...quizAnswers };
+    newAnswers[index] = answer;
+    setQuizAnswers(newAnswers);
   };
 
   const checkAnswer = (index: number) => {
-    setCheckedAnswers(new Set(checkedAnswers).add(index));
+    const newChecked = new Set(checkedAnswers);
+    newChecked.add(index);
+    setCheckedAnswers(newChecked);
   };
 
   const parseFlashcards = (text: string) => {
@@ -122,7 +126,7 @@ export default function Generator() {
     let currentQ = '';
     let currentA = '';
     
-    for (let line of lines) {
+    for (const line of lines) {
       if (line.trim().startsWith('Q:')) {
         if (currentQ && currentA) {
           cards.push({ question: currentQ, answer: currentA });
@@ -281,7 +285,7 @@ export default function Generator() {
                   </p>
                 </div>
                 <textarea
-                  value={quizAnswers[index] || ''}
+                  value={quizAnswers[index] ?? ''}
                   onChange={(e) => handleQuizAnswer(index, e.target.value)}
                   placeholder="Type your answer here..."
                   className="mb-3 w-full resize-none rounded-lg border border-gray-300 p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
