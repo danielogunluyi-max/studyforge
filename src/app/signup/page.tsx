@@ -29,12 +29,13 @@ export default function SignUp() {
       });
 
       const data = await response.json();
+      console.log("Signup response:", { status: response.ok, statusCode: response.status, data });
 
       if (response.ok) {
         // Redirect to login page
         router.push("/login?registered=true");
       } else {
-        setError(data.error || "Failed to create account");
+        setError(data.details || data.error || "Failed to create account");
       }
     } catch (err) {
       setError("Something went wrong. Please try again.");
