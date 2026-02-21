@@ -5,7 +5,13 @@ export const runtime = "nodejs";
 const MAX_PDF_SIZE_BYTES = 10 * 1024 * 1024;
 
 type Pdf2JsonTextRun = { T?: string };
-type Pdf2JsonTextItem = { R?: Pdf2JsonTextRun[] };
+type Pdf2JsonTextItem = {
+  x?: number;
+  y?: number;
+  w?: number;
+  sw?: number;
+  R?: Pdf2JsonTextRun[];
+};
 type Pdf2JsonPage = { Texts?: Pdf2JsonTextItem[] };
 type Pdf2JsonData = { Pages?: Pdf2JsonPage[] };
 
@@ -17,34 +23,107 @@ function decodePdfText(value: string): string {
   }
 }
 
-function normalizeExtractedText(text: string): string {
-  let normalized = text.replace(/\u0000/g, "").replace(/\s+/g, " ").trim();
+function normalizeLineText(text: string): string {
+  return text
+    .replace(/\u0000/g, "")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\s+([,.;:!?%\)])/, "$1")
+    .replace(/([\(])\s+/g, "$1")
+    .trim();
+}
 
-  const lines = normalized
-    .split(/\n+/)
-    .map((line) => line.trim())
-    .filter(Boolean);
+function normalizeDocumentText(text: string): string {
+  return text
+    .replace(/\r\n/g, "\n")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n[ \t]+/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .replace(/[ \t]{2,}/g, " ")
+    .trim();
+}
 
-  const repairedLines = lines.map((line) => {
-    const tokens = line.split(/\s+/).filter(Boolean);
-    if (tokens.length < 8) {
-      return line;
+function buildLineFromItems(items: Pdf2JsonTextItem[]): string {
+  if (!items.length) {
+    return "";
+  }
+
+  const sorted = [...items].sort((a, b) => (a.x ?? 0) - (b.x ?? 0));
+
+  let line = "";
+  let previousRight = 0;
+  let previousCharWidth = 0.4;
+
+  for (const item of sorted) {
+
+    const tokenRaw = (item.R ?? []).map((run) => decodePdfText(run.T ?? "")).join("");
+    const token = tokenRaw.replace(/[\t ]+/g, " ").trim();
+
+    if (!token) {
+      continue;
     }
 
-    const singleCharAlnum = tokens.filter(
-      (token) => token.length === 1 && /[A-Za-z0-9]/.test(token),
-    ).length;
-    const ratio = singleCharAlnum / tokens.length;
+    const x = item.x ?? previousRight;
+    const width = item.w ?? token.length * previousCharWidth;
+    const tokenCharWidth = Math.max(width / Math.max(token.length, 1), 0.2);
 
-    if (ratio >= 0.85) {
-      return tokens.join("");
+    if (line.length > 0) {
+      const gap = x - previousRight;
+      const spacingUnit = Math.max(previousCharWidth, tokenCharWidth, 0.2);
+
+      if (gap > spacingUnit * 0.35) {
+        const estimatedSpaces = Math.min(Math.max(Math.round(gap / spacingUnit), 1), 4);
+        line += " ".repeat(estimatedSpaces);
+      }
     }
 
-    return line;
+    line += token;
+    previousRight = x + width;
+    previousCharWidth = tokenCharWidth;
+  }
+
+  return normalizeLineText(line);
+}
+
+function extractTextFromPage(page: Pdf2JsonPage): string {
+  const textItems = [...(page.Texts ?? [])].filter((item) => (item.R ?? []).length > 0);
+  if (!textItems.length) {
+    return "";
+  }
+
+  textItems.sort((a, b) => {
+    const yDiff = (a.y ?? 0) - (b.y ?? 0);
+    if (Math.abs(yDiff) > 0.25) {
+      return yDiff;
+    }
+    return (a.x ?? 0) - (b.x ?? 0);
   });
 
-  normalized = repairedLines.join("\n").trim();
-  return normalized;
+  const lines: Pdf2JsonTextItem[][] = [];
+
+  for (const item of textItems) {
+    const currentY = item.y ?? 0;
+    const currentLine = lines[lines.length - 1];
+
+    if (!currentLine) {
+      lines.push([item]);
+      continue;
+    }
+
+    const previousY = currentLine[0]?.y ?? currentY;
+    const sameLine = Math.abs(currentY - previousY) <= 0.45;
+
+    if (sameLine) {
+      currentLine.push(item);
+    } else {
+      lines.push([item]);
+    }
+  }
+
+  const builtLines = lines
+    .map((lineItems) => buildLineFromItems(lineItems))
+    .filter(Boolean);
+
+  return builtLines.join("\n");
 }
 
 async function extractTextFromPdfBuffer(buffer: Buffer): Promise<string> {
@@ -62,28 +141,16 @@ async function extractTextFromPdfBuffer(buffer: Buffer): Promise<string> {
 
     parser.on("pdfParser_dataReady", (pdfData: Pdf2JsonData) => {
       const pages = pdfData.Pages ?? [];
-      const lines: string[] = [];
+      const pageTexts: string[] = [];
 
       for (const page of pages) {
-        const words: string[] = [];
-        for (const textItem of page.Texts ?? []) {
-          const token = (textItem.R ?? [])
-            .map((run) => decodePdfText(run.T ?? ""))
-            .join("")
-            .trim();
-
-          if (token) {
-            words.push(token);
-          }
-        }
-
-        const pageText = normalizeExtractedText(words.join(" "));
+        const pageText = extractTextFromPage(page);
         if (pageText) {
-          lines.push(pageText);
+          pageTexts.push(pageText);
         }
       }
 
-      resolve(normalizeExtractedText(lines.join("\n\n").trim()));
+      resolve(normalizeDocumentText(pageTexts.join("\n\n")));
     });
 
     parser.parseBuffer(buffer);

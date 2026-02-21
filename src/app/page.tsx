@@ -29,19 +29,19 @@ export default function Home() {
               href="/generator"
               className="w-full rounded-lg bg-blue-600 px-8 py-4 text-lg font-semibold text-white transition hover:bg-blue-700 sm:w-auto"
             >
-              Get Started Free →
+              Paste Text →
+            </Link>
+            <Link
+              href="/upload"
+              className="w-full rounded-lg border border-blue-200 bg-blue-50 px-8 py-4 text-lg font-semibold text-blue-700 transition hover:bg-blue-100 sm:w-auto"
+            >
+              Upload File →
             </Link>
             <Link
               href="/signup"
               className="w-full rounded-lg border border-gray-300 bg-white px-8 py-4 text-lg font-semibold text-gray-700 transition hover:bg-gray-50 sm:w-auto"
             >
               Create Account
-            </Link>
-            <Link
-              href="/generator"
-              className="w-full rounded-lg border border-gray-300 bg-white px-8 py-4 text-lg font-semibold text-gray-700 transition hover:bg-gray-50 sm:w-auto"
-            >
-              See How It Works
             </Link>
           </div>
 
@@ -72,11 +72,10 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="mb-3 text-xl font-semibold text-gray-900">
-                Lightning Fast
+                Fast Input Options
               </h3>
               <p className="text-gray-600">
-                Generate comprehensive study notes in under 5 seconds. 
-                No more spending hours organizing messy lecture notes.
+                Start by pasting text directly or upload a PDF/image and extract text in seconds.
               </p>
             </div>
 
@@ -112,6 +111,23 @@ export default function Home() {
               </p>
             </div>
           </div>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-900">Path 1: Paste Text</h3>
+              <p className="mt-2 text-sm text-gray-600">Go straight to the generator and paste your notes manually.</p>
+              <Link href="/generator" className="mt-4 inline-block text-sm font-semibold text-blue-600 hover:text-blue-700">
+                Open Generator
+              </Link>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-900">Path 2: Upload File</h3>
+              <p className="mt-2 text-sm text-gray-600">Upload PDF/image, preview extracted text, then continue to generation.</p>
+              <Link href="/upload" className="mt-4 inline-block text-sm font-semibold text-blue-600 hover:text-blue-700">
+                Open Upload
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -128,8 +144,11 @@ export default function Home() {
             href="/generator"
             className="inline-block rounded-lg bg-blue-600 px-8 py-4 text-lg font-semibold text-white transition hover:bg-blue-700"
           >
-            Get Started Free
+            Start with Paste Text
           </Link>
+          <p className="mt-3 text-sm text-gray-500">
+            Prefer files? Use <Link href="/upload" className="font-semibold text-blue-600 hover:text-blue-700">Upload File</Link>.
+          </p>
         </div>
       </div>
 

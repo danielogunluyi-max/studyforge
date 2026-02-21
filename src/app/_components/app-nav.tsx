@@ -26,6 +26,12 @@ export function AppNav() {
             Generator
           </Link>
           <Link
+            href="/upload"
+            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+          >
+            Upload File
+          </Link>
+          <Link
             href="/my-notes"
             className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
           >

@@ -6,6 +6,10 @@ const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = new Set(["image/png", "image/jpeg", "image/jpg"]);
 const SUPPORTED_LANGUAGES = new Set(["eng", "spa", "fra", "deu", "ita", "por"]);
 
+type OcrWord = { text?: string };
+type OcrLine = { text?: string; words?: OcrWord[] };
+type OcrParagraph = { text?: string; lines?: OcrLine[] };
+
 function normalizeLanguages(raw: string | null | undefined): string {
   const input = (raw ?? "eng").trim();
   const candidates = input
@@ -80,6 +84,52 @@ function getErrorStatus(message: string): number {
   return 500;
 }
 
+function normalizeOcrText(text: string): string {
+  return text
+    .replace(/\r\n/g, "\n")
+    .replace(/\u0000/g, "")
+    .replace(/(\w)-\n(\w)/g, "$1$2")
+    .replace(/[ \t]+/g, " ")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n[ \t]+/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .replace(/\s+([,.;:!?%\)])/g, "$1")
+    .replace(/([\(])\s+/g, "$1")
+    .replace(/[“”]/g, '"')
+    .replace(/[‘’]/g, "'")
+    .replace(/\b([A-Za-z]{2,})r n([A-Za-z]{2,})\b/g, "$1m$2")
+    .trim();
+}
+
+function buildTextFromParagraphs(paragraphs: OcrParagraph[]): string {
+  const formatted = paragraphs
+    .map((paragraph) => {
+      if (paragraph.lines?.length) {
+        const lines = paragraph.lines
+          .map((line) => {
+            if (line.text?.trim()) {
+              return line.text.trim();
+            }
+
+            const words = (line.words ?? [])
+              .map((word) => (word.text ?? "").trim())
+              .filter(Boolean)
+              .join(" ");
+
+            return words.trim();
+          })
+          .filter(Boolean);
+
+        return lines.join("\n").trim();
+      }
+
+      return (paragraph.text ?? "").trim();
+    })
+    .filter(Boolean);
+
+  return formatted.join("\n\n");
+}
+
 export async function POST(request: Request) {
   try {
     const { buffer, languages } = await getImageData(request);
@@ -96,7 +146,11 @@ export async function POST(request: Request) {
 
     try {
       const result = await worker.recognize(buffer);
-      const extractedText = result.data.text.replace(/\s+/g, " ").trim();
+      const rawParagraphText = buildTextFromParagraphs(
+        ((result.data as { paragraphs?: OcrParagraph[] }).paragraphs ?? []),
+      );
+      const fallbackText = (result.data.text ?? "").toString();
+      const extractedText = normalizeOcrText(rawParagraphText || fallbackText);
 
       if (!extractedText) {
         return NextResponse.json(
