@@ -5,7 +5,7 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function POST(request: Request) {
   try {
-    const { text, format } = await request.json();
+    const { text, format } = await request.json() as { text?: unknown; format?: string };
 
     if (!text) {
       return NextResponse.json(
@@ -80,7 +80,7 @@ ${text}`;
       max_tokens: 2000,
     });
 
-    const generatedText = chatCompletion.choices[0]?.message?.content || "";
+    const generatedText = chatCompletion.choices[0]?.message?.content ?? "";
 
     return NextResponse.json({ notes: generatedText });
   } catch (error) {

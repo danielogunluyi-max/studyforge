@@ -7,6 +7,7 @@ export default function Home() {
       <nav className="border-b border-gray-200 bg-white">
         <div className="container mx-auto flex items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src="/StudyForge-logo.png" 
               alt="StudyForge" 

@@ -12,7 +12,7 @@ export default function Generator() {
   const [error, setError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
-  const [quizAnswers, setQuizAnswers] = useState<{[key: number]: string}>({});
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
   const [checkedAnswers, setCheckedAnswers] = useState<Set<number>>(new Set());
 
   const handleGenerate = async () => {
@@ -35,14 +35,15 @@ export default function Generator() {
         }),
       });
 
-      const data = await response.json();
+      const data = await response.json() as { notes?: string; error?: string };
 
       if (response.ok) {
-        setGeneratedNotes(data.notes);
+        setGeneratedNotes(data.notes ?? "");
       } else {
-        setError(data.error || "Failed to generate notes");
+        setError(data.error ?? "Failed to generate notes");
       }
     } catch (err) {
+      void err;
       setError("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
@@ -76,6 +77,7 @@ export default function Generator() {
         setError("Failed to save note");
       }
     } catch (err) {
+      void err;
       setError("Something went wrong while saving.");
     } finally {
       setIsSaving(false);
@@ -115,7 +117,7 @@ export default function Generator() {
   };
 
   const parseFlashcards = (text: string) => {
-    const cards = [];
+    const cards: Array<{ question: string; answer: string }> = [];
     const lines = text.split('\n');
     let currentQ = '';
     let currentA = '';
@@ -142,12 +144,12 @@ export default function Generator() {
   };
 
   const parseQuestions = (text: string) => {
-    const questions = [];
+    const questions: Array<{ question: string; answer: string }> = [];
     
     const cleanedText = text.replace(/Answer:\s*/gi, '');
     const sections = cleanedText.split(/(?=\d+\.\s)/);
     
-    for (let section of sections) {
+    for (const section of sections) {
       const trimmed = section.trim();
       if (!trimmed) continue;
       
@@ -160,7 +162,7 @@ export default function Generator() {
       
       const questionLine = firstLine.replace(/^\d+\.\s*/, '').trim();
       
-      if (questionLine.match(/^[A-D]\)/i) || questionLine.toLowerCase().startsWith('answer')) {
+      if (/^[A-D]\)/i.exec(questionLine) || questionLine.toLowerCase().startsWith('answer')) {
         continue;
       }
       
@@ -350,6 +352,7 @@ export default function Generator() {
               src="/StudyForge-logo.png" 
               alt="StudyForge" 
               className="h-8 w-8"
+              // eslint-disable-next-line @next/next/no-img-element
             />
             <span className="text-xl font-semibold text-gray-900">StudyForge</span>
           </Link>

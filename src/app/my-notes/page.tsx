@@ -19,16 +19,17 @@ export default function MyNotes() {
 
   // Fetch notes on page load
   useEffect(() => {
-    fetchNotes();
+    void fetchNotes();
   }, []);
 
   const fetchNotes = async () => {
     setIsLoading(true);
     try {
       const response = await fetch("/api/notes");
-      const data = await response.json();
-      setNotes(data.notes || []);
+      const data = await response.json() as { notes?: Note[] };
+      setNotes(data.notes ?? []);
     } catch (error) {
+      void error;
       console.error("Error fetching notes:", error);
     } finally {
       setIsLoading(false);
@@ -277,7 +278,7 @@ export default function MyNotes() {
         {!isLoading && notes.length > 0 && filteredNotes.length === 0 && (
           <div className="rounded-xl border border-gray-200 bg-white p-12 text-center">
             <p className="text-gray-600">
-              No notes found matching "{searchTerm}"
+              No notes found matching &quot;{searchTerm}&quot;
             </p>
           </div>
         )}
@@ -337,7 +338,7 @@ export default function MyNotes() {
             <div className="mt-6 flex gap-3">
               <button
                 onClick={() => {
-                  navigator.clipboard.writeText(selectedNote.content);
+                  void navigator.clipboard.writeText(selectedNote.content);
                   alert("✓ Note copied to clipboard!");
                 }}
                 className="flex-1 rounded-lg border border-gray-300 bg-white py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
@@ -346,7 +347,7 @@ export default function MyNotes() {
               </button>
               <button
                 onClick={() => {
-                  deleteNote(selectedNote.id);
+                  void deleteNote(selectedNote.id);
                   setSelectedNote(null);
                 }}
                 className="rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-700"
