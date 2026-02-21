@@ -46,8 +46,8 @@ export const authConfig = {
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        const email = credentials?.email;
-        const password = credentials?.password;
+        const email = credentials?.email as string | undefined;
+        const password = credentials?.password as string | undefined;
 
         if (!email || !password) {
           return null;
@@ -73,17 +73,22 @@ export const authConfig = {
       },
     }),
   ],
-  adapter: PrismaAdapter(db),
   session: {
-    strategy: "database",
+    strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
-    session: ({ session, user }) => ({
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    session: ({ session, token }) => ({
       ...session,
       user: {
         ...session.user,
-        id: user.id,
+        id: token.id as string,
       },
     }),
   },
