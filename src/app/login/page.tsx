@@ -17,6 +17,8 @@ function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const registered = searchParams.get("registered") === "true";
+  const fromParam = searchParams.get("from");
+  const redirectTarget = fromParam?.startsWith("/") ? fromParam : "/generator";
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,19 +31,33 @@ function LoginContent() {
     setIsLoading(true);
     setError("");
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      email: formData.email,
-      password: formData.password,
-    });
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: formData.email,
+        password: formData.password,
+        callbackUrl: redirectTarget,
+      });
 
-    if (result?.ok) {
-      router.push("/generator");
-      return;
+      if (result?.ok) {
+        router.push(redirectTarget);
+        return;
+      }
+
+      if (result?.error === "CredentialsSignin") {
+        setError("Invalid email or password");
+        return;
+      }
+
+      if (result?.error === "Configuration") {
+        setError("Login configuration error. Please try again later.");
+        return;
+      }
+
+      setError(result?.error ?? "Unable to log in. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-
-    setError("Invalid email or password");
-    setIsLoading(false);
   };
 
   return (
