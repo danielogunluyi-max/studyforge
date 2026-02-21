@@ -19,6 +19,7 @@ export default function Generator() {
   const [isExtracting, setIsExtracting] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [dragActive, setDragActive] = useState(false);
+  const [ocrLanguage, setOcrLanguage] = useState("eng");
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -90,7 +91,7 @@ export default function Generator() {
       formData.append("file", file);
 
       if (!isPdf) {
-        formData.append("language", "eng");
+        formData.append("language", ocrLanguage);
       }
 
       const response = await fetch(endpoint, {
@@ -546,6 +547,20 @@ export default function Generator() {
             >
               Upload Image
             </button>
+            <select
+              value={ocrLanguage}
+              onChange={(event) => setOcrLanguage(event.target.value)}
+              disabled={isExtracting}
+              className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:cursor-not-allowed disabled:bg-gray-100"
+              aria-label="OCR language"
+            >
+              <option value="eng">English</option>
+              <option value="eng+spa">English + Spanish</option>
+              <option value="eng+fra">English + French</option>
+              <option value="eng+deu">English + German</option>
+              <option value="eng+ita">English + Italian</option>
+              <option value="eng+por">English + Portuguese</option>
+            </select>
             {isExtracting && (
               <span className="inline-flex items-center gap-2 text-sm font-medium text-blue-700">
                 <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
