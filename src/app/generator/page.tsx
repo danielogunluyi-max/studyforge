@@ -9,6 +9,15 @@ import { AppNav } from "~/app/_components/app-nav";
 const MAX_PDF_BYTES = 10 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
+const OCR_LANGUAGE_LABELS: Record<string, string> = {
+  eng: "English",
+  "eng+spa": "English + Spanish",
+  "eng+fra": "English + French",
+  "eng+deu": "English + German",
+  "eng+ita": "English + Italian",
+  "eng+por": "English + Portuguese",
+};
+
 export default function Generator() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -524,9 +533,14 @@ export default function Generator() {
               </p>
             </div>
             {uploadedFileName && (
-              <span className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-700">
-                {uploadedFileName}
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-700">
+                  {uploadedFileName}
+                </span>
+                <span className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
+                  OCR: {OCR_LANGUAGE_LABELS[ocrLanguage] ?? "English"}
+                </span>
+              </div>
             )}
           </div>
 
