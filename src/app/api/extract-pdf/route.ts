@@ -4,6 +4,58 @@ export const runtime = "nodejs";
 
 const MAX_PDF_SIZE_BYTES = 10 * 1024 * 1024;
 
+// Simple PDF text extraction using just byte parsing for text objects
+function extractTextFromPdfBuffer(buffer: Buffer): string {
+  try {
+    // Convert buffer to string for regex matching (handles most PDFs)
+    const text = buffer.toString("latin1");
+    
+    // Extract text from PDF streams - look for text showing operators
+    const matches: string[] = [];
+    
+    // Pattern 1: Regular text in parentheses (...)
+    const parenMatches = text.match(/\((.*?)\)/g) || [];
+    for (const match of parenMatches) {
+      const cleaned = match
+        .slice(1, -1)
+        .replace(/\\(.{0,2})/g, (m) => {
+          if (m === "\\n") return "\n";
+          if (m === "\\r") return "\n";
+          if (m === "\\t") return "\t";
+          if (m === "\\\\") return "\\";
+          if (m === "\\(") return "(";
+          if (m === "\\)") return ")";
+          return m.length > 1 ? String.fromCharCode(parseInt(m.slice(1), 8)) : m[1] || "";
+        });
+      if (cleaned && /\S/.test(cleaned)) {
+        matches.push(cleaned);
+      }
+    }
+    
+    // Pattern 2: Hex strings <...>
+    const hexMatches = text.match(/<([0-9A-Fa-f]+)>/g) || [];
+    for (const match of hexMatches) {
+      try {
+        const hex = match.slice(1, -1);
+        const cleaned = Buffer.from(hex, "hex")
+          .toString("latin1")
+          .replace(/[\x00-\x1F\x7F-\x9F]/g, "");
+        if (cleaned && /\S/.test(cleaned)) {
+          matches.push(cleaned);
+        }
+      } catch {
+        // Skip invalid hex
+      }
+    }
+
+    const result = matches.join(" ").replace(/\s+/g, " ").trim();
+    return result;
+  } catch (error) {
+    console.error("Error extracting text from PDF buffer:", error);
+    return "";
+  }
+}
+
 function decodeBase64ToBytes(input: string): Uint8Array {
   const cleaned = input.includes(",") ? input.split(",").pop() ?? "" : input;
   const binary = Buffer.from(cleaned, "base64");
@@ -54,60 +106,8 @@ function getErrorStatus(message: string): number {
   if (lower.includes("invalid file type")) return 415;
   if (lower.includes("no pdf")) return 400;
   if (lower.includes("password") || lower.includes("encrypted")) return 422;
-  if (lower.includes("invalidpdf") || lower.includes("invalid pdf")) return 422;
   if (lower.includes("empty") || lower.includes("blank") || lower.includes("no readable text")) return 422;
   return 500;
-}
-
-async function extractTextWithPdfParse(pdfBytes: Uint8Array): Promise<string> {
-  const { PDFParse } = await import("pdf-parse");
-  const parser = new PDFParse({ data: pdfBytes });
-
-  try {
-    const result = await parser.getText();
-    return result.text.replace(/\s+/g, " ").trim();
-  } finally {
-    await parser.destroy();
-  }
-}
-
-async function extractTextWithPdfJs(pdfBytes: Uint8Array): Promise<string> {
-  const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-  const loadingTask = pdfjs.getDocument({
-    data: pdfBytes,
-    isEvalSupported: false,
-    useWorkerFetch: false,
-    useSystemFonts: true,
-    verbosity: 0,
-  });
-
-  const document = await loadingTask.promise;
-
-  try {
-    if (!document.numPages) {
-      return "";
-    }
-
-    const pageTexts: string[] = [];
-
-    for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
-      const page = await document.getPage(pageNumber);
-      const textContent = await page.getTextContent();
-      const pageText = textContent.items
-        .map((item) => ("str" in item && typeof item.str === "string" ? item.str : ""))
-        .join(" ")
-        .replace(/\s+/g, " ")
-        .trim();
-
-      if (pageText) {
-        pageTexts.push(pageText);
-      }
-    }
-
-    return pageTexts.join("\n\n").trim();
-  } finally {
-    await document.destroy();
-  }
 }
 
 export async function POST(request: Request) {
@@ -121,14 +121,8 @@ export async function POST(request: Request) {
       );
     }
 
-    let extractedText = "";
-
-    try {
-      extractedText = await extractTextWithPdfParse(pdfBytes);
-    } catch (primaryError) {
-      console.warn("pdf-parse failed, falling back to pdfjs-dist:", primaryError);
-      extractedText = await extractTextWithPdfJs(pdfBytes);
-    }
+    const pdfBuffer = Buffer.from(pdfBytes);
+    const extractedText = extractTextFromPdfBuffer(pdfBuffer);
 
     if (!extractedText) {
       return NextResponse.json(
