@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { AppNav } from "~/app/_components/app-nav";
 
 type Note = {
   id: string;
@@ -12,15 +15,25 @@ type Note = {
 };
 
 export default function MyNotes() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [notes, setNotes] = useState<Note[]>([]);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login?from=/my-notes");
+    }
+  }, [status, router]);
+
   // Fetch notes on page load
   useEffect(() => {
-    void fetchNotes();
-  }, []);
+    if (session) {
+      void fetchNotes();
+    }
+  }, [session]);
 
   const fetchNotes = async () => {
     setIsLoading(true);
@@ -102,37 +115,24 @@ export default function MyNotes() {
       note.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  if (status === "loading") {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent mx-auto" />
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!session) {
+    return null;
+  }
+
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Navigation */}
-      <nav className="border-b border-gray-200 bg-white">
-        <div className="container mx-auto flex items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-3">
-            <img
-              src="/StudyForge-logo.png"
-              alt="StudyForge"
-              className="h-8 w-8"
-            />
-            <span className="text-xl font-semibold text-gray-900">
-              StudyForge
-            </span>
-          </Link>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/generator"
-              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-            >
-              Generator
-            </Link>
-            <Link
-              href="/"
-              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-            >
-              Home
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <AppNav />
 
       <div className="container mx-auto max-w-7xl px-6 py-12">
         {/* Header */}

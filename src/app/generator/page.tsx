@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { AppNav } from "~/app/_components/app-nav";
 
 export default function Generator() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [inputText, setInputText] = useState("");
   const [outputFormat, setOutputFormat] = useState("summary");
   const [generatedNotes, setGeneratedNotes] = useState("");
@@ -15,6 +20,26 @@ export default function Generator() {
   const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
   const [checkedAnswers, setCheckedAnswers] = useState<Set<number>>(new Set());
 
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login?from=/generator");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent mx-auto" />
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!session) {
+    return null;
+  }
   const handleGenerate = async () => {
     setIsLoading(true);
     setError("");
@@ -349,45 +374,7 @@ export default function Generator() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <nav className="border-b border-gray-200 bg-white">
-        <div className="container mx-auto flex items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-3">
-            <img 
-              src="/StudyForge-logo.png" 
-              alt="StudyForge" 
-              className="h-8 w-8"
-              // eslint-disable-next-line @next/next/no-img-element
-            />
-            <span className="text-xl font-semibold text-gray-900">StudyForge</span>
-          </Link>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/my-notes"
-              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-            >
-              My Notes
-            </Link>
-            <Link
-              href="/login"
-              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-            >
-              Log In
-            </Link>
-            <Link
-              href="/signup"
-              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-            >
-              Sign Up
-            </Link>
-            <Link
-              href="/"
-              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-            >
-              ← Back to Home
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <AppNav />
 
       <div className="container mx-auto max-w-4xl px-6 py-12">
         <div className="mb-8 text-center">
