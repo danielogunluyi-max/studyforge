@@ -37,6 +37,12 @@ export function AppNav() {
           >
             My Notes
           </Link>
+          <Link
+            href="/citations"
+            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+          >
+            Citations
+          </Link>
           
           {isLoading ? (
             <div className="h-8 w-20 animate-pulse rounded bg-gray-200" />

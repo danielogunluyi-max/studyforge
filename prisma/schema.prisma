@@ -61,6 +61,7 @@ model User {
     sessions      Session[]
     posts         Post[]
     notes         Note[]
+    citations     Citation[]
 }
 
 model VerificationToken {
@@ -76,6 +77,7 @@ model Note {
   title     String
   content   String   @db.Text
   format    String
+    tags      String[] @default([])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
@@ -84,4 +86,22 @@ model Note {
 
   @@index([createdAt])
   @@index([userId])
+}
+
+model Citation {
+    id          String   @id @default(cuid())
+    author      String
+    title       String
+    publication String?
+    date        String?
+    url         String?
+    pages       String?
+    format      String
+    createdAt   DateTime @default(now())
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([createdAt])
 }

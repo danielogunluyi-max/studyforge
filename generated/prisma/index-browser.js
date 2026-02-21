@@ -172,8 +172,22 @@ exports.Prisma.NoteScalarFieldEnum = {
   title: 'title',
   content: 'content',
   format: 'format',
+  tags: 'tags',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.CitationScalarFieldEnum = {
+  id: 'id',
+  author: 'author',
+  title: 'title',
+  publication: 'publication',
+  date: 'date',
+  url: 'url',
+  pages: 'pages',
+  format: 'format',
+  createdAt: 'createdAt',
   userId: 'userId'
 };
 
@@ -199,7 +213,8 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   User: 'User',
   VerificationToken: 'VerificationToken',
-  Note: 'Note'
+  Note: 'Note',
+  Citation: 'Citation'
 };
 
 /**

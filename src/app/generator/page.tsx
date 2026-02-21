@@ -2,19 +2,40 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
 
 const PREFILL_STORAGE_KEY = "studyforge:prefillText";
+const TAG_SUGGESTIONS = [
+  "Math",
+  "Biology",
+  "History",
+  "Chemistry",
+  "Physics",
+  "Literature",
+  "Exam Prep",
+  "Homework",
+];
+
+function parseTags(input: string): string[] {
+  const tags = input
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter(Boolean)
+    .slice(0, 20)
+    .map((tag) => tag.slice(0, 32));
+
+  return Array.from(new Set(tags));
+}
 
 export default function Generator() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [inputText, setInputText] = useState("");
   const [outputFormat, setOutputFormat] = useState("summary");
   const [generatedNotes, setGeneratedNotes] = useState("");
+  const [tagsInput, setTagsInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
@@ -30,7 +51,7 @@ export default function Generator() {
   }, [status, router]);
 
   useEffect(() => {
-    const source = searchParams.get("source");
+    const source = new URLSearchParams(window.location.search).get("source");
     if (source !== "upload") {
       return;
     }
@@ -46,7 +67,7 @@ export default function Generator() {
     setQuizAnswers({});
     setCheckedAnswers(new Set());
     sessionStorage.removeItem(PREFILL_STORAGE_KEY);
-  }, [searchParams]);
+  }, []);
 
   if (status === "loading") {
     return (
@@ -122,6 +143,7 @@ export default function Generator() {
           title,
           content: contentToSave,
           format: outputFormat,
+          tags: parseTags(tagsInput),
         }),
       });
 
@@ -143,6 +165,7 @@ export default function Generator() {
 
   const handleClear = () => {
     setInputText("");
+    setTagsInput("");
     setGeneratedNotes("");
     setError("");
     setSaveSuccess(false);
@@ -451,6 +474,34 @@ export default function Generator() {
 Example: 'Photosynthesis is the process by which plants convert sunlight into energy. It occurs in the chloroplasts and involves...'"
             className="h-64 w-full resize-none rounded-lg border border-gray-300 p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
+        </div>
+
+        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <label className="mb-3 block text-sm font-semibold text-gray-900">
+            Tags
+          </label>
+          <input
+            value={tagsInput}
+            onChange={(event) => setTagsInput(event.target.value)}
+            placeholder="Comma-separated tags (e.g., Biology, Exam Prep, Chapter 5)"
+            className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          />
+          <div className="mt-3 flex flex-wrap gap-2">
+            {TAG_SUGGESTIONS.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => {
+                  const existing = parseTags(tagsInput);
+                  if (existing.includes(tag)) return;
+                  setTagsInput(existing.length ? `${existing.join(", ")}, ${tag}` : tag);
+                }}
+                className="rounded-full border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-50"
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
