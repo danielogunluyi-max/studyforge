@@ -26,7 +26,7 @@ export default function MyNotes() {
     setIsLoading(true);
     try {
       const response = await fetch("/api/notes");
-      const data = await response.json() as { notes?: Note[] };
+      const data = (await response.json()) as { notes?: Note[] };
       setNotes(data.notes ?? []);
     } catch (error) {
       void error;

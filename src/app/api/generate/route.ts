@@ -5,7 +5,7 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function POST(request: Request) {
   try {
-    const { text, format } = await request.json() as { text?: unknown; format?: string };
+    const { text, format } = await request.json() as { text: string; format: string };
 
     if (!text) {
       return NextResponse.json(

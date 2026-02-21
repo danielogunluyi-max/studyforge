@@ -28,7 +28,7 @@ export async function GET() {
 // POST (create new note)
 export async function POST(request: Request) {
   try {
-    const { title, content, format } = await request.json() as { title?: unknown; content?: unknown; format?: unknown };
+    const { title, content, format } = await request.json() as { title: string; content: string; format: string };
 
     if (!title || !content || !format) {
       return NextResponse.json(
