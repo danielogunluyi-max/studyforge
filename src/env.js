@@ -7,6 +7,7 @@ export const env = createEnv({
       process.env.NODE_ENV === "production"
         ? z.string()
         : z.string().optional(),
+    NEXTAUTH_SECRET: z.string().optional(),
     AUTH_DISCORD_ID: z.string().optional(),
     AUTH_DISCORD_SECRET: z.string().optional(),
     GROQ_API_KEY: z.string(),
@@ -21,7 +22,8 @@ export const env = createEnv({
   },
 
   runtimeEnv: {
-    AUTH_SECRET: process.env.AUTH_SECRET,
+    AUTH_SECRET: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     AUTH_DISCORD_ID: process.env.AUTH_DISCORD_ID,
     AUTH_DISCORD_SECRET: process.env.AUTH_DISCORD_SECRET,
     GROQ_API_KEY: process.env.GROQ_API_KEY,
