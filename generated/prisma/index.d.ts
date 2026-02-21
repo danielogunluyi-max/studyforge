@@ -1319,12 +1319,14 @@ export namespace Prisma {
     accounts: number
     sessions: number
     posts: number
+    notes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     posts?: boolean | UserCountOutputTypeCountPostsArgs
+    notes?: boolean | UserCountOutputTypeCountNotesArgs
   }
 
   // Custom InputTypes
@@ -1357,6 +1359,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PostWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NoteWhereInput
   }
 
 
@@ -4717,6 +4726,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    password: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -4725,6 +4735,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    password: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4733,6 +4744,7 @@ export namespace Prisma {
     email: number
     emailVerified: number
     image: number
+    password: number
     _all: number
   }
 
@@ -4743,6 +4755,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    password?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4751,6 +4764,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    password?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4759,6 +4773,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    password?: true
     _all?: true
   }
 
@@ -4840,6 +4855,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    password: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -4865,9 +4881,11 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    password?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
+    notes?: boolean | User$notesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4877,6 +4895,7 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    password?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4885,6 +4904,7 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    password?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -4893,13 +4913,15 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    password?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
+    notes?: boolean | User$notesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4911,6 +4933,7 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       posts: Prisma.$PostPayload<ExtArgs>[]
+      notes: Prisma.$NotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4918,6 +4941,7 @@ export namespace Prisma {
       email: string | null
       emailVerified: Date | null
       image: string | null
+      password: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -5315,6 +5339,7 @@ export namespace Prisma {
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notes<T extends User$notesArgs<ExtArgs> = {}>(args?: Subset<T, User$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5349,6 +5374,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'DateTime'>
     readonly image: FieldRef<"User", 'String'>
+    readonly password: FieldRef<"User", 'String'>
   }
     
 
@@ -5806,6 +5832,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
+  }
+
+  /**
+   * User.notes
+   */
+  export type User$notesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Note
+     */
+    select?: NoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Note
+     */
+    omit?: NoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
+    where?: NoteWhereInput
+    orderBy?: NoteOrderByWithRelationInput | NoteOrderByWithRelationInput[]
+    cursor?: NoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NoteScalarFieldEnum | NoteScalarFieldEnum[]
   }
 
   /**
@@ -6813,6 +6863,7 @@ export namespace Prisma {
     format: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    userId: string | null
   }
 
   export type NoteMaxAggregateOutputType = {
@@ -6822,6 +6873,7 @@ export namespace Prisma {
     format: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    userId: string | null
   }
 
   export type NoteCountAggregateOutputType = {
@@ -6831,6 +6883,7 @@ export namespace Prisma {
     format: number
     createdAt: number
     updatedAt: number
+    userId: number
     _all: number
   }
 
@@ -6842,6 +6895,7 @@ export namespace Prisma {
     format?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
   }
 
   export type NoteMaxAggregateInputType = {
@@ -6851,6 +6905,7 @@ export namespace Prisma {
     format?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
   }
 
   export type NoteCountAggregateInputType = {
@@ -6860,6 +6915,7 @@ export namespace Prisma {
     format?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
     _all?: true
   }
 
@@ -6942,6 +6998,7 @@ export namespace Prisma {
     format: string
     createdAt: Date
     updatedAt: Date
+    userId: string
     _count: NoteCountAggregateOutputType | null
     _min: NoteMinAggregateOutputType | null
     _max: NoteMaxAggregateOutputType | null
@@ -6968,6 +7025,8 @@ export namespace Prisma {
     format?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["note"]>
 
   export type NoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6977,6 +7036,8 @@ export namespace Prisma {
     format?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["note"]>
 
   export type NoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6986,6 +7047,8 @@ export namespace Prisma {
     format?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["note"]>
 
   export type NoteSelectScalar = {
@@ -6995,13 +7058,25 @@ export namespace Prisma {
     format?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
   }
 
-  export type NoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "format" | "createdAt" | "updatedAt", ExtArgs["result"]["note"]>
+  export type NoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "format" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["note"]>
+  export type NoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type NoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type NoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
 
   export type $NotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Note"
-    objects: {}
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
@@ -7009,6 +7084,7 @@ export namespace Prisma {
       format: string
       createdAt: Date
       updatedAt: Date
+      userId: string
     }, ExtArgs["result"]["note"]>
     composites: {}
   }
@@ -7403,6 +7479,7 @@ export namespace Prisma {
    */
   export interface Prisma__NoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7438,6 +7515,7 @@ export namespace Prisma {
     readonly format: FieldRef<"Note", 'String'>
     readonly createdAt: FieldRef<"Note", 'DateTime'>
     readonly updatedAt: FieldRef<"Note", 'DateTime'>
+    readonly userId: FieldRef<"Note", 'String'>
   }
     
 
@@ -7454,6 +7532,10 @@ export namespace Prisma {
      * Omit specific fields from the Note
      */
     omit?: NoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
     /**
      * Filter, which Note to fetch.
      */
@@ -7473,6 +7555,10 @@ export namespace Prisma {
      */
     omit?: NoteOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
+    /**
      * Filter, which Note to fetch.
      */
     where: NoteWhereUniqueInput
@@ -7490,6 +7576,10 @@ export namespace Prisma {
      * Omit specific fields from the Note
      */
     omit?: NoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
     /**
      * Filter, which Note to fetch.
      */
@@ -7539,6 +7629,10 @@ export namespace Prisma {
      */
     omit?: NoteOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
+    /**
      * Filter, which Note to fetch.
      */
     where?: NoteWhereInput
@@ -7587,6 +7681,10 @@ export namespace Prisma {
      */
     omit?: NoteOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
+    /**
      * Filter, which Notes to fetch.
      */
     where?: NoteWhereInput
@@ -7630,6 +7728,10 @@ export namespace Prisma {
      */
     omit?: NoteOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
+    /**
      * The data needed to create a Note.
      */
     data: XOR<NoteCreateInput, NoteUncheckedCreateInput>
@@ -7663,6 +7765,10 @@ export namespace Prisma {
      */
     data: NoteCreateManyInput | NoteCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7677,6 +7783,10 @@ export namespace Prisma {
      * Omit specific fields from the Note
      */
     omit?: NoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
     /**
      * The data needed to update a Note.
      */
@@ -7729,6 +7839,10 @@ export namespace Prisma {
      * Limit how many Notes to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7743,6 +7857,10 @@ export namespace Prisma {
      * Omit specific fields from the Note
      */
     omit?: NoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
     /**
      * The filter to search for the Note to update in case it exists.
      */
@@ -7769,6 +7887,10 @@ export namespace Prisma {
      * Omit specific fields from the Note
      */
     omit?: NoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
     /**
      * Filter which Note to delete.
      */
@@ -7801,6 +7923,10 @@ export namespace Prisma {
      * Omit specific fields from the Note
      */
     omit?: NoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
   }
 
 
@@ -7863,7 +7989,8 @@ export namespace Prisma {
     name: 'name',
     email: 'email',
     emailVerified: 'emailVerified',
-    image: 'image'
+    image: 'image',
+    password: 'password'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -7884,7 +8011,8 @@ export namespace Prisma {
     content: 'content',
     format: 'format',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    userId: 'userId'
   };
 
   export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof NoteScalarFieldEnum]
@@ -8192,9 +8320,11 @@ export namespace Prisma {
     email?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
+    password?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
+    notes?: NoteListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -8203,9 +8333,11 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
+    notes?: NoteOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -8217,9 +8349,11 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
+    password?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
+    notes?: NoteListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -8228,6 +8362,7 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -8242,6 +8377,7 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter<"User"> | string | null
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    password?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type VerificationTokenWhereInput = {
@@ -8297,6 +8433,8 @@ export namespace Prisma {
     format?: StringFilter<"Note"> | string
     createdAt?: DateTimeFilter<"Note"> | Date | string
     updatedAt?: DateTimeFilter<"Note"> | Date | string
+    userId?: StringFilter<"Note"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type NoteOrderByWithRelationInput = {
@@ -8306,6 +8444,8 @@ export namespace Prisma {
     format?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
   }
 
   export type NoteWhereUniqueInput = Prisma.AtLeast<{
@@ -8318,6 +8458,8 @@ export namespace Prisma {
     format?: StringFilter<"Note"> | string
     createdAt?: DateTimeFilter<"Note"> | Date | string
     updatedAt?: DateTimeFilter<"Note"> | Date | string
+    userId?: StringFilter<"Note"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type NoteOrderByWithAggregationInput = {
@@ -8327,6 +8469,7 @@ export namespace Prisma {
     format?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
     _count?: NoteCountOrderByAggregateInput
     _max?: NoteMaxOrderByAggregateInput
     _min?: NoteMinOrderByAggregateInput
@@ -8342,6 +8485,7 @@ export namespace Prisma {
     format?: StringWithAggregatesFilter<"Note"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Note"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Note"> | Date | string
+    userId?: StringWithAggregatesFilter<"Note"> | string
   }
 
   export type PostCreateInput = {
@@ -8561,9 +8705,11 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -8572,9 +8718,11 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -8583,9 +8731,11 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -8594,9 +8744,11 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8605,6 +8757,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -8613,6 +8766,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -8621,6 +8775,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type VerificationTokenCreateInput = {
@@ -8672,6 +8827,7 @@ export namespace Prisma {
     format: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutNotesInput
   }
 
   export type NoteUncheckedCreateInput = {
@@ -8681,6 +8837,7 @@ export namespace Prisma {
     format: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
   }
 
   export type NoteUpdateInput = {
@@ -8690,6 +8847,7 @@ export namespace Prisma {
     format?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutNotesNestedInput
   }
 
   export type NoteUncheckedUpdateInput = {
@@ -8699,6 +8857,7 @@ export namespace Prisma {
     format?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type NoteCreateManyInput = {
@@ -8708,6 +8867,7 @@ export namespace Prisma {
     format: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
   }
 
   export type NoteUpdateManyMutationInput = {
@@ -8726,6 +8886,7 @@ export namespace Prisma {
     format?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -9028,6 +9189,12 @@ export namespace Prisma {
     none?: PostWhereInput
   }
 
+  export type NoteListRelationFilter = {
+    every?: NoteWhereInput
+    some?: NoteWhereInput
+    none?: NoteWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -9040,12 +9207,17 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type NoteOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    password?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -9054,6 +9226,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    password?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -9062,6 +9235,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    password?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -9108,6 +9282,7 @@ export namespace Prisma {
     format?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
   }
 
   export type NoteMaxOrderByAggregateInput = {
@@ -9117,6 +9292,7 @@ export namespace Prisma {
     format?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
   }
 
   export type NoteMinOrderByAggregateInput = {
@@ -9126,6 +9302,7 @@ export namespace Prisma {
     format?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
   }
 
   export type UserCreateNestedOneWithoutPostsInput = {
@@ -9219,6 +9396,13 @@ export namespace Prisma {
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
   }
 
+  export type NoteCreateNestedManyWithoutUserInput = {
+    create?: XOR<NoteCreateWithoutUserInput, NoteUncheckedCreateWithoutUserInput> | NoteCreateWithoutUserInput[] | NoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutUserInput | NoteCreateOrConnectWithoutUserInput[]
+    createMany?: NoteCreateManyUserInputEnvelope
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -9238,6 +9422,13 @@ export namespace Prisma {
     connectOrCreate?: PostCreateOrConnectWithoutCreatedByInput | PostCreateOrConnectWithoutCreatedByInput[]
     createMany?: PostCreateManyCreatedByInputEnvelope
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  }
+
+  export type NoteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<NoteCreateWithoutUserInput, NoteUncheckedCreateWithoutUserInput> | NoteCreateWithoutUserInput[] | NoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutUserInput | NoteCreateOrConnectWithoutUserInput[]
+    createMany?: NoteCreateManyUserInputEnvelope
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -9286,6 +9477,20 @@ export namespace Prisma {
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
   }
 
+  export type NoteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NoteCreateWithoutUserInput, NoteUncheckedCreateWithoutUserInput> | NoteCreateWithoutUserInput[] | NoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutUserInput | NoteCreateOrConnectWithoutUserInput[]
+    upsert?: NoteUpsertWithWhereUniqueWithoutUserInput | NoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NoteCreateManyUserInputEnvelope
+    set?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    disconnect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    delete?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    update?: NoteUpdateWithWhereUniqueWithoutUserInput | NoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NoteUpdateManyWithWhereWithoutUserInput | NoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NoteScalarWhereInput | NoteScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -9326,6 +9531,34 @@ export namespace Prisma {
     update?: PostUpdateWithWhereUniqueWithoutCreatedByInput | PostUpdateWithWhereUniqueWithoutCreatedByInput[]
     updateMany?: PostUpdateManyWithWhereWithoutCreatedByInput | PostUpdateManyWithWhereWithoutCreatedByInput[]
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  }
+
+  export type NoteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NoteCreateWithoutUserInput, NoteUncheckedCreateWithoutUserInput> | NoteCreateWithoutUserInput[] | NoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutUserInput | NoteCreateOrConnectWithoutUserInput[]
+    upsert?: NoteUpsertWithWhereUniqueWithoutUserInput | NoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NoteCreateManyUserInputEnvelope
+    set?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    disconnect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    delete?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    update?: NoteUpdateWithWhereUniqueWithoutUserInput | NoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NoteUpdateManyWithWhereWithoutUserInput | NoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NoteScalarWhereInput | NoteScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutNotesInput = {
+    create?: XOR<UserCreateWithoutNotesInput, UserUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutNotesNestedInput = {
+    create?: XOR<UserCreateWithoutNotesInput, UserUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotesInput
+    upsert?: UserUpsertWithoutNotesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotesInput, UserUpdateWithoutNotesInput>, UserUncheckedUpdateWithoutNotesInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -9522,8 +9755,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    notes?: NoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -9532,8 +9767,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -9558,8 +9795,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -9568,8 +9807,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -9578,8 +9819,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -9588,8 +9831,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -9614,8 +9859,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -9624,8 +9871,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -9634,8 +9883,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -9644,8 +9895,10 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -9670,8 +9923,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -9680,8 +9935,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -9766,6 +10023,34 @@ export namespace Prisma {
 
   export type PostCreateManyCreatedByInputEnvelope = {
     data: PostCreateManyCreatedByInput | PostCreateManyCreatedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NoteCreateWithoutUserInput = {
+    id?: string
+    title: string
+    content: string
+    format: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NoteUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    content: string
+    format: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NoteCreateOrConnectWithoutUserInput = {
+    where: NoteWhereUniqueInput
+    create: XOR<NoteCreateWithoutUserInput, NoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type NoteCreateManyUserInputEnvelope = {
+    data: NoteCreateManyUserInput | NoteCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -9857,6 +10142,99 @@ export namespace Prisma {
     createdById?: StringFilter<"Post"> | string
   }
 
+  export type NoteUpsertWithWhereUniqueWithoutUserInput = {
+    where: NoteWhereUniqueInput
+    update: XOR<NoteUpdateWithoutUserInput, NoteUncheckedUpdateWithoutUserInput>
+    create: XOR<NoteCreateWithoutUserInput, NoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type NoteUpdateWithWhereUniqueWithoutUserInput = {
+    where: NoteWhereUniqueInput
+    data: XOR<NoteUpdateWithoutUserInput, NoteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type NoteUpdateManyWithWhereWithoutUserInput = {
+    where: NoteScalarWhereInput
+    data: XOR<NoteUpdateManyMutationInput, NoteUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type NoteScalarWhereInput = {
+    AND?: NoteScalarWhereInput | NoteScalarWhereInput[]
+    OR?: NoteScalarWhereInput[]
+    NOT?: NoteScalarWhereInput | NoteScalarWhereInput[]
+    id?: StringFilter<"Note"> | string
+    title?: StringFilter<"Note"> | string
+    content?: StringFilter<"Note"> | string
+    format?: StringFilter<"Note"> | string
+    createdAt?: DateTimeFilter<"Note"> | Date | string
+    updatedAt?: DateTimeFilter<"Note"> | Date | string
+    userId?: StringFilter<"Note"> | string
+  }
+
+  export type UserCreateWithoutNotesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutNotesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutNotesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutNotesInput, UserUncheckedCreateWithoutNotesInput>
+  }
+
+  export type UserUpsertWithoutNotesInput = {
+    update: XOR<UserUpdateWithoutNotesInput, UserUncheckedUpdateWithoutNotesInput>
+    create: XOR<UserCreateWithoutNotesInput, UserUncheckedCreateWithoutNotesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNotesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNotesInput, UserUncheckedUpdateWithoutNotesInput>
+  }
+
+  export type UserUpdateWithoutNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
   export type AccountCreateManyUserInput = {
     id?: string
     type: string
@@ -9881,6 +10259,15 @@ export namespace Prisma {
   export type PostCreateManyCreatedByInput = {
     id?: number
     name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NoteCreateManyUserInput = {
+    id?: string
+    title: string
+    content: string
+    format: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9964,6 +10351,33 @@ export namespace Prisma {
   export type PostUncheckedUpdateManyWithoutCreatedByInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NoteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    format?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NoteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    format?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NoteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    format?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

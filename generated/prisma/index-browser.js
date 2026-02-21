@@ -157,7 +157,8 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
-  image: 'image'
+  image: 'image',
+  password: 'password'
 };
 
 exports.Prisma.VerificationTokenScalarFieldEnum = {
@@ -172,7 +173,8 @@ exports.Prisma.NoteScalarFieldEnum = {
   content: 'content',
   format: 'format',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
