@@ -1,17 +1,14 @@
 import React from "react";
 import Link from "next/link";
 
-interface ButtonProps {
+interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "danger" | "ghost";
   size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
-  disabled?: boolean;
   loading?: boolean;
   type?: "button" | "submit" | "reset";
-  onClick?: () => void;
   href?: string;
-  className?: string;
 }
 
 export function Button({
@@ -25,6 +22,7 @@ export function Button({
   onClick,
   href,
   className = "",
+  ...rest
 }: ButtonProps) {
   // Base styles
   const baseStyles = "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed";
@@ -91,6 +89,7 @@ export function Button({
       onClick={onClick}
       disabled={disabled || loading}
       className={buttonClasses}
+      {...rest}
     >
       {loading && loadingSpinner}
       {children}

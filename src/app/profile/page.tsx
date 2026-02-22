@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth, signOut } from "~/server/auth";
 import { db } from "~/server/db";
+import { Button } from "~/app/_components/button";
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -59,12 +60,13 @@ export default async function ProfilePage() {
                 await signOut({ redirectTo: "/" });
               }}
             >
-              <button
+              <Button
                 type="submit"
-                className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+                variant="ghost"
+                size="sm"
               >
                 Sign Out
-              </button>
+              </Button>
             </form>
           </div>
         </div>
@@ -110,20 +112,22 @@ export default async function ProfilePage() {
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-3 sm:flex-row">
-              <button
+              <Button
                 disabled
-                className="flex-1 rounded-lg border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 opacity-50 cursor-not-allowed"
+                variant="secondary"
+                className="flex-1 opacity-50"
               >
                 Edit Profile
                 <span className="ml-2 text-xs text-gray-500">(Coming Soon)</span>
-              </button>
-              <button
+              </Button>
+              <Button
                 disabled
-                className="flex-1 rounded-lg border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 opacity-50 cursor-not-allowed"
+                variant="secondary"
+                className="flex-1 opacity-50"
               >
                 Change Password
                 <span className="ml-2 text-xs text-gray-500">(Coming Soon)</span>
-              </button>
+              </Button>
             </div>
           </div>
 

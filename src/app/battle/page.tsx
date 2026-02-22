@@ -167,14 +167,16 @@ export default function BattlePage() {
           ) : (
             <div className="space-y-3">
               {history.map((battle) => (
-                <button
+                <Button
                   key={battle.id}
                   onClick={() => router.push(`/battle/${battle.id}`)}
-                  className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-100"
+                  variant="secondary"
+                  fullWidth
+                  className="justify-start border-gray-200 bg-gray-50 text-left text-gray-700 hover:bg-gray-100"
                 >
                   <p className="font-semibold">{battle.code} • {battle.status}</p>
                   <p className="text-xs text-gray-500">Score: {battle.hostScore} - {battle.opponentScore} • {new Date(battle.createdAt).toLocaleString()}</p>
-                </button>
+                </Button>
               ))}
             </div>
           )}

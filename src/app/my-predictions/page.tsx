@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AppNav } from "~/app/_components/app-nav";
+import { Button } from "~/app/_components/button";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton-loader";
 
@@ -67,9 +68,9 @@ export default function MyPredictionsPage() {
                     <p className="text-sm font-semibold text-gray-900">{record.examType}</p>
                     <p className="text-xs text-gray-500">{new Date(record.createdAt).toLocaleString()}</p>
                   </div>
-                  <button onClick={() => void deleteRecord(record.id)} className="text-xs font-semibold text-red-600">
+                  <Button onClick={() => void deleteRecord(record.id)} variant="danger" size="sm">
                     Delete
-                  </button>
+                  </Button>
                 </div>
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-700">
                   {(record.predictions ?? []).slice(0, 5).map((item, index) => (

@@ -128,14 +128,16 @@ export default function StudyGroupsPage() {
           ) : (
             <div className="space-y-3">
               {groups.map((group) => (
-                <button
+                <Button
                   key={group.id}
                   onClick={() => router.push(`/study-groups/${group.id}`)}
-                  className="w-full rounded-lg border border-gray-200 bg-gray-50 p-4 text-left hover:bg-gray-100"
+                  variant="secondary"
+                  fullWidth
+                  className="justify-start border-gray-200 bg-gray-50 p-4 text-left hover:bg-gray-100"
                 >
                   <p className="font-semibold text-gray-900">{group.name}</p>
                   <p className="text-xs text-gray-500">{group.topic || "General"} • Code: {group.inviteCode} • {group._count.members} members</p>
-                </button>
+                </Button>
               ))}
             </div>
           )}

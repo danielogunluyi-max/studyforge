@@ -5,6 +5,131 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+:root {
+  --accent-50: #eff6ff;
+  --accent-100: #dbeafe;
+  --accent-500: #3b82f6;
+  --accent-600: #2563eb;
+  --accent-700: #1d4ed8;
+
+  --app-bg: #f9fafb;
+  --app-surface: #ffffff;
+  --app-muted-surface: #f3f4f6;
+  --app-text: #111827;
+  --app-text-muted: #4b5563;
+  --app-text-soft: #6b7280;
+  --app-border: #e5e7eb;
+  --app-border-strong: #d1d5db;
+  --app-font-size: 16px;
+}
+
+html,
+body {
+  background-color: var(--app-bg);
+  color: var(--app-text);
+  font-size: var(--app-font-size);
+}
+
+html.dark {
+  --app-bg: #0b1220;
+  --app-surface: #111827;
+  --app-muted-surface: #1f2937;
+  --app-text: #f3f4f6;
+  --app-text-muted: #d1d5db;
+  --app-text-soft: #9ca3af;
+  --app-border: #374151;
+  --app-border-strong: #4b5563;
+}
+
+[data-compact="true"] .p-6 {
+  padding: 1.25rem !important;
+}
+
+[data-compact="true"] .p-8 {
+  padding: 1.5rem !important;
+}
+
+[data-compact="true"] .py-12 {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+}
+
+.bg-blue-600 {
+  background-color: var(--accent-600) !important;
+}
+
+.bg-blue-700,
+.hover\:bg-blue-700:hover {
+  background-color: var(--accent-700) !important;
+}
+
+.bg-blue-100 {
+  background-color: var(--accent-100) !important;
+}
+
+.bg-blue-50,
+.hover\:bg-blue-50:hover {
+  background-color: var(--accent-50) !important;
+}
+
+.text-blue-800,
+.text-blue-700,
+.text-blue-600,
+.hover\:text-blue-700:hover,
+.hover\:text-blue-600:hover {
+  color: var(--accent-600) !important;
+}
+
+.border-blue-500,
+.focus\:border-blue-500:focus,
+.border-blue-200 {
+  border-color: var(--accent-500) !important;
+}
+
+.ring-blue-500,
+.focus\:ring-blue-500:focus {
+  --tw-ring-color: var(--accent-500) !important;
+}
+
+html.dark .bg-white {
+  background-color: var(--app-surface) !important;
+}
+
+html.dark .bg-gray-50,
+html.dark .hover\:bg-gray-50:hover {
+  background-color: var(--app-muted-surface) !important;
+}
+
+html.dark .bg-gray-100,
+html.dark .hover\:bg-gray-100:hover {
+  background-color: #374151 !important;
+}
+
+html.dark .text-gray-900,
+html.dark .text-gray-800,
+html.dark .text-gray-700 {
+  color: var(--app-text) !important;
+}
+
+html.dark .text-gray-600,
+html.dark .text-gray-500 {
+  color: var(--app-text-muted) !important;
+}
+
+html.dark .border-gray-100,
+html.dark .border-gray-200,
+html.dark .border-gray-300 {
+  border-color: var(--app-border) !important;
+}
+
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: var(--app-surface) !important;
+  color: var(--app-text) !important;
+  border-color: var(--app-border-strong) !important;
+}
+
 /* Flashcard 3D flip styles */
 .perspective {
   perspective: 1000px;

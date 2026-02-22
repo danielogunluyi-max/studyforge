@@ -13,6 +13,15 @@ type AccentColor = "blue" | "purple" | "green" | "pink" | "orange" | "indigo";
 type FontSize = "small" | "medium" | "large";
 type NoteFormat = "summary" | "detailed" | "flashcards" | "questions";
 
+type AppearancePayload = {
+  theme: Theme;
+  accentColor: AccentColor;
+  fontSize: FontSize;
+  compactMode: boolean;
+};
+
+const APPEARANCE_STORAGE_KEY = "studyforge:appearance";
+
 interface UserSettings {
   name: string;
   email: string;
@@ -42,6 +51,20 @@ const ACCENT_COLORS: Record<AccentColor, { bg: string; hover: string; label: str
   orange: { bg: "bg-orange-600", hover: "hover:bg-orange-700", label: "Orange" },
   indigo: { bg: "bg-indigo-600", hover: "hover:bg-indigo-700", label: "Indigo" },
 };
+
+function syncAppearance(next: UserSettings) {
+  if (typeof window === "undefined") return;
+
+  const payload: AppearancePayload = {
+    theme: next.theme,
+    accentColor: next.accentColor,
+    fontSize: next.fontSize,
+    compactMode: next.compactMode,
+  };
+
+  window.localStorage.setItem(APPEARANCE_STORAGE_KEY, JSON.stringify(payload));
+  window.dispatchEvent(new CustomEvent("studyforge:appearance-updated", { detail: payload }));
+}
 
 export default function SettingsPage() {
   const { data: session, status } = useSession();
@@ -79,7 +102,11 @@ export default function SettingsPage() {
         const response = await fetch("/api/user/settings");
         if (response.ok) {
           const data = await response.json() as Partial<UserSettings>;
-          setSettings(prev => ({ ...prev, ...data }));
+          setSettings((prev) => {
+            const next = { ...prev, ...data };
+            syncAppearance(next);
+            return next;
+          });
         }
       } catch (err) {
         console.error("Failed to load settings:", err);
@@ -115,7 +142,15 @@ export default function SettingsPage() {
   if (!session) return null;
 
   const updateSetting = <K extends keyof UserSettings>(key: K, value: UserSettings[K]) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
+    setSettings((prev) => {
+      const next = { ...prev, [key]: value };
+
+      if (key === "theme" || key === "accentColor" || key === "fontSize" || key === "compactMode") {
+        syncAppearance(next);
+      }
+
+      return next;
+    });
   };
 
   const saveSettings = async () => {
@@ -398,9 +433,11 @@ export default function SettingsPage() {
             <h2 className="mb-4 text-2xl font-bold text-gray-900">🔒 Data & Privacy</h2>
             
             <div className="space-y-3">
-              <button
+              <Button
                 onClick={() => void exportData()}
-                className="w-full rounded-lg border border-gray-300 bg-white p-4 text-left font-semibold text-gray-900 transition hover:bg-gray-50"
+                variant="secondary"
+                fullWidth
+                className="justify-between p-4 text-left font-semibold text-gray-900"
               >
                 <div className="flex items-center justify-between">
                   <span>📦 Export All Data</span>
@@ -409,11 +446,13 @@ export default function SettingsPage() {
                   </svg>
                 </div>
                 <p className="mt-1 text-sm font-normal text-gray-600">Download all your notes, citations, and settings as JSON</p>
-              </button>
+              </Button>
 
-              <button
+              <Button
                 onClick={() => setShowDeleteConfirm(true)}
-                className="w-full rounded-lg border border-red-300 bg-red-50 p-4 text-left font-semibold text-red-700 transition hover:bg-red-100"
+                variant="danger"
+                fullWidth
+                className="justify-between p-4 text-left"
               >
                 <div className="flex items-center justify-between">
                   <span>🗑️ Delete Account</span>
@@ -422,7 +461,7 @@ export default function SettingsPage() {
                   </svg>
                 </div>
                 <p className="mt-1 text-sm font-normal text-red-600">Permanently delete your account and all data</p>
-              </button>
+              </Button>
             </div>
           </div>
 

@@ -380,12 +380,13 @@ export default function CitationsPage() {
                 <div key={citation.id} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
                   <div className="mb-2 flex items-center justify-between">
                     <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700">{citation.format}</span>
-                    <button
+                    <Button
                       onClick={() => void deleteCitation(citation.id)}
-                      className="text-xs font-semibold text-red-600 hover:text-red-700"
+                      variant="danger"
+                      size="sm"
                     >
                       Delete
-                    </button>
+                    </Button>
                   </div>
                   <p className="text-sm text-gray-700">{formatCitation(citation)}</p>
                 </div>

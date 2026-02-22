@@ -420,13 +420,13 @@ export default function Generator() {
                   disabled={checkedAnswers.has(index)}
                 />
                 {!checkedAnswers.has(index) ? (
-                  <button
+                  <Button
                     onClick={() => checkAnswer(index)}
                     disabled={!quizAnswers[index]?.trim()}
-                    className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+                    size="sm"
                   >
                     Check Answer
-                  </button>
+                  </Button>
                 ) : (
                   <div className="rounded-lg border border-green-200 bg-green-50 p-4">
                     <p className="mb-2 text-sm font-semibold text-green-800">

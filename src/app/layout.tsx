@@ -5,6 +5,7 @@ import { Geist } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { AppearanceSync } from "~/app/_components/appearance-sync";
 
 export const metadata: Metadata = {
   title: {
@@ -65,6 +66,7 @@ export default function RootLayout({
     <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
       <body suppressHydrationWarning>
         <SessionProvider>
+          <AppearanceSync />
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </SessionProvider>
       </body>

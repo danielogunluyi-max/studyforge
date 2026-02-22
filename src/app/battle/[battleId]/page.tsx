@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
+import { Button } from "~/app/_components/button";
 
 type BattleQuestion = {
   question: string;
@@ -135,12 +136,13 @@ export default function BattleRoomPage() {
           <div className="rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm">
             <p className="text-2xl font-bold text-gray-900">Battle Complete</p>
             <p className="mt-2 text-sm text-gray-600">Final score: {battle.hostScore} - {battle.opponentScore}</p>
-            <button
+            <Button
               onClick={() => router.push("/battle")}
-              className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white"
+              className="mt-4"
+              size="sm"
             >
               Back to Arena
-            </button>
+            </Button>
           </div>
         ) : currentQuestion ? (
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -164,19 +166,20 @@ export default function BattleRoomPage() {
             </div>
 
             <div className="mt-4 flex gap-2">
-              <button
+              <Button
                 onClick={() => void submitAnswer()}
                 disabled={!selectedAnswer}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white disabled:bg-gray-300"
+                size="sm"
               >
                 Submit
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setCurrentIndex((prev) => Math.min(prev + 1, battle.questionCount - 1))}
-                className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700"
+                variant="secondary"
+                size="sm"
               >
                 Skip
-              </button>
+              </Button>
             </div>
 
             {resultMsg && <p className="mt-3 text-sm text-gray-700">{resultMsg}</p>}

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
+import { Button } from "~/app/_components/button";
 
 type Message = {
   id: string;
@@ -94,13 +95,14 @@ export default function StudyGroupRoomPage() {
                 placeholder="Type a message..."
                 className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm"
               />
-              <button
+              <Button
                 onClick={() => void sendMessage()}
                 disabled={isSending || !input.trim()}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white disabled:bg-gray-300"
+                size="sm"
+                loading={isSending}
               >
                 Send
-              </button>
+              </Button>
             </div>
           </div>
 
