@@ -88,6 +88,18 @@ export default function SettingsPage() {
     void loadSettings();
   }, [session]);
 
+  // Handle Escape key to close modal
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && showDeleteConfirm) {
+        setShowDeleteConfirm(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [showDeleteConfirm]);
+
   if (status === "loading") {
     return (
       <main className="flex min-h-screen items-center justify-center bg-gray-50">
@@ -428,9 +440,14 @@ export default function SettingsPage() {
 
       {/* DELETE CONFIRMATION MODAL */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="delete-dialog-title"
+        >
           <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-            <h3 className="mb-3 text-xl font-bold text-gray-900">Delete Account?</h3>
+            <h3 id="delete-dialog-title" className="mb-3 text-xl font-bold text-gray-900">Delete Account?</h3>
             <p className="mb-6 text-gray-600">
               This action cannot be undone. All your notes, citations, battle history, and study groups will be permanently deleted.
             </p>
@@ -439,6 +456,7 @@ export default function SettingsPage() {
                 onClick={() => setShowDeleteConfirm(false)}
                 disabled={isDeleting}
                 className="flex-1 rounded-lg border border-gray-300 bg-white py-3 font-semibold text-gray-700 transition hover:bg-gray-50"
+                aria-label="Cancel account deletion"
               >
                 Cancel
               </button>
@@ -446,6 +464,7 @@ export default function SettingsPage() {
                 onClick={() => void deleteAccount()}
                 disabled={isDeleting}
                 className="flex-1 rounded-lg bg-red-600 py-3 font-semibold text-white transition hover:bg-red-700 disabled:bg-gray-300"
+                aria-label="Confirm account deletion"
               >
                 {isDeleting ? "Deleting..." : "Delete Forever"}
               </button>

@@ -123,6 +123,19 @@ export default function MyNotes() {
     }
   }, [session]);
 
+  // Handle Escape key to close modals
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (selectedNote) setSelectedNote(null);
+        else if (tagModalOpen) setTagModalOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [selectedNote, tagModalOpen]);
+
   const fetchNotes = async () => {
     setIsLoading(true);
     setError("");
@@ -438,8 +451,9 @@ export default function MyNotes() {
                         onClick={() => void deleteNote(note.id)}
                         className="text-gray-400 opacity-0 transition hover:text-red-600 group-hover:opacity-100"
                         title="Delete note"
+                        aria-label="Delete note"
                       >
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -498,7 +512,13 @@ export default function MyNotes() {
       </div>
 
       {selectedNote && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setSelectedNote(null)}>
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" 
+          onClick={() => setSelectedNote(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="note-title"
+        >
           <div
             className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-xl bg-white p-8 shadow-2xl"
             onClick={(event) => event.stopPropagation()}
@@ -508,7 +528,7 @@ export default function MyNotes() {
                 <span className={`mb-3 inline-block rounded-full px-3 py-1 text-xs font-semibold ${getFormatBadgeColor(selectedNote.format)}`}>
                   {getFormatLabel(selectedNote.format)}
                 </span>
-                <h2 className="text-2xl font-bold text-gray-900">{selectedNote.title}</h2>
+                <h2 id="note-title" className="text-2xl font-bold text-gray-900">{selectedNote.title}</h2>
                 <p className="mt-1 text-sm text-gray-500">{formatDate(selectedNote.createdAt)}</p>
                 {selectedNote.tags.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-2">
@@ -524,8 +544,9 @@ export default function MyNotes() {
               <button
                 onClick={() => setSelectedNote(null)}
                 className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
+                aria-label="Close modal"
               >
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
