@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Button } from "~/app/_components/button";
 
 export default function SignUp() {
   const router = useRouter();
@@ -231,13 +232,15 @@ export default function SignUp() {
               )}
 
               {/* Submit Button */}
-              <button
+              <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full rounded-lg bg-blue-600 py-3 text-base font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+                loading={isLoading}
+                fullWidth
+                size="lg"
               >
                 {isLoading ? "Creating account..." : "Sign up"}
-              </button>
+              </Button>
             </form>
           </div>
 

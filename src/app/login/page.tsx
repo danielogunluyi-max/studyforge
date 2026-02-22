@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { Button } from "~/app/_components/button";
 
 export default function Login() {
   return (
@@ -193,13 +194,15 @@ function LoginContent() {
                 </div>
               )}
 
-              <button
+              <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full rounded-lg bg-blue-600 py-3 text-base font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+                loading={isLoading}
+                fullWidth
+                size="lg"
               >
                 {isLoading ? "Logging in..." : "Log in"}
-              </button>
+              </Button>
             </form>
           </div>
         </div>

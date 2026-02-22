@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
+import { Button } from "~/app/_components/button";
 
 type Style = "visual" | "auditory" | "reading" | "kinesthetic";
 
@@ -184,22 +185,24 @@ export default function LearningStyleQuizPage() {
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <button
+          <Button
             onClick={calculateResult}
             disabled={Object.keys(answers).length < QUESTIONS.length}
-            className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white disabled:bg-gray-300"
+            size="md"
           >
             Calculate Learning Style
-          </button>
+          </Button>
 
           {result && (
-            <button
+            <Button
               onClick={() => void saveResult()}
               disabled={isSaving}
-              className="rounded-lg border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700"
+              loading={isSaving}
+              variant="secondary"
+              size="md"
             >
               {isSaving ? "Saving..." : `Save as ${STYLE_LABEL[result]}`}
-            </button>
+            </Button>
           )}
         </div>
 
