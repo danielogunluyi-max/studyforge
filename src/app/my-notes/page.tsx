@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
+import { Button } from "~/app/_components/button";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton-loader";
 
@@ -318,12 +319,13 @@ export default function MyNotes() {
             <h1 className="mb-2 text-4xl font-bold text-gray-900">My Notes</h1>
             <p className="text-lg text-gray-600">All your saved study notes in one place</p>
           </div>
-          <button
+          <Button
             onClick={() => setTagModalOpen(true)}
-            className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+            variant="secondary"
+            size="sm"
           >
             Manage Tags
-          </button>
+          </Button>
         </div>
 
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
@@ -557,30 +559,33 @@ export default function MyNotes() {
             </div>
 
             <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <button
+              <Button
                 onClick={() => {
                   void navigator.clipboard.writeText(selectedNote.content);
                 }}
-                className="rounded-lg border border-gray-300 bg-white py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                variant="secondary"
+                size="md"
               >
                 Copy
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => void exportNotePdf(selectedNote.id)}
                 disabled={exportingNoteId === selectedNote.id}
-                className="rounded-lg bg-blue-600 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+                loading={exportingNoteId === selectedNote.id}
+                size="md"
               >
                 {exportingNoteId === selectedNote.id ? "Exporting..." : "Export as PDF"}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => {
                   void deleteNote(selectedNote.id);
                   setSelectedNote(null);
                 }}
-                className="rounded-lg bg-red-600 py-3 text-sm font-semibold text-white transition hover:bg-red-700"
+                variant="danger"
+                size="md"
               >
                 Delete
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -679,12 +684,13 @@ export default function MyNotes() {
             )}
 
             <div className="mt-5 flex justify-end">
-              <button
+              <Button
                 onClick={() => setTagModalOpen(false)}
-                className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700"
+                variant="secondary"
+                size="sm"
               >
                 Close
-              </button>
+              </Button>
             </div>
           </div>
         </div>
