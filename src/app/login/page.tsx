@@ -84,7 +84,11 @@ function LoginContent() {
         callbackUrl: redirectTarget,
       });
 
+      console.log("Login result:", result);
+
       if (result?.ok) {
+        // Wait a moment for session to be properly established
+        await new Promise(resolve => setTimeout(resolve, 500));
         router.push(redirectTarget);
         return;
       }
@@ -100,6 +104,9 @@ function LoginContent() {
       }
 
       setError(result?.error ?? "Unable to log in. Please try again.");
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("An error occurred during login. Please try again.");
     } finally {
       setIsLoading(false);
     }

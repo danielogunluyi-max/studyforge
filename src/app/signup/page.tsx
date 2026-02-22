@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Button } from "~/app/_components/button";
 
 export default function SignUp() {
@@ -100,12 +101,31 @@ export default function SignUp() {
       console.log("Signup response:", { status: response.ok, statusCode: response.status, data });
 
       if (response.ok) {
-        // Redirect to login page
-        router.push("/login?registered=true");
+        // Auto-login after successful signup
+        const signInResult = await signIn("credentials", {
+          redirect: false,
+          email: formData.email,
+          password: formData.password,
+          callbackUrl: "/generator",
+        });
+
+        console.log("Auto-login result:", signInResult);
+
+        if (signInResult?.ok) {
+          // Wait a moment for session to be properly established
+          await new Promise(resolve => setTimeout(resolve, 500));
+          // Login successful, redirect to generator
+          router.push("/generator");
+        } else {
+          // Login failed after signup, redirect to login page for manual login
+          console.error("Auto-login failed after signup:", signInResult?.error);
+          router.push("/login?registered=true");
+        }
       } else {
         setError(data.details || data.error || "Failed to create account");
       }
     } catch (err) {
+      console.error("Signup error:", err);
       setError("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
