@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { getServerAuthSession } from "~/server/auth";
+import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 
 export async function GET() {
   try {
-    const session = await getServerAuthSession();
+    const session = await auth();
     
     if (!session?.user?.id) {
       return NextResponse.json(
@@ -49,7 +49,7 @@ export async function GET() {
 
 export async function PATCH(request: Request) {
   try {
-    const session = await getServerAuthSession();
+    const session = await auth();
     
     if (!session?.user?.id) {
       return NextResponse.json(

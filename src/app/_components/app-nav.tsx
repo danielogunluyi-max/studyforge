@@ -50,12 +50,11 @@ export function AppNav() {
           </Link>
 
           {/* Features Dropdown */}
-          <div 
-            className="relative"
-            onMouseEnter={() => setShowFeaturesDropdown(true)}
-            onMouseLeave={() => setShowFeaturesDropdown(false)}
-          >
-            <button className="text-sm font-medium text-gray-600 transition hover:text-gray-900 flex items-center gap-1">
+          <div className="relative">
+            <button 
+              onClick={() => setShowFeaturesDropdown(!showFeaturesDropdown)}
+              className="text-sm font-medium text-gray-600 transition hover:text-gray-900 flex items-center gap-1"
+            >
               Features
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -67,30 +66,35 @@ export function AppNav() {
                 <Link
                   href="/exam-predictor"
                   className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                  onClick={() => setShowFeaturesDropdown(false)}
                 >
                   🎯 AI Exam Predictor
                 </Link>
                 <Link
                   href="/battle"
                   className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                  onClick={() => setShowFeaturesDropdown(false)}
                 >
                   ⚔️ Study Battle Arena
                 </Link>
                 <Link
                   href="/learning-style-quiz"
                   className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                  onClick={() => setShowFeaturesDropdown(false)}
                 >
                   🎨 Learning Style Quiz
                 </Link>
                 <Link
                   href="/study-groups"
                   className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                  onClick={() => setShowFeaturesDropdown(false)}
                 >
                   👥 AI Study Groups
                 </Link>
                 <Link
                   href="/concept-web"
                   className="block px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50 rounded-b-lg"
+                  onClick={() => setShowFeaturesDropdown(false)}
                 >
                   🕸️ Concept Web Builder
                 </Link>
@@ -174,16 +178,16 @@ export function AppNav() {
             
             <div className="border-t border-gray-200 my-2 pt-2">
               <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">Features</p>
-              <Link href="/exam-predictor" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">
+              <Link href="/exam-predictor" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>
                 🎯 AI Exam Predictor
               </Link>
-              <Link href="/battle" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">
+              <Link href="/battle" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>
                 ⚔️ Study Battle Arena
               </Link>
-              <Link href="/learning-style-quiz" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">
+              <Link href="/learning-style-quiz" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>
                 🎨 Learning Style Quiz
               </Link>
-              <Link href="/study-groups" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">
+              <Link href="/study-groups" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>
                 👥 AI Study Groups
               </Link>
               <Link href="/concept-web" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">
