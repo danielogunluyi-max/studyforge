@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { AppNav } from "~/app/_components/app-nav";
+import { Button } from "~/app/_components/button";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton-loader";
 
@@ -202,13 +203,16 @@ export default function ExamPredictorPage() {
               />
             </div>
 
-            <button
+            <Button
               onClick={() => void generatePredictions()}
               disabled={!pastExamText.trim() || isLoading}
-              className="mt-4 w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+              loading={isLoading}
+              fullWidth
+              size="md"
+              className="mt-4"
             >
               {isLoading ? "Analyzing patterns..." : "Generate Predicted Questions"}
-            </button>
+            </Button>
           </div>
 
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -266,18 +270,19 @@ export default function ExamPredictorPage() {
             <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
               <h2 className="text-xl font-semibold text-gray-900">Predicted Questions ({predictions.length})</h2>
               <div className="flex gap-2">
-                <button
+                <Button
                   onClick={() => setPracticeMode((prev) => !prev)}
-                  className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-700"
+                  variant="secondary"
+                  size="sm"
                 >
                   {practiceMode ? "Exit Practice Mode" : "Practice Mode"}
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={exportStudyGuide}
-                  className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white"
+                  size="sm"
                 >
                   Export Study Guide
-                </button>
+                </Button>
               </div>
             </div>
 

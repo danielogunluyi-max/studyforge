@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { AppNav } from "~/app/_components/app-nav";
+import { Button } from "~/app/_components/button";
 import { EmptyState } from "~/app/_components/empty-state";
 
 type NodeItem = { id: string; label: string; tags: string[] };
@@ -116,19 +117,21 @@ export default function ConceptWebPage() {
         <p className="mb-6 text-lg text-gray-600">Discover cross-subject links and map your knowledge graph visually.</p>
 
         <div className="mb-4 flex flex-wrap gap-2">
-          <button
+          <Button
             onClick={() => void discoverConnections()}
             disabled={isLoading}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white"
+            loading={isLoading}
+            size="sm"
           >
             {isLoading ? "Analyzing..." : "Discover Connections"}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => void loadExisting()}
-            className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700"
+            variant="secondary"
+            size="sm"
           >
             Load Saved Graph
-          </button>
+          </Button>
 
           <select value={filterTag} onChange={(event) => setFilterTag(event.target.value)} className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm">
             <option value="">All subjects</option>

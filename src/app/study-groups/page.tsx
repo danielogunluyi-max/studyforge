@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
+import { Button } from "~/app/_components/button";
 import { EmptyState } from "~/app/_components/empty-state";
 
 type Group = {
@@ -86,9 +87,13 @@ export default function StudyGroupsPage() {
               placeholder="Topic (optional)"
               className="mb-4 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
             />
-            <button onClick={() => void createGroup()} className="w-full rounded-lg bg-blue-600 py-3 text-sm font-semibold text-white">
+            <Button 
+              onClick={() => void createGroup()} 
+              fullWidth
+              size="md"
+            >
               Create Group
-            </button>
+            </Button>
           </div>
 
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -99,9 +104,14 @@ export default function StudyGroupsPage() {
               placeholder="Invite code"
               className="mb-4 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm tracking-wider"
             />
-            <button onClick={() => void joinGroup()} className="w-full rounded-lg border border-gray-300 bg-white py-3 text-sm font-semibold text-gray-700">
+            <Button 
+              onClick={() => void joinGroup()} 
+              variant="secondary"
+              fullWidth
+              size="md"
+            >
               Join Group
-            </button>
+            </Button>
           </div>
         </div>
 
