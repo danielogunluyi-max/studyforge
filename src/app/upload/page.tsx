@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
 import { SkeletonCard } from "~/app/_components/skeleton-loader";
+import { Button } from "~/app/_components/button";
 
 const MAX_PDF_BYTES = 10 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -221,22 +222,24 @@ export default function UploadPage() {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button
+            <Button
               type="button"
               onClick={() => pdfInputRef.current?.click()}
               disabled={isExtracting}
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:bg-gray-100"
+              variant="secondary"
+              size="sm"
             >
               Upload PDF
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={() => imageInputRef.current?.click()}
               disabled={isExtracting}
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:bg-gray-100"
+              variant="secondary"
+              size="sm"
             >
               Upload Image
-            </button>
+            </Button>
             <select
               value={ocrLanguage}
               onChange={(event) => setOcrLanguage(event.target.value)}
@@ -297,20 +300,21 @@ export default function UploadPage() {
           />
 
           <div className="mt-4 flex flex-wrap gap-3">
-            <button
+            <Button
               onClick={handleUseText}
               disabled={!extractedText.trim() || isExtracting}
-              className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+              size="md"
             >
               Use This Text
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setExtractedText("")}
               disabled={!extractedText.trim() || isExtracting}
-              className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:bg-gray-100"
+              variant="secondary"
+              size="md"
             >
               Clear
-            </button>
+            </Button>
           </div>
         </div>
 

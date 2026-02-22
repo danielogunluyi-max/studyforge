@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton-loader";
+import { Button } from "~/app/_components/button";
 
 type CitationFormat = "MLA" | "APA" | "Chicago";
 
@@ -310,23 +311,25 @@ export default function CitationsPage() {
             </div>
 
             <div className="mt-4 flex gap-2">
-              <button
+              <Button
                 onClick={saveCitation}
                 disabled={isSaving}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+                size="sm"
+                loading={isSaving}
               >
                 {isSaving ? "Saving..." : "Save Citation"}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => {
                   if (!previewCitation) return;
                   void navigator.clipboard.writeText(previewCitation);
                   setSuccess("Citation copied.");
                 }}
-                className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                variant="secondary"
+                size="sm"
               >
                 Copy Citation
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -337,18 +340,19 @@ export default function CitationsPage() {
             </div>
 
             <div className="mt-6 flex gap-2">
-              <button
+              <Button
                 onClick={() => void copyReferences()}
-                className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                variant="secondary"
+                size="sm"
               >
                 Copy {draft.format === "MLA" ? "Works Cited" : "References"}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={exportReferences}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+                size="sm"
               >
                 Export {draft.format === "MLA" ? "Works Cited" : "References"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

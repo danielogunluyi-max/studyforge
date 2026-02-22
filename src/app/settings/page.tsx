@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
+import { Button } from "~/app/_components/button";
 
 type Style = "visual" | "auditory" | "reading" | "kinesthetic";
 type Theme = "light" | "dark" | "auto";
@@ -427,13 +428,15 @@ export default function SettingsPage() {
 
           {/* SAVE BUTTON */}
           <div className="flex gap-3">
-            <button
+            <Button
               onClick={() => void saveSettings()}
               disabled={isSaving}
-              className="flex-1 rounded-lg bg-blue-600 py-4 text-lg font-semibold text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+              fullWidth
+              size="lg"
+              loading={isSaving}
             >
               {isSaving ? "Saving..." : "Save All Settings"}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -452,22 +455,25 @@ export default function SettingsPage() {
               This action cannot be undone. All your notes, citations, battle history, and study groups will be permanently deleted.
             </p>
             <div className="flex gap-3">
-              <button
+              <Button
                 onClick={() => setShowDeleteConfirm(false)}
                 disabled={isDeleting}
-                className="flex-1 rounded-lg border border-gray-300 bg-white py-3 font-semibold text-gray-700 transition hover:bg-gray-50"
+                variant="secondary"
+                className="flex-1"
                 aria-label="Cancel account deletion"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => void deleteAccount()}
                 disabled={isDeleting}
-                className="flex-1 rounded-lg bg-red-600 py-3 font-semibold text-white transition hover:bg-red-700 disabled:bg-gray-300"
+                variant="danger"
+                loading={isDeleting}
+                className="flex-1"
                 aria-label="Confirm account deletion"
               >
                 {isDeleting ? "Deleting..." : "Delete Forever"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
