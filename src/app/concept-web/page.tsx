@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { AppNav } from "~/app/_components/app-nav";
+import { EmptyState } from "~/app/_components/empty-state";
 
 type NodeItem = { id: string; label: string; tags: string[] };
 type EdgeItem = {
@@ -146,6 +147,17 @@ export default function ConceptWebPage() {
 
         {error && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">{error}</div>}
 
+        {nodes.length === 0 && !isLoading && (
+          <EmptyState
+            icon="🕸️"
+            title="No concept web yet"
+            description="Start by discovering connections between concepts from your notes, or load an existing web to explore the relationships between different topics."
+            actionLabel="Discover Connections"
+            actionOnClick={() => void discoverConnections()}
+          />
+        )}
+
+        {nodes.length > 0 && (
         <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
           <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
             <div className="overflow-x-auto">
@@ -205,6 +217,7 @@ export default function ConceptWebPage() {
             )}
           </div>
         </div>
+        )}
       </div>
     </main>
   );

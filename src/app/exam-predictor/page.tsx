@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { AppNav } from "~/app/_components/app-nav";
+import { EmptyState } from "~/app/_components/empty-state";
+import { SkeletonList } from "~/app/_components/skeleton-loader";
 
 type Prediction = {
   question: string;
@@ -243,7 +245,23 @@ export default function ExamPredictorPage() {
         {success && <div className="mt-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">{success}</div>}
         {error && <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">{error}</div>}
 
-        {predictions.length > 0 && (
+        {isLoading && (
+          <div className="mt-8">
+            <SkeletonList count={3} />
+          </div>
+        )}
+
+        {!isLoading && predictions.length === 0 && !error && (
+          <div className="mt-8">
+            <EmptyState
+              icon="🎯"
+              title="No predictions yet"
+              description="Upload a past exam to get AI-powered predictions for your upcoming test. Our AI analyzes patterns, difficulty trends, and professor style to give you the best study guide."
+            />
+          </div>
+        )}
+
+        {!isLoading && predictions.length > 0 && (
           <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
               <h2 className="text-xl font-semibold text-gray-900">Predicted Questions ({predictions.length})</h2>

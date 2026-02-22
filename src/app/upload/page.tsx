@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
+import { SkeletonCard } from "~/app/_components/skeleton-loader";
 
 const MAX_PDF_BYTES = 10 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -144,10 +145,10 @@ export default function UploadPage() {
 
   if (status === "loading") {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-          <p className="text-gray-600">Loading...</p>
+      <main className="min-h-screen bg-gray-50">
+        <AppNav />
+        <div className="container mx-auto px-6 py-12">
+          <SkeletonCard />
         </div>
       </main>
     );
