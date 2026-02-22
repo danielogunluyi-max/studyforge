@@ -53,8 +53,8 @@ export async function POST(request: Request) {
     const body = (await request.json()) as CitationInput;
     const citation = sanitizeCitation(body);
 
-    if (!citation.author || !citation.title || !citation.format) {
-      return NextResponse.json({ error: "Author, title, and format are required" }, { status: 400 });
+    if (!citation.title || !citation.format) {
+      return NextResponse.json({ error: "Title and format are required" }, { status: 400 });
     }
 
     const saved = await db.citation.create({

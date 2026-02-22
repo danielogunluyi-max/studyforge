@@ -85,7 +85,7 @@ export async function GET(request: Request) {
     const skip = (pageNum - 1) * limitNum;
 
     // Build where clause
-    const whereClause = {
+    const whereClause: NonNullable<Parameters<typeof db.note.findMany>[0]>["where"] = {
       userId: session.user.id,
       ...(format ? { format } : {}),
       ...(tag ? { tags: { has: tag } } : {}),
@@ -93,8 +93,8 @@ export async function GET(request: Request) {
       ...(q
         ? {
             OR: [
-              { title: { contains: q, mode: "insensitive" } },
-              { content: { contains: q, mode: "insensitive" } },
+              { title: { contains: q, mode: "insensitive" as const } },
+              { content: { contains: q, mode: "insensitive" as const } },
               { tags: { has: q } },
             ],
           }

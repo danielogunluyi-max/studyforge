@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
@@ -10,6 +9,18 @@ import { SkeletonList } from "~/app/_components/skeleton-loader";
 import { Button } from "~/app/_components/button";
 
 type CitationFormat = "MLA" | "APA" | "Chicago";
+type CitationMediaType = "website" | "book" | "journal" | "video" | "podcast" | "newspaper" | "social" | "other";
+
+const MEDIA_TYPES: { value: CitationMediaType; label: string }[] = [
+  { value: "website", label: "Website" },
+  { value: "book", label: "Book" },
+  { value: "journal", label: "Journal" },
+  { value: "video", label: "Video" },
+  { value: "podcast", label: "Podcast" },
+  { value: "newspaper", label: "News Article" },
+  { value: "social", label: "Social Post" },
+  { value: "other", label: "Other" },
+];
 
 type Citation = {
   id: string;
@@ -24,6 +35,7 @@ type Citation = {
 };
 
 type CitationDraft = {
+  mediaType: CitationMediaType;
   author: string;
   title: string;
   publication: string;
@@ -34,6 +46,7 @@ type CitationDraft = {
 };
 
 const DEFAULT_DRAFT: CitationDraft = {
+  mediaType: "website",
   author: "",
   title: "",
   publication: "",
@@ -51,22 +64,23 @@ function formatCitation(c: CitationDraft | Citation): string {
   const url = (c.url ?? "").trim();
   const pages = (c.pages ?? "").trim();
 
-  if (!author || !title) return "";
+  if (!title) return "";
+  const authorPrefix = author ? `${author}. ` : "";
 
   if (c.format === "MLA") {
-    return `${author}. "${title}." ${publication ? `${publication}, ` : ""}${date ? `${date}, ` : ""}${pages ? `pp. ${pages}, ` : ""}${url ? `${url}.` : ""}`
+    return `${authorPrefix}"${title}." ${publication ? `${publication}, ` : ""}${date ? `${date}, ` : ""}${pages ? `pp. ${pages}, ` : ""}${url ? `${url}.` : ""}`
       .replace(/,\s*\./g, ".")
       .replace(/\s{2,}/g, " ")
       .trim();
   }
 
   if (c.format === "APA") {
-    return `${author}. ${date ? `(${date}). ` : ""}${title}. ${publication ? `${publication}. ` : ""}${url ? url : ""}`
+    return `${authorPrefix}${date ? `(${date}). ` : ""}${title}. ${publication ? `${publication}. ` : ""}${url ? url : ""}`
       .replace(/\s{2,}/g, " ")
       .trim();
   }
 
-  return `${author}. "${title}." ${publication ? `${publication}, ` : ""}${date ? `${date}, ` : ""}${pages ? `${pages}, ` : ""}${url ? `${url}.` : ""}`
+  return `${authorPrefix}"${title}." ${publication ? `${publication}, ` : ""}${date ? `${date}, ` : ""}${pages ? `${pages}, ` : ""}${url ? `${url}.` : ""}`
     .replace(/,\s*\./g, ".")
     .replace(/\s{2,}/g, " ")
     .trim();
@@ -80,6 +94,7 @@ export default function CitationsPage() {
   const [citations, setCitations] = useState<Citation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -138,8 +153,8 @@ export default function CitationsPage() {
     setError("");
     setSuccess("");
 
-    if (!draft.author.trim() || !draft.title.trim()) {
-      setError("Author and title are required.");
+    if (!draft.title.trim()) {
+      setError("Title is required.");
       return;
     }
 
@@ -148,7 +163,15 @@ export default function CitationsPage() {
       const response = await fetch("/api/citations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(draft),
+        body: JSON.stringify({
+          author: draft.author,
+          title: draft.title,
+          publication: draft.publication,
+          date: draft.date,
+          url: draft.url,
+          pages: draft.pages,
+          format: draft.format,
+        }),
       });
 
       const data = (await response.json()) as { citation?: Citation; error?: string };
@@ -167,6 +190,65 @@ export default function CitationsPage() {
       setError("Failed to save citation.");
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const importFromUrl = async () => {
+    if (!draft.url.trim()) {
+      setError("Paste a link to import source details.");
+      return;
+    }
+
+    setError("");
+    setSuccess("");
+    setIsImporting(true);
+
+    try {
+      const response = await fetch("/api/citations/metadata", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: draft.url,
+          mediaType: draft.mediaType,
+        }),
+      });
+
+      const data = (await response.json()) as {
+        metadata?: {
+          title?: string;
+          author?: string;
+          publication?: string;
+          date?: string;
+          url?: string;
+        };
+        error?: string;
+      };
+
+      if (!response.ok) {
+        setError(data.error ?? "Failed to import details from this link.");
+        return;
+      }
+
+      const metadata = data.metadata;
+      if (!metadata) {
+        setError("No metadata found for this link.");
+        return;
+      }
+
+      setDraft((prev) => ({
+        ...prev,
+        title: metadata.title?.trim() || prev.title,
+        author: metadata.author?.trim() || prev.author,
+        publication: metadata.publication?.trim() || prev.publication,
+        date: metadata.date?.trim() || prev.date,
+        url: metadata.url?.trim() || prev.url,
+      }));
+      setSuccess("Source details imported. Review and add missing fields.");
+    } catch (importError) {
+      void importError;
+      setError("Failed to import source details from this link.");
+    } finally {
+      setIsImporting(false);
     }
   };
 
@@ -252,6 +334,38 @@ export default function CitationsPage() {
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
             <h2 className="mb-4 text-lg font-semibold text-gray-900">Citation Details</h2>
 
+            <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_auto_auto]">
+              <input
+                value={draft.url}
+                onChange={(event) => setDraft((prev) => ({ ...prev, url: event.target.value }))}
+                placeholder="Paste source link"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+              <select
+                value={draft.mediaType}
+                onChange={(event) =>
+                  setDraft((prev) => ({ ...prev, mediaType: event.target.value as CitationMediaType }))
+                }
+                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:w-44"
+              >
+                {MEDIA_TYPES.map((type) => (
+                  <option key={type.value} value={type.value}>
+                    {type.label}
+                  </option>
+                ))}
+              </select>
+              <Button
+                onClick={() => void importFromUrl()}
+                variant="secondary"
+                size="sm"
+                loading={isImporting}
+                disabled={isImporting}
+                className="sm:self-stretch"
+              >
+                {isImporting ? "Importing..." : "Import Link"}
+              </Button>
+            </div>
+
             <div className="mb-4 flex flex-wrap gap-2">
               {(["MLA", "APA", "Chicago"] as CitationFormat[]).map((format) => (
                 <Button
@@ -259,11 +373,7 @@ export default function CitationsPage() {
                   onClick={() => setDraft((prev) => ({ ...prev, format }))}
                   variant={draft.format === format ? "primary" : "secondary"}
                   size="sm"
-                  className={`px-4 py-2 ${
-                    draft.format === format
-                      ? ""
-                      : ""
-                  }`}
+                  className="px-4 py-2"
                 >
                   {format}
                 </Button>
@@ -274,7 +384,7 @@ export default function CitationsPage() {
               <input
                 value={draft.author}
                 onChange={(event) => setDraft((prev) => ({ ...prev, author: event.target.value }))}
-                placeholder="Author"
+                placeholder="Author (optional)"
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
               <input
@@ -286,19 +396,13 @@ export default function CitationsPage() {
               <input
                 value={draft.publication}
                 onChange={(event) => setDraft((prev) => ({ ...prev, publication: event.target.value }))}
-                placeholder="Publication"
+                placeholder="Publication / Site / Channel"
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
               <input
                 value={draft.date}
                 onChange={(event) => setDraft((prev) => ({ ...prev, date: event.target.value }))}
                 placeholder="Date"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-              <input
-                value={draft.url}
-                onChange={(event) => setDraft((prev) => ({ ...prev, url: event.target.value }))}
-                placeholder="URL"
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
               <input
@@ -335,7 +439,7 @@ export default function CitationsPage() {
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
             <h2 className="mb-4 text-lg font-semibold text-gray-900">Live Preview</h2>
             <div className="min-h-36 whitespace-pre-wrap rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
-              {previewCitation || "Enter author and title to generate a citation."}
+              {previewCitation || "Import a source link or enter a title to generate a citation."}
             </div>
 
             <div className="mt-6 flex gap-2">

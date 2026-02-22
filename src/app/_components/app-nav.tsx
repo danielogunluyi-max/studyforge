@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "~/app/_components/button";
 
@@ -12,6 +12,7 @@ export function AppNav() {
   const isLoading = status === "loading";
   const [showFeaturesDropdown, setShowFeaturesDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const primaryLinks = [
     { href: "/generator", label: "Generator" },
@@ -30,6 +31,28 @@ export function AppNav() {
 
   const isActive = (href: string) => pathname === href || pathname?.startsWith(`${href}/`);
 
+  useEffect(() => {
+    setShowFeaturesDropdown(false);
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const onDocumentClick = (event: MouseEvent) => {
+      if (!dropdownRef.current) return;
+      if (event.target instanceof Node && !dropdownRef.current.contains(event.target)) {
+        setShowFeaturesDropdown(false);
+      }
+    };
+
+    if (showFeaturesDropdown) {
+      document.addEventListener("mousedown", onDocumentClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", onDocumentClick);
+    };
+  }, [showFeaturesDropdown]);
+
   return (
     <nav className="sticky top-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
@@ -43,13 +66,13 @@ export function AppNav() {
         </Link>
         
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden items-center gap-3 lg:flex">
           {primaryLinks.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={`rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                isActive(item.href) ? "bg-blue-50 text-blue-700" : "text-gray-600"
+                isActive(item.href) ? "bg-blue-50 text-blue-700 shadow-sm" : "text-gray-700"
               }`}
             >
               {item.label}
@@ -57,54 +80,44 @@ export function AppNav() {
           ))}
 
           {/* Features Dropdown */}
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
             <button 
               onClick={() => setShowFeaturesDropdown(!showFeaturesDropdown)}
-              className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`flex items-center gap-1 rounded-lg border px-3 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                showFeaturesDropdown
+                  ? "border-blue-300 bg-blue-50 text-blue-700"
+                  : "border-transparent text-gray-700 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-900"
+              }`}
+              aria-expanded={showFeaturesDropdown}
+              aria-haspopup="menu"
             >
               Features
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                className={`h-4 w-4 transition-transform ${showFeaturesDropdown ? "rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
             
             {showFeaturesDropdown && (
-              <div className="absolute right-0 top-full mt-2 w-56 rounded-lg border border-gray-200 bg-white shadow-lg z-50">
-                <Link
-                  href="/exam-predictor"
-                  className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-                  onClick={() => setShowFeaturesDropdown(false)}
-                >
-                  AI Exam Predictor
-                </Link>
-                <Link
-                  href="/battle"
-                  className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-                  onClick={() => setShowFeaturesDropdown(false)}
-                >
-                  Study Battle Arena
-                </Link>
-                <Link
-                  href="/learning-style-quiz"
-                  className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-                  onClick={() => setShowFeaturesDropdown(false)}
-                >
-                  Learning Style Quiz
-                </Link>
-                <Link
-                  href="/study-groups"
-                  className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-                  onClick={() => setShowFeaturesDropdown(false)}
-                >
-                  AI Study Groups
-                </Link>
-                <Link
-                  href="/concept-web"
-                  className="block px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50 rounded-b-lg"
-                  onClick={() => setShowFeaturesDropdown(false)}
-                >
-                  Concept Web Builder
-                </Link>
+              <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
+                {featureLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`block rounded-lg px-3 py-2 text-sm font-medium transition ${
+                      isActive(item.href)
+                        ? "bg-blue-50 text-blue-700"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                    onClick={() => setShowFeaturesDropdown(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </div>
             )}
           </div>
@@ -115,7 +128,7 @@ export function AppNav() {
             <>
               <Link
                 href="/settings"
-                className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+                className="rounded-lg p-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
                 title="Settings"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -125,7 +138,7 @@ export function AppNav() {
               </Link>
               <button
                 onClick={() => void signOut({ callbackUrl: "/" })}
-                className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
               >
                 Sign Out
               </button>
@@ -134,7 +147,7 @@ export function AppNav() {
             <>
               <Link
                 href="/login"
-                className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
               >
                 Log In
               </Link>

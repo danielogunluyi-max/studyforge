@@ -31,7 +31,6 @@ export async function GET() {
           autoSaveNotes: true,
           emailNotifications: true,
           studyStreak: true,
-          createdAt: true,
         },
       }),
       db.note.findMany({
@@ -88,7 +87,9 @@ export async function GET() {
       db.studyGroup.findMany({
         where: {
           members: {
-            has: session.user.id,
+            some: {
+              userId: session.user.id,
+            },
           },
         },
         select: {
@@ -103,7 +104,7 @@ export async function GET() {
         select: {
           concept1: true,
           concept2: true,
-          connection: true,
+          connectionDescription: true,
           strength: true,
         },
       }),
