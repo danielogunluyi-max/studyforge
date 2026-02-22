@@ -167,17 +167,19 @@ export default function LearningStyleQuizPage() {
               <p className="mb-3 text-sm font-semibold text-gray-900">{index + 1}. {question.prompt}</p>
               <div className="grid gap-2 sm:grid-cols-2">
                 {question.options.map((option) => (
-                  <button
+                  <Button
                     key={`${question.prompt}-${option.label}`}
                     onClick={() => setAnswers((prev) => ({ ...prev, [index]: option.style }))}
-                    className={`rounded-lg border px-3 py-2 text-left text-sm transition ${
+                    variant="secondary"
+                    size="sm"
+                    className={`justify-start px-3 py-2 text-left text-sm ${
                       answers[index] === option.style
                         ? "border-blue-500 bg-blue-50 text-blue-800"
                         : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
                     }`}
                   >
                     {option.label}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>

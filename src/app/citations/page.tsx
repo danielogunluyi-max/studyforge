@@ -257,17 +257,19 @@ export default function CitationsPage() {
 
             <div className="mb-4 flex flex-wrap gap-2">
               {(["MLA", "APA", "Chicago"] as CitationFormat[]).map((format) => (
-                <button
+                <Button
                   key={format}
                   onClick={() => setDraft((prev) => ({ ...prev, format }))}
-                  className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                  variant={draft.format === format ? "primary" : "secondary"}
+                  size="sm"
+                  className={`px-4 py-2 ${
                     draft.format === format
-                      ? "bg-blue-600 text-white"
-                      : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                      ? ""
+                      : ""
                   }`}
                 >
                   {format}
-                </button>
+                </Button>
               ))}
             </div>
 

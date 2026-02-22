@@ -363,7 +363,7 @@ export default function MyNotes() {
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <span className="text-sm text-gray-500">{resultLabel}</span>
             {(activeTag || activeFormat || activePeriod || debouncedSearch) && (
-              <button
+              <Button
                 onClick={() => {
                   setActiveTag("");
                   setActiveFormat("");
@@ -371,10 +371,12 @@ export default function MyNotes() {
                   setSearchInput("");
                   setDebouncedSearch("");
                 }}
-                className="rounded-full border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-50"
+                variant="secondary"
+                size="sm"
+                className="rounded-full px-3 py-1 text-xs"
               >
                 Clear filters
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -382,14 +384,17 @@ export default function MyNotes() {
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
           <aside className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
             <h2 className="mb-3 text-sm font-semibold text-gray-900">Tags</h2>
-            <button
+            <Button
               onClick={() => setActiveTag("")}
-              className={`mb-2 w-full rounded-lg px-3 py-2 text-left text-sm font-medium transition ${
+              variant={!activeTag ? "primary" : "secondary"}
+              fullWidth
+              size="sm"
+              className={`mb-2 justify-start px-3 py-2 text-left text-sm font-medium ${
                 !activeTag ? "bg-blue-600 text-white" : "border border-gray-200 text-gray-700 hover:bg-gray-50"
               }`}
             >
               All Notes
-            </button>
+            </Button>
 
             {isTagLoading ? (
               <p className="text-xs text-gray-500">Loading tags...</p>
@@ -398,10 +403,13 @@ export default function MyNotes() {
             ) : (
               <div className="space-y-2">
                 {tagStats.map((tag) => (
-                  <button
+                  <Button
                     key={tag.name}
                     onClick={() => setActiveTag(tag.name)}
-                    className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-sm transition ${
+                    variant="secondary"
+                    fullWidth
+                    size="sm"
+                    className={`flex justify-between px-3 py-2 text-sm ${
                       activeTag === tag.name
                         ? "border-blue-200 bg-blue-50 text-blue-700"
                         : "border-gray-200 text-gray-700 hover:bg-gray-50"
@@ -409,7 +417,7 @@ export default function MyNotes() {
                   >
                     <span className="truncate">{tag.name}</span>
                     <span className="text-xs text-gray-500">{tag.count}</span>
-                  </button>
+                  </Button>
                 ))}
               </div>
             )}
@@ -449,9 +457,11 @@ export default function MyNotes() {
                       <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getFormatBadgeColor(note.format)}`}>
                         {getFormatLabel(note.format)}
                       </span>
-                      <button
+                      <Button
                         onClick={() => void deleteNote(note.id)}
-                        className="text-gray-400 opacity-0 transition hover:text-red-600 group-hover:opacity-100"
+                        variant="ghost"
+                        size="sm"
+                        className="p-2 text-gray-400 opacity-0 transition hover:text-red-600 group-hover:opacity-100"
                         title="Delete note"
                         aria-label="Delete note"
                       >
@@ -463,7 +473,7 @@ export default function MyNotes() {
                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                           />
                         </svg>
-                      </button>
+                      </Button>
                     </div>
 
                     <h3 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-900">
@@ -477,13 +487,15 @@ export default function MyNotes() {
                     {note.tags.length > 0 && (
                       <div className="mb-3 flex flex-wrap gap-2">
                         {note.tags.map((tag) => (
-                          <button
+                          <Button
                             key={`${note.id}-${tag}`}
                             onClick={() => setActiveTag(tag)}
-                            className={`rounded-full px-2 py-1 text-xs font-semibold ${getTagColor(tag)}`}
+                            variant="secondary"
+                            size="sm"
+                            className={`rounded-full px-2 py-1 text-xs ${getTagColor(tag)}`}
                           >
                             <HighlightText text={tag} query={debouncedSearch} />
-                          </button>
+                          </Button>
                         ))}
                       </div>
                     )}
@@ -491,19 +503,23 @@ export default function MyNotes() {
                     <p className="text-xs text-gray-500">{formatDate(note.createdAt)}</p>
 
                     <div className="mt-4 grid grid-cols-2 gap-2">
-                      <button
+                      <Button
                         onClick={() => setSelectedNote(note)}
-                        className="rounded-lg border border-gray-300 bg-white py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                        variant="secondary"
+                        size="sm"
+                        className="py-2"
                       >
                         View
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => void exportNotePdf(note.id)}
                         disabled={exportingNoteId === note.id}
-                        className="rounded-lg bg-blue-600 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+                        loading={exportingNoteId === note.id}
+                        size="sm"
+                        className="py-2"
                       >
                         {exportingNoteId === note.id ? "Exporting..." : "Export PDF"}
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 ))}
@@ -543,15 +559,17 @@ export default function MyNotes() {
                 )}
               </div>
 
-              <button
+              <Button
                 onClick={() => setSelectedNote(null)}
-                className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
+                variant="ghost"
+                size="sm"
+                className="p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
                 aria-label="Close modal"
               >
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
-              </button>
+              </Button>
             </div>
 
             <div className="prose max-w-none whitespace-pre-wrap rounded-lg border border-gray-200 bg-gray-50 p-6 text-gray-700">
@@ -616,7 +634,7 @@ export default function MyNotes() {
                     className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
                   />
                 </div>
-                <button
+                <Button
                   onClick={() =>
                     void updateTags({
                       action: "rename",
@@ -624,10 +642,11 @@ export default function MyNotes() {
                       newTag: renameNewTag,
                     })
                   }
-                  className="mt-2 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white"
+                  size="sm"
+                  className="mt-2 px-3 py-2 text-xs"
                 >
                   Rename
-                </button>
+                </Button>
               </div>
 
               <div className="rounded-lg border border-gray-200 p-4">
@@ -638,12 +657,14 @@ export default function MyNotes() {
                   placeholder="Tag to delete"
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
                 />
-                <button
+                <Button
                   onClick={() => void updateTags({ action: "delete", tag: deleteTagName })}
-                  className="mt-2 rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white"
+                  variant="danger"
+                  size="sm"
+                  className="mt-2 px-3 py-2 text-xs"
                 >
                   Delete
-                </button>
+                </Button>
               </div>
 
               <div className="rounded-lg border border-gray-200 p-4">
@@ -662,7 +683,7 @@ export default function MyNotes() {
                     className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
                   />
                 </div>
-                <button
+                <Button
                   onClick={() =>
                     void updateTags({
                       action: "merge",
@@ -670,10 +691,11 @@ export default function MyNotes() {
                       targetTag: mergeTargetTag,
                     })
                   }
-                  className="mt-2 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white"
+                  size="sm"
+                  className="mt-2 px-3 py-2 text-xs"
                 >
                   Merge
-                </button>
+                </Button>
               </div>
             </div>
 

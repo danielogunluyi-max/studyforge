@@ -536,7 +536,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           />
           <div className="mt-3 flex flex-wrap gap-2">
             {TAG_SUGGESTIONS.map((tag) => (
-              <button
+              <Button
                 key={tag}
                 type="button"
                 onClick={() => {
@@ -544,10 +544,12 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
                   if (existing.includes(tag)) return;
                   setTagsInput(existing.length ? `${existing.join(", ")}, ${tag}` : tag);
                 }}
-                className="rounded-full border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-50"
+                variant="secondary"
+                size="sm"
+                className="rounded-full px-3 py-1 text-xs"
               >
                 {tag}
-              </button>
+              </Button>
             ))}
           </div>
         </div>

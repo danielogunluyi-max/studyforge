@@ -267,10 +267,12 @@ export default function SettingsPage() {
               <label className="mb-2 block text-sm font-semibold text-gray-900">Accent Color</label>
               <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
                 {(Object.entries(ACCENT_COLORS) as [AccentColor, typeof ACCENT_COLORS[AccentColor]][]).map(([color, { bg, label }]) => (
-                  <button
+                  <Button
                     key={color}
                     onClick={() => updateSetting("accentColor", color)}
-                    className={`flex flex-col items-center gap-2 rounded-lg border-2 p-3 transition ${
+                    variant="secondary"
+                    size="sm"
+                    className={`flex h-auto flex-col items-center gap-2 border-2 p-3 ${
                       settings.accentColor === color
                         ? "border-gray-900 bg-gray-50"
                         : "border-gray-200 hover:border-gray-300"
@@ -278,7 +280,7 @@ export default function SettingsPage() {
                   >
                     <div className={`h-8 w-8 rounded-full ${bg}`} />
                     <span className="text-xs font-medium text-gray-700">{label}</span>
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>

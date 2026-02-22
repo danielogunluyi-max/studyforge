@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "~/app/_components/button";
 
 interface EmptyStateProps {
   icon: string;
@@ -34,30 +35,25 @@ export function EmptyState({
           {actionLabel && (
             <>
               {actionHref ? (
-                <Link
-                  href={actionHref}
-                  className="w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 sm:w-auto"
-                >
+                <Button href={actionHref} size="md" className="w-full sm:w-auto">
                   {actionLabel}
-                </Link>
+                </Button>
               ) : actionOnClick ? (
-                <button
+                <Button
                   onClick={actionOnClick}
-                  className="w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 sm:w-auto"
+                  size="md"
+                  className="w-full sm:w-auto"
                 >
                   {actionLabel}
-                </button>
+                </Button>
               ) : null}
             </>
           )}
           
           {secondaryActionLabel && secondaryActionHref && (
-            <Link
-              href={secondaryActionHref}
-              className="w-full rounded-lg border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition hover:bg-gray-50 sm:w-auto"
-            >
+            <Button href={secondaryActionHref} variant="secondary" size="md" className="w-full sm:w-auto">
               {secondaryActionLabel}
-            </Link>
+            </Button>
           )}
         </div>
       )}

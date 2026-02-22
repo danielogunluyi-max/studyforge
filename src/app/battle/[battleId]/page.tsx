@@ -151,17 +151,20 @@ export default function BattleRoomPage() {
 
             <div className="mt-4 space-y-2">
               {(currentQuestion.options ?? []).map((option) => (
-                <button
+                <Button
                   key={option}
                   onClick={() => setSelectedAnswer(option)}
-                  className={`w-full rounded-lg border px-4 py-2 text-left text-sm transition ${
+                  variant="secondary"
+                  fullWidth
+                  size="sm"
+                  className={`justify-start px-4 py-2 text-left text-sm ${
                     selectedAnswer === option
                       ? "border-blue-500 bg-blue-50 text-blue-800"
                       : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
                   }`}
                 >
                   {option}
-                </button>
+                </Button>
               ))}
             </div>
 

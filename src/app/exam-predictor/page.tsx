@@ -308,18 +308,22 @@ export default function ExamPredictorPage() {
 
                   {practiceMode && (
                     <div className="mt-2 flex gap-2">
-                      <button
+                      <Button
                         onClick={() => setAccuracy((prev) => ({ ...prev, [index]: "correct" }))}
-                        className={`rounded px-2 py-1 text-xs font-semibold ${accuracy[index] === "correct" ? "bg-green-600 text-white" : "bg-green-100 text-green-700"}`}
+                        variant={accuracy[index] === "correct" ? "primary" : "secondary"}
+                        size="sm"
+                        className={accuracy[index] === "correct" ? "bg-green-600 hover:bg-green-700" : "border-green-300 bg-green-100 text-green-700 hover:bg-green-200"}
                       >
                         Got it Right
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => setAccuracy((prev) => ({ ...prev, [index]: "wrong" }))}
-                        className={`rounded px-2 py-1 text-xs font-semibold ${accuracy[index] === "wrong" ? "bg-red-600 text-white" : "bg-red-100 text-red-700"}`}
+                        variant={accuracy[index] === "wrong" ? "danger" : "secondary"}
+                        size="sm"
+                        className={accuracy[index] === "wrong" ? "" : "border-red-300 bg-red-100 text-red-700 hover:bg-red-200"}
                       >
                         Missed It
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </div>
