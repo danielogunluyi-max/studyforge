@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { useState } from "react";
 
 export function AppNav() {
   const { data: session, status } = useSession();
   const isLoading = status === "loading";
+  const [showFeaturesDropdown, setShowFeaturesDropdown] = useState(false);
 
   return (
     <nav className="border-b border-gray-200 bg-white">
@@ -43,6 +45,55 @@ export function AppNav() {
           >
             Citations
           </Link>
+
+          {/* Features Dropdown */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setShowFeaturesDropdown(true)}
+            onMouseLeave={() => setShowFeaturesDropdown(false)}
+          >
+            <button className="text-sm font-medium text-gray-600 transition hover:text-gray-900 flex items-center gap-1">
+              Features
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            
+            {showFeaturesDropdown && (
+              <div className="absolute right-0 top-full mt-2 w-56 rounded-lg border border-gray-200 bg-white shadow-lg z-50">
+                <Link
+                  href="/exam-predictor"
+                  className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                >
+                  🎯 AI Exam Predictor
+                </Link>
+                <Link
+                  href="/battle"
+                  className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                >
+                  ⚔️ Study Battle Arena
+                </Link>
+                <Link
+                  href="/learning-style-quiz"
+                  className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                >
+                  🎨 Learning Style Quiz
+                </Link>
+                <Link
+                  href="/study-groups"
+                  className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                >
+                  👥 AI Study Groups
+                </Link>
+                <Link
+                  href="/concept-web"
+                  className="block px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50 rounded-b-lg"
+                >
+                  🕸️ Concept Web Builder
+                </Link>
+              </div>
+            )}
+          </div>
           
           {isLoading ? (
             <div className="h-8 w-20 animate-pulse rounded bg-gray-200" />

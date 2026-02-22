@@ -57,11 +57,22 @@ model User {
     emailVerified DateTime?
     image         String?
     password      String?
+    learningStyle String?   @default("reading")
+    autoAdapt     Boolean   @default(false)
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
     notes         Note[]
     citations     Citation[]
+    examPredictions ExamPrediction[]
+    hostedBattles Battle[] @relation("BattleHost")
+    joinedBattles Battle[] @relation("BattleOpponent")
+    battleParticipants BattleParticipant[]
+    battleResults BattleResult[]
+    createdStudyGroups StudyGroup[] @relation("StudyGroupCreator")
+    studyGroupMemberships StudyGroupMember[]
+    groupMessages GroupMessage[]
+    conceptConnections ConceptConnection[]
 }
 
 model VerificationToken {
@@ -98,6 +109,174 @@ model Citation {
     pages       String?
     format      String
     createdAt   DateTime @default(now())
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model ExamPrediction {
+    id              String   @id @default(cuid())
+    examType        String
+    uploadedContent String   @db.Text
+    syllabusContent String?  @db.Text
+    predictions     Json
+    analytics       Json?
+    createdAt       DateTime @default(now())
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model Battle {
+    id             String   @id @default(cuid())
+    code           String   @unique
+    noteId         String?
+    title          String?
+    status         String   @default("waiting")
+    questionCount  Int      @default(10)
+    questions      Json
+    hostScore      Int      @default(0)
+    opponentScore  Int      @default(0)
+    hostAnsweredAt DateTime?
+    opponentAnsweredAt DateTime?
+    startedAt      DateTime?
+    completedAt    DateTime?
+    createdAt      DateTime @default(now())
+
+    hostId     String
+    opponentId String?
+
+    host     User  @relation("BattleHost", fields: [hostId], references: [id], onDelete: Cascade)
+    opponent User? @relation("BattleOpponent", fields: [opponentId], references: [id], onDelete: SetNull)
+
+    battleQuestions BattleQuestion[]
+    participants BattleParticipant[]
+    result       BattleResult?
+
+    @@index([hostId])
+    @@index([opponentId])
+    @@index([status])
+    @@index([createdAt])
+}
+
+model BattleQuestion {
+    id            String  @id @default(cuid())
+    battleId      String
+    question      String  @db.Text
+    options       Json?
+    correctAnswer String
+    points        Int     @default(10)
+    orderIndex    Int
+
+    battle Battle @relation(fields: [battleId], references: [id], onDelete: Cascade)
+
+    @@index([battleId])
+}
+
+model BattleParticipant {
+    id             String   @id @default(cuid())
+    battleId       String
+    userId         String
+    answers        Json?
+    score          Int      @default(0)
+    correctCount   Int      @default(0)
+    totalAnswered  Int      @default(0)
+    joinedAt       DateTime @default(now())
+
+    battle Battle @relation(fields: [battleId], references: [id], onDelete: Cascade)
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([battleId, userId])
+    @@index([userId])
+}
+
+model BattleResult {
+    id        String   @id @default(cuid())
+    battleId  String   @unique
+    winnerId  String?
+    scores    Json
+    duration  Int
+    createdAt DateTime @default(now())
+
+    battle  Battle @relation(fields: [battleId], references: [id], onDelete: Cascade)
+    winner  User?  @relation(fields: [winnerId], references: [id], onDelete: SetNull)
+
+    @@index([winnerId])
+}
+
+model StudyGroup {
+    id        String   @id @default(cuid())
+    name      String
+    topic     String?
+    inviteCode String  @unique
+    createdAt DateTime @default(now())
+
+    creatorId String
+    creator   User   @relation("StudyGroupCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+
+    members  StudyGroupMember[]
+    messages GroupMessage[]
+    sessions GroupSession[]
+
+    @@index([creatorId])
+}
+
+model StudyGroupMember {
+    id        String   @id @default(cuid())
+    groupId   String
+    userId    String
+    joinedAt  DateTime @default(now())
+
+    group StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([groupId, userId])
+    @@index([userId])
+}
+
+model GroupMessage {
+    id        String   @id @default(cuid())
+    groupId   String
+    userId    String?
+    message   String   @db.Text
+    isAI      Boolean  @default(false)
+    timestamp DateTime @default(now())
+
+    group StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    user  User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+    @@index([groupId])
+    @@index([timestamp])
+}
+
+model GroupSession {
+    id        String   @id @default(cuid())
+    groupId   String
+    summary   String   @db.Text
+    duration  Int
+    topics    Json?
+    createdAt DateTime @default(now())
+
+    group StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+    @@index([groupId])
+}
+
+model ConceptConnection {
+    id                    String   @id @default(cuid())
+    note1Id               String
+    note2Id               String
+    concept1              String
+    concept2              String
+    connectionDescription String   @db.Text
+    strength              String
+    createdAt             DateTime @default(now())
 
     userId String
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)

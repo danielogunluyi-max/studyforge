@@ -48,6 +48,56 @@ export type Note = $Result.DefaultSelection<Prisma.$NotePayload>
  * 
  */
 export type Citation = $Result.DefaultSelection<Prisma.$CitationPayload>
+/**
+ * Model ExamPrediction
+ * 
+ */
+export type ExamPrediction = $Result.DefaultSelection<Prisma.$ExamPredictionPayload>
+/**
+ * Model Battle
+ * 
+ */
+export type Battle = $Result.DefaultSelection<Prisma.$BattlePayload>
+/**
+ * Model BattleQuestion
+ * 
+ */
+export type BattleQuestion = $Result.DefaultSelection<Prisma.$BattleQuestionPayload>
+/**
+ * Model BattleParticipant
+ * 
+ */
+export type BattleParticipant = $Result.DefaultSelection<Prisma.$BattleParticipantPayload>
+/**
+ * Model BattleResult
+ * 
+ */
+export type BattleResult = $Result.DefaultSelection<Prisma.$BattleResultPayload>
+/**
+ * Model StudyGroup
+ * 
+ */
+export type StudyGroup = $Result.DefaultSelection<Prisma.$StudyGroupPayload>
+/**
+ * Model StudyGroupMember
+ * 
+ */
+export type StudyGroupMember = $Result.DefaultSelection<Prisma.$StudyGroupMemberPayload>
+/**
+ * Model GroupMessage
+ * 
+ */
+export type GroupMessage = $Result.DefaultSelection<Prisma.$GroupMessagePayload>
+/**
+ * Model GroupSession
+ * 
+ */
+export type GroupSession = $Result.DefaultSelection<Prisma.$GroupSessionPayload>
+/**
+ * Model ConceptConnection
+ * 
+ */
+export type ConceptConnection = $Result.DefaultSelection<Prisma.$ConceptConnectionPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -236,6 +286,106 @@ export class PrismaClient<
     * ```
     */
   get citation(): Prisma.CitationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.examPrediction`: Exposes CRUD operations for the **ExamPrediction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExamPredictions
+    * const examPredictions = await prisma.examPrediction.findMany()
+    * ```
+    */
+  get examPrediction(): Prisma.ExamPredictionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.battle`: Exposes CRUD operations for the **Battle** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Battles
+    * const battles = await prisma.battle.findMany()
+    * ```
+    */
+  get battle(): Prisma.BattleDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.battleQuestion`: Exposes CRUD operations for the **BattleQuestion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BattleQuestions
+    * const battleQuestions = await prisma.battleQuestion.findMany()
+    * ```
+    */
+  get battleQuestion(): Prisma.BattleQuestionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.battleParticipant`: Exposes CRUD operations for the **BattleParticipant** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BattleParticipants
+    * const battleParticipants = await prisma.battleParticipant.findMany()
+    * ```
+    */
+  get battleParticipant(): Prisma.BattleParticipantDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.battleResult`: Exposes CRUD operations for the **BattleResult** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BattleResults
+    * const battleResults = await prisma.battleResult.findMany()
+    * ```
+    */
+  get battleResult(): Prisma.BattleResultDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.studyGroup`: Exposes CRUD operations for the **StudyGroup** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StudyGroups
+    * const studyGroups = await prisma.studyGroup.findMany()
+    * ```
+    */
+  get studyGroup(): Prisma.StudyGroupDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.studyGroupMember`: Exposes CRUD operations for the **StudyGroupMember** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StudyGroupMembers
+    * const studyGroupMembers = await prisma.studyGroupMember.findMany()
+    * ```
+    */
+  get studyGroupMember(): Prisma.StudyGroupMemberDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.groupMessage`: Exposes CRUD operations for the **GroupMessage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GroupMessages
+    * const groupMessages = await prisma.groupMessage.findMany()
+    * ```
+    */
+  get groupMessage(): Prisma.GroupMessageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.groupSession`: Exposes CRUD operations for the **GroupSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GroupSessions
+    * const groupSessions = await prisma.groupSession.findMany()
+    * ```
+    */
+  get groupSession(): Prisma.GroupSessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.conceptConnection`: Exposes CRUD operations for the **ConceptConnection** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ConceptConnections
+    * const conceptConnections = await prisma.conceptConnection.findMany()
+    * ```
+    */
+  get conceptConnection(): Prisma.ConceptConnectionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -683,7 +833,17 @@ export namespace Prisma {
     User: 'User',
     VerificationToken: 'VerificationToken',
     Note: 'Note',
-    Citation: 'Citation'
+    Citation: 'Citation',
+    ExamPrediction: 'ExamPrediction',
+    Battle: 'Battle',
+    BattleQuestion: 'BattleQuestion',
+    BattleParticipant: 'BattleParticipant',
+    BattleResult: 'BattleResult',
+    StudyGroup: 'StudyGroup',
+    StudyGroupMember: 'StudyGroupMember',
+    GroupMessage: 'GroupMessage',
+    GroupSession: 'GroupSession',
+    ConceptConnection: 'ConceptConnection'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -702,7 +862,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "citation"
+      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "conceptConnection"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1224,6 +1384,746 @@ export namespace Prisma {
           }
         }
       }
+      ExamPrediction: {
+        payload: Prisma.$ExamPredictionPayload<ExtArgs>
+        fields: Prisma.ExamPredictionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ExamPredictionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPredictionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ExamPredictionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPredictionPayload>
+          }
+          findFirst: {
+            args: Prisma.ExamPredictionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPredictionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ExamPredictionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPredictionPayload>
+          }
+          findMany: {
+            args: Prisma.ExamPredictionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPredictionPayload>[]
+          }
+          create: {
+            args: Prisma.ExamPredictionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPredictionPayload>
+          }
+          createMany: {
+            args: Prisma.ExamPredictionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ExamPredictionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPredictionPayload>[]
+          }
+          delete: {
+            args: Prisma.ExamPredictionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPredictionPayload>
+          }
+          update: {
+            args: Prisma.ExamPredictionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPredictionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ExamPredictionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ExamPredictionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ExamPredictionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPredictionPayload>[]
+          }
+          upsert: {
+            args: Prisma.ExamPredictionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPredictionPayload>
+          }
+          aggregate: {
+            args: Prisma.ExamPredictionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateExamPrediction>
+          }
+          groupBy: {
+            args: Prisma.ExamPredictionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ExamPredictionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ExamPredictionCountArgs<ExtArgs>
+            result: $Utils.Optional<ExamPredictionCountAggregateOutputType> | number
+          }
+        }
+      }
+      Battle: {
+        payload: Prisma.$BattlePayload<ExtArgs>
+        fields: Prisma.BattleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BattleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattlePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BattleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattlePayload>
+          }
+          findFirst: {
+            args: Prisma.BattleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattlePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BattleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattlePayload>
+          }
+          findMany: {
+            args: Prisma.BattleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattlePayload>[]
+          }
+          create: {
+            args: Prisma.BattleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattlePayload>
+          }
+          createMany: {
+            args: Prisma.BattleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BattleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattlePayload>[]
+          }
+          delete: {
+            args: Prisma.BattleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattlePayload>
+          }
+          update: {
+            args: Prisma.BattleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattlePayload>
+          }
+          deleteMany: {
+            args: Prisma.BattleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BattleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BattleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattlePayload>[]
+          }
+          upsert: {
+            args: Prisma.BattleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattlePayload>
+          }
+          aggregate: {
+            args: Prisma.BattleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBattle>
+          }
+          groupBy: {
+            args: Prisma.BattleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BattleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BattleCountArgs<ExtArgs>
+            result: $Utils.Optional<BattleCountAggregateOutputType> | number
+          }
+        }
+      }
+      BattleQuestion: {
+        payload: Prisma.$BattleQuestionPayload<ExtArgs>
+        fields: Prisma.BattleQuestionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BattleQuestionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleQuestionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BattleQuestionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleQuestionPayload>
+          }
+          findFirst: {
+            args: Prisma.BattleQuestionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleQuestionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BattleQuestionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleQuestionPayload>
+          }
+          findMany: {
+            args: Prisma.BattleQuestionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleQuestionPayload>[]
+          }
+          create: {
+            args: Prisma.BattleQuestionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleQuestionPayload>
+          }
+          createMany: {
+            args: Prisma.BattleQuestionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BattleQuestionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleQuestionPayload>[]
+          }
+          delete: {
+            args: Prisma.BattleQuestionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleQuestionPayload>
+          }
+          update: {
+            args: Prisma.BattleQuestionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleQuestionPayload>
+          }
+          deleteMany: {
+            args: Prisma.BattleQuestionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BattleQuestionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BattleQuestionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleQuestionPayload>[]
+          }
+          upsert: {
+            args: Prisma.BattleQuestionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleQuestionPayload>
+          }
+          aggregate: {
+            args: Prisma.BattleQuestionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBattleQuestion>
+          }
+          groupBy: {
+            args: Prisma.BattleQuestionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BattleQuestionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BattleQuestionCountArgs<ExtArgs>
+            result: $Utils.Optional<BattleQuestionCountAggregateOutputType> | number
+          }
+        }
+      }
+      BattleParticipant: {
+        payload: Prisma.$BattleParticipantPayload<ExtArgs>
+        fields: Prisma.BattleParticipantFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BattleParticipantFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleParticipantPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BattleParticipantFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleParticipantPayload>
+          }
+          findFirst: {
+            args: Prisma.BattleParticipantFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleParticipantPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BattleParticipantFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleParticipantPayload>
+          }
+          findMany: {
+            args: Prisma.BattleParticipantFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleParticipantPayload>[]
+          }
+          create: {
+            args: Prisma.BattleParticipantCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleParticipantPayload>
+          }
+          createMany: {
+            args: Prisma.BattleParticipantCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BattleParticipantCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleParticipantPayload>[]
+          }
+          delete: {
+            args: Prisma.BattleParticipantDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleParticipantPayload>
+          }
+          update: {
+            args: Prisma.BattleParticipantUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleParticipantPayload>
+          }
+          deleteMany: {
+            args: Prisma.BattleParticipantDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BattleParticipantUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BattleParticipantUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleParticipantPayload>[]
+          }
+          upsert: {
+            args: Prisma.BattleParticipantUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleParticipantPayload>
+          }
+          aggregate: {
+            args: Prisma.BattleParticipantAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBattleParticipant>
+          }
+          groupBy: {
+            args: Prisma.BattleParticipantGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BattleParticipantGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BattleParticipantCountArgs<ExtArgs>
+            result: $Utils.Optional<BattleParticipantCountAggregateOutputType> | number
+          }
+        }
+      }
+      BattleResult: {
+        payload: Prisma.$BattleResultPayload<ExtArgs>
+        fields: Prisma.BattleResultFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BattleResultFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleResultPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BattleResultFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleResultPayload>
+          }
+          findFirst: {
+            args: Prisma.BattleResultFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleResultPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BattleResultFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleResultPayload>
+          }
+          findMany: {
+            args: Prisma.BattleResultFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleResultPayload>[]
+          }
+          create: {
+            args: Prisma.BattleResultCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleResultPayload>
+          }
+          createMany: {
+            args: Prisma.BattleResultCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BattleResultCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleResultPayload>[]
+          }
+          delete: {
+            args: Prisma.BattleResultDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleResultPayload>
+          }
+          update: {
+            args: Prisma.BattleResultUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleResultPayload>
+          }
+          deleteMany: {
+            args: Prisma.BattleResultDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BattleResultUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BattleResultUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleResultPayload>[]
+          }
+          upsert: {
+            args: Prisma.BattleResultUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BattleResultPayload>
+          }
+          aggregate: {
+            args: Prisma.BattleResultAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBattleResult>
+          }
+          groupBy: {
+            args: Prisma.BattleResultGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BattleResultGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BattleResultCountArgs<ExtArgs>
+            result: $Utils.Optional<BattleResultCountAggregateOutputType> | number
+          }
+        }
+      }
+      StudyGroup: {
+        payload: Prisma.$StudyGroupPayload<ExtArgs>
+        fields: Prisma.StudyGroupFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StudyGroupFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StudyGroupFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupPayload>
+          }
+          findFirst: {
+            args: Prisma.StudyGroupFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StudyGroupFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupPayload>
+          }
+          findMany: {
+            args: Prisma.StudyGroupFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupPayload>[]
+          }
+          create: {
+            args: Prisma.StudyGroupCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupPayload>
+          }
+          createMany: {
+            args: Prisma.StudyGroupCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StudyGroupCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupPayload>[]
+          }
+          delete: {
+            args: Prisma.StudyGroupDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupPayload>
+          }
+          update: {
+            args: Prisma.StudyGroupUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupPayload>
+          }
+          deleteMany: {
+            args: Prisma.StudyGroupDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StudyGroupUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StudyGroupUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupPayload>[]
+          }
+          upsert: {
+            args: Prisma.StudyGroupUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupPayload>
+          }
+          aggregate: {
+            args: Prisma.StudyGroupAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStudyGroup>
+          }
+          groupBy: {
+            args: Prisma.StudyGroupGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StudyGroupGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StudyGroupCountArgs<ExtArgs>
+            result: $Utils.Optional<StudyGroupCountAggregateOutputType> | number
+          }
+        }
+      }
+      StudyGroupMember: {
+        payload: Prisma.$StudyGroupMemberPayload<ExtArgs>
+        fields: Prisma.StudyGroupMemberFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StudyGroupMemberFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupMemberPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StudyGroupMemberFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupMemberPayload>
+          }
+          findFirst: {
+            args: Prisma.StudyGroupMemberFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupMemberPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StudyGroupMemberFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupMemberPayload>
+          }
+          findMany: {
+            args: Prisma.StudyGroupMemberFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupMemberPayload>[]
+          }
+          create: {
+            args: Prisma.StudyGroupMemberCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupMemberPayload>
+          }
+          createMany: {
+            args: Prisma.StudyGroupMemberCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StudyGroupMemberCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupMemberPayload>[]
+          }
+          delete: {
+            args: Prisma.StudyGroupMemberDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupMemberPayload>
+          }
+          update: {
+            args: Prisma.StudyGroupMemberUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupMemberPayload>
+          }
+          deleteMany: {
+            args: Prisma.StudyGroupMemberDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StudyGroupMemberUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StudyGroupMemberUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupMemberPayload>[]
+          }
+          upsert: {
+            args: Prisma.StudyGroupMemberUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGroupMemberPayload>
+          }
+          aggregate: {
+            args: Prisma.StudyGroupMemberAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStudyGroupMember>
+          }
+          groupBy: {
+            args: Prisma.StudyGroupMemberGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StudyGroupMemberGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StudyGroupMemberCountArgs<ExtArgs>
+            result: $Utils.Optional<StudyGroupMemberCountAggregateOutputType> | number
+          }
+        }
+      }
+      GroupMessage: {
+        payload: Prisma.$GroupMessagePayload<ExtArgs>
+        fields: Prisma.GroupMessageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GroupMessageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupMessagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GroupMessageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupMessagePayload>
+          }
+          findFirst: {
+            args: Prisma.GroupMessageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupMessagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GroupMessageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupMessagePayload>
+          }
+          findMany: {
+            args: Prisma.GroupMessageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupMessagePayload>[]
+          }
+          create: {
+            args: Prisma.GroupMessageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupMessagePayload>
+          }
+          createMany: {
+            args: Prisma.GroupMessageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GroupMessageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupMessagePayload>[]
+          }
+          delete: {
+            args: Prisma.GroupMessageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupMessagePayload>
+          }
+          update: {
+            args: Prisma.GroupMessageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupMessagePayload>
+          }
+          deleteMany: {
+            args: Prisma.GroupMessageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GroupMessageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GroupMessageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupMessagePayload>[]
+          }
+          upsert: {
+            args: Prisma.GroupMessageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupMessagePayload>
+          }
+          aggregate: {
+            args: Prisma.GroupMessageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGroupMessage>
+          }
+          groupBy: {
+            args: Prisma.GroupMessageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GroupMessageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GroupMessageCountArgs<ExtArgs>
+            result: $Utils.Optional<GroupMessageCountAggregateOutputType> | number
+          }
+        }
+      }
+      GroupSession: {
+        payload: Prisma.$GroupSessionPayload<ExtArgs>
+        fields: Prisma.GroupSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GroupSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GroupSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.GroupSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GroupSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupSessionPayload>
+          }
+          findMany: {
+            args: Prisma.GroupSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupSessionPayload>[]
+          }
+          create: {
+            args: Prisma.GroupSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupSessionPayload>
+          }
+          createMany: {
+            args: Prisma.GroupSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GroupSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.GroupSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupSessionPayload>
+          }
+          update: {
+            args: Prisma.GroupSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.GroupSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GroupSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GroupSessionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupSessionPayload>[]
+          }
+          upsert: {
+            args: Prisma.GroupSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GroupSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.GroupSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGroupSession>
+          }
+          groupBy: {
+            args: Prisma.GroupSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GroupSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GroupSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<GroupSessionCountAggregateOutputType> | number
+          }
+        }
+      }
+      ConceptConnection: {
+        payload: Prisma.$ConceptConnectionPayload<ExtArgs>
+        fields: Prisma.ConceptConnectionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ConceptConnectionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptConnectionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ConceptConnectionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptConnectionPayload>
+          }
+          findFirst: {
+            args: Prisma.ConceptConnectionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptConnectionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ConceptConnectionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptConnectionPayload>
+          }
+          findMany: {
+            args: Prisma.ConceptConnectionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptConnectionPayload>[]
+          }
+          create: {
+            args: Prisma.ConceptConnectionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptConnectionPayload>
+          }
+          createMany: {
+            args: Prisma.ConceptConnectionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ConceptConnectionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptConnectionPayload>[]
+          }
+          delete: {
+            args: Prisma.ConceptConnectionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptConnectionPayload>
+          }
+          update: {
+            args: Prisma.ConceptConnectionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptConnectionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ConceptConnectionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ConceptConnectionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ConceptConnectionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptConnectionPayload>[]
+          }
+          upsert: {
+            args: Prisma.ConceptConnectionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptConnectionPayload>
+          }
+          aggregate: {
+            args: Prisma.ConceptConnectionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConceptConnection>
+          }
+          groupBy: {
+            args: Prisma.ConceptConnectionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ConceptConnectionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ConceptConnectionCountArgs<ExtArgs>
+            result: $Utils.Optional<ConceptConnectionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1327,6 +2227,16 @@ export namespace Prisma {
     verificationToken?: VerificationTokenOmit
     note?: NoteOmit
     citation?: CitationOmit
+    examPrediction?: ExamPredictionOmit
+    battle?: BattleOmit
+    battleQuestion?: BattleQuestionOmit
+    battleParticipant?: BattleParticipantOmit
+    battleResult?: BattleResultOmit
+    studyGroup?: StudyGroupOmit
+    studyGroupMember?: StudyGroupMemberOmit
+    groupMessage?: GroupMessageOmit
+    groupSession?: GroupSessionOmit
+    conceptConnection?: ConceptConnectionOmit
   }
 
   /* Types for Logging */
@@ -1412,6 +2322,15 @@ export namespace Prisma {
     posts: number
     notes: number
     citations: number
+    examPredictions: number
+    hostedBattles: number
+    joinedBattles: number
+    battleParticipants: number
+    battleResults: number
+    createdStudyGroups: number
+    studyGroupMemberships: number
+    groupMessages: number
+    conceptConnections: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1420,6 +2339,15 @@ export namespace Prisma {
     posts?: boolean | UserCountOutputTypeCountPostsArgs
     notes?: boolean | UserCountOutputTypeCountNotesArgs
     citations?: boolean | UserCountOutputTypeCountCitationsArgs
+    examPredictions?: boolean | UserCountOutputTypeCountExamPredictionsArgs
+    hostedBattles?: boolean | UserCountOutputTypeCountHostedBattlesArgs
+    joinedBattles?: boolean | UserCountOutputTypeCountJoinedBattlesArgs
+    battleParticipants?: boolean | UserCountOutputTypeCountBattleParticipantsArgs
+    battleResults?: boolean | UserCountOutputTypeCountBattleResultsArgs
+    createdStudyGroups?: boolean | UserCountOutputTypeCountCreatedStudyGroupsArgs
+    studyGroupMemberships?: boolean | UserCountOutputTypeCountStudyGroupMembershipsArgs
+    groupMessages?: boolean | UserCountOutputTypeCountGroupMessagesArgs
+    conceptConnections?: boolean | UserCountOutputTypeCountConceptConnectionsArgs
   }
 
   // Custom InputTypes
@@ -1466,6 +2394,158 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CitationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountExamPredictionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExamPredictionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountHostedBattlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountJoinedBattlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBattleParticipantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleParticipantWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBattleResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleResultWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCreatedStudyGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyGroupWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountStudyGroupMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyGroupMemberWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountGroupMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GroupMessageWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountConceptConnectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConceptConnectionWhereInput
+  }
+
+
+  /**
+   * Count Type BattleCountOutputType
+   */
+
+  export type BattleCountOutputType = {
+    battleQuestions: number
+    participants: number
+  }
+
+  export type BattleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    battleQuestions?: boolean | BattleCountOutputTypeCountBattleQuestionsArgs
+    participants?: boolean | BattleCountOutputTypeCountParticipantsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BattleCountOutputType without action
+   */
+  export type BattleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleCountOutputType
+     */
+    select?: BattleCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BattleCountOutputType without action
+   */
+  export type BattleCountOutputTypeCountBattleQuestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleQuestionWhereInput
+  }
+
+  /**
+   * BattleCountOutputType without action
+   */
+  export type BattleCountOutputTypeCountParticipantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleParticipantWhereInput
+  }
+
+
+  /**
+   * Count Type StudyGroupCountOutputType
+   */
+
+  export type StudyGroupCountOutputType = {
+    members: number
+    messages: number
+    sessions: number
+  }
+
+  export type StudyGroupCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | StudyGroupCountOutputTypeCountMembersArgs
+    messages?: boolean | StudyGroupCountOutputTypeCountMessagesArgs
+    sessions?: boolean | StudyGroupCountOutputTypeCountSessionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * StudyGroupCountOutputType without action
+   */
+  export type StudyGroupCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupCountOutputType
+     */
+    select?: StudyGroupCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * StudyGroupCountOutputType without action
+   */
+  export type StudyGroupCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyGroupMemberWhereInput
+  }
+
+  /**
+   * StudyGroupCountOutputType without action
+   */
+  export type StudyGroupCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GroupMessageWhereInput
+  }
+
+  /**
+   * StudyGroupCountOutputType without action
+   */
+  export type StudyGroupCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GroupSessionWhereInput
   }
 
 
@@ -4827,6 +5907,8 @@ export namespace Prisma {
     emailVerified: Date | null
     image: string | null
     password: string | null
+    learningStyle: string | null
+    autoAdapt: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -4836,6 +5918,8 @@ export namespace Prisma {
     emailVerified: Date | null
     image: string | null
     password: string | null
+    learningStyle: string | null
+    autoAdapt: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4845,6 +5929,8 @@ export namespace Prisma {
     emailVerified: number
     image: number
     password: number
+    learningStyle: number
+    autoAdapt: number
     _all: number
   }
 
@@ -4856,6 +5942,8 @@ export namespace Prisma {
     emailVerified?: true
     image?: true
     password?: true
+    learningStyle?: true
+    autoAdapt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4865,6 +5953,8 @@ export namespace Prisma {
     emailVerified?: true
     image?: true
     password?: true
+    learningStyle?: true
+    autoAdapt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4874,6 +5964,8 @@ export namespace Prisma {
     emailVerified?: true
     image?: true
     password?: true
+    learningStyle?: true
+    autoAdapt?: true
     _all?: true
   }
 
@@ -4956,6 +6048,8 @@ export namespace Prisma {
     emailVerified: Date | null
     image: string | null
     password: string | null
+    learningStyle: string | null
+    autoAdapt: boolean
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -4982,11 +6076,22 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     password?: boolean
+    learningStyle?: boolean
+    autoAdapt?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     notes?: boolean | User$notesArgs<ExtArgs>
     citations?: boolean | User$citationsArgs<ExtArgs>
+    examPredictions?: boolean | User$examPredictionsArgs<ExtArgs>
+    hostedBattles?: boolean | User$hostedBattlesArgs<ExtArgs>
+    joinedBattles?: boolean | User$joinedBattlesArgs<ExtArgs>
+    battleParticipants?: boolean | User$battleParticipantsArgs<ExtArgs>
+    battleResults?: boolean | User$battleResultsArgs<ExtArgs>
+    createdStudyGroups?: boolean | User$createdStudyGroupsArgs<ExtArgs>
+    studyGroupMemberships?: boolean | User$studyGroupMembershipsArgs<ExtArgs>
+    groupMessages?: boolean | User$groupMessagesArgs<ExtArgs>
+    conceptConnections?: boolean | User$conceptConnectionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4997,6 +6102,8 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     password?: boolean
+    learningStyle?: boolean
+    autoAdapt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5006,6 +6113,8 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     password?: boolean
+    learningStyle?: boolean
+    autoAdapt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -5015,15 +6124,26 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     password?: boolean
+    learningStyle?: boolean
+    autoAdapt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "learningStyle" | "autoAdapt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     notes?: boolean | User$notesArgs<ExtArgs>
     citations?: boolean | User$citationsArgs<ExtArgs>
+    examPredictions?: boolean | User$examPredictionsArgs<ExtArgs>
+    hostedBattles?: boolean | User$hostedBattlesArgs<ExtArgs>
+    joinedBattles?: boolean | User$joinedBattlesArgs<ExtArgs>
+    battleParticipants?: boolean | User$battleParticipantsArgs<ExtArgs>
+    battleResults?: boolean | User$battleResultsArgs<ExtArgs>
+    createdStudyGroups?: boolean | User$createdStudyGroupsArgs<ExtArgs>
+    studyGroupMemberships?: boolean | User$studyGroupMembershipsArgs<ExtArgs>
+    groupMessages?: boolean | User$groupMessagesArgs<ExtArgs>
+    conceptConnections?: boolean | User$conceptConnectionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5037,6 +6157,15 @@ export namespace Prisma {
       posts: Prisma.$PostPayload<ExtArgs>[]
       notes: Prisma.$NotePayload<ExtArgs>[]
       citations: Prisma.$CitationPayload<ExtArgs>[]
+      examPredictions: Prisma.$ExamPredictionPayload<ExtArgs>[]
+      hostedBattles: Prisma.$BattlePayload<ExtArgs>[]
+      joinedBattles: Prisma.$BattlePayload<ExtArgs>[]
+      battleParticipants: Prisma.$BattleParticipantPayload<ExtArgs>[]
+      battleResults: Prisma.$BattleResultPayload<ExtArgs>[]
+      createdStudyGroups: Prisma.$StudyGroupPayload<ExtArgs>[]
+      studyGroupMemberships: Prisma.$StudyGroupMemberPayload<ExtArgs>[]
+      groupMessages: Prisma.$GroupMessagePayload<ExtArgs>[]
+      conceptConnections: Prisma.$ConceptConnectionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5045,6 +6174,8 @@ export namespace Prisma {
       emailVerified: Date | null
       image: string | null
       password: string | null
+      learningStyle: string | null
+      autoAdapt: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -5444,6 +6575,15 @@ export namespace Prisma {
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notes<T extends User$notesArgs<ExtArgs> = {}>(args?: Subset<T, User$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     citations<T extends User$citationsArgs<ExtArgs> = {}>(args?: Subset<T, User$citationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    examPredictions<T extends User$examPredictionsArgs<ExtArgs> = {}>(args?: Subset<T, User$examPredictionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    hostedBattles<T extends User$hostedBattlesArgs<ExtArgs> = {}>(args?: Subset<T, User$hostedBattlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    joinedBattles<T extends User$joinedBattlesArgs<ExtArgs> = {}>(args?: Subset<T, User$joinedBattlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    battleParticipants<T extends User$battleParticipantsArgs<ExtArgs> = {}>(args?: Subset<T, User$battleParticipantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    battleResults<T extends User$battleResultsArgs<ExtArgs> = {}>(args?: Subset<T, User$battleResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdStudyGroups<T extends User$createdStudyGroupsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdStudyGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    studyGroupMemberships<T extends User$studyGroupMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$studyGroupMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    groupMessages<T extends User$groupMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$groupMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    conceptConnections<T extends User$conceptConnectionsArgs<ExtArgs> = {}>(args?: Subset<T, User$conceptConnectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5479,6 +6619,8 @@ export namespace Prisma {
     readonly emailVerified: FieldRef<"User", 'DateTime'>
     readonly image: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
+    readonly learningStyle: FieldRef<"User", 'String'>
+    readonly autoAdapt: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -5984,6 +7126,222 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CitationScalarFieldEnum | CitationScalarFieldEnum[]
+  }
+
+  /**
+   * User.examPredictions
+   */
+  export type User$examPredictionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionInclude<ExtArgs> | null
+    where?: ExamPredictionWhereInput
+    orderBy?: ExamPredictionOrderByWithRelationInput | ExamPredictionOrderByWithRelationInput[]
+    cursor?: ExamPredictionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExamPredictionScalarFieldEnum | ExamPredictionScalarFieldEnum[]
+  }
+
+  /**
+   * User.hostedBattles
+   */
+  export type User$hostedBattlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+    where?: BattleWhereInput
+    orderBy?: BattleOrderByWithRelationInput | BattleOrderByWithRelationInput[]
+    cursor?: BattleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BattleScalarFieldEnum | BattleScalarFieldEnum[]
+  }
+
+  /**
+   * User.joinedBattles
+   */
+  export type User$joinedBattlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+    where?: BattleWhereInput
+    orderBy?: BattleOrderByWithRelationInput | BattleOrderByWithRelationInput[]
+    cursor?: BattleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BattleScalarFieldEnum | BattleScalarFieldEnum[]
+  }
+
+  /**
+   * User.battleParticipants
+   */
+  export type User$battleParticipantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+    where?: BattleParticipantWhereInput
+    orderBy?: BattleParticipantOrderByWithRelationInput | BattleParticipantOrderByWithRelationInput[]
+    cursor?: BattleParticipantWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BattleParticipantScalarFieldEnum | BattleParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * User.battleResults
+   */
+  export type User$battleResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+    where?: BattleResultWhereInput
+    orderBy?: BattleResultOrderByWithRelationInput | BattleResultOrderByWithRelationInput[]
+    cursor?: BattleResultWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BattleResultScalarFieldEnum | BattleResultScalarFieldEnum[]
+  }
+
+  /**
+   * User.createdStudyGroups
+   */
+  export type User$createdStudyGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupInclude<ExtArgs> | null
+    where?: StudyGroupWhereInput
+    orderBy?: StudyGroupOrderByWithRelationInput | StudyGroupOrderByWithRelationInput[]
+    cursor?: StudyGroupWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StudyGroupScalarFieldEnum | StudyGroupScalarFieldEnum[]
+  }
+
+  /**
+   * User.studyGroupMemberships
+   */
+  export type User$studyGroupMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+    where?: StudyGroupMemberWhereInput
+    orderBy?: StudyGroupMemberOrderByWithRelationInput | StudyGroupMemberOrderByWithRelationInput[]
+    cursor?: StudyGroupMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StudyGroupMemberScalarFieldEnum | StudyGroupMemberScalarFieldEnum[]
+  }
+
+  /**
+   * User.groupMessages
+   */
+  export type User$groupMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+    where?: GroupMessageWhereInput
+    orderBy?: GroupMessageOrderByWithRelationInput | GroupMessageOrderByWithRelationInput[]
+    cursor?: GroupMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GroupMessageScalarFieldEnum | GroupMessageScalarFieldEnum[]
+  }
+
+  /**
+   * User.conceptConnections
+   */
+  export type User$conceptConnectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionInclude<ExtArgs> | null
+    where?: ConceptConnectionWhereInput
+    orderBy?: ConceptConnectionOrderByWithRelationInput | ConceptConnectionOrderByWithRelationInput[]
+    cursor?: ConceptConnectionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConceptConnectionScalarFieldEnum | ConceptConnectionScalarFieldEnum[]
   }
 
   /**
@@ -9191,6 +10549,11350 @@ export namespace Prisma {
 
 
   /**
+   * Model ExamPrediction
+   */
+
+  export type AggregateExamPrediction = {
+    _count: ExamPredictionCountAggregateOutputType | null
+    _min: ExamPredictionMinAggregateOutputType | null
+    _max: ExamPredictionMaxAggregateOutputType | null
+  }
+
+  export type ExamPredictionMinAggregateOutputType = {
+    id: string | null
+    examType: string | null
+    uploadedContent: string | null
+    syllabusContent: string | null
+    createdAt: Date | null
+    userId: string | null
+  }
+
+  export type ExamPredictionMaxAggregateOutputType = {
+    id: string | null
+    examType: string | null
+    uploadedContent: string | null
+    syllabusContent: string | null
+    createdAt: Date | null
+    userId: string | null
+  }
+
+  export type ExamPredictionCountAggregateOutputType = {
+    id: number
+    examType: number
+    uploadedContent: number
+    syllabusContent: number
+    predictions: number
+    analytics: number
+    createdAt: number
+    userId: number
+    _all: number
+  }
+
+
+  export type ExamPredictionMinAggregateInputType = {
+    id?: true
+    examType?: true
+    uploadedContent?: true
+    syllabusContent?: true
+    createdAt?: true
+    userId?: true
+  }
+
+  export type ExamPredictionMaxAggregateInputType = {
+    id?: true
+    examType?: true
+    uploadedContent?: true
+    syllabusContent?: true
+    createdAt?: true
+    userId?: true
+  }
+
+  export type ExamPredictionCountAggregateInputType = {
+    id?: true
+    examType?: true
+    uploadedContent?: true
+    syllabusContent?: true
+    predictions?: true
+    analytics?: true
+    createdAt?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type ExamPredictionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExamPrediction to aggregate.
+     */
+    where?: ExamPredictionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamPredictions to fetch.
+     */
+    orderBy?: ExamPredictionOrderByWithRelationInput | ExamPredictionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ExamPredictionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamPredictions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamPredictions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ExamPredictions
+    **/
+    _count?: true | ExamPredictionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ExamPredictionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ExamPredictionMaxAggregateInputType
+  }
+
+  export type GetExamPredictionAggregateType<T extends ExamPredictionAggregateArgs> = {
+        [P in keyof T & keyof AggregateExamPrediction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateExamPrediction[P]>
+      : GetScalarType<T[P], AggregateExamPrediction[P]>
+  }
+
+
+
+
+  export type ExamPredictionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExamPredictionWhereInput
+    orderBy?: ExamPredictionOrderByWithAggregationInput | ExamPredictionOrderByWithAggregationInput[]
+    by: ExamPredictionScalarFieldEnum[] | ExamPredictionScalarFieldEnum
+    having?: ExamPredictionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ExamPredictionCountAggregateInputType | true
+    _min?: ExamPredictionMinAggregateInputType
+    _max?: ExamPredictionMaxAggregateInputType
+  }
+
+  export type ExamPredictionGroupByOutputType = {
+    id: string
+    examType: string
+    uploadedContent: string
+    syllabusContent: string | null
+    predictions: JsonValue
+    analytics: JsonValue | null
+    createdAt: Date
+    userId: string
+    _count: ExamPredictionCountAggregateOutputType | null
+    _min: ExamPredictionMinAggregateOutputType | null
+    _max: ExamPredictionMaxAggregateOutputType | null
+  }
+
+  type GetExamPredictionGroupByPayload<T extends ExamPredictionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ExamPredictionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ExamPredictionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ExamPredictionGroupByOutputType[P]>
+            : GetScalarType<T[P], ExamPredictionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ExamPredictionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    examType?: boolean
+    uploadedContent?: boolean
+    syllabusContent?: boolean
+    predictions?: boolean
+    analytics?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["examPrediction"]>
+
+  export type ExamPredictionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    examType?: boolean
+    uploadedContent?: boolean
+    syllabusContent?: boolean
+    predictions?: boolean
+    analytics?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["examPrediction"]>
+
+  export type ExamPredictionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    examType?: boolean
+    uploadedContent?: boolean
+    syllabusContent?: boolean
+    predictions?: boolean
+    analytics?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["examPrediction"]>
+
+  export type ExamPredictionSelectScalar = {
+    id?: boolean
+    examType?: boolean
+    uploadedContent?: boolean
+    syllabusContent?: boolean
+    predictions?: boolean
+    analytics?: boolean
+    createdAt?: boolean
+    userId?: boolean
+  }
+
+  export type ExamPredictionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "examType" | "uploadedContent" | "syllabusContent" | "predictions" | "analytics" | "createdAt" | "userId", ExtArgs["result"]["examPrediction"]>
+  export type ExamPredictionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ExamPredictionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ExamPredictionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ExamPredictionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ExamPrediction"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      examType: string
+      uploadedContent: string
+      syllabusContent: string | null
+      predictions: Prisma.JsonValue
+      analytics: Prisma.JsonValue | null
+      createdAt: Date
+      userId: string
+    }, ExtArgs["result"]["examPrediction"]>
+    composites: {}
+  }
+
+  type ExamPredictionGetPayload<S extends boolean | null | undefined | ExamPredictionDefaultArgs> = $Result.GetResult<Prisma.$ExamPredictionPayload, S>
+
+  type ExamPredictionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ExamPredictionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ExamPredictionCountAggregateInputType | true
+    }
+
+  export interface ExamPredictionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ExamPrediction'], meta: { name: 'ExamPrediction' } }
+    /**
+     * Find zero or one ExamPrediction that matches the filter.
+     * @param {ExamPredictionFindUniqueArgs} args - Arguments to find a ExamPrediction
+     * @example
+     * // Get one ExamPrediction
+     * const examPrediction = await prisma.examPrediction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ExamPredictionFindUniqueArgs>(args: SelectSubset<T, ExamPredictionFindUniqueArgs<ExtArgs>>): Prisma__ExamPredictionClient<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ExamPrediction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ExamPredictionFindUniqueOrThrowArgs} args - Arguments to find a ExamPrediction
+     * @example
+     * // Get one ExamPrediction
+     * const examPrediction = await prisma.examPrediction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ExamPredictionFindUniqueOrThrowArgs>(args: SelectSubset<T, ExamPredictionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExamPredictionClient<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExamPrediction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamPredictionFindFirstArgs} args - Arguments to find a ExamPrediction
+     * @example
+     * // Get one ExamPrediction
+     * const examPrediction = await prisma.examPrediction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ExamPredictionFindFirstArgs>(args?: SelectSubset<T, ExamPredictionFindFirstArgs<ExtArgs>>): Prisma__ExamPredictionClient<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExamPrediction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamPredictionFindFirstOrThrowArgs} args - Arguments to find a ExamPrediction
+     * @example
+     * // Get one ExamPrediction
+     * const examPrediction = await prisma.examPrediction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ExamPredictionFindFirstOrThrowArgs>(args?: SelectSubset<T, ExamPredictionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExamPredictionClient<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ExamPredictions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamPredictionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ExamPredictions
+     * const examPredictions = await prisma.examPrediction.findMany()
+     * 
+     * // Get first 10 ExamPredictions
+     * const examPredictions = await prisma.examPrediction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const examPredictionWithIdOnly = await prisma.examPrediction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ExamPredictionFindManyArgs>(args?: SelectSubset<T, ExamPredictionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ExamPrediction.
+     * @param {ExamPredictionCreateArgs} args - Arguments to create a ExamPrediction.
+     * @example
+     * // Create one ExamPrediction
+     * const ExamPrediction = await prisma.examPrediction.create({
+     *   data: {
+     *     // ... data to create a ExamPrediction
+     *   }
+     * })
+     * 
+     */
+    create<T extends ExamPredictionCreateArgs>(args: SelectSubset<T, ExamPredictionCreateArgs<ExtArgs>>): Prisma__ExamPredictionClient<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ExamPredictions.
+     * @param {ExamPredictionCreateManyArgs} args - Arguments to create many ExamPredictions.
+     * @example
+     * // Create many ExamPredictions
+     * const examPrediction = await prisma.examPrediction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ExamPredictionCreateManyArgs>(args?: SelectSubset<T, ExamPredictionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ExamPredictions and returns the data saved in the database.
+     * @param {ExamPredictionCreateManyAndReturnArgs} args - Arguments to create many ExamPredictions.
+     * @example
+     * // Create many ExamPredictions
+     * const examPrediction = await prisma.examPrediction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ExamPredictions and only return the `id`
+     * const examPredictionWithIdOnly = await prisma.examPrediction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ExamPredictionCreateManyAndReturnArgs>(args?: SelectSubset<T, ExamPredictionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ExamPrediction.
+     * @param {ExamPredictionDeleteArgs} args - Arguments to delete one ExamPrediction.
+     * @example
+     * // Delete one ExamPrediction
+     * const ExamPrediction = await prisma.examPrediction.delete({
+     *   where: {
+     *     // ... filter to delete one ExamPrediction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ExamPredictionDeleteArgs>(args: SelectSubset<T, ExamPredictionDeleteArgs<ExtArgs>>): Prisma__ExamPredictionClient<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ExamPrediction.
+     * @param {ExamPredictionUpdateArgs} args - Arguments to update one ExamPrediction.
+     * @example
+     * // Update one ExamPrediction
+     * const examPrediction = await prisma.examPrediction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ExamPredictionUpdateArgs>(args: SelectSubset<T, ExamPredictionUpdateArgs<ExtArgs>>): Prisma__ExamPredictionClient<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ExamPredictions.
+     * @param {ExamPredictionDeleteManyArgs} args - Arguments to filter ExamPredictions to delete.
+     * @example
+     * // Delete a few ExamPredictions
+     * const { count } = await prisma.examPrediction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ExamPredictionDeleteManyArgs>(args?: SelectSubset<T, ExamPredictionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExamPredictions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamPredictionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ExamPredictions
+     * const examPrediction = await prisma.examPrediction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ExamPredictionUpdateManyArgs>(args: SelectSubset<T, ExamPredictionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExamPredictions and returns the data updated in the database.
+     * @param {ExamPredictionUpdateManyAndReturnArgs} args - Arguments to update many ExamPredictions.
+     * @example
+     * // Update many ExamPredictions
+     * const examPrediction = await prisma.examPrediction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ExamPredictions and only return the `id`
+     * const examPredictionWithIdOnly = await prisma.examPrediction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ExamPredictionUpdateManyAndReturnArgs>(args: SelectSubset<T, ExamPredictionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ExamPrediction.
+     * @param {ExamPredictionUpsertArgs} args - Arguments to update or create a ExamPrediction.
+     * @example
+     * // Update or create a ExamPrediction
+     * const examPrediction = await prisma.examPrediction.upsert({
+     *   create: {
+     *     // ... data to create a ExamPrediction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ExamPrediction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ExamPredictionUpsertArgs>(args: SelectSubset<T, ExamPredictionUpsertArgs<ExtArgs>>): Prisma__ExamPredictionClient<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ExamPredictions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamPredictionCountArgs} args - Arguments to filter ExamPredictions to count.
+     * @example
+     * // Count the number of ExamPredictions
+     * const count = await prisma.examPrediction.count({
+     *   where: {
+     *     // ... the filter for the ExamPredictions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ExamPredictionCountArgs>(
+      args?: Subset<T, ExamPredictionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ExamPredictionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ExamPrediction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamPredictionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ExamPredictionAggregateArgs>(args: Subset<T, ExamPredictionAggregateArgs>): Prisma.PrismaPromise<GetExamPredictionAggregateType<T>>
+
+    /**
+     * Group by ExamPrediction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamPredictionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ExamPredictionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ExamPredictionGroupByArgs['orderBy'] }
+        : { orderBy?: ExamPredictionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ExamPredictionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExamPredictionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ExamPrediction model
+   */
+  readonly fields: ExamPredictionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ExamPrediction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ExamPredictionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ExamPrediction model
+   */
+  interface ExamPredictionFieldRefs {
+    readonly id: FieldRef<"ExamPrediction", 'String'>
+    readonly examType: FieldRef<"ExamPrediction", 'String'>
+    readonly uploadedContent: FieldRef<"ExamPrediction", 'String'>
+    readonly syllabusContent: FieldRef<"ExamPrediction", 'String'>
+    readonly predictions: FieldRef<"ExamPrediction", 'Json'>
+    readonly analytics: FieldRef<"ExamPrediction", 'Json'>
+    readonly createdAt: FieldRef<"ExamPrediction", 'DateTime'>
+    readonly userId: FieldRef<"ExamPrediction", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ExamPrediction findUnique
+   */
+  export type ExamPredictionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamPrediction to fetch.
+     */
+    where: ExamPredictionWhereUniqueInput
+  }
+
+  /**
+   * ExamPrediction findUniqueOrThrow
+   */
+  export type ExamPredictionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamPrediction to fetch.
+     */
+    where: ExamPredictionWhereUniqueInput
+  }
+
+  /**
+   * ExamPrediction findFirst
+   */
+  export type ExamPredictionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamPrediction to fetch.
+     */
+    where?: ExamPredictionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamPredictions to fetch.
+     */
+    orderBy?: ExamPredictionOrderByWithRelationInput | ExamPredictionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExamPredictions.
+     */
+    cursor?: ExamPredictionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamPredictions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamPredictions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExamPredictions.
+     */
+    distinct?: ExamPredictionScalarFieldEnum | ExamPredictionScalarFieldEnum[]
+  }
+
+  /**
+   * ExamPrediction findFirstOrThrow
+   */
+  export type ExamPredictionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamPrediction to fetch.
+     */
+    where?: ExamPredictionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamPredictions to fetch.
+     */
+    orderBy?: ExamPredictionOrderByWithRelationInput | ExamPredictionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExamPredictions.
+     */
+    cursor?: ExamPredictionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamPredictions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamPredictions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExamPredictions.
+     */
+    distinct?: ExamPredictionScalarFieldEnum | ExamPredictionScalarFieldEnum[]
+  }
+
+  /**
+   * ExamPrediction findMany
+   */
+  export type ExamPredictionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamPredictions to fetch.
+     */
+    where?: ExamPredictionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamPredictions to fetch.
+     */
+    orderBy?: ExamPredictionOrderByWithRelationInput | ExamPredictionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ExamPredictions.
+     */
+    cursor?: ExamPredictionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamPredictions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamPredictions.
+     */
+    skip?: number
+    distinct?: ExamPredictionScalarFieldEnum | ExamPredictionScalarFieldEnum[]
+  }
+
+  /**
+   * ExamPrediction create
+   */
+  export type ExamPredictionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ExamPrediction.
+     */
+    data: XOR<ExamPredictionCreateInput, ExamPredictionUncheckedCreateInput>
+  }
+
+  /**
+   * ExamPrediction createMany
+   */
+  export type ExamPredictionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ExamPredictions.
+     */
+    data: ExamPredictionCreateManyInput | ExamPredictionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ExamPrediction createManyAndReturn
+   */
+  export type ExamPredictionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * The data used to create many ExamPredictions.
+     */
+    data: ExamPredictionCreateManyInput | ExamPredictionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExamPrediction update
+   */
+  export type ExamPredictionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ExamPrediction.
+     */
+    data: XOR<ExamPredictionUpdateInput, ExamPredictionUncheckedUpdateInput>
+    /**
+     * Choose, which ExamPrediction to update.
+     */
+    where: ExamPredictionWhereUniqueInput
+  }
+
+  /**
+   * ExamPrediction updateMany
+   */
+  export type ExamPredictionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ExamPredictions.
+     */
+    data: XOR<ExamPredictionUpdateManyMutationInput, ExamPredictionUncheckedUpdateManyInput>
+    /**
+     * Filter which ExamPredictions to update
+     */
+    where?: ExamPredictionWhereInput
+    /**
+     * Limit how many ExamPredictions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExamPrediction updateManyAndReturn
+   */
+  export type ExamPredictionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * The data used to update ExamPredictions.
+     */
+    data: XOR<ExamPredictionUpdateManyMutationInput, ExamPredictionUncheckedUpdateManyInput>
+    /**
+     * Filter which ExamPredictions to update
+     */
+    where?: ExamPredictionWhereInput
+    /**
+     * Limit how many ExamPredictions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExamPrediction upsert
+   */
+  export type ExamPredictionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ExamPrediction to update in case it exists.
+     */
+    where: ExamPredictionWhereUniqueInput
+    /**
+     * In case the ExamPrediction found by the `where` argument doesn't exist, create a new ExamPrediction with this data.
+     */
+    create: XOR<ExamPredictionCreateInput, ExamPredictionUncheckedCreateInput>
+    /**
+     * In case the ExamPrediction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ExamPredictionUpdateInput, ExamPredictionUncheckedUpdateInput>
+  }
+
+  /**
+   * ExamPrediction delete
+   */
+  export type ExamPredictionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionInclude<ExtArgs> | null
+    /**
+     * Filter which ExamPrediction to delete.
+     */
+    where: ExamPredictionWhereUniqueInput
+  }
+
+  /**
+   * ExamPrediction deleteMany
+   */
+  export type ExamPredictionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExamPredictions to delete
+     */
+    where?: ExamPredictionWhereInput
+    /**
+     * Limit how many ExamPredictions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExamPrediction without action
+   */
+  export type ExamPredictionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamPrediction
+     */
+    select?: ExamPredictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamPrediction
+     */
+    omit?: ExamPredictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamPredictionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Battle
+   */
+
+  export type AggregateBattle = {
+    _count: BattleCountAggregateOutputType | null
+    _avg: BattleAvgAggregateOutputType | null
+    _sum: BattleSumAggregateOutputType | null
+    _min: BattleMinAggregateOutputType | null
+    _max: BattleMaxAggregateOutputType | null
+  }
+
+  export type BattleAvgAggregateOutputType = {
+    questionCount: number | null
+    hostScore: number | null
+    opponentScore: number | null
+  }
+
+  export type BattleSumAggregateOutputType = {
+    questionCount: number | null
+    hostScore: number | null
+    opponentScore: number | null
+  }
+
+  export type BattleMinAggregateOutputType = {
+    id: string | null
+    code: string | null
+    noteId: string | null
+    title: string | null
+    status: string | null
+    questionCount: number | null
+    hostScore: number | null
+    opponentScore: number | null
+    hostAnsweredAt: Date | null
+    opponentAnsweredAt: Date | null
+    startedAt: Date | null
+    completedAt: Date | null
+    createdAt: Date | null
+    hostId: string | null
+    opponentId: string | null
+  }
+
+  export type BattleMaxAggregateOutputType = {
+    id: string | null
+    code: string | null
+    noteId: string | null
+    title: string | null
+    status: string | null
+    questionCount: number | null
+    hostScore: number | null
+    opponentScore: number | null
+    hostAnsweredAt: Date | null
+    opponentAnsweredAt: Date | null
+    startedAt: Date | null
+    completedAt: Date | null
+    createdAt: Date | null
+    hostId: string | null
+    opponentId: string | null
+  }
+
+  export type BattleCountAggregateOutputType = {
+    id: number
+    code: number
+    noteId: number
+    title: number
+    status: number
+    questionCount: number
+    questions: number
+    hostScore: number
+    opponentScore: number
+    hostAnsweredAt: number
+    opponentAnsweredAt: number
+    startedAt: number
+    completedAt: number
+    createdAt: number
+    hostId: number
+    opponentId: number
+    _all: number
+  }
+
+
+  export type BattleAvgAggregateInputType = {
+    questionCount?: true
+    hostScore?: true
+    opponentScore?: true
+  }
+
+  export type BattleSumAggregateInputType = {
+    questionCount?: true
+    hostScore?: true
+    opponentScore?: true
+  }
+
+  export type BattleMinAggregateInputType = {
+    id?: true
+    code?: true
+    noteId?: true
+    title?: true
+    status?: true
+    questionCount?: true
+    hostScore?: true
+    opponentScore?: true
+    hostAnsweredAt?: true
+    opponentAnsweredAt?: true
+    startedAt?: true
+    completedAt?: true
+    createdAt?: true
+    hostId?: true
+    opponentId?: true
+  }
+
+  export type BattleMaxAggregateInputType = {
+    id?: true
+    code?: true
+    noteId?: true
+    title?: true
+    status?: true
+    questionCount?: true
+    hostScore?: true
+    opponentScore?: true
+    hostAnsweredAt?: true
+    opponentAnsweredAt?: true
+    startedAt?: true
+    completedAt?: true
+    createdAt?: true
+    hostId?: true
+    opponentId?: true
+  }
+
+  export type BattleCountAggregateInputType = {
+    id?: true
+    code?: true
+    noteId?: true
+    title?: true
+    status?: true
+    questionCount?: true
+    questions?: true
+    hostScore?: true
+    opponentScore?: true
+    hostAnsweredAt?: true
+    opponentAnsweredAt?: true
+    startedAt?: true
+    completedAt?: true
+    createdAt?: true
+    hostId?: true
+    opponentId?: true
+    _all?: true
+  }
+
+  export type BattleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Battle to aggregate.
+     */
+    where?: BattleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Battles to fetch.
+     */
+    orderBy?: BattleOrderByWithRelationInput | BattleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BattleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Battles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Battles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Battles
+    **/
+    _count?: true | BattleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BattleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BattleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BattleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BattleMaxAggregateInputType
+  }
+
+  export type GetBattleAggregateType<T extends BattleAggregateArgs> = {
+        [P in keyof T & keyof AggregateBattle]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBattle[P]>
+      : GetScalarType<T[P], AggregateBattle[P]>
+  }
+
+
+
+
+  export type BattleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleWhereInput
+    orderBy?: BattleOrderByWithAggregationInput | BattleOrderByWithAggregationInput[]
+    by: BattleScalarFieldEnum[] | BattleScalarFieldEnum
+    having?: BattleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BattleCountAggregateInputType | true
+    _avg?: BattleAvgAggregateInputType
+    _sum?: BattleSumAggregateInputType
+    _min?: BattleMinAggregateInputType
+    _max?: BattleMaxAggregateInputType
+  }
+
+  export type BattleGroupByOutputType = {
+    id: string
+    code: string
+    noteId: string | null
+    title: string | null
+    status: string
+    questionCount: number
+    questions: JsonValue
+    hostScore: number
+    opponentScore: number
+    hostAnsweredAt: Date | null
+    opponentAnsweredAt: Date | null
+    startedAt: Date | null
+    completedAt: Date | null
+    createdAt: Date
+    hostId: string
+    opponentId: string | null
+    _count: BattleCountAggregateOutputType | null
+    _avg: BattleAvgAggregateOutputType | null
+    _sum: BattleSumAggregateOutputType | null
+    _min: BattleMinAggregateOutputType | null
+    _max: BattleMaxAggregateOutputType | null
+  }
+
+  type GetBattleGroupByPayload<T extends BattleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BattleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BattleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BattleGroupByOutputType[P]>
+            : GetScalarType<T[P], BattleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BattleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    noteId?: boolean
+    title?: boolean
+    status?: boolean
+    questionCount?: boolean
+    questions?: boolean
+    hostScore?: boolean
+    opponentScore?: boolean
+    hostAnsweredAt?: boolean
+    opponentAnsweredAt?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    hostId?: boolean
+    opponentId?: boolean
+    host?: boolean | UserDefaultArgs<ExtArgs>
+    opponent?: boolean | Battle$opponentArgs<ExtArgs>
+    battleQuestions?: boolean | Battle$battleQuestionsArgs<ExtArgs>
+    participants?: boolean | Battle$participantsArgs<ExtArgs>
+    result?: boolean | Battle$resultArgs<ExtArgs>
+    _count?: boolean | BattleCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["battle"]>
+
+  export type BattleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    noteId?: boolean
+    title?: boolean
+    status?: boolean
+    questionCount?: boolean
+    questions?: boolean
+    hostScore?: boolean
+    opponentScore?: boolean
+    hostAnsweredAt?: boolean
+    opponentAnsweredAt?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    hostId?: boolean
+    opponentId?: boolean
+    host?: boolean | UserDefaultArgs<ExtArgs>
+    opponent?: boolean | Battle$opponentArgs<ExtArgs>
+  }, ExtArgs["result"]["battle"]>
+
+  export type BattleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    noteId?: boolean
+    title?: boolean
+    status?: boolean
+    questionCount?: boolean
+    questions?: boolean
+    hostScore?: boolean
+    opponentScore?: boolean
+    hostAnsweredAt?: boolean
+    opponentAnsweredAt?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    hostId?: boolean
+    opponentId?: boolean
+    host?: boolean | UserDefaultArgs<ExtArgs>
+    opponent?: boolean | Battle$opponentArgs<ExtArgs>
+  }, ExtArgs["result"]["battle"]>
+
+  export type BattleSelectScalar = {
+    id?: boolean
+    code?: boolean
+    noteId?: boolean
+    title?: boolean
+    status?: boolean
+    questionCount?: boolean
+    questions?: boolean
+    hostScore?: boolean
+    opponentScore?: boolean
+    hostAnsweredAt?: boolean
+    opponentAnsweredAt?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    hostId?: boolean
+    opponentId?: boolean
+  }
+
+  export type BattleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "noteId" | "title" | "status" | "questionCount" | "questions" | "hostScore" | "opponentScore" | "hostAnsweredAt" | "opponentAnsweredAt" | "startedAt" | "completedAt" | "createdAt" | "hostId" | "opponentId", ExtArgs["result"]["battle"]>
+  export type BattleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    host?: boolean | UserDefaultArgs<ExtArgs>
+    opponent?: boolean | Battle$opponentArgs<ExtArgs>
+    battleQuestions?: boolean | Battle$battleQuestionsArgs<ExtArgs>
+    participants?: boolean | Battle$participantsArgs<ExtArgs>
+    result?: boolean | Battle$resultArgs<ExtArgs>
+    _count?: boolean | BattleCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BattleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    host?: boolean | UserDefaultArgs<ExtArgs>
+    opponent?: boolean | Battle$opponentArgs<ExtArgs>
+  }
+  export type BattleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    host?: boolean | UserDefaultArgs<ExtArgs>
+    opponent?: boolean | Battle$opponentArgs<ExtArgs>
+  }
+
+  export type $BattlePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Battle"
+    objects: {
+      host: Prisma.$UserPayload<ExtArgs>
+      opponent: Prisma.$UserPayload<ExtArgs> | null
+      battleQuestions: Prisma.$BattleQuestionPayload<ExtArgs>[]
+      participants: Prisma.$BattleParticipantPayload<ExtArgs>[]
+      result: Prisma.$BattleResultPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      code: string
+      noteId: string | null
+      title: string | null
+      status: string
+      questionCount: number
+      questions: Prisma.JsonValue
+      hostScore: number
+      opponentScore: number
+      hostAnsweredAt: Date | null
+      opponentAnsweredAt: Date | null
+      startedAt: Date | null
+      completedAt: Date | null
+      createdAt: Date
+      hostId: string
+      opponentId: string | null
+    }, ExtArgs["result"]["battle"]>
+    composites: {}
+  }
+
+  type BattleGetPayload<S extends boolean | null | undefined | BattleDefaultArgs> = $Result.GetResult<Prisma.$BattlePayload, S>
+
+  type BattleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BattleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BattleCountAggregateInputType | true
+    }
+
+  export interface BattleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Battle'], meta: { name: 'Battle' } }
+    /**
+     * Find zero or one Battle that matches the filter.
+     * @param {BattleFindUniqueArgs} args - Arguments to find a Battle
+     * @example
+     * // Get one Battle
+     * const battle = await prisma.battle.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BattleFindUniqueArgs>(args: SelectSubset<T, BattleFindUniqueArgs<ExtArgs>>): Prisma__BattleClient<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Battle that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BattleFindUniqueOrThrowArgs} args - Arguments to find a Battle
+     * @example
+     * // Get one Battle
+     * const battle = await prisma.battle.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BattleFindUniqueOrThrowArgs>(args: SelectSubset<T, BattleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BattleClient<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Battle that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleFindFirstArgs} args - Arguments to find a Battle
+     * @example
+     * // Get one Battle
+     * const battle = await prisma.battle.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BattleFindFirstArgs>(args?: SelectSubset<T, BattleFindFirstArgs<ExtArgs>>): Prisma__BattleClient<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Battle that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleFindFirstOrThrowArgs} args - Arguments to find a Battle
+     * @example
+     * // Get one Battle
+     * const battle = await prisma.battle.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BattleFindFirstOrThrowArgs>(args?: SelectSubset<T, BattleFindFirstOrThrowArgs<ExtArgs>>): Prisma__BattleClient<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Battles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Battles
+     * const battles = await prisma.battle.findMany()
+     * 
+     * // Get first 10 Battles
+     * const battles = await prisma.battle.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const battleWithIdOnly = await prisma.battle.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BattleFindManyArgs>(args?: SelectSubset<T, BattleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Battle.
+     * @param {BattleCreateArgs} args - Arguments to create a Battle.
+     * @example
+     * // Create one Battle
+     * const Battle = await prisma.battle.create({
+     *   data: {
+     *     // ... data to create a Battle
+     *   }
+     * })
+     * 
+     */
+    create<T extends BattleCreateArgs>(args: SelectSubset<T, BattleCreateArgs<ExtArgs>>): Prisma__BattleClient<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Battles.
+     * @param {BattleCreateManyArgs} args - Arguments to create many Battles.
+     * @example
+     * // Create many Battles
+     * const battle = await prisma.battle.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BattleCreateManyArgs>(args?: SelectSubset<T, BattleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Battles and returns the data saved in the database.
+     * @param {BattleCreateManyAndReturnArgs} args - Arguments to create many Battles.
+     * @example
+     * // Create many Battles
+     * const battle = await prisma.battle.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Battles and only return the `id`
+     * const battleWithIdOnly = await prisma.battle.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BattleCreateManyAndReturnArgs>(args?: SelectSubset<T, BattleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Battle.
+     * @param {BattleDeleteArgs} args - Arguments to delete one Battle.
+     * @example
+     * // Delete one Battle
+     * const Battle = await prisma.battle.delete({
+     *   where: {
+     *     // ... filter to delete one Battle
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BattleDeleteArgs>(args: SelectSubset<T, BattleDeleteArgs<ExtArgs>>): Prisma__BattleClient<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Battle.
+     * @param {BattleUpdateArgs} args - Arguments to update one Battle.
+     * @example
+     * // Update one Battle
+     * const battle = await prisma.battle.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BattleUpdateArgs>(args: SelectSubset<T, BattleUpdateArgs<ExtArgs>>): Prisma__BattleClient<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Battles.
+     * @param {BattleDeleteManyArgs} args - Arguments to filter Battles to delete.
+     * @example
+     * // Delete a few Battles
+     * const { count } = await prisma.battle.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BattleDeleteManyArgs>(args?: SelectSubset<T, BattleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Battles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Battles
+     * const battle = await prisma.battle.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BattleUpdateManyArgs>(args: SelectSubset<T, BattleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Battles and returns the data updated in the database.
+     * @param {BattleUpdateManyAndReturnArgs} args - Arguments to update many Battles.
+     * @example
+     * // Update many Battles
+     * const battle = await prisma.battle.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Battles and only return the `id`
+     * const battleWithIdOnly = await prisma.battle.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BattleUpdateManyAndReturnArgs>(args: SelectSubset<T, BattleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Battle.
+     * @param {BattleUpsertArgs} args - Arguments to update or create a Battle.
+     * @example
+     * // Update or create a Battle
+     * const battle = await prisma.battle.upsert({
+     *   create: {
+     *     // ... data to create a Battle
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Battle we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BattleUpsertArgs>(args: SelectSubset<T, BattleUpsertArgs<ExtArgs>>): Prisma__BattleClient<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Battles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleCountArgs} args - Arguments to filter Battles to count.
+     * @example
+     * // Count the number of Battles
+     * const count = await prisma.battle.count({
+     *   where: {
+     *     // ... the filter for the Battles we want to count
+     *   }
+     * })
+    **/
+    count<T extends BattleCountArgs>(
+      args?: Subset<T, BattleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BattleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Battle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BattleAggregateArgs>(args: Subset<T, BattleAggregateArgs>): Prisma.PrismaPromise<GetBattleAggregateType<T>>
+
+    /**
+     * Group by Battle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BattleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BattleGroupByArgs['orderBy'] }
+        : { orderBy?: BattleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BattleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBattleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Battle model
+   */
+  readonly fields: BattleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Battle.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BattleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    host<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    opponent<T extends Battle$opponentArgs<ExtArgs> = {}>(args?: Subset<T, Battle$opponentArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    battleQuestions<T extends Battle$battleQuestionsArgs<ExtArgs> = {}>(args?: Subset<T, Battle$battleQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    participants<T extends Battle$participantsArgs<ExtArgs> = {}>(args?: Subset<T, Battle$participantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    result<T extends Battle$resultArgs<ExtArgs> = {}>(args?: Subset<T, Battle$resultArgs<ExtArgs>>): Prisma__BattleResultClient<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Battle model
+   */
+  interface BattleFieldRefs {
+    readonly id: FieldRef<"Battle", 'String'>
+    readonly code: FieldRef<"Battle", 'String'>
+    readonly noteId: FieldRef<"Battle", 'String'>
+    readonly title: FieldRef<"Battle", 'String'>
+    readonly status: FieldRef<"Battle", 'String'>
+    readonly questionCount: FieldRef<"Battle", 'Int'>
+    readonly questions: FieldRef<"Battle", 'Json'>
+    readonly hostScore: FieldRef<"Battle", 'Int'>
+    readonly opponentScore: FieldRef<"Battle", 'Int'>
+    readonly hostAnsweredAt: FieldRef<"Battle", 'DateTime'>
+    readonly opponentAnsweredAt: FieldRef<"Battle", 'DateTime'>
+    readonly startedAt: FieldRef<"Battle", 'DateTime'>
+    readonly completedAt: FieldRef<"Battle", 'DateTime'>
+    readonly createdAt: FieldRef<"Battle", 'DateTime'>
+    readonly hostId: FieldRef<"Battle", 'String'>
+    readonly opponentId: FieldRef<"Battle", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Battle findUnique
+   */
+  export type BattleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+    /**
+     * Filter, which Battle to fetch.
+     */
+    where: BattleWhereUniqueInput
+  }
+
+  /**
+   * Battle findUniqueOrThrow
+   */
+  export type BattleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+    /**
+     * Filter, which Battle to fetch.
+     */
+    where: BattleWhereUniqueInput
+  }
+
+  /**
+   * Battle findFirst
+   */
+  export type BattleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+    /**
+     * Filter, which Battle to fetch.
+     */
+    where?: BattleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Battles to fetch.
+     */
+    orderBy?: BattleOrderByWithRelationInput | BattleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Battles.
+     */
+    cursor?: BattleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Battles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Battles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Battles.
+     */
+    distinct?: BattleScalarFieldEnum | BattleScalarFieldEnum[]
+  }
+
+  /**
+   * Battle findFirstOrThrow
+   */
+  export type BattleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+    /**
+     * Filter, which Battle to fetch.
+     */
+    where?: BattleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Battles to fetch.
+     */
+    orderBy?: BattleOrderByWithRelationInput | BattleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Battles.
+     */
+    cursor?: BattleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Battles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Battles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Battles.
+     */
+    distinct?: BattleScalarFieldEnum | BattleScalarFieldEnum[]
+  }
+
+  /**
+   * Battle findMany
+   */
+  export type BattleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+    /**
+     * Filter, which Battles to fetch.
+     */
+    where?: BattleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Battles to fetch.
+     */
+    orderBy?: BattleOrderByWithRelationInput | BattleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Battles.
+     */
+    cursor?: BattleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Battles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Battles.
+     */
+    skip?: number
+    distinct?: BattleScalarFieldEnum | BattleScalarFieldEnum[]
+  }
+
+  /**
+   * Battle create
+   */
+  export type BattleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Battle.
+     */
+    data: XOR<BattleCreateInput, BattleUncheckedCreateInput>
+  }
+
+  /**
+   * Battle createMany
+   */
+  export type BattleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Battles.
+     */
+    data: BattleCreateManyInput | BattleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Battle createManyAndReturn
+   */
+  export type BattleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * The data used to create many Battles.
+     */
+    data: BattleCreateManyInput | BattleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Battle update
+   */
+  export type BattleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Battle.
+     */
+    data: XOR<BattleUpdateInput, BattleUncheckedUpdateInput>
+    /**
+     * Choose, which Battle to update.
+     */
+    where: BattleWhereUniqueInput
+  }
+
+  /**
+   * Battle updateMany
+   */
+  export type BattleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Battles.
+     */
+    data: XOR<BattleUpdateManyMutationInput, BattleUncheckedUpdateManyInput>
+    /**
+     * Filter which Battles to update
+     */
+    where?: BattleWhereInput
+    /**
+     * Limit how many Battles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Battle updateManyAndReturn
+   */
+  export type BattleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * The data used to update Battles.
+     */
+    data: XOR<BattleUpdateManyMutationInput, BattleUncheckedUpdateManyInput>
+    /**
+     * Filter which Battles to update
+     */
+    where?: BattleWhereInput
+    /**
+     * Limit how many Battles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Battle upsert
+   */
+  export type BattleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Battle to update in case it exists.
+     */
+    where: BattleWhereUniqueInput
+    /**
+     * In case the Battle found by the `where` argument doesn't exist, create a new Battle with this data.
+     */
+    create: XOR<BattleCreateInput, BattleUncheckedCreateInput>
+    /**
+     * In case the Battle was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BattleUpdateInput, BattleUncheckedUpdateInput>
+  }
+
+  /**
+   * Battle delete
+   */
+  export type BattleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+    /**
+     * Filter which Battle to delete.
+     */
+    where: BattleWhereUniqueInput
+  }
+
+  /**
+   * Battle deleteMany
+   */
+  export type BattleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Battles to delete
+     */
+    where?: BattleWhereInput
+    /**
+     * Limit how many Battles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Battle.opponent
+   */
+  export type Battle$opponentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Battle.battleQuestions
+   */
+  export type Battle$battleQuestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionInclude<ExtArgs> | null
+    where?: BattleQuestionWhereInput
+    orderBy?: BattleQuestionOrderByWithRelationInput | BattleQuestionOrderByWithRelationInput[]
+    cursor?: BattleQuestionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BattleQuestionScalarFieldEnum | BattleQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * Battle.participants
+   */
+  export type Battle$participantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+    where?: BattleParticipantWhereInput
+    orderBy?: BattleParticipantOrderByWithRelationInput | BattleParticipantOrderByWithRelationInput[]
+    cursor?: BattleParticipantWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BattleParticipantScalarFieldEnum | BattleParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * Battle.result
+   */
+  export type Battle$resultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+    where?: BattleResultWhereInput
+  }
+
+  /**
+   * Battle without action
+   */
+  export type BattleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Battle
+     */
+    select?: BattleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Battle
+     */
+    omit?: BattleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BattleQuestion
+   */
+
+  export type AggregateBattleQuestion = {
+    _count: BattleQuestionCountAggregateOutputType | null
+    _avg: BattleQuestionAvgAggregateOutputType | null
+    _sum: BattleQuestionSumAggregateOutputType | null
+    _min: BattleQuestionMinAggregateOutputType | null
+    _max: BattleQuestionMaxAggregateOutputType | null
+  }
+
+  export type BattleQuestionAvgAggregateOutputType = {
+    points: number | null
+    orderIndex: number | null
+  }
+
+  export type BattleQuestionSumAggregateOutputType = {
+    points: number | null
+    orderIndex: number | null
+  }
+
+  export type BattleQuestionMinAggregateOutputType = {
+    id: string | null
+    battleId: string | null
+    question: string | null
+    correctAnswer: string | null
+    points: number | null
+    orderIndex: number | null
+  }
+
+  export type BattleQuestionMaxAggregateOutputType = {
+    id: string | null
+    battleId: string | null
+    question: string | null
+    correctAnswer: string | null
+    points: number | null
+    orderIndex: number | null
+  }
+
+  export type BattleQuestionCountAggregateOutputType = {
+    id: number
+    battleId: number
+    question: number
+    options: number
+    correctAnswer: number
+    points: number
+    orderIndex: number
+    _all: number
+  }
+
+
+  export type BattleQuestionAvgAggregateInputType = {
+    points?: true
+    orderIndex?: true
+  }
+
+  export type BattleQuestionSumAggregateInputType = {
+    points?: true
+    orderIndex?: true
+  }
+
+  export type BattleQuestionMinAggregateInputType = {
+    id?: true
+    battleId?: true
+    question?: true
+    correctAnswer?: true
+    points?: true
+    orderIndex?: true
+  }
+
+  export type BattleQuestionMaxAggregateInputType = {
+    id?: true
+    battleId?: true
+    question?: true
+    correctAnswer?: true
+    points?: true
+    orderIndex?: true
+  }
+
+  export type BattleQuestionCountAggregateInputType = {
+    id?: true
+    battleId?: true
+    question?: true
+    options?: true
+    correctAnswer?: true
+    points?: true
+    orderIndex?: true
+    _all?: true
+  }
+
+  export type BattleQuestionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BattleQuestion to aggregate.
+     */
+    where?: BattleQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleQuestions to fetch.
+     */
+    orderBy?: BattleQuestionOrderByWithRelationInput | BattleQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BattleQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BattleQuestions
+    **/
+    _count?: true | BattleQuestionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BattleQuestionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BattleQuestionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BattleQuestionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BattleQuestionMaxAggregateInputType
+  }
+
+  export type GetBattleQuestionAggregateType<T extends BattleQuestionAggregateArgs> = {
+        [P in keyof T & keyof AggregateBattleQuestion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBattleQuestion[P]>
+      : GetScalarType<T[P], AggregateBattleQuestion[P]>
+  }
+
+
+
+
+  export type BattleQuestionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleQuestionWhereInput
+    orderBy?: BattleQuestionOrderByWithAggregationInput | BattleQuestionOrderByWithAggregationInput[]
+    by: BattleQuestionScalarFieldEnum[] | BattleQuestionScalarFieldEnum
+    having?: BattleQuestionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BattleQuestionCountAggregateInputType | true
+    _avg?: BattleQuestionAvgAggregateInputType
+    _sum?: BattleQuestionSumAggregateInputType
+    _min?: BattleQuestionMinAggregateInputType
+    _max?: BattleQuestionMaxAggregateInputType
+  }
+
+  export type BattleQuestionGroupByOutputType = {
+    id: string
+    battleId: string
+    question: string
+    options: JsonValue | null
+    correctAnswer: string
+    points: number
+    orderIndex: number
+    _count: BattleQuestionCountAggregateOutputType | null
+    _avg: BattleQuestionAvgAggregateOutputType | null
+    _sum: BattleQuestionSumAggregateOutputType | null
+    _min: BattleQuestionMinAggregateOutputType | null
+    _max: BattleQuestionMaxAggregateOutputType | null
+  }
+
+  type GetBattleQuestionGroupByPayload<T extends BattleQuestionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BattleQuestionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BattleQuestionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BattleQuestionGroupByOutputType[P]>
+            : GetScalarType<T[P], BattleQuestionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BattleQuestionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    battleId?: boolean
+    question?: boolean
+    options?: boolean
+    correctAnswer?: boolean
+    points?: boolean
+    orderIndex?: boolean
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["battleQuestion"]>
+
+  export type BattleQuestionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    battleId?: boolean
+    question?: boolean
+    options?: boolean
+    correctAnswer?: boolean
+    points?: boolean
+    orderIndex?: boolean
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["battleQuestion"]>
+
+  export type BattleQuestionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    battleId?: boolean
+    question?: boolean
+    options?: boolean
+    correctAnswer?: boolean
+    points?: boolean
+    orderIndex?: boolean
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["battleQuestion"]>
+
+  export type BattleQuestionSelectScalar = {
+    id?: boolean
+    battleId?: boolean
+    question?: boolean
+    options?: boolean
+    correctAnswer?: boolean
+    points?: boolean
+    orderIndex?: boolean
+  }
+
+  export type BattleQuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "battleId" | "question" | "options" | "correctAnswer" | "points" | "orderIndex", ExtArgs["result"]["battleQuestion"]>
+  export type BattleQuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+  }
+  export type BattleQuestionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+  }
+  export type BattleQuestionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+  }
+
+  export type $BattleQuestionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BattleQuestion"
+    objects: {
+      battle: Prisma.$BattlePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      battleId: string
+      question: string
+      options: Prisma.JsonValue | null
+      correctAnswer: string
+      points: number
+      orderIndex: number
+    }, ExtArgs["result"]["battleQuestion"]>
+    composites: {}
+  }
+
+  type BattleQuestionGetPayload<S extends boolean | null | undefined | BattleQuestionDefaultArgs> = $Result.GetResult<Prisma.$BattleQuestionPayload, S>
+
+  type BattleQuestionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BattleQuestionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BattleQuestionCountAggregateInputType | true
+    }
+
+  export interface BattleQuestionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BattleQuestion'], meta: { name: 'BattleQuestion' } }
+    /**
+     * Find zero or one BattleQuestion that matches the filter.
+     * @param {BattleQuestionFindUniqueArgs} args - Arguments to find a BattleQuestion
+     * @example
+     * // Get one BattleQuestion
+     * const battleQuestion = await prisma.battleQuestion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BattleQuestionFindUniqueArgs>(args: SelectSubset<T, BattleQuestionFindUniqueArgs<ExtArgs>>): Prisma__BattleQuestionClient<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BattleQuestion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BattleQuestionFindUniqueOrThrowArgs} args - Arguments to find a BattleQuestion
+     * @example
+     * // Get one BattleQuestion
+     * const battleQuestion = await prisma.battleQuestion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BattleQuestionFindUniqueOrThrowArgs>(args: SelectSubset<T, BattleQuestionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BattleQuestionClient<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BattleQuestion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleQuestionFindFirstArgs} args - Arguments to find a BattleQuestion
+     * @example
+     * // Get one BattleQuestion
+     * const battleQuestion = await prisma.battleQuestion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BattleQuestionFindFirstArgs>(args?: SelectSubset<T, BattleQuestionFindFirstArgs<ExtArgs>>): Prisma__BattleQuestionClient<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BattleQuestion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleQuestionFindFirstOrThrowArgs} args - Arguments to find a BattleQuestion
+     * @example
+     * // Get one BattleQuestion
+     * const battleQuestion = await prisma.battleQuestion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BattleQuestionFindFirstOrThrowArgs>(args?: SelectSubset<T, BattleQuestionFindFirstOrThrowArgs<ExtArgs>>): Prisma__BattleQuestionClient<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BattleQuestions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleQuestionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BattleQuestions
+     * const battleQuestions = await prisma.battleQuestion.findMany()
+     * 
+     * // Get first 10 BattleQuestions
+     * const battleQuestions = await prisma.battleQuestion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const battleQuestionWithIdOnly = await prisma.battleQuestion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BattleQuestionFindManyArgs>(args?: SelectSubset<T, BattleQuestionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BattleQuestion.
+     * @param {BattleQuestionCreateArgs} args - Arguments to create a BattleQuestion.
+     * @example
+     * // Create one BattleQuestion
+     * const BattleQuestion = await prisma.battleQuestion.create({
+     *   data: {
+     *     // ... data to create a BattleQuestion
+     *   }
+     * })
+     * 
+     */
+    create<T extends BattleQuestionCreateArgs>(args: SelectSubset<T, BattleQuestionCreateArgs<ExtArgs>>): Prisma__BattleQuestionClient<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BattleQuestions.
+     * @param {BattleQuestionCreateManyArgs} args - Arguments to create many BattleQuestions.
+     * @example
+     * // Create many BattleQuestions
+     * const battleQuestion = await prisma.battleQuestion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BattleQuestionCreateManyArgs>(args?: SelectSubset<T, BattleQuestionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BattleQuestions and returns the data saved in the database.
+     * @param {BattleQuestionCreateManyAndReturnArgs} args - Arguments to create many BattleQuestions.
+     * @example
+     * // Create many BattleQuestions
+     * const battleQuestion = await prisma.battleQuestion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BattleQuestions and only return the `id`
+     * const battleQuestionWithIdOnly = await prisma.battleQuestion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BattleQuestionCreateManyAndReturnArgs>(args?: SelectSubset<T, BattleQuestionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BattleQuestion.
+     * @param {BattleQuestionDeleteArgs} args - Arguments to delete one BattleQuestion.
+     * @example
+     * // Delete one BattleQuestion
+     * const BattleQuestion = await prisma.battleQuestion.delete({
+     *   where: {
+     *     // ... filter to delete one BattleQuestion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BattleQuestionDeleteArgs>(args: SelectSubset<T, BattleQuestionDeleteArgs<ExtArgs>>): Prisma__BattleQuestionClient<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BattleQuestion.
+     * @param {BattleQuestionUpdateArgs} args - Arguments to update one BattleQuestion.
+     * @example
+     * // Update one BattleQuestion
+     * const battleQuestion = await prisma.battleQuestion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BattleQuestionUpdateArgs>(args: SelectSubset<T, BattleQuestionUpdateArgs<ExtArgs>>): Prisma__BattleQuestionClient<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BattleQuestions.
+     * @param {BattleQuestionDeleteManyArgs} args - Arguments to filter BattleQuestions to delete.
+     * @example
+     * // Delete a few BattleQuestions
+     * const { count } = await prisma.battleQuestion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BattleQuestionDeleteManyArgs>(args?: SelectSubset<T, BattleQuestionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BattleQuestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleQuestionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BattleQuestions
+     * const battleQuestion = await prisma.battleQuestion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BattleQuestionUpdateManyArgs>(args: SelectSubset<T, BattleQuestionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BattleQuestions and returns the data updated in the database.
+     * @param {BattleQuestionUpdateManyAndReturnArgs} args - Arguments to update many BattleQuestions.
+     * @example
+     * // Update many BattleQuestions
+     * const battleQuestion = await prisma.battleQuestion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BattleQuestions and only return the `id`
+     * const battleQuestionWithIdOnly = await prisma.battleQuestion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BattleQuestionUpdateManyAndReturnArgs>(args: SelectSubset<T, BattleQuestionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BattleQuestion.
+     * @param {BattleQuestionUpsertArgs} args - Arguments to update or create a BattleQuestion.
+     * @example
+     * // Update or create a BattleQuestion
+     * const battleQuestion = await prisma.battleQuestion.upsert({
+     *   create: {
+     *     // ... data to create a BattleQuestion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BattleQuestion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BattleQuestionUpsertArgs>(args: SelectSubset<T, BattleQuestionUpsertArgs<ExtArgs>>): Prisma__BattleQuestionClient<$Result.GetResult<Prisma.$BattleQuestionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BattleQuestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleQuestionCountArgs} args - Arguments to filter BattleQuestions to count.
+     * @example
+     * // Count the number of BattleQuestions
+     * const count = await prisma.battleQuestion.count({
+     *   where: {
+     *     // ... the filter for the BattleQuestions we want to count
+     *   }
+     * })
+    **/
+    count<T extends BattleQuestionCountArgs>(
+      args?: Subset<T, BattleQuestionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BattleQuestionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BattleQuestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleQuestionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BattleQuestionAggregateArgs>(args: Subset<T, BattleQuestionAggregateArgs>): Prisma.PrismaPromise<GetBattleQuestionAggregateType<T>>
+
+    /**
+     * Group by BattleQuestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleQuestionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BattleQuestionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BattleQuestionGroupByArgs['orderBy'] }
+        : { orderBy?: BattleQuestionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BattleQuestionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBattleQuestionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BattleQuestion model
+   */
+  readonly fields: BattleQuestionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BattleQuestion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BattleQuestionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    battle<T extends BattleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BattleDefaultArgs<ExtArgs>>): Prisma__BattleClient<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BattleQuestion model
+   */
+  interface BattleQuestionFieldRefs {
+    readonly id: FieldRef<"BattleQuestion", 'String'>
+    readonly battleId: FieldRef<"BattleQuestion", 'String'>
+    readonly question: FieldRef<"BattleQuestion", 'String'>
+    readonly options: FieldRef<"BattleQuestion", 'Json'>
+    readonly correctAnswer: FieldRef<"BattleQuestion", 'String'>
+    readonly points: FieldRef<"BattleQuestion", 'Int'>
+    readonly orderIndex: FieldRef<"BattleQuestion", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BattleQuestion findUnique
+   */
+  export type BattleQuestionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleQuestion to fetch.
+     */
+    where: BattleQuestionWhereUniqueInput
+  }
+
+  /**
+   * BattleQuestion findUniqueOrThrow
+   */
+  export type BattleQuestionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleQuestion to fetch.
+     */
+    where: BattleQuestionWhereUniqueInput
+  }
+
+  /**
+   * BattleQuestion findFirst
+   */
+  export type BattleQuestionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleQuestion to fetch.
+     */
+    where?: BattleQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleQuestions to fetch.
+     */
+    orderBy?: BattleQuestionOrderByWithRelationInput | BattleQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BattleQuestions.
+     */
+    cursor?: BattleQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BattleQuestions.
+     */
+    distinct?: BattleQuestionScalarFieldEnum | BattleQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * BattleQuestion findFirstOrThrow
+   */
+  export type BattleQuestionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleQuestion to fetch.
+     */
+    where?: BattleQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleQuestions to fetch.
+     */
+    orderBy?: BattleQuestionOrderByWithRelationInput | BattleQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BattleQuestions.
+     */
+    cursor?: BattleQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BattleQuestions.
+     */
+    distinct?: BattleQuestionScalarFieldEnum | BattleQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * BattleQuestion findMany
+   */
+  export type BattleQuestionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleQuestions to fetch.
+     */
+    where?: BattleQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleQuestions to fetch.
+     */
+    orderBy?: BattleQuestionOrderByWithRelationInput | BattleQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BattleQuestions.
+     */
+    cursor?: BattleQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleQuestions.
+     */
+    skip?: number
+    distinct?: BattleQuestionScalarFieldEnum | BattleQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * BattleQuestion create
+   */
+  export type BattleQuestionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BattleQuestion.
+     */
+    data: XOR<BattleQuestionCreateInput, BattleQuestionUncheckedCreateInput>
+  }
+
+  /**
+   * BattleQuestion createMany
+   */
+  export type BattleQuestionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BattleQuestions.
+     */
+    data: BattleQuestionCreateManyInput | BattleQuestionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BattleQuestion createManyAndReturn
+   */
+  export type BattleQuestionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * The data used to create many BattleQuestions.
+     */
+    data: BattleQuestionCreateManyInput | BattleQuestionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BattleQuestion update
+   */
+  export type BattleQuestionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BattleQuestion.
+     */
+    data: XOR<BattleQuestionUpdateInput, BattleQuestionUncheckedUpdateInput>
+    /**
+     * Choose, which BattleQuestion to update.
+     */
+    where: BattleQuestionWhereUniqueInput
+  }
+
+  /**
+   * BattleQuestion updateMany
+   */
+  export type BattleQuestionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BattleQuestions.
+     */
+    data: XOR<BattleQuestionUpdateManyMutationInput, BattleQuestionUncheckedUpdateManyInput>
+    /**
+     * Filter which BattleQuestions to update
+     */
+    where?: BattleQuestionWhereInput
+    /**
+     * Limit how many BattleQuestions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BattleQuestion updateManyAndReturn
+   */
+  export type BattleQuestionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * The data used to update BattleQuestions.
+     */
+    data: XOR<BattleQuestionUpdateManyMutationInput, BattleQuestionUncheckedUpdateManyInput>
+    /**
+     * Filter which BattleQuestions to update
+     */
+    where?: BattleQuestionWhereInput
+    /**
+     * Limit how many BattleQuestions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BattleQuestion upsert
+   */
+  export type BattleQuestionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BattleQuestion to update in case it exists.
+     */
+    where: BattleQuestionWhereUniqueInput
+    /**
+     * In case the BattleQuestion found by the `where` argument doesn't exist, create a new BattleQuestion with this data.
+     */
+    create: XOR<BattleQuestionCreateInput, BattleQuestionUncheckedCreateInput>
+    /**
+     * In case the BattleQuestion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BattleQuestionUpdateInput, BattleQuestionUncheckedUpdateInput>
+  }
+
+  /**
+   * BattleQuestion delete
+   */
+  export type BattleQuestionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionInclude<ExtArgs> | null
+    /**
+     * Filter which BattleQuestion to delete.
+     */
+    where: BattleQuestionWhereUniqueInput
+  }
+
+  /**
+   * BattleQuestion deleteMany
+   */
+  export type BattleQuestionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BattleQuestions to delete
+     */
+    where?: BattleQuestionWhereInput
+    /**
+     * Limit how many BattleQuestions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BattleQuestion without action
+   */
+  export type BattleQuestionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleQuestion
+     */
+    select?: BattleQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleQuestion
+     */
+    omit?: BattleQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleQuestionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BattleParticipant
+   */
+
+  export type AggregateBattleParticipant = {
+    _count: BattleParticipantCountAggregateOutputType | null
+    _avg: BattleParticipantAvgAggregateOutputType | null
+    _sum: BattleParticipantSumAggregateOutputType | null
+    _min: BattleParticipantMinAggregateOutputType | null
+    _max: BattleParticipantMaxAggregateOutputType | null
+  }
+
+  export type BattleParticipantAvgAggregateOutputType = {
+    score: number | null
+    correctCount: number | null
+    totalAnswered: number | null
+  }
+
+  export type BattleParticipantSumAggregateOutputType = {
+    score: number | null
+    correctCount: number | null
+    totalAnswered: number | null
+  }
+
+  export type BattleParticipantMinAggregateOutputType = {
+    id: string | null
+    battleId: string | null
+    userId: string | null
+    score: number | null
+    correctCount: number | null
+    totalAnswered: number | null
+    joinedAt: Date | null
+  }
+
+  export type BattleParticipantMaxAggregateOutputType = {
+    id: string | null
+    battleId: string | null
+    userId: string | null
+    score: number | null
+    correctCount: number | null
+    totalAnswered: number | null
+    joinedAt: Date | null
+  }
+
+  export type BattleParticipantCountAggregateOutputType = {
+    id: number
+    battleId: number
+    userId: number
+    answers: number
+    score: number
+    correctCount: number
+    totalAnswered: number
+    joinedAt: number
+    _all: number
+  }
+
+
+  export type BattleParticipantAvgAggregateInputType = {
+    score?: true
+    correctCount?: true
+    totalAnswered?: true
+  }
+
+  export type BattleParticipantSumAggregateInputType = {
+    score?: true
+    correctCount?: true
+    totalAnswered?: true
+  }
+
+  export type BattleParticipantMinAggregateInputType = {
+    id?: true
+    battleId?: true
+    userId?: true
+    score?: true
+    correctCount?: true
+    totalAnswered?: true
+    joinedAt?: true
+  }
+
+  export type BattleParticipantMaxAggregateInputType = {
+    id?: true
+    battleId?: true
+    userId?: true
+    score?: true
+    correctCount?: true
+    totalAnswered?: true
+    joinedAt?: true
+  }
+
+  export type BattleParticipantCountAggregateInputType = {
+    id?: true
+    battleId?: true
+    userId?: true
+    answers?: true
+    score?: true
+    correctCount?: true
+    totalAnswered?: true
+    joinedAt?: true
+    _all?: true
+  }
+
+  export type BattleParticipantAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BattleParticipant to aggregate.
+     */
+    where?: BattleParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleParticipants to fetch.
+     */
+    orderBy?: BattleParticipantOrderByWithRelationInput | BattleParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BattleParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleParticipants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BattleParticipants
+    **/
+    _count?: true | BattleParticipantCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BattleParticipantAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BattleParticipantSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BattleParticipantMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BattleParticipantMaxAggregateInputType
+  }
+
+  export type GetBattleParticipantAggregateType<T extends BattleParticipantAggregateArgs> = {
+        [P in keyof T & keyof AggregateBattleParticipant]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBattleParticipant[P]>
+      : GetScalarType<T[P], AggregateBattleParticipant[P]>
+  }
+
+
+
+
+  export type BattleParticipantGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleParticipantWhereInput
+    orderBy?: BattleParticipantOrderByWithAggregationInput | BattleParticipantOrderByWithAggregationInput[]
+    by: BattleParticipantScalarFieldEnum[] | BattleParticipantScalarFieldEnum
+    having?: BattleParticipantScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BattleParticipantCountAggregateInputType | true
+    _avg?: BattleParticipantAvgAggregateInputType
+    _sum?: BattleParticipantSumAggregateInputType
+    _min?: BattleParticipantMinAggregateInputType
+    _max?: BattleParticipantMaxAggregateInputType
+  }
+
+  export type BattleParticipantGroupByOutputType = {
+    id: string
+    battleId: string
+    userId: string
+    answers: JsonValue | null
+    score: number
+    correctCount: number
+    totalAnswered: number
+    joinedAt: Date
+    _count: BattleParticipantCountAggregateOutputType | null
+    _avg: BattleParticipantAvgAggregateOutputType | null
+    _sum: BattleParticipantSumAggregateOutputType | null
+    _min: BattleParticipantMinAggregateOutputType | null
+    _max: BattleParticipantMaxAggregateOutputType | null
+  }
+
+  type GetBattleParticipantGroupByPayload<T extends BattleParticipantGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BattleParticipantGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BattleParticipantGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BattleParticipantGroupByOutputType[P]>
+            : GetScalarType<T[P], BattleParticipantGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BattleParticipantSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    battleId?: boolean
+    userId?: boolean
+    answers?: boolean
+    score?: boolean
+    correctCount?: boolean
+    totalAnswered?: boolean
+    joinedAt?: boolean
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["battleParticipant"]>
+
+  export type BattleParticipantSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    battleId?: boolean
+    userId?: boolean
+    answers?: boolean
+    score?: boolean
+    correctCount?: boolean
+    totalAnswered?: boolean
+    joinedAt?: boolean
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["battleParticipant"]>
+
+  export type BattleParticipantSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    battleId?: boolean
+    userId?: boolean
+    answers?: boolean
+    score?: boolean
+    correctCount?: boolean
+    totalAnswered?: boolean
+    joinedAt?: boolean
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["battleParticipant"]>
+
+  export type BattleParticipantSelectScalar = {
+    id?: boolean
+    battleId?: boolean
+    userId?: boolean
+    answers?: boolean
+    score?: boolean
+    correctCount?: boolean
+    totalAnswered?: boolean
+    joinedAt?: boolean
+  }
+
+  export type BattleParticipantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "battleId" | "userId" | "answers" | "score" | "correctCount" | "totalAnswered" | "joinedAt", ExtArgs["result"]["battleParticipant"]>
+  export type BattleParticipantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BattleParticipantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BattleParticipantIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $BattleParticipantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BattleParticipant"
+    objects: {
+      battle: Prisma.$BattlePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      battleId: string
+      userId: string
+      answers: Prisma.JsonValue | null
+      score: number
+      correctCount: number
+      totalAnswered: number
+      joinedAt: Date
+    }, ExtArgs["result"]["battleParticipant"]>
+    composites: {}
+  }
+
+  type BattleParticipantGetPayload<S extends boolean | null | undefined | BattleParticipantDefaultArgs> = $Result.GetResult<Prisma.$BattleParticipantPayload, S>
+
+  type BattleParticipantCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BattleParticipantFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BattleParticipantCountAggregateInputType | true
+    }
+
+  export interface BattleParticipantDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BattleParticipant'], meta: { name: 'BattleParticipant' } }
+    /**
+     * Find zero or one BattleParticipant that matches the filter.
+     * @param {BattleParticipantFindUniqueArgs} args - Arguments to find a BattleParticipant
+     * @example
+     * // Get one BattleParticipant
+     * const battleParticipant = await prisma.battleParticipant.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BattleParticipantFindUniqueArgs>(args: SelectSubset<T, BattleParticipantFindUniqueArgs<ExtArgs>>): Prisma__BattleParticipantClient<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BattleParticipant that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BattleParticipantFindUniqueOrThrowArgs} args - Arguments to find a BattleParticipant
+     * @example
+     * // Get one BattleParticipant
+     * const battleParticipant = await prisma.battleParticipant.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BattleParticipantFindUniqueOrThrowArgs>(args: SelectSubset<T, BattleParticipantFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BattleParticipantClient<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BattleParticipant that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleParticipantFindFirstArgs} args - Arguments to find a BattleParticipant
+     * @example
+     * // Get one BattleParticipant
+     * const battleParticipant = await prisma.battleParticipant.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BattleParticipantFindFirstArgs>(args?: SelectSubset<T, BattleParticipantFindFirstArgs<ExtArgs>>): Prisma__BattleParticipantClient<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BattleParticipant that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleParticipantFindFirstOrThrowArgs} args - Arguments to find a BattleParticipant
+     * @example
+     * // Get one BattleParticipant
+     * const battleParticipant = await prisma.battleParticipant.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BattleParticipantFindFirstOrThrowArgs>(args?: SelectSubset<T, BattleParticipantFindFirstOrThrowArgs<ExtArgs>>): Prisma__BattleParticipantClient<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BattleParticipants that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleParticipantFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BattleParticipants
+     * const battleParticipants = await prisma.battleParticipant.findMany()
+     * 
+     * // Get first 10 BattleParticipants
+     * const battleParticipants = await prisma.battleParticipant.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const battleParticipantWithIdOnly = await prisma.battleParticipant.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BattleParticipantFindManyArgs>(args?: SelectSubset<T, BattleParticipantFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BattleParticipant.
+     * @param {BattleParticipantCreateArgs} args - Arguments to create a BattleParticipant.
+     * @example
+     * // Create one BattleParticipant
+     * const BattleParticipant = await prisma.battleParticipant.create({
+     *   data: {
+     *     // ... data to create a BattleParticipant
+     *   }
+     * })
+     * 
+     */
+    create<T extends BattleParticipantCreateArgs>(args: SelectSubset<T, BattleParticipantCreateArgs<ExtArgs>>): Prisma__BattleParticipantClient<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BattleParticipants.
+     * @param {BattleParticipantCreateManyArgs} args - Arguments to create many BattleParticipants.
+     * @example
+     * // Create many BattleParticipants
+     * const battleParticipant = await prisma.battleParticipant.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BattleParticipantCreateManyArgs>(args?: SelectSubset<T, BattleParticipantCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BattleParticipants and returns the data saved in the database.
+     * @param {BattleParticipantCreateManyAndReturnArgs} args - Arguments to create many BattleParticipants.
+     * @example
+     * // Create many BattleParticipants
+     * const battleParticipant = await prisma.battleParticipant.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BattleParticipants and only return the `id`
+     * const battleParticipantWithIdOnly = await prisma.battleParticipant.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BattleParticipantCreateManyAndReturnArgs>(args?: SelectSubset<T, BattleParticipantCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BattleParticipant.
+     * @param {BattleParticipantDeleteArgs} args - Arguments to delete one BattleParticipant.
+     * @example
+     * // Delete one BattleParticipant
+     * const BattleParticipant = await prisma.battleParticipant.delete({
+     *   where: {
+     *     // ... filter to delete one BattleParticipant
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BattleParticipantDeleteArgs>(args: SelectSubset<T, BattleParticipantDeleteArgs<ExtArgs>>): Prisma__BattleParticipantClient<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BattleParticipant.
+     * @param {BattleParticipantUpdateArgs} args - Arguments to update one BattleParticipant.
+     * @example
+     * // Update one BattleParticipant
+     * const battleParticipant = await prisma.battleParticipant.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BattleParticipantUpdateArgs>(args: SelectSubset<T, BattleParticipantUpdateArgs<ExtArgs>>): Prisma__BattleParticipantClient<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BattleParticipants.
+     * @param {BattleParticipantDeleteManyArgs} args - Arguments to filter BattleParticipants to delete.
+     * @example
+     * // Delete a few BattleParticipants
+     * const { count } = await prisma.battleParticipant.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BattleParticipantDeleteManyArgs>(args?: SelectSubset<T, BattleParticipantDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BattleParticipants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleParticipantUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BattleParticipants
+     * const battleParticipant = await prisma.battleParticipant.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BattleParticipantUpdateManyArgs>(args: SelectSubset<T, BattleParticipantUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BattleParticipants and returns the data updated in the database.
+     * @param {BattleParticipantUpdateManyAndReturnArgs} args - Arguments to update many BattleParticipants.
+     * @example
+     * // Update many BattleParticipants
+     * const battleParticipant = await prisma.battleParticipant.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BattleParticipants and only return the `id`
+     * const battleParticipantWithIdOnly = await prisma.battleParticipant.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BattleParticipantUpdateManyAndReturnArgs>(args: SelectSubset<T, BattleParticipantUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BattleParticipant.
+     * @param {BattleParticipantUpsertArgs} args - Arguments to update or create a BattleParticipant.
+     * @example
+     * // Update or create a BattleParticipant
+     * const battleParticipant = await prisma.battleParticipant.upsert({
+     *   create: {
+     *     // ... data to create a BattleParticipant
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BattleParticipant we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BattleParticipantUpsertArgs>(args: SelectSubset<T, BattleParticipantUpsertArgs<ExtArgs>>): Prisma__BattleParticipantClient<$Result.GetResult<Prisma.$BattleParticipantPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BattleParticipants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleParticipantCountArgs} args - Arguments to filter BattleParticipants to count.
+     * @example
+     * // Count the number of BattleParticipants
+     * const count = await prisma.battleParticipant.count({
+     *   where: {
+     *     // ... the filter for the BattleParticipants we want to count
+     *   }
+     * })
+    **/
+    count<T extends BattleParticipantCountArgs>(
+      args?: Subset<T, BattleParticipantCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BattleParticipantCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BattleParticipant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleParticipantAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BattleParticipantAggregateArgs>(args: Subset<T, BattleParticipantAggregateArgs>): Prisma.PrismaPromise<GetBattleParticipantAggregateType<T>>
+
+    /**
+     * Group by BattleParticipant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleParticipantGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BattleParticipantGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BattleParticipantGroupByArgs['orderBy'] }
+        : { orderBy?: BattleParticipantGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BattleParticipantGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBattleParticipantGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BattleParticipant model
+   */
+  readonly fields: BattleParticipantFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BattleParticipant.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BattleParticipantClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    battle<T extends BattleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BattleDefaultArgs<ExtArgs>>): Prisma__BattleClient<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BattleParticipant model
+   */
+  interface BattleParticipantFieldRefs {
+    readonly id: FieldRef<"BattleParticipant", 'String'>
+    readonly battleId: FieldRef<"BattleParticipant", 'String'>
+    readonly userId: FieldRef<"BattleParticipant", 'String'>
+    readonly answers: FieldRef<"BattleParticipant", 'Json'>
+    readonly score: FieldRef<"BattleParticipant", 'Int'>
+    readonly correctCount: FieldRef<"BattleParticipant", 'Int'>
+    readonly totalAnswered: FieldRef<"BattleParticipant", 'Int'>
+    readonly joinedAt: FieldRef<"BattleParticipant", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BattleParticipant findUnique
+   */
+  export type BattleParticipantFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleParticipant to fetch.
+     */
+    where: BattleParticipantWhereUniqueInput
+  }
+
+  /**
+   * BattleParticipant findUniqueOrThrow
+   */
+  export type BattleParticipantFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleParticipant to fetch.
+     */
+    where: BattleParticipantWhereUniqueInput
+  }
+
+  /**
+   * BattleParticipant findFirst
+   */
+  export type BattleParticipantFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleParticipant to fetch.
+     */
+    where?: BattleParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleParticipants to fetch.
+     */
+    orderBy?: BattleParticipantOrderByWithRelationInput | BattleParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BattleParticipants.
+     */
+    cursor?: BattleParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleParticipants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BattleParticipants.
+     */
+    distinct?: BattleParticipantScalarFieldEnum | BattleParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * BattleParticipant findFirstOrThrow
+   */
+  export type BattleParticipantFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleParticipant to fetch.
+     */
+    where?: BattleParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleParticipants to fetch.
+     */
+    orderBy?: BattleParticipantOrderByWithRelationInput | BattleParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BattleParticipants.
+     */
+    cursor?: BattleParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleParticipants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BattleParticipants.
+     */
+    distinct?: BattleParticipantScalarFieldEnum | BattleParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * BattleParticipant findMany
+   */
+  export type BattleParticipantFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleParticipants to fetch.
+     */
+    where?: BattleParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleParticipants to fetch.
+     */
+    orderBy?: BattleParticipantOrderByWithRelationInput | BattleParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BattleParticipants.
+     */
+    cursor?: BattleParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleParticipants.
+     */
+    skip?: number
+    distinct?: BattleParticipantScalarFieldEnum | BattleParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * BattleParticipant create
+   */
+  export type BattleParticipantCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BattleParticipant.
+     */
+    data: XOR<BattleParticipantCreateInput, BattleParticipantUncheckedCreateInput>
+  }
+
+  /**
+   * BattleParticipant createMany
+   */
+  export type BattleParticipantCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BattleParticipants.
+     */
+    data: BattleParticipantCreateManyInput | BattleParticipantCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BattleParticipant createManyAndReturn
+   */
+  export type BattleParticipantCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * The data used to create many BattleParticipants.
+     */
+    data: BattleParticipantCreateManyInput | BattleParticipantCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BattleParticipant update
+   */
+  export type BattleParticipantUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BattleParticipant.
+     */
+    data: XOR<BattleParticipantUpdateInput, BattleParticipantUncheckedUpdateInput>
+    /**
+     * Choose, which BattleParticipant to update.
+     */
+    where: BattleParticipantWhereUniqueInput
+  }
+
+  /**
+   * BattleParticipant updateMany
+   */
+  export type BattleParticipantUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BattleParticipants.
+     */
+    data: XOR<BattleParticipantUpdateManyMutationInput, BattleParticipantUncheckedUpdateManyInput>
+    /**
+     * Filter which BattleParticipants to update
+     */
+    where?: BattleParticipantWhereInput
+    /**
+     * Limit how many BattleParticipants to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BattleParticipant updateManyAndReturn
+   */
+  export type BattleParticipantUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * The data used to update BattleParticipants.
+     */
+    data: XOR<BattleParticipantUpdateManyMutationInput, BattleParticipantUncheckedUpdateManyInput>
+    /**
+     * Filter which BattleParticipants to update
+     */
+    where?: BattleParticipantWhereInput
+    /**
+     * Limit how many BattleParticipants to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BattleParticipant upsert
+   */
+  export type BattleParticipantUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BattleParticipant to update in case it exists.
+     */
+    where: BattleParticipantWhereUniqueInput
+    /**
+     * In case the BattleParticipant found by the `where` argument doesn't exist, create a new BattleParticipant with this data.
+     */
+    create: XOR<BattleParticipantCreateInput, BattleParticipantUncheckedCreateInput>
+    /**
+     * In case the BattleParticipant was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BattleParticipantUpdateInput, BattleParticipantUncheckedUpdateInput>
+  }
+
+  /**
+   * BattleParticipant delete
+   */
+  export type BattleParticipantDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+    /**
+     * Filter which BattleParticipant to delete.
+     */
+    where: BattleParticipantWhereUniqueInput
+  }
+
+  /**
+   * BattleParticipant deleteMany
+   */
+  export type BattleParticipantDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BattleParticipants to delete
+     */
+    where?: BattleParticipantWhereInput
+    /**
+     * Limit how many BattleParticipants to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BattleParticipant without action
+   */
+  export type BattleParticipantDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleParticipant
+     */
+    select?: BattleParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleParticipant
+     */
+    omit?: BattleParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleParticipantInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BattleResult
+   */
+
+  export type AggregateBattleResult = {
+    _count: BattleResultCountAggregateOutputType | null
+    _avg: BattleResultAvgAggregateOutputType | null
+    _sum: BattleResultSumAggregateOutputType | null
+    _min: BattleResultMinAggregateOutputType | null
+    _max: BattleResultMaxAggregateOutputType | null
+  }
+
+  export type BattleResultAvgAggregateOutputType = {
+    duration: number | null
+  }
+
+  export type BattleResultSumAggregateOutputType = {
+    duration: number | null
+  }
+
+  export type BattleResultMinAggregateOutputType = {
+    id: string | null
+    battleId: string | null
+    winnerId: string | null
+    duration: number | null
+    createdAt: Date | null
+  }
+
+  export type BattleResultMaxAggregateOutputType = {
+    id: string | null
+    battleId: string | null
+    winnerId: string | null
+    duration: number | null
+    createdAt: Date | null
+  }
+
+  export type BattleResultCountAggregateOutputType = {
+    id: number
+    battleId: number
+    winnerId: number
+    scores: number
+    duration: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BattleResultAvgAggregateInputType = {
+    duration?: true
+  }
+
+  export type BattleResultSumAggregateInputType = {
+    duration?: true
+  }
+
+  export type BattleResultMinAggregateInputType = {
+    id?: true
+    battleId?: true
+    winnerId?: true
+    duration?: true
+    createdAt?: true
+  }
+
+  export type BattleResultMaxAggregateInputType = {
+    id?: true
+    battleId?: true
+    winnerId?: true
+    duration?: true
+    createdAt?: true
+  }
+
+  export type BattleResultCountAggregateInputType = {
+    id?: true
+    battleId?: true
+    winnerId?: true
+    scores?: true
+    duration?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BattleResultAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BattleResult to aggregate.
+     */
+    where?: BattleResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleResults to fetch.
+     */
+    orderBy?: BattleResultOrderByWithRelationInput | BattleResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BattleResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BattleResults
+    **/
+    _count?: true | BattleResultCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BattleResultAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BattleResultSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BattleResultMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BattleResultMaxAggregateInputType
+  }
+
+  export type GetBattleResultAggregateType<T extends BattleResultAggregateArgs> = {
+        [P in keyof T & keyof AggregateBattleResult]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBattleResult[P]>
+      : GetScalarType<T[P], AggregateBattleResult[P]>
+  }
+
+
+
+
+  export type BattleResultGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BattleResultWhereInput
+    orderBy?: BattleResultOrderByWithAggregationInput | BattleResultOrderByWithAggregationInput[]
+    by: BattleResultScalarFieldEnum[] | BattleResultScalarFieldEnum
+    having?: BattleResultScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BattleResultCountAggregateInputType | true
+    _avg?: BattleResultAvgAggregateInputType
+    _sum?: BattleResultSumAggregateInputType
+    _min?: BattleResultMinAggregateInputType
+    _max?: BattleResultMaxAggregateInputType
+  }
+
+  export type BattleResultGroupByOutputType = {
+    id: string
+    battleId: string
+    winnerId: string | null
+    scores: JsonValue
+    duration: number
+    createdAt: Date
+    _count: BattleResultCountAggregateOutputType | null
+    _avg: BattleResultAvgAggregateOutputType | null
+    _sum: BattleResultSumAggregateOutputType | null
+    _min: BattleResultMinAggregateOutputType | null
+    _max: BattleResultMaxAggregateOutputType | null
+  }
+
+  type GetBattleResultGroupByPayload<T extends BattleResultGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BattleResultGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BattleResultGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BattleResultGroupByOutputType[P]>
+            : GetScalarType<T[P], BattleResultGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BattleResultSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    battleId?: boolean
+    winnerId?: boolean
+    scores?: boolean
+    duration?: boolean
+    createdAt?: boolean
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    winner?: boolean | BattleResult$winnerArgs<ExtArgs>
+  }, ExtArgs["result"]["battleResult"]>
+
+  export type BattleResultSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    battleId?: boolean
+    winnerId?: boolean
+    scores?: boolean
+    duration?: boolean
+    createdAt?: boolean
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    winner?: boolean | BattleResult$winnerArgs<ExtArgs>
+  }, ExtArgs["result"]["battleResult"]>
+
+  export type BattleResultSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    battleId?: boolean
+    winnerId?: boolean
+    scores?: boolean
+    duration?: boolean
+    createdAt?: boolean
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    winner?: boolean | BattleResult$winnerArgs<ExtArgs>
+  }, ExtArgs["result"]["battleResult"]>
+
+  export type BattleResultSelectScalar = {
+    id?: boolean
+    battleId?: boolean
+    winnerId?: boolean
+    scores?: boolean
+    duration?: boolean
+    createdAt?: boolean
+  }
+
+  export type BattleResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "battleId" | "winnerId" | "scores" | "duration" | "createdAt", ExtArgs["result"]["battleResult"]>
+  export type BattleResultInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    winner?: boolean | BattleResult$winnerArgs<ExtArgs>
+  }
+  export type BattleResultIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    winner?: boolean | BattleResult$winnerArgs<ExtArgs>
+  }
+  export type BattleResultIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    battle?: boolean | BattleDefaultArgs<ExtArgs>
+    winner?: boolean | BattleResult$winnerArgs<ExtArgs>
+  }
+
+  export type $BattleResultPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BattleResult"
+    objects: {
+      battle: Prisma.$BattlePayload<ExtArgs>
+      winner: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      battleId: string
+      winnerId: string | null
+      scores: Prisma.JsonValue
+      duration: number
+      createdAt: Date
+    }, ExtArgs["result"]["battleResult"]>
+    composites: {}
+  }
+
+  type BattleResultGetPayload<S extends boolean | null | undefined | BattleResultDefaultArgs> = $Result.GetResult<Prisma.$BattleResultPayload, S>
+
+  type BattleResultCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BattleResultFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BattleResultCountAggregateInputType | true
+    }
+
+  export interface BattleResultDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BattleResult'], meta: { name: 'BattleResult' } }
+    /**
+     * Find zero or one BattleResult that matches the filter.
+     * @param {BattleResultFindUniqueArgs} args - Arguments to find a BattleResult
+     * @example
+     * // Get one BattleResult
+     * const battleResult = await prisma.battleResult.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BattleResultFindUniqueArgs>(args: SelectSubset<T, BattleResultFindUniqueArgs<ExtArgs>>): Prisma__BattleResultClient<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BattleResult that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BattleResultFindUniqueOrThrowArgs} args - Arguments to find a BattleResult
+     * @example
+     * // Get one BattleResult
+     * const battleResult = await prisma.battleResult.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BattleResultFindUniqueOrThrowArgs>(args: SelectSubset<T, BattleResultFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BattleResultClient<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BattleResult that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleResultFindFirstArgs} args - Arguments to find a BattleResult
+     * @example
+     * // Get one BattleResult
+     * const battleResult = await prisma.battleResult.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BattleResultFindFirstArgs>(args?: SelectSubset<T, BattleResultFindFirstArgs<ExtArgs>>): Prisma__BattleResultClient<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BattleResult that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleResultFindFirstOrThrowArgs} args - Arguments to find a BattleResult
+     * @example
+     * // Get one BattleResult
+     * const battleResult = await prisma.battleResult.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BattleResultFindFirstOrThrowArgs>(args?: SelectSubset<T, BattleResultFindFirstOrThrowArgs<ExtArgs>>): Prisma__BattleResultClient<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BattleResults that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleResultFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BattleResults
+     * const battleResults = await prisma.battleResult.findMany()
+     * 
+     * // Get first 10 BattleResults
+     * const battleResults = await prisma.battleResult.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const battleResultWithIdOnly = await prisma.battleResult.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BattleResultFindManyArgs>(args?: SelectSubset<T, BattleResultFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BattleResult.
+     * @param {BattleResultCreateArgs} args - Arguments to create a BattleResult.
+     * @example
+     * // Create one BattleResult
+     * const BattleResult = await prisma.battleResult.create({
+     *   data: {
+     *     // ... data to create a BattleResult
+     *   }
+     * })
+     * 
+     */
+    create<T extends BattleResultCreateArgs>(args: SelectSubset<T, BattleResultCreateArgs<ExtArgs>>): Prisma__BattleResultClient<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BattleResults.
+     * @param {BattleResultCreateManyArgs} args - Arguments to create many BattleResults.
+     * @example
+     * // Create many BattleResults
+     * const battleResult = await prisma.battleResult.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BattleResultCreateManyArgs>(args?: SelectSubset<T, BattleResultCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BattleResults and returns the data saved in the database.
+     * @param {BattleResultCreateManyAndReturnArgs} args - Arguments to create many BattleResults.
+     * @example
+     * // Create many BattleResults
+     * const battleResult = await prisma.battleResult.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BattleResults and only return the `id`
+     * const battleResultWithIdOnly = await prisma.battleResult.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BattleResultCreateManyAndReturnArgs>(args?: SelectSubset<T, BattleResultCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BattleResult.
+     * @param {BattleResultDeleteArgs} args - Arguments to delete one BattleResult.
+     * @example
+     * // Delete one BattleResult
+     * const BattleResult = await prisma.battleResult.delete({
+     *   where: {
+     *     // ... filter to delete one BattleResult
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BattleResultDeleteArgs>(args: SelectSubset<T, BattleResultDeleteArgs<ExtArgs>>): Prisma__BattleResultClient<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BattleResult.
+     * @param {BattleResultUpdateArgs} args - Arguments to update one BattleResult.
+     * @example
+     * // Update one BattleResult
+     * const battleResult = await prisma.battleResult.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BattleResultUpdateArgs>(args: SelectSubset<T, BattleResultUpdateArgs<ExtArgs>>): Prisma__BattleResultClient<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BattleResults.
+     * @param {BattleResultDeleteManyArgs} args - Arguments to filter BattleResults to delete.
+     * @example
+     * // Delete a few BattleResults
+     * const { count } = await prisma.battleResult.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BattleResultDeleteManyArgs>(args?: SelectSubset<T, BattleResultDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BattleResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleResultUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BattleResults
+     * const battleResult = await prisma.battleResult.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BattleResultUpdateManyArgs>(args: SelectSubset<T, BattleResultUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BattleResults and returns the data updated in the database.
+     * @param {BattleResultUpdateManyAndReturnArgs} args - Arguments to update many BattleResults.
+     * @example
+     * // Update many BattleResults
+     * const battleResult = await prisma.battleResult.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BattleResults and only return the `id`
+     * const battleResultWithIdOnly = await prisma.battleResult.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BattleResultUpdateManyAndReturnArgs>(args: SelectSubset<T, BattleResultUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BattleResult.
+     * @param {BattleResultUpsertArgs} args - Arguments to update or create a BattleResult.
+     * @example
+     * // Update or create a BattleResult
+     * const battleResult = await prisma.battleResult.upsert({
+     *   create: {
+     *     // ... data to create a BattleResult
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BattleResult we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BattleResultUpsertArgs>(args: SelectSubset<T, BattleResultUpsertArgs<ExtArgs>>): Prisma__BattleResultClient<$Result.GetResult<Prisma.$BattleResultPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BattleResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleResultCountArgs} args - Arguments to filter BattleResults to count.
+     * @example
+     * // Count the number of BattleResults
+     * const count = await prisma.battleResult.count({
+     *   where: {
+     *     // ... the filter for the BattleResults we want to count
+     *   }
+     * })
+    **/
+    count<T extends BattleResultCountArgs>(
+      args?: Subset<T, BattleResultCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BattleResultCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BattleResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleResultAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BattleResultAggregateArgs>(args: Subset<T, BattleResultAggregateArgs>): Prisma.PrismaPromise<GetBattleResultAggregateType<T>>
+
+    /**
+     * Group by BattleResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BattleResultGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BattleResultGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BattleResultGroupByArgs['orderBy'] }
+        : { orderBy?: BattleResultGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BattleResultGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBattleResultGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BattleResult model
+   */
+  readonly fields: BattleResultFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BattleResult.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BattleResultClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    battle<T extends BattleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BattleDefaultArgs<ExtArgs>>): Prisma__BattleClient<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    winner<T extends BattleResult$winnerArgs<ExtArgs> = {}>(args?: Subset<T, BattleResult$winnerArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BattleResult model
+   */
+  interface BattleResultFieldRefs {
+    readonly id: FieldRef<"BattleResult", 'String'>
+    readonly battleId: FieldRef<"BattleResult", 'String'>
+    readonly winnerId: FieldRef<"BattleResult", 'String'>
+    readonly scores: FieldRef<"BattleResult", 'Json'>
+    readonly duration: FieldRef<"BattleResult", 'Int'>
+    readonly createdAt: FieldRef<"BattleResult", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BattleResult findUnique
+   */
+  export type BattleResultFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleResult to fetch.
+     */
+    where: BattleResultWhereUniqueInput
+  }
+
+  /**
+   * BattleResult findUniqueOrThrow
+   */
+  export type BattleResultFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleResult to fetch.
+     */
+    where: BattleResultWhereUniqueInput
+  }
+
+  /**
+   * BattleResult findFirst
+   */
+  export type BattleResultFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleResult to fetch.
+     */
+    where?: BattleResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleResults to fetch.
+     */
+    orderBy?: BattleResultOrderByWithRelationInput | BattleResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BattleResults.
+     */
+    cursor?: BattleResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BattleResults.
+     */
+    distinct?: BattleResultScalarFieldEnum | BattleResultScalarFieldEnum[]
+  }
+
+  /**
+   * BattleResult findFirstOrThrow
+   */
+  export type BattleResultFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleResult to fetch.
+     */
+    where?: BattleResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleResults to fetch.
+     */
+    orderBy?: BattleResultOrderByWithRelationInput | BattleResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BattleResults.
+     */
+    cursor?: BattleResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BattleResults.
+     */
+    distinct?: BattleResultScalarFieldEnum | BattleResultScalarFieldEnum[]
+  }
+
+  /**
+   * BattleResult findMany
+   */
+  export type BattleResultFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+    /**
+     * Filter, which BattleResults to fetch.
+     */
+    where?: BattleResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BattleResults to fetch.
+     */
+    orderBy?: BattleResultOrderByWithRelationInput | BattleResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BattleResults.
+     */
+    cursor?: BattleResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BattleResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BattleResults.
+     */
+    skip?: number
+    distinct?: BattleResultScalarFieldEnum | BattleResultScalarFieldEnum[]
+  }
+
+  /**
+   * BattleResult create
+   */
+  export type BattleResultCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BattleResult.
+     */
+    data: XOR<BattleResultCreateInput, BattleResultUncheckedCreateInput>
+  }
+
+  /**
+   * BattleResult createMany
+   */
+  export type BattleResultCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BattleResults.
+     */
+    data: BattleResultCreateManyInput | BattleResultCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BattleResult createManyAndReturn
+   */
+  export type BattleResultCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * The data used to create many BattleResults.
+     */
+    data: BattleResultCreateManyInput | BattleResultCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BattleResult update
+   */
+  export type BattleResultUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BattleResult.
+     */
+    data: XOR<BattleResultUpdateInput, BattleResultUncheckedUpdateInput>
+    /**
+     * Choose, which BattleResult to update.
+     */
+    where: BattleResultWhereUniqueInput
+  }
+
+  /**
+   * BattleResult updateMany
+   */
+  export type BattleResultUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BattleResults.
+     */
+    data: XOR<BattleResultUpdateManyMutationInput, BattleResultUncheckedUpdateManyInput>
+    /**
+     * Filter which BattleResults to update
+     */
+    where?: BattleResultWhereInput
+    /**
+     * Limit how many BattleResults to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BattleResult updateManyAndReturn
+   */
+  export type BattleResultUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * The data used to update BattleResults.
+     */
+    data: XOR<BattleResultUpdateManyMutationInput, BattleResultUncheckedUpdateManyInput>
+    /**
+     * Filter which BattleResults to update
+     */
+    where?: BattleResultWhereInput
+    /**
+     * Limit how many BattleResults to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BattleResult upsert
+   */
+  export type BattleResultUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BattleResult to update in case it exists.
+     */
+    where: BattleResultWhereUniqueInput
+    /**
+     * In case the BattleResult found by the `where` argument doesn't exist, create a new BattleResult with this data.
+     */
+    create: XOR<BattleResultCreateInput, BattleResultUncheckedCreateInput>
+    /**
+     * In case the BattleResult was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BattleResultUpdateInput, BattleResultUncheckedUpdateInput>
+  }
+
+  /**
+   * BattleResult delete
+   */
+  export type BattleResultDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+    /**
+     * Filter which BattleResult to delete.
+     */
+    where: BattleResultWhereUniqueInput
+  }
+
+  /**
+   * BattleResult deleteMany
+   */
+  export type BattleResultDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BattleResults to delete
+     */
+    where?: BattleResultWhereInput
+    /**
+     * Limit how many BattleResults to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BattleResult.winner
+   */
+  export type BattleResult$winnerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * BattleResult without action
+   */
+  export type BattleResultDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BattleResult
+     */
+    select?: BattleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BattleResult
+     */
+    omit?: BattleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BattleResultInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model StudyGroup
+   */
+
+  export type AggregateStudyGroup = {
+    _count: StudyGroupCountAggregateOutputType | null
+    _min: StudyGroupMinAggregateOutputType | null
+    _max: StudyGroupMaxAggregateOutputType | null
+  }
+
+  export type StudyGroupMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    topic: string | null
+    inviteCode: string | null
+    createdAt: Date | null
+    creatorId: string | null
+  }
+
+  export type StudyGroupMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    topic: string | null
+    inviteCode: string | null
+    createdAt: Date | null
+    creatorId: string | null
+  }
+
+  export type StudyGroupCountAggregateOutputType = {
+    id: number
+    name: number
+    topic: number
+    inviteCode: number
+    createdAt: number
+    creatorId: number
+    _all: number
+  }
+
+
+  export type StudyGroupMinAggregateInputType = {
+    id?: true
+    name?: true
+    topic?: true
+    inviteCode?: true
+    createdAt?: true
+    creatorId?: true
+  }
+
+  export type StudyGroupMaxAggregateInputType = {
+    id?: true
+    name?: true
+    topic?: true
+    inviteCode?: true
+    createdAt?: true
+    creatorId?: true
+  }
+
+  export type StudyGroupCountAggregateInputType = {
+    id?: true
+    name?: true
+    topic?: true
+    inviteCode?: true
+    createdAt?: true
+    creatorId?: true
+    _all?: true
+  }
+
+  export type StudyGroupAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyGroup to aggregate.
+     */
+    where?: StudyGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGroups to fetch.
+     */
+    orderBy?: StudyGroupOrderByWithRelationInput | StudyGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StudyGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGroups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StudyGroups
+    **/
+    _count?: true | StudyGroupCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StudyGroupMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StudyGroupMaxAggregateInputType
+  }
+
+  export type GetStudyGroupAggregateType<T extends StudyGroupAggregateArgs> = {
+        [P in keyof T & keyof AggregateStudyGroup]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStudyGroup[P]>
+      : GetScalarType<T[P], AggregateStudyGroup[P]>
+  }
+
+
+
+
+  export type StudyGroupGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyGroupWhereInput
+    orderBy?: StudyGroupOrderByWithAggregationInput | StudyGroupOrderByWithAggregationInput[]
+    by: StudyGroupScalarFieldEnum[] | StudyGroupScalarFieldEnum
+    having?: StudyGroupScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StudyGroupCountAggregateInputType | true
+    _min?: StudyGroupMinAggregateInputType
+    _max?: StudyGroupMaxAggregateInputType
+  }
+
+  export type StudyGroupGroupByOutputType = {
+    id: string
+    name: string
+    topic: string | null
+    inviteCode: string
+    createdAt: Date
+    creatorId: string
+    _count: StudyGroupCountAggregateOutputType | null
+    _min: StudyGroupMinAggregateOutputType | null
+    _max: StudyGroupMaxAggregateOutputType | null
+  }
+
+  type GetStudyGroupGroupByPayload<T extends StudyGroupGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StudyGroupGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StudyGroupGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StudyGroupGroupByOutputType[P]>
+            : GetScalarType<T[P], StudyGroupGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StudyGroupSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    topic?: boolean
+    inviteCode?: boolean
+    createdAt?: boolean
+    creatorId?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    members?: boolean | StudyGroup$membersArgs<ExtArgs>
+    messages?: boolean | StudyGroup$messagesArgs<ExtArgs>
+    sessions?: boolean | StudyGroup$sessionsArgs<ExtArgs>
+    _count?: boolean | StudyGroupCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyGroup"]>
+
+  export type StudyGroupSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    topic?: boolean
+    inviteCode?: boolean
+    createdAt?: boolean
+    creatorId?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyGroup"]>
+
+  export type StudyGroupSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    topic?: boolean
+    inviteCode?: boolean
+    createdAt?: boolean
+    creatorId?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyGroup"]>
+
+  export type StudyGroupSelectScalar = {
+    id?: boolean
+    name?: boolean
+    topic?: boolean
+    inviteCode?: boolean
+    createdAt?: boolean
+    creatorId?: boolean
+  }
+
+  export type StudyGroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "topic" | "inviteCode" | "createdAt" | "creatorId", ExtArgs["result"]["studyGroup"]>
+  export type StudyGroupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    members?: boolean | StudyGroup$membersArgs<ExtArgs>
+    messages?: boolean | StudyGroup$messagesArgs<ExtArgs>
+    sessions?: boolean | StudyGroup$sessionsArgs<ExtArgs>
+    _count?: boolean | StudyGroupCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type StudyGroupIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type StudyGroupIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $StudyGroupPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StudyGroup"
+    objects: {
+      creator: Prisma.$UserPayload<ExtArgs>
+      members: Prisma.$StudyGroupMemberPayload<ExtArgs>[]
+      messages: Prisma.$GroupMessagePayload<ExtArgs>[]
+      sessions: Prisma.$GroupSessionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      topic: string | null
+      inviteCode: string
+      createdAt: Date
+      creatorId: string
+    }, ExtArgs["result"]["studyGroup"]>
+    composites: {}
+  }
+
+  type StudyGroupGetPayload<S extends boolean | null | undefined | StudyGroupDefaultArgs> = $Result.GetResult<Prisma.$StudyGroupPayload, S>
+
+  type StudyGroupCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StudyGroupFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StudyGroupCountAggregateInputType | true
+    }
+
+  export interface StudyGroupDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StudyGroup'], meta: { name: 'StudyGroup' } }
+    /**
+     * Find zero or one StudyGroup that matches the filter.
+     * @param {StudyGroupFindUniqueArgs} args - Arguments to find a StudyGroup
+     * @example
+     * // Get one StudyGroup
+     * const studyGroup = await prisma.studyGroup.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StudyGroupFindUniqueArgs>(args: SelectSubset<T, StudyGroupFindUniqueArgs<ExtArgs>>): Prisma__StudyGroupClient<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StudyGroup that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StudyGroupFindUniqueOrThrowArgs} args - Arguments to find a StudyGroup
+     * @example
+     * // Get one StudyGroup
+     * const studyGroup = await prisma.studyGroup.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StudyGroupFindUniqueOrThrowArgs>(args: SelectSubset<T, StudyGroupFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StudyGroupClient<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyGroup that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupFindFirstArgs} args - Arguments to find a StudyGroup
+     * @example
+     * // Get one StudyGroup
+     * const studyGroup = await prisma.studyGroup.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StudyGroupFindFirstArgs>(args?: SelectSubset<T, StudyGroupFindFirstArgs<ExtArgs>>): Prisma__StudyGroupClient<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyGroup that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupFindFirstOrThrowArgs} args - Arguments to find a StudyGroup
+     * @example
+     * // Get one StudyGroup
+     * const studyGroup = await prisma.studyGroup.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StudyGroupFindFirstOrThrowArgs>(args?: SelectSubset<T, StudyGroupFindFirstOrThrowArgs<ExtArgs>>): Prisma__StudyGroupClient<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StudyGroups that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StudyGroups
+     * const studyGroups = await prisma.studyGroup.findMany()
+     * 
+     * // Get first 10 StudyGroups
+     * const studyGroups = await prisma.studyGroup.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const studyGroupWithIdOnly = await prisma.studyGroup.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StudyGroupFindManyArgs>(args?: SelectSubset<T, StudyGroupFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StudyGroup.
+     * @param {StudyGroupCreateArgs} args - Arguments to create a StudyGroup.
+     * @example
+     * // Create one StudyGroup
+     * const StudyGroup = await prisma.studyGroup.create({
+     *   data: {
+     *     // ... data to create a StudyGroup
+     *   }
+     * })
+     * 
+     */
+    create<T extends StudyGroupCreateArgs>(args: SelectSubset<T, StudyGroupCreateArgs<ExtArgs>>): Prisma__StudyGroupClient<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StudyGroups.
+     * @param {StudyGroupCreateManyArgs} args - Arguments to create many StudyGroups.
+     * @example
+     * // Create many StudyGroups
+     * const studyGroup = await prisma.studyGroup.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StudyGroupCreateManyArgs>(args?: SelectSubset<T, StudyGroupCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StudyGroups and returns the data saved in the database.
+     * @param {StudyGroupCreateManyAndReturnArgs} args - Arguments to create many StudyGroups.
+     * @example
+     * // Create many StudyGroups
+     * const studyGroup = await prisma.studyGroup.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StudyGroups and only return the `id`
+     * const studyGroupWithIdOnly = await prisma.studyGroup.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StudyGroupCreateManyAndReturnArgs>(args?: SelectSubset<T, StudyGroupCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StudyGroup.
+     * @param {StudyGroupDeleteArgs} args - Arguments to delete one StudyGroup.
+     * @example
+     * // Delete one StudyGroup
+     * const StudyGroup = await prisma.studyGroup.delete({
+     *   where: {
+     *     // ... filter to delete one StudyGroup
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StudyGroupDeleteArgs>(args: SelectSubset<T, StudyGroupDeleteArgs<ExtArgs>>): Prisma__StudyGroupClient<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StudyGroup.
+     * @param {StudyGroupUpdateArgs} args - Arguments to update one StudyGroup.
+     * @example
+     * // Update one StudyGroup
+     * const studyGroup = await prisma.studyGroup.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StudyGroupUpdateArgs>(args: SelectSubset<T, StudyGroupUpdateArgs<ExtArgs>>): Prisma__StudyGroupClient<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StudyGroups.
+     * @param {StudyGroupDeleteManyArgs} args - Arguments to filter StudyGroups to delete.
+     * @example
+     * // Delete a few StudyGroups
+     * const { count } = await prisma.studyGroup.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StudyGroupDeleteManyArgs>(args?: SelectSubset<T, StudyGroupDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyGroups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StudyGroups
+     * const studyGroup = await prisma.studyGroup.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StudyGroupUpdateManyArgs>(args: SelectSubset<T, StudyGroupUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyGroups and returns the data updated in the database.
+     * @param {StudyGroupUpdateManyAndReturnArgs} args - Arguments to update many StudyGroups.
+     * @example
+     * // Update many StudyGroups
+     * const studyGroup = await prisma.studyGroup.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StudyGroups and only return the `id`
+     * const studyGroupWithIdOnly = await prisma.studyGroup.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StudyGroupUpdateManyAndReturnArgs>(args: SelectSubset<T, StudyGroupUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StudyGroup.
+     * @param {StudyGroupUpsertArgs} args - Arguments to update or create a StudyGroup.
+     * @example
+     * // Update or create a StudyGroup
+     * const studyGroup = await prisma.studyGroup.upsert({
+     *   create: {
+     *     // ... data to create a StudyGroup
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StudyGroup we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StudyGroupUpsertArgs>(args: SelectSubset<T, StudyGroupUpsertArgs<ExtArgs>>): Prisma__StudyGroupClient<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StudyGroups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupCountArgs} args - Arguments to filter StudyGroups to count.
+     * @example
+     * // Count the number of StudyGroups
+     * const count = await prisma.studyGroup.count({
+     *   where: {
+     *     // ... the filter for the StudyGroups we want to count
+     *   }
+     * })
+    **/
+    count<T extends StudyGroupCountArgs>(
+      args?: Subset<T, StudyGroupCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StudyGroupCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StudyGroup.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StudyGroupAggregateArgs>(args: Subset<T, StudyGroupAggregateArgs>): Prisma.PrismaPromise<GetStudyGroupAggregateType<T>>
+
+    /**
+     * Group by StudyGroup.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StudyGroupGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StudyGroupGroupByArgs['orderBy'] }
+        : { orderBy?: StudyGroupGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StudyGroupGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStudyGroupGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StudyGroup model
+   */
+  readonly fields: StudyGroupFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StudyGroup.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StudyGroupClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    members<T extends StudyGroup$membersArgs<ExtArgs> = {}>(args?: Subset<T, StudyGroup$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    messages<T extends StudyGroup$messagesArgs<ExtArgs> = {}>(args?: Subset<T, StudyGroup$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sessions<T extends StudyGroup$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, StudyGroup$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StudyGroup model
+   */
+  interface StudyGroupFieldRefs {
+    readonly id: FieldRef<"StudyGroup", 'String'>
+    readonly name: FieldRef<"StudyGroup", 'String'>
+    readonly topic: FieldRef<"StudyGroup", 'String'>
+    readonly inviteCode: FieldRef<"StudyGroup", 'String'>
+    readonly createdAt: FieldRef<"StudyGroup", 'DateTime'>
+    readonly creatorId: FieldRef<"StudyGroup", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StudyGroup findUnique
+   */
+  export type StudyGroupFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGroup to fetch.
+     */
+    where: StudyGroupWhereUniqueInput
+  }
+
+  /**
+   * StudyGroup findUniqueOrThrow
+   */
+  export type StudyGroupFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGroup to fetch.
+     */
+    where: StudyGroupWhereUniqueInput
+  }
+
+  /**
+   * StudyGroup findFirst
+   */
+  export type StudyGroupFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGroup to fetch.
+     */
+    where?: StudyGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGroups to fetch.
+     */
+    orderBy?: StudyGroupOrderByWithRelationInput | StudyGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyGroups.
+     */
+    cursor?: StudyGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGroups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyGroups.
+     */
+    distinct?: StudyGroupScalarFieldEnum | StudyGroupScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGroup findFirstOrThrow
+   */
+  export type StudyGroupFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGroup to fetch.
+     */
+    where?: StudyGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGroups to fetch.
+     */
+    orderBy?: StudyGroupOrderByWithRelationInput | StudyGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyGroups.
+     */
+    cursor?: StudyGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGroups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyGroups.
+     */
+    distinct?: StudyGroupScalarFieldEnum | StudyGroupScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGroup findMany
+   */
+  export type StudyGroupFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGroups to fetch.
+     */
+    where?: StudyGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGroups to fetch.
+     */
+    orderBy?: StudyGroupOrderByWithRelationInput | StudyGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StudyGroups.
+     */
+    cursor?: StudyGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGroups.
+     */
+    skip?: number
+    distinct?: StudyGroupScalarFieldEnum | StudyGroupScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGroup create
+   */
+  export type StudyGroupCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StudyGroup.
+     */
+    data: XOR<StudyGroupCreateInput, StudyGroupUncheckedCreateInput>
+  }
+
+  /**
+   * StudyGroup createMany
+   */
+  export type StudyGroupCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StudyGroups.
+     */
+    data: StudyGroupCreateManyInput | StudyGroupCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StudyGroup createManyAndReturn
+   */
+  export type StudyGroupCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * The data used to create many StudyGroups.
+     */
+    data: StudyGroupCreateManyInput | StudyGroupCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudyGroup update
+   */
+  export type StudyGroupUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StudyGroup.
+     */
+    data: XOR<StudyGroupUpdateInput, StudyGroupUncheckedUpdateInput>
+    /**
+     * Choose, which StudyGroup to update.
+     */
+    where: StudyGroupWhereUniqueInput
+  }
+
+  /**
+   * StudyGroup updateMany
+   */
+  export type StudyGroupUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StudyGroups.
+     */
+    data: XOR<StudyGroupUpdateManyMutationInput, StudyGroupUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyGroups to update
+     */
+    where?: StudyGroupWhereInput
+    /**
+     * Limit how many StudyGroups to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyGroup updateManyAndReturn
+   */
+  export type StudyGroupUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * The data used to update StudyGroups.
+     */
+    data: XOR<StudyGroupUpdateManyMutationInput, StudyGroupUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyGroups to update
+     */
+    where?: StudyGroupWhereInput
+    /**
+     * Limit how many StudyGroups to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudyGroup upsert
+   */
+  export type StudyGroupUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StudyGroup to update in case it exists.
+     */
+    where: StudyGroupWhereUniqueInput
+    /**
+     * In case the StudyGroup found by the `where` argument doesn't exist, create a new StudyGroup with this data.
+     */
+    create: XOR<StudyGroupCreateInput, StudyGroupUncheckedCreateInput>
+    /**
+     * In case the StudyGroup was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StudyGroupUpdateInput, StudyGroupUncheckedUpdateInput>
+  }
+
+  /**
+   * StudyGroup delete
+   */
+  export type StudyGroupDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupInclude<ExtArgs> | null
+    /**
+     * Filter which StudyGroup to delete.
+     */
+    where: StudyGroupWhereUniqueInput
+  }
+
+  /**
+   * StudyGroup deleteMany
+   */
+  export type StudyGroupDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyGroups to delete
+     */
+    where?: StudyGroupWhereInput
+    /**
+     * Limit how many StudyGroups to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyGroup.members
+   */
+  export type StudyGroup$membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+    where?: StudyGroupMemberWhereInput
+    orderBy?: StudyGroupMemberOrderByWithRelationInput | StudyGroupMemberOrderByWithRelationInput[]
+    cursor?: StudyGroupMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StudyGroupMemberScalarFieldEnum | StudyGroupMemberScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGroup.messages
+   */
+  export type StudyGroup$messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+    where?: GroupMessageWhereInput
+    orderBy?: GroupMessageOrderByWithRelationInput | GroupMessageOrderByWithRelationInput[]
+    cursor?: GroupMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GroupMessageScalarFieldEnum | GroupMessageScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGroup.sessions
+   */
+  export type StudyGroup$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionInclude<ExtArgs> | null
+    where?: GroupSessionWhereInput
+    orderBy?: GroupSessionOrderByWithRelationInput | GroupSessionOrderByWithRelationInput[]
+    cursor?: GroupSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GroupSessionScalarFieldEnum | GroupSessionScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGroup without action
+   */
+  export type StudyGroupDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroup
+     */
+    select?: StudyGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroup
+     */
+    omit?: StudyGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model StudyGroupMember
+   */
+
+  export type AggregateStudyGroupMember = {
+    _count: StudyGroupMemberCountAggregateOutputType | null
+    _min: StudyGroupMemberMinAggregateOutputType | null
+    _max: StudyGroupMemberMaxAggregateOutputType | null
+  }
+
+  export type StudyGroupMemberMinAggregateOutputType = {
+    id: string | null
+    groupId: string | null
+    userId: string | null
+    joinedAt: Date | null
+  }
+
+  export type StudyGroupMemberMaxAggregateOutputType = {
+    id: string | null
+    groupId: string | null
+    userId: string | null
+    joinedAt: Date | null
+  }
+
+  export type StudyGroupMemberCountAggregateOutputType = {
+    id: number
+    groupId: number
+    userId: number
+    joinedAt: number
+    _all: number
+  }
+
+
+  export type StudyGroupMemberMinAggregateInputType = {
+    id?: true
+    groupId?: true
+    userId?: true
+    joinedAt?: true
+  }
+
+  export type StudyGroupMemberMaxAggregateInputType = {
+    id?: true
+    groupId?: true
+    userId?: true
+    joinedAt?: true
+  }
+
+  export type StudyGroupMemberCountAggregateInputType = {
+    id?: true
+    groupId?: true
+    userId?: true
+    joinedAt?: true
+    _all?: true
+  }
+
+  export type StudyGroupMemberAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyGroupMember to aggregate.
+     */
+    where?: StudyGroupMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGroupMembers to fetch.
+     */
+    orderBy?: StudyGroupMemberOrderByWithRelationInput | StudyGroupMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StudyGroupMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGroupMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGroupMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StudyGroupMembers
+    **/
+    _count?: true | StudyGroupMemberCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StudyGroupMemberMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StudyGroupMemberMaxAggregateInputType
+  }
+
+  export type GetStudyGroupMemberAggregateType<T extends StudyGroupMemberAggregateArgs> = {
+        [P in keyof T & keyof AggregateStudyGroupMember]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStudyGroupMember[P]>
+      : GetScalarType<T[P], AggregateStudyGroupMember[P]>
+  }
+
+
+
+
+  export type StudyGroupMemberGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyGroupMemberWhereInput
+    orderBy?: StudyGroupMemberOrderByWithAggregationInput | StudyGroupMemberOrderByWithAggregationInput[]
+    by: StudyGroupMemberScalarFieldEnum[] | StudyGroupMemberScalarFieldEnum
+    having?: StudyGroupMemberScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StudyGroupMemberCountAggregateInputType | true
+    _min?: StudyGroupMemberMinAggregateInputType
+    _max?: StudyGroupMemberMaxAggregateInputType
+  }
+
+  export type StudyGroupMemberGroupByOutputType = {
+    id: string
+    groupId: string
+    userId: string
+    joinedAt: Date
+    _count: StudyGroupMemberCountAggregateOutputType | null
+    _min: StudyGroupMemberMinAggregateOutputType | null
+    _max: StudyGroupMemberMaxAggregateOutputType | null
+  }
+
+  type GetStudyGroupMemberGroupByPayload<T extends StudyGroupMemberGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StudyGroupMemberGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StudyGroupMemberGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StudyGroupMemberGroupByOutputType[P]>
+            : GetScalarType<T[P], StudyGroupMemberGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StudyGroupMemberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    groupId?: boolean
+    userId?: boolean
+    joinedAt?: boolean
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyGroupMember"]>
+
+  export type StudyGroupMemberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    groupId?: boolean
+    userId?: boolean
+    joinedAt?: boolean
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyGroupMember"]>
+
+  export type StudyGroupMemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    groupId?: boolean
+    userId?: boolean
+    joinedAt?: boolean
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyGroupMember"]>
+
+  export type StudyGroupMemberSelectScalar = {
+    id?: boolean
+    groupId?: boolean
+    userId?: boolean
+    joinedAt?: boolean
+  }
+
+  export type StudyGroupMemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "groupId" | "userId" | "joinedAt", ExtArgs["result"]["studyGroupMember"]>
+  export type StudyGroupMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type StudyGroupMemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type StudyGroupMemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $StudyGroupMemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StudyGroupMember"
+    objects: {
+      group: Prisma.$StudyGroupPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      groupId: string
+      userId: string
+      joinedAt: Date
+    }, ExtArgs["result"]["studyGroupMember"]>
+    composites: {}
+  }
+
+  type StudyGroupMemberGetPayload<S extends boolean | null | undefined | StudyGroupMemberDefaultArgs> = $Result.GetResult<Prisma.$StudyGroupMemberPayload, S>
+
+  type StudyGroupMemberCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StudyGroupMemberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StudyGroupMemberCountAggregateInputType | true
+    }
+
+  export interface StudyGroupMemberDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StudyGroupMember'], meta: { name: 'StudyGroupMember' } }
+    /**
+     * Find zero or one StudyGroupMember that matches the filter.
+     * @param {StudyGroupMemberFindUniqueArgs} args - Arguments to find a StudyGroupMember
+     * @example
+     * // Get one StudyGroupMember
+     * const studyGroupMember = await prisma.studyGroupMember.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StudyGroupMemberFindUniqueArgs>(args: SelectSubset<T, StudyGroupMemberFindUniqueArgs<ExtArgs>>): Prisma__StudyGroupMemberClient<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StudyGroupMember that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StudyGroupMemberFindUniqueOrThrowArgs} args - Arguments to find a StudyGroupMember
+     * @example
+     * // Get one StudyGroupMember
+     * const studyGroupMember = await prisma.studyGroupMember.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StudyGroupMemberFindUniqueOrThrowArgs>(args: SelectSubset<T, StudyGroupMemberFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StudyGroupMemberClient<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyGroupMember that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupMemberFindFirstArgs} args - Arguments to find a StudyGroupMember
+     * @example
+     * // Get one StudyGroupMember
+     * const studyGroupMember = await prisma.studyGroupMember.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StudyGroupMemberFindFirstArgs>(args?: SelectSubset<T, StudyGroupMemberFindFirstArgs<ExtArgs>>): Prisma__StudyGroupMemberClient<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyGroupMember that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupMemberFindFirstOrThrowArgs} args - Arguments to find a StudyGroupMember
+     * @example
+     * // Get one StudyGroupMember
+     * const studyGroupMember = await prisma.studyGroupMember.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StudyGroupMemberFindFirstOrThrowArgs>(args?: SelectSubset<T, StudyGroupMemberFindFirstOrThrowArgs<ExtArgs>>): Prisma__StudyGroupMemberClient<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StudyGroupMembers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupMemberFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StudyGroupMembers
+     * const studyGroupMembers = await prisma.studyGroupMember.findMany()
+     * 
+     * // Get first 10 StudyGroupMembers
+     * const studyGroupMembers = await prisma.studyGroupMember.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const studyGroupMemberWithIdOnly = await prisma.studyGroupMember.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StudyGroupMemberFindManyArgs>(args?: SelectSubset<T, StudyGroupMemberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StudyGroupMember.
+     * @param {StudyGroupMemberCreateArgs} args - Arguments to create a StudyGroupMember.
+     * @example
+     * // Create one StudyGroupMember
+     * const StudyGroupMember = await prisma.studyGroupMember.create({
+     *   data: {
+     *     // ... data to create a StudyGroupMember
+     *   }
+     * })
+     * 
+     */
+    create<T extends StudyGroupMemberCreateArgs>(args: SelectSubset<T, StudyGroupMemberCreateArgs<ExtArgs>>): Prisma__StudyGroupMemberClient<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StudyGroupMembers.
+     * @param {StudyGroupMemberCreateManyArgs} args - Arguments to create many StudyGroupMembers.
+     * @example
+     * // Create many StudyGroupMembers
+     * const studyGroupMember = await prisma.studyGroupMember.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StudyGroupMemberCreateManyArgs>(args?: SelectSubset<T, StudyGroupMemberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StudyGroupMembers and returns the data saved in the database.
+     * @param {StudyGroupMemberCreateManyAndReturnArgs} args - Arguments to create many StudyGroupMembers.
+     * @example
+     * // Create many StudyGroupMembers
+     * const studyGroupMember = await prisma.studyGroupMember.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StudyGroupMembers and only return the `id`
+     * const studyGroupMemberWithIdOnly = await prisma.studyGroupMember.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StudyGroupMemberCreateManyAndReturnArgs>(args?: SelectSubset<T, StudyGroupMemberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StudyGroupMember.
+     * @param {StudyGroupMemberDeleteArgs} args - Arguments to delete one StudyGroupMember.
+     * @example
+     * // Delete one StudyGroupMember
+     * const StudyGroupMember = await prisma.studyGroupMember.delete({
+     *   where: {
+     *     // ... filter to delete one StudyGroupMember
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StudyGroupMemberDeleteArgs>(args: SelectSubset<T, StudyGroupMemberDeleteArgs<ExtArgs>>): Prisma__StudyGroupMemberClient<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StudyGroupMember.
+     * @param {StudyGroupMemberUpdateArgs} args - Arguments to update one StudyGroupMember.
+     * @example
+     * // Update one StudyGroupMember
+     * const studyGroupMember = await prisma.studyGroupMember.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StudyGroupMemberUpdateArgs>(args: SelectSubset<T, StudyGroupMemberUpdateArgs<ExtArgs>>): Prisma__StudyGroupMemberClient<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StudyGroupMembers.
+     * @param {StudyGroupMemberDeleteManyArgs} args - Arguments to filter StudyGroupMembers to delete.
+     * @example
+     * // Delete a few StudyGroupMembers
+     * const { count } = await prisma.studyGroupMember.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StudyGroupMemberDeleteManyArgs>(args?: SelectSubset<T, StudyGroupMemberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyGroupMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupMemberUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StudyGroupMembers
+     * const studyGroupMember = await prisma.studyGroupMember.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StudyGroupMemberUpdateManyArgs>(args: SelectSubset<T, StudyGroupMemberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyGroupMembers and returns the data updated in the database.
+     * @param {StudyGroupMemberUpdateManyAndReturnArgs} args - Arguments to update many StudyGroupMembers.
+     * @example
+     * // Update many StudyGroupMembers
+     * const studyGroupMember = await prisma.studyGroupMember.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StudyGroupMembers and only return the `id`
+     * const studyGroupMemberWithIdOnly = await prisma.studyGroupMember.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StudyGroupMemberUpdateManyAndReturnArgs>(args: SelectSubset<T, StudyGroupMemberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StudyGroupMember.
+     * @param {StudyGroupMemberUpsertArgs} args - Arguments to update or create a StudyGroupMember.
+     * @example
+     * // Update or create a StudyGroupMember
+     * const studyGroupMember = await prisma.studyGroupMember.upsert({
+     *   create: {
+     *     // ... data to create a StudyGroupMember
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StudyGroupMember we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StudyGroupMemberUpsertArgs>(args: SelectSubset<T, StudyGroupMemberUpsertArgs<ExtArgs>>): Prisma__StudyGroupMemberClient<$Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StudyGroupMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupMemberCountArgs} args - Arguments to filter StudyGroupMembers to count.
+     * @example
+     * // Count the number of StudyGroupMembers
+     * const count = await prisma.studyGroupMember.count({
+     *   where: {
+     *     // ... the filter for the StudyGroupMembers we want to count
+     *   }
+     * })
+    **/
+    count<T extends StudyGroupMemberCountArgs>(
+      args?: Subset<T, StudyGroupMemberCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StudyGroupMemberCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StudyGroupMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupMemberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StudyGroupMemberAggregateArgs>(args: Subset<T, StudyGroupMemberAggregateArgs>): Prisma.PrismaPromise<GetStudyGroupMemberAggregateType<T>>
+
+    /**
+     * Group by StudyGroupMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGroupMemberGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StudyGroupMemberGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StudyGroupMemberGroupByArgs['orderBy'] }
+        : { orderBy?: StudyGroupMemberGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StudyGroupMemberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStudyGroupMemberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StudyGroupMember model
+   */
+  readonly fields: StudyGroupMemberFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StudyGroupMember.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StudyGroupMemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    group<T extends StudyGroupDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudyGroupDefaultArgs<ExtArgs>>): Prisma__StudyGroupClient<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StudyGroupMember model
+   */
+  interface StudyGroupMemberFieldRefs {
+    readonly id: FieldRef<"StudyGroupMember", 'String'>
+    readonly groupId: FieldRef<"StudyGroupMember", 'String'>
+    readonly userId: FieldRef<"StudyGroupMember", 'String'>
+    readonly joinedAt: FieldRef<"StudyGroupMember", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StudyGroupMember findUnique
+   */
+  export type StudyGroupMemberFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGroupMember to fetch.
+     */
+    where: StudyGroupMemberWhereUniqueInput
+  }
+
+  /**
+   * StudyGroupMember findUniqueOrThrow
+   */
+  export type StudyGroupMemberFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGroupMember to fetch.
+     */
+    where: StudyGroupMemberWhereUniqueInput
+  }
+
+  /**
+   * StudyGroupMember findFirst
+   */
+  export type StudyGroupMemberFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGroupMember to fetch.
+     */
+    where?: StudyGroupMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGroupMembers to fetch.
+     */
+    orderBy?: StudyGroupMemberOrderByWithRelationInput | StudyGroupMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyGroupMembers.
+     */
+    cursor?: StudyGroupMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGroupMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGroupMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyGroupMembers.
+     */
+    distinct?: StudyGroupMemberScalarFieldEnum | StudyGroupMemberScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGroupMember findFirstOrThrow
+   */
+  export type StudyGroupMemberFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGroupMember to fetch.
+     */
+    where?: StudyGroupMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGroupMembers to fetch.
+     */
+    orderBy?: StudyGroupMemberOrderByWithRelationInput | StudyGroupMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyGroupMembers.
+     */
+    cursor?: StudyGroupMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGroupMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGroupMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyGroupMembers.
+     */
+    distinct?: StudyGroupMemberScalarFieldEnum | StudyGroupMemberScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGroupMember findMany
+   */
+  export type StudyGroupMemberFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGroupMembers to fetch.
+     */
+    where?: StudyGroupMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGroupMembers to fetch.
+     */
+    orderBy?: StudyGroupMemberOrderByWithRelationInput | StudyGroupMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StudyGroupMembers.
+     */
+    cursor?: StudyGroupMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGroupMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGroupMembers.
+     */
+    skip?: number
+    distinct?: StudyGroupMemberScalarFieldEnum | StudyGroupMemberScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGroupMember create
+   */
+  export type StudyGroupMemberCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StudyGroupMember.
+     */
+    data: XOR<StudyGroupMemberCreateInput, StudyGroupMemberUncheckedCreateInput>
+  }
+
+  /**
+   * StudyGroupMember createMany
+   */
+  export type StudyGroupMemberCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StudyGroupMembers.
+     */
+    data: StudyGroupMemberCreateManyInput | StudyGroupMemberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StudyGroupMember createManyAndReturn
+   */
+  export type StudyGroupMemberCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * The data used to create many StudyGroupMembers.
+     */
+    data: StudyGroupMemberCreateManyInput | StudyGroupMemberCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudyGroupMember update
+   */
+  export type StudyGroupMemberUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StudyGroupMember.
+     */
+    data: XOR<StudyGroupMemberUpdateInput, StudyGroupMemberUncheckedUpdateInput>
+    /**
+     * Choose, which StudyGroupMember to update.
+     */
+    where: StudyGroupMemberWhereUniqueInput
+  }
+
+  /**
+   * StudyGroupMember updateMany
+   */
+  export type StudyGroupMemberUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StudyGroupMembers.
+     */
+    data: XOR<StudyGroupMemberUpdateManyMutationInput, StudyGroupMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyGroupMembers to update
+     */
+    where?: StudyGroupMemberWhereInput
+    /**
+     * Limit how many StudyGroupMembers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyGroupMember updateManyAndReturn
+   */
+  export type StudyGroupMemberUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * The data used to update StudyGroupMembers.
+     */
+    data: XOR<StudyGroupMemberUpdateManyMutationInput, StudyGroupMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyGroupMembers to update
+     */
+    where?: StudyGroupMemberWhereInput
+    /**
+     * Limit how many StudyGroupMembers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudyGroupMember upsert
+   */
+  export type StudyGroupMemberUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StudyGroupMember to update in case it exists.
+     */
+    where: StudyGroupMemberWhereUniqueInput
+    /**
+     * In case the StudyGroupMember found by the `where` argument doesn't exist, create a new StudyGroupMember with this data.
+     */
+    create: XOR<StudyGroupMemberCreateInput, StudyGroupMemberUncheckedCreateInput>
+    /**
+     * In case the StudyGroupMember was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StudyGroupMemberUpdateInput, StudyGroupMemberUncheckedUpdateInput>
+  }
+
+  /**
+   * StudyGroupMember delete
+   */
+  export type StudyGroupMemberDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+    /**
+     * Filter which StudyGroupMember to delete.
+     */
+    where: StudyGroupMemberWhereUniqueInput
+  }
+
+  /**
+   * StudyGroupMember deleteMany
+   */
+  export type StudyGroupMemberDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyGroupMembers to delete
+     */
+    where?: StudyGroupMemberWhereInput
+    /**
+     * Limit how many StudyGroupMembers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyGroupMember without action
+   */
+  export type StudyGroupMemberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGroupMember
+     */
+    select?: StudyGroupMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGroupMember
+     */
+    omit?: StudyGroupMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGroupMemberInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GroupMessage
+   */
+
+  export type AggregateGroupMessage = {
+    _count: GroupMessageCountAggregateOutputType | null
+    _min: GroupMessageMinAggregateOutputType | null
+    _max: GroupMessageMaxAggregateOutputType | null
+  }
+
+  export type GroupMessageMinAggregateOutputType = {
+    id: string | null
+    groupId: string | null
+    userId: string | null
+    message: string | null
+    isAI: boolean | null
+    timestamp: Date | null
+  }
+
+  export type GroupMessageMaxAggregateOutputType = {
+    id: string | null
+    groupId: string | null
+    userId: string | null
+    message: string | null
+    isAI: boolean | null
+    timestamp: Date | null
+  }
+
+  export type GroupMessageCountAggregateOutputType = {
+    id: number
+    groupId: number
+    userId: number
+    message: number
+    isAI: number
+    timestamp: number
+    _all: number
+  }
+
+
+  export type GroupMessageMinAggregateInputType = {
+    id?: true
+    groupId?: true
+    userId?: true
+    message?: true
+    isAI?: true
+    timestamp?: true
+  }
+
+  export type GroupMessageMaxAggregateInputType = {
+    id?: true
+    groupId?: true
+    userId?: true
+    message?: true
+    isAI?: true
+    timestamp?: true
+  }
+
+  export type GroupMessageCountAggregateInputType = {
+    id?: true
+    groupId?: true
+    userId?: true
+    message?: true
+    isAI?: true
+    timestamp?: true
+    _all?: true
+  }
+
+  export type GroupMessageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GroupMessage to aggregate.
+     */
+    where?: GroupMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GroupMessages to fetch.
+     */
+    orderBy?: GroupMessageOrderByWithRelationInput | GroupMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GroupMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GroupMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GroupMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GroupMessages
+    **/
+    _count?: true | GroupMessageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GroupMessageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GroupMessageMaxAggregateInputType
+  }
+
+  export type GetGroupMessageAggregateType<T extends GroupMessageAggregateArgs> = {
+        [P in keyof T & keyof AggregateGroupMessage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGroupMessage[P]>
+      : GetScalarType<T[P], AggregateGroupMessage[P]>
+  }
+
+
+
+
+  export type GroupMessageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GroupMessageWhereInput
+    orderBy?: GroupMessageOrderByWithAggregationInput | GroupMessageOrderByWithAggregationInput[]
+    by: GroupMessageScalarFieldEnum[] | GroupMessageScalarFieldEnum
+    having?: GroupMessageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GroupMessageCountAggregateInputType | true
+    _min?: GroupMessageMinAggregateInputType
+    _max?: GroupMessageMaxAggregateInputType
+  }
+
+  export type GroupMessageGroupByOutputType = {
+    id: string
+    groupId: string
+    userId: string | null
+    message: string
+    isAI: boolean
+    timestamp: Date
+    _count: GroupMessageCountAggregateOutputType | null
+    _min: GroupMessageMinAggregateOutputType | null
+    _max: GroupMessageMaxAggregateOutputType | null
+  }
+
+  type GetGroupMessageGroupByPayload<T extends GroupMessageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GroupMessageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GroupMessageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GroupMessageGroupByOutputType[P]>
+            : GetScalarType<T[P], GroupMessageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GroupMessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    groupId?: boolean
+    userId?: boolean
+    message?: boolean
+    isAI?: boolean
+    timestamp?: boolean
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | GroupMessage$userArgs<ExtArgs>
+  }, ExtArgs["result"]["groupMessage"]>
+
+  export type GroupMessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    groupId?: boolean
+    userId?: boolean
+    message?: boolean
+    isAI?: boolean
+    timestamp?: boolean
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | GroupMessage$userArgs<ExtArgs>
+  }, ExtArgs["result"]["groupMessage"]>
+
+  export type GroupMessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    groupId?: boolean
+    userId?: boolean
+    message?: boolean
+    isAI?: boolean
+    timestamp?: boolean
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | GroupMessage$userArgs<ExtArgs>
+  }, ExtArgs["result"]["groupMessage"]>
+
+  export type GroupMessageSelectScalar = {
+    id?: boolean
+    groupId?: boolean
+    userId?: boolean
+    message?: boolean
+    isAI?: boolean
+    timestamp?: boolean
+  }
+
+  export type GroupMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "groupId" | "userId" | "message" | "isAI" | "timestamp", ExtArgs["result"]["groupMessage"]>
+  export type GroupMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | GroupMessage$userArgs<ExtArgs>
+  }
+  export type GroupMessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | GroupMessage$userArgs<ExtArgs>
+  }
+  export type GroupMessageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+    user?: boolean | GroupMessage$userArgs<ExtArgs>
+  }
+
+  export type $GroupMessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GroupMessage"
+    objects: {
+      group: Prisma.$StudyGroupPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      groupId: string
+      userId: string | null
+      message: string
+      isAI: boolean
+      timestamp: Date
+    }, ExtArgs["result"]["groupMessage"]>
+    composites: {}
+  }
+
+  type GroupMessageGetPayload<S extends boolean | null | undefined | GroupMessageDefaultArgs> = $Result.GetResult<Prisma.$GroupMessagePayload, S>
+
+  type GroupMessageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GroupMessageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GroupMessageCountAggregateInputType | true
+    }
+
+  export interface GroupMessageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GroupMessage'], meta: { name: 'GroupMessage' } }
+    /**
+     * Find zero or one GroupMessage that matches the filter.
+     * @param {GroupMessageFindUniqueArgs} args - Arguments to find a GroupMessage
+     * @example
+     * // Get one GroupMessage
+     * const groupMessage = await prisma.groupMessage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GroupMessageFindUniqueArgs>(args: SelectSubset<T, GroupMessageFindUniqueArgs<ExtArgs>>): Prisma__GroupMessageClient<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GroupMessage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GroupMessageFindUniqueOrThrowArgs} args - Arguments to find a GroupMessage
+     * @example
+     * // Get one GroupMessage
+     * const groupMessage = await prisma.groupMessage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GroupMessageFindUniqueOrThrowArgs>(args: SelectSubset<T, GroupMessageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GroupMessageClient<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GroupMessage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupMessageFindFirstArgs} args - Arguments to find a GroupMessage
+     * @example
+     * // Get one GroupMessage
+     * const groupMessage = await prisma.groupMessage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GroupMessageFindFirstArgs>(args?: SelectSubset<T, GroupMessageFindFirstArgs<ExtArgs>>): Prisma__GroupMessageClient<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GroupMessage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupMessageFindFirstOrThrowArgs} args - Arguments to find a GroupMessage
+     * @example
+     * // Get one GroupMessage
+     * const groupMessage = await prisma.groupMessage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GroupMessageFindFirstOrThrowArgs>(args?: SelectSubset<T, GroupMessageFindFirstOrThrowArgs<ExtArgs>>): Prisma__GroupMessageClient<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GroupMessages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupMessageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GroupMessages
+     * const groupMessages = await prisma.groupMessage.findMany()
+     * 
+     * // Get first 10 GroupMessages
+     * const groupMessages = await prisma.groupMessage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const groupMessageWithIdOnly = await prisma.groupMessage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GroupMessageFindManyArgs>(args?: SelectSubset<T, GroupMessageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GroupMessage.
+     * @param {GroupMessageCreateArgs} args - Arguments to create a GroupMessage.
+     * @example
+     * // Create one GroupMessage
+     * const GroupMessage = await prisma.groupMessage.create({
+     *   data: {
+     *     // ... data to create a GroupMessage
+     *   }
+     * })
+     * 
+     */
+    create<T extends GroupMessageCreateArgs>(args: SelectSubset<T, GroupMessageCreateArgs<ExtArgs>>): Prisma__GroupMessageClient<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GroupMessages.
+     * @param {GroupMessageCreateManyArgs} args - Arguments to create many GroupMessages.
+     * @example
+     * // Create many GroupMessages
+     * const groupMessage = await prisma.groupMessage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GroupMessageCreateManyArgs>(args?: SelectSubset<T, GroupMessageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GroupMessages and returns the data saved in the database.
+     * @param {GroupMessageCreateManyAndReturnArgs} args - Arguments to create many GroupMessages.
+     * @example
+     * // Create many GroupMessages
+     * const groupMessage = await prisma.groupMessage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GroupMessages and only return the `id`
+     * const groupMessageWithIdOnly = await prisma.groupMessage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GroupMessageCreateManyAndReturnArgs>(args?: SelectSubset<T, GroupMessageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GroupMessage.
+     * @param {GroupMessageDeleteArgs} args - Arguments to delete one GroupMessage.
+     * @example
+     * // Delete one GroupMessage
+     * const GroupMessage = await prisma.groupMessage.delete({
+     *   where: {
+     *     // ... filter to delete one GroupMessage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GroupMessageDeleteArgs>(args: SelectSubset<T, GroupMessageDeleteArgs<ExtArgs>>): Prisma__GroupMessageClient<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GroupMessage.
+     * @param {GroupMessageUpdateArgs} args - Arguments to update one GroupMessage.
+     * @example
+     * // Update one GroupMessage
+     * const groupMessage = await prisma.groupMessage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GroupMessageUpdateArgs>(args: SelectSubset<T, GroupMessageUpdateArgs<ExtArgs>>): Prisma__GroupMessageClient<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GroupMessages.
+     * @param {GroupMessageDeleteManyArgs} args - Arguments to filter GroupMessages to delete.
+     * @example
+     * // Delete a few GroupMessages
+     * const { count } = await prisma.groupMessage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GroupMessageDeleteManyArgs>(args?: SelectSubset<T, GroupMessageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GroupMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupMessageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GroupMessages
+     * const groupMessage = await prisma.groupMessage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GroupMessageUpdateManyArgs>(args: SelectSubset<T, GroupMessageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GroupMessages and returns the data updated in the database.
+     * @param {GroupMessageUpdateManyAndReturnArgs} args - Arguments to update many GroupMessages.
+     * @example
+     * // Update many GroupMessages
+     * const groupMessage = await prisma.groupMessage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GroupMessages and only return the `id`
+     * const groupMessageWithIdOnly = await prisma.groupMessage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GroupMessageUpdateManyAndReturnArgs>(args: SelectSubset<T, GroupMessageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GroupMessage.
+     * @param {GroupMessageUpsertArgs} args - Arguments to update or create a GroupMessage.
+     * @example
+     * // Update or create a GroupMessage
+     * const groupMessage = await prisma.groupMessage.upsert({
+     *   create: {
+     *     // ... data to create a GroupMessage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GroupMessage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GroupMessageUpsertArgs>(args: SelectSubset<T, GroupMessageUpsertArgs<ExtArgs>>): Prisma__GroupMessageClient<$Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GroupMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupMessageCountArgs} args - Arguments to filter GroupMessages to count.
+     * @example
+     * // Count the number of GroupMessages
+     * const count = await prisma.groupMessage.count({
+     *   where: {
+     *     // ... the filter for the GroupMessages we want to count
+     *   }
+     * })
+    **/
+    count<T extends GroupMessageCountArgs>(
+      args?: Subset<T, GroupMessageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GroupMessageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GroupMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupMessageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GroupMessageAggregateArgs>(args: Subset<T, GroupMessageAggregateArgs>): Prisma.PrismaPromise<GetGroupMessageAggregateType<T>>
+
+    /**
+     * Group by GroupMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupMessageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GroupMessageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GroupMessageGroupByArgs['orderBy'] }
+        : { orderBy?: GroupMessageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GroupMessageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGroupMessageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GroupMessage model
+   */
+  readonly fields: GroupMessageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GroupMessage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GroupMessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    group<T extends StudyGroupDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudyGroupDefaultArgs<ExtArgs>>): Prisma__StudyGroupClient<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends GroupMessage$userArgs<ExtArgs> = {}>(args?: Subset<T, GroupMessage$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GroupMessage model
+   */
+  interface GroupMessageFieldRefs {
+    readonly id: FieldRef<"GroupMessage", 'String'>
+    readonly groupId: FieldRef<"GroupMessage", 'String'>
+    readonly userId: FieldRef<"GroupMessage", 'String'>
+    readonly message: FieldRef<"GroupMessage", 'String'>
+    readonly isAI: FieldRef<"GroupMessage", 'Boolean'>
+    readonly timestamp: FieldRef<"GroupMessage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GroupMessage findUnique
+   */
+  export type GroupMessageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which GroupMessage to fetch.
+     */
+    where: GroupMessageWhereUniqueInput
+  }
+
+  /**
+   * GroupMessage findUniqueOrThrow
+   */
+  export type GroupMessageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which GroupMessage to fetch.
+     */
+    where: GroupMessageWhereUniqueInput
+  }
+
+  /**
+   * GroupMessage findFirst
+   */
+  export type GroupMessageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which GroupMessage to fetch.
+     */
+    where?: GroupMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GroupMessages to fetch.
+     */
+    orderBy?: GroupMessageOrderByWithRelationInput | GroupMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GroupMessages.
+     */
+    cursor?: GroupMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GroupMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GroupMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GroupMessages.
+     */
+    distinct?: GroupMessageScalarFieldEnum | GroupMessageScalarFieldEnum[]
+  }
+
+  /**
+   * GroupMessage findFirstOrThrow
+   */
+  export type GroupMessageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which GroupMessage to fetch.
+     */
+    where?: GroupMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GroupMessages to fetch.
+     */
+    orderBy?: GroupMessageOrderByWithRelationInput | GroupMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GroupMessages.
+     */
+    cursor?: GroupMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GroupMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GroupMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GroupMessages.
+     */
+    distinct?: GroupMessageScalarFieldEnum | GroupMessageScalarFieldEnum[]
+  }
+
+  /**
+   * GroupMessage findMany
+   */
+  export type GroupMessageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which GroupMessages to fetch.
+     */
+    where?: GroupMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GroupMessages to fetch.
+     */
+    orderBy?: GroupMessageOrderByWithRelationInput | GroupMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GroupMessages.
+     */
+    cursor?: GroupMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GroupMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GroupMessages.
+     */
+    skip?: number
+    distinct?: GroupMessageScalarFieldEnum | GroupMessageScalarFieldEnum[]
+  }
+
+  /**
+   * GroupMessage create
+   */
+  export type GroupMessageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GroupMessage.
+     */
+    data: XOR<GroupMessageCreateInput, GroupMessageUncheckedCreateInput>
+  }
+
+  /**
+   * GroupMessage createMany
+   */
+  export type GroupMessageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GroupMessages.
+     */
+    data: GroupMessageCreateManyInput | GroupMessageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GroupMessage createManyAndReturn
+   */
+  export type GroupMessageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * The data used to create many GroupMessages.
+     */
+    data: GroupMessageCreateManyInput | GroupMessageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GroupMessage update
+   */
+  export type GroupMessageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GroupMessage.
+     */
+    data: XOR<GroupMessageUpdateInput, GroupMessageUncheckedUpdateInput>
+    /**
+     * Choose, which GroupMessage to update.
+     */
+    where: GroupMessageWhereUniqueInput
+  }
+
+  /**
+   * GroupMessage updateMany
+   */
+  export type GroupMessageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GroupMessages.
+     */
+    data: XOR<GroupMessageUpdateManyMutationInput, GroupMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which GroupMessages to update
+     */
+    where?: GroupMessageWhereInput
+    /**
+     * Limit how many GroupMessages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GroupMessage updateManyAndReturn
+   */
+  export type GroupMessageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * The data used to update GroupMessages.
+     */
+    data: XOR<GroupMessageUpdateManyMutationInput, GroupMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which GroupMessages to update
+     */
+    where?: GroupMessageWhereInput
+    /**
+     * Limit how many GroupMessages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GroupMessage upsert
+   */
+  export type GroupMessageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GroupMessage to update in case it exists.
+     */
+    where: GroupMessageWhereUniqueInput
+    /**
+     * In case the GroupMessage found by the `where` argument doesn't exist, create a new GroupMessage with this data.
+     */
+    create: XOR<GroupMessageCreateInput, GroupMessageUncheckedCreateInput>
+    /**
+     * In case the GroupMessage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GroupMessageUpdateInput, GroupMessageUncheckedUpdateInput>
+  }
+
+  /**
+   * GroupMessage delete
+   */
+  export type GroupMessageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+    /**
+     * Filter which GroupMessage to delete.
+     */
+    where: GroupMessageWhereUniqueInput
+  }
+
+  /**
+   * GroupMessage deleteMany
+   */
+  export type GroupMessageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GroupMessages to delete
+     */
+    where?: GroupMessageWhereInput
+    /**
+     * Limit how many GroupMessages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GroupMessage.user
+   */
+  export type GroupMessage$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * GroupMessage without action
+   */
+  export type GroupMessageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupMessage
+     */
+    select?: GroupMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupMessage
+     */
+    omit?: GroupMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupMessageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GroupSession
+   */
+
+  export type AggregateGroupSession = {
+    _count: GroupSessionCountAggregateOutputType | null
+    _avg: GroupSessionAvgAggregateOutputType | null
+    _sum: GroupSessionSumAggregateOutputType | null
+    _min: GroupSessionMinAggregateOutputType | null
+    _max: GroupSessionMaxAggregateOutputType | null
+  }
+
+  export type GroupSessionAvgAggregateOutputType = {
+    duration: number | null
+  }
+
+  export type GroupSessionSumAggregateOutputType = {
+    duration: number | null
+  }
+
+  export type GroupSessionMinAggregateOutputType = {
+    id: string | null
+    groupId: string | null
+    summary: string | null
+    duration: number | null
+    createdAt: Date | null
+  }
+
+  export type GroupSessionMaxAggregateOutputType = {
+    id: string | null
+    groupId: string | null
+    summary: string | null
+    duration: number | null
+    createdAt: Date | null
+  }
+
+  export type GroupSessionCountAggregateOutputType = {
+    id: number
+    groupId: number
+    summary: number
+    duration: number
+    topics: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type GroupSessionAvgAggregateInputType = {
+    duration?: true
+  }
+
+  export type GroupSessionSumAggregateInputType = {
+    duration?: true
+  }
+
+  export type GroupSessionMinAggregateInputType = {
+    id?: true
+    groupId?: true
+    summary?: true
+    duration?: true
+    createdAt?: true
+  }
+
+  export type GroupSessionMaxAggregateInputType = {
+    id?: true
+    groupId?: true
+    summary?: true
+    duration?: true
+    createdAt?: true
+  }
+
+  export type GroupSessionCountAggregateInputType = {
+    id?: true
+    groupId?: true
+    summary?: true
+    duration?: true
+    topics?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type GroupSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GroupSession to aggregate.
+     */
+    where?: GroupSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GroupSessions to fetch.
+     */
+    orderBy?: GroupSessionOrderByWithRelationInput | GroupSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GroupSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GroupSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GroupSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GroupSessions
+    **/
+    _count?: true | GroupSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GroupSessionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GroupSessionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GroupSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GroupSessionMaxAggregateInputType
+  }
+
+  export type GetGroupSessionAggregateType<T extends GroupSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregateGroupSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGroupSession[P]>
+      : GetScalarType<T[P], AggregateGroupSession[P]>
+  }
+
+
+
+
+  export type GroupSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GroupSessionWhereInput
+    orderBy?: GroupSessionOrderByWithAggregationInput | GroupSessionOrderByWithAggregationInput[]
+    by: GroupSessionScalarFieldEnum[] | GroupSessionScalarFieldEnum
+    having?: GroupSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GroupSessionCountAggregateInputType | true
+    _avg?: GroupSessionAvgAggregateInputType
+    _sum?: GroupSessionSumAggregateInputType
+    _min?: GroupSessionMinAggregateInputType
+    _max?: GroupSessionMaxAggregateInputType
+  }
+
+  export type GroupSessionGroupByOutputType = {
+    id: string
+    groupId: string
+    summary: string
+    duration: number
+    topics: JsonValue | null
+    createdAt: Date
+    _count: GroupSessionCountAggregateOutputType | null
+    _avg: GroupSessionAvgAggregateOutputType | null
+    _sum: GroupSessionSumAggregateOutputType | null
+    _min: GroupSessionMinAggregateOutputType | null
+    _max: GroupSessionMaxAggregateOutputType | null
+  }
+
+  type GetGroupSessionGroupByPayload<T extends GroupSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GroupSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GroupSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GroupSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], GroupSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GroupSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    groupId?: boolean
+    summary?: boolean
+    duration?: boolean
+    topics?: boolean
+    createdAt?: boolean
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["groupSession"]>
+
+  export type GroupSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    groupId?: boolean
+    summary?: boolean
+    duration?: boolean
+    topics?: boolean
+    createdAt?: boolean
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["groupSession"]>
+
+  export type GroupSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    groupId?: boolean
+    summary?: boolean
+    duration?: boolean
+    topics?: boolean
+    createdAt?: boolean
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["groupSession"]>
+
+  export type GroupSessionSelectScalar = {
+    id?: boolean
+    groupId?: boolean
+    summary?: boolean
+    duration?: boolean
+    topics?: boolean
+    createdAt?: boolean
+  }
+
+  export type GroupSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "groupId" | "summary" | "duration" | "topics" | "createdAt", ExtArgs["result"]["groupSession"]>
+  export type GroupSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+  }
+  export type GroupSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+  }
+  export type GroupSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    group?: boolean | StudyGroupDefaultArgs<ExtArgs>
+  }
+
+  export type $GroupSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GroupSession"
+    objects: {
+      group: Prisma.$StudyGroupPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      groupId: string
+      summary: string
+      duration: number
+      topics: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["groupSession"]>
+    composites: {}
+  }
+
+  type GroupSessionGetPayload<S extends boolean | null | undefined | GroupSessionDefaultArgs> = $Result.GetResult<Prisma.$GroupSessionPayload, S>
+
+  type GroupSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GroupSessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GroupSessionCountAggregateInputType | true
+    }
+
+  export interface GroupSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GroupSession'], meta: { name: 'GroupSession' } }
+    /**
+     * Find zero or one GroupSession that matches the filter.
+     * @param {GroupSessionFindUniqueArgs} args - Arguments to find a GroupSession
+     * @example
+     * // Get one GroupSession
+     * const groupSession = await prisma.groupSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GroupSessionFindUniqueArgs>(args: SelectSubset<T, GroupSessionFindUniqueArgs<ExtArgs>>): Prisma__GroupSessionClient<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GroupSession that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GroupSessionFindUniqueOrThrowArgs} args - Arguments to find a GroupSession
+     * @example
+     * // Get one GroupSession
+     * const groupSession = await prisma.groupSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GroupSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, GroupSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GroupSessionClient<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GroupSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupSessionFindFirstArgs} args - Arguments to find a GroupSession
+     * @example
+     * // Get one GroupSession
+     * const groupSession = await prisma.groupSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GroupSessionFindFirstArgs>(args?: SelectSubset<T, GroupSessionFindFirstArgs<ExtArgs>>): Prisma__GroupSessionClient<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GroupSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupSessionFindFirstOrThrowArgs} args - Arguments to find a GroupSession
+     * @example
+     * // Get one GroupSession
+     * const groupSession = await prisma.groupSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GroupSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, GroupSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__GroupSessionClient<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GroupSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GroupSessions
+     * const groupSessions = await prisma.groupSession.findMany()
+     * 
+     * // Get first 10 GroupSessions
+     * const groupSessions = await prisma.groupSession.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const groupSessionWithIdOnly = await prisma.groupSession.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GroupSessionFindManyArgs>(args?: SelectSubset<T, GroupSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GroupSession.
+     * @param {GroupSessionCreateArgs} args - Arguments to create a GroupSession.
+     * @example
+     * // Create one GroupSession
+     * const GroupSession = await prisma.groupSession.create({
+     *   data: {
+     *     // ... data to create a GroupSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends GroupSessionCreateArgs>(args: SelectSubset<T, GroupSessionCreateArgs<ExtArgs>>): Prisma__GroupSessionClient<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GroupSessions.
+     * @param {GroupSessionCreateManyArgs} args - Arguments to create many GroupSessions.
+     * @example
+     * // Create many GroupSessions
+     * const groupSession = await prisma.groupSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GroupSessionCreateManyArgs>(args?: SelectSubset<T, GroupSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GroupSessions and returns the data saved in the database.
+     * @param {GroupSessionCreateManyAndReturnArgs} args - Arguments to create many GroupSessions.
+     * @example
+     * // Create many GroupSessions
+     * const groupSession = await prisma.groupSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GroupSessions and only return the `id`
+     * const groupSessionWithIdOnly = await prisma.groupSession.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GroupSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, GroupSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GroupSession.
+     * @param {GroupSessionDeleteArgs} args - Arguments to delete one GroupSession.
+     * @example
+     * // Delete one GroupSession
+     * const GroupSession = await prisma.groupSession.delete({
+     *   where: {
+     *     // ... filter to delete one GroupSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GroupSessionDeleteArgs>(args: SelectSubset<T, GroupSessionDeleteArgs<ExtArgs>>): Prisma__GroupSessionClient<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GroupSession.
+     * @param {GroupSessionUpdateArgs} args - Arguments to update one GroupSession.
+     * @example
+     * // Update one GroupSession
+     * const groupSession = await prisma.groupSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GroupSessionUpdateArgs>(args: SelectSubset<T, GroupSessionUpdateArgs<ExtArgs>>): Prisma__GroupSessionClient<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GroupSessions.
+     * @param {GroupSessionDeleteManyArgs} args - Arguments to filter GroupSessions to delete.
+     * @example
+     * // Delete a few GroupSessions
+     * const { count } = await prisma.groupSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GroupSessionDeleteManyArgs>(args?: SelectSubset<T, GroupSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GroupSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GroupSessions
+     * const groupSession = await prisma.groupSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GroupSessionUpdateManyArgs>(args: SelectSubset<T, GroupSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GroupSessions and returns the data updated in the database.
+     * @param {GroupSessionUpdateManyAndReturnArgs} args - Arguments to update many GroupSessions.
+     * @example
+     * // Update many GroupSessions
+     * const groupSession = await prisma.groupSession.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GroupSessions and only return the `id`
+     * const groupSessionWithIdOnly = await prisma.groupSession.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GroupSessionUpdateManyAndReturnArgs>(args: SelectSubset<T, GroupSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GroupSession.
+     * @param {GroupSessionUpsertArgs} args - Arguments to update or create a GroupSession.
+     * @example
+     * // Update or create a GroupSession
+     * const groupSession = await prisma.groupSession.upsert({
+     *   create: {
+     *     // ... data to create a GroupSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GroupSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GroupSessionUpsertArgs>(args: SelectSubset<T, GroupSessionUpsertArgs<ExtArgs>>): Prisma__GroupSessionClient<$Result.GetResult<Prisma.$GroupSessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GroupSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupSessionCountArgs} args - Arguments to filter GroupSessions to count.
+     * @example
+     * // Count the number of GroupSessions
+     * const count = await prisma.groupSession.count({
+     *   where: {
+     *     // ... the filter for the GroupSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends GroupSessionCountArgs>(
+      args?: Subset<T, GroupSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GroupSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GroupSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GroupSessionAggregateArgs>(args: Subset<T, GroupSessionAggregateArgs>): Prisma.PrismaPromise<GetGroupSessionAggregateType<T>>
+
+    /**
+     * Group by GroupSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GroupSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GroupSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GroupSessionGroupByArgs['orderBy'] }
+        : { orderBy?: GroupSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GroupSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGroupSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GroupSession model
+   */
+  readonly fields: GroupSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GroupSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GroupSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    group<T extends StudyGroupDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudyGroupDefaultArgs<ExtArgs>>): Prisma__StudyGroupClient<$Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GroupSession model
+   */
+  interface GroupSessionFieldRefs {
+    readonly id: FieldRef<"GroupSession", 'String'>
+    readonly groupId: FieldRef<"GroupSession", 'String'>
+    readonly summary: FieldRef<"GroupSession", 'String'>
+    readonly duration: FieldRef<"GroupSession", 'Int'>
+    readonly topics: FieldRef<"GroupSession", 'Json'>
+    readonly createdAt: FieldRef<"GroupSession", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GroupSession findUnique
+   */
+  export type GroupSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which GroupSession to fetch.
+     */
+    where: GroupSessionWhereUniqueInput
+  }
+
+  /**
+   * GroupSession findUniqueOrThrow
+   */
+  export type GroupSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which GroupSession to fetch.
+     */
+    where: GroupSessionWhereUniqueInput
+  }
+
+  /**
+   * GroupSession findFirst
+   */
+  export type GroupSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which GroupSession to fetch.
+     */
+    where?: GroupSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GroupSessions to fetch.
+     */
+    orderBy?: GroupSessionOrderByWithRelationInput | GroupSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GroupSessions.
+     */
+    cursor?: GroupSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GroupSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GroupSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GroupSessions.
+     */
+    distinct?: GroupSessionScalarFieldEnum | GroupSessionScalarFieldEnum[]
+  }
+
+  /**
+   * GroupSession findFirstOrThrow
+   */
+  export type GroupSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which GroupSession to fetch.
+     */
+    where?: GroupSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GroupSessions to fetch.
+     */
+    orderBy?: GroupSessionOrderByWithRelationInput | GroupSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GroupSessions.
+     */
+    cursor?: GroupSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GroupSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GroupSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GroupSessions.
+     */
+    distinct?: GroupSessionScalarFieldEnum | GroupSessionScalarFieldEnum[]
+  }
+
+  /**
+   * GroupSession findMany
+   */
+  export type GroupSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which GroupSessions to fetch.
+     */
+    where?: GroupSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GroupSessions to fetch.
+     */
+    orderBy?: GroupSessionOrderByWithRelationInput | GroupSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GroupSessions.
+     */
+    cursor?: GroupSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GroupSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GroupSessions.
+     */
+    skip?: number
+    distinct?: GroupSessionScalarFieldEnum | GroupSessionScalarFieldEnum[]
+  }
+
+  /**
+   * GroupSession create
+   */
+  export type GroupSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GroupSession.
+     */
+    data: XOR<GroupSessionCreateInput, GroupSessionUncheckedCreateInput>
+  }
+
+  /**
+   * GroupSession createMany
+   */
+  export type GroupSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GroupSessions.
+     */
+    data: GroupSessionCreateManyInput | GroupSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GroupSession createManyAndReturn
+   */
+  export type GroupSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * The data used to create many GroupSessions.
+     */
+    data: GroupSessionCreateManyInput | GroupSessionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GroupSession update
+   */
+  export type GroupSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GroupSession.
+     */
+    data: XOR<GroupSessionUpdateInput, GroupSessionUncheckedUpdateInput>
+    /**
+     * Choose, which GroupSession to update.
+     */
+    where: GroupSessionWhereUniqueInput
+  }
+
+  /**
+   * GroupSession updateMany
+   */
+  export type GroupSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GroupSessions.
+     */
+    data: XOR<GroupSessionUpdateManyMutationInput, GroupSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which GroupSessions to update
+     */
+    where?: GroupSessionWhereInput
+    /**
+     * Limit how many GroupSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GroupSession updateManyAndReturn
+   */
+  export type GroupSessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * The data used to update GroupSessions.
+     */
+    data: XOR<GroupSessionUpdateManyMutationInput, GroupSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which GroupSessions to update
+     */
+    where?: GroupSessionWhereInput
+    /**
+     * Limit how many GroupSessions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GroupSession upsert
+   */
+  export type GroupSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GroupSession to update in case it exists.
+     */
+    where: GroupSessionWhereUniqueInput
+    /**
+     * In case the GroupSession found by the `where` argument doesn't exist, create a new GroupSession with this data.
+     */
+    create: XOR<GroupSessionCreateInput, GroupSessionUncheckedCreateInput>
+    /**
+     * In case the GroupSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GroupSessionUpdateInput, GroupSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * GroupSession delete
+   */
+  export type GroupSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionInclude<ExtArgs> | null
+    /**
+     * Filter which GroupSession to delete.
+     */
+    where: GroupSessionWhereUniqueInput
+  }
+
+  /**
+   * GroupSession deleteMany
+   */
+  export type GroupSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GroupSessions to delete
+     */
+    where?: GroupSessionWhereInput
+    /**
+     * Limit how many GroupSessions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GroupSession without action
+   */
+  export type GroupSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GroupSession
+     */
+    select?: GroupSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GroupSession
+     */
+    omit?: GroupSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GroupSessionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ConceptConnection
+   */
+
+  export type AggregateConceptConnection = {
+    _count: ConceptConnectionCountAggregateOutputType | null
+    _min: ConceptConnectionMinAggregateOutputType | null
+    _max: ConceptConnectionMaxAggregateOutputType | null
+  }
+
+  export type ConceptConnectionMinAggregateOutputType = {
+    id: string | null
+    note1Id: string | null
+    note2Id: string | null
+    concept1: string | null
+    concept2: string | null
+    connectionDescription: string | null
+    strength: string | null
+    createdAt: Date | null
+    userId: string | null
+  }
+
+  export type ConceptConnectionMaxAggregateOutputType = {
+    id: string | null
+    note1Id: string | null
+    note2Id: string | null
+    concept1: string | null
+    concept2: string | null
+    connectionDescription: string | null
+    strength: string | null
+    createdAt: Date | null
+    userId: string | null
+  }
+
+  export type ConceptConnectionCountAggregateOutputType = {
+    id: number
+    note1Id: number
+    note2Id: number
+    concept1: number
+    concept2: number
+    connectionDescription: number
+    strength: number
+    createdAt: number
+    userId: number
+    _all: number
+  }
+
+
+  export type ConceptConnectionMinAggregateInputType = {
+    id?: true
+    note1Id?: true
+    note2Id?: true
+    concept1?: true
+    concept2?: true
+    connectionDescription?: true
+    strength?: true
+    createdAt?: true
+    userId?: true
+  }
+
+  export type ConceptConnectionMaxAggregateInputType = {
+    id?: true
+    note1Id?: true
+    note2Id?: true
+    concept1?: true
+    concept2?: true
+    connectionDescription?: true
+    strength?: true
+    createdAt?: true
+    userId?: true
+  }
+
+  export type ConceptConnectionCountAggregateInputType = {
+    id?: true
+    note1Id?: true
+    note2Id?: true
+    concept1?: true
+    concept2?: true
+    connectionDescription?: true
+    strength?: true
+    createdAt?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type ConceptConnectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConceptConnection to aggregate.
+     */
+    where?: ConceptConnectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConceptConnections to fetch.
+     */
+    orderBy?: ConceptConnectionOrderByWithRelationInput | ConceptConnectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ConceptConnectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConceptConnections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConceptConnections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ConceptConnections
+    **/
+    _count?: true | ConceptConnectionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ConceptConnectionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ConceptConnectionMaxAggregateInputType
+  }
+
+  export type GetConceptConnectionAggregateType<T extends ConceptConnectionAggregateArgs> = {
+        [P in keyof T & keyof AggregateConceptConnection]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateConceptConnection[P]>
+      : GetScalarType<T[P], AggregateConceptConnection[P]>
+  }
+
+
+
+
+  export type ConceptConnectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConceptConnectionWhereInput
+    orderBy?: ConceptConnectionOrderByWithAggregationInput | ConceptConnectionOrderByWithAggregationInput[]
+    by: ConceptConnectionScalarFieldEnum[] | ConceptConnectionScalarFieldEnum
+    having?: ConceptConnectionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ConceptConnectionCountAggregateInputType | true
+    _min?: ConceptConnectionMinAggregateInputType
+    _max?: ConceptConnectionMaxAggregateInputType
+  }
+
+  export type ConceptConnectionGroupByOutputType = {
+    id: string
+    note1Id: string
+    note2Id: string
+    concept1: string
+    concept2: string
+    connectionDescription: string
+    strength: string
+    createdAt: Date
+    userId: string
+    _count: ConceptConnectionCountAggregateOutputType | null
+    _min: ConceptConnectionMinAggregateOutputType | null
+    _max: ConceptConnectionMaxAggregateOutputType | null
+  }
+
+  type GetConceptConnectionGroupByPayload<T extends ConceptConnectionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ConceptConnectionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ConceptConnectionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ConceptConnectionGroupByOutputType[P]>
+            : GetScalarType<T[P], ConceptConnectionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ConceptConnectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    note1Id?: boolean
+    note2Id?: boolean
+    concept1?: boolean
+    concept2?: boolean
+    connectionDescription?: boolean
+    strength?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conceptConnection"]>
+
+  export type ConceptConnectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    note1Id?: boolean
+    note2Id?: boolean
+    concept1?: boolean
+    concept2?: boolean
+    connectionDescription?: boolean
+    strength?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conceptConnection"]>
+
+  export type ConceptConnectionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    note1Id?: boolean
+    note2Id?: boolean
+    concept1?: boolean
+    concept2?: boolean
+    connectionDescription?: boolean
+    strength?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conceptConnection"]>
+
+  export type ConceptConnectionSelectScalar = {
+    id?: boolean
+    note1Id?: boolean
+    note2Id?: boolean
+    concept1?: boolean
+    concept2?: boolean
+    connectionDescription?: boolean
+    strength?: boolean
+    createdAt?: boolean
+    userId?: boolean
+  }
+
+  export type ConceptConnectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "note1Id" | "note2Id" | "concept1" | "concept2" | "connectionDescription" | "strength" | "createdAt" | "userId", ExtArgs["result"]["conceptConnection"]>
+  export type ConceptConnectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ConceptConnectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ConceptConnectionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ConceptConnectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ConceptConnection"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      note1Id: string
+      note2Id: string
+      concept1: string
+      concept2: string
+      connectionDescription: string
+      strength: string
+      createdAt: Date
+      userId: string
+    }, ExtArgs["result"]["conceptConnection"]>
+    composites: {}
+  }
+
+  type ConceptConnectionGetPayload<S extends boolean | null | undefined | ConceptConnectionDefaultArgs> = $Result.GetResult<Prisma.$ConceptConnectionPayload, S>
+
+  type ConceptConnectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ConceptConnectionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ConceptConnectionCountAggregateInputType | true
+    }
+
+  export interface ConceptConnectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ConceptConnection'], meta: { name: 'ConceptConnection' } }
+    /**
+     * Find zero or one ConceptConnection that matches the filter.
+     * @param {ConceptConnectionFindUniqueArgs} args - Arguments to find a ConceptConnection
+     * @example
+     * // Get one ConceptConnection
+     * const conceptConnection = await prisma.conceptConnection.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ConceptConnectionFindUniqueArgs>(args: SelectSubset<T, ConceptConnectionFindUniqueArgs<ExtArgs>>): Prisma__ConceptConnectionClient<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ConceptConnection that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ConceptConnectionFindUniqueOrThrowArgs} args - Arguments to find a ConceptConnection
+     * @example
+     * // Get one ConceptConnection
+     * const conceptConnection = await prisma.conceptConnection.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ConceptConnectionFindUniqueOrThrowArgs>(args: SelectSubset<T, ConceptConnectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConceptConnectionClient<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConceptConnection that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptConnectionFindFirstArgs} args - Arguments to find a ConceptConnection
+     * @example
+     * // Get one ConceptConnection
+     * const conceptConnection = await prisma.conceptConnection.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ConceptConnectionFindFirstArgs>(args?: SelectSubset<T, ConceptConnectionFindFirstArgs<ExtArgs>>): Prisma__ConceptConnectionClient<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConceptConnection that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptConnectionFindFirstOrThrowArgs} args - Arguments to find a ConceptConnection
+     * @example
+     * // Get one ConceptConnection
+     * const conceptConnection = await prisma.conceptConnection.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ConceptConnectionFindFirstOrThrowArgs>(args?: SelectSubset<T, ConceptConnectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConceptConnectionClient<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ConceptConnections that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptConnectionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ConceptConnections
+     * const conceptConnections = await prisma.conceptConnection.findMany()
+     * 
+     * // Get first 10 ConceptConnections
+     * const conceptConnections = await prisma.conceptConnection.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const conceptConnectionWithIdOnly = await prisma.conceptConnection.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ConceptConnectionFindManyArgs>(args?: SelectSubset<T, ConceptConnectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ConceptConnection.
+     * @param {ConceptConnectionCreateArgs} args - Arguments to create a ConceptConnection.
+     * @example
+     * // Create one ConceptConnection
+     * const ConceptConnection = await prisma.conceptConnection.create({
+     *   data: {
+     *     // ... data to create a ConceptConnection
+     *   }
+     * })
+     * 
+     */
+    create<T extends ConceptConnectionCreateArgs>(args: SelectSubset<T, ConceptConnectionCreateArgs<ExtArgs>>): Prisma__ConceptConnectionClient<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ConceptConnections.
+     * @param {ConceptConnectionCreateManyArgs} args - Arguments to create many ConceptConnections.
+     * @example
+     * // Create many ConceptConnections
+     * const conceptConnection = await prisma.conceptConnection.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ConceptConnectionCreateManyArgs>(args?: SelectSubset<T, ConceptConnectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ConceptConnections and returns the data saved in the database.
+     * @param {ConceptConnectionCreateManyAndReturnArgs} args - Arguments to create many ConceptConnections.
+     * @example
+     * // Create many ConceptConnections
+     * const conceptConnection = await prisma.conceptConnection.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ConceptConnections and only return the `id`
+     * const conceptConnectionWithIdOnly = await prisma.conceptConnection.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ConceptConnectionCreateManyAndReturnArgs>(args?: SelectSubset<T, ConceptConnectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ConceptConnection.
+     * @param {ConceptConnectionDeleteArgs} args - Arguments to delete one ConceptConnection.
+     * @example
+     * // Delete one ConceptConnection
+     * const ConceptConnection = await prisma.conceptConnection.delete({
+     *   where: {
+     *     // ... filter to delete one ConceptConnection
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ConceptConnectionDeleteArgs>(args: SelectSubset<T, ConceptConnectionDeleteArgs<ExtArgs>>): Prisma__ConceptConnectionClient<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ConceptConnection.
+     * @param {ConceptConnectionUpdateArgs} args - Arguments to update one ConceptConnection.
+     * @example
+     * // Update one ConceptConnection
+     * const conceptConnection = await prisma.conceptConnection.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ConceptConnectionUpdateArgs>(args: SelectSubset<T, ConceptConnectionUpdateArgs<ExtArgs>>): Prisma__ConceptConnectionClient<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ConceptConnections.
+     * @param {ConceptConnectionDeleteManyArgs} args - Arguments to filter ConceptConnections to delete.
+     * @example
+     * // Delete a few ConceptConnections
+     * const { count } = await prisma.conceptConnection.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ConceptConnectionDeleteManyArgs>(args?: SelectSubset<T, ConceptConnectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConceptConnections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptConnectionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ConceptConnections
+     * const conceptConnection = await prisma.conceptConnection.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ConceptConnectionUpdateManyArgs>(args: SelectSubset<T, ConceptConnectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConceptConnections and returns the data updated in the database.
+     * @param {ConceptConnectionUpdateManyAndReturnArgs} args - Arguments to update many ConceptConnections.
+     * @example
+     * // Update many ConceptConnections
+     * const conceptConnection = await prisma.conceptConnection.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ConceptConnections and only return the `id`
+     * const conceptConnectionWithIdOnly = await prisma.conceptConnection.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ConceptConnectionUpdateManyAndReturnArgs>(args: SelectSubset<T, ConceptConnectionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ConceptConnection.
+     * @param {ConceptConnectionUpsertArgs} args - Arguments to update or create a ConceptConnection.
+     * @example
+     * // Update or create a ConceptConnection
+     * const conceptConnection = await prisma.conceptConnection.upsert({
+     *   create: {
+     *     // ... data to create a ConceptConnection
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ConceptConnection we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ConceptConnectionUpsertArgs>(args: SelectSubset<T, ConceptConnectionUpsertArgs<ExtArgs>>): Prisma__ConceptConnectionClient<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ConceptConnections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptConnectionCountArgs} args - Arguments to filter ConceptConnections to count.
+     * @example
+     * // Count the number of ConceptConnections
+     * const count = await prisma.conceptConnection.count({
+     *   where: {
+     *     // ... the filter for the ConceptConnections we want to count
+     *   }
+     * })
+    **/
+    count<T extends ConceptConnectionCountArgs>(
+      args?: Subset<T, ConceptConnectionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ConceptConnectionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ConceptConnection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptConnectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ConceptConnectionAggregateArgs>(args: Subset<T, ConceptConnectionAggregateArgs>): Prisma.PrismaPromise<GetConceptConnectionAggregateType<T>>
+
+    /**
+     * Group by ConceptConnection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptConnectionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ConceptConnectionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ConceptConnectionGroupByArgs['orderBy'] }
+        : { orderBy?: ConceptConnectionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ConceptConnectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConceptConnectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ConceptConnection model
+   */
+  readonly fields: ConceptConnectionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ConceptConnection.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ConceptConnectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ConceptConnection model
+   */
+  interface ConceptConnectionFieldRefs {
+    readonly id: FieldRef<"ConceptConnection", 'String'>
+    readonly note1Id: FieldRef<"ConceptConnection", 'String'>
+    readonly note2Id: FieldRef<"ConceptConnection", 'String'>
+    readonly concept1: FieldRef<"ConceptConnection", 'String'>
+    readonly concept2: FieldRef<"ConceptConnection", 'String'>
+    readonly connectionDescription: FieldRef<"ConceptConnection", 'String'>
+    readonly strength: FieldRef<"ConceptConnection", 'String'>
+    readonly createdAt: FieldRef<"ConceptConnection", 'DateTime'>
+    readonly userId: FieldRef<"ConceptConnection", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ConceptConnection findUnique
+   */
+  export type ConceptConnectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionInclude<ExtArgs> | null
+    /**
+     * Filter, which ConceptConnection to fetch.
+     */
+    where: ConceptConnectionWhereUniqueInput
+  }
+
+  /**
+   * ConceptConnection findUniqueOrThrow
+   */
+  export type ConceptConnectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionInclude<ExtArgs> | null
+    /**
+     * Filter, which ConceptConnection to fetch.
+     */
+    where: ConceptConnectionWhereUniqueInput
+  }
+
+  /**
+   * ConceptConnection findFirst
+   */
+  export type ConceptConnectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionInclude<ExtArgs> | null
+    /**
+     * Filter, which ConceptConnection to fetch.
+     */
+    where?: ConceptConnectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConceptConnections to fetch.
+     */
+    orderBy?: ConceptConnectionOrderByWithRelationInput | ConceptConnectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConceptConnections.
+     */
+    cursor?: ConceptConnectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConceptConnections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConceptConnections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConceptConnections.
+     */
+    distinct?: ConceptConnectionScalarFieldEnum | ConceptConnectionScalarFieldEnum[]
+  }
+
+  /**
+   * ConceptConnection findFirstOrThrow
+   */
+  export type ConceptConnectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionInclude<ExtArgs> | null
+    /**
+     * Filter, which ConceptConnection to fetch.
+     */
+    where?: ConceptConnectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConceptConnections to fetch.
+     */
+    orderBy?: ConceptConnectionOrderByWithRelationInput | ConceptConnectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConceptConnections.
+     */
+    cursor?: ConceptConnectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConceptConnections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConceptConnections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConceptConnections.
+     */
+    distinct?: ConceptConnectionScalarFieldEnum | ConceptConnectionScalarFieldEnum[]
+  }
+
+  /**
+   * ConceptConnection findMany
+   */
+  export type ConceptConnectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionInclude<ExtArgs> | null
+    /**
+     * Filter, which ConceptConnections to fetch.
+     */
+    where?: ConceptConnectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConceptConnections to fetch.
+     */
+    orderBy?: ConceptConnectionOrderByWithRelationInput | ConceptConnectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ConceptConnections.
+     */
+    cursor?: ConceptConnectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConceptConnections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConceptConnections.
+     */
+    skip?: number
+    distinct?: ConceptConnectionScalarFieldEnum | ConceptConnectionScalarFieldEnum[]
+  }
+
+  /**
+   * ConceptConnection create
+   */
+  export type ConceptConnectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ConceptConnection.
+     */
+    data: XOR<ConceptConnectionCreateInput, ConceptConnectionUncheckedCreateInput>
+  }
+
+  /**
+   * ConceptConnection createMany
+   */
+  export type ConceptConnectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ConceptConnections.
+     */
+    data: ConceptConnectionCreateManyInput | ConceptConnectionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ConceptConnection createManyAndReturn
+   */
+  export type ConceptConnectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * The data used to create many ConceptConnections.
+     */
+    data: ConceptConnectionCreateManyInput | ConceptConnectionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ConceptConnection update
+   */
+  export type ConceptConnectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ConceptConnection.
+     */
+    data: XOR<ConceptConnectionUpdateInput, ConceptConnectionUncheckedUpdateInput>
+    /**
+     * Choose, which ConceptConnection to update.
+     */
+    where: ConceptConnectionWhereUniqueInput
+  }
+
+  /**
+   * ConceptConnection updateMany
+   */
+  export type ConceptConnectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ConceptConnections.
+     */
+    data: XOR<ConceptConnectionUpdateManyMutationInput, ConceptConnectionUncheckedUpdateManyInput>
+    /**
+     * Filter which ConceptConnections to update
+     */
+    where?: ConceptConnectionWhereInput
+    /**
+     * Limit how many ConceptConnections to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConceptConnection updateManyAndReturn
+   */
+  export type ConceptConnectionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * The data used to update ConceptConnections.
+     */
+    data: XOR<ConceptConnectionUpdateManyMutationInput, ConceptConnectionUncheckedUpdateManyInput>
+    /**
+     * Filter which ConceptConnections to update
+     */
+    where?: ConceptConnectionWhereInput
+    /**
+     * Limit how many ConceptConnections to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ConceptConnection upsert
+   */
+  export type ConceptConnectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ConceptConnection to update in case it exists.
+     */
+    where: ConceptConnectionWhereUniqueInput
+    /**
+     * In case the ConceptConnection found by the `where` argument doesn't exist, create a new ConceptConnection with this data.
+     */
+    create: XOR<ConceptConnectionCreateInput, ConceptConnectionUncheckedCreateInput>
+    /**
+     * In case the ConceptConnection was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ConceptConnectionUpdateInput, ConceptConnectionUncheckedUpdateInput>
+  }
+
+  /**
+   * ConceptConnection delete
+   */
+  export type ConceptConnectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionInclude<ExtArgs> | null
+    /**
+     * Filter which ConceptConnection to delete.
+     */
+    where: ConceptConnectionWhereUniqueInput
+  }
+
+  /**
+   * ConceptConnection deleteMany
+   */
+  export type ConceptConnectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConceptConnections to delete
+     */
+    where?: ConceptConnectionWhereInput
+    /**
+     * Limit how many ConceptConnections to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConceptConnection without action
+   */
+  export type ConceptConnectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptConnection
+     */
+    select?: ConceptConnectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptConnection
+     */
+    omit?: ConceptConnectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptConnectionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9250,7 +21952,9 @@ export namespace Prisma {
     email: 'email',
     emailVerified: 'emailVerified',
     image: 'image',
-    password: 'password'
+    password: 'password',
+    learningStyle: 'learningStyle',
+    autoAdapt: 'autoAdapt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -9295,12 +21999,163 @@ export namespace Prisma {
   export type CitationScalarFieldEnum = (typeof CitationScalarFieldEnum)[keyof typeof CitationScalarFieldEnum]
 
 
+  export const ExamPredictionScalarFieldEnum: {
+    id: 'id',
+    examType: 'examType',
+    uploadedContent: 'uploadedContent',
+    syllabusContent: 'syllabusContent',
+    predictions: 'predictions',
+    analytics: 'analytics',
+    createdAt: 'createdAt',
+    userId: 'userId'
+  };
+
+  export type ExamPredictionScalarFieldEnum = (typeof ExamPredictionScalarFieldEnum)[keyof typeof ExamPredictionScalarFieldEnum]
+
+
+  export const BattleScalarFieldEnum: {
+    id: 'id',
+    code: 'code',
+    noteId: 'noteId',
+    title: 'title',
+    status: 'status',
+    questionCount: 'questionCount',
+    questions: 'questions',
+    hostScore: 'hostScore',
+    opponentScore: 'opponentScore',
+    hostAnsweredAt: 'hostAnsweredAt',
+    opponentAnsweredAt: 'opponentAnsweredAt',
+    startedAt: 'startedAt',
+    completedAt: 'completedAt',
+    createdAt: 'createdAt',
+    hostId: 'hostId',
+    opponentId: 'opponentId'
+  };
+
+  export type BattleScalarFieldEnum = (typeof BattleScalarFieldEnum)[keyof typeof BattleScalarFieldEnum]
+
+
+  export const BattleQuestionScalarFieldEnum: {
+    id: 'id',
+    battleId: 'battleId',
+    question: 'question',
+    options: 'options',
+    correctAnswer: 'correctAnswer',
+    points: 'points',
+    orderIndex: 'orderIndex'
+  };
+
+  export type BattleQuestionScalarFieldEnum = (typeof BattleQuestionScalarFieldEnum)[keyof typeof BattleQuestionScalarFieldEnum]
+
+
+  export const BattleParticipantScalarFieldEnum: {
+    id: 'id',
+    battleId: 'battleId',
+    userId: 'userId',
+    answers: 'answers',
+    score: 'score',
+    correctCount: 'correctCount',
+    totalAnswered: 'totalAnswered',
+    joinedAt: 'joinedAt'
+  };
+
+  export type BattleParticipantScalarFieldEnum = (typeof BattleParticipantScalarFieldEnum)[keyof typeof BattleParticipantScalarFieldEnum]
+
+
+  export const BattleResultScalarFieldEnum: {
+    id: 'id',
+    battleId: 'battleId',
+    winnerId: 'winnerId',
+    scores: 'scores',
+    duration: 'duration',
+    createdAt: 'createdAt'
+  };
+
+  export type BattleResultScalarFieldEnum = (typeof BattleResultScalarFieldEnum)[keyof typeof BattleResultScalarFieldEnum]
+
+
+  export const StudyGroupScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    topic: 'topic',
+    inviteCode: 'inviteCode',
+    createdAt: 'createdAt',
+    creatorId: 'creatorId'
+  };
+
+  export type StudyGroupScalarFieldEnum = (typeof StudyGroupScalarFieldEnum)[keyof typeof StudyGroupScalarFieldEnum]
+
+
+  export const StudyGroupMemberScalarFieldEnum: {
+    id: 'id',
+    groupId: 'groupId',
+    userId: 'userId',
+    joinedAt: 'joinedAt'
+  };
+
+  export type StudyGroupMemberScalarFieldEnum = (typeof StudyGroupMemberScalarFieldEnum)[keyof typeof StudyGroupMemberScalarFieldEnum]
+
+
+  export const GroupMessageScalarFieldEnum: {
+    id: 'id',
+    groupId: 'groupId',
+    userId: 'userId',
+    message: 'message',
+    isAI: 'isAI',
+    timestamp: 'timestamp'
+  };
+
+  export type GroupMessageScalarFieldEnum = (typeof GroupMessageScalarFieldEnum)[keyof typeof GroupMessageScalarFieldEnum]
+
+
+  export const GroupSessionScalarFieldEnum: {
+    id: 'id',
+    groupId: 'groupId',
+    summary: 'summary',
+    duration: 'duration',
+    topics: 'topics',
+    createdAt: 'createdAt'
+  };
+
+  export type GroupSessionScalarFieldEnum = (typeof GroupSessionScalarFieldEnum)[keyof typeof GroupSessionScalarFieldEnum]
+
+
+  export const ConceptConnectionScalarFieldEnum: {
+    id: 'id',
+    note1Id: 'note1Id',
+    note2Id: 'note2Id',
+    concept1: 'concept1',
+    concept2: 'concept2',
+    connectionDescription: 'connectionDescription',
+    strength: 'strength',
+    createdAt: 'createdAt',
+    userId: 'userId'
+  };
+
+  export type ConceptConnectionScalarFieldEnum = (typeof ConceptConnectionScalarFieldEnum)[keyof typeof ConceptConnectionScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -9317,6 +22172,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -9363,6 +22227,27 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -9598,11 +22483,22 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
+    learningStyle?: StringNullableFilter<"User"> | string | null
+    autoAdapt?: BoolFilter<"User"> | boolean
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
     notes?: NoteListRelationFilter
     citations?: CitationListRelationFilter
+    examPredictions?: ExamPredictionListRelationFilter
+    hostedBattles?: BattleListRelationFilter
+    joinedBattles?: BattleListRelationFilter
+    battleParticipants?: BattleParticipantListRelationFilter
+    battleResults?: BattleResultListRelationFilter
+    createdStudyGroups?: StudyGroupListRelationFilter
+    studyGroupMemberships?: StudyGroupMemberListRelationFilter
+    groupMessages?: GroupMessageListRelationFilter
+    conceptConnections?: ConceptConnectionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9612,11 +22508,22 @@ export namespace Prisma {
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
+    learningStyle?: SortOrderInput | SortOrder
+    autoAdapt?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
     notes?: NoteOrderByRelationAggregateInput
     citations?: CitationOrderByRelationAggregateInput
+    examPredictions?: ExamPredictionOrderByRelationAggregateInput
+    hostedBattles?: BattleOrderByRelationAggregateInput
+    joinedBattles?: BattleOrderByRelationAggregateInput
+    battleParticipants?: BattleParticipantOrderByRelationAggregateInput
+    battleResults?: BattleResultOrderByRelationAggregateInput
+    createdStudyGroups?: StudyGroupOrderByRelationAggregateInput
+    studyGroupMemberships?: StudyGroupMemberOrderByRelationAggregateInput
+    groupMessages?: GroupMessageOrderByRelationAggregateInput
+    conceptConnections?: ConceptConnectionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -9629,11 +22536,22 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
+    learningStyle?: StringNullableFilter<"User"> | string | null
+    autoAdapt?: BoolFilter<"User"> | boolean
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
     notes?: NoteListRelationFilter
     citations?: CitationListRelationFilter
+    examPredictions?: ExamPredictionListRelationFilter
+    hostedBattles?: BattleListRelationFilter
+    joinedBattles?: BattleListRelationFilter
+    battleParticipants?: BattleParticipantListRelationFilter
+    battleResults?: BattleResultListRelationFilter
+    createdStudyGroups?: StudyGroupListRelationFilter
+    studyGroupMemberships?: StudyGroupMemberListRelationFilter
+    groupMessages?: GroupMessageListRelationFilter
+    conceptConnections?: ConceptConnectionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -9643,6 +22561,8 @@ export namespace Prisma {
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
+    learningStyle?: SortOrderInput | SortOrder
+    autoAdapt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -9658,6 +22578,8 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
+    learningStyle?: StringNullableWithAggregatesFilter<"User"> | string | null
+    autoAdapt?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type VerificationTokenWhereInput = {
@@ -9851,6 +22773,731 @@ export namespace Prisma {
     format?: StringWithAggregatesFilter<"Citation"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Citation"> | Date | string
     userId?: StringWithAggregatesFilter<"Citation"> | string
+  }
+
+  export type ExamPredictionWhereInput = {
+    AND?: ExamPredictionWhereInput | ExamPredictionWhereInput[]
+    OR?: ExamPredictionWhereInput[]
+    NOT?: ExamPredictionWhereInput | ExamPredictionWhereInput[]
+    id?: StringFilter<"ExamPrediction"> | string
+    examType?: StringFilter<"ExamPrediction"> | string
+    uploadedContent?: StringFilter<"ExamPrediction"> | string
+    syllabusContent?: StringNullableFilter<"ExamPrediction"> | string | null
+    predictions?: JsonFilter<"ExamPrediction">
+    analytics?: JsonNullableFilter<"ExamPrediction">
+    createdAt?: DateTimeFilter<"ExamPrediction"> | Date | string
+    userId?: StringFilter<"ExamPrediction"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ExamPredictionOrderByWithRelationInput = {
+    id?: SortOrder
+    examType?: SortOrder
+    uploadedContent?: SortOrder
+    syllabusContent?: SortOrderInput | SortOrder
+    predictions?: SortOrder
+    analytics?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ExamPredictionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ExamPredictionWhereInput | ExamPredictionWhereInput[]
+    OR?: ExamPredictionWhereInput[]
+    NOT?: ExamPredictionWhereInput | ExamPredictionWhereInput[]
+    examType?: StringFilter<"ExamPrediction"> | string
+    uploadedContent?: StringFilter<"ExamPrediction"> | string
+    syllabusContent?: StringNullableFilter<"ExamPrediction"> | string | null
+    predictions?: JsonFilter<"ExamPrediction">
+    analytics?: JsonNullableFilter<"ExamPrediction">
+    createdAt?: DateTimeFilter<"ExamPrediction"> | Date | string
+    userId?: StringFilter<"ExamPrediction"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ExamPredictionOrderByWithAggregationInput = {
+    id?: SortOrder
+    examType?: SortOrder
+    uploadedContent?: SortOrder
+    syllabusContent?: SortOrderInput | SortOrder
+    predictions?: SortOrder
+    analytics?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    _count?: ExamPredictionCountOrderByAggregateInput
+    _max?: ExamPredictionMaxOrderByAggregateInput
+    _min?: ExamPredictionMinOrderByAggregateInput
+  }
+
+  export type ExamPredictionScalarWhereWithAggregatesInput = {
+    AND?: ExamPredictionScalarWhereWithAggregatesInput | ExamPredictionScalarWhereWithAggregatesInput[]
+    OR?: ExamPredictionScalarWhereWithAggregatesInput[]
+    NOT?: ExamPredictionScalarWhereWithAggregatesInput | ExamPredictionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ExamPrediction"> | string
+    examType?: StringWithAggregatesFilter<"ExamPrediction"> | string
+    uploadedContent?: StringWithAggregatesFilter<"ExamPrediction"> | string
+    syllabusContent?: StringNullableWithAggregatesFilter<"ExamPrediction"> | string | null
+    predictions?: JsonWithAggregatesFilter<"ExamPrediction">
+    analytics?: JsonNullableWithAggregatesFilter<"ExamPrediction">
+    createdAt?: DateTimeWithAggregatesFilter<"ExamPrediction"> | Date | string
+    userId?: StringWithAggregatesFilter<"ExamPrediction"> | string
+  }
+
+  export type BattleWhereInput = {
+    AND?: BattleWhereInput | BattleWhereInput[]
+    OR?: BattleWhereInput[]
+    NOT?: BattleWhereInput | BattleWhereInput[]
+    id?: StringFilter<"Battle"> | string
+    code?: StringFilter<"Battle"> | string
+    noteId?: StringNullableFilter<"Battle"> | string | null
+    title?: StringNullableFilter<"Battle"> | string | null
+    status?: StringFilter<"Battle"> | string
+    questionCount?: IntFilter<"Battle"> | number
+    questions?: JsonFilter<"Battle">
+    hostScore?: IntFilter<"Battle"> | number
+    opponentScore?: IntFilter<"Battle"> | number
+    hostAnsweredAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    opponentAnsweredAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    createdAt?: DateTimeFilter<"Battle"> | Date | string
+    hostId?: StringFilter<"Battle"> | string
+    opponentId?: StringNullableFilter<"Battle"> | string | null
+    host?: XOR<UserScalarRelationFilter, UserWhereInput>
+    opponent?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    battleQuestions?: BattleQuestionListRelationFilter
+    participants?: BattleParticipantListRelationFilter
+    result?: XOR<BattleResultNullableScalarRelationFilter, BattleResultWhereInput> | null
+  }
+
+  export type BattleOrderByWithRelationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    noteId?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    status?: SortOrder
+    questionCount?: SortOrder
+    questions?: SortOrder
+    hostScore?: SortOrder
+    opponentScore?: SortOrder
+    hostAnsweredAt?: SortOrderInput | SortOrder
+    opponentAnsweredAt?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    hostId?: SortOrder
+    opponentId?: SortOrderInput | SortOrder
+    host?: UserOrderByWithRelationInput
+    opponent?: UserOrderByWithRelationInput
+    battleQuestions?: BattleQuestionOrderByRelationAggregateInput
+    participants?: BattleParticipantOrderByRelationAggregateInput
+    result?: BattleResultOrderByWithRelationInput
+  }
+
+  export type BattleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    code?: string
+    AND?: BattleWhereInput | BattleWhereInput[]
+    OR?: BattleWhereInput[]
+    NOT?: BattleWhereInput | BattleWhereInput[]
+    noteId?: StringNullableFilter<"Battle"> | string | null
+    title?: StringNullableFilter<"Battle"> | string | null
+    status?: StringFilter<"Battle"> | string
+    questionCount?: IntFilter<"Battle"> | number
+    questions?: JsonFilter<"Battle">
+    hostScore?: IntFilter<"Battle"> | number
+    opponentScore?: IntFilter<"Battle"> | number
+    hostAnsweredAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    opponentAnsweredAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    createdAt?: DateTimeFilter<"Battle"> | Date | string
+    hostId?: StringFilter<"Battle"> | string
+    opponentId?: StringNullableFilter<"Battle"> | string | null
+    host?: XOR<UserScalarRelationFilter, UserWhereInput>
+    opponent?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    battleQuestions?: BattleQuestionListRelationFilter
+    participants?: BattleParticipantListRelationFilter
+    result?: XOR<BattleResultNullableScalarRelationFilter, BattleResultWhereInput> | null
+  }, "id" | "code">
+
+  export type BattleOrderByWithAggregationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    noteId?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    status?: SortOrder
+    questionCount?: SortOrder
+    questions?: SortOrder
+    hostScore?: SortOrder
+    opponentScore?: SortOrder
+    hostAnsweredAt?: SortOrderInput | SortOrder
+    opponentAnsweredAt?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    hostId?: SortOrder
+    opponentId?: SortOrderInput | SortOrder
+    _count?: BattleCountOrderByAggregateInput
+    _avg?: BattleAvgOrderByAggregateInput
+    _max?: BattleMaxOrderByAggregateInput
+    _min?: BattleMinOrderByAggregateInput
+    _sum?: BattleSumOrderByAggregateInput
+  }
+
+  export type BattleScalarWhereWithAggregatesInput = {
+    AND?: BattleScalarWhereWithAggregatesInput | BattleScalarWhereWithAggregatesInput[]
+    OR?: BattleScalarWhereWithAggregatesInput[]
+    NOT?: BattleScalarWhereWithAggregatesInput | BattleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Battle"> | string
+    code?: StringWithAggregatesFilter<"Battle"> | string
+    noteId?: StringNullableWithAggregatesFilter<"Battle"> | string | null
+    title?: StringNullableWithAggregatesFilter<"Battle"> | string | null
+    status?: StringWithAggregatesFilter<"Battle"> | string
+    questionCount?: IntWithAggregatesFilter<"Battle"> | number
+    questions?: JsonWithAggregatesFilter<"Battle">
+    hostScore?: IntWithAggregatesFilter<"Battle"> | number
+    opponentScore?: IntWithAggregatesFilter<"Battle"> | number
+    hostAnsweredAt?: DateTimeNullableWithAggregatesFilter<"Battle"> | Date | string | null
+    opponentAnsweredAt?: DateTimeNullableWithAggregatesFilter<"Battle"> | Date | string | null
+    startedAt?: DateTimeNullableWithAggregatesFilter<"Battle"> | Date | string | null
+    completedAt?: DateTimeNullableWithAggregatesFilter<"Battle"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Battle"> | Date | string
+    hostId?: StringWithAggregatesFilter<"Battle"> | string
+    opponentId?: StringNullableWithAggregatesFilter<"Battle"> | string | null
+  }
+
+  export type BattleQuestionWhereInput = {
+    AND?: BattleQuestionWhereInput | BattleQuestionWhereInput[]
+    OR?: BattleQuestionWhereInput[]
+    NOT?: BattleQuestionWhereInput | BattleQuestionWhereInput[]
+    id?: StringFilter<"BattleQuestion"> | string
+    battleId?: StringFilter<"BattleQuestion"> | string
+    question?: StringFilter<"BattleQuestion"> | string
+    options?: JsonNullableFilter<"BattleQuestion">
+    correctAnswer?: StringFilter<"BattleQuestion"> | string
+    points?: IntFilter<"BattleQuestion"> | number
+    orderIndex?: IntFilter<"BattleQuestion"> | number
+    battle?: XOR<BattleScalarRelationFilter, BattleWhereInput>
+  }
+
+  export type BattleQuestionOrderByWithRelationInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    question?: SortOrder
+    options?: SortOrderInput | SortOrder
+    correctAnswer?: SortOrder
+    points?: SortOrder
+    orderIndex?: SortOrder
+    battle?: BattleOrderByWithRelationInput
+  }
+
+  export type BattleQuestionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BattleQuestionWhereInput | BattleQuestionWhereInput[]
+    OR?: BattleQuestionWhereInput[]
+    NOT?: BattleQuestionWhereInput | BattleQuestionWhereInput[]
+    battleId?: StringFilter<"BattleQuestion"> | string
+    question?: StringFilter<"BattleQuestion"> | string
+    options?: JsonNullableFilter<"BattleQuestion">
+    correctAnswer?: StringFilter<"BattleQuestion"> | string
+    points?: IntFilter<"BattleQuestion"> | number
+    orderIndex?: IntFilter<"BattleQuestion"> | number
+    battle?: XOR<BattleScalarRelationFilter, BattleWhereInput>
+  }, "id">
+
+  export type BattleQuestionOrderByWithAggregationInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    question?: SortOrder
+    options?: SortOrderInput | SortOrder
+    correctAnswer?: SortOrder
+    points?: SortOrder
+    orderIndex?: SortOrder
+    _count?: BattleQuestionCountOrderByAggregateInput
+    _avg?: BattleQuestionAvgOrderByAggregateInput
+    _max?: BattleQuestionMaxOrderByAggregateInput
+    _min?: BattleQuestionMinOrderByAggregateInput
+    _sum?: BattleQuestionSumOrderByAggregateInput
+  }
+
+  export type BattleQuestionScalarWhereWithAggregatesInput = {
+    AND?: BattleQuestionScalarWhereWithAggregatesInput | BattleQuestionScalarWhereWithAggregatesInput[]
+    OR?: BattleQuestionScalarWhereWithAggregatesInput[]
+    NOT?: BattleQuestionScalarWhereWithAggregatesInput | BattleQuestionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BattleQuestion"> | string
+    battleId?: StringWithAggregatesFilter<"BattleQuestion"> | string
+    question?: StringWithAggregatesFilter<"BattleQuestion"> | string
+    options?: JsonNullableWithAggregatesFilter<"BattleQuestion">
+    correctAnswer?: StringWithAggregatesFilter<"BattleQuestion"> | string
+    points?: IntWithAggregatesFilter<"BattleQuestion"> | number
+    orderIndex?: IntWithAggregatesFilter<"BattleQuestion"> | number
+  }
+
+  export type BattleParticipantWhereInput = {
+    AND?: BattleParticipantWhereInput | BattleParticipantWhereInput[]
+    OR?: BattleParticipantWhereInput[]
+    NOT?: BattleParticipantWhereInput | BattleParticipantWhereInput[]
+    id?: StringFilter<"BattleParticipant"> | string
+    battleId?: StringFilter<"BattleParticipant"> | string
+    userId?: StringFilter<"BattleParticipant"> | string
+    answers?: JsonNullableFilter<"BattleParticipant">
+    score?: IntFilter<"BattleParticipant"> | number
+    correctCount?: IntFilter<"BattleParticipant"> | number
+    totalAnswered?: IntFilter<"BattleParticipant"> | number
+    joinedAt?: DateTimeFilter<"BattleParticipant"> | Date | string
+    battle?: XOR<BattleScalarRelationFilter, BattleWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type BattleParticipantOrderByWithRelationInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    userId?: SortOrder
+    answers?: SortOrderInput | SortOrder
+    score?: SortOrder
+    correctCount?: SortOrder
+    totalAnswered?: SortOrder
+    joinedAt?: SortOrder
+    battle?: BattleOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type BattleParticipantWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    battleId_userId?: BattleParticipantBattleIdUserIdCompoundUniqueInput
+    AND?: BattleParticipantWhereInput | BattleParticipantWhereInput[]
+    OR?: BattleParticipantWhereInput[]
+    NOT?: BattleParticipantWhereInput | BattleParticipantWhereInput[]
+    battleId?: StringFilter<"BattleParticipant"> | string
+    userId?: StringFilter<"BattleParticipant"> | string
+    answers?: JsonNullableFilter<"BattleParticipant">
+    score?: IntFilter<"BattleParticipant"> | number
+    correctCount?: IntFilter<"BattleParticipant"> | number
+    totalAnswered?: IntFilter<"BattleParticipant"> | number
+    joinedAt?: DateTimeFilter<"BattleParticipant"> | Date | string
+    battle?: XOR<BattleScalarRelationFilter, BattleWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "battleId_userId">
+
+  export type BattleParticipantOrderByWithAggregationInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    userId?: SortOrder
+    answers?: SortOrderInput | SortOrder
+    score?: SortOrder
+    correctCount?: SortOrder
+    totalAnswered?: SortOrder
+    joinedAt?: SortOrder
+    _count?: BattleParticipantCountOrderByAggregateInput
+    _avg?: BattleParticipantAvgOrderByAggregateInput
+    _max?: BattleParticipantMaxOrderByAggregateInput
+    _min?: BattleParticipantMinOrderByAggregateInput
+    _sum?: BattleParticipantSumOrderByAggregateInput
+  }
+
+  export type BattleParticipantScalarWhereWithAggregatesInput = {
+    AND?: BattleParticipantScalarWhereWithAggregatesInput | BattleParticipantScalarWhereWithAggregatesInput[]
+    OR?: BattleParticipantScalarWhereWithAggregatesInput[]
+    NOT?: BattleParticipantScalarWhereWithAggregatesInput | BattleParticipantScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BattleParticipant"> | string
+    battleId?: StringWithAggregatesFilter<"BattleParticipant"> | string
+    userId?: StringWithAggregatesFilter<"BattleParticipant"> | string
+    answers?: JsonNullableWithAggregatesFilter<"BattleParticipant">
+    score?: IntWithAggregatesFilter<"BattleParticipant"> | number
+    correctCount?: IntWithAggregatesFilter<"BattleParticipant"> | number
+    totalAnswered?: IntWithAggregatesFilter<"BattleParticipant"> | number
+    joinedAt?: DateTimeWithAggregatesFilter<"BattleParticipant"> | Date | string
+  }
+
+  export type BattleResultWhereInput = {
+    AND?: BattleResultWhereInput | BattleResultWhereInput[]
+    OR?: BattleResultWhereInput[]
+    NOT?: BattleResultWhereInput | BattleResultWhereInput[]
+    id?: StringFilter<"BattleResult"> | string
+    battleId?: StringFilter<"BattleResult"> | string
+    winnerId?: StringNullableFilter<"BattleResult"> | string | null
+    scores?: JsonFilter<"BattleResult">
+    duration?: IntFilter<"BattleResult"> | number
+    createdAt?: DateTimeFilter<"BattleResult"> | Date | string
+    battle?: XOR<BattleScalarRelationFilter, BattleWhereInput>
+    winner?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type BattleResultOrderByWithRelationInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    winnerId?: SortOrderInput | SortOrder
+    scores?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+    battle?: BattleOrderByWithRelationInput
+    winner?: UserOrderByWithRelationInput
+  }
+
+  export type BattleResultWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    battleId?: string
+    AND?: BattleResultWhereInput | BattleResultWhereInput[]
+    OR?: BattleResultWhereInput[]
+    NOT?: BattleResultWhereInput | BattleResultWhereInput[]
+    winnerId?: StringNullableFilter<"BattleResult"> | string | null
+    scores?: JsonFilter<"BattleResult">
+    duration?: IntFilter<"BattleResult"> | number
+    createdAt?: DateTimeFilter<"BattleResult"> | Date | string
+    battle?: XOR<BattleScalarRelationFilter, BattleWhereInput>
+    winner?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "battleId">
+
+  export type BattleResultOrderByWithAggregationInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    winnerId?: SortOrderInput | SortOrder
+    scores?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+    _count?: BattleResultCountOrderByAggregateInput
+    _avg?: BattleResultAvgOrderByAggregateInput
+    _max?: BattleResultMaxOrderByAggregateInput
+    _min?: BattleResultMinOrderByAggregateInput
+    _sum?: BattleResultSumOrderByAggregateInput
+  }
+
+  export type BattleResultScalarWhereWithAggregatesInput = {
+    AND?: BattleResultScalarWhereWithAggregatesInput | BattleResultScalarWhereWithAggregatesInput[]
+    OR?: BattleResultScalarWhereWithAggregatesInput[]
+    NOT?: BattleResultScalarWhereWithAggregatesInput | BattleResultScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BattleResult"> | string
+    battleId?: StringWithAggregatesFilter<"BattleResult"> | string
+    winnerId?: StringNullableWithAggregatesFilter<"BattleResult"> | string | null
+    scores?: JsonWithAggregatesFilter<"BattleResult">
+    duration?: IntWithAggregatesFilter<"BattleResult"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"BattleResult"> | Date | string
+  }
+
+  export type StudyGroupWhereInput = {
+    AND?: StudyGroupWhereInput | StudyGroupWhereInput[]
+    OR?: StudyGroupWhereInput[]
+    NOT?: StudyGroupWhereInput | StudyGroupWhereInput[]
+    id?: StringFilter<"StudyGroup"> | string
+    name?: StringFilter<"StudyGroup"> | string
+    topic?: StringNullableFilter<"StudyGroup"> | string | null
+    inviteCode?: StringFilter<"StudyGroup"> | string
+    createdAt?: DateTimeFilter<"StudyGroup"> | Date | string
+    creatorId?: StringFilter<"StudyGroup"> | string
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    members?: StudyGroupMemberListRelationFilter
+    messages?: GroupMessageListRelationFilter
+    sessions?: GroupSessionListRelationFilter
+  }
+
+  export type StudyGroupOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    topic?: SortOrderInput | SortOrder
+    inviteCode?: SortOrder
+    createdAt?: SortOrder
+    creatorId?: SortOrder
+    creator?: UserOrderByWithRelationInput
+    members?: StudyGroupMemberOrderByRelationAggregateInput
+    messages?: GroupMessageOrderByRelationAggregateInput
+    sessions?: GroupSessionOrderByRelationAggregateInput
+  }
+
+  export type StudyGroupWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    inviteCode?: string
+    AND?: StudyGroupWhereInput | StudyGroupWhereInput[]
+    OR?: StudyGroupWhereInput[]
+    NOT?: StudyGroupWhereInput | StudyGroupWhereInput[]
+    name?: StringFilter<"StudyGroup"> | string
+    topic?: StringNullableFilter<"StudyGroup"> | string | null
+    createdAt?: DateTimeFilter<"StudyGroup"> | Date | string
+    creatorId?: StringFilter<"StudyGroup"> | string
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    members?: StudyGroupMemberListRelationFilter
+    messages?: GroupMessageListRelationFilter
+    sessions?: GroupSessionListRelationFilter
+  }, "id" | "inviteCode">
+
+  export type StudyGroupOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    topic?: SortOrderInput | SortOrder
+    inviteCode?: SortOrder
+    createdAt?: SortOrder
+    creatorId?: SortOrder
+    _count?: StudyGroupCountOrderByAggregateInput
+    _max?: StudyGroupMaxOrderByAggregateInput
+    _min?: StudyGroupMinOrderByAggregateInput
+  }
+
+  export type StudyGroupScalarWhereWithAggregatesInput = {
+    AND?: StudyGroupScalarWhereWithAggregatesInput | StudyGroupScalarWhereWithAggregatesInput[]
+    OR?: StudyGroupScalarWhereWithAggregatesInput[]
+    NOT?: StudyGroupScalarWhereWithAggregatesInput | StudyGroupScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StudyGroup"> | string
+    name?: StringWithAggregatesFilter<"StudyGroup"> | string
+    topic?: StringNullableWithAggregatesFilter<"StudyGroup"> | string | null
+    inviteCode?: StringWithAggregatesFilter<"StudyGroup"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"StudyGroup"> | Date | string
+    creatorId?: StringWithAggregatesFilter<"StudyGroup"> | string
+  }
+
+  export type StudyGroupMemberWhereInput = {
+    AND?: StudyGroupMemberWhereInput | StudyGroupMemberWhereInput[]
+    OR?: StudyGroupMemberWhereInput[]
+    NOT?: StudyGroupMemberWhereInput | StudyGroupMemberWhereInput[]
+    id?: StringFilter<"StudyGroupMember"> | string
+    groupId?: StringFilter<"StudyGroupMember"> | string
+    userId?: StringFilter<"StudyGroupMember"> | string
+    joinedAt?: DateTimeFilter<"StudyGroupMember"> | Date | string
+    group?: XOR<StudyGroupScalarRelationFilter, StudyGroupWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type StudyGroupMemberOrderByWithRelationInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    userId?: SortOrder
+    joinedAt?: SortOrder
+    group?: StudyGroupOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type StudyGroupMemberWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    groupId_userId?: StudyGroupMemberGroupIdUserIdCompoundUniqueInput
+    AND?: StudyGroupMemberWhereInput | StudyGroupMemberWhereInput[]
+    OR?: StudyGroupMemberWhereInput[]
+    NOT?: StudyGroupMemberWhereInput | StudyGroupMemberWhereInput[]
+    groupId?: StringFilter<"StudyGroupMember"> | string
+    userId?: StringFilter<"StudyGroupMember"> | string
+    joinedAt?: DateTimeFilter<"StudyGroupMember"> | Date | string
+    group?: XOR<StudyGroupScalarRelationFilter, StudyGroupWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "groupId_userId">
+
+  export type StudyGroupMemberOrderByWithAggregationInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    userId?: SortOrder
+    joinedAt?: SortOrder
+    _count?: StudyGroupMemberCountOrderByAggregateInput
+    _max?: StudyGroupMemberMaxOrderByAggregateInput
+    _min?: StudyGroupMemberMinOrderByAggregateInput
+  }
+
+  export type StudyGroupMemberScalarWhereWithAggregatesInput = {
+    AND?: StudyGroupMemberScalarWhereWithAggregatesInput | StudyGroupMemberScalarWhereWithAggregatesInput[]
+    OR?: StudyGroupMemberScalarWhereWithAggregatesInput[]
+    NOT?: StudyGroupMemberScalarWhereWithAggregatesInput | StudyGroupMemberScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StudyGroupMember"> | string
+    groupId?: StringWithAggregatesFilter<"StudyGroupMember"> | string
+    userId?: StringWithAggregatesFilter<"StudyGroupMember"> | string
+    joinedAt?: DateTimeWithAggregatesFilter<"StudyGroupMember"> | Date | string
+  }
+
+  export type GroupMessageWhereInput = {
+    AND?: GroupMessageWhereInput | GroupMessageWhereInput[]
+    OR?: GroupMessageWhereInput[]
+    NOT?: GroupMessageWhereInput | GroupMessageWhereInput[]
+    id?: StringFilter<"GroupMessage"> | string
+    groupId?: StringFilter<"GroupMessage"> | string
+    userId?: StringNullableFilter<"GroupMessage"> | string | null
+    message?: StringFilter<"GroupMessage"> | string
+    isAI?: BoolFilter<"GroupMessage"> | boolean
+    timestamp?: DateTimeFilter<"GroupMessage"> | Date | string
+    group?: XOR<StudyGroupScalarRelationFilter, StudyGroupWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type GroupMessageOrderByWithRelationInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    message?: SortOrder
+    isAI?: SortOrder
+    timestamp?: SortOrder
+    group?: StudyGroupOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type GroupMessageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GroupMessageWhereInput | GroupMessageWhereInput[]
+    OR?: GroupMessageWhereInput[]
+    NOT?: GroupMessageWhereInput | GroupMessageWhereInput[]
+    groupId?: StringFilter<"GroupMessage"> | string
+    userId?: StringNullableFilter<"GroupMessage"> | string | null
+    message?: StringFilter<"GroupMessage"> | string
+    isAI?: BoolFilter<"GroupMessage"> | boolean
+    timestamp?: DateTimeFilter<"GroupMessage"> | Date | string
+    group?: XOR<StudyGroupScalarRelationFilter, StudyGroupWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type GroupMessageOrderByWithAggregationInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    message?: SortOrder
+    isAI?: SortOrder
+    timestamp?: SortOrder
+    _count?: GroupMessageCountOrderByAggregateInput
+    _max?: GroupMessageMaxOrderByAggregateInput
+    _min?: GroupMessageMinOrderByAggregateInput
+  }
+
+  export type GroupMessageScalarWhereWithAggregatesInput = {
+    AND?: GroupMessageScalarWhereWithAggregatesInput | GroupMessageScalarWhereWithAggregatesInput[]
+    OR?: GroupMessageScalarWhereWithAggregatesInput[]
+    NOT?: GroupMessageScalarWhereWithAggregatesInput | GroupMessageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GroupMessage"> | string
+    groupId?: StringWithAggregatesFilter<"GroupMessage"> | string
+    userId?: StringNullableWithAggregatesFilter<"GroupMessage"> | string | null
+    message?: StringWithAggregatesFilter<"GroupMessage"> | string
+    isAI?: BoolWithAggregatesFilter<"GroupMessage"> | boolean
+    timestamp?: DateTimeWithAggregatesFilter<"GroupMessage"> | Date | string
+  }
+
+  export type GroupSessionWhereInput = {
+    AND?: GroupSessionWhereInput | GroupSessionWhereInput[]
+    OR?: GroupSessionWhereInput[]
+    NOT?: GroupSessionWhereInput | GroupSessionWhereInput[]
+    id?: StringFilter<"GroupSession"> | string
+    groupId?: StringFilter<"GroupSession"> | string
+    summary?: StringFilter<"GroupSession"> | string
+    duration?: IntFilter<"GroupSession"> | number
+    topics?: JsonNullableFilter<"GroupSession">
+    createdAt?: DateTimeFilter<"GroupSession"> | Date | string
+    group?: XOR<StudyGroupScalarRelationFilter, StudyGroupWhereInput>
+  }
+
+  export type GroupSessionOrderByWithRelationInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    summary?: SortOrder
+    duration?: SortOrder
+    topics?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    group?: StudyGroupOrderByWithRelationInput
+  }
+
+  export type GroupSessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GroupSessionWhereInput | GroupSessionWhereInput[]
+    OR?: GroupSessionWhereInput[]
+    NOT?: GroupSessionWhereInput | GroupSessionWhereInput[]
+    groupId?: StringFilter<"GroupSession"> | string
+    summary?: StringFilter<"GroupSession"> | string
+    duration?: IntFilter<"GroupSession"> | number
+    topics?: JsonNullableFilter<"GroupSession">
+    createdAt?: DateTimeFilter<"GroupSession"> | Date | string
+    group?: XOR<StudyGroupScalarRelationFilter, StudyGroupWhereInput>
+  }, "id">
+
+  export type GroupSessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    summary?: SortOrder
+    duration?: SortOrder
+    topics?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: GroupSessionCountOrderByAggregateInput
+    _avg?: GroupSessionAvgOrderByAggregateInput
+    _max?: GroupSessionMaxOrderByAggregateInput
+    _min?: GroupSessionMinOrderByAggregateInput
+    _sum?: GroupSessionSumOrderByAggregateInput
+  }
+
+  export type GroupSessionScalarWhereWithAggregatesInput = {
+    AND?: GroupSessionScalarWhereWithAggregatesInput | GroupSessionScalarWhereWithAggregatesInput[]
+    OR?: GroupSessionScalarWhereWithAggregatesInput[]
+    NOT?: GroupSessionScalarWhereWithAggregatesInput | GroupSessionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GroupSession"> | string
+    groupId?: StringWithAggregatesFilter<"GroupSession"> | string
+    summary?: StringWithAggregatesFilter<"GroupSession"> | string
+    duration?: IntWithAggregatesFilter<"GroupSession"> | number
+    topics?: JsonNullableWithAggregatesFilter<"GroupSession">
+    createdAt?: DateTimeWithAggregatesFilter<"GroupSession"> | Date | string
+  }
+
+  export type ConceptConnectionWhereInput = {
+    AND?: ConceptConnectionWhereInput | ConceptConnectionWhereInput[]
+    OR?: ConceptConnectionWhereInput[]
+    NOT?: ConceptConnectionWhereInput | ConceptConnectionWhereInput[]
+    id?: StringFilter<"ConceptConnection"> | string
+    note1Id?: StringFilter<"ConceptConnection"> | string
+    note2Id?: StringFilter<"ConceptConnection"> | string
+    concept1?: StringFilter<"ConceptConnection"> | string
+    concept2?: StringFilter<"ConceptConnection"> | string
+    connectionDescription?: StringFilter<"ConceptConnection"> | string
+    strength?: StringFilter<"ConceptConnection"> | string
+    createdAt?: DateTimeFilter<"ConceptConnection"> | Date | string
+    userId?: StringFilter<"ConceptConnection"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ConceptConnectionOrderByWithRelationInput = {
+    id?: SortOrder
+    note1Id?: SortOrder
+    note2Id?: SortOrder
+    concept1?: SortOrder
+    concept2?: SortOrder
+    connectionDescription?: SortOrder
+    strength?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ConceptConnectionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ConceptConnectionWhereInput | ConceptConnectionWhereInput[]
+    OR?: ConceptConnectionWhereInput[]
+    NOT?: ConceptConnectionWhereInput | ConceptConnectionWhereInput[]
+    note1Id?: StringFilter<"ConceptConnection"> | string
+    note2Id?: StringFilter<"ConceptConnection"> | string
+    concept1?: StringFilter<"ConceptConnection"> | string
+    concept2?: StringFilter<"ConceptConnection"> | string
+    connectionDescription?: StringFilter<"ConceptConnection"> | string
+    strength?: StringFilter<"ConceptConnection"> | string
+    createdAt?: DateTimeFilter<"ConceptConnection"> | Date | string
+    userId?: StringFilter<"ConceptConnection"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ConceptConnectionOrderByWithAggregationInput = {
+    id?: SortOrder
+    note1Id?: SortOrder
+    note2Id?: SortOrder
+    concept1?: SortOrder
+    concept2?: SortOrder
+    connectionDescription?: SortOrder
+    strength?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    _count?: ConceptConnectionCountOrderByAggregateInput
+    _max?: ConceptConnectionMaxOrderByAggregateInput
+    _min?: ConceptConnectionMinOrderByAggregateInput
+  }
+
+  export type ConceptConnectionScalarWhereWithAggregatesInput = {
+    AND?: ConceptConnectionScalarWhereWithAggregatesInput | ConceptConnectionScalarWhereWithAggregatesInput[]
+    OR?: ConceptConnectionScalarWhereWithAggregatesInput[]
+    NOT?: ConceptConnectionScalarWhereWithAggregatesInput | ConceptConnectionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ConceptConnection"> | string
+    note1Id?: StringWithAggregatesFilter<"ConceptConnection"> | string
+    note2Id?: StringWithAggregatesFilter<"ConceptConnection"> | string
+    concept1?: StringWithAggregatesFilter<"ConceptConnection"> | string
+    concept2?: StringWithAggregatesFilter<"ConceptConnection"> | string
+    connectionDescription?: StringWithAggregatesFilter<"ConceptConnection"> | string
+    strength?: StringWithAggregatesFilter<"ConceptConnection"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ConceptConnection"> | Date | string
+    userId?: StringWithAggregatesFilter<"ConceptConnection"> | string
   }
 
   export type PostCreateInput = {
@@ -10071,11 +23718,22 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -10085,11 +23743,22 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -10099,11 +23768,22 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -10113,11 +23793,22 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10127,6 +23818,8 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -10136,6 +23829,8 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -10145,6 +23840,8 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type VerificationTokenCreateInput = {
@@ -10351,6 +24048,757 @@ export namespace Prisma {
     url?: NullableStringFieldUpdateOperationsInput | string | null
     pages?: NullableStringFieldUpdateOperationsInput | string | null
     format?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ExamPredictionCreateInput = {
+    id?: string
+    examType: string
+    uploadedContent: string
+    syllabusContent?: string | null
+    predictions: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutExamPredictionsInput
+  }
+
+  export type ExamPredictionUncheckedCreateInput = {
+    id?: string
+    examType: string
+    uploadedContent: string
+    syllabusContent?: string | null
+    predictions: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    userId: string
+  }
+
+  export type ExamPredictionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    examType?: StringFieldUpdateOperationsInput | string
+    uploadedContent?: StringFieldUpdateOperationsInput | string
+    syllabusContent?: NullableStringFieldUpdateOperationsInput | string | null
+    predictions?: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutExamPredictionsNestedInput
+  }
+
+  export type ExamPredictionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    examType?: StringFieldUpdateOperationsInput | string
+    uploadedContent?: StringFieldUpdateOperationsInput | string
+    syllabusContent?: NullableStringFieldUpdateOperationsInput | string | null
+    predictions?: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ExamPredictionCreateManyInput = {
+    id?: string
+    examType: string
+    uploadedContent: string
+    syllabusContent?: string | null
+    predictions: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    userId: string
+  }
+
+  export type ExamPredictionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    examType?: StringFieldUpdateOperationsInput | string
+    uploadedContent?: StringFieldUpdateOperationsInput | string
+    syllabusContent?: NullableStringFieldUpdateOperationsInput | string | null
+    predictions?: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamPredictionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    examType?: StringFieldUpdateOperationsInput | string
+    uploadedContent?: StringFieldUpdateOperationsInput | string
+    syllabusContent?: NullableStringFieldUpdateOperationsInput | string | null
+    predictions?: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BattleCreateInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    host: UserCreateNestedOneWithoutHostedBattlesInput
+    opponent?: UserCreateNestedOneWithoutJoinedBattlesInput
+    battleQuestions?: BattleQuestionCreateNestedManyWithoutBattleInput
+    participants?: BattleParticipantCreateNestedManyWithoutBattleInput
+    result?: BattleResultCreateNestedOneWithoutBattleInput
+  }
+
+  export type BattleUncheckedCreateInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    hostId: string
+    opponentId?: string | null
+    battleQuestions?: BattleQuestionUncheckedCreateNestedManyWithoutBattleInput
+    participants?: BattleParticipantUncheckedCreateNestedManyWithoutBattleInput
+    result?: BattleResultUncheckedCreateNestedOneWithoutBattleInput
+  }
+
+  export type BattleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    host?: UserUpdateOneRequiredWithoutHostedBattlesNestedInput
+    opponent?: UserUpdateOneWithoutJoinedBattlesNestedInput
+    battleQuestions?: BattleQuestionUpdateManyWithoutBattleNestedInput
+    participants?: BattleParticipantUpdateManyWithoutBattleNestedInput
+    result?: BattleResultUpdateOneWithoutBattleNestedInput
+  }
+
+  export type BattleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostId?: StringFieldUpdateOperationsInput | string
+    opponentId?: NullableStringFieldUpdateOperationsInput | string | null
+    battleQuestions?: BattleQuestionUncheckedUpdateManyWithoutBattleNestedInput
+    participants?: BattleParticipantUncheckedUpdateManyWithoutBattleNestedInput
+    result?: BattleResultUncheckedUpdateOneWithoutBattleNestedInput
+  }
+
+  export type BattleCreateManyInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    hostId: string
+    opponentId?: string | null
+  }
+
+  export type BattleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostId?: StringFieldUpdateOperationsInput | string
+    opponentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BattleQuestionCreateInput = {
+    id?: string
+    question: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer: string
+    points?: number
+    orderIndex: number
+    battle: BattleCreateNestedOneWithoutBattleQuestionsInput
+  }
+
+  export type BattleQuestionUncheckedCreateInput = {
+    id?: string
+    battleId: string
+    question: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer: string
+    points?: number
+    orderIndex: number
+  }
+
+  export type BattleQuestionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    battle?: BattleUpdateOneRequiredWithoutBattleQuestionsNestedInput
+  }
+
+  export type BattleQuestionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    battleId?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BattleQuestionCreateManyInput = {
+    id?: string
+    battleId: string
+    question: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer: string
+    points?: number
+    orderIndex: number
+  }
+
+  export type BattleQuestionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BattleQuestionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    battleId?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BattleParticipantCreateInput = {
+    id?: string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: number
+    correctCount?: number
+    totalAnswered?: number
+    joinedAt?: Date | string
+    battle: BattleCreateNestedOneWithoutParticipantsInput
+    user: UserCreateNestedOneWithoutBattleParticipantsInput
+  }
+
+  export type BattleParticipantUncheckedCreateInput = {
+    id?: string
+    battleId: string
+    userId: string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: number
+    correctCount?: number
+    totalAnswered?: number
+    joinedAt?: Date | string
+  }
+
+  export type BattleParticipantUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    totalAnswered?: IntFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battle?: BattleUpdateOneRequiredWithoutParticipantsNestedInput
+    user?: UserUpdateOneRequiredWithoutBattleParticipantsNestedInput
+  }
+
+  export type BattleParticipantUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    battleId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    totalAnswered?: IntFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleParticipantCreateManyInput = {
+    id?: string
+    battleId: string
+    userId: string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: number
+    correctCount?: number
+    totalAnswered?: number
+    joinedAt?: Date | string
+  }
+
+  export type BattleParticipantUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    totalAnswered?: IntFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleParticipantUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    battleId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    totalAnswered?: IntFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleResultCreateInput = {
+    id?: string
+    scores: JsonNullValueInput | InputJsonValue
+    duration: number
+    createdAt?: Date | string
+    battle: BattleCreateNestedOneWithoutResultInput
+    winner?: UserCreateNestedOneWithoutBattleResultsInput
+  }
+
+  export type BattleResultUncheckedCreateInput = {
+    id?: string
+    battleId: string
+    winnerId?: string | null
+    scores: JsonNullValueInput | InputJsonValue
+    duration: number
+    createdAt?: Date | string
+  }
+
+  export type BattleResultUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scores?: JsonNullValueInput | InputJsonValue
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battle?: BattleUpdateOneRequiredWithoutResultNestedInput
+    winner?: UserUpdateOneWithoutBattleResultsNestedInput
+  }
+
+  export type BattleResultUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    battleId?: StringFieldUpdateOperationsInput | string
+    winnerId?: NullableStringFieldUpdateOperationsInput | string | null
+    scores?: JsonNullValueInput | InputJsonValue
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleResultCreateManyInput = {
+    id?: string
+    battleId: string
+    winnerId?: string | null
+    scores: JsonNullValueInput | InputJsonValue
+    duration: number
+    createdAt?: Date | string
+  }
+
+  export type BattleResultUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scores?: JsonNullValueInput | InputJsonValue
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleResultUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    battleId?: StringFieldUpdateOperationsInput | string
+    winnerId?: NullableStringFieldUpdateOperationsInput | string | null
+    scores?: JsonNullValueInput | InputJsonValue
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGroupCreateInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+    creator: UserCreateNestedOneWithoutCreatedStudyGroupsInput
+    members?: StudyGroupMemberCreateNestedManyWithoutGroupInput
+    messages?: GroupMessageCreateNestedManyWithoutGroupInput
+    sessions?: GroupSessionCreateNestedManyWithoutGroupInput
+  }
+
+  export type StudyGroupUncheckedCreateInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+    creatorId: string
+    members?: StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+    messages?: GroupMessageUncheckedCreateNestedManyWithoutGroupInput
+    sessions?: GroupSessionUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type StudyGroupUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutCreatedStudyGroupsNestedInput
+    members?: StudyGroupMemberUpdateManyWithoutGroupNestedInput
+    messages?: GroupMessageUpdateManyWithoutGroupNestedInput
+    sessions?: GroupSessionUpdateManyWithoutGroupNestedInput
+  }
+
+  export type StudyGroupUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    members?: StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+    messages?: GroupMessageUncheckedUpdateManyWithoutGroupNestedInput
+    sessions?: GroupSessionUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type StudyGroupCreateManyInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+    creatorId: string
+  }
+
+  export type StudyGroupUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGroupUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StudyGroupMemberCreateInput = {
+    id?: string
+    joinedAt?: Date | string
+    group: StudyGroupCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutStudyGroupMembershipsInput
+  }
+
+  export type StudyGroupMemberUncheckedCreateInput = {
+    id?: string
+    groupId: string
+    userId: string
+    joinedAt?: Date | string
+  }
+
+  export type StudyGroupMemberUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    group?: StudyGroupUpdateOneRequiredWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutStudyGroupMembershipsNestedInput
+  }
+
+  export type StudyGroupMemberUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    groupId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGroupMemberCreateManyInput = {
+    id?: string
+    groupId: string
+    userId: string
+    joinedAt?: Date | string
+  }
+
+  export type StudyGroupMemberUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGroupMemberUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    groupId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupMessageCreateInput = {
+    id?: string
+    message: string
+    isAI?: boolean
+    timestamp?: Date | string
+    group: StudyGroupCreateNestedOneWithoutMessagesInput
+    user?: UserCreateNestedOneWithoutGroupMessagesInput
+  }
+
+  export type GroupMessageUncheckedCreateInput = {
+    id?: string
+    groupId: string
+    userId?: string | null
+    message: string
+    isAI?: boolean
+    timestamp?: Date | string
+  }
+
+  export type GroupMessageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    group?: StudyGroupUpdateOneRequiredWithoutMessagesNestedInput
+    user?: UserUpdateOneWithoutGroupMessagesNestedInput
+  }
+
+  export type GroupMessageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    groupId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupMessageCreateManyInput = {
+    id?: string
+    groupId: string
+    userId?: string | null
+    message: string
+    isAI?: boolean
+    timestamp?: Date | string
+  }
+
+  export type GroupMessageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupMessageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    groupId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupSessionCreateInput = {
+    id?: string
+    summary: string
+    duration: number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    group: StudyGroupCreateNestedOneWithoutSessionsInput
+  }
+
+  export type GroupSessionUncheckedCreateInput = {
+    id?: string
+    groupId: string
+    summary: string
+    duration: number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type GroupSessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    group?: StudyGroupUpdateOneRequiredWithoutSessionsNestedInput
+  }
+
+  export type GroupSessionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    groupId?: StringFieldUpdateOperationsInput | string
+    summary?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupSessionCreateManyInput = {
+    id?: string
+    groupId: string
+    summary: string
+    duration: number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type GroupSessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupSessionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    groupId?: StringFieldUpdateOperationsInput | string
+    summary?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConceptConnectionCreateInput = {
+    id?: string
+    note1Id: string
+    note2Id: string
+    concept1: string
+    concept2: string
+    connectionDescription: string
+    strength: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutConceptConnectionsInput
+  }
+
+  export type ConceptConnectionUncheckedCreateInput = {
+    id?: string
+    note1Id: string
+    note2Id: string
+    concept1: string
+    concept2: string
+    connectionDescription: string
+    strength: string
+    createdAt?: Date | string
+    userId: string
+  }
+
+  export type ConceptConnectionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note1Id?: StringFieldUpdateOperationsInput | string
+    note2Id?: StringFieldUpdateOperationsInput | string
+    concept1?: StringFieldUpdateOperationsInput | string
+    concept2?: StringFieldUpdateOperationsInput | string
+    connectionDescription?: StringFieldUpdateOperationsInput | string
+    strength?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutConceptConnectionsNestedInput
+  }
+
+  export type ConceptConnectionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note1Id?: StringFieldUpdateOperationsInput | string
+    note2Id?: StringFieldUpdateOperationsInput | string
+    concept1?: StringFieldUpdateOperationsInput | string
+    concept2?: StringFieldUpdateOperationsInput | string
+    connectionDescription?: StringFieldUpdateOperationsInput | string
+    strength?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ConceptConnectionCreateManyInput = {
+    id?: string
+    note1Id: string
+    note2Id: string
+    concept1: string
+    concept2: string
+    connectionDescription: string
+    strength: string
+    createdAt?: Date | string
+    userId: string
+  }
+
+  export type ConceptConnectionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note1Id?: StringFieldUpdateOperationsInput | string
+    note2Id?: StringFieldUpdateOperationsInput | string
+    concept1?: StringFieldUpdateOperationsInput | string
+    concept2?: StringFieldUpdateOperationsInput | string
+    connectionDescription?: StringFieldUpdateOperationsInput | string
+    strength?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConceptConnectionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note1Id?: StringFieldUpdateOperationsInput | string
+    note2Id?: StringFieldUpdateOperationsInput | string
+    concept1?: StringFieldUpdateOperationsInput | string
+    concept2?: StringFieldUpdateOperationsInput | string
+    connectionDescription?: StringFieldUpdateOperationsInput | string
+    strength?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
   }
@@ -10637,6 +25085,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type AccountListRelationFilter = {
     every?: AccountWhereInput
     some?: AccountWhereInput
@@ -10667,6 +25120,54 @@ export namespace Prisma {
     none?: CitationWhereInput
   }
 
+  export type ExamPredictionListRelationFilter = {
+    every?: ExamPredictionWhereInput
+    some?: ExamPredictionWhereInput
+    none?: ExamPredictionWhereInput
+  }
+
+  export type BattleListRelationFilter = {
+    every?: BattleWhereInput
+    some?: BattleWhereInput
+    none?: BattleWhereInput
+  }
+
+  export type BattleParticipantListRelationFilter = {
+    every?: BattleParticipantWhereInput
+    some?: BattleParticipantWhereInput
+    none?: BattleParticipantWhereInput
+  }
+
+  export type BattleResultListRelationFilter = {
+    every?: BattleResultWhereInput
+    some?: BattleResultWhereInput
+    none?: BattleResultWhereInput
+  }
+
+  export type StudyGroupListRelationFilter = {
+    every?: StudyGroupWhereInput
+    some?: StudyGroupWhereInput
+    none?: StudyGroupWhereInput
+  }
+
+  export type StudyGroupMemberListRelationFilter = {
+    every?: StudyGroupMemberWhereInput
+    some?: StudyGroupMemberWhereInput
+    none?: StudyGroupMemberWhereInput
+  }
+
+  export type GroupMessageListRelationFilter = {
+    every?: GroupMessageWhereInput
+    some?: GroupMessageWhereInput
+    none?: GroupMessageWhereInput
+  }
+
+  export type ConceptConnectionListRelationFilter = {
+    every?: ConceptConnectionWhereInput
+    some?: ConceptConnectionWhereInput
+    none?: ConceptConnectionWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -10687,6 +25188,38 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type ExamPredictionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BattleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BattleParticipantOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BattleResultOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StudyGroupOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StudyGroupMemberOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GroupMessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConceptConnectionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -10694,6 +25227,8 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     password?: SortOrder
+    learningStyle?: SortOrder
+    autoAdapt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -10703,6 +25238,8 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     password?: SortOrder
+    learningStyle?: SortOrder
+    autoAdapt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -10712,6 +25249,8 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     password?: SortOrder
+    learningStyle?: SortOrder
+    autoAdapt?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -10726,6 +25265,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type VerificationTokenIdentifierTokenCompoundUniqueInput = {
@@ -10825,6 +25372,508 @@ export namespace Prisma {
     url?: SortOrder
     pages?: SortOrder
     format?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type ExamPredictionCountOrderByAggregateInput = {
+    id?: SortOrder
+    examType?: SortOrder
+    uploadedContent?: SortOrder
+    syllabusContent?: SortOrder
+    predictions?: SortOrder
+    analytics?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ExamPredictionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    examType?: SortOrder
+    uploadedContent?: SortOrder
+    syllabusContent?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ExamPredictionMinOrderByAggregateInput = {
+    id?: SortOrder
+    examType?: SortOrder
+    uploadedContent?: SortOrder
+    syllabusContent?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type BattleQuestionListRelationFilter = {
+    every?: BattleQuestionWhereInput
+    some?: BattleQuestionWhereInput
+    none?: BattleQuestionWhereInput
+  }
+
+  export type BattleResultNullableScalarRelationFilter = {
+    is?: BattleResultWhereInput | null
+    isNot?: BattleResultWhereInput | null
+  }
+
+  export type BattleQuestionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BattleCountOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    noteId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    questionCount?: SortOrder
+    questions?: SortOrder
+    hostScore?: SortOrder
+    opponentScore?: SortOrder
+    hostAnsweredAt?: SortOrder
+    opponentAnsweredAt?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    hostId?: SortOrder
+    opponentId?: SortOrder
+  }
+
+  export type BattleAvgOrderByAggregateInput = {
+    questionCount?: SortOrder
+    hostScore?: SortOrder
+    opponentScore?: SortOrder
+  }
+
+  export type BattleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    noteId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    questionCount?: SortOrder
+    hostScore?: SortOrder
+    opponentScore?: SortOrder
+    hostAnsweredAt?: SortOrder
+    opponentAnsweredAt?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    hostId?: SortOrder
+    opponentId?: SortOrder
+  }
+
+  export type BattleMinOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    noteId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    questionCount?: SortOrder
+    hostScore?: SortOrder
+    opponentScore?: SortOrder
+    hostAnsweredAt?: SortOrder
+    opponentAnsweredAt?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    hostId?: SortOrder
+    opponentId?: SortOrder
+  }
+
+  export type BattleSumOrderByAggregateInput = {
+    questionCount?: SortOrder
+    hostScore?: SortOrder
+    opponentScore?: SortOrder
+  }
+
+  export type BattleScalarRelationFilter = {
+    is?: BattleWhereInput
+    isNot?: BattleWhereInput
+  }
+
+  export type BattleQuestionCountOrderByAggregateInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    question?: SortOrder
+    options?: SortOrder
+    correctAnswer?: SortOrder
+    points?: SortOrder
+    orderIndex?: SortOrder
+  }
+
+  export type BattleQuestionAvgOrderByAggregateInput = {
+    points?: SortOrder
+    orderIndex?: SortOrder
+  }
+
+  export type BattleQuestionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    question?: SortOrder
+    correctAnswer?: SortOrder
+    points?: SortOrder
+    orderIndex?: SortOrder
+  }
+
+  export type BattleQuestionMinOrderByAggregateInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    question?: SortOrder
+    correctAnswer?: SortOrder
+    points?: SortOrder
+    orderIndex?: SortOrder
+  }
+
+  export type BattleQuestionSumOrderByAggregateInput = {
+    points?: SortOrder
+    orderIndex?: SortOrder
+  }
+
+  export type BattleParticipantBattleIdUserIdCompoundUniqueInput = {
+    battleId: string
+    userId: string
+  }
+
+  export type BattleParticipantCountOrderByAggregateInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    userId?: SortOrder
+    answers?: SortOrder
+    score?: SortOrder
+    correctCount?: SortOrder
+    totalAnswered?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type BattleParticipantAvgOrderByAggregateInput = {
+    score?: SortOrder
+    correctCount?: SortOrder
+    totalAnswered?: SortOrder
+  }
+
+  export type BattleParticipantMaxOrderByAggregateInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    userId?: SortOrder
+    score?: SortOrder
+    correctCount?: SortOrder
+    totalAnswered?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type BattleParticipantMinOrderByAggregateInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    userId?: SortOrder
+    score?: SortOrder
+    correctCount?: SortOrder
+    totalAnswered?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type BattleParticipantSumOrderByAggregateInput = {
+    score?: SortOrder
+    correctCount?: SortOrder
+    totalAnswered?: SortOrder
+  }
+
+  export type BattleResultCountOrderByAggregateInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    winnerId?: SortOrder
+    scores?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BattleResultAvgOrderByAggregateInput = {
+    duration?: SortOrder
+  }
+
+  export type BattleResultMaxOrderByAggregateInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    winnerId?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BattleResultMinOrderByAggregateInput = {
+    id?: SortOrder
+    battleId?: SortOrder
+    winnerId?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BattleResultSumOrderByAggregateInput = {
+    duration?: SortOrder
+  }
+
+  export type GroupSessionListRelationFilter = {
+    every?: GroupSessionWhereInput
+    some?: GroupSessionWhereInput
+    none?: GroupSessionWhereInput
+  }
+
+  export type GroupSessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StudyGroupCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    topic?: SortOrder
+    inviteCode?: SortOrder
+    createdAt?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type StudyGroupMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    topic?: SortOrder
+    inviteCode?: SortOrder
+    createdAt?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type StudyGroupMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    topic?: SortOrder
+    inviteCode?: SortOrder
+    createdAt?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type StudyGroupScalarRelationFilter = {
+    is?: StudyGroupWhereInput
+    isNot?: StudyGroupWhereInput
+  }
+
+  export type StudyGroupMemberGroupIdUserIdCompoundUniqueInput = {
+    groupId: string
+    userId: string
+  }
+
+  export type StudyGroupMemberCountOrderByAggregateInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    userId?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type StudyGroupMemberMaxOrderByAggregateInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    userId?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type StudyGroupMemberMinOrderByAggregateInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    userId?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type GroupMessageCountOrderByAggregateInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    userId?: SortOrder
+    message?: SortOrder
+    isAI?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type GroupMessageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    userId?: SortOrder
+    message?: SortOrder
+    isAI?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type GroupMessageMinOrderByAggregateInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    userId?: SortOrder
+    message?: SortOrder
+    isAI?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type GroupSessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    summary?: SortOrder
+    duration?: SortOrder
+    topics?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GroupSessionAvgOrderByAggregateInput = {
+    duration?: SortOrder
+  }
+
+  export type GroupSessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    summary?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GroupSessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    groupId?: SortOrder
+    summary?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GroupSessionSumOrderByAggregateInput = {
+    duration?: SortOrder
+  }
+
+  export type ConceptConnectionCountOrderByAggregateInput = {
+    id?: SortOrder
+    note1Id?: SortOrder
+    note2Id?: SortOrder
+    concept1?: SortOrder
+    concept2?: SortOrder
+    connectionDescription?: SortOrder
+    strength?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ConceptConnectionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    note1Id?: SortOrder
+    note2Id?: SortOrder
+    concept1?: SortOrder
+    concept2?: SortOrder
+    connectionDescription?: SortOrder
+    strength?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ConceptConnectionMinOrderByAggregateInput = {
+    id?: SortOrder
+    note1Id?: SortOrder
+    note2Id?: SortOrder
+    concept1?: SortOrder
+    concept2?: SortOrder
+    connectionDescription?: SortOrder
+    strength?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
   }
@@ -10934,6 +25983,69 @@ export namespace Prisma {
     connect?: CitationWhereUniqueInput | CitationWhereUniqueInput[]
   }
 
+  export type ExamPredictionCreateNestedManyWithoutUserInput = {
+    create?: XOR<ExamPredictionCreateWithoutUserInput, ExamPredictionUncheckedCreateWithoutUserInput> | ExamPredictionCreateWithoutUserInput[] | ExamPredictionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamPredictionCreateOrConnectWithoutUserInput | ExamPredictionCreateOrConnectWithoutUserInput[]
+    createMany?: ExamPredictionCreateManyUserInputEnvelope
+    connect?: ExamPredictionWhereUniqueInput | ExamPredictionWhereUniqueInput[]
+  }
+
+  export type BattleCreateNestedManyWithoutHostInput = {
+    create?: XOR<BattleCreateWithoutHostInput, BattleUncheckedCreateWithoutHostInput> | BattleCreateWithoutHostInput[] | BattleUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: BattleCreateOrConnectWithoutHostInput | BattleCreateOrConnectWithoutHostInput[]
+    createMany?: BattleCreateManyHostInputEnvelope
+    connect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+  }
+
+  export type BattleCreateNestedManyWithoutOpponentInput = {
+    create?: XOR<BattleCreateWithoutOpponentInput, BattleUncheckedCreateWithoutOpponentInput> | BattleCreateWithoutOpponentInput[] | BattleUncheckedCreateWithoutOpponentInput[]
+    connectOrCreate?: BattleCreateOrConnectWithoutOpponentInput | BattleCreateOrConnectWithoutOpponentInput[]
+    createMany?: BattleCreateManyOpponentInputEnvelope
+    connect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+  }
+
+  export type BattleParticipantCreateNestedManyWithoutUserInput = {
+    create?: XOR<BattleParticipantCreateWithoutUserInput, BattleParticipantUncheckedCreateWithoutUserInput> | BattleParticipantCreateWithoutUserInput[] | BattleParticipantUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleParticipantCreateOrConnectWithoutUserInput | BattleParticipantCreateOrConnectWithoutUserInput[]
+    createMany?: BattleParticipantCreateManyUserInputEnvelope
+    connect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+  }
+
+  export type BattleResultCreateNestedManyWithoutWinnerInput = {
+    create?: XOR<BattleResultCreateWithoutWinnerInput, BattleResultUncheckedCreateWithoutWinnerInput> | BattleResultCreateWithoutWinnerInput[] | BattleResultUncheckedCreateWithoutWinnerInput[]
+    connectOrCreate?: BattleResultCreateOrConnectWithoutWinnerInput | BattleResultCreateOrConnectWithoutWinnerInput[]
+    createMany?: BattleResultCreateManyWinnerInputEnvelope
+    connect?: BattleResultWhereUniqueInput | BattleResultWhereUniqueInput[]
+  }
+
+  export type StudyGroupCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<StudyGroupCreateWithoutCreatorInput, StudyGroupUncheckedCreateWithoutCreatorInput> | StudyGroupCreateWithoutCreatorInput[] | StudyGroupUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: StudyGroupCreateOrConnectWithoutCreatorInput | StudyGroupCreateOrConnectWithoutCreatorInput[]
+    createMany?: StudyGroupCreateManyCreatorInputEnvelope
+    connect?: StudyGroupWhereUniqueInput | StudyGroupWhereUniqueInput[]
+  }
+
+  export type StudyGroupMemberCreateNestedManyWithoutUserInput = {
+    create?: XOR<StudyGroupMemberCreateWithoutUserInput, StudyGroupMemberUncheckedCreateWithoutUserInput> | StudyGroupMemberCreateWithoutUserInput[] | StudyGroupMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StudyGroupMemberCreateOrConnectWithoutUserInput | StudyGroupMemberCreateOrConnectWithoutUserInput[]
+    createMany?: StudyGroupMemberCreateManyUserInputEnvelope
+    connect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+  }
+
+  export type GroupMessageCreateNestedManyWithoutUserInput = {
+    create?: XOR<GroupMessageCreateWithoutUserInput, GroupMessageUncheckedCreateWithoutUserInput> | GroupMessageCreateWithoutUserInput[] | GroupMessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GroupMessageCreateOrConnectWithoutUserInput | GroupMessageCreateOrConnectWithoutUserInput[]
+    createMany?: GroupMessageCreateManyUserInputEnvelope
+    connect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+  }
+
+  export type ConceptConnectionCreateNestedManyWithoutUserInput = {
+    create?: XOR<ConceptConnectionCreateWithoutUserInput, ConceptConnectionUncheckedCreateWithoutUserInput> | ConceptConnectionCreateWithoutUserInput[] | ConceptConnectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ConceptConnectionCreateOrConnectWithoutUserInput | ConceptConnectionCreateOrConnectWithoutUserInput[]
+    createMany?: ConceptConnectionCreateManyUserInputEnvelope
+    connect?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -10969,8 +26081,75 @@ export namespace Prisma {
     connect?: CitationWhereUniqueInput | CitationWhereUniqueInput[]
   }
 
+  export type ExamPredictionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ExamPredictionCreateWithoutUserInput, ExamPredictionUncheckedCreateWithoutUserInput> | ExamPredictionCreateWithoutUserInput[] | ExamPredictionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamPredictionCreateOrConnectWithoutUserInput | ExamPredictionCreateOrConnectWithoutUserInput[]
+    createMany?: ExamPredictionCreateManyUserInputEnvelope
+    connect?: ExamPredictionWhereUniqueInput | ExamPredictionWhereUniqueInput[]
+  }
+
+  export type BattleUncheckedCreateNestedManyWithoutHostInput = {
+    create?: XOR<BattleCreateWithoutHostInput, BattleUncheckedCreateWithoutHostInput> | BattleCreateWithoutHostInput[] | BattleUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: BattleCreateOrConnectWithoutHostInput | BattleCreateOrConnectWithoutHostInput[]
+    createMany?: BattleCreateManyHostInputEnvelope
+    connect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+  }
+
+  export type BattleUncheckedCreateNestedManyWithoutOpponentInput = {
+    create?: XOR<BattleCreateWithoutOpponentInput, BattleUncheckedCreateWithoutOpponentInput> | BattleCreateWithoutOpponentInput[] | BattleUncheckedCreateWithoutOpponentInput[]
+    connectOrCreate?: BattleCreateOrConnectWithoutOpponentInput | BattleCreateOrConnectWithoutOpponentInput[]
+    createMany?: BattleCreateManyOpponentInputEnvelope
+    connect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+  }
+
+  export type BattleParticipantUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<BattleParticipantCreateWithoutUserInput, BattleParticipantUncheckedCreateWithoutUserInput> | BattleParticipantCreateWithoutUserInput[] | BattleParticipantUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleParticipantCreateOrConnectWithoutUserInput | BattleParticipantCreateOrConnectWithoutUserInput[]
+    createMany?: BattleParticipantCreateManyUserInputEnvelope
+    connect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+  }
+
+  export type BattleResultUncheckedCreateNestedManyWithoutWinnerInput = {
+    create?: XOR<BattleResultCreateWithoutWinnerInput, BattleResultUncheckedCreateWithoutWinnerInput> | BattleResultCreateWithoutWinnerInput[] | BattleResultUncheckedCreateWithoutWinnerInput[]
+    connectOrCreate?: BattleResultCreateOrConnectWithoutWinnerInput | BattleResultCreateOrConnectWithoutWinnerInput[]
+    createMany?: BattleResultCreateManyWinnerInputEnvelope
+    connect?: BattleResultWhereUniqueInput | BattleResultWhereUniqueInput[]
+  }
+
+  export type StudyGroupUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<StudyGroupCreateWithoutCreatorInput, StudyGroupUncheckedCreateWithoutCreatorInput> | StudyGroupCreateWithoutCreatorInput[] | StudyGroupUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: StudyGroupCreateOrConnectWithoutCreatorInput | StudyGroupCreateOrConnectWithoutCreatorInput[]
+    createMany?: StudyGroupCreateManyCreatorInputEnvelope
+    connect?: StudyGroupWhereUniqueInput | StudyGroupWhereUniqueInput[]
+  }
+
+  export type StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<StudyGroupMemberCreateWithoutUserInput, StudyGroupMemberUncheckedCreateWithoutUserInput> | StudyGroupMemberCreateWithoutUserInput[] | StudyGroupMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StudyGroupMemberCreateOrConnectWithoutUserInput | StudyGroupMemberCreateOrConnectWithoutUserInput[]
+    createMany?: StudyGroupMemberCreateManyUserInputEnvelope
+    connect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+  }
+
+  export type GroupMessageUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<GroupMessageCreateWithoutUserInput, GroupMessageUncheckedCreateWithoutUserInput> | GroupMessageCreateWithoutUserInput[] | GroupMessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GroupMessageCreateOrConnectWithoutUserInput | GroupMessageCreateOrConnectWithoutUserInput[]
+    createMany?: GroupMessageCreateManyUserInputEnvelope
+    connect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+  }
+
+  export type ConceptConnectionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ConceptConnectionCreateWithoutUserInput, ConceptConnectionUncheckedCreateWithoutUserInput> | ConceptConnectionCreateWithoutUserInput[] | ConceptConnectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ConceptConnectionCreateOrConnectWithoutUserInput | ConceptConnectionCreateOrConnectWithoutUserInput[]
+    createMany?: ConceptConnectionCreateManyUserInputEnvelope
+    connect?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
+  }
+
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type AccountUpdateManyWithoutUserNestedInput = {
@@ -11043,6 +26222,132 @@ export namespace Prisma {
     deleteMany?: CitationScalarWhereInput | CitationScalarWhereInput[]
   }
 
+  export type ExamPredictionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ExamPredictionCreateWithoutUserInput, ExamPredictionUncheckedCreateWithoutUserInput> | ExamPredictionCreateWithoutUserInput[] | ExamPredictionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamPredictionCreateOrConnectWithoutUserInput | ExamPredictionCreateOrConnectWithoutUserInput[]
+    upsert?: ExamPredictionUpsertWithWhereUniqueWithoutUserInput | ExamPredictionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ExamPredictionCreateManyUserInputEnvelope
+    set?: ExamPredictionWhereUniqueInput | ExamPredictionWhereUniqueInput[]
+    disconnect?: ExamPredictionWhereUniqueInput | ExamPredictionWhereUniqueInput[]
+    delete?: ExamPredictionWhereUniqueInput | ExamPredictionWhereUniqueInput[]
+    connect?: ExamPredictionWhereUniqueInput | ExamPredictionWhereUniqueInput[]
+    update?: ExamPredictionUpdateWithWhereUniqueWithoutUserInput | ExamPredictionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ExamPredictionUpdateManyWithWhereWithoutUserInput | ExamPredictionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ExamPredictionScalarWhereInput | ExamPredictionScalarWhereInput[]
+  }
+
+  export type BattleUpdateManyWithoutHostNestedInput = {
+    create?: XOR<BattleCreateWithoutHostInput, BattleUncheckedCreateWithoutHostInput> | BattleCreateWithoutHostInput[] | BattleUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: BattleCreateOrConnectWithoutHostInput | BattleCreateOrConnectWithoutHostInput[]
+    upsert?: BattleUpsertWithWhereUniqueWithoutHostInput | BattleUpsertWithWhereUniqueWithoutHostInput[]
+    createMany?: BattleCreateManyHostInputEnvelope
+    set?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    disconnect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    delete?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    connect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    update?: BattleUpdateWithWhereUniqueWithoutHostInput | BattleUpdateWithWhereUniqueWithoutHostInput[]
+    updateMany?: BattleUpdateManyWithWhereWithoutHostInput | BattleUpdateManyWithWhereWithoutHostInput[]
+    deleteMany?: BattleScalarWhereInput | BattleScalarWhereInput[]
+  }
+
+  export type BattleUpdateManyWithoutOpponentNestedInput = {
+    create?: XOR<BattleCreateWithoutOpponentInput, BattleUncheckedCreateWithoutOpponentInput> | BattleCreateWithoutOpponentInput[] | BattleUncheckedCreateWithoutOpponentInput[]
+    connectOrCreate?: BattleCreateOrConnectWithoutOpponentInput | BattleCreateOrConnectWithoutOpponentInput[]
+    upsert?: BattleUpsertWithWhereUniqueWithoutOpponentInput | BattleUpsertWithWhereUniqueWithoutOpponentInput[]
+    createMany?: BattleCreateManyOpponentInputEnvelope
+    set?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    disconnect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    delete?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    connect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    update?: BattleUpdateWithWhereUniqueWithoutOpponentInput | BattleUpdateWithWhereUniqueWithoutOpponentInput[]
+    updateMany?: BattleUpdateManyWithWhereWithoutOpponentInput | BattleUpdateManyWithWhereWithoutOpponentInput[]
+    deleteMany?: BattleScalarWhereInput | BattleScalarWhereInput[]
+  }
+
+  export type BattleParticipantUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BattleParticipantCreateWithoutUserInput, BattleParticipantUncheckedCreateWithoutUserInput> | BattleParticipantCreateWithoutUserInput[] | BattleParticipantUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleParticipantCreateOrConnectWithoutUserInput | BattleParticipantCreateOrConnectWithoutUserInput[]
+    upsert?: BattleParticipantUpsertWithWhereUniqueWithoutUserInput | BattleParticipantUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BattleParticipantCreateManyUserInputEnvelope
+    set?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    disconnect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    delete?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    connect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    update?: BattleParticipantUpdateWithWhereUniqueWithoutUserInput | BattleParticipantUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BattleParticipantUpdateManyWithWhereWithoutUserInput | BattleParticipantUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BattleParticipantScalarWhereInput | BattleParticipantScalarWhereInput[]
+  }
+
+  export type BattleResultUpdateManyWithoutWinnerNestedInput = {
+    create?: XOR<BattleResultCreateWithoutWinnerInput, BattleResultUncheckedCreateWithoutWinnerInput> | BattleResultCreateWithoutWinnerInput[] | BattleResultUncheckedCreateWithoutWinnerInput[]
+    connectOrCreate?: BattleResultCreateOrConnectWithoutWinnerInput | BattleResultCreateOrConnectWithoutWinnerInput[]
+    upsert?: BattleResultUpsertWithWhereUniqueWithoutWinnerInput | BattleResultUpsertWithWhereUniqueWithoutWinnerInput[]
+    createMany?: BattleResultCreateManyWinnerInputEnvelope
+    set?: BattleResultWhereUniqueInput | BattleResultWhereUniqueInput[]
+    disconnect?: BattleResultWhereUniqueInput | BattleResultWhereUniqueInput[]
+    delete?: BattleResultWhereUniqueInput | BattleResultWhereUniqueInput[]
+    connect?: BattleResultWhereUniqueInput | BattleResultWhereUniqueInput[]
+    update?: BattleResultUpdateWithWhereUniqueWithoutWinnerInput | BattleResultUpdateWithWhereUniqueWithoutWinnerInput[]
+    updateMany?: BattleResultUpdateManyWithWhereWithoutWinnerInput | BattleResultUpdateManyWithWhereWithoutWinnerInput[]
+    deleteMany?: BattleResultScalarWhereInput | BattleResultScalarWhereInput[]
+  }
+
+  export type StudyGroupUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<StudyGroupCreateWithoutCreatorInput, StudyGroupUncheckedCreateWithoutCreatorInput> | StudyGroupCreateWithoutCreatorInput[] | StudyGroupUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: StudyGroupCreateOrConnectWithoutCreatorInput | StudyGroupCreateOrConnectWithoutCreatorInput[]
+    upsert?: StudyGroupUpsertWithWhereUniqueWithoutCreatorInput | StudyGroupUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: StudyGroupCreateManyCreatorInputEnvelope
+    set?: StudyGroupWhereUniqueInput | StudyGroupWhereUniqueInput[]
+    disconnect?: StudyGroupWhereUniqueInput | StudyGroupWhereUniqueInput[]
+    delete?: StudyGroupWhereUniqueInput | StudyGroupWhereUniqueInput[]
+    connect?: StudyGroupWhereUniqueInput | StudyGroupWhereUniqueInput[]
+    update?: StudyGroupUpdateWithWhereUniqueWithoutCreatorInput | StudyGroupUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: StudyGroupUpdateManyWithWhereWithoutCreatorInput | StudyGroupUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: StudyGroupScalarWhereInput | StudyGroupScalarWhereInput[]
+  }
+
+  export type StudyGroupMemberUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StudyGroupMemberCreateWithoutUserInput, StudyGroupMemberUncheckedCreateWithoutUserInput> | StudyGroupMemberCreateWithoutUserInput[] | StudyGroupMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StudyGroupMemberCreateOrConnectWithoutUserInput | StudyGroupMemberCreateOrConnectWithoutUserInput[]
+    upsert?: StudyGroupMemberUpsertWithWhereUniqueWithoutUserInput | StudyGroupMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StudyGroupMemberCreateManyUserInputEnvelope
+    set?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    disconnect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    delete?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    connect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    update?: StudyGroupMemberUpdateWithWhereUniqueWithoutUserInput | StudyGroupMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StudyGroupMemberUpdateManyWithWhereWithoutUserInput | StudyGroupMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StudyGroupMemberScalarWhereInput | StudyGroupMemberScalarWhereInput[]
+  }
+
+  export type GroupMessageUpdateManyWithoutUserNestedInput = {
+    create?: XOR<GroupMessageCreateWithoutUserInput, GroupMessageUncheckedCreateWithoutUserInput> | GroupMessageCreateWithoutUserInput[] | GroupMessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GroupMessageCreateOrConnectWithoutUserInput | GroupMessageCreateOrConnectWithoutUserInput[]
+    upsert?: GroupMessageUpsertWithWhereUniqueWithoutUserInput | GroupMessageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: GroupMessageCreateManyUserInputEnvelope
+    set?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    disconnect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    delete?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    connect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    update?: GroupMessageUpdateWithWhereUniqueWithoutUserInput | GroupMessageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: GroupMessageUpdateManyWithWhereWithoutUserInput | GroupMessageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: GroupMessageScalarWhereInput | GroupMessageScalarWhereInput[]
+  }
+
+  export type ConceptConnectionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ConceptConnectionCreateWithoutUserInput, ConceptConnectionUncheckedCreateWithoutUserInput> | ConceptConnectionCreateWithoutUserInput[] | ConceptConnectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ConceptConnectionCreateOrConnectWithoutUserInput | ConceptConnectionCreateOrConnectWithoutUserInput[]
+    upsert?: ConceptConnectionUpsertWithWhereUniqueWithoutUserInput | ConceptConnectionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ConceptConnectionCreateManyUserInputEnvelope
+    set?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
+    disconnect?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
+    delete?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
+    connect?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
+    update?: ConceptConnectionUpdateWithWhereUniqueWithoutUserInput | ConceptConnectionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ConceptConnectionUpdateManyWithWhereWithoutUserInput | ConceptConnectionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ConceptConnectionScalarWhereInput | ConceptConnectionScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -11113,6 +26418,132 @@ export namespace Prisma {
     deleteMany?: CitationScalarWhereInput | CitationScalarWhereInput[]
   }
 
+  export type ExamPredictionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ExamPredictionCreateWithoutUserInput, ExamPredictionUncheckedCreateWithoutUserInput> | ExamPredictionCreateWithoutUserInput[] | ExamPredictionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamPredictionCreateOrConnectWithoutUserInput | ExamPredictionCreateOrConnectWithoutUserInput[]
+    upsert?: ExamPredictionUpsertWithWhereUniqueWithoutUserInput | ExamPredictionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ExamPredictionCreateManyUserInputEnvelope
+    set?: ExamPredictionWhereUniqueInput | ExamPredictionWhereUniqueInput[]
+    disconnect?: ExamPredictionWhereUniqueInput | ExamPredictionWhereUniqueInput[]
+    delete?: ExamPredictionWhereUniqueInput | ExamPredictionWhereUniqueInput[]
+    connect?: ExamPredictionWhereUniqueInput | ExamPredictionWhereUniqueInput[]
+    update?: ExamPredictionUpdateWithWhereUniqueWithoutUserInput | ExamPredictionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ExamPredictionUpdateManyWithWhereWithoutUserInput | ExamPredictionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ExamPredictionScalarWhereInput | ExamPredictionScalarWhereInput[]
+  }
+
+  export type BattleUncheckedUpdateManyWithoutHostNestedInput = {
+    create?: XOR<BattleCreateWithoutHostInput, BattleUncheckedCreateWithoutHostInput> | BattleCreateWithoutHostInput[] | BattleUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: BattleCreateOrConnectWithoutHostInput | BattleCreateOrConnectWithoutHostInput[]
+    upsert?: BattleUpsertWithWhereUniqueWithoutHostInput | BattleUpsertWithWhereUniqueWithoutHostInput[]
+    createMany?: BattleCreateManyHostInputEnvelope
+    set?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    disconnect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    delete?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    connect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    update?: BattleUpdateWithWhereUniqueWithoutHostInput | BattleUpdateWithWhereUniqueWithoutHostInput[]
+    updateMany?: BattleUpdateManyWithWhereWithoutHostInput | BattleUpdateManyWithWhereWithoutHostInput[]
+    deleteMany?: BattleScalarWhereInput | BattleScalarWhereInput[]
+  }
+
+  export type BattleUncheckedUpdateManyWithoutOpponentNestedInput = {
+    create?: XOR<BattleCreateWithoutOpponentInput, BattleUncheckedCreateWithoutOpponentInput> | BattleCreateWithoutOpponentInput[] | BattleUncheckedCreateWithoutOpponentInput[]
+    connectOrCreate?: BattleCreateOrConnectWithoutOpponentInput | BattleCreateOrConnectWithoutOpponentInput[]
+    upsert?: BattleUpsertWithWhereUniqueWithoutOpponentInput | BattleUpsertWithWhereUniqueWithoutOpponentInput[]
+    createMany?: BattleCreateManyOpponentInputEnvelope
+    set?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    disconnect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    delete?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    connect?: BattleWhereUniqueInput | BattleWhereUniqueInput[]
+    update?: BattleUpdateWithWhereUniqueWithoutOpponentInput | BattleUpdateWithWhereUniqueWithoutOpponentInput[]
+    updateMany?: BattleUpdateManyWithWhereWithoutOpponentInput | BattleUpdateManyWithWhereWithoutOpponentInput[]
+    deleteMany?: BattleScalarWhereInput | BattleScalarWhereInput[]
+  }
+
+  export type BattleParticipantUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BattleParticipantCreateWithoutUserInput, BattleParticipantUncheckedCreateWithoutUserInput> | BattleParticipantCreateWithoutUserInput[] | BattleParticipantUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BattleParticipantCreateOrConnectWithoutUserInput | BattleParticipantCreateOrConnectWithoutUserInput[]
+    upsert?: BattleParticipantUpsertWithWhereUniqueWithoutUserInput | BattleParticipantUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BattleParticipantCreateManyUserInputEnvelope
+    set?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    disconnect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    delete?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    connect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    update?: BattleParticipantUpdateWithWhereUniqueWithoutUserInput | BattleParticipantUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BattleParticipantUpdateManyWithWhereWithoutUserInput | BattleParticipantUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BattleParticipantScalarWhereInput | BattleParticipantScalarWhereInput[]
+  }
+
+  export type BattleResultUncheckedUpdateManyWithoutWinnerNestedInput = {
+    create?: XOR<BattleResultCreateWithoutWinnerInput, BattleResultUncheckedCreateWithoutWinnerInput> | BattleResultCreateWithoutWinnerInput[] | BattleResultUncheckedCreateWithoutWinnerInput[]
+    connectOrCreate?: BattleResultCreateOrConnectWithoutWinnerInput | BattleResultCreateOrConnectWithoutWinnerInput[]
+    upsert?: BattleResultUpsertWithWhereUniqueWithoutWinnerInput | BattleResultUpsertWithWhereUniqueWithoutWinnerInput[]
+    createMany?: BattleResultCreateManyWinnerInputEnvelope
+    set?: BattleResultWhereUniqueInput | BattleResultWhereUniqueInput[]
+    disconnect?: BattleResultWhereUniqueInput | BattleResultWhereUniqueInput[]
+    delete?: BattleResultWhereUniqueInput | BattleResultWhereUniqueInput[]
+    connect?: BattleResultWhereUniqueInput | BattleResultWhereUniqueInput[]
+    update?: BattleResultUpdateWithWhereUniqueWithoutWinnerInput | BattleResultUpdateWithWhereUniqueWithoutWinnerInput[]
+    updateMany?: BattleResultUpdateManyWithWhereWithoutWinnerInput | BattleResultUpdateManyWithWhereWithoutWinnerInput[]
+    deleteMany?: BattleResultScalarWhereInput | BattleResultScalarWhereInput[]
+  }
+
+  export type StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<StudyGroupCreateWithoutCreatorInput, StudyGroupUncheckedCreateWithoutCreatorInput> | StudyGroupCreateWithoutCreatorInput[] | StudyGroupUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: StudyGroupCreateOrConnectWithoutCreatorInput | StudyGroupCreateOrConnectWithoutCreatorInput[]
+    upsert?: StudyGroupUpsertWithWhereUniqueWithoutCreatorInput | StudyGroupUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: StudyGroupCreateManyCreatorInputEnvelope
+    set?: StudyGroupWhereUniqueInput | StudyGroupWhereUniqueInput[]
+    disconnect?: StudyGroupWhereUniqueInput | StudyGroupWhereUniqueInput[]
+    delete?: StudyGroupWhereUniqueInput | StudyGroupWhereUniqueInput[]
+    connect?: StudyGroupWhereUniqueInput | StudyGroupWhereUniqueInput[]
+    update?: StudyGroupUpdateWithWhereUniqueWithoutCreatorInput | StudyGroupUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: StudyGroupUpdateManyWithWhereWithoutCreatorInput | StudyGroupUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: StudyGroupScalarWhereInput | StudyGroupScalarWhereInput[]
+  }
+
+  export type StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StudyGroupMemberCreateWithoutUserInput, StudyGroupMemberUncheckedCreateWithoutUserInput> | StudyGroupMemberCreateWithoutUserInput[] | StudyGroupMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StudyGroupMemberCreateOrConnectWithoutUserInput | StudyGroupMemberCreateOrConnectWithoutUserInput[]
+    upsert?: StudyGroupMemberUpsertWithWhereUniqueWithoutUserInput | StudyGroupMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StudyGroupMemberCreateManyUserInputEnvelope
+    set?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    disconnect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    delete?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    connect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    update?: StudyGroupMemberUpdateWithWhereUniqueWithoutUserInput | StudyGroupMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StudyGroupMemberUpdateManyWithWhereWithoutUserInput | StudyGroupMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StudyGroupMemberScalarWhereInput | StudyGroupMemberScalarWhereInput[]
+  }
+
+  export type GroupMessageUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<GroupMessageCreateWithoutUserInput, GroupMessageUncheckedCreateWithoutUserInput> | GroupMessageCreateWithoutUserInput[] | GroupMessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GroupMessageCreateOrConnectWithoutUserInput | GroupMessageCreateOrConnectWithoutUserInput[]
+    upsert?: GroupMessageUpsertWithWhereUniqueWithoutUserInput | GroupMessageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: GroupMessageCreateManyUserInputEnvelope
+    set?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    disconnect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    delete?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    connect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    update?: GroupMessageUpdateWithWhereUniqueWithoutUserInput | GroupMessageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: GroupMessageUpdateManyWithWhereWithoutUserInput | GroupMessageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: GroupMessageScalarWhereInput | GroupMessageScalarWhereInput[]
+  }
+
+  export type ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ConceptConnectionCreateWithoutUserInput, ConceptConnectionUncheckedCreateWithoutUserInput> | ConceptConnectionCreateWithoutUserInput[] | ConceptConnectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ConceptConnectionCreateOrConnectWithoutUserInput | ConceptConnectionCreateOrConnectWithoutUserInput[]
+    upsert?: ConceptConnectionUpsertWithWhereUniqueWithoutUserInput | ConceptConnectionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ConceptConnectionCreateManyUserInputEnvelope
+    set?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
+    disconnect?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
+    delete?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
+    connect?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
+    update?: ConceptConnectionUpdateWithWhereUniqueWithoutUserInput | ConceptConnectionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ConceptConnectionUpdateManyWithWhereWithoutUserInput | ConceptConnectionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ConceptConnectionScalarWhereInput | ConceptConnectionScalarWhereInput[]
+  }
+
   export type NoteCreatetagsInput = {
     set: string[]
   }
@@ -11148,6 +26579,464 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutCitationsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCitationsInput, UserUpdateWithoutCitationsInput>, UserUncheckedUpdateWithoutCitationsInput>
+  }
+
+  export type UserCreateNestedOneWithoutExamPredictionsInput = {
+    create?: XOR<UserCreateWithoutExamPredictionsInput, UserUncheckedCreateWithoutExamPredictionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutExamPredictionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutExamPredictionsNestedInput = {
+    create?: XOR<UserCreateWithoutExamPredictionsInput, UserUncheckedCreateWithoutExamPredictionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutExamPredictionsInput
+    upsert?: UserUpsertWithoutExamPredictionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutExamPredictionsInput, UserUpdateWithoutExamPredictionsInput>, UserUncheckedUpdateWithoutExamPredictionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutHostedBattlesInput = {
+    create?: XOR<UserCreateWithoutHostedBattlesInput, UserUncheckedCreateWithoutHostedBattlesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHostedBattlesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutJoinedBattlesInput = {
+    create?: XOR<UserCreateWithoutJoinedBattlesInput, UserUncheckedCreateWithoutJoinedBattlesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutJoinedBattlesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BattleQuestionCreateNestedManyWithoutBattleInput = {
+    create?: XOR<BattleQuestionCreateWithoutBattleInput, BattleQuestionUncheckedCreateWithoutBattleInput> | BattleQuestionCreateWithoutBattleInput[] | BattleQuestionUncheckedCreateWithoutBattleInput[]
+    connectOrCreate?: BattleQuestionCreateOrConnectWithoutBattleInput | BattleQuestionCreateOrConnectWithoutBattleInput[]
+    createMany?: BattleQuestionCreateManyBattleInputEnvelope
+    connect?: BattleQuestionWhereUniqueInput | BattleQuestionWhereUniqueInput[]
+  }
+
+  export type BattleParticipantCreateNestedManyWithoutBattleInput = {
+    create?: XOR<BattleParticipantCreateWithoutBattleInput, BattleParticipantUncheckedCreateWithoutBattleInput> | BattleParticipantCreateWithoutBattleInput[] | BattleParticipantUncheckedCreateWithoutBattleInput[]
+    connectOrCreate?: BattleParticipantCreateOrConnectWithoutBattleInput | BattleParticipantCreateOrConnectWithoutBattleInput[]
+    createMany?: BattleParticipantCreateManyBattleInputEnvelope
+    connect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+  }
+
+  export type BattleResultCreateNestedOneWithoutBattleInput = {
+    create?: XOR<BattleResultCreateWithoutBattleInput, BattleResultUncheckedCreateWithoutBattleInput>
+    connectOrCreate?: BattleResultCreateOrConnectWithoutBattleInput
+    connect?: BattleResultWhereUniqueInput
+  }
+
+  export type BattleQuestionUncheckedCreateNestedManyWithoutBattleInput = {
+    create?: XOR<BattleQuestionCreateWithoutBattleInput, BattleQuestionUncheckedCreateWithoutBattleInput> | BattleQuestionCreateWithoutBattleInput[] | BattleQuestionUncheckedCreateWithoutBattleInput[]
+    connectOrCreate?: BattleQuestionCreateOrConnectWithoutBattleInput | BattleQuestionCreateOrConnectWithoutBattleInput[]
+    createMany?: BattleQuestionCreateManyBattleInputEnvelope
+    connect?: BattleQuestionWhereUniqueInput | BattleQuestionWhereUniqueInput[]
+  }
+
+  export type BattleParticipantUncheckedCreateNestedManyWithoutBattleInput = {
+    create?: XOR<BattleParticipantCreateWithoutBattleInput, BattleParticipantUncheckedCreateWithoutBattleInput> | BattleParticipantCreateWithoutBattleInput[] | BattleParticipantUncheckedCreateWithoutBattleInput[]
+    connectOrCreate?: BattleParticipantCreateOrConnectWithoutBattleInput | BattleParticipantCreateOrConnectWithoutBattleInput[]
+    createMany?: BattleParticipantCreateManyBattleInputEnvelope
+    connect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+  }
+
+  export type BattleResultUncheckedCreateNestedOneWithoutBattleInput = {
+    create?: XOR<BattleResultCreateWithoutBattleInput, BattleResultUncheckedCreateWithoutBattleInput>
+    connectOrCreate?: BattleResultCreateOrConnectWithoutBattleInput
+    connect?: BattleResultWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutHostedBattlesNestedInput = {
+    create?: XOR<UserCreateWithoutHostedBattlesInput, UserUncheckedCreateWithoutHostedBattlesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHostedBattlesInput
+    upsert?: UserUpsertWithoutHostedBattlesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHostedBattlesInput, UserUpdateWithoutHostedBattlesInput>, UserUncheckedUpdateWithoutHostedBattlesInput>
+  }
+
+  export type UserUpdateOneWithoutJoinedBattlesNestedInput = {
+    create?: XOR<UserCreateWithoutJoinedBattlesInput, UserUncheckedCreateWithoutJoinedBattlesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutJoinedBattlesInput
+    upsert?: UserUpsertWithoutJoinedBattlesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutJoinedBattlesInput, UserUpdateWithoutJoinedBattlesInput>, UserUncheckedUpdateWithoutJoinedBattlesInput>
+  }
+
+  export type BattleQuestionUpdateManyWithoutBattleNestedInput = {
+    create?: XOR<BattleQuestionCreateWithoutBattleInput, BattleQuestionUncheckedCreateWithoutBattleInput> | BattleQuestionCreateWithoutBattleInput[] | BattleQuestionUncheckedCreateWithoutBattleInput[]
+    connectOrCreate?: BattleQuestionCreateOrConnectWithoutBattleInput | BattleQuestionCreateOrConnectWithoutBattleInput[]
+    upsert?: BattleQuestionUpsertWithWhereUniqueWithoutBattleInput | BattleQuestionUpsertWithWhereUniqueWithoutBattleInput[]
+    createMany?: BattleQuestionCreateManyBattleInputEnvelope
+    set?: BattleQuestionWhereUniqueInput | BattleQuestionWhereUniqueInput[]
+    disconnect?: BattleQuestionWhereUniqueInput | BattleQuestionWhereUniqueInput[]
+    delete?: BattleQuestionWhereUniqueInput | BattleQuestionWhereUniqueInput[]
+    connect?: BattleQuestionWhereUniqueInput | BattleQuestionWhereUniqueInput[]
+    update?: BattleQuestionUpdateWithWhereUniqueWithoutBattleInput | BattleQuestionUpdateWithWhereUniqueWithoutBattleInput[]
+    updateMany?: BattleQuestionUpdateManyWithWhereWithoutBattleInput | BattleQuestionUpdateManyWithWhereWithoutBattleInput[]
+    deleteMany?: BattleQuestionScalarWhereInput | BattleQuestionScalarWhereInput[]
+  }
+
+  export type BattleParticipantUpdateManyWithoutBattleNestedInput = {
+    create?: XOR<BattleParticipantCreateWithoutBattleInput, BattleParticipantUncheckedCreateWithoutBattleInput> | BattleParticipantCreateWithoutBattleInput[] | BattleParticipantUncheckedCreateWithoutBattleInput[]
+    connectOrCreate?: BattleParticipantCreateOrConnectWithoutBattleInput | BattleParticipantCreateOrConnectWithoutBattleInput[]
+    upsert?: BattleParticipantUpsertWithWhereUniqueWithoutBattleInput | BattleParticipantUpsertWithWhereUniqueWithoutBattleInput[]
+    createMany?: BattleParticipantCreateManyBattleInputEnvelope
+    set?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    disconnect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    delete?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    connect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    update?: BattleParticipantUpdateWithWhereUniqueWithoutBattleInput | BattleParticipantUpdateWithWhereUniqueWithoutBattleInput[]
+    updateMany?: BattleParticipantUpdateManyWithWhereWithoutBattleInput | BattleParticipantUpdateManyWithWhereWithoutBattleInput[]
+    deleteMany?: BattleParticipantScalarWhereInput | BattleParticipantScalarWhereInput[]
+  }
+
+  export type BattleResultUpdateOneWithoutBattleNestedInput = {
+    create?: XOR<BattleResultCreateWithoutBattleInput, BattleResultUncheckedCreateWithoutBattleInput>
+    connectOrCreate?: BattleResultCreateOrConnectWithoutBattleInput
+    upsert?: BattleResultUpsertWithoutBattleInput
+    disconnect?: BattleResultWhereInput | boolean
+    delete?: BattleResultWhereInput | boolean
+    connect?: BattleResultWhereUniqueInput
+    update?: XOR<XOR<BattleResultUpdateToOneWithWhereWithoutBattleInput, BattleResultUpdateWithoutBattleInput>, BattleResultUncheckedUpdateWithoutBattleInput>
+  }
+
+  export type BattleQuestionUncheckedUpdateManyWithoutBattleNestedInput = {
+    create?: XOR<BattleQuestionCreateWithoutBattleInput, BattleQuestionUncheckedCreateWithoutBattleInput> | BattleQuestionCreateWithoutBattleInput[] | BattleQuestionUncheckedCreateWithoutBattleInput[]
+    connectOrCreate?: BattleQuestionCreateOrConnectWithoutBattleInput | BattleQuestionCreateOrConnectWithoutBattleInput[]
+    upsert?: BattleQuestionUpsertWithWhereUniqueWithoutBattleInput | BattleQuestionUpsertWithWhereUniqueWithoutBattleInput[]
+    createMany?: BattleQuestionCreateManyBattleInputEnvelope
+    set?: BattleQuestionWhereUniqueInput | BattleQuestionWhereUniqueInput[]
+    disconnect?: BattleQuestionWhereUniqueInput | BattleQuestionWhereUniqueInput[]
+    delete?: BattleQuestionWhereUniqueInput | BattleQuestionWhereUniqueInput[]
+    connect?: BattleQuestionWhereUniqueInput | BattleQuestionWhereUniqueInput[]
+    update?: BattleQuestionUpdateWithWhereUniqueWithoutBattleInput | BattleQuestionUpdateWithWhereUniqueWithoutBattleInput[]
+    updateMany?: BattleQuestionUpdateManyWithWhereWithoutBattleInput | BattleQuestionUpdateManyWithWhereWithoutBattleInput[]
+    deleteMany?: BattleQuestionScalarWhereInput | BattleQuestionScalarWhereInput[]
+  }
+
+  export type BattleParticipantUncheckedUpdateManyWithoutBattleNestedInput = {
+    create?: XOR<BattleParticipantCreateWithoutBattleInput, BattleParticipantUncheckedCreateWithoutBattleInput> | BattleParticipantCreateWithoutBattleInput[] | BattleParticipantUncheckedCreateWithoutBattleInput[]
+    connectOrCreate?: BattleParticipantCreateOrConnectWithoutBattleInput | BattleParticipantCreateOrConnectWithoutBattleInput[]
+    upsert?: BattleParticipantUpsertWithWhereUniqueWithoutBattleInput | BattleParticipantUpsertWithWhereUniqueWithoutBattleInput[]
+    createMany?: BattleParticipantCreateManyBattleInputEnvelope
+    set?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    disconnect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    delete?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    connect?: BattleParticipantWhereUniqueInput | BattleParticipantWhereUniqueInput[]
+    update?: BattleParticipantUpdateWithWhereUniqueWithoutBattleInput | BattleParticipantUpdateWithWhereUniqueWithoutBattleInput[]
+    updateMany?: BattleParticipantUpdateManyWithWhereWithoutBattleInput | BattleParticipantUpdateManyWithWhereWithoutBattleInput[]
+    deleteMany?: BattleParticipantScalarWhereInput | BattleParticipantScalarWhereInput[]
+  }
+
+  export type BattleResultUncheckedUpdateOneWithoutBattleNestedInput = {
+    create?: XOR<BattleResultCreateWithoutBattleInput, BattleResultUncheckedCreateWithoutBattleInput>
+    connectOrCreate?: BattleResultCreateOrConnectWithoutBattleInput
+    upsert?: BattleResultUpsertWithoutBattleInput
+    disconnect?: BattleResultWhereInput | boolean
+    delete?: BattleResultWhereInput | boolean
+    connect?: BattleResultWhereUniqueInput
+    update?: XOR<XOR<BattleResultUpdateToOneWithWhereWithoutBattleInput, BattleResultUpdateWithoutBattleInput>, BattleResultUncheckedUpdateWithoutBattleInput>
+  }
+
+  export type BattleCreateNestedOneWithoutBattleQuestionsInput = {
+    create?: XOR<BattleCreateWithoutBattleQuestionsInput, BattleUncheckedCreateWithoutBattleQuestionsInput>
+    connectOrCreate?: BattleCreateOrConnectWithoutBattleQuestionsInput
+    connect?: BattleWhereUniqueInput
+  }
+
+  export type BattleUpdateOneRequiredWithoutBattleQuestionsNestedInput = {
+    create?: XOR<BattleCreateWithoutBattleQuestionsInput, BattleUncheckedCreateWithoutBattleQuestionsInput>
+    connectOrCreate?: BattleCreateOrConnectWithoutBattleQuestionsInput
+    upsert?: BattleUpsertWithoutBattleQuestionsInput
+    connect?: BattleWhereUniqueInput
+    update?: XOR<XOR<BattleUpdateToOneWithWhereWithoutBattleQuestionsInput, BattleUpdateWithoutBattleQuestionsInput>, BattleUncheckedUpdateWithoutBattleQuestionsInput>
+  }
+
+  export type BattleCreateNestedOneWithoutParticipantsInput = {
+    create?: XOR<BattleCreateWithoutParticipantsInput, BattleUncheckedCreateWithoutParticipantsInput>
+    connectOrCreate?: BattleCreateOrConnectWithoutParticipantsInput
+    connect?: BattleWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutBattleParticipantsInput = {
+    create?: XOR<UserCreateWithoutBattleParticipantsInput, UserUncheckedCreateWithoutBattleParticipantsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBattleParticipantsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BattleUpdateOneRequiredWithoutParticipantsNestedInput = {
+    create?: XOR<BattleCreateWithoutParticipantsInput, BattleUncheckedCreateWithoutParticipantsInput>
+    connectOrCreate?: BattleCreateOrConnectWithoutParticipantsInput
+    upsert?: BattleUpsertWithoutParticipantsInput
+    connect?: BattleWhereUniqueInput
+    update?: XOR<XOR<BattleUpdateToOneWithWhereWithoutParticipantsInput, BattleUpdateWithoutParticipantsInput>, BattleUncheckedUpdateWithoutParticipantsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutBattleParticipantsNestedInput = {
+    create?: XOR<UserCreateWithoutBattleParticipantsInput, UserUncheckedCreateWithoutBattleParticipantsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBattleParticipantsInput
+    upsert?: UserUpsertWithoutBattleParticipantsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBattleParticipantsInput, UserUpdateWithoutBattleParticipantsInput>, UserUncheckedUpdateWithoutBattleParticipantsInput>
+  }
+
+  export type BattleCreateNestedOneWithoutResultInput = {
+    create?: XOR<BattleCreateWithoutResultInput, BattleUncheckedCreateWithoutResultInput>
+    connectOrCreate?: BattleCreateOrConnectWithoutResultInput
+    connect?: BattleWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutBattleResultsInput = {
+    create?: XOR<UserCreateWithoutBattleResultsInput, UserUncheckedCreateWithoutBattleResultsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBattleResultsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BattleUpdateOneRequiredWithoutResultNestedInput = {
+    create?: XOR<BattleCreateWithoutResultInput, BattleUncheckedCreateWithoutResultInput>
+    connectOrCreate?: BattleCreateOrConnectWithoutResultInput
+    upsert?: BattleUpsertWithoutResultInput
+    connect?: BattleWhereUniqueInput
+    update?: XOR<XOR<BattleUpdateToOneWithWhereWithoutResultInput, BattleUpdateWithoutResultInput>, BattleUncheckedUpdateWithoutResultInput>
+  }
+
+  export type UserUpdateOneWithoutBattleResultsNestedInput = {
+    create?: XOR<UserCreateWithoutBattleResultsInput, UserUncheckedCreateWithoutBattleResultsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBattleResultsInput
+    upsert?: UserUpsertWithoutBattleResultsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBattleResultsInput, UserUpdateWithoutBattleResultsInput>, UserUncheckedUpdateWithoutBattleResultsInput>
+  }
+
+  export type UserCreateNestedOneWithoutCreatedStudyGroupsInput = {
+    create?: XOR<UserCreateWithoutCreatedStudyGroupsInput, UserUncheckedCreateWithoutCreatedStudyGroupsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedStudyGroupsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type StudyGroupMemberCreateNestedManyWithoutGroupInput = {
+    create?: XOR<StudyGroupMemberCreateWithoutGroupInput, StudyGroupMemberUncheckedCreateWithoutGroupInput> | StudyGroupMemberCreateWithoutGroupInput[] | StudyGroupMemberUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: StudyGroupMemberCreateOrConnectWithoutGroupInput | StudyGroupMemberCreateOrConnectWithoutGroupInput[]
+    createMany?: StudyGroupMemberCreateManyGroupInputEnvelope
+    connect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+  }
+
+  export type GroupMessageCreateNestedManyWithoutGroupInput = {
+    create?: XOR<GroupMessageCreateWithoutGroupInput, GroupMessageUncheckedCreateWithoutGroupInput> | GroupMessageCreateWithoutGroupInput[] | GroupMessageUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GroupMessageCreateOrConnectWithoutGroupInput | GroupMessageCreateOrConnectWithoutGroupInput[]
+    createMany?: GroupMessageCreateManyGroupInputEnvelope
+    connect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+  }
+
+  export type GroupSessionCreateNestedManyWithoutGroupInput = {
+    create?: XOR<GroupSessionCreateWithoutGroupInput, GroupSessionUncheckedCreateWithoutGroupInput> | GroupSessionCreateWithoutGroupInput[] | GroupSessionUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GroupSessionCreateOrConnectWithoutGroupInput | GroupSessionCreateOrConnectWithoutGroupInput[]
+    createMany?: GroupSessionCreateManyGroupInputEnvelope
+    connect?: GroupSessionWhereUniqueInput | GroupSessionWhereUniqueInput[]
+  }
+
+  export type StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput = {
+    create?: XOR<StudyGroupMemberCreateWithoutGroupInput, StudyGroupMemberUncheckedCreateWithoutGroupInput> | StudyGroupMemberCreateWithoutGroupInput[] | StudyGroupMemberUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: StudyGroupMemberCreateOrConnectWithoutGroupInput | StudyGroupMemberCreateOrConnectWithoutGroupInput[]
+    createMany?: StudyGroupMemberCreateManyGroupInputEnvelope
+    connect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+  }
+
+  export type GroupMessageUncheckedCreateNestedManyWithoutGroupInput = {
+    create?: XOR<GroupMessageCreateWithoutGroupInput, GroupMessageUncheckedCreateWithoutGroupInput> | GroupMessageCreateWithoutGroupInput[] | GroupMessageUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GroupMessageCreateOrConnectWithoutGroupInput | GroupMessageCreateOrConnectWithoutGroupInput[]
+    createMany?: GroupMessageCreateManyGroupInputEnvelope
+    connect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+  }
+
+  export type GroupSessionUncheckedCreateNestedManyWithoutGroupInput = {
+    create?: XOR<GroupSessionCreateWithoutGroupInput, GroupSessionUncheckedCreateWithoutGroupInput> | GroupSessionCreateWithoutGroupInput[] | GroupSessionUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GroupSessionCreateOrConnectWithoutGroupInput | GroupSessionCreateOrConnectWithoutGroupInput[]
+    createMany?: GroupSessionCreateManyGroupInputEnvelope
+    connect?: GroupSessionWhereUniqueInput | GroupSessionWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutCreatedStudyGroupsNestedInput = {
+    create?: XOR<UserCreateWithoutCreatedStudyGroupsInput, UserUncheckedCreateWithoutCreatedStudyGroupsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedStudyGroupsInput
+    upsert?: UserUpsertWithoutCreatedStudyGroupsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedStudyGroupsInput, UserUpdateWithoutCreatedStudyGroupsInput>, UserUncheckedUpdateWithoutCreatedStudyGroupsInput>
+  }
+
+  export type StudyGroupMemberUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<StudyGroupMemberCreateWithoutGroupInput, StudyGroupMemberUncheckedCreateWithoutGroupInput> | StudyGroupMemberCreateWithoutGroupInput[] | StudyGroupMemberUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: StudyGroupMemberCreateOrConnectWithoutGroupInput | StudyGroupMemberCreateOrConnectWithoutGroupInput[]
+    upsert?: StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput | StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: StudyGroupMemberCreateManyGroupInputEnvelope
+    set?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    disconnect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    delete?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    connect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    update?: StudyGroupMemberUpdateWithWhereUniqueWithoutGroupInput | StudyGroupMemberUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: StudyGroupMemberUpdateManyWithWhereWithoutGroupInput | StudyGroupMemberUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: StudyGroupMemberScalarWhereInput | StudyGroupMemberScalarWhereInput[]
+  }
+
+  export type GroupMessageUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<GroupMessageCreateWithoutGroupInput, GroupMessageUncheckedCreateWithoutGroupInput> | GroupMessageCreateWithoutGroupInput[] | GroupMessageUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GroupMessageCreateOrConnectWithoutGroupInput | GroupMessageCreateOrConnectWithoutGroupInput[]
+    upsert?: GroupMessageUpsertWithWhereUniqueWithoutGroupInput | GroupMessageUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: GroupMessageCreateManyGroupInputEnvelope
+    set?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    disconnect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    delete?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    connect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    update?: GroupMessageUpdateWithWhereUniqueWithoutGroupInput | GroupMessageUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: GroupMessageUpdateManyWithWhereWithoutGroupInput | GroupMessageUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: GroupMessageScalarWhereInput | GroupMessageScalarWhereInput[]
+  }
+
+  export type GroupSessionUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<GroupSessionCreateWithoutGroupInput, GroupSessionUncheckedCreateWithoutGroupInput> | GroupSessionCreateWithoutGroupInput[] | GroupSessionUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GroupSessionCreateOrConnectWithoutGroupInput | GroupSessionCreateOrConnectWithoutGroupInput[]
+    upsert?: GroupSessionUpsertWithWhereUniqueWithoutGroupInput | GroupSessionUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: GroupSessionCreateManyGroupInputEnvelope
+    set?: GroupSessionWhereUniqueInput | GroupSessionWhereUniqueInput[]
+    disconnect?: GroupSessionWhereUniqueInput | GroupSessionWhereUniqueInput[]
+    delete?: GroupSessionWhereUniqueInput | GroupSessionWhereUniqueInput[]
+    connect?: GroupSessionWhereUniqueInput | GroupSessionWhereUniqueInput[]
+    update?: GroupSessionUpdateWithWhereUniqueWithoutGroupInput | GroupSessionUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: GroupSessionUpdateManyWithWhereWithoutGroupInput | GroupSessionUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: GroupSessionScalarWhereInput | GroupSessionScalarWhereInput[]
+  }
+
+  export type StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<StudyGroupMemberCreateWithoutGroupInput, StudyGroupMemberUncheckedCreateWithoutGroupInput> | StudyGroupMemberCreateWithoutGroupInput[] | StudyGroupMemberUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: StudyGroupMemberCreateOrConnectWithoutGroupInput | StudyGroupMemberCreateOrConnectWithoutGroupInput[]
+    upsert?: StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput | StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: StudyGroupMemberCreateManyGroupInputEnvelope
+    set?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    disconnect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    delete?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    connect?: StudyGroupMemberWhereUniqueInput | StudyGroupMemberWhereUniqueInput[]
+    update?: StudyGroupMemberUpdateWithWhereUniqueWithoutGroupInput | StudyGroupMemberUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: StudyGroupMemberUpdateManyWithWhereWithoutGroupInput | StudyGroupMemberUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: StudyGroupMemberScalarWhereInput | StudyGroupMemberScalarWhereInput[]
+  }
+
+  export type GroupMessageUncheckedUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<GroupMessageCreateWithoutGroupInput, GroupMessageUncheckedCreateWithoutGroupInput> | GroupMessageCreateWithoutGroupInput[] | GroupMessageUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GroupMessageCreateOrConnectWithoutGroupInput | GroupMessageCreateOrConnectWithoutGroupInput[]
+    upsert?: GroupMessageUpsertWithWhereUniqueWithoutGroupInput | GroupMessageUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: GroupMessageCreateManyGroupInputEnvelope
+    set?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    disconnect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    delete?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    connect?: GroupMessageWhereUniqueInput | GroupMessageWhereUniqueInput[]
+    update?: GroupMessageUpdateWithWhereUniqueWithoutGroupInput | GroupMessageUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: GroupMessageUpdateManyWithWhereWithoutGroupInput | GroupMessageUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: GroupMessageScalarWhereInput | GroupMessageScalarWhereInput[]
+  }
+
+  export type GroupSessionUncheckedUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<GroupSessionCreateWithoutGroupInput, GroupSessionUncheckedCreateWithoutGroupInput> | GroupSessionCreateWithoutGroupInput[] | GroupSessionUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GroupSessionCreateOrConnectWithoutGroupInput | GroupSessionCreateOrConnectWithoutGroupInput[]
+    upsert?: GroupSessionUpsertWithWhereUniqueWithoutGroupInput | GroupSessionUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: GroupSessionCreateManyGroupInputEnvelope
+    set?: GroupSessionWhereUniqueInput | GroupSessionWhereUniqueInput[]
+    disconnect?: GroupSessionWhereUniqueInput | GroupSessionWhereUniqueInput[]
+    delete?: GroupSessionWhereUniqueInput | GroupSessionWhereUniqueInput[]
+    connect?: GroupSessionWhereUniqueInput | GroupSessionWhereUniqueInput[]
+    update?: GroupSessionUpdateWithWhereUniqueWithoutGroupInput | GroupSessionUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: GroupSessionUpdateManyWithWhereWithoutGroupInput | GroupSessionUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: GroupSessionScalarWhereInput | GroupSessionScalarWhereInput[]
+  }
+
+  export type StudyGroupCreateNestedOneWithoutMembersInput = {
+    create?: XOR<StudyGroupCreateWithoutMembersInput, StudyGroupUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: StudyGroupCreateOrConnectWithoutMembersInput
+    connect?: StudyGroupWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutStudyGroupMembershipsInput = {
+    create?: XOR<UserCreateWithoutStudyGroupMembershipsInput, UserUncheckedCreateWithoutStudyGroupMembershipsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStudyGroupMembershipsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type StudyGroupUpdateOneRequiredWithoutMembersNestedInput = {
+    create?: XOR<StudyGroupCreateWithoutMembersInput, StudyGroupUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: StudyGroupCreateOrConnectWithoutMembersInput
+    upsert?: StudyGroupUpsertWithoutMembersInput
+    connect?: StudyGroupWhereUniqueInput
+    update?: XOR<XOR<StudyGroupUpdateToOneWithWhereWithoutMembersInput, StudyGroupUpdateWithoutMembersInput>, StudyGroupUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutStudyGroupMembershipsNestedInput = {
+    create?: XOR<UserCreateWithoutStudyGroupMembershipsInput, UserUncheckedCreateWithoutStudyGroupMembershipsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStudyGroupMembershipsInput
+    upsert?: UserUpsertWithoutStudyGroupMembershipsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStudyGroupMembershipsInput, UserUpdateWithoutStudyGroupMembershipsInput>, UserUncheckedUpdateWithoutStudyGroupMembershipsInput>
+  }
+
+  export type StudyGroupCreateNestedOneWithoutMessagesInput = {
+    create?: XOR<StudyGroupCreateWithoutMessagesInput, StudyGroupUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: StudyGroupCreateOrConnectWithoutMessagesInput
+    connect?: StudyGroupWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutGroupMessagesInput = {
+    create?: XOR<UserCreateWithoutGroupMessagesInput, UserUncheckedCreateWithoutGroupMessagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGroupMessagesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type StudyGroupUpdateOneRequiredWithoutMessagesNestedInput = {
+    create?: XOR<StudyGroupCreateWithoutMessagesInput, StudyGroupUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: StudyGroupCreateOrConnectWithoutMessagesInput
+    upsert?: StudyGroupUpsertWithoutMessagesInput
+    connect?: StudyGroupWhereUniqueInput
+    update?: XOR<XOR<StudyGroupUpdateToOneWithWhereWithoutMessagesInput, StudyGroupUpdateWithoutMessagesInput>, StudyGroupUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type UserUpdateOneWithoutGroupMessagesNestedInput = {
+    create?: XOR<UserCreateWithoutGroupMessagesInput, UserUncheckedCreateWithoutGroupMessagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGroupMessagesInput
+    upsert?: UserUpsertWithoutGroupMessagesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGroupMessagesInput, UserUpdateWithoutGroupMessagesInput>, UserUncheckedUpdateWithoutGroupMessagesInput>
+  }
+
+  export type StudyGroupCreateNestedOneWithoutSessionsInput = {
+    create?: XOR<StudyGroupCreateWithoutSessionsInput, StudyGroupUncheckedCreateWithoutSessionsInput>
+    connectOrCreate?: StudyGroupCreateOrConnectWithoutSessionsInput
+    connect?: StudyGroupWhereUniqueInput
+  }
+
+  export type StudyGroupUpdateOneRequiredWithoutSessionsNestedInput = {
+    create?: XOR<StudyGroupCreateWithoutSessionsInput, StudyGroupUncheckedCreateWithoutSessionsInput>
+    connectOrCreate?: StudyGroupCreateOrConnectWithoutSessionsInput
+    upsert?: StudyGroupUpsertWithoutSessionsInput
+    connect?: StudyGroupWhereUniqueInput
+    update?: XOR<XOR<StudyGroupUpdateToOneWithWhereWithoutSessionsInput, StudyGroupUpdateWithoutSessionsInput>, StudyGroupUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutConceptConnectionsInput = {
+    create?: XOR<UserCreateWithoutConceptConnectionsInput, UserUncheckedCreateWithoutConceptConnectionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutConceptConnectionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutConceptConnectionsNestedInput = {
+    create?: XOR<UserCreateWithoutConceptConnectionsInput, UserUncheckedCreateWithoutConceptConnectionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutConceptConnectionsInput
+    upsert?: UserUpsertWithoutConceptConnectionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutConceptConnectionsInput, UserUpdateWithoutConceptConnectionsInput>, UserUncheckedUpdateWithoutConceptConnectionsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -11324,6 +27213,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -11338,6 +27232,60 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
   export type UserCreateWithoutPostsInput = {
     id?: string
     name?: string | null
@@ -11345,10 +27293,21 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     notes?: NoteCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -11358,10 +27317,21 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -11387,10 +27357,21 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -11400,10 +27381,21 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -11413,10 +27405,21 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -11426,10 +27429,21 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -11455,10 +27469,21 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -11468,10 +27493,21 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -11481,10 +27517,21 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     accounts?: AccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -11494,10 +27541,21 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -11523,10 +27581,21 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -11536,10 +27605,21 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -11688,6 +27768,308 @@ export namespace Prisma {
 
   export type CitationCreateManyUserInputEnvelope = {
     data: CitationCreateManyUserInput | CitationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ExamPredictionCreateWithoutUserInput = {
+    id?: string
+    examType: string
+    uploadedContent: string
+    syllabusContent?: string | null
+    predictions: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ExamPredictionUncheckedCreateWithoutUserInput = {
+    id?: string
+    examType: string
+    uploadedContent: string
+    syllabusContent?: string | null
+    predictions: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ExamPredictionCreateOrConnectWithoutUserInput = {
+    where: ExamPredictionWhereUniqueInput
+    create: XOR<ExamPredictionCreateWithoutUserInput, ExamPredictionUncheckedCreateWithoutUserInput>
+  }
+
+  export type ExamPredictionCreateManyUserInputEnvelope = {
+    data: ExamPredictionCreateManyUserInput | ExamPredictionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BattleCreateWithoutHostInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    opponent?: UserCreateNestedOneWithoutJoinedBattlesInput
+    battleQuestions?: BattleQuestionCreateNestedManyWithoutBattleInput
+    participants?: BattleParticipantCreateNestedManyWithoutBattleInput
+    result?: BattleResultCreateNestedOneWithoutBattleInput
+  }
+
+  export type BattleUncheckedCreateWithoutHostInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    opponentId?: string | null
+    battleQuestions?: BattleQuestionUncheckedCreateNestedManyWithoutBattleInput
+    participants?: BattleParticipantUncheckedCreateNestedManyWithoutBattleInput
+    result?: BattleResultUncheckedCreateNestedOneWithoutBattleInput
+  }
+
+  export type BattleCreateOrConnectWithoutHostInput = {
+    where: BattleWhereUniqueInput
+    create: XOR<BattleCreateWithoutHostInput, BattleUncheckedCreateWithoutHostInput>
+  }
+
+  export type BattleCreateManyHostInputEnvelope = {
+    data: BattleCreateManyHostInput | BattleCreateManyHostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BattleCreateWithoutOpponentInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    host: UserCreateNestedOneWithoutHostedBattlesInput
+    battleQuestions?: BattleQuestionCreateNestedManyWithoutBattleInput
+    participants?: BattleParticipantCreateNestedManyWithoutBattleInput
+    result?: BattleResultCreateNestedOneWithoutBattleInput
+  }
+
+  export type BattleUncheckedCreateWithoutOpponentInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    hostId: string
+    battleQuestions?: BattleQuestionUncheckedCreateNestedManyWithoutBattleInput
+    participants?: BattleParticipantUncheckedCreateNestedManyWithoutBattleInput
+    result?: BattleResultUncheckedCreateNestedOneWithoutBattleInput
+  }
+
+  export type BattleCreateOrConnectWithoutOpponentInput = {
+    where: BattleWhereUniqueInput
+    create: XOR<BattleCreateWithoutOpponentInput, BattleUncheckedCreateWithoutOpponentInput>
+  }
+
+  export type BattleCreateManyOpponentInputEnvelope = {
+    data: BattleCreateManyOpponentInput | BattleCreateManyOpponentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BattleParticipantCreateWithoutUserInput = {
+    id?: string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: number
+    correctCount?: number
+    totalAnswered?: number
+    joinedAt?: Date | string
+    battle: BattleCreateNestedOneWithoutParticipantsInput
+  }
+
+  export type BattleParticipantUncheckedCreateWithoutUserInput = {
+    id?: string
+    battleId: string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: number
+    correctCount?: number
+    totalAnswered?: number
+    joinedAt?: Date | string
+  }
+
+  export type BattleParticipantCreateOrConnectWithoutUserInput = {
+    where: BattleParticipantWhereUniqueInput
+    create: XOR<BattleParticipantCreateWithoutUserInput, BattleParticipantUncheckedCreateWithoutUserInput>
+  }
+
+  export type BattleParticipantCreateManyUserInputEnvelope = {
+    data: BattleParticipantCreateManyUserInput | BattleParticipantCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BattleResultCreateWithoutWinnerInput = {
+    id?: string
+    scores: JsonNullValueInput | InputJsonValue
+    duration: number
+    createdAt?: Date | string
+    battle: BattleCreateNestedOneWithoutResultInput
+  }
+
+  export type BattleResultUncheckedCreateWithoutWinnerInput = {
+    id?: string
+    battleId: string
+    scores: JsonNullValueInput | InputJsonValue
+    duration: number
+    createdAt?: Date | string
+  }
+
+  export type BattleResultCreateOrConnectWithoutWinnerInput = {
+    where: BattleResultWhereUniqueInput
+    create: XOR<BattleResultCreateWithoutWinnerInput, BattleResultUncheckedCreateWithoutWinnerInput>
+  }
+
+  export type BattleResultCreateManyWinnerInputEnvelope = {
+    data: BattleResultCreateManyWinnerInput | BattleResultCreateManyWinnerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StudyGroupCreateWithoutCreatorInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+    members?: StudyGroupMemberCreateNestedManyWithoutGroupInput
+    messages?: GroupMessageCreateNestedManyWithoutGroupInput
+    sessions?: GroupSessionCreateNestedManyWithoutGroupInput
+  }
+
+  export type StudyGroupUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+    members?: StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+    messages?: GroupMessageUncheckedCreateNestedManyWithoutGroupInput
+    sessions?: GroupSessionUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type StudyGroupCreateOrConnectWithoutCreatorInput = {
+    where: StudyGroupWhereUniqueInput
+    create: XOR<StudyGroupCreateWithoutCreatorInput, StudyGroupUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type StudyGroupCreateManyCreatorInputEnvelope = {
+    data: StudyGroupCreateManyCreatorInput | StudyGroupCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StudyGroupMemberCreateWithoutUserInput = {
+    id?: string
+    joinedAt?: Date | string
+    group: StudyGroupCreateNestedOneWithoutMembersInput
+  }
+
+  export type StudyGroupMemberUncheckedCreateWithoutUserInput = {
+    id?: string
+    groupId: string
+    joinedAt?: Date | string
+  }
+
+  export type StudyGroupMemberCreateOrConnectWithoutUserInput = {
+    where: StudyGroupMemberWhereUniqueInput
+    create: XOR<StudyGroupMemberCreateWithoutUserInput, StudyGroupMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type StudyGroupMemberCreateManyUserInputEnvelope = {
+    data: StudyGroupMemberCreateManyUserInput | StudyGroupMemberCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GroupMessageCreateWithoutUserInput = {
+    id?: string
+    message: string
+    isAI?: boolean
+    timestamp?: Date | string
+    group: StudyGroupCreateNestedOneWithoutMessagesInput
+  }
+
+  export type GroupMessageUncheckedCreateWithoutUserInput = {
+    id?: string
+    groupId: string
+    message: string
+    isAI?: boolean
+    timestamp?: Date | string
+  }
+
+  export type GroupMessageCreateOrConnectWithoutUserInput = {
+    where: GroupMessageWhereUniqueInput
+    create: XOR<GroupMessageCreateWithoutUserInput, GroupMessageUncheckedCreateWithoutUserInput>
+  }
+
+  export type GroupMessageCreateManyUserInputEnvelope = {
+    data: GroupMessageCreateManyUserInput | GroupMessageCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConceptConnectionCreateWithoutUserInput = {
+    id?: string
+    note1Id: string
+    note2Id: string
+    concept1: string
+    concept2: string
+    connectionDescription: string
+    strength: string
+    createdAt?: Date | string
+  }
+
+  export type ConceptConnectionUncheckedCreateWithoutUserInput = {
+    id?: string
+    note1Id: string
+    note2Id: string
+    concept1: string
+    concept2: string
+    connectionDescription: string
+    strength: string
+    createdAt?: Date | string
+  }
+
+  export type ConceptConnectionCreateOrConnectWithoutUserInput = {
+    where: ConceptConnectionWhereUniqueInput
+    create: XOR<ConceptConnectionCreateWithoutUserInput, ConceptConnectionUncheckedCreateWithoutUserInput>
+  }
+
+  export type ConceptConnectionCreateManyUserInputEnvelope = {
+    data: ConceptConnectionCreateManyUserInput | ConceptConnectionCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -11841,6 +28223,261 @@ export namespace Prisma {
     userId?: StringFilter<"Citation"> | string
   }
 
+  export type ExamPredictionUpsertWithWhereUniqueWithoutUserInput = {
+    where: ExamPredictionWhereUniqueInput
+    update: XOR<ExamPredictionUpdateWithoutUserInput, ExamPredictionUncheckedUpdateWithoutUserInput>
+    create: XOR<ExamPredictionCreateWithoutUserInput, ExamPredictionUncheckedCreateWithoutUserInput>
+  }
+
+  export type ExamPredictionUpdateWithWhereUniqueWithoutUserInput = {
+    where: ExamPredictionWhereUniqueInput
+    data: XOR<ExamPredictionUpdateWithoutUserInput, ExamPredictionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ExamPredictionUpdateManyWithWhereWithoutUserInput = {
+    where: ExamPredictionScalarWhereInput
+    data: XOR<ExamPredictionUpdateManyMutationInput, ExamPredictionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ExamPredictionScalarWhereInput = {
+    AND?: ExamPredictionScalarWhereInput | ExamPredictionScalarWhereInput[]
+    OR?: ExamPredictionScalarWhereInput[]
+    NOT?: ExamPredictionScalarWhereInput | ExamPredictionScalarWhereInput[]
+    id?: StringFilter<"ExamPrediction"> | string
+    examType?: StringFilter<"ExamPrediction"> | string
+    uploadedContent?: StringFilter<"ExamPrediction"> | string
+    syllabusContent?: StringNullableFilter<"ExamPrediction"> | string | null
+    predictions?: JsonFilter<"ExamPrediction">
+    analytics?: JsonNullableFilter<"ExamPrediction">
+    createdAt?: DateTimeFilter<"ExamPrediction"> | Date | string
+    userId?: StringFilter<"ExamPrediction"> | string
+  }
+
+  export type BattleUpsertWithWhereUniqueWithoutHostInput = {
+    where: BattleWhereUniqueInput
+    update: XOR<BattleUpdateWithoutHostInput, BattleUncheckedUpdateWithoutHostInput>
+    create: XOR<BattleCreateWithoutHostInput, BattleUncheckedCreateWithoutHostInput>
+  }
+
+  export type BattleUpdateWithWhereUniqueWithoutHostInput = {
+    where: BattleWhereUniqueInput
+    data: XOR<BattleUpdateWithoutHostInput, BattleUncheckedUpdateWithoutHostInput>
+  }
+
+  export type BattleUpdateManyWithWhereWithoutHostInput = {
+    where: BattleScalarWhereInput
+    data: XOR<BattleUpdateManyMutationInput, BattleUncheckedUpdateManyWithoutHostInput>
+  }
+
+  export type BattleScalarWhereInput = {
+    AND?: BattleScalarWhereInput | BattleScalarWhereInput[]
+    OR?: BattleScalarWhereInput[]
+    NOT?: BattleScalarWhereInput | BattleScalarWhereInput[]
+    id?: StringFilter<"Battle"> | string
+    code?: StringFilter<"Battle"> | string
+    noteId?: StringNullableFilter<"Battle"> | string | null
+    title?: StringNullableFilter<"Battle"> | string | null
+    status?: StringFilter<"Battle"> | string
+    questionCount?: IntFilter<"Battle"> | number
+    questions?: JsonFilter<"Battle">
+    hostScore?: IntFilter<"Battle"> | number
+    opponentScore?: IntFilter<"Battle"> | number
+    hostAnsweredAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    opponentAnsweredAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"Battle"> | Date | string | null
+    createdAt?: DateTimeFilter<"Battle"> | Date | string
+    hostId?: StringFilter<"Battle"> | string
+    opponentId?: StringNullableFilter<"Battle"> | string | null
+  }
+
+  export type BattleUpsertWithWhereUniqueWithoutOpponentInput = {
+    where: BattleWhereUniqueInput
+    update: XOR<BattleUpdateWithoutOpponentInput, BattleUncheckedUpdateWithoutOpponentInput>
+    create: XOR<BattleCreateWithoutOpponentInput, BattleUncheckedCreateWithoutOpponentInput>
+  }
+
+  export type BattleUpdateWithWhereUniqueWithoutOpponentInput = {
+    where: BattleWhereUniqueInput
+    data: XOR<BattleUpdateWithoutOpponentInput, BattleUncheckedUpdateWithoutOpponentInput>
+  }
+
+  export type BattleUpdateManyWithWhereWithoutOpponentInput = {
+    where: BattleScalarWhereInput
+    data: XOR<BattleUpdateManyMutationInput, BattleUncheckedUpdateManyWithoutOpponentInput>
+  }
+
+  export type BattleParticipantUpsertWithWhereUniqueWithoutUserInput = {
+    where: BattleParticipantWhereUniqueInput
+    update: XOR<BattleParticipantUpdateWithoutUserInput, BattleParticipantUncheckedUpdateWithoutUserInput>
+    create: XOR<BattleParticipantCreateWithoutUserInput, BattleParticipantUncheckedCreateWithoutUserInput>
+  }
+
+  export type BattleParticipantUpdateWithWhereUniqueWithoutUserInput = {
+    where: BattleParticipantWhereUniqueInput
+    data: XOR<BattleParticipantUpdateWithoutUserInput, BattleParticipantUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BattleParticipantUpdateManyWithWhereWithoutUserInput = {
+    where: BattleParticipantScalarWhereInput
+    data: XOR<BattleParticipantUpdateManyMutationInput, BattleParticipantUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type BattleParticipantScalarWhereInput = {
+    AND?: BattleParticipantScalarWhereInput | BattleParticipantScalarWhereInput[]
+    OR?: BattleParticipantScalarWhereInput[]
+    NOT?: BattleParticipantScalarWhereInput | BattleParticipantScalarWhereInput[]
+    id?: StringFilter<"BattleParticipant"> | string
+    battleId?: StringFilter<"BattleParticipant"> | string
+    userId?: StringFilter<"BattleParticipant"> | string
+    answers?: JsonNullableFilter<"BattleParticipant">
+    score?: IntFilter<"BattleParticipant"> | number
+    correctCount?: IntFilter<"BattleParticipant"> | number
+    totalAnswered?: IntFilter<"BattleParticipant"> | number
+    joinedAt?: DateTimeFilter<"BattleParticipant"> | Date | string
+  }
+
+  export type BattleResultUpsertWithWhereUniqueWithoutWinnerInput = {
+    where: BattleResultWhereUniqueInput
+    update: XOR<BattleResultUpdateWithoutWinnerInput, BattleResultUncheckedUpdateWithoutWinnerInput>
+    create: XOR<BattleResultCreateWithoutWinnerInput, BattleResultUncheckedCreateWithoutWinnerInput>
+  }
+
+  export type BattleResultUpdateWithWhereUniqueWithoutWinnerInput = {
+    where: BattleResultWhereUniqueInput
+    data: XOR<BattleResultUpdateWithoutWinnerInput, BattleResultUncheckedUpdateWithoutWinnerInput>
+  }
+
+  export type BattleResultUpdateManyWithWhereWithoutWinnerInput = {
+    where: BattleResultScalarWhereInput
+    data: XOR<BattleResultUpdateManyMutationInput, BattleResultUncheckedUpdateManyWithoutWinnerInput>
+  }
+
+  export type BattleResultScalarWhereInput = {
+    AND?: BattleResultScalarWhereInput | BattleResultScalarWhereInput[]
+    OR?: BattleResultScalarWhereInput[]
+    NOT?: BattleResultScalarWhereInput | BattleResultScalarWhereInput[]
+    id?: StringFilter<"BattleResult"> | string
+    battleId?: StringFilter<"BattleResult"> | string
+    winnerId?: StringNullableFilter<"BattleResult"> | string | null
+    scores?: JsonFilter<"BattleResult">
+    duration?: IntFilter<"BattleResult"> | number
+    createdAt?: DateTimeFilter<"BattleResult"> | Date | string
+  }
+
+  export type StudyGroupUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: StudyGroupWhereUniqueInput
+    update: XOR<StudyGroupUpdateWithoutCreatorInput, StudyGroupUncheckedUpdateWithoutCreatorInput>
+    create: XOR<StudyGroupCreateWithoutCreatorInput, StudyGroupUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type StudyGroupUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: StudyGroupWhereUniqueInput
+    data: XOR<StudyGroupUpdateWithoutCreatorInput, StudyGroupUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type StudyGroupUpdateManyWithWhereWithoutCreatorInput = {
+    where: StudyGroupScalarWhereInput
+    data: XOR<StudyGroupUpdateManyMutationInput, StudyGroupUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type StudyGroupScalarWhereInput = {
+    AND?: StudyGroupScalarWhereInput | StudyGroupScalarWhereInput[]
+    OR?: StudyGroupScalarWhereInput[]
+    NOT?: StudyGroupScalarWhereInput | StudyGroupScalarWhereInput[]
+    id?: StringFilter<"StudyGroup"> | string
+    name?: StringFilter<"StudyGroup"> | string
+    topic?: StringNullableFilter<"StudyGroup"> | string | null
+    inviteCode?: StringFilter<"StudyGroup"> | string
+    createdAt?: DateTimeFilter<"StudyGroup"> | Date | string
+    creatorId?: StringFilter<"StudyGroup"> | string
+  }
+
+  export type StudyGroupMemberUpsertWithWhereUniqueWithoutUserInput = {
+    where: StudyGroupMemberWhereUniqueInput
+    update: XOR<StudyGroupMemberUpdateWithoutUserInput, StudyGroupMemberUncheckedUpdateWithoutUserInput>
+    create: XOR<StudyGroupMemberCreateWithoutUserInput, StudyGroupMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type StudyGroupMemberUpdateWithWhereUniqueWithoutUserInput = {
+    where: StudyGroupMemberWhereUniqueInput
+    data: XOR<StudyGroupMemberUpdateWithoutUserInput, StudyGroupMemberUncheckedUpdateWithoutUserInput>
+  }
+
+  export type StudyGroupMemberUpdateManyWithWhereWithoutUserInput = {
+    where: StudyGroupMemberScalarWhereInput
+    data: XOR<StudyGroupMemberUpdateManyMutationInput, StudyGroupMemberUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type StudyGroupMemberScalarWhereInput = {
+    AND?: StudyGroupMemberScalarWhereInput | StudyGroupMemberScalarWhereInput[]
+    OR?: StudyGroupMemberScalarWhereInput[]
+    NOT?: StudyGroupMemberScalarWhereInput | StudyGroupMemberScalarWhereInput[]
+    id?: StringFilter<"StudyGroupMember"> | string
+    groupId?: StringFilter<"StudyGroupMember"> | string
+    userId?: StringFilter<"StudyGroupMember"> | string
+    joinedAt?: DateTimeFilter<"StudyGroupMember"> | Date | string
+  }
+
+  export type GroupMessageUpsertWithWhereUniqueWithoutUserInput = {
+    where: GroupMessageWhereUniqueInput
+    update: XOR<GroupMessageUpdateWithoutUserInput, GroupMessageUncheckedUpdateWithoutUserInput>
+    create: XOR<GroupMessageCreateWithoutUserInput, GroupMessageUncheckedCreateWithoutUserInput>
+  }
+
+  export type GroupMessageUpdateWithWhereUniqueWithoutUserInput = {
+    where: GroupMessageWhereUniqueInput
+    data: XOR<GroupMessageUpdateWithoutUserInput, GroupMessageUncheckedUpdateWithoutUserInput>
+  }
+
+  export type GroupMessageUpdateManyWithWhereWithoutUserInput = {
+    where: GroupMessageScalarWhereInput
+    data: XOR<GroupMessageUpdateManyMutationInput, GroupMessageUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type GroupMessageScalarWhereInput = {
+    AND?: GroupMessageScalarWhereInput | GroupMessageScalarWhereInput[]
+    OR?: GroupMessageScalarWhereInput[]
+    NOT?: GroupMessageScalarWhereInput | GroupMessageScalarWhereInput[]
+    id?: StringFilter<"GroupMessage"> | string
+    groupId?: StringFilter<"GroupMessage"> | string
+    userId?: StringNullableFilter<"GroupMessage"> | string | null
+    message?: StringFilter<"GroupMessage"> | string
+    isAI?: BoolFilter<"GroupMessage"> | boolean
+    timestamp?: DateTimeFilter<"GroupMessage"> | Date | string
+  }
+
+  export type ConceptConnectionUpsertWithWhereUniqueWithoutUserInput = {
+    where: ConceptConnectionWhereUniqueInput
+    update: XOR<ConceptConnectionUpdateWithoutUserInput, ConceptConnectionUncheckedUpdateWithoutUserInput>
+    create: XOR<ConceptConnectionCreateWithoutUserInput, ConceptConnectionUncheckedCreateWithoutUserInput>
+  }
+
+  export type ConceptConnectionUpdateWithWhereUniqueWithoutUserInput = {
+    where: ConceptConnectionWhereUniqueInput
+    data: XOR<ConceptConnectionUpdateWithoutUserInput, ConceptConnectionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ConceptConnectionUpdateManyWithWhereWithoutUserInput = {
+    where: ConceptConnectionScalarWhereInput
+    data: XOR<ConceptConnectionUpdateManyMutationInput, ConceptConnectionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ConceptConnectionScalarWhereInput = {
+    AND?: ConceptConnectionScalarWhereInput | ConceptConnectionScalarWhereInput[]
+    OR?: ConceptConnectionScalarWhereInput[]
+    NOT?: ConceptConnectionScalarWhereInput | ConceptConnectionScalarWhereInput[]
+    id?: StringFilter<"ConceptConnection"> | string
+    note1Id?: StringFilter<"ConceptConnection"> | string
+    note2Id?: StringFilter<"ConceptConnection"> | string
+    concept1?: StringFilter<"ConceptConnection"> | string
+    concept2?: StringFilter<"ConceptConnection"> | string
+    connectionDescription?: StringFilter<"ConceptConnection"> | string
+    strength?: StringFilter<"ConceptConnection"> | string
+    createdAt?: DateTimeFilter<"ConceptConnection"> | Date | string
+    userId?: StringFilter<"ConceptConnection"> | string
+  }
+
   export type UserCreateWithoutNotesInput = {
     id?: string
     name?: string | null
@@ -11848,10 +28485,21 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotesInput = {
@@ -11861,10 +28509,21 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotesInput = {
@@ -11890,10 +28549,21 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotesInput = {
@@ -11903,10 +28573,21 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCitationsInput = {
@@ -11916,10 +28597,21 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCitationsInput = {
@@ -11929,10 +28621,21 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCitationsInput = {
@@ -11958,10 +28661,21 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCitationsInput = {
@@ -11971,10 +28685,1794 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutExamPredictionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutExamPredictionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutExamPredictionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutExamPredictionsInput, UserUncheckedCreateWithoutExamPredictionsInput>
+  }
+
+  export type UserUpsertWithoutExamPredictionsInput = {
+    update: XOR<UserUpdateWithoutExamPredictionsInput, UserUncheckedUpdateWithoutExamPredictionsInput>
+    create: XOR<UserCreateWithoutExamPredictionsInput, UserUncheckedCreateWithoutExamPredictionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutExamPredictionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutExamPredictionsInput, UserUncheckedUpdateWithoutExamPredictionsInput>
+  }
+
+  export type UserUpdateWithoutExamPredictionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutExamPredictionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutHostedBattlesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutHostedBattlesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutHostedBattlesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutHostedBattlesInput, UserUncheckedCreateWithoutHostedBattlesInput>
+  }
+
+  export type UserCreateWithoutJoinedBattlesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutJoinedBattlesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutJoinedBattlesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutJoinedBattlesInput, UserUncheckedCreateWithoutJoinedBattlesInput>
+  }
+
+  export type BattleQuestionCreateWithoutBattleInput = {
+    id?: string
+    question: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer: string
+    points?: number
+    orderIndex: number
+  }
+
+  export type BattleQuestionUncheckedCreateWithoutBattleInput = {
+    id?: string
+    question: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer: string
+    points?: number
+    orderIndex: number
+  }
+
+  export type BattleQuestionCreateOrConnectWithoutBattleInput = {
+    where: BattleQuestionWhereUniqueInput
+    create: XOR<BattleQuestionCreateWithoutBattleInput, BattleQuestionUncheckedCreateWithoutBattleInput>
+  }
+
+  export type BattleQuestionCreateManyBattleInputEnvelope = {
+    data: BattleQuestionCreateManyBattleInput | BattleQuestionCreateManyBattleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BattleParticipantCreateWithoutBattleInput = {
+    id?: string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: number
+    correctCount?: number
+    totalAnswered?: number
+    joinedAt?: Date | string
+    user: UserCreateNestedOneWithoutBattleParticipantsInput
+  }
+
+  export type BattleParticipantUncheckedCreateWithoutBattleInput = {
+    id?: string
+    userId: string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: number
+    correctCount?: number
+    totalAnswered?: number
+    joinedAt?: Date | string
+  }
+
+  export type BattleParticipantCreateOrConnectWithoutBattleInput = {
+    where: BattleParticipantWhereUniqueInput
+    create: XOR<BattleParticipantCreateWithoutBattleInput, BattleParticipantUncheckedCreateWithoutBattleInput>
+  }
+
+  export type BattleParticipantCreateManyBattleInputEnvelope = {
+    data: BattleParticipantCreateManyBattleInput | BattleParticipantCreateManyBattleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BattleResultCreateWithoutBattleInput = {
+    id?: string
+    scores: JsonNullValueInput | InputJsonValue
+    duration: number
+    createdAt?: Date | string
+    winner?: UserCreateNestedOneWithoutBattleResultsInput
+  }
+
+  export type BattleResultUncheckedCreateWithoutBattleInput = {
+    id?: string
+    winnerId?: string | null
+    scores: JsonNullValueInput | InputJsonValue
+    duration: number
+    createdAt?: Date | string
+  }
+
+  export type BattleResultCreateOrConnectWithoutBattleInput = {
+    where: BattleResultWhereUniqueInput
+    create: XOR<BattleResultCreateWithoutBattleInput, BattleResultUncheckedCreateWithoutBattleInput>
+  }
+
+  export type UserUpsertWithoutHostedBattlesInput = {
+    update: XOR<UserUpdateWithoutHostedBattlesInput, UserUncheckedUpdateWithoutHostedBattlesInput>
+    create: XOR<UserCreateWithoutHostedBattlesInput, UserUncheckedCreateWithoutHostedBattlesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutHostedBattlesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutHostedBattlesInput, UserUncheckedUpdateWithoutHostedBattlesInput>
+  }
+
+  export type UserUpdateWithoutHostedBattlesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutHostedBattlesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutJoinedBattlesInput = {
+    update: XOR<UserUpdateWithoutJoinedBattlesInput, UserUncheckedUpdateWithoutJoinedBattlesInput>
+    create: XOR<UserCreateWithoutJoinedBattlesInput, UserUncheckedCreateWithoutJoinedBattlesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutJoinedBattlesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutJoinedBattlesInput, UserUncheckedUpdateWithoutJoinedBattlesInput>
+  }
+
+  export type UserUpdateWithoutJoinedBattlesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutJoinedBattlesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type BattleQuestionUpsertWithWhereUniqueWithoutBattleInput = {
+    where: BattleQuestionWhereUniqueInput
+    update: XOR<BattleQuestionUpdateWithoutBattleInput, BattleQuestionUncheckedUpdateWithoutBattleInput>
+    create: XOR<BattleQuestionCreateWithoutBattleInput, BattleQuestionUncheckedCreateWithoutBattleInput>
+  }
+
+  export type BattleQuestionUpdateWithWhereUniqueWithoutBattleInput = {
+    where: BattleQuestionWhereUniqueInput
+    data: XOR<BattleQuestionUpdateWithoutBattleInput, BattleQuestionUncheckedUpdateWithoutBattleInput>
+  }
+
+  export type BattleQuestionUpdateManyWithWhereWithoutBattleInput = {
+    where: BattleQuestionScalarWhereInput
+    data: XOR<BattleQuestionUpdateManyMutationInput, BattleQuestionUncheckedUpdateManyWithoutBattleInput>
+  }
+
+  export type BattleQuestionScalarWhereInput = {
+    AND?: BattleQuestionScalarWhereInput | BattleQuestionScalarWhereInput[]
+    OR?: BattleQuestionScalarWhereInput[]
+    NOT?: BattleQuestionScalarWhereInput | BattleQuestionScalarWhereInput[]
+    id?: StringFilter<"BattleQuestion"> | string
+    battleId?: StringFilter<"BattleQuestion"> | string
+    question?: StringFilter<"BattleQuestion"> | string
+    options?: JsonNullableFilter<"BattleQuestion">
+    correctAnswer?: StringFilter<"BattleQuestion"> | string
+    points?: IntFilter<"BattleQuestion"> | number
+    orderIndex?: IntFilter<"BattleQuestion"> | number
+  }
+
+  export type BattleParticipantUpsertWithWhereUniqueWithoutBattleInput = {
+    where: BattleParticipantWhereUniqueInput
+    update: XOR<BattleParticipantUpdateWithoutBattleInput, BattleParticipantUncheckedUpdateWithoutBattleInput>
+    create: XOR<BattleParticipantCreateWithoutBattleInput, BattleParticipantUncheckedCreateWithoutBattleInput>
+  }
+
+  export type BattleParticipantUpdateWithWhereUniqueWithoutBattleInput = {
+    where: BattleParticipantWhereUniqueInput
+    data: XOR<BattleParticipantUpdateWithoutBattleInput, BattleParticipantUncheckedUpdateWithoutBattleInput>
+  }
+
+  export type BattleParticipantUpdateManyWithWhereWithoutBattleInput = {
+    where: BattleParticipantScalarWhereInput
+    data: XOR<BattleParticipantUpdateManyMutationInput, BattleParticipantUncheckedUpdateManyWithoutBattleInput>
+  }
+
+  export type BattleResultUpsertWithoutBattleInput = {
+    update: XOR<BattleResultUpdateWithoutBattleInput, BattleResultUncheckedUpdateWithoutBattleInput>
+    create: XOR<BattleResultCreateWithoutBattleInput, BattleResultUncheckedCreateWithoutBattleInput>
+    where?: BattleResultWhereInput
+  }
+
+  export type BattleResultUpdateToOneWithWhereWithoutBattleInput = {
+    where?: BattleResultWhereInput
+    data: XOR<BattleResultUpdateWithoutBattleInput, BattleResultUncheckedUpdateWithoutBattleInput>
+  }
+
+  export type BattleResultUpdateWithoutBattleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scores?: JsonNullValueInput | InputJsonValue
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    winner?: UserUpdateOneWithoutBattleResultsNestedInput
+  }
+
+  export type BattleResultUncheckedUpdateWithoutBattleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    winnerId?: NullableStringFieldUpdateOperationsInput | string | null
+    scores?: JsonNullValueInput | InputJsonValue
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleCreateWithoutBattleQuestionsInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    host: UserCreateNestedOneWithoutHostedBattlesInput
+    opponent?: UserCreateNestedOneWithoutJoinedBattlesInput
+    participants?: BattleParticipantCreateNestedManyWithoutBattleInput
+    result?: BattleResultCreateNestedOneWithoutBattleInput
+  }
+
+  export type BattleUncheckedCreateWithoutBattleQuestionsInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    hostId: string
+    opponentId?: string | null
+    participants?: BattleParticipantUncheckedCreateNestedManyWithoutBattleInput
+    result?: BattleResultUncheckedCreateNestedOneWithoutBattleInput
+  }
+
+  export type BattleCreateOrConnectWithoutBattleQuestionsInput = {
+    where: BattleWhereUniqueInput
+    create: XOR<BattleCreateWithoutBattleQuestionsInput, BattleUncheckedCreateWithoutBattleQuestionsInput>
+  }
+
+  export type BattleUpsertWithoutBattleQuestionsInput = {
+    update: XOR<BattleUpdateWithoutBattleQuestionsInput, BattleUncheckedUpdateWithoutBattleQuestionsInput>
+    create: XOR<BattleCreateWithoutBattleQuestionsInput, BattleUncheckedCreateWithoutBattleQuestionsInput>
+    where?: BattleWhereInput
+  }
+
+  export type BattleUpdateToOneWithWhereWithoutBattleQuestionsInput = {
+    where?: BattleWhereInput
+    data: XOR<BattleUpdateWithoutBattleQuestionsInput, BattleUncheckedUpdateWithoutBattleQuestionsInput>
+  }
+
+  export type BattleUpdateWithoutBattleQuestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    host?: UserUpdateOneRequiredWithoutHostedBattlesNestedInput
+    opponent?: UserUpdateOneWithoutJoinedBattlesNestedInput
+    participants?: BattleParticipantUpdateManyWithoutBattleNestedInput
+    result?: BattleResultUpdateOneWithoutBattleNestedInput
+  }
+
+  export type BattleUncheckedUpdateWithoutBattleQuestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostId?: StringFieldUpdateOperationsInput | string
+    opponentId?: NullableStringFieldUpdateOperationsInput | string | null
+    participants?: BattleParticipantUncheckedUpdateManyWithoutBattleNestedInput
+    result?: BattleResultUncheckedUpdateOneWithoutBattleNestedInput
+  }
+
+  export type BattleCreateWithoutParticipantsInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    host: UserCreateNestedOneWithoutHostedBattlesInput
+    opponent?: UserCreateNestedOneWithoutJoinedBattlesInput
+    battleQuestions?: BattleQuestionCreateNestedManyWithoutBattleInput
+    result?: BattleResultCreateNestedOneWithoutBattleInput
+  }
+
+  export type BattleUncheckedCreateWithoutParticipantsInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    hostId: string
+    opponentId?: string | null
+    battleQuestions?: BattleQuestionUncheckedCreateNestedManyWithoutBattleInput
+    result?: BattleResultUncheckedCreateNestedOneWithoutBattleInput
+  }
+
+  export type BattleCreateOrConnectWithoutParticipantsInput = {
+    where: BattleWhereUniqueInput
+    create: XOR<BattleCreateWithoutParticipantsInput, BattleUncheckedCreateWithoutParticipantsInput>
+  }
+
+  export type UserCreateWithoutBattleParticipantsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutBattleParticipantsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutBattleParticipantsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBattleParticipantsInput, UserUncheckedCreateWithoutBattleParticipantsInput>
+  }
+
+  export type BattleUpsertWithoutParticipantsInput = {
+    update: XOR<BattleUpdateWithoutParticipantsInput, BattleUncheckedUpdateWithoutParticipantsInput>
+    create: XOR<BattleCreateWithoutParticipantsInput, BattleUncheckedCreateWithoutParticipantsInput>
+    where?: BattleWhereInput
+  }
+
+  export type BattleUpdateToOneWithWhereWithoutParticipantsInput = {
+    where?: BattleWhereInput
+    data: XOR<BattleUpdateWithoutParticipantsInput, BattleUncheckedUpdateWithoutParticipantsInput>
+  }
+
+  export type BattleUpdateWithoutParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    host?: UserUpdateOneRequiredWithoutHostedBattlesNestedInput
+    opponent?: UserUpdateOneWithoutJoinedBattlesNestedInput
+    battleQuestions?: BattleQuestionUpdateManyWithoutBattleNestedInput
+    result?: BattleResultUpdateOneWithoutBattleNestedInput
+  }
+
+  export type BattleUncheckedUpdateWithoutParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostId?: StringFieldUpdateOperationsInput | string
+    opponentId?: NullableStringFieldUpdateOperationsInput | string | null
+    battleQuestions?: BattleQuestionUncheckedUpdateManyWithoutBattleNestedInput
+    result?: BattleResultUncheckedUpdateOneWithoutBattleNestedInput
+  }
+
+  export type UserUpsertWithoutBattleParticipantsInput = {
+    update: XOR<UserUpdateWithoutBattleParticipantsInput, UserUncheckedUpdateWithoutBattleParticipantsInput>
+    create: XOR<UserCreateWithoutBattleParticipantsInput, UserUncheckedCreateWithoutBattleParticipantsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBattleParticipantsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBattleParticipantsInput, UserUncheckedUpdateWithoutBattleParticipantsInput>
+  }
+
+  export type UserUpdateWithoutBattleParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBattleParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type BattleCreateWithoutResultInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    host: UserCreateNestedOneWithoutHostedBattlesInput
+    opponent?: UserCreateNestedOneWithoutJoinedBattlesInput
+    battleQuestions?: BattleQuestionCreateNestedManyWithoutBattleInput
+    participants?: BattleParticipantCreateNestedManyWithoutBattleInput
+  }
+
+  export type BattleUncheckedCreateWithoutResultInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    hostId: string
+    opponentId?: string | null
+    battleQuestions?: BattleQuestionUncheckedCreateNestedManyWithoutBattleInput
+    participants?: BattleParticipantUncheckedCreateNestedManyWithoutBattleInput
+  }
+
+  export type BattleCreateOrConnectWithoutResultInput = {
+    where: BattleWhereUniqueInput
+    create: XOR<BattleCreateWithoutResultInput, BattleUncheckedCreateWithoutResultInput>
+  }
+
+  export type UserCreateWithoutBattleResultsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutBattleResultsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutBattleResultsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBattleResultsInput, UserUncheckedCreateWithoutBattleResultsInput>
+  }
+
+  export type BattleUpsertWithoutResultInput = {
+    update: XOR<BattleUpdateWithoutResultInput, BattleUncheckedUpdateWithoutResultInput>
+    create: XOR<BattleCreateWithoutResultInput, BattleUncheckedCreateWithoutResultInput>
+    where?: BattleWhereInput
+  }
+
+  export type BattleUpdateToOneWithWhereWithoutResultInput = {
+    where?: BattleWhereInput
+    data: XOR<BattleUpdateWithoutResultInput, BattleUncheckedUpdateWithoutResultInput>
+  }
+
+  export type BattleUpdateWithoutResultInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    host?: UserUpdateOneRequiredWithoutHostedBattlesNestedInput
+    opponent?: UserUpdateOneWithoutJoinedBattlesNestedInput
+    battleQuestions?: BattleQuestionUpdateManyWithoutBattleNestedInput
+    participants?: BattleParticipantUpdateManyWithoutBattleNestedInput
+  }
+
+  export type BattleUncheckedUpdateWithoutResultInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostId?: StringFieldUpdateOperationsInput | string
+    opponentId?: NullableStringFieldUpdateOperationsInput | string | null
+    battleQuestions?: BattleQuestionUncheckedUpdateManyWithoutBattleNestedInput
+    participants?: BattleParticipantUncheckedUpdateManyWithoutBattleNestedInput
+  }
+
+  export type UserUpsertWithoutBattleResultsInput = {
+    update: XOR<UserUpdateWithoutBattleResultsInput, UserUncheckedUpdateWithoutBattleResultsInput>
+    create: XOR<UserCreateWithoutBattleResultsInput, UserUncheckedCreateWithoutBattleResultsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBattleResultsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBattleResultsInput, UserUncheckedUpdateWithoutBattleResultsInput>
+  }
+
+  export type UserUpdateWithoutBattleResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBattleResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutCreatedStudyGroupsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCreatedStudyGroupsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCreatedStudyGroupsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreatedStudyGroupsInput, UserUncheckedCreateWithoutCreatedStudyGroupsInput>
+  }
+
+  export type StudyGroupMemberCreateWithoutGroupInput = {
+    id?: string
+    joinedAt?: Date | string
+    user: UserCreateNestedOneWithoutStudyGroupMembershipsInput
+  }
+
+  export type StudyGroupMemberUncheckedCreateWithoutGroupInput = {
+    id?: string
+    userId: string
+    joinedAt?: Date | string
+  }
+
+  export type StudyGroupMemberCreateOrConnectWithoutGroupInput = {
+    where: StudyGroupMemberWhereUniqueInput
+    create: XOR<StudyGroupMemberCreateWithoutGroupInput, StudyGroupMemberUncheckedCreateWithoutGroupInput>
+  }
+
+  export type StudyGroupMemberCreateManyGroupInputEnvelope = {
+    data: StudyGroupMemberCreateManyGroupInput | StudyGroupMemberCreateManyGroupInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GroupMessageCreateWithoutGroupInput = {
+    id?: string
+    message: string
+    isAI?: boolean
+    timestamp?: Date | string
+    user?: UserCreateNestedOneWithoutGroupMessagesInput
+  }
+
+  export type GroupMessageUncheckedCreateWithoutGroupInput = {
+    id?: string
+    userId?: string | null
+    message: string
+    isAI?: boolean
+    timestamp?: Date | string
+  }
+
+  export type GroupMessageCreateOrConnectWithoutGroupInput = {
+    where: GroupMessageWhereUniqueInput
+    create: XOR<GroupMessageCreateWithoutGroupInput, GroupMessageUncheckedCreateWithoutGroupInput>
+  }
+
+  export type GroupMessageCreateManyGroupInputEnvelope = {
+    data: GroupMessageCreateManyGroupInput | GroupMessageCreateManyGroupInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GroupSessionCreateWithoutGroupInput = {
+    id?: string
+    summary: string
+    duration: number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type GroupSessionUncheckedCreateWithoutGroupInput = {
+    id?: string
+    summary: string
+    duration: number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type GroupSessionCreateOrConnectWithoutGroupInput = {
+    where: GroupSessionWhereUniqueInput
+    create: XOR<GroupSessionCreateWithoutGroupInput, GroupSessionUncheckedCreateWithoutGroupInput>
+  }
+
+  export type GroupSessionCreateManyGroupInputEnvelope = {
+    data: GroupSessionCreateManyGroupInput | GroupSessionCreateManyGroupInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutCreatedStudyGroupsInput = {
+    update: XOR<UserUpdateWithoutCreatedStudyGroupsInput, UserUncheckedUpdateWithoutCreatedStudyGroupsInput>
+    create: XOR<UserCreateWithoutCreatedStudyGroupsInput, UserUncheckedCreateWithoutCreatedStudyGroupsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCreatedStudyGroupsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCreatedStudyGroupsInput, UserUncheckedUpdateWithoutCreatedStudyGroupsInput>
+  }
+
+  export type UserUpdateWithoutCreatedStudyGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCreatedStudyGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
+    where: StudyGroupMemberWhereUniqueInput
+    update: XOR<StudyGroupMemberUpdateWithoutGroupInput, StudyGroupMemberUncheckedUpdateWithoutGroupInput>
+    create: XOR<StudyGroupMemberCreateWithoutGroupInput, StudyGroupMemberUncheckedCreateWithoutGroupInput>
+  }
+
+  export type StudyGroupMemberUpdateWithWhereUniqueWithoutGroupInput = {
+    where: StudyGroupMemberWhereUniqueInput
+    data: XOR<StudyGroupMemberUpdateWithoutGroupInput, StudyGroupMemberUncheckedUpdateWithoutGroupInput>
+  }
+
+  export type StudyGroupMemberUpdateManyWithWhereWithoutGroupInput = {
+    where: StudyGroupMemberScalarWhereInput
+    data: XOR<StudyGroupMemberUpdateManyMutationInput, StudyGroupMemberUncheckedUpdateManyWithoutGroupInput>
+  }
+
+  export type GroupMessageUpsertWithWhereUniqueWithoutGroupInput = {
+    where: GroupMessageWhereUniqueInput
+    update: XOR<GroupMessageUpdateWithoutGroupInput, GroupMessageUncheckedUpdateWithoutGroupInput>
+    create: XOR<GroupMessageCreateWithoutGroupInput, GroupMessageUncheckedCreateWithoutGroupInput>
+  }
+
+  export type GroupMessageUpdateWithWhereUniqueWithoutGroupInput = {
+    where: GroupMessageWhereUniqueInput
+    data: XOR<GroupMessageUpdateWithoutGroupInput, GroupMessageUncheckedUpdateWithoutGroupInput>
+  }
+
+  export type GroupMessageUpdateManyWithWhereWithoutGroupInput = {
+    where: GroupMessageScalarWhereInput
+    data: XOR<GroupMessageUpdateManyMutationInput, GroupMessageUncheckedUpdateManyWithoutGroupInput>
+  }
+
+  export type GroupSessionUpsertWithWhereUniqueWithoutGroupInput = {
+    where: GroupSessionWhereUniqueInput
+    update: XOR<GroupSessionUpdateWithoutGroupInput, GroupSessionUncheckedUpdateWithoutGroupInput>
+    create: XOR<GroupSessionCreateWithoutGroupInput, GroupSessionUncheckedCreateWithoutGroupInput>
+  }
+
+  export type GroupSessionUpdateWithWhereUniqueWithoutGroupInput = {
+    where: GroupSessionWhereUniqueInput
+    data: XOR<GroupSessionUpdateWithoutGroupInput, GroupSessionUncheckedUpdateWithoutGroupInput>
+  }
+
+  export type GroupSessionUpdateManyWithWhereWithoutGroupInput = {
+    where: GroupSessionScalarWhereInput
+    data: XOR<GroupSessionUpdateManyMutationInput, GroupSessionUncheckedUpdateManyWithoutGroupInput>
+  }
+
+  export type GroupSessionScalarWhereInput = {
+    AND?: GroupSessionScalarWhereInput | GroupSessionScalarWhereInput[]
+    OR?: GroupSessionScalarWhereInput[]
+    NOT?: GroupSessionScalarWhereInput | GroupSessionScalarWhereInput[]
+    id?: StringFilter<"GroupSession"> | string
+    groupId?: StringFilter<"GroupSession"> | string
+    summary?: StringFilter<"GroupSession"> | string
+    duration?: IntFilter<"GroupSession"> | number
+    topics?: JsonNullableFilter<"GroupSession">
+    createdAt?: DateTimeFilter<"GroupSession"> | Date | string
+  }
+
+  export type StudyGroupCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+    creator: UserCreateNestedOneWithoutCreatedStudyGroupsInput
+    messages?: GroupMessageCreateNestedManyWithoutGroupInput
+    sessions?: GroupSessionCreateNestedManyWithoutGroupInput
+  }
+
+  export type StudyGroupUncheckedCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+    creatorId: string
+    messages?: GroupMessageUncheckedCreateNestedManyWithoutGroupInput
+    sessions?: GroupSessionUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type StudyGroupCreateOrConnectWithoutMembersInput = {
+    where: StudyGroupWhereUniqueInput
+    create: XOR<StudyGroupCreateWithoutMembersInput, StudyGroupUncheckedCreateWithoutMembersInput>
+  }
+
+  export type UserCreateWithoutStudyGroupMembershipsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutStudyGroupMembershipsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutStudyGroupMembershipsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutStudyGroupMembershipsInput, UserUncheckedCreateWithoutStudyGroupMembershipsInput>
+  }
+
+  export type StudyGroupUpsertWithoutMembersInput = {
+    update: XOR<StudyGroupUpdateWithoutMembersInput, StudyGroupUncheckedUpdateWithoutMembersInput>
+    create: XOR<StudyGroupCreateWithoutMembersInput, StudyGroupUncheckedCreateWithoutMembersInput>
+    where?: StudyGroupWhereInput
+  }
+
+  export type StudyGroupUpdateToOneWithWhereWithoutMembersInput = {
+    where?: StudyGroupWhereInput
+    data: XOR<StudyGroupUpdateWithoutMembersInput, StudyGroupUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type StudyGroupUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutCreatedStudyGroupsNestedInput
+    messages?: GroupMessageUpdateManyWithoutGroupNestedInput
+    sessions?: GroupSessionUpdateManyWithoutGroupNestedInput
+  }
+
+  export type StudyGroupUncheckedUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    messages?: GroupMessageUncheckedUpdateManyWithoutGroupNestedInput
+    sessions?: GroupSessionUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type UserUpsertWithoutStudyGroupMembershipsInput = {
+    update: XOR<UserUpdateWithoutStudyGroupMembershipsInput, UserUncheckedUpdateWithoutStudyGroupMembershipsInput>
+    create: XOR<UserCreateWithoutStudyGroupMembershipsInput, UserUncheckedCreateWithoutStudyGroupMembershipsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutStudyGroupMembershipsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutStudyGroupMembershipsInput, UserUncheckedUpdateWithoutStudyGroupMembershipsInput>
+  }
+
+  export type UserUpdateWithoutStudyGroupMembershipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutStudyGroupMembershipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type StudyGroupCreateWithoutMessagesInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+    creator: UserCreateNestedOneWithoutCreatedStudyGroupsInput
+    members?: StudyGroupMemberCreateNestedManyWithoutGroupInput
+    sessions?: GroupSessionCreateNestedManyWithoutGroupInput
+  }
+
+  export type StudyGroupUncheckedCreateWithoutMessagesInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+    creatorId: string
+    members?: StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+    sessions?: GroupSessionUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type StudyGroupCreateOrConnectWithoutMessagesInput = {
+    where: StudyGroupWhereUniqueInput
+    create: XOR<StudyGroupCreateWithoutMessagesInput, StudyGroupUncheckedCreateWithoutMessagesInput>
+  }
+
+  export type UserCreateWithoutGroupMessagesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutGroupMessagesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutGroupMessagesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutGroupMessagesInput, UserUncheckedCreateWithoutGroupMessagesInput>
+  }
+
+  export type StudyGroupUpsertWithoutMessagesInput = {
+    update: XOR<StudyGroupUpdateWithoutMessagesInput, StudyGroupUncheckedUpdateWithoutMessagesInput>
+    create: XOR<StudyGroupCreateWithoutMessagesInput, StudyGroupUncheckedCreateWithoutMessagesInput>
+    where?: StudyGroupWhereInput
+  }
+
+  export type StudyGroupUpdateToOneWithWhereWithoutMessagesInput = {
+    where?: StudyGroupWhereInput
+    data: XOR<StudyGroupUpdateWithoutMessagesInput, StudyGroupUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type StudyGroupUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutCreatedStudyGroupsNestedInput
+    members?: StudyGroupMemberUpdateManyWithoutGroupNestedInput
+    sessions?: GroupSessionUpdateManyWithoutGroupNestedInput
+  }
+
+  export type StudyGroupUncheckedUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    members?: StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+    sessions?: GroupSessionUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type UserUpsertWithoutGroupMessagesInput = {
+    update: XOR<UserUpdateWithoutGroupMessagesInput, UserUncheckedUpdateWithoutGroupMessagesInput>
+    create: XOR<UserCreateWithoutGroupMessagesInput, UserUncheckedCreateWithoutGroupMessagesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutGroupMessagesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutGroupMessagesInput, UserUncheckedUpdateWithoutGroupMessagesInput>
+  }
+
+  export type UserUpdateWithoutGroupMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutGroupMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type StudyGroupCreateWithoutSessionsInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+    creator: UserCreateNestedOneWithoutCreatedStudyGroupsInput
+    members?: StudyGroupMemberCreateNestedManyWithoutGroupInput
+    messages?: GroupMessageCreateNestedManyWithoutGroupInput
+  }
+
+  export type StudyGroupUncheckedCreateWithoutSessionsInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+    creatorId: string
+    members?: StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+    messages?: GroupMessageUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type StudyGroupCreateOrConnectWithoutSessionsInput = {
+    where: StudyGroupWhereUniqueInput
+    create: XOR<StudyGroupCreateWithoutSessionsInput, StudyGroupUncheckedCreateWithoutSessionsInput>
+  }
+
+  export type StudyGroupUpsertWithoutSessionsInput = {
+    update: XOR<StudyGroupUpdateWithoutSessionsInput, StudyGroupUncheckedUpdateWithoutSessionsInput>
+    create: XOR<StudyGroupCreateWithoutSessionsInput, StudyGroupUncheckedCreateWithoutSessionsInput>
+    where?: StudyGroupWhereInput
+  }
+
+  export type StudyGroupUpdateToOneWithWhereWithoutSessionsInput = {
+    where?: StudyGroupWhereInput
+    data: XOR<StudyGroupUpdateWithoutSessionsInput, StudyGroupUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type StudyGroupUpdateWithoutSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutCreatedStudyGroupsNestedInput
+    members?: StudyGroupMemberUpdateManyWithoutGroupNestedInput
+    messages?: GroupMessageUpdateManyWithoutGroupNestedInput
+  }
+
+  export type StudyGroupUncheckedUpdateWithoutSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    members?: StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+    messages?: GroupMessageUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type UserCreateWithoutConceptConnectionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutConceptConnectionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutConceptConnectionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutConceptConnectionsInput, UserUncheckedCreateWithoutConceptConnectionsInput>
+  }
+
+  export type UserUpsertWithoutConceptConnectionsInput = {
+    update: XOR<UserUpdateWithoutConceptConnectionsInput, UserUncheckedUpdateWithoutConceptConnectionsInput>
+    create: XOR<UserCreateWithoutConceptConnectionsInput, UserUncheckedCreateWithoutConceptConnectionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutConceptConnectionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutConceptConnectionsInput, UserUncheckedUpdateWithoutConceptConnectionsInput>
+  }
+
+  export type UserUpdateWithoutConceptConnectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutConceptConnectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -12024,6 +30522,103 @@ export namespace Prisma {
     url?: string | null
     pages?: string | null
     format: string
+    createdAt?: Date | string
+  }
+
+  export type ExamPredictionCreateManyUserInput = {
+    id?: string
+    examType: string
+    uploadedContent: string
+    syllabusContent?: string | null
+    predictions: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type BattleCreateManyHostInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    opponentId?: string | null
+  }
+
+  export type BattleCreateManyOpponentInput = {
+    id?: string
+    code: string
+    noteId?: string | null
+    title?: string | null
+    status?: string
+    questionCount?: number
+    questions: JsonNullValueInput | InputJsonValue
+    hostScore?: number
+    opponentScore?: number
+    hostAnsweredAt?: Date | string | null
+    opponentAnsweredAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    hostId: string
+  }
+
+  export type BattleParticipantCreateManyUserInput = {
+    id?: string
+    battleId: string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: number
+    correctCount?: number
+    totalAnswered?: number
+    joinedAt?: Date | string
+  }
+
+  export type BattleResultCreateManyWinnerInput = {
+    id?: string
+    battleId: string
+    scores: JsonNullValueInput | InputJsonValue
+    duration: number
+    createdAt?: Date | string
+  }
+
+  export type StudyGroupCreateManyCreatorInput = {
+    id?: string
+    name: string
+    topic?: string | null
+    inviteCode: string
+    createdAt?: Date | string
+  }
+
+  export type StudyGroupMemberCreateManyUserInput = {
+    id?: string
+    groupId: string
+    joinedAt?: Date | string
+  }
+
+  export type GroupMessageCreateManyUserInput = {
+    id?: string
+    groupId: string
+    message: string
+    isAI?: boolean
+    timestamp?: Date | string
+  }
+
+  export type ConceptConnectionCreateManyUserInput = {
+    id?: string
+    note1Id: string
+    note2Id: string
+    concept1: string
+    concept2: string
+    connectionDescription: string
+    strength: string
     createdAt?: Date | string
   }
 
@@ -12173,6 +30768,479 @@ export namespace Prisma {
     url?: NullableStringFieldUpdateOperationsInput | string | null
     pages?: NullableStringFieldUpdateOperationsInput | string | null
     format?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamPredictionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    examType?: StringFieldUpdateOperationsInput | string
+    uploadedContent?: StringFieldUpdateOperationsInput | string
+    syllabusContent?: NullableStringFieldUpdateOperationsInput | string | null
+    predictions?: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamPredictionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    examType?: StringFieldUpdateOperationsInput | string
+    uploadedContent?: StringFieldUpdateOperationsInput | string
+    syllabusContent?: NullableStringFieldUpdateOperationsInput | string | null
+    predictions?: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamPredictionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    examType?: StringFieldUpdateOperationsInput | string
+    uploadedContent?: StringFieldUpdateOperationsInput | string
+    syllabusContent?: NullableStringFieldUpdateOperationsInput | string | null
+    predictions?: JsonNullValueInput | InputJsonValue
+    analytics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleUpdateWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    opponent?: UserUpdateOneWithoutJoinedBattlesNestedInput
+    battleQuestions?: BattleQuestionUpdateManyWithoutBattleNestedInput
+    participants?: BattleParticipantUpdateManyWithoutBattleNestedInput
+    result?: BattleResultUpdateOneWithoutBattleNestedInput
+  }
+
+  export type BattleUncheckedUpdateWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    opponentId?: NullableStringFieldUpdateOperationsInput | string | null
+    battleQuestions?: BattleQuestionUncheckedUpdateManyWithoutBattleNestedInput
+    participants?: BattleParticipantUncheckedUpdateManyWithoutBattleNestedInput
+    result?: BattleResultUncheckedUpdateOneWithoutBattleNestedInput
+  }
+
+  export type BattleUncheckedUpdateManyWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    opponentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BattleUpdateWithoutOpponentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    host?: UserUpdateOneRequiredWithoutHostedBattlesNestedInput
+    battleQuestions?: BattleQuestionUpdateManyWithoutBattleNestedInput
+    participants?: BattleParticipantUpdateManyWithoutBattleNestedInput
+    result?: BattleResultUpdateOneWithoutBattleNestedInput
+  }
+
+  export type BattleUncheckedUpdateWithoutOpponentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostId?: StringFieldUpdateOperationsInput | string
+    battleQuestions?: BattleQuestionUncheckedUpdateManyWithoutBattleNestedInput
+    participants?: BattleParticipantUncheckedUpdateManyWithoutBattleNestedInput
+    result?: BattleResultUncheckedUpdateOneWithoutBattleNestedInput
+  }
+
+  export type BattleUncheckedUpdateManyWithoutOpponentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
+    questions?: JsonNullValueInput | InputJsonValue
+    hostScore?: IntFieldUpdateOperationsInput | number
+    opponentScore?: IntFieldUpdateOperationsInput | number
+    hostAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    opponentAnsweredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hostId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BattleParticipantUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    totalAnswered?: IntFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battle?: BattleUpdateOneRequiredWithoutParticipantsNestedInput
+  }
+
+  export type BattleParticipantUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    battleId?: StringFieldUpdateOperationsInput | string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    totalAnswered?: IntFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleParticipantUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    battleId?: StringFieldUpdateOperationsInput | string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    totalAnswered?: IntFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleResultUpdateWithoutWinnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scores?: JsonNullValueInput | InputJsonValue
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    battle?: BattleUpdateOneRequiredWithoutResultNestedInput
+  }
+
+  export type BattleResultUncheckedUpdateWithoutWinnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    battleId?: StringFieldUpdateOperationsInput | string
+    scores?: JsonNullValueInput | InputJsonValue
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleResultUncheckedUpdateManyWithoutWinnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    battleId?: StringFieldUpdateOperationsInput | string
+    scores?: JsonNullValueInput | InputJsonValue
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGroupUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: StudyGroupMemberUpdateManyWithoutGroupNestedInput
+    messages?: GroupMessageUpdateManyWithoutGroupNestedInput
+    sessions?: GroupSessionUpdateManyWithoutGroupNestedInput
+  }
+
+  export type StudyGroupUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+    messages?: GroupMessageUncheckedUpdateManyWithoutGroupNestedInput
+    sessions?: GroupSessionUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
+  export type StudyGroupUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGroupMemberUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    group?: StudyGroupUpdateOneRequiredWithoutMembersNestedInput
+  }
+
+  export type StudyGroupMemberUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    groupId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGroupMemberUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    groupId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupMessageUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    group?: StudyGroupUpdateOneRequiredWithoutMessagesNestedInput
+  }
+
+  export type GroupMessageUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    groupId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupMessageUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    groupId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConceptConnectionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note1Id?: StringFieldUpdateOperationsInput | string
+    note2Id?: StringFieldUpdateOperationsInput | string
+    concept1?: StringFieldUpdateOperationsInput | string
+    concept2?: StringFieldUpdateOperationsInput | string
+    connectionDescription?: StringFieldUpdateOperationsInput | string
+    strength?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConceptConnectionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note1Id?: StringFieldUpdateOperationsInput | string
+    note2Id?: StringFieldUpdateOperationsInput | string
+    concept1?: StringFieldUpdateOperationsInput | string
+    concept2?: StringFieldUpdateOperationsInput | string
+    connectionDescription?: StringFieldUpdateOperationsInput | string
+    strength?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConceptConnectionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note1Id?: StringFieldUpdateOperationsInput | string
+    note2Id?: StringFieldUpdateOperationsInput | string
+    concept1?: StringFieldUpdateOperationsInput | string
+    concept2?: StringFieldUpdateOperationsInput | string
+    connectionDescription?: StringFieldUpdateOperationsInput | string
+    strength?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleQuestionCreateManyBattleInput = {
+    id?: string
+    question: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer: string
+    points?: number
+    orderIndex: number
+  }
+
+  export type BattleParticipantCreateManyBattleInput = {
+    id?: string
+    userId: string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: number
+    correctCount?: number
+    totalAnswered?: number
+    joinedAt?: Date | string
+  }
+
+  export type BattleQuestionUpdateWithoutBattleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BattleQuestionUncheckedUpdateWithoutBattleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BattleQuestionUncheckedUpdateManyWithoutBattleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    correctAnswer?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BattleParticipantUpdateWithoutBattleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    totalAnswered?: IntFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBattleParticipantsNestedInput
+  }
+
+  export type BattleParticipantUncheckedUpdateWithoutBattleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    totalAnswered?: IntFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BattleParticipantUncheckedUpdateManyWithoutBattleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    answers?: NullableJsonNullValueInput | InputJsonValue
+    score?: IntFieldUpdateOperationsInput | number
+    correctCount?: IntFieldUpdateOperationsInput | number
+    totalAnswered?: IntFieldUpdateOperationsInput | number
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGroupMemberCreateManyGroupInput = {
+    id?: string
+    userId: string
+    joinedAt?: Date | string
+  }
+
+  export type GroupMessageCreateManyGroupInput = {
+    id?: string
+    userId?: string | null
+    message: string
+    isAI?: boolean
+    timestamp?: Date | string
+  }
+
+  export type GroupSessionCreateManyGroupInput = {
+    id?: string
+    summary: string
+    duration: number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type StudyGroupMemberUpdateWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutStudyGroupMembershipsNestedInput
+  }
+
+  export type StudyGroupMemberUncheckedUpdateWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGroupMemberUncheckedUpdateManyWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupMessageUpdateWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutGroupMessagesNestedInput
+  }
+
+  export type GroupMessageUncheckedUpdateWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupMessageUncheckedUpdateManyWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    isAI?: BoolFieldUpdateOperationsInput | boolean
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupSessionUpdateWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupSessionUncheckedUpdateWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    topics?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GroupSessionUncheckedUpdateManyWithoutGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    summary?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    topics?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

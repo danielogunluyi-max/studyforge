@@ -17,7 +17,8 @@ export default function Home() {
           
           <p className="mb-4 text-xl text-gray-600">
             AI-powered study tool that transforms your lecture notes into summaries, 
-            flashcards, and practice questions in seconds.
+            flashcards, and practice questions in seconds. Plus revolutionary features 
+            you won't find anywhere else.
           </p>
 
           <p className="mb-10 text-lg text-gray-500">
@@ -127,6 +128,126 @@ export default function Home() {
                 Open Upload
               </Link>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Revolutionary Features Section */}
+      <div className="border-t border-gray-200 bg-white py-20">
+        <div className="container mx-auto px-6">
+          <div className="mb-12 text-center">
+            <h2 className="mb-3 text-3xl font-bold text-gray-900">
+              Revolutionary Features That Set Us Apart
+            </h2>
+            <p className="text-lg text-gray-600">
+              Game-changing AI tools designed specifically for modern students
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {/* Exam Predictor */}
+            <div className="rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-white p-8 shadow-lg">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-blue-600 text-2xl">
+                🎯
+              </div>
+              <h3 className="mb-3 text-2xl font-bold text-gray-900">
+                AI Exam Predictor
+              </h3>
+              <p className="mb-4 text-gray-600">
+                Upload past exams and let AI predict likely questions for your upcoming test. Get confidence scores and explanations.
+              </p>
+              <Link
+                href="/exam-predictor"
+                className="inline-flex items-center gap-2 font-semibold text-blue-600 transition hover:text-blue-700"
+              >
+                Try Predictor →
+              </Link>
+            </div>
+
+            {/* Battle Arena */}
+            <div className="rounded-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-white p-8 shadow-lg">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-purple-600 text-2xl">
+                ⚔️
+              </div>
+              <h3 className="mb-3 text-2xl font-bold text-gray-900">
+                Study Battle Arena
+              </h3>
+              <p className="mb-4 text-gray-600">
+                Challenge friends to real-time quiz battles. AI generates questions from your notes. Winner takes bragging rights.
+              </p>
+              <Link
+                href="/battle"
+                className="inline-flex items-center gap-2 font-semibold text-purple-600 transition hover:text-purple-700"
+              >
+                Start Battle →
+              </Link>
+            </div>
+
+            {/* Learning Style */}
+            <div className="rounded-xl border-2 border-green-200 bg-gradient-to-br from-green-50 to-white p-8 shadow-lg">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-green-600 text-2xl">
+                🎨
+              </div>
+              <h3 className="mb-3 text-2xl font-bold text-gray-900">
+                Learning Style Shapeshifter
+              </h3>
+              <p className="mb-4 text-gray-600">
+                Take a quiz to discover your learning style. Content automatically adapts to how you learn best—visual, auditory, reading, or kinesthetic.
+              </p>
+              <Link
+                href="/learning-style-quiz"
+                className="inline-flex items-center gap-2 font-semibold text-green-600 transition hover:text-green-700"
+              >
+                Take Quiz →
+              </Link>
+            </div>
+
+            {/* Study Groups */}
+            <div className="rounded-xl border-2 border-orange-200 bg-gradient-to-br from-orange-50 to-white p-8 shadow-lg md:col-span-2 lg:col-span-1">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-orange-600 text-2xl">
+                👥
+              </div>
+              <h3 className="mb-3 text-2xl font-bold text-gray-900">
+                AI Study Group Moderator
+              </h3>
+              <p className="mb-4 text-gray-600">
+                Study with friends while an AI moderator asks Socratic questions, keeps discussions on track, and provides expert guidance.
+              </p>
+              <Link
+                href="/study-groups"
+                className="inline-flex items-center gap-2 font-semibold text-orange-600 transition hover:text-orange-700"
+              >
+                Join Groups →
+              </Link>
+            </div>
+
+            {/* Concept Web */}
+            <div className="rounded-xl border-2 border-indigo-200 bg-gradient-to-br from-indigo-50 to-white p-8 shadow-lg md:col-span-2 lg:col-span-2">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-600 text-2xl">
+                🕸️
+              </div>
+              <h3 className="mb-3 text-2xl font-bold text-gray-900">
+                Concept Web Builder
+              </h3>
+              <p className="mb-4 text-gray-600">
+                AI analyzes all your notes to discover hidden connections between concepts. Visualize your knowledge as an interactive graph that reveals relationships you never noticed.
+              </p>
+              <Link
+                href="/concept-web"
+                className="inline-flex items-center gap-2 font-semibold text-indigo-600 transition hover:text-indigo-700"
+              >
+                Build Web →
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-12 rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center">
+            <p className="text-lg font-semibold text-gray-900">
+              ✨ These features are 100% exclusive to StudyForge
+            </p>
+            <p className="mt-2 text-gray-600">
+              You won't find this combination of AI-powered study tools anywhere else
+            </p>
           </div>
         </div>
       </div>

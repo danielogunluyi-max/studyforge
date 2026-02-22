@@ -43,12 +43,30 @@ export default function Generator() {
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
   const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
   const [checkedAnswers, setCheckedAnswers] = useState<Set<number>>(new Set());
+  const [learningStyle, setLearningStyle] = useState<string | null>(null);
+  const [adaptContent, setAdaptContent] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login?from=/generator");
     }
   }, [status, router]);
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      fetch("/api/user/preferences")
+        .then(res => res.json())
+        .then((data: { preferences?: { learningStyle?: string; autoAdapt?: boolean } }) => {
+          if (data.preferences?.learningStyle) {
+            setLearningStyle(data.preferences.learningStyle);
+            setAdaptContent(data.preferences.autoAdapt ?? false);
+          }
+        })
+        .catch(() => {
+          // Silent fail - learning style is optional
+        });
+    }
+  }, [session]);
 
   useEffect(() => {
     const source = new URLSearchParams(window.location.search).get("source");
@@ -107,7 +125,30 @@ export default function Generator() {
       const data = (await response.json()) as { notes?: string; error?: string };
 
       if (response.ok) {
-        setGeneratedNotes(data.notes ?? "");
+        let finalNotes = data.notes ?? "";
+        
+        // Apply learning style adaptation if enabled
+        if (adaptContent && learningStyle && finalNotes.trim()) {
+          try {
+            const adaptRes = await fetch("/api/transform-content", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                content: finalNotes,
+                learningStyle: learningStyle,
+              }),
+            });
+            
+            if (adaptRes.ok) {
+              const adaptData = (await adaptRes.json()) as { transformedContent?: string };
+              finalNotes = adaptData.transformedContent ?? finalNotes;
+            }
+          } catch {
+            // Silent fail - use original notes if adaptation fails
+          }
+        }
+        
+        setGeneratedNotes(finalNotes);
       } else {
         setError(data.error ?? "Failed to generate notes");
       }
@@ -518,6 +559,30 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
             <option value="flashcards">Flashcards - Interactive flip cards</option>
             <option value="questions">Practice Quiz - Answer questions interactively</option>
           </select>
+
+          {learningStyle && (
+            <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-gray-900">
+                    🎯 Adapt to Your Learning Style
+                  </p>
+                  <p className="mt-1 text-xs text-gray-600">
+                    Current style: <span className="font-semibold capitalize">{learningStyle}</span>
+                  </p>
+                </div>
+                <label className="relative inline-flex cursor-pointer items-center">
+                  <input
+                    type="checkbox"
+                    checked={adaptContent}
+                    onChange={(e) => setAdaptContent(e.target.checked)}
+                    className="peer sr-only"
+                  />
+                  <div className="peer h-6 w-11 rounded-full bg-gray-300 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300"></div>
+                </label>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="mb-6 flex gap-3">

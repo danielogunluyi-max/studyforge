@@ -158,7 +158,9 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
-  password: 'password'
+  password: 'password',
+  learningStyle: 'learningStyle',
+  autoAdapt: 'autoAdapt'
 };
 
 exports.Prisma.VerificationTokenScalarFieldEnum = {
@@ -191,9 +193,124 @@ exports.Prisma.CitationScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.ExamPredictionScalarFieldEnum = {
+  id: 'id',
+  examType: 'examType',
+  uploadedContent: 'uploadedContent',
+  syllabusContent: 'syllabusContent',
+  predictions: 'predictions',
+  analytics: 'analytics',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.BattleScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  noteId: 'noteId',
+  title: 'title',
+  status: 'status',
+  questionCount: 'questionCount',
+  questions: 'questions',
+  hostScore: 'hostScore',
+  opponentScore: 'opponentScore',
+  hostAnsweredAt: 'hostAnsweredAt',
+  opponentAnsweredAt: 'opponentAnsweredAt',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  hostId: 'hostId',
+  opponentId: 'opponentId'
+};
+
+exports.Prisma.BattleQuestionScalarFieldEnum = {
+  id: 'id',
+  battleId: 'battleId',
+  question: 'question',
+  options: 'options',
+  correctAnswer: 'correctAnswer',
+  points: 'points',
+  orderIndex: 'orderIndex'
+};
+
+exports.Prisma.BattleParticipantScalarFieldEnum = {
+  id: 'id',
+  battleId: 'battleId',
+  userId: 'userId',
+  answers: 'answers',
+  score: 'score',
+  correctCount: 'correctCount',
+  totalAnswered: 'totalAnswered',
+  joinedAt: 'joinedAt'
+};
+
+exports.Prisma.BattleResultScalarFieldEnum = {
+  id: 'id',
+  battleId: 'battleId',
+  winnerId: 'winnerId',
+  scores: 'scores',
+  duration: 'duration',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.StudyGroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  topic: 'topic',
+  inviteCode: 'inviteCode',
+  createdAt: 'createdAt',
+  creatorId: 'creatorId'
+};
+
+exports.Prisma.StudyGroupMemberScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  userId: 'userId',
+  joinedAt: 'joinedAt'
+};
+
+exports.Prisma.GroupMessageScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  userId: 'userId',
+  message: 'message',
+  isAI: 'isAI',
+  timestamp: 'timestamp'
+};
+
+exports.Prisma.GroupSessionScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  summary: 'summary',
+  duration: 'duration',
+  topics: 'topics',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ConceptConnectionScalarFieldEnum = {
+  id: 'id',
+  note1Id: 'note1Id',
+  note2Id: 'note2Id',
+  concept1: 'concept1',
+  concept2: 'concept2',
+  connectionDescription: 'connectionDescription',
+  strength: 'strength',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -206,6 +323,12 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
 
 exports.Prisma.ModelName = {
   Post: 'Post',
@@ -214,7 +337,17 @@ exports.Prisma.ModelName = {
   User: 'User',
   VerificationToken: 'VerificationToken',
   Note: 'Note',
-  Citation: 'Citation'
+  Citation: 'Citation',
+  ExamPrediction: 'ExamPrediction',
+  Battle: 'Battle',
+  BattleQuestion: 'BattleQuestion',
+  BattleParticipant: 'BattleParticipant',
+  BattleResult: 'BattleResult',
+  StudyGroup: 'StudyGroup',
+  StudyGroupMember: 'StudyGroupMember',
+  GroupMessage: 'GroupMessage',
+  GroupSession: 'GroupSession',
+  ConceptConnection: 'ConceptConnection'
 };
 
 /**
