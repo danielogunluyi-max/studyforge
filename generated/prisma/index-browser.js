@@ -160,7 +160,16 @@ exports.Prisma.UserScalarFieldEnum = {
   image: 'image',
   password: 'password',
   learningStyle: 'learningStyle',
-  autoAdapt: 'autoAdapt'
+  autoAdapt: 'autoAdapt',
+  theme: 'theme',
+  accentColor: 'accentColor',
+  fontSize: 'fontSize',
+  compactMode: 'compactMode',
+  defaultNoteFormat: 'defaultNoteFormat',
+  autoSaveNotes: 'autoSaveNotes',
+  emailNotifications: 'emailNotifications',
+  lastActive: 'lastActive',
+  studyStreak: 'studyStreak'
 };
 
 exports.Prisma.VerificationTokenScalarFieldEnum = {

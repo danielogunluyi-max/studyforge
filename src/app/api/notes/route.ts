@@ -76,33 +76,49 @@ export async function GET(request: Request) {
     const tag = (searchParams.get("tag") ?? "").trim();
     const format = (searchParams.get("format") ?? "").trim();
     const period = (searchParams.get("period") ?? "").trim();
+    const page = parseInt(searchParams.get("page") ?? "1", 10);
+    const limit = parseInt(searchParams.get("limit") ?? "20", 10);
 
-    const notes = await db.note.findMany({
-      where: {
-        userId: session.user.id,
-        ...(format ? { format } : {}),
-        ...(tag ? { tags: { has: tag } } : {}),
-        ...(period ? { createdAt: getDateFilter(period) } : {}),
-        ...(q
-          ? {
-              OR: [
-                { title: { contains: q, mode: "insensitive" } },
-                { content: { contains: q, mode: "insensitive" } },
-                { tags: { has: q } },
-              ],
-            }
-          : {}),
-      },
-      orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        title: true,
-        format: true,
-        createdAt: true,
-        content: true,
-        tags: true,
-      },
-    });
+    // Validate pagination params
+    const pageNum = Math.max(1, page);
+    const limitNum = Math.min(Math.max(1, limit), 100); // Max 100 per page
+    const skip = (pageNum - 1) * limitNum;
+
+    // Build where clause
+    const whereClause = {
+      userId: session.user.id,
+      ...(format ? { format } : {}),
+      ...(tag ? { tags: { has: tag } } : {}),
+      ...(period ? { createdAt: getDateFilter(period) } : {}),
+      ...(q
+        ? {
+            OR: [
+              { title: { contains: q, mode: "insensitive" } },
+              { content: { contains: q, mode: "insensitive" } },
+              { tags: { has: q } },
+            ],
+          }
+        : {}),
+    };
+
+    // Get total count and paginated notes in parallel
+    const [total, notes] = await Promise.all([
+      db.note.count({ where: whereClause }),
+      db.note.findMany({
+        where: whereClause,
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limitNum,
+        select: {
+          id: true,
+          title: true,
+          format: true,
+          createdAt: true,
+          content: true,
+          tags: true,
+        },
+      }),
+    ]);
 
     const withScore = notes.map((note) => ({
       ...note,
@@ -118,7 +134,16 @@ export async function GET(request: Request) {
         })
       : withScore;
 
-    return NextResponse.json({ notes: sorted });
+    return NextResponse.json({
+      notes: sorted,
+      pagination: {
+        page: pageNum,
+        limit: limitNum,
+        total,
+        totalPages: Math.ceil(total / limitNum),
+        hasMore: skip + notes.length < total,
+      },
+    });
   } catch (error) {
     console.error("Error fetching notes:", error);
     return NextResponse.json({ error: "Failed to fetch notes" }, { status: 500 });

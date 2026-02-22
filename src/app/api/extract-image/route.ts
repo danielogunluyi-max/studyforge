@@ -88,16 +88,28 @@ function normalizeOcrText(text: string): string {
   return text
     .replace(/\r\n/g, "\n")
     .replace(/\u0000/g, "")
+    // Fix hyphenated line breaks
     .replace(/(\w)-\n(\w)/g, "$1$2")
+    // Normalize spaces
     .replace(/[ \t]+/g, " ")
     .replace(/[ \t]+\n/g, "\n")
     .replace(/\n[ \t]+/g, "\n")
     .replace(/\n{3,}/g, "\n\n")
+    // Fix spacing around punctuation
     .replace(/\s+([,.;:!?%\)])/g, "$1")
     .replace(/([\(])\s+/g, "$1")
-    .replace(/[“”]/g, '"')
-    .replace(/[‘’]/g, "'")
-    .replace(/\b([A-Za-z]{2,})r n([A-Za-z]{2,})\b/g, "$1m$2")
+    // Normalize quotes
+    .replace(/[""]/g, '"')
+    .replace(/['']/g, "'")
+    // Common OCR errors: rn → m, vv → w, l1 → li, etc.
+    .replace(/\brn\b/g, "m")
+    .replace(/\bvv\b/g, "w")
+    .replace(/\bl1\b/g, "li")
+    .replace(/\b0\b/g, "O")
+    // Fix missing spaces after punctuation
+    .replace(/([.!?])([A-Z])/g, "$1 $2")
+    // Fix missing spaces between words (common OCR issue)
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
     .trim();
 }
 

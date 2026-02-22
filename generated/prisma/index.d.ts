@@ -5896,8 +5896,18 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    studyStreak: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    studyStreak: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -5909,6 +5919,15 @@ export namespace Prisma {
     password: string | null
     learningStyle: string | null
     autoAdapt: boolean | null
+    theme: string | null
+    accentColor: string | null
+    fontSize: string | null
+    compactMode: boolean | null
+    defaultNoteFormat: string | null
+    autoSaveNotes: boolean | null
+    emailNotifications: boolean | null
+    lastActive: Date | null
+    studyStreak: number | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -5920,6 +5939,15 @@ export namespace Prisma {
     password: string | null
     learningStyle: string | null
     autoAdapt: boolean | null
+    theme: string | null
+    accentColor: string | null
+    fontSize: string | null
+    compactMode: boolean | null
+    defaultNoteFormat: string | null
+    autoSaveNotes: boolean | null
+    emailNotifications: boolean | null
+    lastActive: Date | null
+    studyStreak: number | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -5931,9 +5959,26 @@ export namespace Prisma {
     password: number
     learningStyle: number
     autoAdapt: number
+    theme: number
+    accentColor: number
+    fontSize: number
+    compactMode: number
+    defaultNoteFormat: number
+    autoSaveNotes: number
+    emailNotifications: number
+    lastActive: number
+    studyStreak: number
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    studyStreak?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    studyStreak?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -5944,6 +5989,15 @@ export namespace Prisma {
     password?: true
     learningStyle?: true
     autoAdapt?: true
+    theme?: true
+    accentColor?: true
+    fontSize?: true
+    compactMode?: true
+    defaultNoteFormat?: true
+    autoSaveNotes?: true
+    emailNotifications?: true
+    lastActive?: true
+    studyStreak?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -5955,6 +6009,15 @@ export namespace Prisma {
     password?: true
     learningStyle?: true
     autoAdapt?: true
+    theme?: true
+    accentColor?: true
+    fontSize?: true
+    compactMode?: true
+    defaultNoteFormat?: true
+    autoSaveNotes?: true
+    emailNotifications?: true
+    lastActive?: true
+    studyStreak?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -5966,6 +6029,15 @@ export namespace Prisma {
     password?: true
     learningStyle?: true
     autoAdapt?: true
+    theme?: true
+    accentColor?: true
+    fontSize?: true
+    compactMode?: true
+    defaultNoteFormat?: true
+    autoSaveNotes?: true
+    emailNotifications?: true
+    lastActive?: true
+    studyStreak?: true
     _all?: true
   }
 
@@ -6007,6 +6079,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -6037,6 +6121,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -6050,7 +6136,18 @@ export namespace Prisma {
     password: string | null
     learningStyle: string | null
     autoAdapt: boolean
+    theme: string | null
+    accentColor: string | null
+    fontSize: string | null
+    compactMode: boolean
+    defaultNoteFormat: string | null
+    autoSaveNotes: boolean
+    emailNotifications: boolean
+    lastActive: Date | null
+    studyStreak: number
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -6078,6 +6175,15 @@ export namespace Prisma {
     password?: boolean
     learningStyle?: boolean
     autoAdapt?: boolean
+    theme?: boolean
+    accentColor?: boolean
+    fontSize?: boolean
+    compactMode?: boolean
+    defaultNoteFormat?: boolean
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: boolean
+    studyStreak?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
@@ -6104,6 +6210,15 @@ export namespace Prisma {
     password?: boolean
     learningStyle?: boolean
     autoAdapt?: boolean
+    theme?: boolean
+    accentColor?: boolean
+    fontSize?: boolean
+    compactMode?: boolean
+    defaultNoteFormat?: boolean
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: boolean
+    studyStreak?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6115,6 +6230,15 @@ export namespace Prisma {
     password?: boolean
     learningStyle?: boolean
     autoAdapt?: boolean
+    theme?: boolean
+    accentColor?: boolean
+    fontSize?: boolean
+    compactMode?: boolean
+    defaultNoteFormat?: boolean
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: boolean
+    studyStreak?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -6126,9 +6250,18 @@ export namespace Prisma {
     password?: boolean
     learningStyle?: boolean
     autoAdapt?: boolean
+    theme?: boolean
+    accentColor?: boolean
+    fontSize?: boolean
+    compactMode?: boolean
+    defaultNoteFormat?: boolean
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: boolean
+    studyStreak?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "learningStyle" | "autoAdapt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "learningStyle" | "autoAdapt" | "theme" | "accentColor" | "fontSize" | "compactMode" | "defaultNoteFormat" | "autoSaveNotes" | "emailNotifications" | "lastActive" | "studyStreak", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -6176,6 +6309,15 @@ export namespace Prisma {
       password: string | null
       learningStyle: string | null
       autoAdapt: boolean
+      theme: string | null
+      accentColor: string | null
+      fontSize: string | null
+      compactMode: boolean
+      defaultNoteFormat: string | null
+      autoSaveNotes: boolean
+      emailNotifications: boolean
+      lastActive: Date | null
+      studyStreak: number
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6621,6 +6763,15 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly learningStyle: FieldRef<"User", 'String'>
     readonly autoAdapt: FieldRef<"User", 'Boolean'>
+    readonly theme: FieldRef<"User", 'String'>
+    readonly accentColor: FieldRef<"User", 'String'>
+    readonly fontSize: FieldRef<"User", 'String'>
+    readonly compactMode: FieldRef<"User", 'Boolean'>
+    readonly defaultNoteFormat: FieldRef<"User", 'String'>
+    readonly autoSaveNotes: FieldRef<"User", 'Boolean'>
+    readonly emailNotifications: FieldRef<"User", 'Boolean'>
+    readonly lastActive: FieldRef<"User", 'DateTime'>
+    readonly studyStreak: FieldRef<"User", 'Int'>
   }
     
 
@@ -21954,7 +22105,16 @@ export namespace Prisma {
     image: 'image',
     password: 'password',
     learningStyle: 'learningStyle',
-    autoAdapt: 'autoAdapt'
+    autoAdapt: 'autoAdapt',
+    theme: 'theme',
+    accentColor: 'accentColor',
+    fontSize: 'fontSize',
+    compactMode: 'compactMode',
+    defaultNoteFormat: 'defaultNoteFormat',
+    autoSaveNotes: 'autoSaveNotes',
+    emailNotifications: 'emailNotifications',
+    lastActive: 'lastActive',
+    studyStreak: 'studyStreak'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -22485,6 +22645,15 @@ export namespace Prisma {
     password?: StringNullableFilter<"User"> | string | null
     learningStyle?: StringNullableFilter<"User"> | string | null
     autoAdapt?: BoolFilter<"User"> | boolean
+    theme?: StringNullableFilter<"User"> | string | null
+    accentColor?: StringNullableFilter<"User"> | string | null
+    fontSize?: StringNullableFilter<"User"> | string | null
+    compactMode?: BoolFilter<"User"> | boolean
+    defaultNoteFormat?: StringNullableFilter<"User"> | string | null
+    autoSaveNotes?: BoolFilter<"User"> | boolean
+    emailNotifications?: BoolFilter<"User"> | boolean
+    lastActive?: DateTimeNullableFilter<"User"> | Date | string | null
+    studyStreak?: IntFilter<"User"> | number
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
@@ -22510,6 +22679,15 @@ export namespace Prisma {
     password?: SortOrderInput | SortOrder
     learningStyle?: SortOrderInput | SortOrder
     autoAdapt?: SortOrder
+    theme?: SortOrderInput | SortOrder
+    accentColor?: SortOrderInput | SortOrder
+    fontSize?: SortOrderInput | SortOrder
+    compactMode?: SortOrder
+    defaultNoteFormat?: SortOrderInput | SortOrder
+    autoSaveNotes?: SortOrder
+    emailNotifications?: SortOrder
+    lastActive?: SortOrderInput | SortOrder
+    studyStreak?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
@@ -22538,6 +22716,15 @@ export namespace Prisma {
     password?: StringNullableFilter<"User"> | string | null
     learningStyle?: StringNullableFilter<"User"> | string | null
     autoAdapt?: BoolFilter<"User"> | boolean
+    theme?: StringNullableFilter<"User"> | string | null
+    accentColor?: StringNullableFilter<"User"> | string | null
+    fontSize?: StringNullableFilter<"User"> | string | null
+    compactMode?: BoolFilter<"User"> | boolean
+    defaultNoteFormat?: StringNullableFilter<"User"> | string | null
+    autoSaveNotes?: BoolFilter<"User"> | boolean
+    emailNotifications?: BoolFilter<"User"> | boolean
+    lastActive?: DateTimeNullableFilter<"User"> | Date | string | null
+    studyStreak?: IntFilter<"User"> | number
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
@@ -22563,9 +22750,20 @@ export namespace Prisma {
     password?: SortOrderInput | SortOrder
     learningStyle?: SortOrderInput | SortOrder
     autoAdapt?: SortOrder
+    theme?: SortOrderInput | SortOrder
+    accentColor?: SortOrderInput | SortOrder
+    fontSize?: SortOrderInput | SortOrder
+    compactMode?: SortOrder
+    defaultNoteFormat?: SortOrderInput | SortOrder
+    autoSaveNotes?: SortOrder
+    emailNotifications?: SortOrder
+    lastActive?: SortOrderInput | SortOrder
+    studyStreak?: SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -22580,6 +22778,15 @@ export namespace Prisma {
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
     learningStyle?: StringNullableWithAggregatesFilter<"User"> | string | null
     autoAdapt?: BoolWithAggregatesFilter<"User"> | boolean
+    theme?: StringNullableWithAggregatesFilter<"User"> | string | null
+    accentColor?: StringNullableWithAggregatesFilter<"User"> | string | null
+    fontSize?: StringNullableWithAggregatesFilter<"User"> | string | null
+    compactMode?: BoolWithAggregatesFilter<"User"> | boolean
+    defaultNoteFormat?: StringNullableWithAggregatesFilter<"User"> | string | null
+    autoSaveNotes?: BoolWithAggregatesFilter<"User"> | boolean
+    emailNotifications?: BoolWithAggregatesFilter<"User"> | boolean
+    lastActive?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    studyStreak?: IntWithAggregatesFilter<"User"> | number
   }
 
   export type VerificationTokenWhereInput = {
@@ -23720,6 +23927,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -23745,6 +23961,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -23770,6 +23995,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -23795,6 +24029,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -23820,6 +24063,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
   }
 
   export type UserUpdateManyMutationInput = {
@@ -23831,6 +24083,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -23842,6 +24103,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
   }
 
   export type VerificationTokenCreateInput = {
@@ -25229,6 +25499,19 @@ export namespace Prisma {
     password?: SortOrder
     learningStyle?: SortOrder
     autoAdapt?: SortOrder
+    theme?: SortOrder
+    accentColor?: SortOrder
+    fontSize?: SortOrder
+    compactMode?: SortOrder
+    defaultNoteFormat?: SortOrder
+    autoSaveNotes?: SortOrder
+    emailNotifications?: SortOrder
+    lastActive?: SortOrder
+    studyStreak?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    studyStreak?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -25240,6 +25523,15 @@ export namespace Prisma {
     password?: SortOrder
     learningStyle?: SortOrder
     autoAdapt?: SortOrder
+    theme?: SortOrder
+    accentColor?: SortOrder
+    fontSize?: SortOrder
+    compactMode?: SortOrder
+    defaultNoteFormat?: SortOrder
+    autoSaveNotes?: SortOrder
+    emailNotifications?: SortOrder
+    lastActive?: SortOrder
+    studyStreak?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -25251,6 +25543,19 @@ export namespace Prisma {
     password?: SortOrder
     learningStyle?: SortOrder
     autoAdapt?: SortOrder
+    theme?: SortOrder
+    accentColor?: SortOrder
+    fontSize?: SortOrder
+    compactMode?: SortOrder
+    defaultNoteFormat?: SortOrder
+    autoSaveNotes?: SortOrder
+    emailNotifications?: SortOrder
+    lastActive?: SortOrder
+    studyStreak?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    studyStreak?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -27295,6 +27600,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     notes?: NoteCreateNestedManyWithoutUserInput
@@ -27319,6 +27633,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
@@ -27359,6 +27682,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
@@ -27383,6 +27715,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
@@ -27407,6 +27748,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
@@ -27431,6 +27781,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
@@ -27471,6 +27830,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
@@ -27495,6 +27863,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
@@ -27519,6 +27896,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
@@ -27543,6 +27929,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
@@ -27583,6 +27978,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
@@ -27607,6 +28011,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
@@ -28487,6 +28900,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -28511,6 +28933,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -28551,6 +28982,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -28575,6 +29015,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -28599,6 +29048,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -28623,6 +29081,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -28663,6 +29130,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -28687,6 +29163,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -28711,6 +29196,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -28735,6 +29229,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -28775,6 +29278,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -28799,6 +29311,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -28823,6 +29344,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -28847,6 +29377,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -28876,6 +29415,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -28900,6 +29448,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -29019,6 +29576,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -29043,6 +29609,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -29078,6 +29653,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -29102,6 +29686,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -29345,6 +29938,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -29369,6 +29971,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -29462,6 +30073,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -29486,6 +30106,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -29557,6 +30186,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -29581,6 +30219,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -29674,6 +30321,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -29698,6 +30354,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -29722,6 +30387,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -29746,6 +30420,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -29860,6 +30543,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -29884,6 +30576,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -29995,6 +30696,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -30019,6 +30729,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -30092,6 +30811,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -30116,6 +30844,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -30167,6 +30904,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -30191,6 +30937,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -30264,6 +31019,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -30288,6 +31052,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -30372,6 +31145,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -30396,6 +31178,15 @@ export namespace Prisma {
     password?: string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -30436,6 +31227,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -30460,6 +31260,15 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput

@@ -70,9 +70,14 @@ function buildLineFromItems(items: Pdf2JsonTextItem[]): string {
       const gap = x - previousRight;
       const spacingUnit = Math.max(previousCharWidth, tokenCharWidth, 0.2);
 
-      if (gap > spacingUnit * 0.35) {
+      // Improved spacing detection: use lower threshold for better word separation
+      if (gap > spacingUnit * 0.25) {
+        // Add space for all gaps, ensuring minimum word separation
         const estimatedSpaces = Math.min(Math.max(Math.round(gap / spacingUnit), 1), 4);
         line += " ".repeat(estimatedSpaces);
+      } else if (gap > 0.05 && line.length > 0) {
+        // Even tiny gaps should get a space to prevent word concatenation
+        line += " ";
       }
     }
 

@@ -59,6 +59,17 @@ model User {
     password      String?
     learningStyle String?   @default("reading")
     autoAdapt     Boolean   @default(false)
+    // Customization fields
+    theme         String?   @default("light")
+    accentColor   String?   @default("blue")
+    fontSize      String?   @default("medium")
+    compactMode   Boolean   @default(false)
+    defaultNoteFormat String? @default("summary")
+    autoSaveNotes Boolean   @default(true)
+    emailNotifications Boolean @default(true)
+    lastActive    DateTime?
+    studyStreak   Int       @default(0)
+    // Relations
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
