@@ -88,8 +88,8 @@ export default function BattlePage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <AppNav />
-      <div className="container mx-auto max-w-6xl px-6 py-12">
-        <h1 className="mb-2 text-4xl font-bold text-gray-900">Study Battle Arena ⚔️</h1>
+      <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+        <h1 className="mb-2 text-4xl font-bold text-gray-900">Study Battle Arena</h1>
         <p className="mb-8 text-lg text-gray-600">Challenge friends in real-time quiz battles and climb the leaderboard.</p>
 
         <div className="grid gap-6 lg:grid-cols-2">
@@ -160,7 +160,6 @@ export default function BattlePage() {
           <h2 className="mb-4 text-lg font-semibold text-gray-900">Battle History</h2>
           {history.length === 0 ? (
             <EmptyState
-              icon="⚔️"
               title="No battles yet"
               description="Create your first battle to challenge friends or join an existing battle with a code."
             />

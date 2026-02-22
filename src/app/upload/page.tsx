@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
@@ -148,7 +147,7 @@ export default function UploadPage() {
     return (
       <main className="min-h-screen bg-gray-50">
         <AppNav />
-        <div className="container mx-auto px-6 py-12">
+        <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12">
           <SkeletonCard />
         </div>
       </main>
@@ -163,7 +162,7 @@ export default function UploadPage() {
     <main className="min-h-screen bg-gray-50">
       <AppNav />
 
-      <div className="container mx-auto max-w-4xl px-6 py-12">
+      <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-4xl font-bold text-gray-900">Upload File</h1>
@@ -172,18 +171,12 @@ export default function UploadPage() {
             </p>
           </div>
           <div className="flex gap-2">
-            <Link
-              href="/"
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
-            >
+            <Button href="/" variant="secondary" size="sm">
               Home
-            </Link>
-            <Link
-              href="/generator"
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
-            >
+            </Button>
+            <Button href="/generator" variant="secondary" size="sm">
               Paste Text Instead
-            </Link>
+            </Button>
           </div>
         </div>
 

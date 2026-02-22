@@ -128,20 +128,21 @@ export default function ExamPredictorPage() {
     <main className="min-h-screen bg-gray-50">
       <AppNav />
 
-      <div className="container mx-auto max-w-6xl px-6 py-12">
+      <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">AI Exam Predictor 🎯</h1>
+            <h1 className="text-4xl font-bold text-gray-900">AI Exam Predictor</h1>
             <p className="mt-2 text-lg text-gray-600">
               Analyze past exams and syllabus patterns to predict likely test questions.
             </p>
           </div>
-          <Link
+          <Button
             href="/my-predictions"
-            className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+            variant="secondary"
+            size="sm"
           >
             My Predictions
-          </Link>
+          </Button>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
@@ -150,7 +151,7 @@ export default function ExamPredictorPage() {
             <select
               value={examType}
               onChange={(event) => setExamType(event.target.value)}
-              className="mb-4 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              className="mb-4 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
               <option>Midterm</option>
               <option>Final</option>
@@ -162,7 +163,7 @@ export default function ExamPredictorPage() {
               value={pastExamText}
               onChange={(event) => setPastExamText(event.target.value)}
               placeholder="Paste past exam questions or drop upload text here..."
-              className="h-44 w-full rounded-lg border border-gray-300 p-3 text-sm"
+              className="h-44 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
 
             <div className="mt-2 flex flex-wrap gap-2">
@@ -185,7 +186,7 @@ export default function ExamPredictorPage() {
               value={syllabusText}
               onChange={(event) => setSyllabusText(event.target.value)}
               placeholder="Paste syllabus topics, weighting, and objectives..."
-              className="h-32 w-full rounded-lg border border-gray-300 p-3 text-sm"
+              className="h-32 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
 
             <div className="mt-2 flex flex-wrap gap-2">
@@ -258,7 +259,6 @@ export default function ExamPredictorPage() {
         {!isLoading && predictions.length === 0 && !error && (
           <div className="mt-8">
             <EmptyState
-              icon="🎯"
               title="No predictions yet"
               description="Upload a past exam to get AI-powered predictions for your upcoming test. Our AI analyzes patterns, difficulty trends, and professor style to give you the best study guide."
             />

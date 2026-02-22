@@ -37,10 +37,10 @@ interface UserSettings {
 }
 
 const STYLE_LABELS: Record<Style, string> = {
-  visual: "Visual 👁️",
-  auditory: "Auditory 🎧",
-  reading: "Reading/Writing 📚",
-  kinesthetic: "Kinesthetic 🧠",
+  visual: "Visual",
+  auditory: "Auditory",
+  reading: "Reading/Writing",
+  kinesthetic: "Kinesthetic",
 };
 
 const ACCENT_COLORS: Record<AccentColor, { bg: string; hover: string; label: string }> = {
@@ -225,7 +225,7 @@ export default function SettingsPage() {
     <main className="min-h-screen bg-gray-50">
       <AppNav />
       
-      <div className="container mx-auto max-w-4xl px-6 py-12">
+      <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="mb-8">
           <h1 className="mb-2 text-4xl font-bold text-gray-900">Settings</h1>
           <p className="text-lg text-gray-600">Customize your StudyForge experience</p>
@@ -233,7 +233,7 @@ export default function SettingsPage() {
 
         {success && (
           <div className="mb-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">
-            ✓ {success}
+            {success}
           </div>
         )}
 
@@ -246,7 +246,7 @@ export default function SettingsPage() {
         <div className="space-y-6">
           {/* APPEARANCE SECTION */}
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">🎨 Appearance</h2>
+            <h2 className="mb-4 text-2xl font-bold text-gray-900">Appearance</h2>
             
             {/* Theme */}
             <div className="mb-4">
@@ -316,7 +316,7 @@ export default function SettingsPage() {
 
           {/* STUDY PREFERENCES SECTION */}
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">📚 Study Preferences</h2>
+            <h2 className="mb-4 text-2xl font-bold text-gray-900">Study Preferences</h2>
             
             {/* Learning Style */}
             <div className="mb-4">
@@ -384,7 +384,7 @@ export default function SettingsPage() {
 
           {/* NOTIFICATIONS SECTION */}
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">🔔 Notifications</h2>
+            <h2 className="mb-4 text-2xl font-bold text-gray-900">Notifications</h2>
             
             <label className="flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 p-4">
               <input
@@ -402,7 +402,7 @@ export default function SettingsPage() {
 
           {/* ACCOUNT SECTION */}
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">👤 Account</h2>
+            <h2 className="mb-4 text-2xl font-bold text-gray-900">Account</h2>
             
             <div className="space-y-4">
               <div>
@@ -432,7 +432,7 @@ export default function SettingsPage() {
 
           {/* DATA & PRIVACY SECTION */}
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">🔒 Data & Privacy</h2>
+            <h2 className="mb-4 text-2xl font-bold text-gray-900">Data & Privacy</h2>
             
             <div className="space-y-3">
               <Button
@@ -442,7 +442,7 @@ export default function SettingsPage() {
                 className="justify-between p-4 text-left font-semibold text-gray-900"
               >
                 <div className="flex items-center justify-between">
-                  <span>📦 Export All Data</span>
+                  <span>Export All Data</span>
                   <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
@@ -457,7 +457,7 @@ export default function SettingsPage() {
                 className="justify-between p-4 text-left"
               >
                 <div className="flex items-center justify-between">
-                  <span>🗑️ Delete Account</span>
+                  <span>Delete Account</span>
                   <svg className="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>

@@ -218,7 +218,7 @@ export default function Generator() {
 
   const handleCopy = () => {
     void navigator.clipboard.writeText(generatedNotes);
-    alert("✓ Notes copied to clipboard!");
+    alert("Notes copied to clipboard.");
   };
 
   const toggleCard = (index: number) => {
@@ -328,7 +328,7 @@ export default function Generator() {
                 size="sm"
                 loading={isSaving}
               >
-                {isSaving ? "Saving..." : "💾 Save"}
+                {isSaving ? "Saving..." : "Save"}
               </Button>
               <Button
                 onClick={handleCopy}
@@ -342,26 +342,27 @@ export default function Generator() {
               </Button>
             </div>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2">
             {cards.map((card, index) => (
-              <div
-                key={index}
-                onClick={() => toggleCard(index)}
-                className="group relative h-48 cursor-pointer perspective"
-              >
-                <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(index) ? 'rotate-y-180' : ''}`}>
-                  <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-blue-50 p-6 backface-hidden">
-                    <p className="text-center text-lg font-medium text-gray-900">
-                      {card.question}
-                    </p>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-green-50 p-6 backface-hidden rotate-y-180">
-                    <p className="text-center text-gray-700">
-                      {card.answer}
-                    </p>
+              <div key={index}>
+                <div
+                  onClick={() => toggleCard(index)}
+                  className="group relative h-48 cursor-pointer perspective"
+                >
+                  <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(index) ? 'rotate-y-180' : ''}`}>
+                    <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-blue-50 p-6 backface-hidden">
+                      <p className="text-center text-lg font-medium leading-relaxed text-gray-900">
+                        {card.question}
+                      </p>
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-green-50 p-6 backface-hidden rotate-y-180">
+                      <p className="text-center leading-relaxed text-gray-700">
+                        {card.answer}
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <p className="mt-2 text-center text-xs text-gray-500">
+                <p className="mt-4 text-center text-sm text-gray-500">
                   Click to flip • Card {index + 1}
                 </p>
               </div>
@@ -386,7 +387,7 @@ export default function Generator() {
                 size="sm"
                 loading={isSaving}
               >
-                {isSaving ? "Saving..." : "💾 Save"}
+                {isSaving ? "Saving..." : "Save"}
               </Button>
               <Button
                 onClick={handleCopy}
@@ -455,7 +456,7 @@ export default function Generator() {
               size="sm"
               loading={isSaving}
             >
-              {isSaving ? "Saving..." : "💾 Save"}
+              {isSaving ? "Saving..." : "Save"}
             </Button>
             <Button
               onClick={handleCopy}
@@ -480,7 +481,7 @@ export default function Generator() {
     <main className="min-h-screen bg-gray-50">
       <AppNav />
 
-      <div className="container mx-auto max-w-4xl px-6 py-12">
+      <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="mb-8 text-center">
           <h1 className="mb-2 text-4xl font-bold text-gray-900">
             Note Generator
@@ -574,7 +575,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-semibold text-gray-900">
-                    🎯 Adapt to Your Learning Style
+                    Adapt to Your Learning Style
                   </p>
                   <p className="mt-1 text-xs text-gray-600">
                     Current style: <span className="font-semibold capitalize">{learningStyle}</span>
@@ -623,7 +624,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
 
         {saveSuccess && (
           <div className="mb-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">
-            ✓ Note saved successfully! <Link href="/my-notes" className="font-semibold underline">View all notes</Link>
+            Note saved successfully. <Link href="/my-notes" className="font-semibold underline">View all notes</Link>
           </div>
         )}
 

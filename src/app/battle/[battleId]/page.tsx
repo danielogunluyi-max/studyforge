@@ -109,7 +109,7 @@ export default function BattleRoomPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <AppNav />
-      <div className="container mx-auto max-w-4xl px-6 py-10">
+      <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>

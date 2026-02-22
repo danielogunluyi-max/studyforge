@@ -106,10 +106,10 @@ const QUESTIONS: Question[] = [
 ];
 
 const STYLE_LABEL: Record<Style, string> = {
-  visual: "Visual 👁️",
-  auditory: "Auditory 🎧",
-  reading: "Reading/Writing 📚",
-  kinesthetic: "Kinesthetic 🧠",
+  visual: "Visual",
+  auditory: "Auditory",
+  reading: "Reading/Writing",
+  kinesthetic: "Kinesthetic",
 };
 
 export default function LearningStyleQuizPage() {
@@ -157,8 +157,8 @@ export default function LearningStyleQuizPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <AppNav />
-      <div className="container mx-auto max-w-4xl px-6 py-12">
-        <h1 className="mb-2 text-4xl font-bold text-gray-900">Learning Style Quiz 🧬</h1>
+      <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
+        <h1 className="mb-2 text-4xl font-bold text-gray-900">Learning Style Quiz</h1>
         <p className="mb-8 text-lg text-gray-600">Answer 10 questions to personalize all AI output to your brain’s preferred style.</p>
 
         <div className="space-y-4">

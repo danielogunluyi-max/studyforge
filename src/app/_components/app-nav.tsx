@@ -3,16 +3,36 @@
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { Button } from "~/app/_components/button";
 
 export function AppNav() {
   const { data: session, status } = useSession();
+  const pathname = usePathname();
   const isLoading = status === "loading";
   const [showFeaturesDropdown, setShowFeaturesDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const primaryLinks = [
+    { href: "/generator", label: "Generator" },
+    { href: "/upload", label: "Upload File" },
+    { href: "/my-notes", label: "My Notes" },
+    { href: "/citations", label: "Citations" },
+  ];
+
+  const featureLinks = [
+    { href: "/exam-predictor", label: "AI Exam Predictor" },
+    { href: "/battle", label: "Study Battle Arena" },
+    { href: "/learning-style-quiz", label: "Learning Style Quiz" },
+    { href: "/study-groups", label: "AI Study Groups" },
+    { href: "/concept-web", label: "Concept Web Builder" },
+  ];
+
+  const isActive = (href: string) => pathname === href || pathname?.startsWith(`${href}/`);
+
   return (
-    <nav className="border-b border-gray-200 bg-white">
-      <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 py-4">
+    <nav className="sticky top-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 sm:gap-3">
           <img
             src="/StudyForge-logo.png"
@@ -24,36 +44,23 @@ export function AppNav() {
         
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-4">
-          <Link
-            href="/generator"
-            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-          >
-            Generator
-          </Link>
-          <Link
-            href="/upload"
-            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-          >
-            Upload File
-          </Link>
-          <Link
-            href="/my-notes"
-            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-          >
-            My Notes
-          </Link>
-          <Link
-            href="/citations"
-            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-          >
-            Citations
-          </Link>
+          {primaryLinks.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                isActive(item.href) ? "bg-blue-50 text-blue-700" : "text-gray-600"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
 
           {/* Features Dropdown */}
           <div className="relative">
             <button 
               onClick={() => setShowFeaturesDropdown(!showFeaturesDropdown)}
-              className="text-sm font-medium text-gray-600 transition hover:text-gray-900 flex items-center gap-1"
+              className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Features
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -68,35 +75,35 @@ export function AppNav() {
                   className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
                   onClick={() => setShowFeaturesDropdown(false)}
                 >
-                  🎯 AI Exam Predictor
+                  AI Exam Predictor
                 </Link>
                 <Link
                   href="/battle"
                   className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
                   onClick={() => setShowFeaturesDropdown(false)}
                 >
-                  ⚔️ Study Battle Arena
+                  Study Battle Arena
                 </Link>
                 <Link
                   href="/learning-style-quiz"
                   className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
                   onClick={() => setShowFeaturesDropdown(false)}
                 >
-                  🎨 Learning Style Quiz
+                  Learning Style Quiz
                 </Link>
                 <Link
                   href="/study-groups"
                   className="block border-b border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
                   onClick={() => setShowFeaturesDropdown(false)}
                 >
-                  👥 AI Study Groups
+                  AI Study Groups
                 </Link>
                 <Link
                   href="/concept-web"
                   className="block px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50 rounded-b-lg"
                   onClick={() => setShowFeaturesDropdown(false)}
                 >
-                  🕸️ Concept Web Builder
+                  Concept Web Builder
                 </Link>
               </div>
             )}
@@ -131,12 +138,7 @@ export function AppNav() {
               >
                 Log In
               </Link>
-              <Link
-                href="/signup"
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
-              >
-                Sign Up
-              </Link>
+              <Button href="/signup" size="sm">Sign Up</Button>
             </>
           )}
         </div>
@@ -144,7 +146,7 @@ export function AppNav() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-gray-600 hover:text-gray-900"
+          className="lg:hidden rounded-lg border border-gray-300 p-2 text-gray-600 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
           aria-label="Toggle menu"
         >
           {mobileMenuOpen ? (
@@ -162,47 +164,30 @@ export function AppNav() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-gray-200 bg-white">
-          <div className="container mx-auto px-4 py-4 space-y-2">
-            <Link href="/generator" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">
-              Generator
-            </Link>
-            <Link href="/upload" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">
-              Upload File
-            </Link>
-            <Link href="/my-notes" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">
-              My Notes
-            </Link>
-            <Link href="/citations" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">
-              Citations
-            </Link>
+          <div className="mx-auto w-full max-w-7xl space-y-2 px-4 py-4 sm:px-6">
+            {primaryLinks.map((item) => (
+              <Link key={item.href} href={item.href} className={`block rounded-lg px-4 py-2 text-sm font-medium transition ${isActive(item.href) ? "bg-blue-50 text-blue-700" : "text-gray-700 hover:bg-gray-50"}`}>
+                {item.label}
+              </Link>
+            ))}
             
             <div className="border-t border-gray-200 my-2 pt-2">
               <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">Features</p>
-              <Link href="/exam-predictor" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>
-                🎯 AI Exam Predictor
-              </Link>
-              <Link href="/battle" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>
-                ⚔️ Study Battle Arena
-              </Link>
-              <Link href="/learning-style-quiz" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>
-                🎨 Learning Style Quiz
-              </Link>
-              <Link href="/study-groups" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>
-                👥 AI Study Groups
-              </Link>
-              <Link href="/concept-web" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">
-                🕸️ Concept Web Builder
-              </Link>
+              {featureLinks.map((item) => (
+                <Link key={item.href} href={item.href} className={`block rounded-lg px-4 py-2 text-sm transition ${isActive(item.href) ? "bg-blue-50 text-blue-700" : "text-gray-700 hover:bg-gray-50"}`} onClick={() => setMobileMenuOpen(false)}>
+                  {item.label}
+                </Link>
+              ))}
             </div>
 
             {session?.user ? (
               <>
                 <Link href="/settings" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">
-                  ⚙️ Settings
+                  Settings
                 </Link>
                 <button
                   onClick={() => void signOut({ callbackUrl: "/" })}
-                  className="block w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
+                  className="block w-full rounded-lg px-4 py-2 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
                 >
                   Sign Out
                 </button>
@@ -212,7 +197,7 @@ export function AppNav() {
                 <Link href="/login" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg">
                   Log In
                 </Link>
-                <Link href="/signup" className="block px-4 py-2 text-sm font-medium bg-blue-600 text-white text-center rounded-lg hover:bg-blue-700">
+                <Link href="/signup" className="block rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-blue-700 hover:shadow-md">
                   Sign Up
                 </Link>
               </>

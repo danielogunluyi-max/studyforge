@@ -235,7 +235,7 @@ export default function CitationsPage() {
     <main className="min-h-screen bg-gray-50">
       <AppNav />
 
-      <div className="container mx-auto max-w-6xl px-6 py-12">
+      <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-4xl font-bold text-gray-900">Citation Generator</h1>
@@ -243,12 +243,9 @@ export default function CitationsPage() {
               Build MLA, APA, or Chicago citations and export a full references page.
             </p>
           </div>
-          <Link
-            href="/generator"
-            className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
-          >
+          <Button href="/generator" variant="secondary" size="sm">
             Back to Generator
-          </Link>
+          </Button>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
@@ -372,7 +369,6 @@ export default function CitationsPage() {
             <SkeletonList count={4} />
           ) : citations.length === 0 ? (
             <EmptyState
-              icon="📚"
               title="No citations yet"
               description="Generate citations in MLA, APA, or Chicago format for your research papers and assignments."
             />

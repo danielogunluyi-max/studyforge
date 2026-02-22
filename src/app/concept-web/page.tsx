@@ -112,8 +112,8 @@ export default function ConceptWebPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <AppNav />
-      <div className="container mx-auto max-w-6xl px-6 py-12">
-        <h1 className="mb-2 text-4xl font-bold text-gray-900">Concept Web Builder 🕸️</h1>
+      <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+        <h1 className="mb-2 text-4xl font-bold text-gray-900">Concept Web Builder</h1>
         <p className="mb-6 text-lg text-gray-600">Discover cross-subject links and map your knowledge graph visually.</p>
 
         <div className="mb-4 flex flex-wrap gap-2">
@@ -152,7 +152,6 @@ export default function ConceptWebPage() {
 
         {nodes.length === 0 && !isLoading && (
           <EmptyState
-            icon="🕸️"
             title="No concept web yet"
             description="Start by discovering connections between concepts from your notes, or load an existing web to explore the relationships between different topics."
             actionLabel="Discover Connections"

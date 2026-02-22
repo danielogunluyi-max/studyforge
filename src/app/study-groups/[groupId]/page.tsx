@@ -62,7 +62,7 @@ export default function StudyGroupRoomPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <AppNav />
-      <div className="container mx-auto max-w-5xl px-6 py-10">
+      <div className="container mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
         <h1 className="mb-2 text-3xl font-bold text-gray-900">Study Group Room</h1>
         <p className="mb-6 text-sm text-gray-600">AI moderator prompts every few messages to keep discussion productive.</p>
 
@@ -79,7 +79,7 @@ export default function StudyGroupRoomPage() {
                       className={`rounded-lg p-3 text-sm ${message.isAI ? "border border-blue-200 bg-blue-50" : "border border-gray-200 bg-white"}`}
                     >
                       <p className="mb-1 text-xs font-semibold text-gray-500">
-                        {message.isAI ? "🤖 AI Moderator" : message.user?.name || message.user?.email || "Member"}
+                        {message.isAI ? "AI Moderator" : message.user?.name || message.user?.email || "Member"}
                       </p>
                       <p className="text-gray-800">{message.message}</p>
                     </div>

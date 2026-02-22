@@ -136,7 +136,7 @@ export default function SignUp() {
     <main className="min-h-screen bg-gray-50">
       {/* Navigation */}
       <nav className="border-b border-gray-200 bg-white">
-        <div className="container mx-auto flex items-center justify-between px-6 py-4">
+        <div className="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
           <Link href="/" className="flex items-center gap-3">
             <img
               src="/StudyForge-logo.png"
@@ -155,7 +155,7 @@ export default function SignUp() {
       </nav>
 
       {/* Signup Form */}
-      <div className="container mx-auto flex min-h-[calc(100vh-80px)] items-center justify-center px-6 py-12">
+      <div className="container mx-auto flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-8 sm:px-6 sm:py-12">
         <div className="w-full max-w-md">
           <div className="mb-8 text-center">
             <h1 className="mb-2 text-3xl font-bold text-gray-900">
@@ -166,7 +166,7 @@ export default function SignUp() {
             </p>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name */}
               <div>

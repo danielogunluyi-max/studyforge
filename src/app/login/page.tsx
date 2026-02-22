@@ -115,7 +115,7 @@ function LoginContent() {
   return (
     <main className="min-h-screen bg-gray-50">
       <nav className="border-b border-gray-200 bg-white">
-        <div className="container mx-auto flex items-center justify-between px-6 py-4">
+        <div className="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
           <Link href="/" className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -134,7 +134,7 @@ function LoginContent() {
         </div>
       </nav>
 
-      <div className="container mx-auto flex min-h-[calc(100vh-80px)] items-center justify-center px-6 py-12">
+      <div className="container mx-auto flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-8 sm:px-6 sm:py-12">
         <div className="w-full max-w-md">
           <div className="mb-8 text-center">
             <h1 className="mb-2 text-3xl font-bold text-gray-900">
@@ -151,7 +151,7 @@ function LoginContent() {
             </div>
           )}
 
-          <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="mb-2 block text-sm font-semibold text-gray-900">
@@ -222,7 +222,7 @@ function LoginSkeleton() {
   return (
     <main className="min-h-screen bg-gray-50">
       <nav className="border-b border-gray-200 bg-white">
-        <div className="container mx-auto flex items-center justify-between px-6 py-4">
+        <div className="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-full bg-gray-200" />
             <div className="h-5 w-28 rounded bg-gray-200" />
@@ -230,13 +230,13 @@ function LoginSkeleton() {
           <div className="h-4 w-36 rounded bg-gray-200" />
         </div>
       </nav>
-      <div className="container mx-auto flex min-h-[calc(100vh-80px)] items-center justify-center px-6 py-12">
+      <div className="container mx-auto flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-8 sm:px-6 sm:py-12">
         <div className="w-full max-w-md">
           <div className="mb-8 space-y-2 text-center">
             <div className="mx-auto h-8 w-32 rounded bg-gray-200" />
             <div className="mx-auto h-4 w-48 rounded bg-gray-200" />
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
             <div className="space-y-6">
               <div className="h-11 w-full rounded bg-gray-100" />
               <div className="h-11 w-full rounded bg-gray-100" />

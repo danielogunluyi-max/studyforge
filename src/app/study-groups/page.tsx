@@ -68,8 +68,8 @@ export default function StudyGroupsPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <AppNav />
-      <div className="container mx-auto max-w-6xl px-6 py-12">
-        <h1 className="mb-2 text-4xl font-bold text-gray-900">AI Study Groups 🤝</h1>
+      <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+        <h1 className="mb-2 text-4xl font-bold text-gray-900">AI Study Groups</h1>
         <p className="mb-8 text-lg text-gray-600">Collaborate with friends while an AI moderator keeps sessions focused.</p>
 
         <div className="grid gap-6 lg:grid-cols-2">
@@ -121,7 +121,6 @@ export default function StudyGroupsPage() {
           <h2 className="mb-4 text-lg font-semibold text-gray-900">Active Groups</h2>
           {groups.length === 0 ? (
             <EmptyState
-              icon="👥"
               title="No study groups yet"
               description="Create a new group to study with friends, or join an existing group using an invite code."
             />
