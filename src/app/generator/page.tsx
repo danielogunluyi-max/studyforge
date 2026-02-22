@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
+import { Button } from "~/app/_components/button";
 
 const PREFILL_STORAGE_KEY = "studyforge:prefillText";
 const TAG_SUGGESTIONS = [
@@ -321,22 +322,24 @@ export default function Generator() {
               Your Flashcards ({cards.length} cards)
             </h2>
             <div className="flex gap-2">
-              <button
+              <Button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+                size="sm"
+                loading={isSaving}
               >
                 {isSaving ? "Saving..." : "💾 Save"}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleCopy}
-                className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                variant="secondary"
+                size="sm"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
                 Copy
-              </button>
+              </Button>
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -377,22 +380,24 @@ export default function Generator() {
               Practice Quiz ({questions.length} questions)
             </h2>
             <div className="flex gap-2">
-              <button
+              <Button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+                size="sm"
+                loading={isSaving}
               >
                 {isSaving ? "Saving..." : "💾 Save"}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleCopy}
-                className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                variant="secondary"
+                size="sm"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
                 Copy
-              </button>
+              </Button>
             </div>
           </div>
           <div className="space-y-6">
@@ -444,22 +449,24 @@ export default function Generator() {
             Your Study Notes
           </h2>
           <div className="flex gap-2">
-            <button
+            <Button
               onClick={handleSave}
               disabled={isSaving}
-              className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+              size="sm"
+              loading={isSaving}
             >
               {isSaving ? "Saving..." : "💾 Save"}
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={handleCopy}
-              className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+              variant="secondary"
+              size="sm"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
               Copy
-            </button>
+            </Button>
           </div>
         </div>
         <div className="prose max-w-none whitespace-pre-wrap text-gray-700">
@@ -586,30 +593,29 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
         </div>
 
         <div className="mb-6 flex gap-3">
-          <button
+          <Button
             onClick={handleGenerate}
             disabled={!inputText || isLoading}
-            className="flex-1 rounded-lg bg-blue-600 py-4 text-lg font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+            fullWidth
+            size="lg"
+            loading={isLoading}
           >
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">
-                <svg className="h-5 w-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
                 Generating... (~{estimatedTime}s)
               </span>
             ) : (
               "Generate Notes"
             )}
-          </button>
+          </Button>
           {generatedNotes && (
-            <button
+            <Button
               onClick={handleClear}
-              className="rounded-lg border border-gray-300 bg-white px-6 py-4 text-lg font-semibold text-gray-700 transition hover:bg-gray-50"
+              variant="secondary"
+              size="lg"
             >
               Clear
-            </button>
+            </Button>
           )}
         </div>
 

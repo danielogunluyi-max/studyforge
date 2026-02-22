@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
 import { EmptyState } from "~/app/_components/empty-state";
+import { Button } from "~/app/_components/button";
 
 type NoteOption = { id: string; title: string };
 
@@ -119,13 +120,14 @@ export default function BattlePage() {
               onChange={(event) => setQuestionCount(Number(event.target.value))}
               className="mb-4 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
             />
-            <button
+            <Button
               onClick={() => void createBattle()}
               disabled={isCreating}
-              className="w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:bg-gray-300"
+              fullWidth
+              loading={isCreating}
             >
               {isCreating ? "Creating..." : "Create Battle"}
-            </button>
+            </Button>
           </div>
 
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -136,12 +138,13 @@ export default function BattlePage() {
               className="mb-4 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm tracking-widest"
               placeholder="Enter battle code"
             />
-            <button
+            <Button
               onClick={() => void joinBattle()}
-              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+              variant="secondary"
+              fullWidth
             >
               Join Battle
-            </button>
+            </Button>
 
             <div className="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
               <p className="font-semibold">Leaderboard Preview</p>
