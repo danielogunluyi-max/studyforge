@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AppNav } from "~/app/_components/app-nav";
+import { EmptyState } from "~/app/_components/empty-state";
+import { SkeletonList } from "~/app/_components/skeleton-loader";
 
 type PredictionRecord = {
   id: string;
@@ -47,11 +49,15 @@ export default function MyPredictionsPage() {
         </div>
 
         {isLoading ? (
-          <p className="text-sm text-gray-600">Loading predictions...</p>
+          <SkeletonList count={4} />
         ) : records.length === 0 ? (
-          <div className="rounded-xl border border-gray-200 bg-white p-8 text-center">
-            <p className="text-sm text-gray-600">No saved predictions yet.</p>
-          </div>
+          <EmptyState
+            icon="🎯"
+            title="No exam predictions yet"
+            description="Upload past exams to get AI-powered predictions for your upcoming tests with confidence scores."
+            actionLabel="Create First Prediction"
+            actionHref="/exam-predictor"
+          />
         ) : (
           <div className="space-y-4">
             {records.map((record) => (

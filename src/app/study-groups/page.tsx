@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
+import { EmptyState } from "~/app/_components/empty-state";
 
 type Group = {
   id: string;
@@ -109,7 +110,11 @@ export default function StudyGroupsPage() {
         <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="mb-4 text-lg font-semibold text-gray-900">Active Groups</h2>
           {groups.length === 0 ? (
-            <p className="text-sm text-gray-500">No groups yet.</p>
+            <EmptyState
+              icon="👥"
+              title="No study groups yet"
+              description="Create a new group to study with friends, or join an existing group using an invite code."
+            />
           ) : (
             <div className="space-y-3">
               {groups.map((group) => (

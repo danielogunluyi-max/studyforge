@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
+import { EmptyState } from "~/app/_components/empty-state";
+import { SkeletonList } from "~/app/_components/skeleton-loader";
 
 type CitationFormat = "MLA" | "APA" | "Chicago";
 
@@ -361,9 +363,13 @@ export default function CitationsPage() {
           </div>
 
           {isLoading ? (
-            <p className="text-sm text-gray-500">Loading citations...</p>
+            <SkeletonList count={4} />
           ) : citations.length === 0 ? (
-            <p className="text-sm text-gray-500">No saved citations yet.</p>
+            <EmptyState
+              icon="📚"
+              title="No citations yet"
+              description="Generate citations in MLA, APA, or Chicago format for your research papers and assignments."
+            />
           ) : (
             <div className="space-y-3">
               {citations.map((citation) => (

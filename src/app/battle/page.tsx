@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
+import { EmptyState } from "~/app/_components/empty-state";
 
 type NoteOption = { id: string; title: string };
 
@@ -155,7 +156,11 @@ export default function BattlePage() {
         <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="mb-4 text-lg font-semibold text-gray-900">Battle History</h2>
           {history.length === 0 ? (
-            <p className="text-sm text-gray-500">No battles yet.</p>
+            <EmptyState
+              icon="⚔️"
+              title="No battles yet"
+              description="Create your first battle to challenge friends or join an existing battle with a code."
+            />
           ) : (
             <div className="space-y-3">
               {history.map((battle) => (

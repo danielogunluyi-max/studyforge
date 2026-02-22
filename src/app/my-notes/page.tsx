@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
+import { EmptyState } from "~/app/_components/empty-state";
+import { SkeletonList } from "~/app/_components/skeleton-loader";
 
 type Note = {
   id: string;
@@ -406,23 +408,21 @@ export default function MyNotes() {
             )}
 
             {isLoading ? (
-              <div className="flex items-center justify-center rounded-xl border border-gray-200 bg-white p-12">
-                <div className="text-center">
-                  <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-                  <p className="text-gray-600">Loading your notes...</p>
-                </div>
-              </div>
+              <SkeletonList count={6} />
             ) : notes.length === 0 ? (
-              <div className="rounded-xl border border-gray-200 bg-white p-12 text-center">
-                <h3 className="text-xl font-semibold text-gray-900">No results found</h3>
-                <p className="mt-2 text-gray-600">Try another search term or remove filters.</p>
-                <Link
-                  href="/generator"
-                  className="mt-6 inline-block rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
-                >
-                  Create a New Note
-                </Link>
-              </div>
+              <EmptyState
+                icon="📝"
+                title={debouncedSearch || activeTag || activePeriod || activeFormat ? "No notes found" : "No notes yet"}
+                description={
+                  debouncedSearch || activeTag || activePeriod || activeFormat
+                    ? "Try adjusting your search or removing filters to see more results."
+                    : "Start creating notes from your study materials. Upload a PDF, paste text, or type directly into the generator."
+                }
+                actionLabel="Create Your First Note"
+                actionHref="/generator"
+                secondaryActionLabel="Upload a File"
+                secondaryActionHref="/upload"
+              />
             ) : (
               <div className="grid gap-6 md:grid-cols-2">
                 {notes.map((note) => (
