@@ -54,7 +54,7 @@ export function AppNav() {
   }, [showFeaturesDropdown]);
 
   return (
-    <nav className="sticky top-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur">
+    <nav className="site-nav sticky top-0 z-40 border-b border-gray-200 backdrop-blur">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 sm:gap-3">
           <img

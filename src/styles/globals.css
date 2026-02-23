@@ -18,6 +18,8 @@
   --app-border: #e5e7eb;
   --app-border-strong: #d1d5db;
   --app-font-size: 16px;
+  --brand-bg: var(--app-surface);
+  --brand-text: var(--app-text);
 }
 
 html,
@@ -37,6 +39,30 @@ html.dark {
   --app-text-soft: #9ca3af;
   --app-border: #374151;
   --app-border-strong: #4b5563;
+}
+
+/* Site nav theming */
+.site-nav {
+  background-color: var(--brand-bg) !important;
+  color: var(--brand-text) !important;
+}
+
+/* Ensure common text colors inside the nav inherit brand text for readability */
+.site-nav .text-gray-700,
+.site-nav .text-gray-900,
+.site-nav .text-gray-600,
+.site-nav .text-gray-500 {
+  color: var(--brand-text) !important;
+}
+
+.site-nav a:hover,
+.site-nav button:hover {
+  color: var(--accent-700) !important;
+}
+
+.site-nav .bg-white,
+.site-nav .bg-white\/95 {
+  background-color: transparent !important;
 }
 
 [data-compact="true"] .p-6 {

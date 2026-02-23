@@ -55,6 +55,17 @@ function applyAppearance(payload: AppearancePayload) {
   root.style.setProperty("--accent-600", accent[600]);
   root.style.setProperty("--accent-700", accent[700]);
 
+  // Set brand/header colors derived from accent and theme for visibility
+  // Light theme: light bg (accent 50) with dark accent text
+  // Dark theme: darker bg (accent 700) with light text
+  if (resolved === "dark") {
+    root.style.setProperty("--brand-bg", accent[700]);
+    root.style.setProperty("--brand-text", "#ffffff");
+  } else {
+    root.style.setProperty("--brand-bg", accent[50]);
+    root.style.setProperty("--brand-text", accent[700]);
+  }
+
   const fontScale = payload.fontSize === "small" ? "15px" : payload.fontSize === "large" ? "17px" : "16px";
   root.style.setProperty("--app-font-size", fontScale);
 }
