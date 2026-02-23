@@ -49,41 +49,62 @@ function buildLineFromItems(items: Pdf2JsonTextItem[]): string {
 
   const sorted = [...items].sort((a, b) => (a.x ?? 0) - (b.x ?? 0));
 
-  let line = "";
-  let previousRight = 0;
-  let previousCharWidth = 0.4;
+  // First pass: compute token strings, estimated widths and char widths
+  const tokens: { item: Pdf2JsonTextItem; token: string; x: number; width: number; charWidth: number }[] = [];
 
   for (const item of sorted) {
-
     const tokenRaw = (item.R ?? []).map((run) => decodePdfText(run.T ?? "")).join("");
     const token = tokenRaw.replace(/[\t ]+/g, " ").trim();
+    if (!token) continue;
+    const x = item.x ?? 0;
+    const estimatedWidth = item.w ?? token.length * 0.4;
+    const tokenCharWidth = Math.max(estimatedWidth / Math.max(token.length, 1), 0.2);
+    tokens.push({ item, token, x, width: estimatedWidth, charWidth: tokenCharWidth });
+  }
 
-    if (!token) {
-      continue;
+  if (!tokens.length) return "";
+
+  const avgCharWidth = tokens.reduce((s, t) => s + t.charWidth, 0) / tokens.length;
+
+  // Build gaps array (positive gaps only) to derive a robust threshold
+  const gaps: number[] = [];
+  for (let i = 1; i < tokens.length; i++) {
+    const prev = tokens[i - 1];
+    const cur = tokens[i];
+    const prevRight = prev.x + prev.width;
+    const gap = cur.x - prevRight;
+    if (gap > 0) gaps.push(gap);
+  }
+
+  const medianGap = gaps.length ? gaps.sort((a, b) => a - b)[Math.floor(gaps.length / 2)] : avgCharWidth;
+  const gapThreshold = Math.max(avgCharWidth * 0.5, medianGap * 0.6, 0.15);
+
+  // Second pass: assemble line using thresholds and handle hyphenation
+  let line = "";
+  let previousRight = tokens[0].x + tokens[0].width;
+  line += tokens[0].token;
+
+  for (let i = 1; i < tokens.length; i++) {
+    const cur = tokens[i];
+    const gap = cur.x - previousRight;
+
+    const endsWithHyphen = /-$/.test(line);
+
+    if (endsWithHyphen) {
+      // If previous token ends with a hyphen, join directly (hyphenation)
+      // remove any trailing space just in case and append
+      line = line.replace(/\s+$/, "");
+    } else if (gap > gapThreshold) {
+      const spacingUnit = Math.max(avgCharWidth, cur.charWidth, 0.2);
+      const estimatedSpaces = Math.min(Math.max(Math.round(gap / spacingUnit), 1), 4);
+      line += " ".repeat(estimatedSpaces);
+    } else if (gap > Math.max(0.05, avgCharWidth * 0.12)) {
+      // small gap -> single space
+      line += " ";
     }
 
-    const x = item.x ?? previousRight;
-    const width = item.w ?? token.length * previousCharWidth;
-    const tokenCharWidth = Math.max(width / Math.max(token.length, 1), 0.2);
-
-    if (line.length > 0) {
-      const gap = x - previousRight;
-      const spacingUnit = Math.max(previousCharWidth, tokenCharWidth, 0.2);
-
-      // Improved spacing detection: use lower threshold for better word separation
-      if (gap > spacingUnit * 0.25) {
-        // Add space for all gaps, ensuring minimum word separation
-        const estimatedSpaces = Math.min(Math.max(Math.round(gap / spacingUnit), 1), 4);
-        line += " ".repeat(estimatedSpaces);
-      } else if (gap > 0.05 && line.length > 0) {
-        // Even tiny gaps should get a space to prevent word concatenation
-        line += " ";
-      }
-    }
-
-    line += token;
-    previousRight = x + width;
-    previousCharWidth = tokenCharWidth;
+    line += cur.token;
+    previousRight = cur.x + cur.width;
   }
 
   return normalizeLineText(line);
