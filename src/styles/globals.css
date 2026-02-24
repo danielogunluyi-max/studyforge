@@ -20,6 +20,7 @@
   --app-font-size: 16px;
   --brand-bg: var(--app-surface);
   --brand-text: var(--app-text);
+  --radius: 0.5rem; /* global border radius */
 }
 
 html,
@@ -43,8 +44,9 @@ html.dark {
 
 /* Site nav theming */
 .site-nav {
-  background-color: var(--brand-bg) !important;
+  background: linear-gradient(180deg, var(--brand-bg), color-mix(in srgb, var(--brand-bg) 88%, black));
   color: var(--brand-text) !important;
+  box-shadow: 0 8px 28px rgba(2,6,23,0.08);
 }
 
 /* Ensure common text colors inside the nav inherit brand text for readability */
@@ -58,6 +60,7 @@ html.dark {
 .site-nav a:hover,
 .site-nav button:hover {
   color: var(--accent-700) !important;
+  transform: translateY(-1px);
 }
 
 .site-nav .site-dropdown {
@@ -250,6 +253,59 @@ html.dark select {
   background-color: var(--app-surface) !important;
   color: var(--app-text) !important;
   border-color: var(--app-border-strong) !important;
+}
+
+/* Consistent radii across site */
+.rounded-lg, .rounded-xl, .rounded-md {
+  border-radius: var(--radius) !important;
+}
+
+/* Make inputs more visible and add subtle glow */
+input[type="text"],
+input[type="file"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea,
+select,
+.select-wrapper,
+.listbox-button {
+  border: 1px solid var(--app-border) !important;
+  background-color: var(--app-surface) !important;
+  color: var(--app-text) !important;
+  padding: 0.65rem 0.9rem !important;
+  transition: box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease;
+  box-shadow: 0 6px 20px rgba(2,6,23,0.04);
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.listbox-button:focus {
+  outline: none;
+  border-color: var(--accent-500) !important;
+  box-shadow: 0 14px 40px rgba(59,130,246,0.08), 0 0 0 4px rgba(59,130,246,0.06);
+  transform: translateY(-1px);
+}
+
+/* Slightly increased spacing between form sections for a breathable layout */
+.container .mb-6 {
+  margin-bottom: 1.75rem !important;
+}
+
+/* Button and interactive element polish */
+button, .inline-flex, .listbox-button {
+  transition: transform 200ms ease, box-shadow 200ms ease, background-color 160ms ease;
+  will-change: transform, box-shadow;
+}
+
+button:hover, .listbox-button:hover {
+  transform: translateY(-2px);
+}
+
+/* Make cards slightly more rounded and consistent */
+.rounded-xl {
+  border-radius: calc(var(--radius) + 0.125rem) !important;
 }
 
 /* Flashcard 3D flip styles */

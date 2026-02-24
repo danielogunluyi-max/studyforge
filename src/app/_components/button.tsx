@@ -24,15 +24,15 @@ export function Button({
   className = "",
   ...rest
 }: ButtonProps) {
-  const baseStyles = "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex items-center justify-center gap-2 rounded-md font-semibold transition duration-200 ease-linear transform-gpu focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed";
 
   // Variant styles
   const variantStyles = {
-    primary: "bg-blue-600 text-white shadow-sm hover:bg-blue-700 hover:shadow-md disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:shadow-sm",
-    secondary: "border-2 border-gray-300 bg-white text-gray-700 shadow-sm hover:border-gray-400 hover:bg-gray-50 hover:shadow-md disabled:bg-gray-100 disabled:hover:bg-gray-100 disabled:hover:shadow-sm",
-    danger: "bg-red-600 text-white shadow-sm hover:bg-red-700 hover:shadow-md disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:shadow-sm",
+    primary: "bg-blue-600 text-white shadow-sm hover:bg-blue-700 hover:shadow-lg disabled:bg-gray-300 disabled:hover:bg-gray-300",
+    secondary: "border-2 border-gray-300 bg-white text-gray-700 shadow-sm hover:border-gray-400 hover:bg-gray-50 hover:shadow-lg disabled:bg-gray-100 disabled:hover:bg-gray-100",
+    danger: "bg-red-600 text-white shadow-sm hover:bg-red-700 hover:shadow-lg disabled:bg-gray-300 disabled:hover:bg-gray-300",
     ghost: "text-gray-700 hover:bg-gray-100 hover:text-gray-900",
-    icon: "border border-gray-300 bg-white text-gray-700 shadow-sm hover:bg-gray-100 hover:shadow-md",
+    icon: "border border-gray-300 bg-white text-gray-700 shadow-sm hover:bg-gray-100 hover:shadow-lg",
   };
 
   // Size styles
