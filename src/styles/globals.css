@@ -5,16 +5,18 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --accent-50: #eff6ff;
   --accent-100: #dbeafe;
-  /* vibrant blue accent (used site-wide) */
-  --accent-500: #2563eb;
-  --accent-600: #1e40ff;
-  --accent-700: #153cff;
+  /* slightly muted blue accent for softer light theme */
+  --accent-500: #3b82f6;
+  --accent-600: #2563eb;
+  --accent-700: #1d4ed8;
+  --accent-rgb: 59,130,246;
   --accent-rgb: 30, 64, 255;
 
-  --app-bg: #f9fafb;
+  /* Softer light background and readable text */
+  --app-bg: #f0f2f5;
   --app-surface: #ffffff;
-  --app-muted-surface: #f3f4f6;
-  --app-text: #111827;
+  --app-muted-surface: #f7f8fa;
+  --app-text: #2d2d2d;
   --app-text-muted: #4b5563;
   --app-text-soft: #6b7280;
   --app-border: #e5e7eb;
