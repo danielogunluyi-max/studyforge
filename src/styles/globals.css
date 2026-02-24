@@ -139,6 +139,25 @@ html.dark .site-select {
   box-shadow: 0 8px 22px rgba(2,6,23,0.28);
 }
 
+/* Listbox specific styles */
+.listbox-button {
+  background: transparent;
+  border: 1px solid var(--app-border);
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.5rem;
+  text-align: left;
+  display: inline-block;
+}
+
+.listbox-options {
+  animation: pop 160ms ease;
+}
+
+@keyframes pop {
+  from { transform: translateY(-6px) scale(0.995); opacity: 0 }
+  to { transform: translateY(0) scale(1); opacity: 1 }
+}
+
 /* Small screens: stretch selects to full width inside forms */
 @media (max-width: 640px) {
   .select-wrapper, select, .site-select { width: 100%; }

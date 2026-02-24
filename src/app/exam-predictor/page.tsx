@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
+import Listbox from "~/app/_components/Listbox";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton-loader";
 
@@ -148,15 +149,15 @@ export default function ExamPredictorPage() {
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
             <label className="mb-2 block text-sm font-semibold text-gray-900">Exam Type</label>
-            <select
+            <Listbox
               value={examType}
-              onChange={(event) => setExamType(event.target.value)}
-              className="mb-4 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            >
-              <option>Midterm</option>
-              <option>Final</option>
-              <option>Quiz</option>
-            </select>
+              onChange={(v) => setExamType(v)}
+              options={[
+                { value: "Midterm", label: "Midterm" },
+                { value: "Final", label: "Final" },
+                { value: "Quiz", label: "Quiz" },
+              ]}
+            />
 
             <label className="mb-2 block text-sm font-semibold text-gray-900">Past Exams Content</label>
             <textarea

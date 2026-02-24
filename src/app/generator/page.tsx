@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
+import Listbox from "~/app/_components/Listbox";
 
 const PREFILL_STORAGE_KEY = "studyforge:prefillText";
 const TAG_SUGGESTIONS = [
@@ -559,16 +560,16 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           <label className="mb-3 block text-sm font-semibold text-gray-900">
             Output Format
           </label>
-          <select
+          <Listbox
             value={outputFormat}
-            onChange={(e) => setOutputFormat(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
-            <option value="summary">Summary - Quick overview of main points</option>
-            <option value="detailed">Detailed Notes - Comprehensive study guide</option>
-            <option value="flashcards">Flashcards - Interactive flip cards</option>
-            <option value="questions">Practice Quiz - Answer questions interactively</option>
-          </select>
+            onChange={(v) => setOutputFormat(v)}
+            options={[
+              { value: "summary", label: "Summary - Quick overview of main points" },
+              { value: "detailed", label: "Detailed Notes - Comprehensive study guide" },
+              { value: "flashcards", label: "Flashcards - Interactive flip cards" },
+              { value: "questions", label: "Practice Quiz - Answer questions interactively" },
+            ]}
+          />
 
           {learningStyle && (
             <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4">
