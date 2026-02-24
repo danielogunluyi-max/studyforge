@@ -66,13 +66,7 @@ export default function RootLayout({
     <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
       <body suppressHydrationWarning>
             <SessionProvider>
-              {/* Ensure a safe global `Listbox` exists to avoid client runtime ReferenceErrors
-                  caused by any legacy bundles referencing `Listbox` as a global identifier. */}
-              <script
-                dangerouslySetInnerHTML={{
-                  __html: `if (typeof Listbox === 'undefined') { var Listbox = null; }`,
-                }}
-              />
+              {/* Removed global Listbox guard — prefer component-level guards. */}
               <AppearanceSync />
               <TRPCReactProvider>{children}</TRPCReactProvider>
             </SessionProvider>
