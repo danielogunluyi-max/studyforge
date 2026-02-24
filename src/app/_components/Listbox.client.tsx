@@ -86,3 +86,14 @@ export default function ListboxClient({ options, value, onChange, className, id 
     </div>
   );
 }
+
+// Expose a safe global for legacy client bundles that may reference `Listbox` as a global identifier.
+// This avoids runtime ReferenceErrors while we fully migrate to the dynamic client wrapper.
+if (typeof window !== "undefined") {
+  try {
+    // @ts-ignore - intentionally assigning for backwards compatibility
+    (window as any).Listbox = ListboxClient;
+  } catch (e) {
+    // ignore
+  }
+}
