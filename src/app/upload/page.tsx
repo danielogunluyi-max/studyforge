@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
 import { SkeletonCard } from "~/app/_components/skeleton-loader";
 import { Button } from "~/app/_components/button";
+import Listbox from "~/app/_components/Listbox";
 
 const MAX_PDF_BYTES = 10 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -233,20 +234,13 @@ export default function UploadPage() {
             >
               Upload Image
             </Button>
-            <select
-              value={ocrLanguage}
-              onChange={(event) => setOcrLanguage(event.target.value)}
-              disabled={isExtracting}
-              className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:cursor-not-allowed disabled:bg-gray-100"
-              aria-label="OCR language"
-            >
-              <option value="eng">English</option>
-              <option value="eng+spa">English + Spanish</option>
-              <option value="eng+fra">English + French</option>
-              <option value="eng+deu">English + German</option>
-              <option value="eng+ita">English + Italian</option>
-              <option value="eng+por">English + Portuguese</option>
-            </select>
+            <div className="w-48">
+              <Listbox
+                value={ocrLanguage}
+                onChange={(v) => setOcrLanguage(v)}
+                options={Object.entries(OCR_LANGUAGE_LABELS).map(([k, v]) => ({ value: k, label: v }))}
+              />
+            </div>
 
             {isExtracting && (
               <span className="inline-flex items-center gap-2 text-sm font-medium text-blue-700">

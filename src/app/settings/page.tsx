@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
+import Listbox from "~/app/_components/Listbox";
 
 type Style = "visual" | "auditory" | "reading" | "kinesthetic";
 type Theme = "light" | "dark" | "auto";
@@ -251,15 +252,15 @@ export default function SettingsPage() {
             {/* Theme */}
             <div className="mb-4">
               <label className="mb-2 block text-sm font-semibold text-gray-900">Theme</label>
-              <select
+              <Listbox
                 value={settings.theme}
-                onChange={(e) => updateSetting("theme", e.target.value as Theme)}
-                className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              >
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-                <option value="auto">Auto (System)</option>
-              </select>
+                onChange={(v) => updateSetting("theme", v as Theme)}
+                options={[
+                  { value: "light", label: "Light" },
+                  { value: "dark", label: "Dark" },
+                  { value: "auto", label: "Auto (System)" },
+                ]}
+              />
             </div>
 
             {/* Accent Color */}
@@ -288,15 +289,15 @@ export default function SettingsPage() {
             {/* Font Size */}
             <div className="mb-4">
               <label className="mb-2 block text-sm font-semibold text-gray-900">Font Size</label>
-              <select
+              <Listbox
                 value={settings.fontSize}
-                onChange={(e) => updateSetting("fontSize", e.target.value as FontSize)}
-                className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              >
-                <option value="small">Small</option>
-                <option value="medium">Medium (Default)</option>
-                <option value="large">Large</option>
-              </select>
+                onChange={(v) => updateSetting("fontSize", v as FontSize)}
+                options={[
+                  { value: "small", label: "Small" },
+                  { value: "medium", label: "Medium (Default)" },
+                  { value: "large", label: "Large" },
+                ]}
+              />
             </div>
 
             {/* Compact Mode */}
@@ -321,15 +322,11 @@ export default function SettingsPage() {
             {/* Learning Style */}
             <div className="mb-4">
               <label className="mb-2 block text-sm font-semibold text-gray-900">Learning Style</label>
-              <select
+              <Listbox
                 value={settings.learningStyle}
-                onChange={(e) => updateSetting("learningStyle", e.target.value as Style)}
-                className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              >
-                {(Object.entries(STYLE_LABELS) as [Style, string][]).map(([style, label]) => (
-                  <option key={style} value={style}>{label}</option>
-                ))}
-              </select>
+                onChange={(v) => updateSetting("learningStyle", v as Style)}
+                options={(Object.entries(STYLE_LABELS) as [Style, string][]).map(([style, label]) => ({ value: style, label }))}
+              />
               <Link
                 href="/learning-style-quiz"
                 className="mt-2 inline-block text-sm font-semibold text-blue-600 hover:text-blue-700"
@@ -355,16 +352,16 @@ export default function SettingsPage() {
             {/* Default Note Format */}
             <div className="mb-4">
               <label className="mb-2 block text-sm font-semibold text-gray-900">Default Note Format</label>
-              <select
+              <Listbox
                 value={settings.defaultNoteFormat}
-                onChange={(e) => updateSetting("defaultNoteFormat", e.target.value as NoteFormat)}
-                className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              >
-                <option value="summary">Summary - Quick overview</option>
-                <option value="detailed">Detailed Notes - Comprehensive guide</option>
-                <option value="flashcards">Flashcards - Interactive cards</option>
-                <option value="questions">Practice Quiz - Q&A format</option>
-              </select>
+                onChange={(v) => updateSetting("defaultNoteFormat", v as NoteFormat)}
+                options={[
+                  { value: "summary", label: "Summary - Quick overview" },
+                  { value: "detailed", label: "Detailed Notes - Comprehensive guide" },
+                  { value: "flashcards", label: "Flashcards - Interactive cards" },
+                  { value: "questions", label: "Practice Quiz - Q&A format" },
+                ]}
+              />
             </div>
 
             {/* Auto-Save Notes */}

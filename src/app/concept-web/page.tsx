@@ -133,12 +133,16 @@ export default function ConceptWebPage() {
             Load Saved Graph
           </Button>
 
-          <select value={filterTag} onChange={(event) => setFilterTag(event.target.value)} className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm">
-            <option value="">All subjects</option>
-            {allTags.map((tag) => (
-              <option key={tag} value={tag}>{tag}</option>
-            ))}
-          </select>
+          <div className="w-48">
+            <Listbox
+              value={filterTag}
+              onChange={(v) => setFilterTag(v)}
+              options={[
+                { value: "", label: "All subjects" },
+                ...allTags.map((tag) => ({ value: tag, label: tag })),
+              ]}
+            />
+          </div>
 
           <input
             value={searchConcept}

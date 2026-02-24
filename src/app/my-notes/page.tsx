@@ -338,26 +338,30 @@ export default function MyNotes() {
               className="md:col-span-2 w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               aria-label="Search notes"
             />
-            <select
-              value={activePeriod}
-              onChange={(event) => setActivePeriod(event.target.value)}
-              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            >
-              <option value="">All dates</option>
-              <option value="7d">Last 7 days</option>
-              <option value="month">This month</option>
-            </select>
-            <select
-              value={activeFormat}
-              onChange={(event) => setActiveFormat(event.target.value)}
-              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            >
-              <option value="">All formats</option>
-              <option value="flashcards">Flashcards only</option>
-              <option value="questions">Questions only</option>
-              <option value="summary">Summary only</option>
-              <option value="detailed">Detailed only</option>
-            </select>
+            <div className="w-full sm:w-48">
+              <Listbox
+                value={activePeriod}
+                onChange={(v) => setActivePeriod(v)}
+                options={[
+                  { value: "", label: "All dates" },
+                  { value: "7d", label: "Last 7 days" },
+                  { value: "month", label: "This month" },
+                ]}
+              />
+            </div>
+            <div className="w-full sm:w-48">
+              <Listbox
+                value={activeFormat}
+                onChange={(v) => setActiveFormat(v)}
+                options={[
+                  { value: "", label: "All formats" },
+                  { value: "flashcards", label: "Flashcards only" },
+                  { value: "questions", label: "Questions only" },
+                  { value: "summary", label: "Summary only" },
+                  { value: "detailed", label: "Detailed only" },
+                ]}
+              />
+            </div>
           </div>
 
           <div className="mt-3 flex flex-wrap items-center gap-2">

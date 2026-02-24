@@ -7,6 +7,7 @@ import { AppNav } from "~/app/_components/app-nav";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton-loader";
 import { Button } from "~/app/_components/button";
+import Listbox from "~/app/_components/Listbox";
 
 type CitationFormat = "MLA" | "APA" | "Chicago";
 type CitationMediaType = "website" | "book" | "journal" | "video" | "podcast" | "newspaper" | "social" | "other";
@@ -341,19 +342,13 @@ export default function CitationsPage() {
                 placeholder="Paste source link"
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-              <select
-                value={draft.mediaType}
-                onChange={(event) =>
-                  setDraft((prev) => ({ ...prev, mediaType: event.target.value as CitationMediaType }))
-                }
-                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:w-44"
-              >
-                {MEDIA_TYPES.map((type) => (
-                  <option key={type.value} value={type.value}>
-                    {type.label}
-                  </option>
-                ))}
-              </select>
+              <div className="sm:w-44 w-full">
+                <Listbox
+                  value={draft.mediaType}
+                  onChange={(v) => setDraft((prev) => ({ ...prev, mediaType: v as CitationMediaType }))}
+                  options={MEDIA_TYPES.map((t) => ({ value: t.value, label: t.label }))}
+                />
+              </div>
               <Button
                 onClick={() => void importFromUrl()}
                 variant="secondary"

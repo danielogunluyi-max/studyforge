@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
 import { EmptyState } from "~/app/_components/empty-state";
 import { Button } from "~/app/_components/button";
+import Listbox from "~/app/_components/Listbox";
 
 type NoteOption = { id: string; title: string };
 
@@ -101,16 +102,13 @@ export default function BattlePage() {
               className="mb-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
               placeholder="Battle title"
             />
-            <select
-              value={selectedNoteId}
-              onChange={(event) => setSelectedNoteId(event.target.value)}
-              className="mb-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
-            >
-              <option value="">Pick a note</option>
-              {notes.map((note) => (
-                <option key={note.id} value={note.id}>{note.title}</option>
-              ))}
-            </select>
+            <div className="mb-3 w-full">
+              <Listbox
+                value={selectedNoteId}
+                onChange={(v) => setSelectedNoteId(v)}
+                options={[{ value: "", label: "Pick a note" }, ...notes.map((n) => ({ value: n.id, label: n.title }))]}
+              />
+            </div>
             <label className="mb-1 block text-xs font-semibold text-gray-600">Question Count</label>
             <input
               type="number"
