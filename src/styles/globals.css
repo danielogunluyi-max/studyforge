@@ -5,9 +5,11 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --accent-50: #eff6ff;
   --accent-100: #dbeafe;
-  --accent-500: #3b82f6;
-  --accent-600: #2563eb;
-  --accent-700: #1d4ed8;
+  /* vibrant blue accent (used site-wide) */
+  --accent-500: #2563eb;
+  --accent-600: #1e40ff;
+  --accent-700: #153cff;
+  --accent-rgb: 30, 64, 255;
 
   --app-bg: #f9fafb;
   --app-surface: #ffffff;
@@ -42,6 +44,15 @@ html.dark {
   --app-border-strong: #4b5563;
 }
 
+/* Page fade-in for smoother perception of load */
+.page-fade {
+  animation: pageFade 260ms cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(6px) }
+  to { opacity: 1; transform: translateY(0) }
+}
+
 /* Site nav theming */
 .site-nav {
   background: linear-gradient(180deg, var(--brand-bg), color-mix(in srgb, var(--brand-bg) 88%, black));
@@ -61,6 +72,15 @@ html.dark {
 .site-nav button:hover {
   color: var(--accent-700) !important;
   transform: translateY(-1px);
+}
+
+/* Active / selected nav item glow & subtle gradient */
+.site-nav a.bg-blue-50, .site-nav a.text-blue-700, .site-nav button.bg-blue-50, .site-nav button.text-blue-700 {
+  background-image: linear-gradient(90deg, color-mix(in srgb, rgba(var(--accent-rgb),0.12), transparent), color-mix(in srgb, rgba(var(--accent-rgb),0.06), transparent));
+  box-shadow: 0 6px 30px rgba(var(--accent-rgb),0.12), 0 2px 6px rgba(0,0,0,0.25) !important;
+  border-radius: 0.75rem;
+  color: white !important;
+  -webkit-text-stroke: 0.02px rgba(0,0,0,0.08);
 }
 
 .site-nav .site-dropdown {
@@ -139,7 +159,7 @@ html.dark .site-select {
   background-color: var(--app-muted-surface) !important;
   color: var(--app-text) !important;
   border-color: var(--app-border-strong) !important;
-  box-shadow: 0 8px 22px rgba(2,6,23,0.28);
+  box-shadow: 0 8px 22px rgba(2,6,23,0.5);
 }
 
 /* Listbox specific styles */
@@ -291,6 +311,42 @@ select:focus,
 /* Slightly increased spacing between form sections for a breathable layout */
 .container .mb-6 {
   margin-bottom: 1.75rem !important;
+}
+
+/* Slight inner border on cards/containers for depth */
+.rounded-xl.border, .rounded-lg.border, .card, .modal {
+  box-shadow: 0 14px 40px rgba(2,6,23,0.45);
+  /* subtle inner highlight */
+  box-shadow: 0 14px 40px rgba(2,6,23,0.45), inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+
+/* Lighter elevated shadow for smaller cards */
+.rounded-xl:not(.borderless) {
+  box-shadow: 0 8px 28px rgba(2,6,23,0.36), inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+
+/* Typography tweaks */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  letter-spacing: 0.15px;
+}
+h1 { letter-spacing: 0.35px; }
+
+/* Polished features dropdown */
+.site-nav .site-dropdown {
+  padding: 0.5rem;
+  gap: 0.25rem;
+  border-radius: 0.75rem;
+  min-width: 220px;
+}
+.site-nav .site-dropdown a {
+  padding: 0.6rem 0.9rem;
+  display: block;
+  border-radius: 0.5rem;
+}
+.site-nav .site-dropdown a:hover {
+  background: linear-gradient(90deg, rgba(var(--accent-rgb),0.06), rgba(var(--accent-rgb),0.03));
+  color: var(--accent-50) !important;
 }
 
 /* Button and interactive element polish */

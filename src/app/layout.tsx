@@ -68,7 +68,9 @@ export default function RootLayout({
             <SessionProvider>
               {/* Removed global Listbox guard — prefer component-level guards. */}
               <AppearanceSync />
-              <TRPCReactProvider>{children}</TRPCReactProvider>
+              <TRPCReactProvider>
+                <div className="page-fade">{children}</div>
+              </TRPCReactProvider>
             </SessionProvider>
       </body>
     </html>
