@@ -103,7 +103,7 @@ export function AppNav() {
             </button>
             
             {showFeaturesDropdown && (
-              <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
+              <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-xl border p-2 shadow-lg site-dropdown">
                 {featureLinks.map((item) => (
                   <Link
                     key={item.href}

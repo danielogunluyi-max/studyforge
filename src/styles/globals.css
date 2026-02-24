@@ -60,9 +60,19 @@ html.dark {
   color: var(--accent-700) !important;
 }
 
-.site-nav .bg-white,
-.site-nav .bg-white\/95 {
-  background-color: transparent !important;
+.site-nav .site-dropdown {
+  background-color: var(--app-surface) !important;
+  color: var(--brand-text) !important;
+  border-color: var(--app-border) !important;
+}
+
+.site-nav .site-dropdown a,
+.site-nav .site-dropdown a:hover {
+  color: var(--brand-text) !important;
+}
+
+.site-nav .site-dropdown .hover\:bg-gray-50:hover {
+  background-color: var(--app-muted-surface) !important;
 }
 
 [data-compact="true"] .p-6 {
