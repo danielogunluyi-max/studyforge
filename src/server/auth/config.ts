@@ -1,4 +1,3 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -37,9 +36,10 @@ export const authConfig = {
   },
   trustHost: true,
   secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
-  // Use database-backed sessions with Prisma adapter.
-  // Re-enabled now that Vercel envs/DB are confirmed.
-  adapter: PrismaAdapter(db),
+  // TEMPORARY: use JWT sessions and avoid initializing the Prisma adapter here.
+  // The adapter was causing initialization-time DB errors in production (500s).
+  // We'll restore `adapter: PrismaAdapter(db)` and `session.strategy = 'database'`
+  // after the DB / env issues are resolved.
   basePath: "/api/auth",
   providers: [
     CredentialsProvider({
@@ -77,8 +77,11 @@ export const authConfig = {
     }),
   ],
   session: {
-    // Use DB-backed sessions so signOut can destroy server sessions.
-    strategy: "database",
+    // Use JWT sessions temporarily so NextAuth does not require DB connectivity
+    // during initialization. This allows sign-in/sign-out to work while the
+    // underlying DB/env issues are fixed. Note: server-side session invalidation
+    // on signOut will be less deterministic with JWTs.
+    strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
