@@ -13,7 +13,23 @@ if (!process.env.NEXTAUTH_SECRET && process.env.AUTH_SECRET) {
 	process.env.NEXTAUTH_SECRET = process.env.AUTH_SECRET;
 }
 
-const { auth: uncachedAuth, handlers, signIn, signOut } = NextAuth(authConfig);
+let uncachedAuth: any;
+let handlers: any;
+let signIn: any;
+let signOut: any;
+
+try {
+	const nextAuthResult = NextAuth(authConfig);
+	uncachedAuth = nextAuthResult.auth;
+	handlers = nextAuthResult.handlers;
+	signIn = nextAuthResult.signIn;
+	signOut = nextAuthResult.signOut;
+} catch (err) {
+	// Diagnostic logging for Vercel logs (don't print secrets)
+	console.error("NextAuth initialization error:", err instanceof Error ? err.message : err);
+	console.error("Env presence: NEXTAUTH_URL=", process.env.NEXTAUTH_URL ? "set" : "unset", "NEXTAUTH_SECRET=", process.env.NEXTAUTH_SECRET ? "set" : "unset", "DATABASE_URL=", process.env.DATABASE_URL ? "set" : "unset");
+	throw err;
+}
 
 const auth = cache(uncachedAuth);
 
