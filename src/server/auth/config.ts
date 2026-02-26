@@ -37,6 +37,8 @@ export const authConfig = {
   },
   trustHost: true,
   secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  // Persist sessions in the database so signOut can reliably destroy them server-side
+  adapter: PrismaAdapter(db),
   basePath: "/api/auth",
   providers: [
     CredentialsProvider({
@@ -74,7 +76,7 @@ export const authConfig = {
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "database",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
