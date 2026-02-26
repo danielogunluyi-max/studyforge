@@ -5,7 +5,29 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function POST(request: Request) {
   try {
-    const { text, format } = await request.json() as { text: string; format: string };
+    // Parse JSON body, but tolerate common non-JSON payload shapes (e.g.
+    // single-quoted strings passed by some CLI wrappers). Log raw body for
+    // diagnostics and attempt to recover if JSON.parse fails.
+    let body: any;
+    try {
+      body = await request.json();
+    } catch (err) {
+      const raw = await request.text();
+      console.warn("Generator: failed to parse JSON directly, raw body=", raw.slice(0, 200));
+      let cleaned = raw;
+      // Strip surrounding single quotes if present (e.g. '\'{...}\'')
+      if (cleaned.startsWith("'") && cleaned.endsWith("'")) {
+        cleaned = cleaned.slice(1, -1);
+      }
+      // Try to parse cleaned input as JSON
+      try {
+        body = JSON.parse(cleaned);
+      } catch (err2) {
+        console.error("Generator: failed to parse cleaned body as JSON", err2 instanceof Error ? err2.message : err2);
+        throw err; // rethrow original to be caught by outer handler
+      }
+    }
+    const { text, format } = body as { text: string; format: string };
 
     if (!text) {
       return NextResponse.json(
