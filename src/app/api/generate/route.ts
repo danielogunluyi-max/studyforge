@@ -68,6 +68,8 @@ Now create practice questions from this content:
 ${text}`;
     }
 
+    console.log("Generator request: format=", format, "promptLength=", prompt.length, "hasGroqKey=", !!process.env.GROQ_API_KEY);
+
     const chatCompletion = await groq.chat.completions.create({
       messages: [
         {
@@ -80,11 +82,17 @@ ${text}`;
       max_tokens: 2000,
     });
 
-    const generatedText = chatCompletion.choices[0]?.message?.content ?? "";
-
-    return NextResponse.json({ notes: generatedText });
+    try {
+      const generatedText = chatCompletion.choices[0]?.message?.content ?? "";
+      console.log("Generator response: choices=", chatCompletion.choices?.length ?? 0, "generatedLength=", generatedText.length);
+      console.log("Generator response preview:", generatedText.slice(0, 200).replace(/\n/g, " "));
+      return NextResponse.json({ notes: generatedText });
+    } catch (innerErr) {
+      console.error("Error parsing Groq response:", innerErr instanceof Error ? innerErr.stack ?? innerErr.message : innerErr);
+      return NextResponse.json({ error: "Failed to generate notes" }, { status: 500 });
+    }
   } catch (error) {
-    console.error("Error generating notes:", error);
+    console.error("Error generating notes:", error instanceof Error ? error.stack ?? error.message : error);
     return NextResponse.json(
       { error: "Failed to generate notes" },
       { status: 500 }
