@@ -45,6 +45,8 @@ export default function Generator() {
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
   const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
   const [checkedAnswers, setCheckedAnswers] = useState<Set<number>>(new Set());
+  const [checkingAnswers, setCheckingAnswers] = useState<Set<number>>(new Set());
+  const [answerChecks, setAnswerChecks] = useState<Record<number, { correct: boolean; feedback: string }>>({});
   const [quizQuestionCount, setQuizQuestionCount] = useState(5);
   const [quizDifficulty, setQuizDifficulty] = useState("medium");
   const [quizType, setQuizType] = useState("open-ended");
@@ -90,6 +92,8 @@ export default function Generator() {
     setFlippedCards(new Set());
     setQuizAnswers({});
     setCheckedAnswers(new Set());
+    setCheckingAnswers(new Set());
+    setAnswerChecks({});
     sessionStorage.removeItem(PREFILL_STORAGE_KEY);
   }, []);
 
@@ -120,6 +124,8 @@ export default function Generator() {
     setFlippedCards(new Set());
     setQuizAnswers({});
     setCheckedAnswers(new Set());
+    setCheckingAnswers(new Set());
+    setAnswerChecks({});
     
     try {
       const response = await fetch("/api/generate", {
@@ -228,6 +234,8 @@ export default function Generator() {
     setFlippedCards(new Set());
     setQuizAnswers({});
     setCheckedAnswers(new Set());
+    setCheckingAnswers(new Set());
+    setAnswerChecks({});
   };
 
   const handleCopy = () => {
@@ -251,10 +259,80 @@ export default function Generator() {
     setQuizAnswers(newAnswers);
   };
 
-  const checkAnswer = (index: number) => {
-    const newChecked = new Set(checkedAnswers);
-    newChecked.add(index);
-    setCheckedAnswers(newChecked);
+  const checkAnswer = async (index: number, correctAnswer: string) => {
+    if (checkingAnswers.has(index)) return;
+
+    const studentAnswer = (quizAnswers[index] ?? "").trim();
+    if (!studentAnswer) return;
+
+    setCheckingAnswers((prev) => {
+      const next = new Set(prev);
+      next.add(index);
+      return next;
+    });
+
+    try {
+      const response = await fetch("/api/check-answer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          studentAnswer,
+          correctAnswer,
+        }),
+      });
+
+      const data = (await response.json().catch(() => ({}))) as { correct?: boolean; feedback?: string };
+      const isCorrect = data.correct === true;
+      const feedback = data.feedback?.trim() || (isCorrect ? "Good work." : "Not quite right. Review the steps in the sample answer.");
+
+      setAnswerChecks((prev) => ({
+        ...prev,
+        [index]: {
+          correct: isCorrect,
+          feedback,
+        },
+      }));
+    } catch (err) {
+      void err;
+      setAnswerChecks((prev) => ({
+        ...prev,
+        [index]: {
+          correct: false,
+          feedback: "Could not verify answer right now. Please compare with the sample answer below.",
+        },
+      }));
+    } finally {
+      setCheckingAnswers((prev) => {
+        const next = new Set(prev);
+        next.delete(index);
+        return next;
+      });
+
+      setCheckedAnswers((prev) => {
+        const next = new Set(prev);
+        next.add(index);
+        return next;
+      });
+    }
+  };
+
+  const formatMathAnswerSteps = (answer: string) => {
+    const cleaned = answer
+      .replace(/\$/g, "")
+      .replace(/\^2/g, "²")
+      .replace(/\^3/g, "³")
+      .trim();
+
+    const stepLines = cleaned
+      .split(/\n+/)
+      .flatMap((line) => line.split(/(?=Step\s*\d*[:.)-]?\s*)/i))
+      .flatMap((line) => line.split(/\.\s+(?=[A-Z0-9(])/))
+      .map((line) => line.replace(/^Step\s*\d*[:.)-]?\s*/i, "").trim())
+      .filter(Boolean);
+
+    return stepLines.length ? stepLines : [cleaned];
   };
 
   const parseFlashcards = (text: string) => {
@@ -453,18 +531,37 @@ export default function Generator() {
                 />
                 {!checkedAnswers.has(index) ? (
                   <Button
-                    onClick={() => checkAnswer(index)}
-                    disabled={!quizAnswers[index]?.trim()}
+                    onClick={() => void checkAnswer(index, q.answer)}
+                    disabled={!quizAnswers[index]?.trim() || checkingAnswers.has(index)}
                     size="sm"
                   >
-                    Check Answer
+                    {checkingAnswers.has(index) ? "Checking..." : "Check Answer"}
                   </Button>
                 ) : (
                   <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+                    {answerChecks[index] && (
+                      <div className={`mb-3 rounded-md border px-3 py-2 text-sm ${answerChecks[index]?.correct ? "border-green-300 bg-green-100 text-green-800" : "border-red-300 bg-red-100 text-red-800"}`}>
+                        <p className="font-semibold">
+                          {answerChecks[index]?.correct ? "✓ Correct" : "✗ Incorrect"}
+                        </p>
+                        <p className="mt-1">{answerChecks[index]?.feedback}</p>
+                      </div>
+                    )}
                     <p className="mb-2 text-sm font-semibold text-green-800">
                       ✓ Sample Answer:
                     </p>
-                    <p className="text-sm" style={{ color: '#111827' }}>{q.answer.replace(/\$/g, "")}</p>
+                    <div className="space-y-1">
+                      {formatMathAnswerSteps(q.answer).map((line, stepIndex, arr) => (
+                        <p
+                          key={`${index}-${stepIndex}`}
+                          className={`text-sm ${stepIndex === arr.length - 1 ? "font-bold" : ""}`}
+                          style={{ color: "#111827" }}
+                        >
+                          <span className="mr-1 font-semibold">{stepIndex + 1}.</span>
+                          {line}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
