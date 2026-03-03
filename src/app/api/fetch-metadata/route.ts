@@ -32,6 +32,15 @@ function domainFromUrl(url: string): string {
   }
 }
 
+function looksLikePersonName(value: string): boolean {
+  const trimmed = value.trim();
+  if (!trimmed) return false;
+  if (/[\-:|,]|\b(biography|about|profile|official|website)\b/i.test(trimmed)) return false;
+  const parts = trimmed.split(/\s+/).filter(Boolean);
+  if (parts.length < 2 || parts.length > 4) return false;
+  return parts.every((part) => /^[A-Z][a-z]+(?:[-'][A-Z][a-z]+)?$/.test(part));
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as { url?: string };
@@ -83,6 +92,12 @@ Extract and return ONLY a JSON object with these fields (no other text):
   "sourceType": "website"
 }
 
+Rules for title vs author:
+- title = the actual article/page title (example: "Richard Wagamese - Biography").
+- author = the person who wrote the page/article.
+- If unsure about author, return an empty string for author.
+- Never put a person's name by itself in the title field.
+
 Base your answer on what you know about this URL or website. If you don't know specific details, use the domain name for siteName and leave other fields empty.`;
 
     const raw = await runGroqPrompt({
@@ -94,9 +109,15 @@ Base your answer on what you know about this URL or website. If you don't know s
     const parsed = extractJsonBlock<GroqMetadata>(raw);
     const fallbackDomain = domainFromUrl(normalizedUrl);
 
+    const parsedTitle = String(parsed?.title ?? "").trim();
+    const parsedAuthor = String(parsed?.author ?? "").trim();
+
+    const repairedAuthor = parsedAuthor || (looksLikePersonName(parsedTitle) ? parsedTitle : "");
+    const repairedTitle = looksLikePersonName(parsedTitle) ? "" : parsedTitle;
+
     const result = {
-      title: String(parsed?.title ?? "").trim(),
-      author: String(parsed?.author ?? "").trim(),
+      title: repairedTitle,
+      author: repairedAuthor,
       siteName: String(parsed?.siteName ?? "").trim() || fallbackDomain,
       publishedDate: String(parsed?.publishedDate ?? "").trim(),
       description: String(parsed?.description ?? "").trim(),

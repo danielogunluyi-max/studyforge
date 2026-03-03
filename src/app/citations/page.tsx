@@ -7,7 +7,7 @@ import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import Listbox from "~/app/_components/Listbox";
 
-type CitationStyle = "MLA" | "APA" | "Chicago";
+type CitationStyle = "MLA 9" | "APA 7" | "MLA 8" | "MLA 7" | "APA 6" | "Harvard" | "IEEE" | "Chicago";
 type SourceType = "website" | "video" | "book" | "journal" | "newspaper" | "magazine";
 
 type Draft = {
@@ -59,23 +59,19 @@ const SOURCE_OPTIONS: { value: SourceType; label: string }[] = [
 ];
 
 const STYLE_OPTIONS: { value: CitationStyle; label: string }[] = [
-  { value: "MLA", label: "MLA 9" },
-  { value: "APA", label: "APA 7" },
+  { value: "MLA 9", label: "MLA 9" },
+  { value: "APA 7", label: "APA 7" },
+  { value: "MLA 8", label: "MLA 8" },
+  { value: "MLA 7", label: "MLA 7" },
+  { value: "APA 6", label: "APA 6th Edition" },
+  { value: "Harvard", label: "Harvard" },
+  { value: "IEEE", label: "IEEE" },
   { value: "Chicago", label: "Chicago" },
 ];
 
-const REQUIRED_FIELDS: Record<SourceType, Array<keyof Draft>> = {
-  website: ["title", "siteName", "url", "accessedDate"],
-  video: ["creator", "title", "platform", "url", "uploadDate"],
-  book: ["author", "title", "publisher", "year"],
-  journal: ["author", "articleTitle", "journalName", "year"],
-  newspaper: ["headline", "newspaperName", "publishedDate"],
-  magazine: ["articleTitle", "magazineName", "publishedDate"],
-};
-
 const DEFAULT_DRAFT: Draft = {
   sourceType: "website",
-  style: "MLA",
+  style: "MLA 9",
   author: "",
   title: "",
   siteName: "",
@@ -147,88 +143,123 @@ function formatDateMla(date: string): string {
   return parsed.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 }
 
+function withPlaceholder(value: string, label: string, titleCase = false): string {
+  const trimmed = value.trim();
+  if (!trimmed) return `[${label}]`;
+  return titleCase ? toTitleCase(trimmed) : trimmed;
+}
+
+function yearFromDate(date: string): string {
+  if (!date) return "";
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.getTime())) return date.slice(0, 4);
+  return String(parsed.getFullYear());
+}
+
 function getCitationPreview(draft: Draft): { text: string; html: string } {
   const sourceType = draft.sourceType;
   const style = draft.style;
 
-  const author = normalizeAuthorName(draft.author || draft.creator);
-  const apaAuthor = toApaAuthor(draft.author || draft.creator);
-  const title = toTitleCase(draft.title || draft.articleTitle || draft.headline);
-  const siteName = toTitleCase(draft.siteName);
-  const journalName = toTitleCase(draft.journalName);
-  const magazineName = toTitleCase(draft.magazineName);
-  const newspaperName = toTitleCase(draft.newspaperName);
-  const publisher = toTitleCase(draft.publisher);
-  const platform = toTitleCase(draft.platform || "YouTube");
-  const url = draft.url.trim() || draft.doiOrUrl.trim();
+  const rawAuthor = draft.author || draft.creator;
+  const author = normalizeAuthorName(rawAuthor) || "[Author]";
+  const apaAuthor = toApaAuthor(rawAuthor) || "[Author]";
+  const title = withPlaceholder(draft.title || draft.articleTitle || draft.headline, "Title", true);
+  const siteName = withPlaceholder(draft.siteName, "Site Name", true);
+  const journalName = withPlaceholder(draft.journalName, "Journal Name", true);
+  const magazineName = withPlaceholder(draft.magazineName, "Magazine Name", true);
+  const newspaperName = withPlaceholder(draft.newspaperName, "Newspaper", true);
+  const publisher = withPlaceholder(draft.publisher, "Publisher", true);
+  const platform = withPlaceholder(draft.platform || "YouTube", "Platform", true);
+  const url = withPlaceholder(draft.url.trim() || draft.doiOrUrl.trim(), "URL");
 
-  const mlaDate = formatDateMla(draft.publishedDate || draft.uploadDate || draft.year);
-  const mlaAccessed = formatDateMla(draft.accessedDate);
-  const apaDate = formatDateLong(draft.publishedDate || draft.uploadDate || draft.year);
-  const chicagoDate = formatDateLong(draft.publishedDate || draft.uploadDate || draft.year);
+  const mlaDate = formatDateMla(draft.publishedDate || draft.uploadDate || draft.year) || "[Date]";
+  const mlaAccessed = formatDateMla(draft.accessedDate) || "[Accessed Date]";
+  const apaDate = formatDateLong(draft.publishedDate || draft.uploadDate || draft.year) || "[Date]";
+  const chicagoDate = formatDateLong(draft.publishedDate || draft.uploadDate || draft.year) || "[Date]";
+  const year = withPlaceholder(draft.year || yearFromDate(draft.publishedDate || draft.uploadDate), "Year");
+  const volume = withPlaceholder(draft.volume, "Volume");
+  const issue = withPlaceholder(draft.issue, "Issue");
+  const pages = withPlaceholder(draft.pages, "Pages");
+  const doiOrUrl = withPlaceholder(draft.doiOrUrl || draft.url, "DOI/URL");
+  const city = withPlaceholder(draft.city, "City", true);
 
   let text = "";
   let html = "";
 
-  if (style === "MLA") {
+  if (style === "MLA 9") {
     if (sourceType === "website") {
-      text = `${author ? `${author}. ` : ""}"${title}." ${siteName ? `${siteName}, ` : ""}${mlaDate ? `${mlaDate}, ` : ""}${url ? `${url}. ` : ""}${mlaAccessed ? `Accessed ${mlaAccessed}.` : ""}`.trim();
-      html = `${author ? `${author}. ` : ""}"${title}." ${siteName ? `<em>${siteName}</em>, ` : ""}${mlaDate ? `${mlaDate}, ` : ""}${url ? `${url}. ` : ""}${mlaAccessed ? `Accessed ${mlaAccessed}.` : ""}`;
+      text = `${author}. "${title}." ${siteName}, ${mlaDate}, ${url}. Accessed ${mlaAccessed}.`.trim();
+      html = `${author}. "${title}." <em>${siteName}</em>, ${mlaDate}, ${url}. Accessed ${mlaAccessed}.`;
     } else if (sourceType === "video") {
-      text = `${author || toTitleCase(draft.creator)}. "${title}." YouTube, ${mlaDate ? `${mlaDate}, ` : ""}${url}.`.trim();
-      html = `${author || toTitleCase(draft.creator)}. "${title}." <em>YouTube</em>, ${mlaDate ? `${mlaDate}, ` : ""}${url}.`;
+      text = `${author}. "${title}." ${platform}, ${mlaDate}, ${url}.`.trim();
+      html = `${author}. "${title}." <em>${platform}</em>, ${mlaDate}, ${url}.`;
     } else if (sourceType === "book") {
-      text = `${author}. ${toTitleCase(draft.title)}. ${publisher}, ${draft.year}.`.trim();
-      html = `${author}. <em>${toTitleCase(draft.title)}</em>. ${publisher}, ${draft.year}.`;
+      text = `${author}. ${title}. ${publisher}, ${year}.`.trim();
+      html = `${author}. <em>${title}</em>. ${publisher}, ${year}.`;
     } else if (sourceType === "journal") {
-      text = `${author}. "${toTitleCase(draft.articleTitle)}." ${journalName}, ${draft.volume ? `vol. ${draft.volume}, ` : ""}${draft.issue ? `no. ${draft.issue}, ` : ""}${draft.year ? `${draft.year}, ` : ""}${draft.pages ? `pp. ${draft.pages}.` : ""}`.trim();
-      html = `${author}. "${toTitleCase(draft.articleTitle)}." <em>${journalName}</em>, ${draft.volume ? `vol. ${draft.volume}, ` : ""}${draft.issue ? `no. ${draft.issue}, ` : ""}${draft.year ? `${draft.year}, ` : ""}${draft.pages ? `pp. ${draft.pages}.` : ""}`;
+      text = `${author}. "${title}." ${journalName}, vol. ${volume}, no. ${issue}, ${year}, pp. ${pages}, ${doiOrUrl}.`.trim();
+      html = `${author}. "${title}." <em>${journalName}</em>, vol. ${volume}, no. ${issue}, ${year}, pp. ${pages}, ${doiOrUrl}.`;
     } else if (sourceType === "newspaper") {
-      text = `${author ? `${author}. ` : ""}"${toTitleCase(draft.headline)}." ${newspaperName}, ${mlaDate}${draft.newspaperPage ? `, p. ${draft.newspaperPage}` : ""}${url ? `, ${url}` : ""}.`.trim();
-      html = `${author ? `${author}. ` : ""}"${toTitleCase(draft.headline)}." <em>${newspaperName}</em>, ${mlaDate}${draft.newspaperPage ? `, p. ${draft.newspaperPage}` : ""}${url ? `, ${url}` : ""}.`;
+      text = `${author}. "${title}." ${newspaperName}, ${mlaDate}, p. ${withPlaceholder(draft.newspaperPage, "Page")}, ${url}.`.trim();
+      html = `${author}. "${title}." <em>${newspaperName}</em>, ${mlaDate}, p. ${withPlaceholder(draft.newspaperPage, "Page")}, ${url}.`;
     } else {
-      text = `${author ? `${author}. ` : ""}"${toTitleCase(draft.articleTitle)}." ${magazineName}, ${mlaDate}${draft.pages ? `, pp. ${draft.pages}` : ""}${url ? `, ${url}` : ""}.`.trim();
-      html = `${author ? `${author}. ` : ""}"${toTitleCase(draft.articleTitle)}." <em>${magazineName}</em>, ${mlaDate}${draft.pages ? `, pp. ${draft.pages}` : ""}${url ? `, ${url}` : ""}.`;
+      text = `${author}. "${title}." ${magazineName}, ${mlaDate}, pp. ${pages}, ${url}.`.trim();
+      html = `${author}. "${title}." <em>${magazineName}</em>, ${mlaDate}, pp. ${pages}, ${url}.`;
     }
-  } else if (style === "APA") {
+  } else if (style === "MLA 8") {
+    text = `${author}. "${title}." ${siteName}, ${mlaDate}, ${url}. Accessed ${mlaAccessed}.`.trim();
+    html = `${author}. "${title}." <em>${siteName}</em>, ${mlaDate}, ${url}. Accessed ${mlaAccessed}.`;
+  } else if (style === "MLA 7") {
+    text = `${author}. "${title}." ${siteName}. ${publisher}, ${mlaDate}. Web. ${mlaAccessed}.`.trim();
+    html = `${author}. "${title}." <em>${siteName}</em>. ${publisher}, ${mlaDate}. Web. ${mlaAccessed}.`;
+  } else if (style === "APA 7") {
     if (sourceType === "website") {
       text = `${apaAuthor} (${apaDate}). ${title}. ${siteName}. ${url}`.trim();
       html = `${apaAuthor} (${apaDate}). ${title}. <em>${siteName}</em>. ${url}`;
     } else if (sourceType === "video") {
-      text = `${apaAuthor || toApaAuthor(draft.creator)} [${toTitleCase(draft.creator)}]. (${apaDate}). ${title} [Video]. YouTube. ${url}`.trim();
-      html = `${apaAuthor || toApaAuthor(draft.creator)} [${toTitleCase(draft.creator)}]. (${apaDate}). ${title} [Video]. <em>YouTube</em>. ${url}`;
+      text = `${apaAuthor} (${apaDate}). ${title} [Video]. ${platform}. ${url}`.trim();
+      html = `${apaAuthor} (${apaDate}). ${title} [Video]. <em>${platform}</em>. ${url}`;
     } else if (sourceType === "book") {
-      text = `${apaAuthor} (${draft.year}). ${toTitleCase(draft.title)}. ${publisher}.`.trim();
-      html = `${apaAuthor} (${draft.year}). <em>${toTitleCase(draft.title)}</em>. ${publisher}.`;
+      text = `${apaAuthor} (${year}). ${title}. ${publisher}.`.trim();
+      html = `${apaAuthor} (${year}). <em>${title}</em>. ${publisher}.`;
     } else if (sourceType === "journal") {
-      text = `${apaAuthor} (${draft.year}). ${toTitleCase(draft.articleTitle)}. ${journalName}, ${draft.volume || ""}${draft.issue ? `(${draft.issue})` : ""}, ${draft.pages || ""}. ${draft.doiOrUrl || ""}`.replace(/\s+/g, " ").trim();
-      html = `${apaAuthor} (${draft.year}). ${toTitleCase(draft.articleTitle)}. <em>${journalName}</em>, ${draft.volume || ""}${draft.issue ? `(${draft.issue})` : ""}, ${draft.pages || ""}. ${draft.doiOrUrl || ""}`.replace(/\s+/g, " ").trim();
+      text = `${apaAuthor} (${year}). ${title}. ${journalName}, ${volume}(${issue}), ${pages}. ${doiOrUrl}`.replace(/\s+/g, " ").trim();
+      html = `${apaAuthor} (${year}). ${title}. <em>${journalName}</em>, ${volume}(${issue}), ${pages}. ${doiOrUrl}`.replace(/\s+/g, " ").trim();
     } else if (sourceType === "newspaper") {
-      text = `${apaAuthor} (${apaDate}). ${toTitleCase(draft.headline)}. ${newspaperName}. ${url}`.trim();
-      html = `${apaAuthor} (${apaDate}). ${toTitleCase(draft.headline)}. <em>${newspaperName}</em>. ${url}`;
+      text = `${apaAuthor} (${apaDate}). ${title}. ${newspaperName}. ${url}`.trim();
+      html = `${apaAuthor} (${apaDate}). ${title}. <em>${newspaperName}</em>. ${url}`;
     } else {
-      text = `${apaAuthor} (${apaDate}). ${toTitleCase(draft.articleTitle)}. ${magazineName}, ${draft.pages}. ${url}`.replace(/\s+/g, " ").trim();
-      html = `${apaAuthor} (${apaDate}). ${toTitleCase(draft.articleTitle)}. <em>${magazineName}</em>, ${draft.pages}. ${url}`.replace(/\s+/g, " ").trim();
+      text = `${apaAuthor} (${apaDate}). ${title}. ${magazineName}, ${pages}. ${url}`.replace(/\s+/g, " ").trim();
+      html = `${apaAuthor} (${apaDate}). ${title}. <em>${magazineName}</em>, ${pages}. ${url}`.replace(/\s+/g, " ").trim();
     }
+  } else if (style === "APA 6") {
+    text = `${apaAuthor} (${apaDate}). ${title}. ${siteName}. Retrieved from ${url}`.trim();
+    html = `${apaAuthor} (${apaDate}). ${title}. <em>${siteName}</em>. Retrieved from ${url}`;
+  } else if (style === "Harvard") {
+    text = `${author} (${year}) '${title}', ${siteName}, viewed ${mlaAccessed}, <${url}>.`.trim();
+    html = `${author} (${year}) '${title}', <em>${siteName}</em>, viewed ${mlaAccessed}, &lt;${url}&gt;.`;
+  } else if (style === "IEEE") {
+    text = `${author}, "${title}," ${siteName}, ${chicagoDate}. [Online]. Available: ${url}. [Accessed: ${mlaAccessed}].`.trim();
+    html = `${author}, "${title}," <em>${siteName}</em>, ${chicagoDate}. [Online]. Available: ${url}. [Accessed: ${mlaAccessed}].`;
   } else {
     if (sourceType === "website") {
       text = `${author}. "${title}." ${siteName}. ${chicagoDate}. ${url}.`.trim();
       html = `${author}. "${title}." <em>${siteName}</em>. ${chicagoDate}. ${url}.`;
     } else if (sourceType === "book") {
-      text = `${author}. ${toTitleCase(draft.title)}. ${draft.city}: ${publisher}, ${draft.year}.`.trim();
-      html = `${author}. <em>${toTitleCase(draft.title)}</em>. ${draft.city}: ${publisher}, ${draft.year}.`;
+      text = `${author}. ${title}. ${city}: ${publisher}, ${year}.`.trim();
+      html = `${author}. <em>${title}</em>. ${city}: ${publisher}, ${year}.`;
     } else if (sourceType === "journal") {
-      text = `${author}. "${toTitleCase(draft.articleTitle)}." ${journalName} ${draft.volume}, no. ${draft.issue} (${draft.year}): ${draft.pages}.`.trim();
-      html = `${author}. "${toTitleCase(draft.articleTitle)}." <em>${journalName}</em> ${draft.volume}, no. ${draft.issue} (${draft.year}): ${draft.pages}.`;
+      text = `${author}. "${title}." ${journalName} ${volume}, no. ${issue} (${year}): ${pages}.`.trim();
+      html = `${author}. "${title}." <em>${journalName}</em> ${volume}, no. ${issue} (${year}): ${pages}.`;
     } else if (sourceType === "video") {
-      text = `${author || toTitleCase(draft.creator)}. "${title}." YouTube. ${chicagoDate}. ${url}.`.trim();
-      html = `${author || toTitleCase(draft.creator)}. "${title}." <em>YouTube</em>. ${chicagoDate}. ${url}.`;
+      text = `${author}. "${title}." ${platform}. ${chicagoDate}. ${url}.`.trim();
+      html = `${author}. "${title}." <em>${platform}</em>. ${chicagoDate}. ${url}.`;
     } else if (sourceType === "newspaper") {
-      text = `${author}. "${toTitleCase(draft.headline)}." ${newspaperName}. ${chicagoDate}. ${url}.`.trim();
-      html = `${author}. "${toTitleCase(draft.headline)}." <em>${newspaperName}</em>. ${chicagoDate}. ${url}.`;
+      text = `${author}. "${title}." ${newspaperName}. ${chicagoDate}. ${url}.`.trim();
+      html = `${author}. "${title}." <em>${newspaperName}</em>. ${chicagoDate}. ${url}.`;
     } else {
-      text = `${author}. "${toTitleCase(draft.articleTitle)}." ${magazineName}. ${chicagoDate}. ${url}.`.trim();
-      html = `${author}. "${toTitleCase(draft.articleTitle)}." <em>${magazineName}</em>. ${chicagoDate}. ${url}.`;
+      text = `${author}. "${title}." ${magazineName}. ${chicagoDate}. ${url}.`.trim();
+      html = `${author}. "${title}." <em>${magazineName}</em>. ${chicagoDate}. ${url}.`;
     }
   }
 
@@ -312,7 +343,6 @@ export default function CitationsPage() {
   const router = useRouter();
 
   const [draft, setDraft] = useState<Draft>(DEFAULT_DRAFT);
-  const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof Draft, string>>>({});
   const [citations, setCitations] = useState<CitationItem[]>([]);
   const [search, setSearch] = useState("");
   const [isImporting, setIsImporting] = useState(false);
@@ -351,37 +381,15 @@ export default function CitationsPage() {
     );
   }, [citations, search]);
 
-  const worksHeader = draft.style === "MLA" ? "Works Cited" : "References";
-
-  const resetFieldErrors = () => setFieldErrors({});
+  const worksHeader = draft.style.startsWith("MLA") ? "Works Cited" : "References";
 
   const updateDraft = (key: keyof Draft, value: string) => {
     setDraft((prev) => ({ ...prev, [key]: value }));
-    setFieldErrors((prev) => ({ ...prev, [key]: undefined }));
-  };
-
-  const validateDraft = () => {
-    const required = REQUIRED_FIELDS[draft.sourceType];
-    const nextErrors: Partial<Record<keyof Draft, string>> = {};
-
-    for (const key of required) {
-      if (!String(draft[key] ?? "").trim()) {
-        nextErrors[key] = "Required";
-      }
-    }
-
-    setFieldErrors(nextErrors);
-    return Object.keys(nextErrors).length === 0;
   };
 
   const saveCitationToList = () => {
     setError("");
     setSuccess("");
-
-    if (!validateDraft()) {
-      setError("Please complete all required fields highlighted in red.");
-      return;
-    }
 
     const generated = getCitationPreview(draft);
     if (!generated.text) {
@@ -413,7 +421,6 @@ export default function CitationsPage() {
     setSearch("");
     setError("");
     setSuccess("");
-    resetFieldErrors();
   };
 
   const copyCitation = async (citationText: string) => {
@@ -475,7 +482,7 @@ export default function CitationsPage() {
     const href = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = href;
-    anchor.download = `${draft.style.toLowerCase()}-${draft.style === "MLA" ? "works-cited" : "references"}.docx`;
+    anchor.download = `${draft.style.toLowerCase().replace(/\s+/g, "-")}-${draft.style.startsWith("MLA") ? "works-cited" : "references"}.docx`;
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();
@@ -538,7 +545,7 @@ export default function CitationsPage() {
         <div className="mb-8 flex flex-wrap items-center justify-between gap-3 print-citations-hide">
           <div>
             <h1 className="text-4xl font-bold text-gray-900">Citation Generator</h1>
-            <p className="mt-2 text-lg text-gray-600">Generate accurate MLA, APA, and Chicago citations with smart metadata import.</p>
+            <p className="mt-2 text-lg text-gray-600">Generate accurate MLA, APA, Harvard, IEEE, and Chicago citations with smart metadata import.</p>
           </div>
           <Button href="/generator" variant="secondary" size="sm">Back to Generator</Button>
         </div>
@@ -559,7 +566,6 @@ export default function CitationsPage() {
                   value={draft.sourceType}
                   onChange={(v: string) => {
                     setDraft((prev) => ({ ...prev, sourceType: v as SourceType }));
-                    resetFieldErrors();
                   }}
                   options={SOURCE_OPTIONS.map((s) => ({ value: s.value, label: s.label }))}
                 />
@@ -585,19 +591,17 @@ export default function CitationsPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               {fields.map((field) => {
                 const isRequired = field.required;
-                const hasError = Boolean(fieldErrors[field.key]);
                 return (
                   <div key={field.key} className="sm:col-span-1">
-                    <label className={`mb-1 block text-xs font-semibold ${hasError ? "text-red-700" : "text-gray-700"}`}>
+                    <label className="mb-1 block text-xs font-semibold text-gray-700">
                       {field.label} {isRequired ? <span className="text-red-600">(required)</span> : <span className="text-gray-400">(optional)</span>}
                     </label>
                     <input
                       value={String(draft[field.key] ?? "")}
                       onChange={(event) => updateDraft(field.key, event.target.value)}
                       placeholder={field.placeholder || field.label}
-                      className={`w-full rounded-lg border px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-1 ${hasError ? "border-red-300 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-blue-500 focus:ring-blue-500"}`}
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
-                    {hasError && <p className="mt-1 text-xs text-red-600">{fieldErrors[field.key]}</p>}
                   </div>
                 );
               })}
