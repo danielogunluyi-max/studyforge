@@ -323,9 +323,6 @@ export default function Generator() {
 
     if (outputFormat === "flashcards") {
       const cards = parseFlashcards(generatedNotes);
-      // Debug: log parsed cards and raw AI output to help diagnose blank cards
-      console.log("Flashcards parsed:", cards);
-      console.log("Generated notes (preview):", generatedNotes.slice(0, 400).replace(/\n/g, " "));
       return (
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-4">
@@ -379,6 +376,12 @@ export default function Generator() {
               </div>
             ))}
           </div>
+          {cards.length === 0 && (
+            <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
+              <p className="font-semibold">No flashcards parsed from AI output.</p>
+              <p className="mt-2 whitespace-pre-wrap text-xs text-gray-700">{generatedNotes}</p>
+            </div>
+          )}
         </div>
       );
     }
@@ -585,12 +588,6 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
             <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4">
               <div className="flex items-center justify-between">
                 <div>
-                {cards.length === 0 && (
-                  <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
-                    <p className="font-semibold">No flashcards parsed from AI output.</p>
-                    <p className="mt-2 whitespace-pre-wrap text-xs text-gray-700">{generatedNotes}</p>
-                  </div>
-                )}
                   <p className="text-sm font-semibold text-gray-900">
                     Adapt to Your Learning Style
                   </p>
