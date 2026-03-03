@@ -9,6 +9,7 @@ import { Button } from "~/app/_components/button";
 import Listbox from "~/app/_components/Listbox";
 
 const PREFILL_STORAGE_KEY = "studyforge:prefillText";
+const PREFILL_FORMAT_KEY = "studyforge:prefillFormat";
 const TAG_SUGGESTIONS = [
   "Math",
   "Biology",
@@ -101,6 +102,7 @@ export default function Generator() {
     }
 
     const text = sessionStorage.getItem(PREFILL_STORAGE_KEY) ?? "";
+    const prefillFormat = sessionStorage.getItem(PREFILL_FORMAT_KEY) ?? "";
     if (!text.trim()) {
       return;
     }
@@ -118,7 +120,13 @@ export default function Generator() {
     setCheckedAnswers(new Set());
     setCheckingAnswers(new Set());
     setAnswerChecks({});
+
+    if (["summary", "detailed", "flashcards", "questions"].includes(prefillFormat)) {
+      setOutputFormat(prefillFormat);
+    }
+
     sessionStorage.removeItem(PREFILL_STORAGE_KEY);
+    sessionStorage.removeItem(PREFILL_FORMAT_KEY);
   }, []);
 
   useEffect(() => {

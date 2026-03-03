@@ -152,7 +152,7 @@ function extractTextFromPage(page: Pdf2JsonPage): string {
   return builtLines.join("\n");
 }
 
-async function extractTextFromPdfBuffer(buffer: Buffer): Promise<string> {
+async function extractTextFromPdfBuffer(buffer: Buffer): Promise<{ text: string; pageCount: number }> {
   const { default: PDFParser } = await import("pdf2json");
 
   return new Promise((resolve, reject) => {
@@ -176,7 +176,10 @@ async function extractTextFromPdfBuffer(buffer: Buffer): Promise<string> {
         }
       }
 
-      resolve(normalizeDocumentText(pageTexts.join("\n\n")));
+      resolve({
+        text: normalizeDocumentText(pageTexts.join("\n\n")),
+        pageCount: pages.length,
+      });
     });
 
     parser.parseBuffer(buffer);
@@ -249,7 +252,8 @@ export async function POST(request: Request) {
     }
 
     const pdfBuffer = Buffer.from(pdfBytes);
-    const extractedText = await extractTextFromPdfBuffer(pdfBuffer);
+    const extracted = await extractTextFromPdfBuffer(pdfBuffer);
+    const extractedText = extracted.text;
 
     if (!extractedText) {
       return NextResponse.json(
@@ -261,7 +265,7 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ text: extractedText });
+    return NextResponse.json({ text: extractedText, pageCount: extracted.pageCount });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to extract PDF text";
     console.error("PDF extraction error:", error);

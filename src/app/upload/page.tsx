@@ -11,6 +11,7 @@ import Listbox from "~/app/_components/Listbox";
 const MAX_PDF_BYTES = 10 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 const PREFILL_STORAGE_KEY = "studyforge:prefillText";
+const PREFILL_FORMAT_KEY = "studyforge:prefillFormat";
 
 const OCR_LANGUAGE_LABELS: Record<string, string> = {
   eng: "English",
@@ -29,6 +30,12 @@ export default function UploadPage() {
   const [ocrLanguage, setOcrLanguage] = useState("eng");
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [extractedText, setExtractedText] = useState("");
+  const [documentOverview, setDocumentOverview] = useState("");
+  const [detectedSubject, setDetectedSubject] = useState("");
+  const [wordCount, setWordCount] = useState(0);
+  const [estimatedReadMinutes, setEstimatedReadMinutes] = useState(0);
+  const [pdfPageCount, setPdfPageCount] = useState<number | null>(null);
+  const [processingStage, setProcessingStage] = useState<"idle" | "uploading" | "extracting" | "analyzing" | "done">("idle");
   const [dragActive, setDragActive] = useState(false);
   const [error, setError] = useState("");
 
@@ -73,6 +80,12 @@ export default function UploadPage() {
 
     setIsExtracting(true);
     setError("");
+    setProcessingStage("uploading");
+    setDocumentOverview("");
+    setDetectedSubject("");
+    setWordCount(0);
+    setEstimatedReadMinutes(0);
+    setPdfPageCount(null);
 
     try {
       const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
@@ -84,14 +97,17 @@ export default function UploadPage() {
         formData.append("language", ocrLanguage);
       }
 
+      setProcessingStage("extracting");
+
       const response = await fetch(endpoint, {
         method: "POST",
         body: formData,
       });
 
-      const data = (await response.json()) as { text?: string; error?: string };
+      const data = (await response.json()) as { text?: string; error?: string; pageCount?: number };
       if (!response.ok) {
         setError(data.error ?? "Failed to extract text from file.");
+        setProcessingStage("idle");
         return;
       }
 
@@ -103,9 +119,48 @@ export default function UploadPage() {
 
       setUploadedFileName(file.name);
       setExtractedText(text);
+      setPdfPageCount(isPdf ? (data.pageCount ?? null) : null);
+
+      const words = text.split(/\s+/).filter(Boolean).length;
+      setWordCount(words);
+      setEstimatedReadMinutes(Math.max(1, Math.ceil(words / 200)));
+
+      setProcessingStage("analyzing");
+
+      const [summaryResult, subjectResult] = await Promise.all([
+        fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text,
+            format: "summary",
+            notesLength: "brief",
+          }),
+        })
+          .then(async (res) => {
+            const payload = (await res.json().catch(() => ({}))) as { notes?: string };
+            return res.ok ? (payload.notes ?? "").trim() : "";
+          })
+          .catch(() => ""),
+        fetch("/api/detect-subject", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: text.slice(0, 1200) }),
+        })
+          .then(async (res) => {
+            const payload = (await res.json().catch(() => ({}))) as { subject?: string };
+            return res.ok ? (payload.subject ?? "").trim() : "";
+          })
+          .catch(() => ""),
+      ]);
+
+      setDocumentOverview(summaryResult);
+      setDetectedSubject(subjectResult);
+      setProcessingStage("done");
     } catch (uploadError) {
       void uploadError;
       setError("Network error while processing file. Please try again.");
+      setProcessingStage("idle");
     } finally {
       setIsExtracting(false);
     }
@@ -133,7 +188,7 @@ export default function UploadPage() {
     await extractTextFromFile(droppedFile);
   };
 
-  const handleUseText = () => {
+  const handleUseText = (format: "summary" | "flashcards" | "questions" | "detailed") => {
     const cleaned = extractedText.trim();
     if (!cleaned) {
       setError("Extract some text first before continuing.");
@@ -141,8 +196,20 @@ export default function UploadPage() {
     }
 
     sessionStorage.setItem(PREFILL_STORAGE_KEY, cleaned);
+    sessionStorage.setItem(PREFILL_FORMAT_KEY, format);
     router.push("/generator?source=upload");
   };
+
+  const stageLabel =
+    processingStage === "uploading"
+      ? "Uploading..."
+      : processingStage === "extracting"
+        ? "Extracting text..."
+        : processingStage === "analyzing"
+          ? "Analyzing document..."
+          : processingStage === "done"
+            ? "Done!"
+            : "";
 
   if (status === "loading") {
     return (
@@ -248,10 +315,19 @@ export default function UploadPage() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                Processing file...
+                {stageLabel || "Processing file..."}
               </span>
             )}
           </div>
+
+          {(isExtracting || processingStage === "done") && (
+            <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
+              <div className="font-medium">{stageLabel || "Ready"}</div>
+              <div className="mt-1 text-xs text-blue-700">
+                Uploading... → Extracting text... → Analyzing document... → Done!
+              </div>
+            </div>
+          )}
 
           <input
             ref={pdfInputRef}
@@ -286,13 +362,58 @@ export default function UploadPage() {
             className="h-72 w-full resize-none rounded-lg border border-gray-300 p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
 
+          {extractedText.trim() && (
+            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <h3 className="text-sm font-semibold text-gray-900">Document Stats</h3>
+              <div className="mt-2 grid gap-2 text-sm text-gray-700 sm:grid-cols-2">
+                <p>Word count: <span className="font-medium">{wordCount.toLocaleString()}</span></p>
+                <p>Estimated read time: <span className="font-medium">{estimatedReadMinutes} min</span></p>
+                <p>Page count: <span className="font-medium">{pdfPageCount ?? "N/A"}</span></p>
+                <p>Detected subject: <span className="font-medium">{detectedSubject || "Unknown"}</span></p>
+              </div>
+            </div>
+          )}
+
+          {extractedText.trim() && (
+            <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
+              <h3 className="text-sm font-semibold text-blue-900">Document Overview</h3>
+              <p className="mt-2 whitespace-pre-wrap text-sm text-blue-900">
+                {documentOverview || "Analyzing document overview..."}
+              </p>
+            </div>
+          )}
+
           <div className="mt-4 flex flex-wrap gap-3">
             <Button
-              onClick={handleUseText}
+              onClick={() => handleUseText("summary")}
               disabled={!extractedText.trim() || isExtracting}
               size="md"
             >
-              Use This Text
+              Generate Notes
+            </Button>
+            <Button
+              onClick={() => handleUseText("flashcards")}
+              disabled={!extractedText.trim() || isExtracting}
+              variant="secondary"
+              size="md"
+            >
+              Create Flashcards
+            </Button>
+            <Button
+              onClick={() => handleUseText("questions")}
+              disabled={!extractedText.trim() || isExtracting}
+              variant="secondary"
+              size="md"
+            >
+              Practice Quiz
+            </Button>
+            <Button
+              onClick={() => handleUseText("detailed")}
+              disabled={!extractedText.trim() || isExtracting}
+              variant="secondary"
+              size="md"
+            >
+              Detailed Notes
             </Button>
             <Button
               onClick={() => setExtractedText("")}
