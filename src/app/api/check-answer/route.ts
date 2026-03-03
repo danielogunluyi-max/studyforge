@@ -47,7 +47,26 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "studentAnswer and correctAnswer are required" }, { status: 400 });
     }
 
-    const prompt = `Is this student answer correct or approximately correct?\n\nStudent answer: ${studentAnswer}\n\nCorrect answer: ${correctAnswer}\n\nReply with JSON only in this exact shape:\n{\"correct\": boolean, \"feedback\": string}`;
+    const prompt = `Look at the student's answer and the correct solution step by step. Identify exactly which step the student got wrong or misunderstood.
+
+  Student answer: ${studentAnswer}
+
+  Correct answer: ${correctAnswer}
+
+  Return JSON: {"correct": boolean, "feedback": string}
+
+  Feedback rules:
+  - If correct, give a brief confirmation.
+  - If incorrect, be specific about the mistake location/step.
+  - Do NOT only say "your answer doesn't match".
+  - Keep feedback to 1-2 sentences max.
+
+  Good incorrect-feedback examples:
+  - "You got g(3) = 1 correctly but made an error substituting into f(x)."
+  - "You forgot to square the value before multiplying."
+  - "Check your arithmetic in step 2: 2(1)² = 2, not 3."
+
+  Reply with JSON only.`;
 
     const completion = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
