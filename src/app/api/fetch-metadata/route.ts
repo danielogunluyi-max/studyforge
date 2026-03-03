@@ -6,7 +6,6 @@ type GroqMetadata = {
   author?: string;
   siteName?: string;
   publishedDate?: string;
-  description?: string;
   sourceType?: string;
 };
 
@@ -82,13 +81,19 @@ export async function POST(req: NextRequest) {
 
     const prompt = `Given this URL: ${normalizedUrl}
 
-Extract and return ONLY a JSON object with these fields (no other text):
+I need you to return a JSON object with metadata about this webpage. Use your knowledge of this website and URL to fill in as much as possible.
+
+For this URL specifically:
+- Look at the URL path/slug to guess the title (e.g. /article/richard-wagamese suggests the title is about Richard Wagamese)
+- The author is who WROTE the article, not the subject of the article
+- siteName is the website brand name
+
+Return ONLY this JSON, no other text:
 {
-  "title": "page or article title",
-  "author": "author full name or empty string",
-  "siteName": "website name",
+  "title": "the article or page title derived from URL path or your knowledge",
+  "author": "who wrote this article, or empty string if unknown",  
+  "siteName": "website brand name",
   "publishedDate": "YYYY-MM-DD or empty string",
-  "description": "brief description or empty string",
   "sourceType": "website"
 }
 
@@ -96,9 +101,7 @@ Rules for title vs author:
 - title = the actual article/page title (example: "Richard Wagamese - Biography").
 - author = the person who wrote the page/article.
 - If unsure about author, return an empty string for author.
-- Never put a person's name by itself in the title field.
-
-Base your answer on what you know about this URL or website. If you don't know specific details, use the domain name for siteName and leave other fields empty.`;
+- Never put a person's name by itself in the title field.`;
 
     const raw = await runGroqPrompt({
       user: prompt,
@@ -120,7 +123,6 @@ Base your answer on what you know about this URL or website. If you don't know s
       author: repairedAuthor,
       siteName: String(parsed?.siteName ?? "").trim() || fallbackDomain,
       publishedDate: String(parsed?.publishedDate ?? "").trim(),
-      description: String(parsed?.description ?? "").trim(),
       sourceType: "website",
       accessedDate,
     };

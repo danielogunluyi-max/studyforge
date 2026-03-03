@@ -156,6 +156,32 @@ function yearFromDate(date: string): string {
   return String(parsed.getFullYear());
 }
 
+function titleFromUrlPath(input: string): string {
+  if (!input.trim()) return "";
+
+  try {
+    const normalized = /^https?:\/\//i.test(input.trim()) ? input.trim() : `https://${input.trim()}`;
+    const parsed = new URL(normalized);
+    const segments = parsed.pathname.split("/").filter(Boolean);
+    if (!segments.length) return "";
+
+    const slug = decodeURIComponent(segments[segments.length - 1] ?? "")
+      .replace(/\.[a-z0-9]+$/i, "")
+      .replace(/[-_+]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    if (!slug) return "";
+
+    return slug
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  } catch {
+    return "";
+  }
+}
+
 function getCitationPreview(draft: Draft): { text: string; html: string } {
   const sourceType = draft.sourceType;
   const style = draft.style;
@@ -519,13 +545,26 @@ export default function CitationsPage() {
         return;
       }
 
-      setDraft((prev) => ({
-        ...prev,
-        ...Object.fromEntries(
+      setDraft((prev) => {
+        const incoming = Object.fromEntries(
           Object.entries(data.metadata!).filter(([, value]) => typeof value === "string" && value.trim()),
-        ),
-        accessedDate: data.metadata?.accessedDate || prev.accessedDate || new Date().toISOString().slice(0, 10),
-      } as Draft));
+        ) as Partial<Draft>;
+
+        const merged = {
+          ...prev,
+          ...incoming,
+          accessedDate: data.metadata?.accessedDate || prev.accessedDate || new Date().toISOString().slice(0, 10),
+        } as Draft;
+
+        if (!merged.title.trim()) {
+          const derivedTitle = titleFromUrlPath(String(incoming.url ?? merged.url ?? draft.url));
+          if (derivedTitle) {
+            merged.title = derivedTitle;
+          }
+        }
+
+        return merged;
+      });
 
       setSuccess("Metadata imported and fields auto-filled.");
     } catch {
