@@ -116,11 +116,16 @@ ${subjectGuidance}
 ${calculationInstruction}
 
 FORMAT RULES:
-- Start each question on ONE line with a number and period: "1. [Full complete question ending with ?]"
-- Put options on the same question line in this compact format: "A) ... B) ... C) ... D) ..."
-- Next line must be exactly: "Answer: [Correct letter and brief explanation]"
+- Use this EXACT block format for every question:
+1. [question here]?
+Answer: [full detailed answer/solution here]
+
+2. [question here]?
+Answer: [full detailed answer/solution here]
+- Keep each full question on one numbered line ending with ?
+- Include options A) B) C) D) within the question line itself
+- In Answer:, include the correct option and explanation
 - Do not split one question across multiple numbered lines
-- Leave one blank line between each question block
 
 Now create the questions from this content:
 ${text}`;
@@ -133,11 +138,15 @@ ${subjectGuidance}
 ${calculationInstruction}
 
 FORMAT RULES:
-- Start each question on ONE line with a number and period: "1. [Full complete question ending with ?]"
-- Each question must be true/false style
-- Next line must be exactly: "Answer: True/False - [brief explanation]"
+- Use this EXACT block format for every question:
+1. [question here]?
+Answer: [full detailed answer/solution here]
+
+2. [question here]?
+Answer: [full detailed answer/solution here]
+- Keep each full question on one numbered line ending with ?
+- In Answer:, start with True or False and then explain briefly
 - Do not split one question across multiple numbered lines
-- Leave one blank line between each question block
 
 Now create the questions from this content:
 ${text}`;
@@ -157,31 +166,30 @@ CALCULATION RULES:
 - If content is not math/science, still prioritize applied quantitative reasoning tied to the content
 
 FORMAT RULES:
-- Start each question on ONE line with a number and period: "1. [Full complete question ending with ?]"
-- Next line must be exactly: "Answer: [Final numerical answer + concise worked steps]"
-- Keep each question self-contained on one numbered line (do not split numbered question lines)
-- Leave one blank line between each question block
+- Use this EXACT block format for every question:
+1. [question here]?
+Answer: [full detailed answer/solution here, including all steps]
+
+2. [question here]?
+Answer: [full detailed answer/solution here, including all steps]
+- Keep each full question on one numbered line ending with ?
+- Answer: must include step-by-step working, formulas used, substitutions, and final numerical result
+- Do not split one question across multiple numbered lines
 
 Now create the questions from this content:
 ${text}`;
       } else {
-        prompt = `You are creating practice questions for a student quiz interface. Follow this format EXACTLY:
+  prompt = `You are creating practice questions for a student quiz interface. Follow this format EXACTLY:
 
-1. What is the main process by which plants produce energy?
+1. [question here]?
+Answer: [full detailed answer/solution here]
 
-The main process is photosynthesis, where plants convert light energy into chemical energy stored in glucose molecules. This occurs in the chloroplasts of plant cells.
-
-2. Explain how chlorophyll contributes to photosynthesis.
-
-Chlorophyll is a green pigment that absorbs light energy from the sun. It captures photons and uses that energy to drive the chemical reactions that convert carbon dioxide and water into glucose and oxygen.
-
-3. Why is oxygen released during photosynthesis?
-
-Oxygen is released as a byproduct when water molecules are split during the light-dependent reactions. The hydrogen atoms from water are used to make glucose, while the oxygen is released into the atmosphere.
+2. [question here]?
+Answer: [full detailed answer/solution here]
 
 CRITICAL RULES:
-- Start each question on ONE line with a number and period: "1. [Full complete question ending with ?]"
-- The next line must be exactly: "Answer: [full answer here]"
+- Start each question on ONE line with a number and period and end it with ?
+- The next line must start with "Answer:" followed by the full answer
 - Do NOT split one question across multiple numbered lines
 - Do NOT include multiple choice options
 - Do NOT include letters like A) B) C)

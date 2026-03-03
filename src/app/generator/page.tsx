@@ -290,6 +290,7 @@ export default function Generator() {
 
     let currentQuestion = "";
     let currentAnswer = "";
+    let inAnswer = false;
 
     const pushCurrent = () => {
       if (currentQuestion.trim() && currentAnswer.trim()) {
@@ -301,36 +302,27 @@ export default function Generator() {
     };
 
     for (const line of lines) {
-      const numberedMatch = line.match(/^\d+\.\s*(.+)$/);
+      const questionStartMatch = line.match(/^\d+\.\s*(.+\?)\s*$/);
 
-      if (numberedMatch) {
-        const candidate = numberedMatch[1]?.trim() ?? "";
-        const wordCount = candidate.split(/\s+/).filter(Boolean).length;
-        const looksLikeQuestionStart = candidate.includes("?") || wordCount >= 10;
-
-        if (looksLikeQuestionStart) {
-          pushCurrent();
-          currentQuestion = candidate;
-          currentAnswer = "";
-        } else if (currentQuestion) {
-          // Short or malformed numbered line: append to previous question
-          currentQuestion = `${currentQuestion} ${candidate}`.trim();
-        } else {
-          // Fallback if this is the first seen line
-          currentQuestion = candidate;
-        }
-
+      if (questionStartMatch) {
+        pushCurrent();
+        currentQuestion = (questionStartMatch[1] ?? "").trim();
+        currentAnswer = "";
+        inAnswer = false;
         continue;
       }
 
       if (/^answer:\s*/i.test(line)) {
         currentAnswer = line.replace(/^answer:\s*/i, "").trim();
+        inAnswer = true;
         continue;
       }
 
-      if (currentAnswer) {
-        currentAnswer = `${currentAnswer} ${line}`.trim();
+      if (inAnswer) {
+        // Preserve full detailed answer/solution until next numbered question
+        currentAnswer = `${currentAnswer}\n${line}`.trim();
       } else if (currentQuestion) {
+        // If question accidentally wrapped, keep it attached to current question
         currentQuestion = `${currentQuestion} ${line}`.trim();
       }
     }
