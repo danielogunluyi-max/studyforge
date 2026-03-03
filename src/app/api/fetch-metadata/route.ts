@@ -31,15 +31,6 @@ function domainFromUrl(url: string): string {
   }
 }
 
-function looksLikePersonName(value: string): boolean {
-  const trimmed = value.trim();
-  if (!trimmed) return false;
-  if (/[\-:|,]|\b(biography|about|profile|official|website)\b/i.test(trimmed)) return false;
-  const parts = trimmed.split(/\s+/).filter(Boolean);
-  if (parts.length < 2 || parts.length > 4) return false;
-  return parts.every((part) => /^[A-Z][a-z]+(?:[-'][A-Z][a-z]+)?$/.test(part));
-}
-
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as { url?: string };
@@ -101,7 +92,9 @@ Rules for title vs author:
 - title = the actual article/page title (example: "Richard Wagamese - Biography").
 - author = the person who wrote the page/article.
 - If unsure about author, return an empty string for author.
-- Never put a person's name by itself in the title field.`;
+- Never put a person's name by itself in the title field.
+- For encyclopedia entries, biography pages, or reference articles, the subject of the article IS the title.
+- The author is the person who wrote it, which is often unknown for encyclopedias — return empty string for author in that case.`;
 
     const raw = await runGroqPrompt({
       user: prompt,
@@ -114,9 +107,13 @@ Rules for title vs author:
 
     const parsedTitle = String(parsed?.title ?? "").trim();
     const parsedAuthor = String(parsed?.author ?? "").trim();
+    const titleAuthorSame =
+      parsedTitle.length > 0 &&
+      parsedAuthor.length > 0 &&
+      parsedTitle.toLowerCase() === parsedAuthor.toLowerCase();
 
-    const repairedAuthor = parsedAuthor || (looksLikePersonName(parsedTitle) ? parsedTitle : "");
-    const repairedTitle = looksLikePersonName(parsedTitle) ? "" : parsedTitle;
+    const repairedAuthor = titleAuthorSame ? "" : parsedAuthor;
+    const repairedTitle = parsedTitle;
 
     const result = {
       title: repairedTitle,

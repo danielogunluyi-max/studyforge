@@ -630,10 +630,11 @@ export default function CitationsPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               {fields.map((field) => {
                 const isRequired = field.required;
+                const fieldValue = String(draft[field.key] ?? "").trim();
                 return (
                   <div key={field.key} className="sm:col-span-1">
                     <label className="mb-1 block text-xs font-semibold text-gray-700">
-                      {field.label} {isRequired ? <span className="text-red-600">(required)</span> : <span className="text-gray-400">(optional)</span>}
+                      {field.label} {isRequired ? (!fieldValue && <span className="text-red-400 text-xs">(required)</span>) : <span className="text-gray-400">(optional)</span>}
                     </label>
                     <input
                       value={String(draft[field.key] ?? "")}
