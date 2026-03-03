@@ -45,6 +45,7 @@ export default function Generator() {
   const [generatedNotes, setGeneratedNotes] = useState("");
   const [tagsInput, setTagsInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isRegenerating, setIsRegenerating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -63,9 +64,13 @@ export default function Generator() {
   const [quizDifficulty, setQuizDifficulty] = useState("medium");
   const [quizType, setQuizType] = useState("open-ended");
   const [notesLength, setNotesLength] = useState("medium");
+  const [detectedSubject, setDetectedSubject] = useState<string | null>(null);
+  const [suggestedFormat, setSuggestedFormat] = useState<string | null>(null);
   const [learningStyle, setLearningStyle] = useState<string | null>(null);
   const [adaptContent, setAdaptContent] = useState(false);
   const isGeneratingRef = useRef(false);
+  const detectSubjectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const detectSubjectOnNextChangeRef = useRef(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -116,6 +121,14 @@ export default function Generator() {
     sessionStorage.removeItem(PREFILL_STORAGE_KEY);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (detectSubjectTimeoutRef.current) {
+        clearTimeout(detectSubjectTimeoutRef.current);
+      }
+    };
+  }, []);
+
   if (status === "loading") {
     return (
       <main className="flex min-h-screen items-center justify-center bg-gray-50">
@@ -131,12 +144,13 @@ export default function Generator() {
     return null;
   }
 
-  const handleGenerate = async () => {
+  const handleGenerate = async (source: "default" | "regenerate" = "default") => {
     if (isGeneratingRef.current) {
       return;
     }
 
     isGeneratingRef.current = true;
+    setIsRegenerating(source === "regenerate");
     setIsLoading(true);
     setError("");
     setSaveSuccess(false);
@@ -202,8 +216,72 @@ export default function Generator() {
       setError("Something went wrong. Please try again.");
     } finally {
       isGeneratingRef.current = false;
+      setIsRegenerating(false);
       setIsLoading(false);
     }
+  };
+
+  const detectSubjectFromPastedText = async (textToAnalyze: string) => {
+    const sample = textToAnalyze.trim().slice(0, 200);
+    if (!sample) {
+      setDetectedSubject(null);
+      setSuggestedFormat(null);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/detect-subject", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: sample }),
+      });
+
+      const data = (await response.json().catch(() => ({}))) as {
+        subject?: string;
+        suggestedFormat?: string;
+      };
+
+      const hasSuggestion = Boolean(data.subject?.trim() && data.suggestedFormat?.trim());
+      if (!response.ok || !hasSuggestion) {
+        setDetectedSubject(null);
+        setSuggestedFormat(null);
+        return;
+      }
+
+      setDetectedSubject(data.subject ?? null);
+      setSuggestedFormat(data.suggestedFormat ?? null);
+    } catch {
+      setDetectedSubject(null);
+      setSuggestedFormat(null);
+    }
+  };
+
+  const scheduleSubjectDetection = (textValue: string) => {
+    if (detectSubjectTimeoutRef.current) {
+      clearTimeout(detectSubjectTimeoutRef.current);
+    }
+
+    detectSubjectTimeoutRef.current = setTimeout(() => {
+      void detectSubjectFromPastedText(textValue);
+    }, 1000);
+  };
+
+  const handleInputChange = (value: string) => {
+    setInputText(value);
+
+    if (detectSubjectOnNextChangeRef.current) {
+      detectSubjectOnNextChangeRef.current = false;
+      scheduleSubjectDetection(value);
+    }
+  };
+
+  const formatSuggestionLabel = (format: string) => {
+    if (format === "questions") return "Practice Quiz";
+    if (format === "flashcards") return "Flashcards";
+    if (format === "detailed") return "Detailed Notes";
+    return "Summary";
   };
 
   const handleSave = async () => {
@@ -254,6 +332,8 @@ export default function Generator() {
     setInputText("");
     setTagsInput("");
     setGeneratedNotes("");
+    setDetectedSubject(null);
+    setSuggestedFormat(null);
     setError("");
     setSaveSuccess(false);
     setFlippedCards(new Set());
@@ -922,12 +1002,29 @@ export default function Generator() {
           </div>
           <textarea
             value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
+            onPaste={() => {
+              detectSubjectOnNextChangeRef.current = true;
+            }}
+            onChange={(e) => handleInputChange(e.target.value)}
             placeholder="Paste lecture notes, textbook paragraphs, or study material here...
 
 Example: 'Photosynthesis is the process by which plants convert sunlight into energy. It occurs in the chloroplasts and involves...'"
             className="h-64 w-full resize-none rounded-lg border border-gray-300 p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
+          {detectedSubject && suggestedFormat && (
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-900">
+              <span>
+                📚 Detected: {detectedSubject} — Try {formatSuggestionLabel(suggestedFormat)} for best results
+              </span>
+              <button
+                type="button"
+                onClick={() => setOutputFormat(suggestedFormat)}
+                className="rounded-md border border-blue-300 bg-white px-3 py-1 text-xs font-semibold text-blue-700 hover:bg-blue-100"
+              >
+                {suggestedFormat === "questions" ? "Switch to Practice Quiz" : `Switch to ${formatSuggestionLabel(suggestedFormat)}`}
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -1080,13 +1177,33 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
             )}
           </Button>
           {generatedNotes && (
-            <Button
-              onClick={handleClear}
-              variant="secondary"
-              size="lg"
-            >
-              Clear
-            </Button>
+            <>
+              <Button
+                onClick={() => void handleGenerate("regenerate")}
+                variant="secondary"
+                size="lg"
+                disabled={isLoading}
+              >
+                {isRegenerating ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Regenerating...
+                  </span>
+                ) : (
+                  "Regenerate"
+                )}
+              </Button>
+              <Button
+                onClick={handleClear}
+                variant="secondary"
+                size="lg"
+              >
+                Clear
+              </Button>
+            </>
           )}
         </div>
 
