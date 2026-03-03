@@ -1,45 +1,122 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
+import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+
+type GroqMetadata = {
+  title?: string;
+  author?: string;
+  siteName?: string;
+  publishedDate?: string;
+  description?: string;
+  sourceType?: string;
+};
+
+function normalizeUrl(input: string): string | null {
+  const raw = input.trim();
+  if (!raw) return null;
+
+  try {
+    const withProtocol = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+    const parsed = new URL(withProtocol);
+    if (!["http:", "https:"].includes(parsed.protocol)) return null;
+    return parsed.toString();
+  } catch {
+    return null;
+  }
+}
+
+function domainFromUrl(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./i, "");
+  } catch {
+    return "";
+  }
+}
 
 export async function POST(req: NextRequest) {
-  const { url } = await req.json();
-  
   try {
-    // Special case for YouTube
-    if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      const oembedRes = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`);
-      const oembed = await oembedRes.json();
+    const body = (await req.json()) as { url?: string };
+    const normalizedUrl = normalizeUrl(body.url ?? "");
+
+    if (!normalizedUrl) {
+      return NextResponse.json({ error: "A valid URL is required" }, { status: 400 });
+    }
+
+    const accessedDate = new Date().toISOString().split("T")[0] ?? "";
+
+    if (normalizedUrl.includes("youtube.com") || normalizedUrl.includes("youtu.be")) {
+      const oembedRes = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(normalizedUrl)}&format=json`, {
+        cache: "no-store",
+      });
+      const oembed = (await oembedRes.json()) as {
+        title?: string;
+        author_name?: string;
+      };
+
       return NextResponse.json({
-        title: oembed.title,
-        author: oembed.author_name,
-        siteName: 'YouTube',
-        sourceType: 'video',
-        accessedDate: new Date().toISOString().split('T')[0]
+        title: oembed.title ?? "",
+        author: oembed.author_name ?? "",
+        siteName: "YouTube",
+        sourceType: "video",
+        accessedDate,
+        metadata: {
+          title: oembed.title ?? "",
+          author: oembed.author_name ?? "",
+          creator: oembed.author_name ?? "",
+          siteName: "YouTube",
+          platform: "YouTube",
+          sourceType: "video",
+          accessedDate,
+          url: normalizedUrl,
+        },
       });
     }
 
-    // For all other URLs fetch the HTML and parse meta tags
-    const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-    const html = await res.text();
+    const prompt = `Given this URL: ${normalizedUrl}
 
-    const getMeta = (property: string) => {
-      const match = html.match(new RegExp(`<meta[^>]*(?:property|name)=["']${property}["'][^>]*content=["']([^"']+)["']`, 'i'))
-        || html.match(new RegExp(`<meta[^>]*content=["']([^"']+)["'][^>]*(?:property|name)=["']${property}["']`, 'i'));
-      return match?.[1] ?? '';
-    };
+Extract and return ONLY a JSON object with these fields (no other text):
+{
+  "title": "page or article title",
+  "author": "author full name or empty string",
+  "siteName": "website name",
+  "publishedDate": "YYYY-MM-DD or empty string",
+  "description": "brief description or empty string",
+  "sourceType": "website"
+}
 
-    const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+Base your answer on what you know about this URL or website. If you don't know specific details, use the domain name for siteName and leave other fields empty.`;
 
-    return NextResponse.json({
-      title: getMeta('og:title') || getMeta('twitter:title') || titleMatch?.[1] || '',
-      author: getMeta('article:author') || getMeta('author') || '',
-      siteName: getMeta('og:site_name') || new URL(url).hostname.replace('www.', ''),
-      publishedDate: getMeta('article:published_time') || getMeta('og:updated_time') || '',
-      description: getMeta('og:description') || getMeta('description') || '',
-      sourceType: 'website',
-      accessedDate: new Date().toISOString().split('T')[0]
+    const raw = await runGroqPrompt({
+      user: prompt,
+      temperature: 0.1,
+      maxTokens: 400,
     });
 
+    const parsed = extractJsonBlock<GroqMetadata>(raw);
+    const fallbackDomain = domainFromUrl(normalizedUrl);
+
+    const result = {
+      title: String(parsed?.title ?? "").trim(),
+      author: String(parsed?.author ?? "").trim(),
+      siteName: String(parsed?.siteName ?? "").trim() || fallbackDomain,
+      publishedDate: String(parsed?.publishedDate ?? "").trim(),
+      description: String(parsed?.description ?? "").trim(),
+      sourceType: "website",
+      accessedDate,
+    };
+
+    return NextResponse.json({
+      ...result,
+      metadata: {
+        title: result.title,
+        author: result.author,
+        siteName: result.siteName,
+        publishedDate: result.publishedDate,
+        accessedDate,
+        url: normalizedUrl,
+      },
+    });
   } catch (err) {
-    return NextResponse.json({ error: 'Failed to fetch metadata' }, { status: 500 });
+    console.error("fetch-metadata route error:", err);
+    return NextResponse.json({ error: "Failed to fetch metadata" }, { status: 500 });
   }
 }
