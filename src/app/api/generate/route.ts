@@ -24,7 +24,29 @@ export async function POST(request: Request) {
         throw new Error("Invalid JSON body");
       }
     }
-    const { text, format } = body as { text: string; format: string };
+    const {
+      text,
+      format,
+      quizQuestionCount,
+      quizDifficulty,
+      quizType,
+    } = body as {
+      text: string;
+      format: string;
+      quizQuestionCount?: number;
+      quizDifficulty?: string;
+      quizType?: string;
+    };
+
+    const normalizedQuestionCount = [5, 10, 15, 20].includes(Number(quizQuestionCount))
+      ? Number(quizQuestionCount)
+      : 5;
+    const normalizedDifficulty = ["easy", "medium", "hard"].includes((quizDifficulty ?? "").toLowerCase())
+      ? (quizDifficulty as string).toLowerCase()
+      : "medium";
+    const normalizedQuizType = ["open-ended", "multiple-choice", "true-false"].includes((quizType ?? "").toLowerCase())
+      ? (quizType as string).toLowerCase()
+      : "open-ended";
 
     if (!text) {
       return NextResponse.json(
@@ -58,7 +80,36 @@ IMPORTANT:
 Content to make flashcards from:
 ${text}`;
     } else if (format === "questions") {
-      prompt = `You are creating practice questions for a student quiz interface. Follow this format EXACTLY:
+      if (normalizedQuizType === "multiple-choice") {
+        prompt = `You are creating multiple-choice practice questions for a student quiz interface.
+
+Generate exactly ${normalizedQuestionCount} questions.
+Make them ${normalizedDifficulty} difficulty.
+
+FORMAT RULES:
+- Start each question with a number and period (1. 2. 3.)
+- Provide exactly 4 options labeled A), B), C), D)
+- After options, add one line: Correct Answer: [Letter] - [brief explanation]
+- Leave one blank line between each question block
+
+Now create the questions from this content:
+${text}`;
+      } else if (normalizedQuizType === "true-false") {
+        prompt = `You are creating true/false practice questions for a student quiz interface.
+
+Generate exactly ${normalizedQuestionCount} questions.
+Make them ${normalizedDifficulty} difficulty.
+
+FORMAT RULES:
+- Start each question with a number and period (1. 2. 3.)
+- Each question must be answerable as True or False
+- After each question, add one line: Correct Answer: True/False - [brief explanation]
+- Leave one blank line between each question block
+
+Now create the questions from this content:
+${text}`;
+      } else {
+        prompt = `You are creating practice questions for a student quiz interface. Follow this format EXACTLY:
 
 1. What is the main process by which plants produce energy?
 
@@ -81,10 +132,12 @@ CRITICAL RULES:
 - Do NOT write "Answer:" anywhere
 - Do NOT include multiple choice options
 - Do NOT include letters like A) B) C)
-- Create 5-8 questions total
+- Generate exactly ${normalizedQuestionCount} questions
+- Make them ${normalizedDifficulty} difficulty
 
 Now create practice questions from this content:
 ${text}`;
+  }
     }
 
     console.log("Generator request: format=", format, "promptLength=", prompt.length, "hasGroqKey=", !!process.env.GROQ_API_KEY);

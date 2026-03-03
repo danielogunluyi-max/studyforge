@@ -45,6 +45,9 @@ export default function Generator() {
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
   const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
   const [checkedAnswers, setCheckedAnswers] = useState<Set<number>>(new Set());
+  const [quizQuestionCount, setQuizQuestionCount] = useState(5);
+  const [quizDifficulty, setQuizDifficulty] = useState("medium");
+  const [quizType, setQuizType] = useState("open-ended");
   const [learningStyle, setLearningStyle] = useState<string | null>(null);
   const [adaptContent, setAdaptContent] = useState(false);
   const isGeneratingRef = useRef(false);
@@ -127,6 +130,9 @@ export default function Generator() {
         body: JSON.stringify({
           text: inputText,
           format: outputFormat,
+          quizQuestionCount,
+          quizDifficulty,
+          quizType,
         }),
       });
 
@@ -583,6 +589,53 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
               { value: "questions", label: "Practice Quiz - Answer questions interactively" },
             ]}
           />
+
+          {outputFormat === "questions" && (
+            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <p className="mb-3 text-sm font-semibold text-gray-900">Practice Quiz Settings</p>
+              <div className="grid gap-4 md:grid-cols-3">
+                <div>
+                  <label className="mb-2 block text-xs font-semibold text-gray-700">Number of questions</label>
+                  <Listbox
+                    value={String(quizQuestionCount)}
+                    onChange={(v) => setQuizQuestionCount(Number(v))}
+                    options={[
+                      { value: "5", label: "5" },
+                      { value: "10", label: "10" },
+                      { value: "15", label: "15" },
+                      { value: "20", label: "20" },
+                    ]}
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-xs font-semibold text-gray-700">Difficulty</label>
+                  <Listbox
+                    value={quizDifficulty}
+                    onChange={(v) => setQuizDifficulty(v)}
+                    options={[
+                      { value: "easy", label: "Easy" },
+                      { value: "medium", label: "Medium" },
+                      { value: "hard", label: "Hard" },
+                    ]}
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-xs font-semibold text-gray-700">Question type</label>
+                  <Listbox
+                    value={quizType}
+                    onChange={(v) => setQuizType(v)}
+                    options={[
+                      { value: "open-ended", label: "Open Ended" },
+                      { value: "multiple-choice", label: "Multiple Choice" },
+                      { value: "true-false", label: "True/False" },
+                    ]}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
 
           {learningStyle && (
             <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4">
