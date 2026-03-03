@@ -187,6 +187,7 @@ function getCitationPreview(draft: Draft): { text: string; html: string } {
   const style = draft.style;
 
   const rawAuthor = draft.author || draft.creator;
+  const hasAuthor = Boolean(rawAuthor.trim());
   const author = normalizeAuthorName(rawAuthor) || "[Author]";
   const apaAuthor = toApaAuthor(rawAuthor) || "[Author]";
   const title = withPlaceholder(draft.title || draft.articleTitle || draft.headline, "Title", true);
@@ -214,8 +215,13 @@ function getCitationPreview(draft: Draft): { text: string; html: string } {
 
   if (style === "MLA 9") {
     if (sourceType === "website") {
-      text = `${author}. "${title}." ${siteName}, ${mlaDate}, ${url}. Accessed ${mlaAccessed}.`.trim();
-      html = `${author}. "${title}." <em>${siteName}</em>, ${mlaDate}, ${url}. Accessed ${mlaAccessed}.`;
+      if (hasAuthor) {
+        text = `${author}. "${title}." ${siteName}, ${mlaDate}, ${url}. Accessed ${mlaAccessed}.`.trim();
+        html = `${author}. "${title}." <em>${siteName}</em>, ${mlaDate}, ${url}. Accessed ${mlaAccessed}.`;
+      } else {
+        text = `${title}. ${siteName}, ${mlaDate}, ${url}. Accessed ${mlaAccessed}.`.trim();
+        html = `${title}. <em>${siteName}</em>, ${mlaDate}, ${url}. Accessed ${mlaAccessed}.`;
+      }
     } else if (sourceType === "video") {
       text = `${author}. "${title}." ${platform}, ${mlaDate}, ${url}.`.trim();
       html = `${author}. "${title}." <em>${platform}</em>, ${mlaDate}, ${url}.`;
@@ -302,7 +308,7 @@ function sourceFields(sourceType: SourceType): Array<{ key: keyof Draft; label: 
       { key: "title", label: "Page Title", required: true },
       { key: "siteName", label: "Site Name", required: true },
       { key: "url", label: "URL", required: true },
-      { key: "publishedDate", label: "Published Date", required: true },
+      { key: "publishedDate", label: "Published Date" },
       { key: "accessedDate", label: "Accessed Date", required: true },
     ];
   }
