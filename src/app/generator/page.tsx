@@ -286,37 +286,56 @@ export default function Generator() {
 
   const parseQuestions = (text: string) => {
     const questions: Array<{ question: string; answer: string }> = [];
-    
-    const cleanedText = text.replace(/Answer:\s*/gi, '');
-    const sections = cleanedText.split(/(?=\d+\.\s)/);
-    
-    for (const section of sections) {
-      const trimmed = section.trim();
-      if (!trimmed) continue;
-      
-      const lines = trimmed.split('\n').filter(l => l.trim());
-      if (lines.length === 0) continue;
-      
-      // FIXED: Added safety check
-      const firstLine = lines[0];
-      if (!firstLine) continue;
-      
-      const questionLine = firstLine.replace(/^\d+\.\s*/, '').trim();
-      
-      if (/^[A-D]\)/i.exec(questionLine) || questionLine.toLowerCase().startsWith('answer')) {
-        continue;
-      }
-      
-      const answerLines = lines.slice(1);
-      const answer = answerLines.join(' ').trim();
-      
-      if (questionLine && answer) {
-        questions.push({ 
-          question: questionLine, 
-          answer: answer 
+    const lines = text.split('\n').map((line) => line.trim()).filter(Boolean);
+
+    let currentQuestion = "";
+    let currentAnswer = "";
+
+    const pushCurrent = () => {
+      if (currentQuestion.trim() && currentAnswer.trim()) {
+        questions.push({
+          question: currentQuestion.trim(),
+          answer: currentAnswer.trim(),
         });
       }
+    };
+
+    for (const line of lines) {
+      const numberedMatch = line.match(/^\d+\.\s*(.+)$/);
+
+      if (numberedMatch) {
+        const candidate = numberedMatch[1]?.trim() ?? "";
+        const wordCount = candidate.split(/\s+/).filter(Boolean).length;
+        const looksLikeQuestionStart = candidate.includes("?") || wordCount >= 10;
+
+        if (looksLikeQuestionStart) {
+          pushCurrent();
+          currentQuestion = candidate;
+          currentAnswer = "";
+        } else if (currentQuestion) {
+          // Short or malformed numbered line: append to previous question
+          currentQuestion = `${currentQuestion} ${candidate}`.trim();
+        } else {
+          // Fallback if this is the first seen line
+          currentQuestion = candidate;
+        }
+
+        continue;
+      }
+
+      if (/^answer:\s*/i.test(line)) {
+        currentAnswer = line.replace(/^answer:\s*/i, "").trim();
+        continue;
+      }
+
+      if (currentAnswer) {
+        currentAnswer = `${currentAnswer} ${line}`.trim();
+      } else if (currentQuestion) {
+        currentQuestion = `${currentQuestion} ${line}`.trim();
+      }
     }
+
+    pushCurrent();
     
     return questions;
   };

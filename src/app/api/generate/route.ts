@@ -116,9 +116,10 @@ ${subjectGuidance}
 ${calculationInstruction}
 
 FORMAT RULES:
-- Start each question with a number and period (1. 2. 3.)
-- Provide exactly 4 options labeled A), B), C), D)
-- After options, add one line: Correct Answer: [Letter] - [brief explanation]
+- Start each question on ONE line with a number and period: "1. [Full complete question ending with ?]"
+- Put options on the same question line in this compact format: "A) ... B) ... C) ... D) ..."
+- Next line must be exactly: "Answer: [Correct letter and brief explanation]"
+- Do not split one question across multiple numbered lines
 - Leave one blank line between each question block
 
 Now create the questions from this content:
@@ -132,9 +133,10 @@ ${subjectGuidance}
 ${calculationInstruction}
 
 FORMAT RULES:
-- Start each question with a number and period (1. 2. 3.)
-- Each question must be answerable as True or False
-- After each question, add one line: Correct Answer: True/False - [brief explanation]
+- Start each question on ONE line with a number and period: "1. [Full complete question ending with ?]"
+- Each question must be true/false style
+- Next line must be exactly: "Answer: True/False - [brief explanation]"
+- Do not split one question across multiple numbered lines
 - Leave one blank line between each question block
 
 Now create the questions from this content:
@@ -155,11 +157,10 @@ CALCULATION RULES:
 - If content is not math/science, still prioritize applied quantitative reasoning tied to the content
 
 FORMAT RULES:
-- Start each question with a number and period (1. 2. 3.)
-- Write the problem on the first line
-- Leave ONE blank line
-- Write a worked solution with key steps on the next lines
-- Leave TWO blank lines before the next question
+- Start each question on ONE line with a number and period: "1. [Full complete question ending with ?]"
+- Next line must be exactly: "Answer: [Final numerical answer + concise worked steps]"
+- Keep each question self-contained on one numbered line (do not split numbered question lines)
+- Leave one blank line between each question block
 
 Now create the questions from this content:
 ${text}`;
@@ -179,12 +180,9 @@ Chlorophyll is a green pigment that absorbs light energy from the sun. It captur
 Oxygen is released as a byproduct when water molecules are split during the light-dependent reactions. The hydrogen atoms from water are used to make glucose, while the oxygen is released into the atmosphere.
 
 CRITICAL RULES:
-- Start each question with a number followed by a period (1. 2. 3.)
-- Write the question on the first line
-- Leave ONE blank line
-- Write the answer on the next lines (2-4 sentences)
-- Leave TWO blank lines before the next question
-- Do NOT write "Answer:" anywhere
+- Start each question on ONE line with a number and period: "1. [Full complete question ending with ?]"
+- The next line must be exactly: "Answer: [full answer here]"
+- Do NOT split one question across multiple numbered lines
 - Do NOT include multiple choice options
 - Do NOT include letters like A) B) C)
 - Generate exactly ${normalizedQuestionCount} questions
