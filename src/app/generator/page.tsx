@@ -630,6 +630,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
                       { value: "open-ended", label: "Open Ended" },
                       { value: "multiple-choice", label: "Multiple Choice" },
                       { value: "true-false", label: "True/False" },
+                      { value: "calculation", label: "Calculation" },
                     ]}
                   />
                 </div>

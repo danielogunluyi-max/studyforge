@@ -44,9 +44,34 @@ export async function POST(request: Request) {
     const normalizedDifficulty = ["easy", "medium", "hard"].includes((quizDifficulty ?? "").toLowerCase())
       ? (quizDifficulty as string).toLowerCase()
       : "medium";
-    const normalizedQuizType = ["open-ended", "multiple-choice", "true-false"].includes((quizType ?? "").toLowerCase())
+    const normalizedQuizType = ["open-ended", "multiple-choice", "true-false", "calculation"].includes((quizType ?? "").toLowerCase())
       ? (quizType as string).toLowerCase()
       : "open-ended";
+
+    const lowerText = (text ?? "").toLowerCase();
+    const mathKeywords = ["equation", "solve", "algebra", "geometry", "calculus", "derivative", "integral", "x =", "y =", "ratio", "percentage"];
+    const scienceKeywords = ["chemistry", "physics", "mole", "moles", "stoichiometry", "reaction", "balance", "unit conversion", "newton", "velocity", "acceleration", "mass", "volume", "temperature"];
+    const historyEnglishKeywords = ["history", "historical", "war", "revolution", "author", "literature", "poem", "novel", "theme", "character", "analyze", "analysis", "context"];
+
+    const hasMath = mathKeywords.some((k) => lowerText.includes(k));
+    const hasScience = scienceKeywords.some((k) => lowerText.includes(k));
+    const hasHistoryEnglish = historyEnglishKeywords.some((k) => lowerText.includes(k));
+
+    const detectedSubject = hasMath
+      ? "math"
+      : hasScience
+        ? "science"
+        : hasHistoryEnglish
+          ? "history-english"
+          : "general";
+
+    const subjectGuidance = detectedSubject === "math"
+      ? "Detected subject: Math. Generate actual equations and solvable problems (e.g., 2x - 6 = 0, solve for x), not just theory/definition questions."
+      : detectedSubject === "science"
+        ? "Detected subject: Science/Chemistry/Physics. Generate calculation problems (e.g., moles, balancing equations, unit conversions, numeric problem-solving), not just theory/definition questions."
+        : detectedSubject === "history-english"
+          ? "Detected subject: History/English. Generate analytical and comprehension questions with reasoning and evidence-based answers."
+          : "Detected subject: General. Generate strong conceptual questions based on the content.";
 
     if (!text) {
       return NextResponse.json(
@@ -80,11 +105,15 @@ IMPORTANT:
 Content to make flashcards from:
 ${text}`;
     } else if (format === "questions") {
+      const calculationInstruction = `If the content is mathematical or scientific, generate actual calculation problems and equations that require working out, not just definition questions. Use proper math notation.`;
+
       if (normalizedQuizType === "multiple-choice") {
         prompt = `You are creating multiple-choice practice questions for a student quiz interface.
 
 Generate exactly ${normalizedQuestionCount} questions.
 Make them ${normalizedDifficulty} difficulty.
+${subjectGuidance}
+${calculationInstruction}
 
 FORMAT RULES:
 - Start each question with a number and period (1. 2. 3.)
@@ -99,12 +128,38 @@ ${text}`;
 
 Generate exactly ${normalizedQuestionCount} questions.
 Make them ${normalizedDifficulty} difficulty.
+${subjectGuidance}
+${calculationInstruction}
 
 FORMAT RULES:
 - Start each question with a number and period (1. 2. 3.)
 - Each question must be answerable as True or False
 - After each question, add one line: Correct Answer: True/False - [brief explanation]
 - Leave one blank line between each question block
+
+Now create the questions from this content:
+${text}`;
+      } else if (normalizedQuizType === "calculation") {
+        prompt = `You are creating calculation-focused practice questions.
+
+Generate exactly ${normalizedQuestionCount} questions.
+Make them ${normalizedDifficulty} difficulty.
+${subjectGuidance}
+${calculationInstruction}
+
+CALCULATION RULES:
+- Generate step-by-step solvable problems
+- Require numerical answers where applicable
+- Use show-your-work style wording
+- Use proper equations and math/science notation
+- If content is not math/science, still prioritize applied quantitative reasoning tied to the content
+
+FORMAT RULES:
+- Start each question with a number and period (1. 2. 3.)
+- Write the problem on the first line
+- Leave ONE blank line
+- Write a worked solution with key steps on the next lines
+- Leave TWO blank lines before the next question
 
 Now create the questions from this content:
 ${text}`;
@@ -134,6 +189,8 @@ CRITICAL RULES:
 - Do NOT include letters like A) B) C)
 - Generate exactly ${normalizedQuestionCount} questions
 - Make them ${normalizedDifficulty} difficulty
+${subjectGuidance}
+${calculationInstruction}
 
 Now create practice questions from this content:
 ${text}`;
