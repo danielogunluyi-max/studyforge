@@ -62,6 +62,7 @@ export default function Generator() {
   const [quizQuestionCount, setQuizQuestionCount] = useState(5);
   const [quizDifficulty, setQuizDifficulty] = useState("medium");
   const [quizType, setQuizType] = useState("open-ended");
+  const [notesLength, setNotesLength] = useState("medium");
   const [learningStyle, setLearningStyle] = useState<string | null>(null);
   const [adaptContent, setAdaptContent] = useState(false);
   const isGeneratingRef = useRef(false);
@@ -162,6 +163,7 @@ export default function Generator() {
           quizQuestionCount,
           quizDifficulty,
           quizType,
+          notesLength,
         }),
       });
 
@@ -270,6 +272,50 @@ export default function Generator() {
   const handleCopy = () => {
     void navigator.clipboard.writeText(generatedNotes);
     alert("Notes copied to clipboard.");
+  };
+
+  const handleExportPdf = () => {
+    window.print();
+  };
+
+  const handleExportWord = async () => {
+    const content = generatedNotes.trim();
+    if (!content) return;
+
+    const { Document, HeadingLevel, Packer, Paragraph, TextRun } = await import("docx");
+
+    const paragraphs = content
+      .split("\n")
+      .map((line) => line.trim())
+      .map((line) =>
+        new Paragraph({
+          children: [new TextRun(line.length ? line : " ")],
+        })
+      );
+
+    const doc = new Document({
+      sections: [
+        {
+          children: [
+            new Paragraph({
+              text: "StudyForge Notes",
+              heading: HeadingLevel.HEADING_1,
+            }),
+            ...paragraphs,
+          ],
+        },
+      ],
+    });
+
+    const blob = await Packer.toBlob(doc);
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "studyforge-notes.docx";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
   };
 
   const toggleCard = (index: number) => {
@@ -789,8 +835,8 @@ export default function Generator() {
     }
 
     return (
-      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-4">
+      <div className="print-notes-only rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="print-hide mb-4 flex items-center justify-between border-b border-gray-200 pb-4">
           <h2 className="text-xl font-semibold text-gray-900">
             Your Study Notes
           </h2>
@@ -812,6 +858,20 @@ export default function Generator() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
               Copy
+            </Button>
+            <Button
+              onClick={handleExportPdf}
+              variant="secondary"
+              size="sm"
+            >
+              Export PDF
+            </Button>
+            <Button
+              onClick={() => void handleExportWord()}
+              variant="secondary"
+              size="sm"
+            >
+              Export Word
             </Button>
           </div>
         </div>
@@ -960,6 +1020,21 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
                   />
                 </div>
               </div>
+            </div>
+          )}
+
+          {(outputFormat === "summary" || outputFormat === "detailed") && (
+            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <p className="mb-3 text-sm font-semibold text-gray-900">Notes Length</p>
+              <Listbox
+                value={notesLength}
+                onChange={(v) => setNotesLength(v)}
+                options={[
+                  { value: "brief", label: "Brief" },
+                  { value: "medium", label: "Medium" },
+                  { value: "comprehensive", label: "Comprehensive" },
+                ]}
+              />
             </div>
           )}
 

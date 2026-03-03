@@ -27,12 +27,14 @@ export async function POST(request: Request) {
     const {
       text,
       format,
+      notesLength,
       quizQuestionCount,
       quizDifficulty,
       quizType,
     } = body as {
       text: string;
       format: string;
+      notesLength?: string;
       quizQuestionCount?: number;
       quizDifficulty?: string;
       quizType?: string;
@@ -47,6 +49,15 @@ export async function POST(request: Request) {
     const normalizedQuizType = ["open-ended", "multiple-choice", "true-false", "calculation"].includes((quizType ?? "").toLowerCase())
       ? (quizType as string).toLowerCase()
       : "open-ended";
+    const normalizedNotesLength = ["brief", "medium", "comprehensive"].includes((notesLength ?? "").toLowerCase())
+      ? (notesLength as string).toLowerCase()
+      : "medium";
+
+    const notesLengthInstruction = normalizedNotesLength === "brief"
+      ? "Keep the summary under 150 words, main points only."
+      : normalizedNotesLength === "comprehensive"
+        ? "Be thorough, cover everything in detail, 600+ words."
+        : "Aim for 300-400 words with key details.";
 
     const lowerText = (text ?? "").toLowerCase();
     const mathKeywords = ["equation", "solve", "algebra", "geometry", "calculus", "derivative", "integral", "x =", "y =", "ratio", "percentage"];
@@ -83,9 +94,9 @@ export async function POST(request: Request) {
     let prompt = "";
 
     if (format === "summary") {
-      prompt = `Create a concise summary of the following content. Focus on the main ideas and key points. Write in clear, organized paragraphs:\n\n${text}`;
+      prompt = `Create a concise summary of the following content. Focus on the main ideas and key points. Write in clear, organized paragraphs. ${notesLengthInstruction}\n\n${text}`;
     } else if (format === "detailed") {
-      prompt = `Create detailed study notes from the following content. Include clear explanations, important concepts, and key details. Write in well-organized paragraphs with proper structure:\n\n${text}`;
+      prompt = `Create detailed study notes from the following content. Include clear explanations, important concepts, and key details. Write in well-organized paragraphs with proper structure. ${notesLengthInstruction}\n\n${text}`;
     } else if (format === "flashcards") {
       prompt = `Create flashcards from the following content. Format EXACTLY as shown below with one blank line between cards:
 

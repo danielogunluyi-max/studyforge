@@ -383,3 +383,29 @@ button:hover, .listbox-button:hover {
 .rotate-y-180 {
   transform: rotateY(180deg);
 }
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  .print-notes-only,
+  .print-notes-only * {
+    visibility: visible !important;
+  }
+
+  .print-notes-only {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: white !important;
+  }
+
+  .print-hide {
+    display: none !important;
+  }
+}
