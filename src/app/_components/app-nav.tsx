@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "~/app/_components/button";
@@ -30,6 +31,21 @@ export function AppNav() {
   ];
 
   const isActive = (href: string) => pathname === href || pathname?.startsWith(`${href}/`);
+
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      // Prevent NextAuth from redirecting; do a client navigation after server sign-out
+      await signOut({ redirect: false });
+    } catch (err) {
+      // ignore
+    }
+    // Force navigate and reload to ensure any cached auth state is cleared
+    router.push('/');
+    // Ensure a full reload to clear any in-memory caches
+    setTimeout(() => window.location.reload(), 100);
+  };
 
   useEffect(() => {
     setShowFeaturesDropdown(false);
@@ -137,7 +153,7 @@ export function AppNav() {
                 </svg>
               </Link>
               <button
-                onClick={() => void signOut({ callbackUrl: "/" })}
+                onClick={() => void handleSignOut()}
                 className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
               >
                 Sign Out
@@ -199,7 +215,7 @@ export function AppNav() {
                   Settings
                 </Link>
                 <button
-                  onClick={() => void signOut({ callbackUrl: "/" })}
+                  onClick={() => void handleSignOut()}
                   className="block w-full rounded-lg px-4 py-2 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
                 >
                   Sign Out

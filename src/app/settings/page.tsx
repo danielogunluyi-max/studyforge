@@ -189,7 +189,13 @@ export default function SettingsPage() {
       });
 
       if (response.ok) {
-        await signOut({ callbackUrl: "/" });
+        try {
+          await signOut({ redirect: false });
+        } catch (err) {
+          // ignore
+        }
+        router.push('/');
+        setTimeout(() => window.location.reload(), 100);
       } else {
         const data = await response.json() as { error?: string };
         setError(data.error ?? "Failed to delete account");
