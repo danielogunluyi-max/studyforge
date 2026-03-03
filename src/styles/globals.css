@@ -409,3 +409,28 @@ button:hover, .listbox-button:hover {
     display: none !important;
   }
 }
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  .print-citations-only,
+  .print-citations-only * {
+    visibility: visible !important;
+  }
+
+  .print-citations-only {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: white !important;
+  }
+
+  .print-citations-hide {
+    display: none !important;
+  }
+}
