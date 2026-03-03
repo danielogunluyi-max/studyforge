@@ -358,12 +358,12 @@ export default function Generator() {
                   className="group relative h-48 cursor-pointer perspective"
                 >
                   <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(index) ? 'rotate-y-180' : ''}`}>
-                    <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-blue-50 p-6 backface-hidden">
+                    <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-white p-6 backface-hidden">
                       <p className="text-center text-lg font-medium leading-relaxed text-gray-900">
                         {card.question}
                       </p>
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-green-50 p-6 backface-hidden rotate-y-180">
+                    <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-white p-6 backface-hidden rotate-y-180">
                       <p className="text-center leading-relaxed text-gray-700">
                         {card.answer}
                       </p>
