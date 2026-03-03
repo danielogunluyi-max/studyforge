@@ -20,6 +20,12 @@ const TAG_SUGGESTIONS = [
   "Homework",
 ];
 
+type Flashcard = {
+  id: number;
+  question: string;
+  answer: string;
+};
+
 function parseTags(input: string): string[] {
   const tags = input
     .split(",")
@@ -43,6 +49,12 @@ export default function Generator() {
   const [error, setError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
+  const [shuffledCards, setShuffledCards] = useState<Flashcard[]>([]);
+  const [reviewedCards, setReviewedCards] = useState<Set<number>>(new Set());
+  const [knownCards, setKnownCards] = useState<Set<number>>(new Set());
+  const [stillLearningCards, setStillLearningCards] = useState<Set<number>>(new Set());
+  const [studyMode, setStudyMode] = useState(false);
+  const [studyCardIndex, setStudyCardIndex] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
   const [checkedAnswers, setCheckedAnswers] = useState<Set<number>>(new Set());
   const [checkingAnswers, setCheckingAnswers] = useState<Set<number>>(new Set());
@@ -90,6 +102,12 @@ export default function Generator() {
     setInputText(text);
     setGeneratedNotes("");
     setFlippedCards(new Set());
+    setShuffledCards([]);
+    setReviewedCards(new Set());
+    setKnownCards(new Set());
+    setStillLearningCards(new Set());
+    setStudyMode(false);
+    setStudyCardIndex(0);
     setQuizAnswers({});
     setCheckedAnswers(new Set());
     setCheckingAnswers(new Set());
@@ -122,6 +140,11 @@ export default function Generator() {
     setError("");
     setSaveSuccess(false);
     setFlippedCards(new Set());
+    setReviewedCards(new Set());
+    setKnownCards(new Set());
+    setStillLearningCards(new Set());
+    setStudyMode(false);
+    setStudyCardIndex(0);
     setQuizAnswers({});
     setCheckedAnswers(new Set());
     setCheckingAnswers(new Set());
@@ -232,6 +255,12 @@ export default function Generator() {
     setError("");
     setSaveSuccess(false);
     setFlippedCards(new Set());
+    setShuffledCards([]);
+    setReviewedCards(new Set());
+    setKnownCards(new Set());
+    setStillLearningCards(new Set());
+    setStudyMode(false);
+    setStudyCardIndex(0);
     setQuizAnswers({});
     setCheckedAnswers(new Set());
     setCheckingAnswers(new Set());
@@ -245,10 +274,16 @@ export default function Generator() {
 
   const toggleCard = (index: number) => {
     const newFlipped = new Set(flippedCards);
-    if (newFlipped.has(index)) {
+    const wasFlipped = newFlipped.has(index);
+    if (wasFlipped) {
       newFlipped.delete(index);
     } else {
       newFlipped.add(index);
+      setReviewedCards((prev) => {
+        const next = new Set(prev);
+        next.add(index);
+        return next;
+      });
     }
     setFlippedCards(newFlipped);
   };
@@ -335,16 +370,17 @@ export default function Generator() {
     return stepLines.length ? stepLines : [cleaned];
   };
 
-  const parseFlashcards = (text: string) => {
-    const cards: Array<{ question: string; answer: string }> = [];
+  const parseFlashcards = (text: string): Flashcard[] => {
+    const cards: Flashcard[] = [];
     const lines = text.split('\n');
     let currentQ = '';
     let currentA = '';
+    let nextId = 0;
     
     for (const line of lines) {
       if (line.trim().startsWith('Q:')) {
         if (currentQ && currentA) {
-          cards.push({ question: currentQ, answer: currentA });
+          cards.push({ id: nextId++, question: currentQ, answer: currentA });
         }
         currentQ = line.replace(/^Q:\s*/, '').trim();
         currentA = '';
@@ -357,9 +393,61 @@ export default function Generator() {
       }
     }
     if (currentQ && currentA) {
-      cards.push({ question: currentQ, answer: currentA });
+      cards.push({ id: nextId++, question: currentQ, answer: currentA });
     }
     return cards;
+  };
+
+  useEffect(() => {
+    if (outputFormat !== "flashcards") {
+      setStudyMode(false);
+      setStudyCardIndex(0);
+      return;
+    }
+
+    const parsed = parseFlashcards(generatedNotes);
+    setShuffledCards(parsed);
+    setStudyCardIndex(0);
+    setFlippedCards(new Set());
+    setReviewedCards(new Set());
+    setKnownCards(new Set());
+    setStillLearningCards(new Set());
+  }, [generatedNotes, outputFormat]);
+
+  const shuffleFlashcards = () => {
+    const baseCards = shuffledCards.length ? [...shuffledCards] : parseFlashcards(generatedNotes);
+    for (let i = baseCards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [baseCards[i], baseCards[j]] = [baseCards[j]!, baseCards[i]!];
+    }
+    setShuffledCards(baseCards);
+    setStudyCardIndex(0);
+  };
+
+  const markCardKnown = (cardId: number) => {
+    setKnownCards((prev) => {
+      const next = new Set(prev);
+      next.add(cardId);
+      return next;
+    });
+    setStillLearningCards((prev) => {
+      const next = new Set(prev);
+      next.delete(cardId);
+      return next;
+    });
+  };
+
+  const markCardStillLearning = (cardId: number) => {
+    setStillLearningCards((prev) => {
+      const next = new Set(prev);
+      next.add(cardId);
+      return next;
+    });
+    setKnownCards((prev) => {
+      const next = new Set(prev);
+      next.delete(cardId);
+      return next;
+    });
   };
 
   const parseQuestions = (text: string) => {
@@ -417,7 +505,12 @@ export default function Generator() {
     if (!generatedNotes) return null;
 
     if (outputFormat === "flashcards") {
-      const cards = parseFlashcards(generatedNotes);
+      const cards = shuffledCards;
+      const reviewedCount = cards.filter((card) => reviewedCards.has(card.id)).length;
+      const knownCount = cards.filter((card) => knownCards.has(card.id)).length;
+      const stillLearningCount = cards.filter((card) => stillLearningCards.has(card.id)).length;
+      const progressPct = cards.length ? Math.round((reviewedCount / cards.length) * 100) : 0;
+      const activeCard = cards[studyCardIndex] ?? null;
       return (
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-4">
@@ -425,6 +518,25 @@ export default function Generator() {
               Your Flashcards ({cards.length} cards)
             </h2>
             <div className="flex gap-2">
+              <Button
+                onClick={shuffleFlashcards}
+                variant="secondary"
+                size="sm"
+                disabled={cards.length < 2}
+              >
+                Shuffle
+              </Button>
+              <Button
+                onClick={() => {
+                  setStudyMode((prev) => !prev);
+                  setStudyCardIndex(0);
+                }}
+                variant="secondary"
+                size="sm"
+                disabled={cards.length === 0}
+              >
+                {studyMode ? "Exit Study Mode" : "Study Mode"}
+              </Button>
               <Button
                 onClick={handleSave}
                 disabled={isSaving}
@@ -445,32 +557,137 @@ export default function Generator() {
               </Button>
             </div>
           </div>
-            <div className="grid gap-6 sm:grid-cols-2">
-            {cards.map((card, index) => (
-              <div key={index}>
-                <div
-                  onClick={() => toggleCard(index)}
-                  className="group relative h-48 cursor-pointer perspective"
-                >
-                  <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(index) ? 'rotate-y-180' : ''}`}>
-                    <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-white p-6 backface-hidden">
-                      <p className="text-center text-lg font-medium leading-relaxed text-gray-900">
-                        {card.question}
-                      </p>
-                    </div>
-                    <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-white p-6 backface-hidden rotate-y-180">
-                      <p className="text-center leading-relaxed text-gray-700">
-                        {card.answer}
-                      </p>
-                    </div>
+          <div className="mb-5">
+            <div className="mb-2 flex items-center justify-between text-sm text-gray-600">
+              <span>{reviewedCount}/{cards.length} cards reviewed</span>
+              <span>{progressPct}%</span>
+            </div>
+            <div className="h-2 w-full rounded-full bg-gray-200">
+              <div
+                className="h-2 rounded-full bg-blue-600 transition-all duration-300"
+                style={{ width: `${progressPct}%` }}
+              />
+            </div>
+          </div>
+
+          {studyMode && activeCard ? (
+            <div>
+              <div className="mb-3 text-center text-sm font-semibold text-gray-700">
+                Card {studyCardIndex + 1} of {cards.length}
+              </div>
+              <div
+                onClick={() => toggleCard(activeCard.id)}
+                className="group relative h-56 cursor-pointer perspective"
+              >
+                <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(activeCard.id) ? 'rotate-y-180' : ''}`}>
+                  <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-white p-6 backface-hidden">
+                    <p className="text-center text-lg font-medium leading-relaxed text-gray-900">
+                      {activeCard.question}
+                    </p>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-white p-6 backface-hidden rotate-y-180">
+                    <p className="text-center leading-relaxed text-gray-700">
+                      {activeCard.answer}
+                    </p>
                   </div>
                 </div>
-                <p className="mt-4 text-center text-sm text-gray-500">
-                  Click to flip • Card {index + 1}
-                </p>
               </div>
-            ))}
-          </div>
+
+              <div className="mt-4 flex items-center justify-center gap-2">
+                <Button
+                  onClick={() => setStudyCardIndex((prev) => Math.max(0, prev - 1))}
+                  variant="secondary"
+                  size="sm"
+                  disabled={studyCardIndex === 0}
+                >
+                  Previous
+                </Button>
+                <Button
+                  onClick={() => setStudyCardIndex((prev) => Math.min(cards.length - 1, prev + 1))}
+                  variant="secondary"
+                  size="sm"
+                  disabled={studyCardIndex >= cards.length - 1}
+                >
+                  Next
+                </Button>
+              </div>
+
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => markCardKnown(activeCard.id)}
+                  className="rounded-lg border border-green-300 bg-green-50 px-3 py-1.5 text-sm font-semibold text-green-700 hover:bg-green-100"
+                >
+                  ✓ Got it
+                </button>
+                <button
+                  type="button"
+                  onClick={() => markCardStillLearning(activeCard.id)}
+                  className="rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-1.5 text-sm font-semibold text-yellow-700 hover:bg-yellow-100"
+                >
+                  ↺ Still Learning
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2">
+              {cards.map((card, index) => (
+                <div key={card.id}>
+                  <div className="mb-2 flex items-center justify-between">
+                    <p className="text-sm text-gray-500">Card {index + 1}</p>
+                    {knownCards.has(card.id) ? (
+                      <span className="rounded-full border border-green-300 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Known</span>
+                    ) : stillLearningCards.has(card.id) ? (
+                      <span className="rounded-full border border-yellow-300 bg-yellow-50 px-2 py-0.5 text-xs font-semibold text-yellow-700">Still Learning</span>
+                    ) : null}
+                  </div>
+                  <div
+                    onClick={() => toggleCard(card.id)}
+                    className="group relative h-48 cursor-pointer perspective"
+                  >
+                    <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(card.id) ? 'rotate-y-180' : ''}`}>
+                      <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-white p-6 backface-hidden">
+                        <p className="text-center text-lg font-medium leading-relaxed text-gray-900">
+                          {card.question}
+                        </p>
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-white p-6 backface-hidden rotate-y-180">
+                        <p className="text-center leading-relaxed text-gray-700">
+                          {card.answer}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="mt-3 text-center text-sm text-gray-500">
+                    Click to flip
+                  </p>
+                  <div className="mt-3 flex items-center justify-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => markCardKnown(card.id)}
+                      className="rounded-lg border border-green-300 bg-green-50 px-3 py-1.5 text-sm font-semibold text-green-700 hover:bg-green-100"
+                    >
+                      ✓ Got it
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => markCardStillLearning(card.id)}
+                      className="rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-1.5 text-sm font-semibold text-yellow-700 hover:bg-yellow-100"
+                    >
+                      ↺ Still Learning
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {cards.length > 0 && (
+            <div className="mt-5 border-t border-gray-200 pt-4 text-sm font-semibold text-gray-700">
+              Known: {knownCount} | Still Learning: {stillLearningCount}
+            </div>
+          )}
+
           {cards.length === 0 && (
             <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
               <p className="font-semibold">No flashcards parsed from AI output.</p>
