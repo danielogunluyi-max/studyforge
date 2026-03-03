@@ -106,6 +106,21 @@ Content to make flashcards from:
 ${text}`;
     } else if (format === "questions") {
       const calculationInstruction = `If the content is mathematical or scientific, generate actual calculation problems and equations that require working out, not just definition questions. Use proper math notation.`;
+      const conciseMathAnswerRules = `
+    MATH/SCIENCE ANSWER STYLE RULES:
+    - No narrative sentences (for example, do NOT write "we first need to find" or "substitute it into")
+    - Show calculations directly with = signs only
+    - Keep each step on exactly one line in this format: "Step 1: ... = ..."
+    - End with a final line starting with "∴" followed by the final answer
+    - Example style:
+      Step 1: g(2) = (2)² - 2(2) - 3 = 4 - 4 - 3 = -3
+      Step 2: f(-3) = 2(-3)² + 3(-3) - 1 = 18 - 9 - 1 = 8
+      ∴ f(g(2)) = 8`;
+      const conciseNonMathAnswerRules = `
+    NON-MATH ANSWER STYLE RULES:
+    - Keep Answer: content concise
+    - Use 2-3 bullet points max
+    - No long paragraphs`;
 
       if (normalizedQuizType === "multiple-choice") {
         prompt = `You are creating multiple-choice practice questions for a student quiz interface.
@@ -126,6 +141,8 @@ Answer: [full detailed answer/solution here]
 - Include options A) B) C) D) within the question line itself
 - In Answer:, include the correct option and explanation
 - Do not split one question across multiple numbered lines
+${conciseMathAnswerRules}
+${conciseNonMathAnswerRules}
 
 Now create the questions from this content:
 ${text}`;
@@ -147,6 +164,8 @@ Answer: [full detailed answer/solution here]
 - Keep each full question on one numbered line ending with ?
 - In Answer:, start with True or False and then explain briefly
 - Do not split one question across multiple numbered lines
+${conciseMathAnswerRules}
+${conciseNonMathAnswerRules}
 
 Now create the questions from this content:
 ${text}`;
@@ -175,6 +194,8 @@ Answer: [full detailed answer/solution here, including all steps]
 - Keep each full question on one numbered line ending with ?
 - Answer: must include step-by-step working, formulas used, substitutions, and final numerical result
 - Do not split one question across multiple numbered lines
+${conciseMathAnswerRules}
+${conciseNonMathAnswerRules}
 
 Now create the questions from this content:
 ${text}`;
@@ -197,6 +218,8 @@ CRITICAL RULES:
 - Make them ${normalizedDifficulty} difficulty
 ${subjectGuidance}
 ${calculationInstruction}
+${conciseMathAnswerRules}
+${conciseNonMathAnswerRules}
 
 Now create practice questions from this content:
 ${text}`;
