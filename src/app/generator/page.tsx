@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -47,6 +47,7 @@ export default function Generator() {
   const [checkedAnswers, setCheckedAnswers] = useState<Set<number>>(new Set());
   const [learningStyle, setLearningStyle] = useState<string | null>(null);
   const [adaptContent, setAdaptContent] = useState(false);
+  const isGeneratingRef = useRef(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -105,6 +106,11 @@ export default function Generator() {
   }
 
   const handleGenerate = async () => {
+    if (isGeneratingRef.current) {
+      return;
+    }
+
+    isGeneratingRef.current = true;
     setIsLoading(true);
     setError("");
     setSaveSuccess(false);
@@ -158,6 +164,7 @@ export default function Generator() {
       void err;
       setError("Something went wrong. Please try again.");
     } finally {
+      isGeneratingRef.current = false;
       setIsLoading(false);
     }
   };
