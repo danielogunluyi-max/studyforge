@@ -78,38 +78,19 @@ function LoginContent() {
 
     try {
       const result = await signIn("credentials", {
-        redirect: false,
         email: formData.email,
         password: formData.password,
-        callbackUrl: redirectTarget,
+        redirect: false,
       });
 
       console.log("Login result:", result);
 
-      const resAny = result as any;
-      // Normalize different shapes of NextAuth responses across versions
-      const succeeded = resAny?.ok === true || resAny?.status === 200 || !!resAny?.url;
-
-      if (succeeded) {
-        // Wait briefly for session to be established, then navigate
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        router.push(redirectTarget);
-        return;
-      }
-
-      // Map common NextAuth error codes/messages to user-facing messages
-      const errCode = resAny?.error;
-      if (errCode === "CredentialsSignin" || errCode === "InvalidCredentials") {
+      if (result?.error) {
         setError("Invalid email or password");
         return;
       }
 
-      if (errCode === "Configuration") {
-        setError("Login configuration error. Please try again later.");
-        return;
-      }
-
-      setError(typeof errCode === "string" ? errCode : "Unable to log in. Please try again.");
+      router.push(redirectTarget);
     } catch (error) {
       console.error("Login error:", error);
       setError("An error occurred during login. Please try again.");
