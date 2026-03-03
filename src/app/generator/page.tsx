@@ -440,7 +440,7 @@ export default function Generator() {
                     {index + 1}
                   </span>
                   <p className="flex-1 pt-1 text-lg font-medium text-gray-900">
-                    {q.question}
+                    {q.question.replace(/\$/g, "")}
                   </p>
                 </div>
                 <textarea
@@ -464,7 +464,7 @@ export default function Generator() {
                     <p className="mb-2 text-sm font-semibold text-green-800">
                       ✓ Sample Answer:
                     </p>
-                    <p className="text-sm text-gray-700">{q.answer}</p>
+                    <p className="text-sm" style={{ color: '#111827' }}>{q.answer.replace(/\$/g, "")}</p>
                   </div>
                 )}
               </div>
