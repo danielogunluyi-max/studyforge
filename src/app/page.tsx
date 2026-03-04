@@ -5,24 +5,43 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AppNav } from "./_components/app-nav";
 
 type StatItem = {
-  icon: string;
+  icon: IconName;
   label: string;
   value: number;
   suffix: string;
 };
 
+type IconName =
+  | "flame"
+  | "bolt"
+  | "target"
+  | "brain"
+  | "swords"
+  | "puzzle"
+  | "group"
+  | "network"
+  | "book"
+  | "sparkle"
+  | "doc"
+  | "sliders"
+  | "cap"
+  | "docs"
+  | "shield"
+  | "trend"
+  | "globe";
+
 const typingWords = ["Summaries", "Flashcards", "Practice Quizzes", "Exam Predictions"];
 
 const stats: StatItem[] = [
-  { icon: "📚", label: "Notes Generated", value: 10000, suffix: "+" },
-  { icon: "⚡", label: "Battles Fought", value: 500, suffix: "+" },
-  { icon: "🎯", label: "Exam Success Rate", value: 95, suffix: "%" },
-  { icon: "🌍", label: "Countries", value: 50, suffix: "+" },
+  { icon: "docs", label: "Notes Generated", value: 10000, suffix: "+" },
+  { icon: "shield", label: "Battles Fought", value: 500, suffix: "+" },
+  { icon: "trend", label: "Exam Success Rate", value: 95, suffix: "%" },
+  { icon: "globe", label: "Countries", value: 50, suffix: "+" },
 ];
 
 const featureCards = [
   {
-    emoji: "🎯",
+    icon: "brain" as IconName,
     title: "AI Exam Predictor",
     description: "Upload past exams and get likely question predictions with confidence scoring.",
     href: "/exam-predictor",
@@ -30,7 +49,7 @@ const featureCards = [
     bg: "from-violet-500/20 via-indigo-500/20 to-blue-500/20",
   },
   {
-    emoji: "⚔️",
+    icon: "swords" as IconName,
     title: "Study Battle Arena",
     description: "Challenge friends in fast quiz battles generated from your own study content.",
     href: "/battle",
@@ -38,7 +57,7 @@ const featureCards = [
     bg: "from-fuchsia-500/20 via-rose-500/20 to-orange-500/20",
   },
   {
-    emoji: "🧠",
+    icon: "puzzle" as IconName,
     title: "Learning Style Quiz",
     description: "Find your learning style and tailor formats that match how you retain information.",
     href: "/learning-style-quiz",
@@ -46,7 +65,7 @@ const featureCards = [
     bg: "from-emerald-500/20 via-teal-500/20 to-cyan-500/20",
   },
   {
-    emoji: "👥",
+    icon: "group" as IconName,
     title: "AI Study Groups",
     description: "Join collaborative sessions where AI helps moderate, challenge, and explain concepts.",
     href: "/study-groups",
@@ -54,7 +73,7 @@ const featureCards = [
     bg: "from-amber-500/20 via-orange-500/20 to-red-500/20",
   },
   {
-    emoji: "🕸️",
+    icon: "network" as IconName,
     title: "Concept Web Builder",
     description: "Visualize hidden relationships across topics and discover weak links instantly.",
     href: "/concept-web",
@@ -62,7 +81,7 @@ const featureCards = [
     bg: "from-blue-500/20 via-sky-500/20 to-indigo-500/20",
   },
   {
-    emoji: "📚",
+    icon: "book" as IconName,
     title: "Citation Assistant",
     description: "Generate citations quickly and keep your work clean, consistent, and academic-ready.",
     href: "/citations",
@@ -76,21 +95,78 @@ const testimonials = [
     quote: "StudyForge helped me go from a C to an A in Biology.",
     author: "Sarah",
     meta: "Grade 11",
+    subject: "Biology",
     initials: "SG",
   },
   {
     quote: "The AI Exam Predictor is scary accurate.",
     author: "Marcus",
     meta: "University Student",
+    subject: "Computer Science",
     initials: "MU",
   },
   {
     quote: "Battle Arena makes studying actually fun.",
     author: "Priya",
     meta: "Grade 12",
+    subject: "Chemistry",
     initials: "PG",
   },
 ];
+
+function Icon({ name, size = 24, className = "" }: { name: IconName; size?: number; className?: string }) {
+  const props = {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.5,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    className,
+    "aria-hidden": true,
+  };
+
+  switch (name) {
+    case "flame":
+      return <svg {...props}><path d="M12 3.75c.8 2.65-.4 4.25-2.1 6.1-1.5 1.65-2.9 3.05-2.9 5.1a5 5 0 0010 0c0-2.7-1.95-4.65-3.4-6.4-.9-1.1-1.7-2.1-1.6-4.8Z" /></svg>;
+    case "bolt":
+      return <svg {...props}><path d="M13.5 2.25 5.25 13.5h5.25l-1.5 8.25 8.25-11.25h-5.25l1.5-8.25Z" /></svg>;
+    case "target":
+      return <svg {...props}><circle cx="12" cy="12" r="8.25" /><circle cx="12" cy="12" r="4.25" /><circle cx="12" cy="12" r="1.25" /></svg>;
+    case "brain":
+      return <svg {...props}><path d="M9 4.5a3 3 0 016 0v.4a2.75 2.75 0 012.25 2.7v.9a2.5 2.5 0 011.5 2.3 2.5 2.5 0 01-1.5 2.3v.9a2.75 2.75 0 01-2.25 2.7v.4a3 3 0 01-6 0v-.4A2.75 2.75 0 016.75 14v-.9a2.5 2.5 0 01-1.5-2.3 2.5 2.5 0 011.5-2.3v-.9A2.75 2.75 0 019 4.9v-.4Z" /><path d="M12 6v12M9 9.5c.8.3 1.5.8 2 1.5M15 9.5c-.8.3-1.5.8-2 1.5" /></svg>;
+    case "swords":
+      return <svg {...props}><path d="m7 5 5 5M5.5 7.5 9 4M4 9l4-4M17 5l-5 5m6.5-2.5L15 4m5 5-4-4M9 15l-5 5m7-3.5L7.5 20M8 21l4-4M15 15l5 5m-7-3.5 3.5 3.5M16 21l-4-4" /></svg>;
+    case "puzzle":
+      return <svg {...props}><path d="M8.25 4.5A1.75 1.75 0 0110 2.75h2A1.75 1.75 0 0113.75 4.5v.75h2.75A1.75 1.75 0 0118.25 7v2.75h.75a1.75 1.75 0 010 3.5h-.75V16A1.75 1.75 0 0116.5 17.75h-2.75v.75A1.75 1.75 0 0112 20.25h-2a1.75 1.75 0 01-1.75-1.75v-.75H5.5A1.75 1.75 0 013.75 16v-2.75H3a1.75 1.75 0 010-3.5h.75V7A1.75 1.75 0 015.5 5.25h2.75V4.5Z" /></svg>;
+    case "group":
+      return <svg {...props}><path d="M16.5 18.75v-1.5a3.75 3.75 0 00-7.5 0v1.5M20.25 18.75v-1.5a3 3 0 00-4.5-2.598M3.75 18.75v-1.5a3 3 0 014.5-2.598M12.75 9.75a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0ZM19.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0Zm-12 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0Z" /></svg>;
+    case "network":
+      return <svg {...props}><circle cx="5" cy="12" r="2" /><circle cx="12" cy="5" r="2" /><circle cx="19" cy="12" r="2" /><circle cx="12" cy="19" r="2" /><path d="M6.7 10.9 10.3 6.1M13.7 6.1l3.6 4.8M17.3 13.1 13.7 17.9M10.3 17.9 6.7 13.1" /></svg>;
+    case "book":
+      return <svg {...props}><path d="M4.5 5.25A2.25 2.25 0 016.75 3h10.5v16.5H6.75A2.25 2.25 0 014.5 17.25V5.25Z" /><path d="M7.5 6.75h6M7.5 10.5h7.5M7.5 14.25h5.25" /></svg>;
+    case "sparkle":
+      return <svg {...props}><path d="m12 3 1.5 3.5L17 8l-3.5 1.5L12 13l-1.5-3.5L7 8l3.5-1.5L12 3ZM18.5 14l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1ZM5.5 13l1.1 2.4L9 16.5l-2.4 1.1L5.5 20l-1.1-2.4L2 16.5l2.4-1.1L5.5 13Z" /></svg>;
+    case "doc":
+      return <svg {...props}><path d="M7.5 3.75h6L18 8.25v12H7.5a2.25 2.25 0 01-2.25-2.25V6A2.25 2.25 0 017.5 3.75Z" /><path d="M13.5 3.75V8.25H18M8.25 11.25h7.5M8.25 14.25h7.5M8.25 17.25h5.25" /></svg>;
+    case "sliders":
+      return <svg {...props}><path d="M4.5 6.75h15M4.5 12h15M4.5 17.25h15M8.25 5.25v3M15.75 10.5v3M11.25 15.75v3" /></svg>;
+    case "cap":
+      return <svg {...props}><path d="M3 9.75 12 5l9 4.75L12 14.5 3 9.75Z" /><path d="M7.5 12.25v3.5c0 1.5 2 2.75 4.5 2.75s4.5-1.25 4.5-2.75v-3.5" /><path d="M21 10.5v4.5" /></svg>;
+    case "docs":
+      return <svg {...props}><path d="M8.25 4.5h9a1.5 1.5 0 011.5 1.5V18a1.5 1.5 0 01-1.5 1.5h-9a1.5 1.5 0 01-1.5-1.5V6a1.5 1.5 0 011.5-1.5Z" /><path d="M5.25 7.5h-1.5A1.5 1.5 0 002.25 9v10.5A1.5 1.5 0 003.75 21h9a1.5 1.5 0 001.5-1.5V18" /></svg>;
+    case "shield":
+      return <svg {...props}><path d="M12 3.75 5.25 6v5.25c0 4.2 2.8 7.95 6.75 9 3.95-1.05 6.75-4.8 6.75-9V6L12 3.75Z" /></svg>;
+    case "trend":
+      return <svg {...props}><path d="M3.75 17.25h16.5M6 14.25l3.75-3.75 3 3 4.5-5.25" /><path d="M15.75 8.25H20.25V12.75" /></svg>;
+    case "globe":
+      return <svg {...props}><circle cx="12" cy="12" r="8.25" /><path d="M3.9 9h16.2M3.9 15h16.2M12 3.9c2.2 2.4 3.4 5.1 3.4 8.1 0 3-1.2 5.7-3.4 8.1M12 3.9c-2.2 2.4-3.4 5.1-3.4 8.1 0 3 1.2 5.7 3.4 8.1" /></svg>;
+    default:
+      return null;
+  }
+}
 
 export default function Home() {
   const [typedText, setTypedText] = useState(typingWords[0] ?? "");
@@ -101,6 +177,7 @@ export default function Home() {
 
   const statsRef = useRef<HTMLDivElement | null>(null);
   const [statsInView, setStatsInView] = useState(false);
+  const animatedWord = typedText;
 
   const heroPreviewLines = useMemo(
     () => [
@@ -217,20 +294,19 @@ export default function Home() {
         <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center">
           <div className="reveal-on-scroll" data-reveal="true">
             <div className="mb-5 flex flex-wrap items-center gap-2 text-xs font-semibold text-white/90">
-              <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">🔥 Free for students</span>
-              <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">⚡ Powered by AI</span>
-              <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">🎯 Exam Ready</span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1"><Icon name="flame" size={20} />Free for students</span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1"><Icon name="bolt" size={20} />Powered by AI</span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1"><Icon name="target" size={20} />Exam Ready</span>
             </div>
 
-            <h1 className="hero-intro text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
-              Study smarter with
-              <span className="bg-gradient-to-r from-sky-300 via-violet-300 to-fuchsia-300 bg-clip-text text-transparent"> AI-powered </span>
-              tools built for
-              <span className="bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 bg-clip-text text-transparent"> real exams</span>
+            <h1 className="text-5xl font-bold text-white leading-tight">
+              Study smarter with<br />
+              AI-powered tools<br />
+              built for real exams
             </h1>
 
-            <p className="mt-5 text-lg text-slate-200 sm:text-xl">
-              Generate <span className="inline-flex items-center font-semibold text-white">{typedText}<span className="ml-1 inline-block h-5 w-[2px] animate-pulse bg-violet-200 align-middle" /></span> in seconds.
+            <p className="text-lg text-gray-300 mt-4">
+              Generate <span className="text-blue-400 font-semibold">{animatedWord}</span> in seconds from your notes.
             </p>
 
             <p className="mt-4 max-w-xl text-sm text-slate-300 sm:text-base">
@@ -283,7 +359,7 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
           {stats.map((item, index) => (
             <div key={item.label} className="reveal-on-scroll rounded-xl border border-gray-200 bg-gray-50 p-4 text-center shadow-sm" data-reveal="true">
-              <p className="text-xl">{item.icon}</p>
+              <div className="mx-auto w-fit text-blue-600"><Icon name={item.icon} size={24} /></div>
               <p className="mt-2 text-2xl font-extrabold text-gray-900 sm:text-3xl">
                 {statValues[index].toLocaleString()}
                 {item.suffix}
@@ -301,15 +377,37 @@ export default function Home() {
         </div>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {[
-            { icon: "📄", title: "Step 1", desc: "Paste your notes or upload a file", accent: "border-blue-500" },
-            { icon: "🛠️", title: "Step 2", desc: "Choose your study format", accent: "border-indigo-500" },
-            { icon: "🏆", title: "Step 3", desc: "Ace your exam", accent: "border-purple-500" },
+            {
+              icon: "doc" as IconName,
+              title: "Step 1",
+              number: "01",
+              desc: "Paste your lecture notes, textbook paragraphs, or upload a PDF or image. StudyForge extracts and reads your content instantly.",
+              accent: "border-blue-500",
+              numberColor: "text-blue-600",
+            },
+            {
+              icon: "sliders" as IconName,
+              title: "Step 2",
+              number: "02",
+              desc: "Pick from summaries, flashcards, practice quizzes, or detailed notes. Customize length, difficulty, and format to match your needs.",
+              accent: "border-purple-500",
+              numberColor: "text-purple-600",
+            },
+            {
+              icon: "cap" as IconName,
+              title: "Step 3",
+              number: "03",
+              desc: "Use predicted exam questions, battle friends, or chat with Nova to reinforce your knowledge and walk into every exam confident.",
+              accent: "border-green-500",
+              numberColor: "text-green-600",
+            },
           ].map((step, index) => (
             <div key={step.title} className={`relative rounded-xl border border-gray-200 border-l-4 ${step.accent} bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg`}>
               {index < 2 && <span className="absolute -right-5 top-1/2 hidden -translate-y-1/2 text-2xl font-bold text-blue-500 md:block">→</span>}
-              <div className="mb-3 text-3xl">{step.icon}</div>
+              <span className={`absolute right-4 top-4 text-3xl font-extrabold ${step.numberColor}`}>{step.number}</span>
+              <div className="mb-3 text-blue-600"><Icon name={step.icon} size={32} /></div>
               <h3 className="text-lg font-bold text-gray-900">{step.title}</h3>
-              <p className="mt-2 text-sm text-gray-600">{step.desc}</p>
+              <p className="mt-2 text-sm leading-relaxed text-gray-600">{step.desc}</p>
             </div>
           ))}
         </div>
@@ -325,8 +423,8 @@ export default function Home() {
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {featureCards.map((feature) => (
               <div key={feature.title} className={`reveal-on-scroll rounded-2xl border border-white/10 bg-gradient-to-br ${feature.bg} p-6 shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/40`} data-reveal="true">
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-2xl backdrop-blur-sm animate-[float_4s_ease-in-out_infinite]">
-                  {feature.emoji}
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-white backdrop-blur-sm animate-[float_4s_ease-in-out_infinite]">
+                  <Icon name={feature.icon} size={28} />
                 </div>
                 <h3 className="text-xl font-bold text-white">{feature.title}</h3>
                 <p className="mt-2 text-sm text-slate-200">{feature.description}</p>
@@ -349,17 +447,18 @@ export default function Home() {
           <div className="grid gap-5 md:grid-cols-3">
             {testimonials.map((item) => (
               <div key={item.author} className="reveal-on-scroll rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-lg" data-reveal="true">
+                <p className="mb-2 text-5xl font-bold leading-none text-blue-500">&ldquo;</p>
                 <div className="mb-4 flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-sm font-bold text-white">
                     {item.initials}
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-gray-900">{item.author}</p>
-                    <p className="text-xs text-gray-500">{item.meta}</p>
+                    <p className="text-xs text-gray-500">{item.meta} • {item.subject}</p>
                   </div>
                 </div>
                 <p className="mb-3 text-sm text-amber-500">⭐⭐⭐⭐⭐</p>
-                <p className="text-sm leading-relaxed text-gray-700">“{item.quote}”</p>
+                <p className="border-b border-blue-200 pb-3 text-lg italic leading-relaxed text-gray-700">{item.quote}</p>
               </div>
             ))}
           </div>
@@ -369,7 +468,7 @@ export default function Home() {
       <section className="bg-gradient-to-br from-[#0b1024] via-[#140f33] to-[#1b0f3f] py-20">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:items-center">
           <div className="reveal-on-scroll" data-reveal="true">
-            <p className="inline-block rounded-full border border-purple-300/30 bg-purple-500/15 px-3 py-1 text-xs font-semibold text-purple-100">Nova AI Tutor</p>
+            <p className="inline-flex items-center gap-2 rounded-full border border-purple-300/30 bg-purple-500/15 px-3 py-1 text-xs font-semibold text-purple-100"><Icon name="sparkle" size={20} />Nova AI Tutor</p>
             <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">Your personal AI tutor, available any time</h2>
             <p className="mt-3 text-slate-200">
               Ask Nova to explain concepts, test your understanding, and guide your revision with calm, step-by-step support.
@@ -392,16 +491,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="reveal-on-scroll mx-auto max-w-7xl px-4 py-20 text-center sm:px-6" data-reveal="true">
-        <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">Ready to study smarter?</h2>
-        <p className="mx-auto mt-3 max-w-2xl text-gray-600">Join students using StudyForge to convert notes into focused prep, stronger confidence, and better results.</p>
-        <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-          <Link href="/generator" className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg">
-            Start with Generator
-          </Link>
-          <Link href="/upload" className="rounded-xl border border-gray-300 px-6 py-3 text-sm font-bold text-gray-700 transition-all duration-200 hover:-translate-y-0.5 hover:bg-gray-50 hover:shadow-lg">
-            Upload a File
-          </Link>
+      <section className="reveal-on-scroll relative overflow-hidden bg-gradient-to-br from-[#07102a] via-[#0f1737] to-[#2a1243]" data-reveal="true">
+        <div className="pointer-events-none absolute inset-0 opacity-50">
+          <div className="absolute left-1/3 top-10 h-56 w-56 rounded-full bg-blue-500/25 blur-3xl" />
+          <div className="absolute right-1/4 bottom-8 h-56 w-56 rounded-full bg-purple-500/25 blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 py-20 text-center sm:px-6">
+          <h2 className="text-3xl font-bold text-white sm:text-4xl">Ready to study smarter?</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-slate-200">Join students using StudyForge to convert notes into focused prep, stronger confidence, and better results.</p>
+          <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link href="/generator" className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg">
+              Start with Generator
+            </Link>
+            <Link href="/upload" className="rounded-xl border border-white/40 bg-white/10 px-6 py-3 text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/20 hover:shadow-lg">
+              Upload a File
+            </Link>
+          </div>
         </div>
       </section>
 
