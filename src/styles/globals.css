@@ -33,6 +33,22 @@ body {
   color: var(--app-text);
   font-size: var(--app-font-size);
   font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+* {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+p,
+span,
+li,
+input,
+textarea,
+select,
+button {
+  font-size: max(0.875rem, 14px);
 }
 
 html.dark {

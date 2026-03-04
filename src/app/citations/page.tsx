@@ -606,7 +606,7 @@ export default function CitationsPage() {
                 placeholder="Paste source URL"
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-              <div className="sm:w-44 w-full">
+              <div className="w-full sm:w-44">
                 <Listbox
                   value={draft.sourceType}
                   onChange={(v: string) => {
@@ -615,7 +615,7 @@ export default function CitationsPage() {
                   options={SOURCE_OPTIONS.map((s) => ({ value: s.value, label: s.label }))}
                 />
               </div>
-              <Button onClick={() => void importFromUrl()} variant="secondary" size="sm" loading={isImporting} disabled={isImporting}>
+              <Button onClick={() => void importFromUrl()} variant="secondary" size="sm" loading={isImporting} disabled={isImporting} fullWidth>
                 {isImporting ? "Importing..." : "Import Link"}
               </Button>
             </div>
@@ -653,10 +653,10 @@ export default function CitationsPage() {
               })}
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2">
-              <Button onClick={saveCitationToList} size="sm">Save Citation to List</Button>
-              <Button onClick={() => void copyCitation(preview.text)} variant="secondary" size="sm">Copy Citation</Button>
-              <Button onClick={clearAll} variant="secondary" size="sm">Clear All</Button>
+            <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap">
+              <Button onClick={saveCitationToList} size="sm" fullWidth>Save Citation to List</Button>
+              <Button onClick={() => void copyCitation(preview.text)} variant="secondary" size="sm" fullWidth>Copy Citation</Button>
+              <Button onClick={clearAll} variant="secondary" size="sm" fullWidth>Clear All</Button>
             </div>
           </div>
 
@@ -673,11 +673,11 @@ export default function CitationsPage() {
                 placeholder="Search saved citations by author or title"
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-              <Button onClick={() => void copyAll()} variant="secondary" size="sm">Copy All</Button>
-              <Button onClick={exportWord} size="sm">Export Word</Button>
+              <Button onClick={() => void copyAll()} variant="secondary" size="sm" fullWidth>Copy All</Button>
+              <Button onClick={exportWord} size="sm" fullWidth>Export Word</Button>
             </div>
-            <div className="mt-2 flex gap-2">
-              <Button onClick={exportPdf} variant="secondary" size="sm">Export PDF</Button>
+            <div className="mt-2 grid gap-2 sm:flex sm:gap-2">
+              <Button onClick={exportPdf} variant="secondary" size="sm" fullWidth>Export PDF</Button>
             </div>
           </div>
         </div>

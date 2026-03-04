@@ -836,11 +836,11 @@ export default function Generator() {
       const questions = parseQuestions(generatedNotes);
       return (
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <div className="mb-6 flex items-center justify-between border-b border-gray-200 pb-4">
+          <div className="mb-6 flex flex-col gap-3 border-b border-gray-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="text-xl font-semibold text-gray-900">
               Practice Quiz ({questions.length} questions)
             </h2>
-            <div className="flex gap-2">
+            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
               <Button
                 onClick={handleSave}
                 disabled={isSaving}
@@ -863,12 +863,12 @@ export default function Generator() {
           </div>
           <div className="space-y-6">
             {questions.map((q, index) => (
-              <div key={index} className="rounded-lg border border-gray-200 bg-gray-50 p-6">
+              <div key={index} className="rounded-lg border border-gray-200 bg-gray-50 p-4 sm:p-6">
                 <div className="mb-4 flex items-start gap-3">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
                     {index + 1}
                   </span>
-                  <p className="flex-1 pt-1 text-lg font-medium text-gray-900">
+                  <p className="flex-1 break-words pt-1 text-base font-medium text-gray-900 sm:text-lg">
                     {q.question.replace(/\$/g, "")}
                   </p>
                 </div>
@@ -924,11 +924,11 @@ export default function Generator() {
 
     return (
       <div className="print-notes-only rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        <div className="print-hide mb-4 flex items-center justify-between border-b border-gray-200 pb-4">
+        <div className="print-hide mb-4 flex flex-col gap-3 border-b border-gray-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-xl font-semibold text-gray-900">
             Your Study Notes
           </h2>
-          <div className="flex gap-2">
+          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
             <Button
               onClick={handleSave}
               disabled={isSaving}
@@ -1083,7 +1083,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           {outputFormat === "questions" && (
             <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
               <p className="mb-3 text-sm font-semibold text-gray-900">Practice Quiz Settings</p>
-              <div className="grid gap-4 md:grid-cols-3">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div>
                   <label className="mb-2 block text-xs font-semibold text-gray-700">Number of questions</label>
                   <Listbox
@@ -1168,7 +1168,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           )}
         </div>
 
-        <div className="mb-6 flex gap-3">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row">
           <Button
             onClick={handleGenerate}
             disabled={!inputText || isLoading}
@@ -1191,6 +1191,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
                 variant="secondary"
                 size="lg"
                 disabled={isLoading}
+                fullWidth
               >
                 {isRegenerating ? (
                   <span className="flex items-center gap-2">
@@ -1208,6 +1209,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
                 onClick={handleClear}
                 variant="secondary"
                 size="lg"
+                fullWidth
               >
                 Clear
               </Button>

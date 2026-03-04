@@ -458,18 +458,20 @@ export default function StudyGroupInteriorPage() {
             ))}
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-2 border-t border-gray-200 pt-4">
+          <div className="mt-5 overflow-x-auto border-t border-gray-200 pt-4">
+            <div className="flex min-w-max gap-2">
             {TABS.map((tab) => (
-              <Button key={tab} size="sm" variant={activeTab === tab ? "primary" : "secondary"} onClick={() => setActiveTab(tab)}>
+              <Button key={tab} size="sm" variant={activeTab === tab ? "primary" : "secondary"} onClick={() => setActiveTab(tab)} className="shrink-0">
                 {tab}
               </Button>
             ))}
-            <Button size="sm" variant="ghost" onClick={() => void runAiSummary()}>End Session Summary</Button>
-            {isOwner && <Button size="sm" variant="danger" onClick={() => void deleteGroup()}>Delete Group</Button>}
+            <Button size="sm" variant="ghost" onClick={() => void runAiSummary()} className="shrink-0">End Session Summary</Button>
+            {isOwner && <Button size="sm" variant="danger" onClick={() => void deleteGroup()} className="shrink-0">Delete Group</Button>}
+            </div>
           </div>
         </div>
 
-        <div className="mt-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className={`mt-6 rounded-xl border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${activeTab === "Chat" ? "pb-24 sm:pb-6" : ""}`}>
           {activeTab === "Chat" && (
             <div>
               <div className="mb-3 h-[420px] overflow-y-auto rounded-lg border border-gray-200 bg-gray-50 p-3">
@@ -486,7 +488,7 @@ export default function StudyGroupInteriorPage() {
                           <span className="font-semibold">{message.isAI ? "StudyForge AI" : message.senderName || message.user?.name || message.user?.email || "Member"}</span>
                           <span>{new Date(message.timestamp).toLocaleTimeString()}</span>
                         </div>
-                        <p className="text-sm text-gray-800">{message.message}</p>
+                        <p className="break-words text-sm text-gray-800">{message.message}</p>
                         {message.metadata?.preview?.url && (
                           <a href={message.metadata.preview.url} target="_blank" rel="noreferrer" className="mt-2 inline-block rounded border border-blue-200 bg-white px-2 py-1 text-xs text-blue-700">
                             Link preview: {message.metadata.preview.title || message.metadata.preview.host}
@@ -497,9 +499,11 @@ export default function StudyGroupInteriorPage() {
                   </div>
                 )}
               </div>
-              <div className="flex gap-2">
+              <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-gray-200 bg-white p-3 sm:static sm:border-0 sm:bg-transparent sm:p-0">
+                <div className="flex gap-2">
                 <input value={chatInput} onChange={(event) => setChatInput(event.target.value)} placeholder="Ask questions with ? , mention @AI, or /quiz" className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm" />
                 <Button onClick={() => void sendChat()} loading={chatLoading} disabled={!chatInput.trim() || chatLoading}>Send</Button>
+                </div>
               </div>
             </div>
           )}

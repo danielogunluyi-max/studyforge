@@ -268,7 +268,7 @@ export default function BattlePage() {
 
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
           <p className="mb-2 text-sm font-semibold text-gray-800">Battle mode</p>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid gap-2 sm:flex sm:flex-wrap">
             {[
               { value: "pvp", label: "PVP Live" },
               { value: "solo", label: "Solo Practice" },
@@ -475,7 +475,8 @@ export default function BattlePage() {
 
         <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="mb-3 text-lg font-semibold text-gray-900">Arena Music</h2>
-          <div className="mb-3 flex flex-wrap gap-2">
+          <p className="mb-2 text-xs text-gray-500 md:hidden">Mini player</p>
+          <div className="mb-3 hidden flex-wrap gap-2 md:flex">
             {TRACKS.map((track) => (
               <Button
                 key={track.id}
@@ -487,7 +488,7 @@ export default function BattlePage() {
               </Button>
             ))}
           </div>
-          <audio controls className="w-full" src={selectedTrack}>
+          <audio controls className="w-full max-w-full" src={selectedTrack}>
             <track kind="captions" />
           </audio>
         </div>

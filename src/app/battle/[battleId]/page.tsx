@@ -319,12 +319,13 @@ export default function BattleRoomPage() {
               ))}
             </div>
 
-            <div className="mt-4 flex gap-2">
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
               <Button
                 onClick={() => void submitAnswer()}
                 disabled={!selectedAnswer || isSubmitting}
                 size="sm"
                 loading={isSubmitting}
+                fullWidth
               >
                 Submit
               </Button>
@@ -333,6 +334,7 @@ export default function BattleRoomPage() {
                 variant="secondary"
                 size="sm"
                 disabled={skipUsed || isSubmitting}
+                fullWidth
               >
                 Skip via Powerup
               </Button>

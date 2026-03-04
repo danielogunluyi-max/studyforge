@@ -111,6 +111,7 @@ export default function MyNotes() {
   const [deleteTagName, setDeleteTagName] = useState("");
   const [mergeSourceTag, setMergeSourceTag] = useState("");
   const [mergeTargetTag, setMergeTargetTag] = useState("");
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -594,6 +595,17 @@ export default function MyNotes() {
           </Button>
         </div>
 
+        <div className="mb-4 lg:hidden">
+          <Button
+            onClick={() => setShowMobileFilters((prev) => !prev)}
+            variant="secondary"
+            fullWidth
+            size="sm"
+          >
+            {showMobileFilters ? "Hide Filters" : "Show Filters"}
+          </Button>
+        </div>
+
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
           <div className="grid gap-3 md:grid-cols-4">
             <input
@@ -696,7 +708,13 @@ export default function MyNotes() {
         )}
 
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-          <aside className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+          <aside className={`${showMobileFilters ? "block" : "hidden"} rounded-xl border border-gray-200 bg-white p-4 shadow-sm lg:block`}>
+            <div className="mb-3 flex items-center justify-between lg:hidden">
+              <p className="text-sm font-semibold text-gray-900">Filters</p>
+              <Button size="sm" variant="secondary" onClick={() => setShowMobileFilters(false)}>
+                Close
+              </Button>
+            </div>
             <div className="mb-4 rounded-lg border border-gray-100 p-3">
               <div className="mb-2 flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-gray-900">Folders</h2>

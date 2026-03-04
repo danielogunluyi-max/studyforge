@@ -156,12 +156,14 @@ export default function TutorPage() {
         return;
       }
 
+      const assistantContent = data.message ?? "";
+
       setMessages((prev) => [
         ...prev,
         {
           id: makeId(),
           role: "assistant",
-          content: data.message,
+          content: assistantContent,
           createdAt: new Date().toISOString(),
         },
       ]);
@@ -248,7 +250,7 @@ export default function TutorPage() {
   return (
     <main className="min-h-screen bg-[#070b1a] text-white">
       <AppNav />
-      <div className="mx-auto flex h-[calc(100vh-72px)] w-full max-w-6xl flex-col px-4 py-4 sm:px-6">
+      <div className="mx-auto flex h-[calc(100vh-72px)] w-full max-w-6xl flex-col px-4 py-4 pb-28 sm:px-6 sm:pb-4">
         <div className="mb-3 rounded-xl border border-slate-700 bg-[#0d142b] p-4 shadow-lg">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
@@ -297,7 +299,7 @@ export default function TutorPage() {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto rounded-xl border border-slate-700 bg-[#0a1126] p-4">
+        <div className="flex-1 overflow-y-auto rounded-xl border border-slate-700 bg-[#0a1126] p-3 sm:p-4">
           <div className="space-y-3">
             {messages.map((message, index) => (
               <div
@@ -306,13 +308,13 @@ export default function TutorPage() {
                 style={{ animation: `fadeIn 180ms ease-out ${Math.min(index * 18, 220)}ms both` }}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm sm:max-w-[75%] ${
+                  className={`max-w-[92%] rounded-2xl px-4 py-3 text-sm sm:max-w-[75%] ${
                     message.role === "user"
                       ? "bg-blue-600 text-white"
                       : "border border-slate-600 bg-[#111a38] text-slate-100"
                   }`}
                 >
-                  <p className="whitespace-pre-wrap">{message.content}</p>
+                  <p className="whitespace-pre-wrap break-words">{message.content}</p>
                   {message.role === "assistant" && (
                     <div className="mt-2 flex justify-end">
                       <Button
@@ -349,7 +351,8 @@ export default function TutorPage() {
 
         {error && <p className="mt-2 text-sm text-red-300">{error}</p>}
 
-        <div className="mt-3 rounded-xl border border-slate-700 bg-[#0d142b] p-3">
+        <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-slate-700 bg-[#0d142b]/95 p-3 backdrop-blur sm:static sm:mt-3 sm:rounded-xl sm:border sm:bg-[#0d142b] sm:p-3 sm:backdrop-blur-none">
+          <div className="mx-auto w-full max-w-6xl sm:max-w-none">
           <div className="flex gap-2">
             <input
               value={input}
@@ -366,18 +369,21 @@ export default function TutorPage() {
             <Button onClick={() => void sendMessage()} disabled={!input.trim() || isThinking}>Send</Button>
           </div>
 
-          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-300">
-            <span className="text-slate-400">Commands:</span>
-            {COMMANDS.map((command) => (
-              <button
-                key={command}
-                type="button"
-                className="rounded-full border border-slate-500/60 px-2 py-1 transition hover:border-blue-400 hover:text-blue-200"
-                onClick={() => setInput(command)}
-              >
-                {command}
-              </button>
-            ))}
+          <div className="mt-2 overflow-x-auto whitespace-nowrap text-xs text-slate-300">
+            <div className="flex min-w-max items-center gap-2">
+              <span className="text-slate-400">Commands:</span>
+              {COMMANDS.map((command) => (
+                <button
+                  key={command}
+                  type="button"
+                  className="shrink-0 rounded-full border border-slate-500/60 px-2 py-1 transition hover:border-blue-400 hover:text-blue-200"
+                  onClick={() => setInput(command)}
+                >
+                  {command}
+                </button>
+              ))}
+            </div>
+          </div>
           </div>
         </div>
       </div>

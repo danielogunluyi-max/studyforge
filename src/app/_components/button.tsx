@@ -24,7 +24,7 @@ export function Button({
   className = "",
   ...rest
 }: ButtonProps) {
-  const baseStyles = "inline-flex items-center justify-center gap-2 rounded-md font-semibold transition duration-200 ease-linear transform-gpu focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex min-h-11 items-center justify-center gap-2 rounded-md font-semibold transition duration-200 ease-linear transform-gpu focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed";
 
   // Variant styles
   const variantStyles = {

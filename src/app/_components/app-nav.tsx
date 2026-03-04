@@ -83,7 +83,7 @@ export function AppNav() {
         </Link>
         
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center gap-3 md:flex">
           {primaryLinks.map((item) => (
             <Link
               key={item.href}
@@ -176,7 +176,7 @@ export function AppNav() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden rounded-lg border border-gray-300 p-2 text-gray-600 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="md:hidden rounded-lg border border-gray-300 p-2 text-gray-600 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
           aria-label="Toggle menu"
         >
           {mobileMenuOpen ? (
@@ -193,7 +193,7 @@ export function AppNav() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-gray-200 bg-white">
+        <div className="md:hidden border-t border-gray-200 bg-white animate-[mobileNavSlide_220ms_ease-out]">
           <div className="mx-auto w-full max-w-7xl space-y-2 px-4 py-4 sm:px-6">
             {primaryLinks.map((item) => (
               <Link key={item.href} href={item.href} className={`block rounded-lg px-4 py-2 text-sm font-medium transition ${isActive(item.href) ? "bg-blue-50 text-blue-700" : "text-gray-700 hover:bg-gray-50"}`}>
@@ -235,6 +235,19 @@ export function AppNav() {
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        @keyframes mobileNavSlide {
+          from {
+            opacity: 0;
+            transform: translateY(-8px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </nav>
   );
 }

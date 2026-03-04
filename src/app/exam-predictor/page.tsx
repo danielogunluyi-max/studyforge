@@ -496,25 +496,27 @@ export default function ExamPredictorPage() {
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">AI Exam Predictor</h1>
-            <p className="mt-2 text-lg text-gray-600">Premium prediction engine with structure builder, confidence intelligence, and simulation mode.</p>
+            <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">AI Exam Predictor</h1>
+            <p className="mt-2 text-base text-gray-600 sm:text-lg">Premium prediction engine with structure builder, confidence intelligence, and simulation mode.</p>
           </div>
           <Button href="/my-predictions" variant="secondary" size="sm">My Predictions</Button>
         </div>
 
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-          <div className="grid gap-2 sm:grid-cols-4">
+          <div className="overflow-x-auto">
+            <div className="flex min-w-max gap-2 sm:grid sm:min-w-0 sm:grid-cols-4">
             {[
               { id: 1, label: "Step 1", desc: "Upload" },
               { id: 2, label: "Step 2", desc: "Configure" },
               { id: 3, label: "Step 3", desc: "Generate" },
               { id: 4, label: "Step 4", desc: "Results" },
             ].map((item) => (
-              <div key={item.id} className={`rounded-lg border px-3 py-2 ${step >= item.id ? "border-blue-200 bg-blue-50" : "border-gray-200 bg-gray-50"}`}>
+              <div key={item.id} className={`w-[132px] shrink-0 rounded-lg border px-3 py-2 sm:w-auto sm:shrink ${step >= item.id ? "border-blue-200 bg-blue-50" : "border-gray-200 bg-gray-50"}`}>
                 <p className={`text-xs font-semibold ${step >= item.id ? "text-blue-700" : "text-gray-500"}`}>{item.label}</p>
                 <p className="text-sm font-medium text-gray-800">{item.desc}</p>
               </div>
             ))}
+            </div>
           </div>
         </div>
 
@@ -583,9 +585,9 @@ export default function ExamPredictorPage() {
 
               {testPreset === "Custom" && (
                 <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
-                  <div className="mb-3 flex flex-wrap items-center gap-2">
-                    <Button onClick={addSection} variant="secondary" size="sm">Add Section</Button>
-                    <Button onClick={saveCustomPreset} variant="secondary" size="sm">Save Custom Preset</Button>
+                  <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+                    <Button onClick={addSection} variant="secondary" size="sm" className="w-full sm:w-auto">Add Section</Button>
+                    <Button onClick={saveCustomPreset} variant="secondary" size="sm" className="w-full sm:w-auto">Save Custom Preset</Button>
                     <span className="text-xs text-gray-600">Live total marks: {totalConfiguredMarks}</span>
                   </div>
 
@@ -882,11 +884,12 @@ export default function ExamPredictorPage() {
                   className="mt-3 h-36 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
                 />
 
-                <div className="mt-3 flex flex-wrap gap-2">
+                <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                   <Button
                     onClick={() => setSimulationIndex((prev) => Math.max(0, prev - 1))}
                     variant="secondary"
                     size="sm"
+                    className="w-full sm:w-auto"
                     disabled={simulationIndex === 0}
                   >
                     Previous
@@ -895,11 +898,12 @@ export default function ExamPredictorPage() {
                     onClick={() => setSimulationIndex((prev) => Math.min(predictions.length - 1, prev + 1))}
                     variant="secondary"
                     size="sm"
+                    className="w-full sm:w-auto"
                     disabled={simulationIndex >= predictions.length - 1}
                   >
                     Next
                   </Button>
-                  <Button onClick={finishSimulation} size="sm">Submit Simulation</Button>
+                  <Button onClick={finishSimulation} size="sm" className="w-full sm:w-auto">Submit Simulation</Button>
                 </div>
               </section>
             )}
