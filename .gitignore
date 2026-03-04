@@ -81,3 +81,4 @@ generated/
 *.pem
 .vercel
 .env*.local
+vercel
