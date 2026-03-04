@@ -28,6 +28,7 @@ export function AppNav() {
     { href: "/learning-style-quiz", label: "Learning Style Quiz" },
     { href: "/study-groups", label: "AI Study Groups" },
     { href: "/concept-web", label: "Concept Web Builder" },
+    { href: "/tutor", label: "Nova AI Tutor" },
   ];
 
   const isActive = (href: string) => pathname === href || pathname?.startsWith(`${href}/`);
