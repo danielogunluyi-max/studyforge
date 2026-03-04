@@ -100,6 +100,7 @@ model User {
   pinnedGroupMessages    GroupPinnedMessage[]
   conceptConnections     ConceptConnection[]
   learningStyleResults   LearningStyleResult[]
+  conceptWebs            ConceptWeb[]
 }
 
 model VerificationToken {
@@ -537,4 +538,22 @@ model LearningStyleResult {
   @@index([userId])
   @@index([createdAt])
   @@index([dominantStyle])
+}
+
+model ConceptWeb {
+  id         String   @id @default(cuid())
+  userId     String
+  title      String
+  topic      String
+  webData    Json
+  shareToken String   @unique
+  isShared   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([topic])
+  @@index([createdAt])
 }

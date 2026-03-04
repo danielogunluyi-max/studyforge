@@ -158,6 +158,11 @@ export type ConceptConnection = $Result.DefaultSelection<Prisma.$ConceptConnecti
  * 
  */
 export type LearningStyleResult = $Result.DefaultSelection<Prisma.$LearningStyleResultPayload>
+/**
+ * Model ConceptWeb
+ * 
+ */
+export type ConceptWeb = $Result.DefaultSelection<Prisma.$ConceptWebPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -566,6 +571,16 @@ export class PrismaClient<
     * ```
     */
   get learningStyleResult(): Prisma.LearningStyleResultDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.conceptWeb`: Exposes CRUD operations for the **ConceptWeb** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ConceptWebs
+    * const conceptWebs = await prisma.conceptWeb.findMany()
+    * ```
+    */
+  get conceptWeb(): Prisma.ConceptWebDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1035,7 +1050,8 @@ export namespace Prisma {
     GroupPomodoroTimer: 'GroupPomodoroTimer',
     GroupPinnedMessage: 'GroupPinnedMessage',
     ConceptConnection: 'ConceptConnection',
-    LearningStyleResult: 'LearningStyleResult'
+    LearningStyleResult: 'LearningStyleResult',
+    ConceptWeb: 'ConceptWeb'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1054,7 +1070,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult"
+      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3204,6 +3220,80 @@ export namespace Prisma {
           }
         }
       }
+      ConceptWeb: {
+        payload: Prisma.$ConceptWebPayload<ExtArgs>
+        fields: Prisma.ConceptWebFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ConceptWebFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptWebPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ConceptWebFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptWebPayload>
+          }
+          findFirst: {
+            args: Prisma.ConceptWebFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptWebPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ConceptWebFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptWebPayload>
+          }
+          findMany: {
+            args: Prisma.ConceptWebFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptWebPayload>[]
+          }
+          create: {
+            args: Prisma.ConceptWebCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptWebPayload>
+          }
+          createMany: {
+            args: Prisma.ConceptWebCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ConceptWebCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptWebPayload>[]
+          }
+          delete: {
+            args: Prisma.ConceptWebDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptWebPayload>
+          }
+          update: {
+            args: Prisma.ConceptWebUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptWebPayload>
+          }
+          deleteMany: {
+            args: Prisma.ConceptWebDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ConceptWebUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ConceptWebUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptWebPayload>[]
+          }
+          upsert: {
+            args: Prisma.ConceptWebUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConceptWebPayload>
+          }
+          aggregate: {
+            args: Prisma.ConceptWebAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConceptWeb>
+          }
+          groupBy: {
+            args: Prisma.ConceptWebGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ConceptWebGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ConceptWebCountArgs<ExtArgs>
+            result: $Utils.Optional<ConceptWebCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3329,6 +3419,7 @@ export namespace Prisma {
     groupPinnedMessage?: GroupPinnedMessageOmit
     conceptConnection?: ConceptConnectionOmit
     learningStyleResult?: LearningStyleResultOmit
+    conceptWeb?: ConceptWebOmit
   }
 
   /* Types for Logging */
@@ -3435,6 +3526,7 @@ export namespace Prisma {
     pinnedGroupMessages: number
     conceptConnections: number
     learningStyleResults: number
+    conceptWebs: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3464,6 +3556,7 @@ export namespace Prisma {
     pinnedGroupMessages?: boolean | UserCountOutputTypeCountPinnedGroupMessagesArgs
     conceptConnections?: boolean | UserCountOutputTypeCountConceptConnectionsArgs
     learningStyleResults?: boolean | UserCountOutputTypeCountLearningStyleResultsArgs
+    conceptWebs?: boolean | UserCountOutputTypeCountConceptWebsArgs
   }
 
   // Custom InputTypes
@@ -3657,6 +3750,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountLearningStyleResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LearningStyleResultWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountConceptWebsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConceptWebWhereInput
   }
 
 
@@ -7668,6 +7768,7 @@ export namespace Prisma {
     pinnedGroupMessages?: boolean | User$pinnedGroupMessagesArgs<ExtArgs>
     conceptConnections?: boolean | User$conceptConnectionsArgs<ExtArgs>
     learningStyleResults?: boolean | User$learningStyleResultsArgs<ExtArgs>
+    conceptWebs?: boolean | User$conceptWebsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -7771,6 +7872,7 @@ export namespace Prisma {
     pinnedGroupMessages?: boolean | User$pinnedGroupMessagesArgs<ExtArgs>
     conceptConnections?: boolean | User$conceptConnectionsArgs<ExtArgs>
     learningStyleResults?: boolean | User$learningStyleResultsArgs<ExtArgs>
+    conceptWebs?: boolean | User$conceptWebsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7805,6 +7907,7 @@ export namespace Prisma {
       pinnedGroupMessages: Prisma.$GroupPinnedMessagePayload<ExtArgs>[]
       conceptConnections: Prisma.$ConceptConnectionPayload<ExtArgs>[]
       learningStyleResults: Prisma.$LearningStyleResultPayload<ExtArgs>[]
+      conceptWebs: Prisma.$ConceptWebPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8248,6 +8351,7 @@ export namespace Prisma {
     pinnedGroupMessages<T extends User$pinnedGroupMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$pinnedGroupMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPinnedMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     conceptConnections<T extends User$conceptConnectionsArgs<ExtArgs> = {}>(args?: Subset<T, User$conceptConnectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     learningStyleResults<T extends User$learningStyleResultsArgs<ExtArgs> = {}>(args?: Subset<T, User$learningStyleResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    conceptWebs<T extends User$conceptWebsArgs<ExtArgs> = {}>(args?: Subset<T, User$conceptWebsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9307,6 +9411,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LearningStyleResultScalarFieldEnum | LearningStyleResultScalarFieldEnum[]
+  }
+
+  /**
+   * User.conceptWebs
+   */
+  export type User$conceptWebsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebInclude<ExtArgs> | null
+    where?: ConceptWebWhereInput
+    orderBy?: ConceptWebOrderByWithRelationInput | ConceptWebOrderByWithRelationInput[]
+    cursor?: ConceptWebWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConceptWebScalarFieldEnum | ConceptWebScalarFieldEnum[]
   }
 
   /**
@@ -37822,6 +37950,1112 @@ export namespace Prisma {
 
 
   /**
+   * Model ConceptWeb
+   */
+
+  export type AggregateConceptWeb = {
+    _count: ConceptWebCountAggregateOutputType | null
+    _min: ConceptWebMinAggregateOutputType | null
+    _max: ConceptWebMaxAggregateOutputType | null
+  }
+
+  export type ConceptWebMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    title: string | null
+    topic: string | null
+    shareToken: string | null
+    isShared: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ConceptWebMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    title: string | null
+    topic: string | null
+    shareToken: string | null
+    isShared: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ConceptWebCountAggregateOutputType = {
+    id: number
+    userId: number
+    title: number
+    topic: number
+    webData: number
+    shareToken: number
+    isShared: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ConceptWebMinAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    topic?: true
+    shareToken?: true
+    isShared?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ConceptWebMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    topic?: true
+    shareToken?: true
+    isShared?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ConceptWebCountAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    topic?: true
+    webData?: true
+    shareToken?: true
+    isShared?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ConceptWebAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConceptWeb to aggregate.
+     */
+    where?: ConceptWebWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConceptWebs to fetch.
+     */
+    orderBy?: ConceptWebOrderByWithRelationInput | ConceptWebOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ConceptWebWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConceptWebs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConceptWebs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ConceptWebs
+    **/
+    _count?: true | ConceptWebCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ConceptWebMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ConceptWebMaxAggregateInputType
+  }
+
+  export type GetConceptWebAggregateType<T extends ConceptWebAggregateArgs> = {
+        [P in keyof T & keyof AggregateConceptWeb]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateConceptWeb[P]>
+      : GetScalarType<T[P], AggregateConceptWeb[P]>
+  }
+
+
+
+
+  export type ConceptWebGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConceptWebWhereInput
+    orderBy?: ConceptWebOrderByWithAggregationInput | ConceptWebOrderByWithAggregationInput[]
+    by: ConceptWebScalarFieldEnum[] | ConceptWebScalarFieldEnum
+    having?: ConceptWebScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ConceptWebCountAggregateInputType | true
+    _min?: ConceptWebMinAggregateInputType
+    _max?: ConceptWebMaxAggregateInputType
+  }
+
+  export type ConceptWebGroupByOutputType = {
+    id: string
+    userId: string
+    title: string
+    topic: string
+    webData: JsonValue
+    shareToken: string
+    isShared: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ConceptWebCountAggregateOutputType | null
+    _min: ConceptWebMinAggregateOutputType | null
+    _max: ConceptWebMaxAggregateOutputType | null
+  }
+
+  type GetConceptWebGroupByPayload<T extends ConceptWebGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ConceptWebGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ConceptWebGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ConceptWebGroupByOutputType[P]>
+            : GetScalarType<T[P], ConceptWebGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ConceptWebSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    topic?: boolean
+    webData?: boolean
+    shareToken?: boolean
+    isShared?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conceptWeb"]>
+
+  export type ConceptWebSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    topic?: boolean
+    webData?: boolean
+    shareToken?: boolean
+    isShared?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conceptWeb"]>
+
+  export type ConceptWebSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    topic?: boolean
+    webData?: boolean
+    shareToken?: boolean
+    isShared?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conceptWeb"]>
+
+  export type ConceptWebSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    topic?: boolean
+    webData?: boolean
+    shareToken?: boolean
+    isShared?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ConceptWebOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "topic" | "webData" | "shareToken" | "isShared" | "createdAt" | "updatedAt", ExtArgs["result"]["conceptWeb"]>
+  export type ConceptWebInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ConceptWebIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ConceptWebIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ConceptWebPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ConceptWeb"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      title: string
+      topic: string
+      webData: Prisma.JsonValue
+      shareToken: string
+      isShared: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["conceptWeb"]>
+    composites: {}
+  }
+
+  type ConceptWebGetPayload<S extends boolean | null | undefined | ConceptWebDefaultArgs> = $Result.GetResult<Prisma.$ConceptWebPayload, S>
+
+  type ConceptWebCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ConceptWebFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ConceptWebCountAggregateInputType | true
+    }
+
+  export interface ConceptWebDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ConceptWeb'], meta: { name: 'ConceptWeb' } }
+    /**
+     * Find zero or one ConceptWeb that matches the filter.
+     * @param {ConceptWebFindUniqueArgs} args - Arguments to find a ConceptWeb
+     * @example
+     * // Get one ConceptWeb
+     * const conceptWeb = await prisma.conceptWeb.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ConceptWebFindUniqueArgs>(args: SelectSubset<T, ConceptWebFindUniqueArgs<ExtArgs>>): Prisma__ConceptWebClient<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ConceptWeb that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ConceptWebFindUniqueOrThrowArgs} args - Arguments to find a ConceptWeb
+     * @example
+     * // Get one ConceptWeb
+     * const conceptWeb = await prisma.conceptWeb.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ConceptWebFindUniqueOrThrowArgs>(args: SelectSubset<T, ConceptWebFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConceptWebClient<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConceptWeb that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptWebFindFirstArgs} args - Arguments to find a ConceptWeb
+     * @example
+     * // Get one ConceptWeb
+     * const conceptWeb = await prisma.conceptWeb.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ConceptWebFindFirstArgs>(args?: SelectSubset<T, ConceptWebFindFirstArgs<ExtArgs>>): Prisma__ConceptWebClient<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConceptWeb that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptWebFindFirstOrThrowArgs} args - Arguments to find a ConceptWeb
+     * @example
+     * // Get one ConceptWeb
+     * const conceptWeb = await prisma.conceptWeb.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ConceptWebFindFirstOrThrowArgs>(args?: SelectSubset<T, ConceptWebFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConceptWebClient<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ConceptWebs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptWebFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ConceptWebs
+     * const conceptWebs = await prisma.conceptWeb.findMany()
+     * 
+     * // Get first 10 ConceptWebs
+     * const conceptWebs = await prisma.conceptWeb.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const conceptWebWithIdOnly = await prisma.conceptWeb.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ConceptWebFindManyArgs>(args?: SelectSubset<T, ConceptWebFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ConceptWeb.
+     * @param {ConceptWebCreateArgs} args - Arguments to create a ConceptWeb.
+     * @example
+     * // Create one ConceptWeb
+     * const ConceptWeb = await prisma.conceptWeb.create({
+     *   data: {
+     *     // ... data to create a ConceptWeb
+     *   }
+     * })
+     * 
+     */
+    create<T extends ConceptWebCreateArgs>(args: SelectSubset<T, ConceptWebCreateArgs<ExtArgs>>): Prisma__ConceptWebClient<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ConceptWebs.
+     * @param {ConceptWebCreateManyArgs} args - Arguments to create many ConceptWebs.
+     * @example
+     * // Create many ConceptWebs
+     * const conceptWeb = await prisma.conceptWeb.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ConceptWebCreateManyArgs>(args?: SelectSubset<T, ConceptWebCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ConceptWebs and returns the data saved in the database.
+     * @param {ConceptWebCreateManyAndReturnArgs} args - Arguments to create many ConceptWebs.
+     * @example
+     * // Create many ConceptWebs
+     * const conceptWeb = await prisma.conceptWeb.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ConceptWebs and only return the `id`
+     * const conceptWebWithIdOnly = await prisma.conceptWeb.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ConceptWebCreateManyAndReturnArgs>(args?: SelectSubset<T, ConceptWebCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ConceptWeb.
+     * @param {ConceptWebDeleteArgs} args - Arguments to delete one ConceptWeb.
+     * @example
+     * // Delete one ConceptWeb
+     * const ConceptWeb = await prisma.conceptWeb.delete({
+     *   where: {
+     *     // ... filter to delete one ConceptWeb
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ConceptWebDeleteArgs>(args: SelectSubset<T, ConceptWebDeleteArgs<ExtArgs>>): Prisma__ConceptWebClient<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ConceptWeb.
+     * @param {ConceptWebUpdateArgs} args - Arguments to update one ConceptWeb.
+     * @example
+     * // Update one ConceptWeb
+     * const conceptWeb = await prisma.conceptWeb.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ConceptWebUpdateArgs>(args: SelectSubset<T, ConceptWebUpdateArgs<ExtArgs>>): Prisma__ConceptWebClient<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ConceptWebs.
+     * @param {ConceptWebDeleteManyArgs} args - Arguments to filter ConceptWebs to delete.
+     * @example
+     * // Delete a few ConceptWebs
+     * const { count } = await prisma.conceptWeb.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ConceptWebDeleteManyArgs>(args?: SelectSubset<T, ConceptWebDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConceptWebs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptWebUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ConceptWebs
+     * const conceptWeb = await prisma.conceptWeb.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ConceptWebUpdateManyArgs>(args: SelectSubset<T, ConceptWebUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConceptWebs and returns the data updated in the database.
+     * @param {ConceptWebUpdateManyAndReturnArgs} args - Arguments to update many ConceptWebs.
+     * @example
+     * // Update many ConceptWebs
+     * const conceptWeb = await prisma.conceptWeb.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ConceptWebs and only return the `id`
+     * const conceptWebWithIdOnly = await prisma.conceptWeb.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ConceptWebUpdateManyAndReturnArgs>(args: SelectSubset<T, ConceptWebUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ConceptWeb.
+     * @param {ConceptWebUpsertArgs} args - Arguments to update or create a ConceptWeb.
+     * @example
+     * // Update or create a ConceptWeb
+     * const conceptWeb = await prisma.conceptWeb.upsert({
+     *   create: {
+     *     // ... data to create a ConceptWeb
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ConceptWeb we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ConceptWebUpsertArgs>(args: SelectSubset<T, ConceptWebUpsertArgs<ExtArgs>>): Prisma__ConceptWebClient<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ConceptWebs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptWebCountArgs} args - Arguments to filter ConceptWebs to count.
+     * @example
+     * // Count the number of ConceptWebs
+     * const count = await prisma.conceptWeb.count({
+     *   where: {
+     *     // ... the filter for the ConceptWebs we want to count
+     *   }
+     * })
+    **/
+    count<T extends ConceptWebCountArgs>(
+      args?: Subset<T, ConceptWebCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ConceptWebCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ConceptWeb.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptWebAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ConceptWebAggregateArgs>(args: Subset<T, ConceptWebAggregateArgs>): Prisma.PrismaPromise<GetConceptWebAggregateType<T>>
+
+    /**
+     * Group by ConceptWeb.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConceptWebGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ConceptWebGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ConceptWebGroupByArgs['orderBy'] }
+        : { orderBy?: ConceptWebGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ConceptWebGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConceptWebGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ConceptWeb model
+   */
+  readonly fields: ConceptWebFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ConceptWeb.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ConceptWebClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ConceptWeb model
+   */
+  interface ConceptWebFieldRefs {
+    readonly id: FieldRef<"ConceptWeb", 'String'>
+    readonly userId: FieldRef<"ConceptWeb", 'String'>
+    readonly title: FieldRef<"ConceptWeb", 'String'>
+    readonly topic: FieldRef<"ConceptWeb", 'String'>
+    readonly webData: FieldRef<"ConceptWeb", 'Json'>
+    readonly shareToken: FieldRef<"ConceptWeb", 'String'>
+    readonly isShared: FieldRef<"ConceptWeb", 'Boolean'>
+    readonly createdAt: FieldRef<"ConceptWeb", 'DateTime'>
+    readonly updatedAt: FieldRef<"ConceptWeb", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ConceptWeb findUnique
+   */
+  export type ConceptWebFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebInclude<ExtArgs> | null
+    /**
+     * Filter, which ConceptWeb to fetch.
+     */
+    where: ConceptWebWhereUniqueInput
+  }
+
+  /**
+   * ConceptWeb findUniqueOrThrow
+   */
+  export type ConceptWebFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebInclude<ExtArgs> | null
+    /**
+     * Filter, which ConceptWeb to fetch.
+     */
+    where: ConceptWebWhereUniqueInput
+  }
+
+  /**
+   * ConceptWeb findFirst
+   */
+  export type ConceptWebFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebInclude<ExtArgs> | null
+    /**
+     * Filter, which ConceptWeb to fetch.
+     */
+    where?: ConceptWebWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConceptWebs to fetch.
+     */
+    orderBy?: ConceptWebOrderByWithRelationInput | ConceptWebOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConceptWebs.
+     */
+    cursor?: ConceptWebWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConceptWebs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConceptWebs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConceptWebs.
+     */
+    distinct?: ConceptWebScalarFieldEnum | ConceptWebScalarFieldEnum[]
+  }
+
+  /**
+   * ConceptWeb findFirstOrThrow
+   */
+  export type ConceptWebFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebInclude<ExtArgs> | null
+    /**
+     * Filter, which ConceptWeb to fetch.
+     */
+    where?: ConceptWebWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConceptWebs to fetch.
+     */
+    orderBy?: ConceptWebOrderByWithRelationInput | ConceptWebOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConceptWebs.
+     */
+    cursor?: ConceptWebWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConceptWebs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConceptWebs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConceptWebs.
+     */
+    distinct?: ConceptWebScalarFieldEnum | ConceptWebScalarFieldEnum[]
+  }
+
+  /**
+   * ConceptWeb findMany
+   */
+  export type ConceptWebFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebInclude<ExtArgs> | null
+    /**
+     * Filter, which ConceptWebs to fetch.
+     */
+    where?: ConceptWebWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConceptWebs to fetch.
+     */
+    orderBy?: ConceptWebOrderByWithRelationInput | ConceptWebOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ConceptWebs.
+     */
+    cursor?: ConceptWebWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConceptWebs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConceptWebs.
+     */
+    skip?: number
+    distinct?: ConceptWebScalarFieldEnum | ConceptWebScalarFieldEnum[]
+  }
+
+  /**
+   * ConceptWeb create
+   */
+  export type ConceptWebCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ConceptWeb.
+     */
+    data: XOR<ConceptWebCreateInput, ConceptWebUncheckedCreateInput>
+  }
+
+  /**
+   * ConceptWeb createMany
+   */
+  export type ConceptWebCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ConceptWebs.
+     */
+    data: ConceptWebCreateManyInput | ConceptWebCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ConceptWeb createManyAndReturn
+   */
+  export type ConceptWebCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * The data used to create many ConceptWebs.
+     */
+    data: ConceptWebCreateManyInput | ConceptWebCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ConceptWeb update
+   */
+  export type ConceptWebUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ConceptWeb.
+     */
+    data: XOR<ConceptWebUpdateInput, ConceptWebUncheckedUpdateInput>
+    /**
+     * Choose, which ConceptWeb to update.
+     */
+    where: ConceptWebWhereUniqueInput
+  }
+
+  /**
+   * ConceptWeb updateMany
+   */
+  export type ConceptWebUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ConceptWebs.
+     */
+    data: XOR<ConceptWebUpdateManyMutationInput, ConceptWebUncheckedUpdateManyInput>
+    /**
+     * Filter which ConceptWebs to update
+     */
+    where?: ConceptWebWhereInput
+    /**
+     * Limit how many ConceptWebs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConceptWeb updateManyAndReturn
+   */
+  export type ConceptWebUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * The data used to update ConceptWebs.
+     */
+    data: XOR<ConceptWebUpdateManyMutationInput, ConceptWebUncheckedUpdateManyInput>
+    /**
+     * Filter which ConceptWebs to update
+     */
+    where?: ConceptWebWhereInput
+    /**
+     * Limit how many ConceptWebs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ConceptWeb upsert
+   */
+  export type ConceptWebUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ConceptWeb to update in case it exists.
+     */
+    where: ConceptWebWhereUniqueInput
+    /**
+     * In case the ConceptWeb found by the `where` argument doesn't exist, create a new ConceptWeb with this data.
+     */
+    create: XOR<ConceptWebCreateInput, ConceptWebUncheckedCreateInput>
+    /**
+     * In case the ConceptWeb was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ConceptWebUpdateInput, ConceptWebUncheckedUpdateInput>
+  }
+
+  /**
+   * ConceptWeb delete
+   */
+  export type ConceptWebDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebInclude<ExtArgs> | null
+    /**
+     * Filter which ConceptWeb to delete.
+     */
+    where: ConceptWebWhereUniqueInput
+  }
+
+  /**
+   * ConceptWeb deleteMany
+   */
+  export type ConceptWebDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConceptWebs to delete
+     */
+    where?: ConceptWebWhereInput
+    /**
+     * Limit how many ConceptWebs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConceptWeb without action
+   */
+  export type ConceptWebDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConceptWeb
+     */
+    select?: ConceptWebSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConceptWeb
+     */
+    omit?: ConceptWebOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConceptWebInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -38253,6 +39487,21 @@ export namespace Prisma {
   export type LearningStyleResultScalarFieldEnum = (typeof LearningStyleResultScalarFieldEnum)[keyof typeof LearningStyleResultScalarFieldEnum]
 
 
+  export const ConceptWebScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    title: 'title',
+    topic: 'topic',
+    webData: 'webData',
+    shareToken: 'shareToken',
+    isShared: 'isShared',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ConceptWebScalarFieldEnum = (typeof ConceptWebScalarFieldEnum)[keyof typeof ConceptWebScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -38642,6 +39891,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageListRelationFilter
     conceptConnections?: ConceptConnectionListRelationFilter
     learningStyleResults?: LearningStyleResultListRelationFilter
+    conceptWebs?: ConceptWebListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -38692,6 +39942,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageOrderByRelationAggregateInput
     conceptConnections?: ConceptConnectionOrderByRelationAggregateInput
     learningStyleResults?: LearningStyleResultOrderByRelationAggregateInput
+    conceptWebs?: ConceptWebOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -38745,6 +39996,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageListRelationFilter
     conceptConnections?: ConceptConnectionListRelationFilter
     learningStyleResults?: LearningStyleResultListRelationFilter
+    conceptWebs?: ConceptWebListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -40694,6 +41946,81 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"LearningStyleResult"> | Date | string
   }
 
+  export type ConceptWebWhereInput = {
+    AND?: ConceptWebWhereInput | ConceptWebWhereInput[]
+    OR?: ConceptWebWhereInput[]
+    NOT?: ConceptWebWhereInput | ConceptWebWhereInput[]
+    id?: StringFilter<"ConceptWeb"> | string
+    userId?: StringFilter<"ConceptWeb"> | string
+    title?: StringFilter<"ConceptWeb"> | string
+    topic?: StringFilter<"ConceptWeb"> | string
+    webData?: JsonFilter<"ConceptWeb">
+    shareToken?: StringFilter<"ConceptWeb"> | string
+    isShared?: BoolFilter<"ConceptWeb"> | boolean
+    createdAt?: DateTimeFilter<"ConceptWeb"> | Date | string
+    updatedAt?: DateTimeFilter<"ConceptWeb"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ConceptWebOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    topic?: SortOrder
+    webData?: SortOrder
+    shareToken?: SortOrder
+    isShared?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ConceptWebWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    shareToken?: string
+    AND?: ConceptWebWhereInput | ConceptWebWhereInput[]
+    OR?: ConceptWebWhereInput[]
+    NOT?: ConceptWebWhereInput | ConceptWebWhereInput[]
+    userId?: StringFilter<"ConceptWeb"> | string
+    title?: StringFilter<"ConceptWeb"> | string
+    topic?: StringFilter<"ConceptWeb"> | string
+    webData?: JsonFilter<"ConceptWeb">
+    isShared?: BoolFilter<"ConceptWeb"> | boolean
+    createdAt?: DateTimeFilter<"ConceptWeb"> | Date | string
+    updatedAt?: DateTimeFilter<"ConceptWeb"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "shareToken">
+
+  export type ConceptWebOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    topic?: SortOrder
+    webData?: SortOrder
+    shareToken?: SortOrder
+    isShared?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ConceptWebCountOrderByAggregateInput
+    _max?: ConceptWebMaxOrderByAggregateInput
+    _min?: ConceptWebMinOrderByAggregateInput
+  }
+
+  export type ConceptWebScalarWhereWithAggregatesInput = {
+    AND?: ConceptWebScalarWhereWithAggregatesInput | ConceptWebScalarWhereWithAggregatesInput[]
+    OR?: ConceptWebScalarWhereWithAggregatesInput[]
+    NOT?: ConceptWebScalarWhereWithAggregatesInput | ConceptWebScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ConceptWeb"> | string
+    userId?: StringWithAggregatesFilter<"ConceptWeb"> | string
+    title?: StringWithAggregatesFilter<"ConceptWeb"> | string
+    topic?: StringWithAggregatesFilter<"ConceptWeb"> | string
+    webData?: JsonWithAggregatesFilter<"ConceptWeb">
+    shareToken?: StringWithAggregatesFilter<"ConceptWeb"> | string
+    isShared?: BoolWithAggregatesFilter<"ConceptWeb"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ConceptWeb"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ConceptWeb"> | Date | string
+  }
+
   export type PostCreateInput = {
     name: string
     createdAt?: Date | string
@@ -40953,6 +42280,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -41003,6 +42331,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -41053,6 +42382,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -41103,6 +42433,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -43143,6 +44474,89 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ConceptWebCreateInput = {
+    id?: string
+    title: string
+    topic: string
+    webData: JsonNullValueInput | InputJsonValue
+    shareToken: string
+    isShared?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutConceptWebsInput
+  }
+
+  export type ConceptWebUncheckedCreateInput = {
+    id?: string
+    userId: string
+    title: string
+    topic: string
+    webData: JsonNullValueInput | InputJsonValue
+    shareToken: string
+    isShared?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConceptWebUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    webData?: JsonNullValueInput | InputJsonValue
+    shareToken?: StringFieldUpdateOperationsInput | string
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutConceptWebsNestedInput
+  }
+
+  export type ConceptWebUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    webData?: JsonNullValueInput | InputJsonValue
+    shareToken?: StringFieldUpdateOperationsInput | string
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConceptWebCreateManyInput = {
+    id?: string
+    userId: string
+    title: string
+    topic: string
+    webData: JsonNullValueInput | InputJsonValue
+    shareToken: string
+    isShared?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConceptWebUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    webData?: JsonNullValueInput | InputJsonValue
+    shareToken?: StringFieldUpdateOperationsInput | string
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConceptWebUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    webData?: JsonNullValueInput | InputJsonValue
+    shareToken?: StringFieldUpdateOperationsInput | string
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -43588,6 +45002,12 @@ export namespace Prisma {
     none?: LearningStyleResultWhereInput
   }
 
+  export type ConceptWebListRelationFilter = {
+    every?: ConceptWebWhereInput
+    some?: ConceptWebWhereInput
+    none?: ConceptWebWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -43685,6 +45105,10 @@ export namespace Prisma {
   }
 
   export type LearningStyleResultOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConceptWebOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -44903,6 +46327,40 @@ export namespace Prisma {
     kinestheticPercent?: SortOrder
   }
 
+  export type ConceptWebCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    topic?: SortOrder
+    webData?: SortOrder
+    shareToken?: SortOrder
+    isShared?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ConceptWebMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    topic?: SortOrder
+    shareToken?: SortOrder
+    isShared?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ConceptWebMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    topic?: SortOrder
+    shareToken?: SortOrder
+    isShared?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type UserCreateNestedOneWithoutPostsInput = {
     create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput
@@ -45159,6 +46617,13 @@ export namespace Prisma {
     connect?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
   }
 
+  export type ConceptWebCreateNestedManyWithoutUserInput = {
+    create?: XOR<ConceptWebCreateWithoutUserInput, ConceptWebUncheckedCreateWithoutUserInput> | ConceptWebCreateWithoutUserInput[] | ConceptWebUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ConceptWebCreateOrConnectWithoutUserInput | ConceptWebCreateOrConnectWithoutUserInput[]
+    createMany?: ConceptWebCreateManyUserInputEnvelope
+    connect?: ConceptWebWhereUniqueInput | ConceptWebWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -45339,6 +46804,13 @@ export namespace Prisma {
     connectOrCreate?: LearningStyleResultCreateOrConnectWithoutUserInput | LearningStyleResultCreateOrConnectWithoutUserInput[]
     createMany?: LearningStyleResultCreateManyUserInputEnvelope
     connect?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
+  }
+
+  export type ConceptWebUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ConceptWebCreateWithoutUserInput, ConceptWebUncheckedCreateWithoutUserInput> | ConceptWebCreateWithoutUserInput[] | ConceptWebUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ConceptWebCreateOrConnectWithoutUserInput | ConceptWebCreateOrConnectWithoutUserInput[]
+    createMany?: ConceptWebCreateManyUserInputEnvelope
+    connect?: ConceptWebWhereUniqueInput | ConceptWebWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -45718,6 +47190,20 @@ export namespace Prisma {
     deleteMany?: LearningStyleResultScalarWhereInput | LearningStyleResultScalarWhereInput[]
   }
 
+  export type ConceptWebUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ConceptWebCreateWithoutUserInput, ConceptWebUncheckedCreateWithoutUserInput> | ConceptWebCreateWithoutUserInput[] | ConceptWebUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ConceptWebCreateOrConnectWithoutUserInput | ConceptWebCreateOrConnectWithoutUserInput[]
+    upsert?: ConceptWebUpsertWithWhereUniqueWithoutUserInput | ConceptWebUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ConceptWebCreateManyUserInputEnvelope
+    set?: ConceptWebWhereUniqueInput | ConceptWebWhereUniqueInput[]
+    disconnect?: ConceptWebWhereUniqueInput | ConceptWebWhereUniqueInput[]
+    delete?: ConceptWebWhereUniqueInput | ConceptWebWhereUniqueInput[]
+    connect?: ConceptWebWhereUniqueInput | ConceptWebWhereUniqueInput[]
+    update?: ConceptWebUpdateWithWhereUniqueWithoutUserInput | ConceptWebUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ConceptWebUpdateManyWithWhereWithoutUserInput | ConceptWebUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ConceptWebScalarWhereInput | ConceptWebScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -46080,6 +47566,20 @@ export namespace Prisma {
     update?: LearningStyleResultUpdateWithWhereUniqueWithoutUserInput | LearningStyleResultUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: LearningStyleResultUpdateManyWithWhereWithoutUserInput | LearningStyleResultUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: LearningStyleResultScalarWhereInput | LearningStyleResultScalarWhereInput[]
+  }
+
+  export type ConceptWebUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ConceptWebCreateWithoutUserInput, ConceptWebUncheckedCreateWithoutUserInput> | ConceptWebCreateWithoutUserInput[] | ConceptWebUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ConceptWebCreateOrConnectWithoutUserInput | ConceptWebCreateOrConnectWithoutUserInput[]
+    upsert?: ConceptWebUpsertWithWhereUniqueWithoutUserInput | ConceptWebUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ConceptWebCreateManyUserInputEnvelope
+    set?: ConceptWebWhereUniqueInput | ConceptWebWhereUniqueInput[]
+    disconnect?: ConceptWebWhereUniqueInput | ConceptWebWhereUniqueInput[]
+    delete?: ConceptWebWhereUniqueInput | ConceptWebWhereUniqueInput[]
+    connect?: ConceptWebWhereUniqueInput | ConceptWebWhereUniqueInput[]
+    update?: ConceptWebUpdateWithWhereUniqueWithoutUserInput | ConceptWebUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ConceptWebUpdateManyWithWhereWithoutUserInput | ConceptWebUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ConceptWebScalarWhereInput | ConceptWebScalarWhereInput[]
   }
 
   export type NoteCreatetagsInput = {
@@ -47483,6 +48983,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLearningStyleResultsInput, UserUpdateWithoutLearningStyleResultsInput>, UserUncheckedUpdateWithoutLearningStyleResultsInput>
   }
 
+  export type UserCreateNestedOneWithoutConceptWebsInput = {
+    create?: XOR<UserCreateWithoutConceptWebsInput, UserUncheckedCreateWithoutConceptWebsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutConceptWebsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutConceptWebsNestedInput = {
+    create?: XOR<UserCreateWithoutConceptWebsInput, UserUncheckedCreateWithoutConceptWebsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutConceptWebsInput
+    upsert?: UserUpsertWithoutConceptWebsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutConceptWebsInput, UserUpdateWithoutConceptWebsInput>, UserUncheckedUpdateWithoutConceptWebsInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -47777,6 +49291,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -47826,6 +49341,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -47891,6 +49407,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -47940,6 +49457,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -47989,6 +49507,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -48038,6 +49557,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -48103,6 +49623,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -48152,6 +49673,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -48201,6 +49723,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -48250,6 +49773,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -48315,6 +49839,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -48364,6 +49889,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -49225,6 +50751,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ConceptWebCreateWithoutUserInput = {
+    id?: string
+    title: string
+    topic: string
+    webData: JsonNullValueInput | InputJsonValue
+    shareToken: string
+    isShared?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConceptWebUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    topic: string
+    webData: JsonNullValueInput | InputJsonValue
+    shareToken: string
+    isShared?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConceptWebCreateOrConnectWithoutUserInput = {
+    where: ConceptWebWhereUniqueInput
+    create: XOR<ConceptWebCreateWithoutUserInput, ConceptWebUncheckedCreateWithoutUserInput>
+  }
+
+  export type ConceptWebCreateManyUserInputEnvelope = {
+    data: ConceptWebCreateManyUserInput | ConceptWebCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -49998,6 +51556,37 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LearningStyleResult"> | Date | string
   }
 
+  export type ConceptWebUpsertWithWhereUniqueWithoutUserInput = {
+    where: ConceptWebWhereUniqueInput
+    update: XOR<ConceptWebUpdateWithoutUserInput, ConceptWebUncheckedUpdateWithoutUserInput>
+    create: XOR<ConceptWebCreateWithoutUserInput, ConceptWebUncheckedCreateWithoutUserInput>
+  }
+
+  export type ConceptWebUpdateWithWhereUniqueWithoutUserInput = {
+    where: ConceptWebWhereUniqueInput
+    data: XOR<ConceptWebUpdateWithoutUserInput, ConceptWebUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ConceptWebUpdateManyWithWhereWithoutUserInput = {
+    where: ConceptWebScalarWhereInput
+    data: XOR<ConceptWebUpdateManyMutationInput, ConceptWebUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ConceptWebScalarWhereInput = {
+    AND?: ConceptWebScalarWhereInput | ConceptWebScalarWhereInput[]
+    OR?: ConceptWebScalarWhereInput[]
+    NOT?: ConceptWebScalarWhereInput | ConceptWebScalarWhereInput[]
+    id?: StringFilter<"ConceptWeb"> | string
+    userId?: StringFilter<"ConceptWeb"> | string
+    title?: StringFilter<"ConceptWeb"> | string
+    topic?: StringFilter<"ConceptWeb"> | string
+    webData?: JsonFilter<"ConceptWeb">
+    shareToken?: StringFilter<"ConceptWeb"> | string
+    isShared?: BoolFilter<"ConceptWeb"> | boolean
+    createdAt?: DateTimeFilter<"ConceptWeb"> | Date | string
+    updatedAt?: DateTimeFilter<"ConceptWeb"> | Date | string
+  }
+
   export type UserCreateWithoutNotesInput = {
     id?: string
     name?: string | null
@@ -50045,6 +51634,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotesInput = {
@@ -50094,6 +51684,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotesInput = {
@@ -50208,6 +51799,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotesInput = {
@@ -50257,6 +51849,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FolderUpsertWithoutNotesInput = {
@@ -50349,6 +51942,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFoldersInput = {
@@ -50398,6 +51992,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFoldersInput = {
@@ -50503,6 +52098,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFoldersInput = {
@@ -50552,6 +52148,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type NoteUpsertWithWhereUniqueWithoutFolderInput = {
@@ -50617,6 +52214,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCitationsInput = {
@@ -50666,6 +52264,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCitationsInput = {
@@ -50731,6 +52330,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCitationsInput = {
@@ -50780,6 +52380,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamPredictionsInput = {
@@ -50829,6 +52430,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamPredictionsInput = {
@@ -50878,6 +52480,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamPredictionsInput = {
@@ -50943,6 +52546,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamPredictionsInput = {
@@ -50992,6 +52596,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHostedBattlesInput = {
@@ -51041,6 +52646,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedBattlesInput = {
@@ -51090,6 +52696,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedBattlesInput = {
@@ -51144,6 +52751,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutJoinedBattlesInput = {
@@ -51193,6 +52801,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutJoinedBattlesInput = {
@@ -51337,6 +52946,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedBattlesInput = {
@@ -51386,6 +52996,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutJoinedBattlesInput = {
@@ -51446,6 +53057,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutJoinedBattlesInput = {
@@ -51495,6 +53107,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleQuestionUpsertWithWhereUniqueWithoutBattleInput = {
@@ -51781,6 +53394,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleParticipantsInput = {
@@ -51830,6 +53444,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleParticipantsInput = {
@@ -51954,6 +53569,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleParticipantsInput = {
@@ -52003,6 +53619,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleCreateWithoutResultInput = {
@@ -52105,6 +53722,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleResultsInput = {
@@ -52154,6 +53772,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleResultsInput = {
@@ -52278,6 +53897,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleResultsInput = {
@@ -52327,6 +53947,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreatedStudyGroupsInput = {
@@ -52376,6 +53997,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedStudyGroupsInput = {
@@ -52425,6 +54047,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedStudyGroupsInput = {
@@ -52811,6 +54434,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedStudyGroupsInput = {
@@ -52860,6 +54484,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
@@ -53167,6 +54792,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStudyGroupMembershipsInput = {
@@ -53216,6 +54842,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStudyGroupMembershipsInput = {
@@ -53340,6 +54967,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudyGroupMembershipsInput = {
@@ -53389,6 +55017,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutMessagesInput = {
@@ -53491,6 +55120,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupMessagesInput = {
@@ -53540,6 +55170,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupMessagesInput = {
@@ -53688,6 +55319,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupMessagesInput = {
@@ -53737,6 +55369,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupPinnedMessageUpsertWithWhereUniqueWithoutMessageInput = {
@@ -54002,6 +55635,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSharedGroupNotesInput = {
@@ -54051,6 +55685,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSharedGroupNotesInput = {
@@ -54240,6 +55875,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSharedGroupNotesInput = {
@@ -54289,6 +55925,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupSharedNoteCommentUpsertWithWhereUniqueWithoutSharedNoteInput = {
@@ -54377,6 +56014,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupNoteCommentsInput = {
@@ -54426,6 +56064,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupNoteCommentsInput = {
@@ -54520,6 +56159,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupNoteCommentsInput = {
@@ -54569,6 +56209,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutFlashcardsInput = {
@@ -54671,6 +56312,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedGroupFlashcardsInput = {
@@ -54720,6 +56362,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedGroupFlashcardsInput = {
@@ -54844,6 +56487,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedGroupFlashcardsInput = {
@@ -54893,6 +56537,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutQuizRoundsInput = {
@@ -54995,6 +56640,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizRoundsStartedInput = {
@@ -55044,6 +56690,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizRoundsStartedInput = {
@@ -55196,6 +56843,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizRoundsStartedInput = {
@@ -55245,6 +56893,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupQuizSubmissionUpsertWithWhereUniqueWithoutRoundInput = {
@@ -55339,6 +56988,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizSubmissionsInput = {
@@ -55388,6 +57038,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizSubmissionsInput = {
@@ -55488,6 +57139,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizSubmissionsInput = {
@@ -55537,6 +57189,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutScheduleItemsInput = {
@@ -55639,6 +57292,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupSchedulesCreatedInput = {
@@ -55688,6 +57342,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupSchedulesCreatedInput = {
@@ -55812,6 +57467,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupSchedulesCreatedInput = {
@@ -55861,6 +57517,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutResourcesInput = {
@@ -55963,6 +57620,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupResourcesSharedInput = {
@@ -56012,6 +57670,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupResourcesSharedInput = {
@@ -56136,6 +57795,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupResourcesSharedInput = {
@@ -56185,6 +57845,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutLeaderboardStatsInput = {
@@ -56287,6 +57948,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupStatsInput = {
@@ -56336,6 +57998,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupStatsInput = {
@@ -56460,6 +58123,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupStatsInput = {
@@ -56509,6 +58173,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPomodoroTimerInput = {
@@ -56611,6 +58276,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedPomodoroTimersInput = {
@@ -56660,6 +58326,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedPomodoroTimersInput = {
@@ -56784,6 +58451,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedPomodoroTimersInput = {
@@ -56833,6 +58501,7 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPinnedMessagesInput = {
@@ -56960,6 +58629,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPinnedGroupMessagesInput = {
@@ -57009,6 +58679,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPinnedGroupMessagesInput = {
@@ -57164,6 +58835,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPinnedGroupMessagesInput = {
@@ -57213,6 +58885,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptConnectionsInput = {
@@ -57262,6 +58935,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptConnectionsInput = {
@@ -57311,6 +58985,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptConnectionsInput = {
@@ -57376,6 +59051,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptConnectionsInput = {
@@ -57425,6 +59101,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutLearningStyleResultsInput = {
@@ -57474,6 +59151,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLearningStyleResultsInput = {
@@ -57523,6 +59201,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLearningStyleResultsInput = {
@@ -57588,6 +59267,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLearningStyleResultsInput = {
@@ -57637,6 +59317,223 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutConceptWebsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutConceptWebsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutConceptWebsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutConceptWebsInput, UserUncheckedCreateWithoutConceptWebsInput>
+  }
+
+  export type UserUpsertWithoutConceptWebsInput = {
+    update: XOR<UserUpdateWithoutConceptWebsInput, UserUncheckedUpdateWithoutConceptWebsInput>
+    create: XOR<UserCreateWithoutConceptWebsInput, UserUncheckedCreateWithoutConceptWebsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutConceptWebsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutConceptWebsInput, UserUncheckedUpdateWithoutConceptWebsInput>
+  }
+
+  export type UserUpdateWithoutConceptWebsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutConceptWebsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -57915,6 +59812,17 @@ export namespace Prisma {
     readingPercent: number
     kinestheticPercent: number
     createdAt?: Date | string
+  }
+
+  export type ConceptWebCreateManyUserInput = {
+    id?: string
+    title: string
+    topic: string
+    webData: JsonNullValueInput | InputJsonValue
+    shareToken: string
+    isShared?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -58792,6 +60700,39 @@ export namespace Prisma {
     readingPercent?: IntFieldUpdateOperationsInput | number
     kinestheticPercent?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConceptWebUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    webData?: JsonNullValueInput | InputJsonValue
+    shareToken?: StringFieldUpdateOperationsInput | string
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConceptWebUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    webData?: JsonNullValueInput | InputJsonValue
+    shareToken?: StringFieldUpdateOperationsInput | string
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConceptWebUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    webData?: JsonNullValueInput | InputJsonValue
+    shareToken?: StringFieldUpdateOperationsInput | string
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GroupSharedNoteCreateManyNoteInput = {

@@ -452,6 +452,18 @@ exports.Prisma.LearningStyleResultScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ConceptWebScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  topic: 'topic',
+  webData: 'webData',
+  shareToken: 'shareToken',
+  isShared: 'isShared',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -512,7 +524,8 @@ exports.Prisma.ModelName = {
   GroupPomodoroTimer: 'GroupPomodoroTimer',
   GroupPinnedMessage: 'GroupPinnedMessage',
   ConceptConnection: 'ConceptConnection',
-  LearningStyleResult: 'LearningStyleResult'
+  LearningStyleResult: 'LearningStyleResult',
+  ConceptWeb: 'ConceptWeb'
 };
 
 /**
