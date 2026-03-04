@@ -577,7 +577,7 @@ export default function MyNotes() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="app-premium-dark min-h-screen bg-gray-50">
       <AppNav />
 
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">

@@ -417,7 +417,7 @@ export default function ConceptWebPage() {
   }, [nodes]);
 
   return (
-    <main className="min-h-screen bg-[#050816] text-white">
+    <main className="app-premium-dark min-h-screen bg-[#050816] text-white">
       <AppNav />
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
         <PageHero

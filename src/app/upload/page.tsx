@@ -228,7 +228,7 @@ export default function UploadPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="app-premium-dark min-h-screen bg-gray-50">
       <AppNav />
 
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">

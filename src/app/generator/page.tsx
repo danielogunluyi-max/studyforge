@@ -972,7 +972,7 @@ export default function Generator() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="app-premium-dark min-h-screen bg-gray-50">
       <AppNav />
 
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
@@ -1060,7 +1060,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
                 }}
                 variant="secondary"
                 size="sm"
-                className="rounded-full px-3 py-1 text-xs"
+                className="rounded-full border border-gray-700 bg-transparent px-3 py-1 text-xs text-gray-200 hover:border-blue-400 hover:bg-blue-500/20 hover:text-blue-200"
               >
                 {tag}
               </Button>

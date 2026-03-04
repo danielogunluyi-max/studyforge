@@ -194,6 +194,83 @@ html.dark .site-select {
   animation: pop 160ms ease;
 }
 
+.listbox-premium-button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #374151;
+  background-color: #111827;
+  color: #f3f4f6;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 8px 22px rgba(2, 6, 23, 0.35);
+  transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+}
+
+.listbox-premium-button:hover {
+  border-color: #4b5563;
+  background-color: #1f2937;
+}
+
+.listbox-premium-button:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.listbox-premium-options {
+  position: absolute;
+  z-index: 60;
+  margin-top: 0.5rem;
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid #374151;
+  background: rgba(17, 24, 39, 0.96);
+  backdrop-filter: blur(6px);
+  padding: 0.35rem;
+  box-shadow: 0 20px 44px rgba(2, 6, 23, 0.5);
+  animation: listboxDropIn 180ms ease-out;
+}
+
+.listbox-premium-option {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  color: #e5e7eb;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.listbox-premium-option:hover,
+.listbox-premium-option-active {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #dbeafe;
+}
+
+.listbox-premium-option-selected {
+  color: #93c5fd;
+  font-weight: 600;
+}
+
+@keyframes listboxDropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @keyframes pop {
   from { transform: translateY(-6px) scale(0.995); opacity: 0 }
   to { transform: translateY(0) scale(1); opacity: 1 }
@@ -202,6 +279,58 @@ html.dark .site-select {
 /* Small screens: stretch selects to full width inside forms */
 @media (max-width: 640px) {
   .select-wrapper, select, .site-select { width: 100%; }
+}
+
+.app-premium-dark {
+  background: #030712 !important;
+}
+
+.app-premium-dark .bg-white,
+.app-premium-dark .bg-gray-50,
+.app-premium-dark .bg-gray-100 {
+  background-color: #111827 !important;
+}
+
+.app-premium-dark .border-gray-100,
+.app-premium-dark .border-gray-200,
+.app-premium-dark .border-gray-300 {
+  border-color: #374151 !important;
+}
+
+.app-premium-dark .text-gray-900,
+.app-premium-dark .text-gray-800,
+.app-premium-dark .text-gray-700 {
+  color: #f9fafb !important;
+}
+
+.app-premium-dark .text-gray-600,
+.app-premium-dark .text-gray-500 {
+  color: #d1d5db !important;
+}
+
+.app-premium-dark label,
+.app-premium-dark .font-semibold {
+  color: #f9fafb !important;
+}
+
+.app-premium-dark input,
+.app-premium-dark textarea,
+.app-premium-dark select,
+.app-premium-dark .listbox-button,
+.app-premium-dark .listbox-premium-button {
+  background-color: #111827 !important;
+  border-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+.app-premium-dark input::placeholder,
+.app-premium-dark textarea::placeholder {
+  color: #6b7280 !important;
+}
+
+.app-premium-dark .rounded-xl.border,
+.app-premium-dark .rounded-lg.border {
+  border-color: #374151 !important;
 }
 
 [data-compact="true"] .p-6 {
