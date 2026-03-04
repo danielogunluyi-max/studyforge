@@ -8,6 +8,10 @@ import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton-loader";
+import Listbox from "~/app/_components/Listbox";
+
+const PREFILL_STORAGE_KEY = "studyforge:prefillText";
+const PREFILL_FORMAT_KEY = "studyforge:prefillFormat";
 
 type Note = {
   id: string;
@@ -16,6 +20,8 @@ type Note = {
   format: string;
   createdAt: string;
   tags: string[];
+  isPinned: boolean;
+  lastViewedAt: string | null;
   relevanceScore?: number;
 };
 
@@ -70,6 +76,7 @@ export default function MyNotes() {
   const router = useRouter();
 
   const [notes, setNotes] = useState<Note[]>([]);
+  const [recentlyViewed, setRecentlyViewed] = useState<Note[]>([]);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [tagStats, setTagStats] = useState<TagCount[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -79,6 +86,7 @@ export default function MyNotes() {
   const [activeTag, setActiveTag] = useState("");
   const [activePeriod, setActivePeriod] = useState("");
   const [activeFormat, setActiveFormat] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
   const [error, setError] = useState("");
   const [exportingNoteId, setExportingNoteId] = useState("");
   const [tagModalOpen, setTagModalOpen] = useState(false);
@@ -116,7 +124,7 @@ export default function MyNotes() {
     if (session) {
       void fetchNotes();
     }
-  }, [session, debouncedSearch, activeTag, activePeriod, activeFormat]);
+  }, [session, debouncedSearch, activeTag, activePeriod, activeFormat, sortBy]);
 
   useEffect(() => {
     if (session) {
@@ -147,10 +155,11 @@ export default function MyNotes() {
       if (activeTag) params.set("tag", activeTag);
       if (activePeriod) params.set("period", activePeriod);
       if (activeFormat) params.set("format", activeFormat);
+      if (sortBy) params.set("sort", sortBy);
 
       const query = params.toString();
       const response = await fetch(`/api/notes${query ? `?${query}` : ""}`);
-      const data = (await response.json()) as { notes?: Note[]; error?: string };
+      const data = (await response.json()) as { notes?: Note[]; recentlyViewed?: Note[]; error?: string };
 
       if (!response.ok) {
         setError(data.error ?? "Failed to fetch notes");
@@ -158,6 +167,7 @@ export default function MyNotes() {
       }
 
       setNotes(data.notes ?? []);
+  setRecentlyViewed(data.recentlyViewed ?? []);
     } catch (fetchError) {
       void fetchError;
       setError("Failed to fetch notes");
@@ -187,6 +197,7 @@ export default function MyNotes() {
 
       if (response.ok) {
         setNotes((prev) => prev.filter((note) => note.id !== id));
+        setRecentlyViewed((prev) => prev.filter((note) => note.id !== id));
         if (selectedNote?.id === id) {
           setSelectedNote(null);
         }
@@ -228,6 +239,63 @@ export default function MyNotes() {
     } finally {
       setExportingNoteId("");
     }
+  };
+
+  const getWordCount = (text: string) => text.trim().split(/\s+/).filter(Boolean).length;
+
+  const getReadTime = (text: string) => Math.max(1, Math.ceil(getWordCount(text) / 200));
+
+  const openNote = async (note: Note) => {
+    setSelectedNote(note);
+
+    try {
+      const response = await fetch("/api/notes", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: note.id, markViewed: true }),
+      });
+
+      if (!response.ok) return;
+      const data = (await response.json().catch(() => ({}))) as { note?: Note };
+      if (!data.note) return;
+
+      setNotes((prev) => prev.map((item) => (item.id === note.id ? { ...item, lastViewedAt: data.note!.lastViewedAt } : item)));
+      setRecentlyViewed((prev) => {
+        const next = [data.note!, ...prev.filter((item) => item.id !== data.note!.id)];
+        return next.slice(0, 3);
+      });
+      setSelectedNote((prev) => (prev?.id === data.note!.id ? { ...prev, lastViewedAt: data.note!.lastViewedAt } : prev));
+    } catch {
+      // ignore viewed-tracking errors to preserve UX
+    }
+  };
+
+  const togglePin = async (note: Note) => {
+    try {
+      const response = await fetch("/api/notes", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: note.id, isPinned: !note.isPinned }),
+      });
+
+      const data = (await response.json().catch(() => ({}))) as { note?: Note; error?: string };
+      if (!response.ok || !data.note) {
+        setError(data.error ?? "Failed to update pin state");
+        return;
+      }
+
+      setNotes((prev) => prev.map((item) => (item.id === note.id ? { ...item, isPinned: data.note!.isPinned } : item)));
+      setRecentlyViewed((prev) => prev.map((item) => (item.id === note.id ? { ...item, isPinned: data.note!.isPinned } : item)));
+      setSelectedNote((prev) => (prev?.id === note.id ? { ...prev, isPinned: data.note!.isPinned } : prev));
+    } catch {
+      setError("Failed to update pin state");
+    }
+  };
+
+  const continueStudying = (note: Note) => {
+    sessionStorage.setItem(PREFILL_STORAGE_KEY, note.content);
+    sessionStorage.setItem(PREFILL_FORMAT_KEY, note.format);
+    router.push("/generator?source=upload");
   };
 
   const updateTags = async (payload: object) => {
@@ -332,7 +400,7 @@ export default function MyNotes() {
           <div className="grid gap-3 md:grid-cols-4">
             <input
               type="text"
-              placeholder="Search title, content, tags..."
+              placeholder="Search title and content..."
               value={searchInput}
               onChange={(event) => setSearchInput(event.target.value)}
               className="md:col-span-2 w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -351,17 +419,35 @@ export default function MyNotes() {
             </div>
             <div className="w-full sm:w-48">
               <Listbox
-                value={activeFormat}
-                onChange={(v) => setActiveFormat(v)}
+                value={sortBy}
+                onChange={(v) => setSortBy(v)}
                 options={[
-                  { value: "", label: "All formats" },
-                  { value: "flashcards", label: "Flashcards only" },
-                  { value: "questions", label: "Questions only" },
-                  { value: "summary", label: "Summary only" },
-                  { value: "detailed", label: "Detailed only" },
+                  { value: "newest", label: "Sort: Newest" },
+                  { value: "oldest", label: "Sort: Oldest" },
+                  { value: "a-z", label: "Sort: A-Z" },
                 ]}
               />
             </div>
+          </div>
+
+          <div className="mt-3 flex flex-wrap gap-2">
+            {[
+              { value: "", label: "All" },
+              { value: "summary", label: "Summary" },
+              { value: "flashcards", label: "Flashcards" },
+              { value: "questions", label: "Quiz" },
+              { value: "detailed", label: "Detailed" },
+            ].map((option) => (
+              <Button
+                key={option.label}
+                onClick={() => setActiveFormat(option.value)}
+                variant={activeFormat === option.value ? "primary" : "secondary"}
+                size="sm"
+                className="px-3 py-1 text-xs"
+              >
+                {option.label}
+              </Button>
+            ))}
           </div>
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -384,6 +470,31 @@ export default function MyNotes() {
             )}
           </div>
         </div>
+
+        {recentlyViewed.length > 0 && (
+          <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-gray-900">Recently Viewed</h2>
+              <span className="text-xs text-gray-500">Last 3 notes accessed</span>
+            </div>
+            <div className="grid gap-3 md:grid-cols-3">
+              {recentlyViewed.slice(0, 3).map((note) => (
+                <button
+                  key={`recent-${note.id}`}
+                  type="button"
+                  onClick={() => void openNote(note)}
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-3 text-left transition hover:border-blue-300 hover:bg-blue-50"
+                >
+                  <p className="line-clamp-1 text-sm font-semibold text-gray-900">{note.title}</p>
+                  <p className="mt-1 line-clamp-2 text-xs text-gray-600">{note.content}</p>
+                  <p className="mt-2 text-[11px] text-gray-500">
+                    {note.lastViewedAt ? formatDate(note.lastViewedAt) : "Recently viewed"}
+                  </p>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
           <aside className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
@@ -457,26 +568,43 @@ export default function MyNotes() {
                     className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
                   >
                     <div className="mb-3 flex items-center justify-between">
-                      <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getFormatBadgeColor(note.format)}`}>
-                        {getFormatLabel(note.format)}
-                      </span>
-                      <Button
-                        onClick={() => void deleteNote(note.id)}
-                        variant="ghost"
-                        size="sm"
-                        className="p-2 text-gray-400 opacity-0 transition hover:text-red-600 group-hover:opacity-100"
-                        title="Delete note"
-                        aria-label="Delete note"
-                      >
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          />
-                        </svg>
-                      </Button>
+                      <div className="flex items-center gap-2">
+                        {note.isPinned && <span className="rounded-full bg-yellow-100 px-2 py-1 text-[10px] font-semibold text-yellow-700">Pinned</span>}
+                        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getFormatBadgeColor(note.format)}`}>
+                          {getFormatLabel(note.format)}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          onClick={() => void togglePin(note)}
+                          variant="ghost"
+                          size="sm"
+                          className={`p-2 transition ${note.isPinned ? "text-yellow-600" : "text-gray-400 hover:text-yellow-600"}`}
+                          title={note.isPinned ? "Unpin note" : "Pin note"}
+                          aria-label={note.isPinned ? "Unpin note" : "Pin note"}
+                        >
+                          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path d="M10 1l2.4 4.86L18 6.69l-4 3.9.94 5.48L10 13.77l-4.94 2.3L6 10.6 2 6.7l5.6-.83L10 1z" />
+                          </svg>
+                        </Button>
+                        <Button
+                          onClick={() => void deleteNote(note.id)}
+                          variant="ghost"
+                          size="sm"
+                          className="p-2 text-gray-400 opacity-0 transition hover:text-red-600 group-hover:opacity-100"
+                          title="Delete note"
+                          aria-label="Delete note"
+                        >
+                          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                        </Button>
+                      </div>
                     </div>
 
                     <h3 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-900">
@@ -504,15 +632,26 @@ export default function MyNotes() {
                     )}
 
                     <p className="text-xs text-gray-500">{formatDate(note.createdAt)}</p>
+                    <p className="mt-1 text-xs text-gray-500">
+                      {getWordCount(note.content).toLocaleString()} words • {getReadTime(note.content)} min read
+                    </p>
 
-                    <div className="mt-4 grid grid-cols-2 gap-2">
+                    <div className="mt-4 grid grid-cols-3 gap-2">
                       <Button
-                        onClick={() => setSelectedNote(note)}
+                        onClick={() => void openNote(note)}
                         variant="secondary"
                         size="sm"
                         className="py-2"
                       >
                         View
+                      </Button>
+                      <Button
+                        onClick={() => continueStudying(note)}
+                        variant="secondary"
+                        size="sm"
+                        className="py-2"
+                      >
+                        Continue Studying
                       </Button>
                       <Button
                         onClick={() => void exportNotePdf(note.id)}

@@ -1,12 +1,19 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
+import { runGroqPrompt } from "~/server/groq";
 
 type NotePayload = {
   title: string;
   content: string;
   format: string;
   tags?: string[];
+};
+
+type NotePatchPayload = {
+  id?: string;
+  isPinned?: boolean;
+  markViewed?: boolean;
 };
 
 function sanitizeTags(tags: unknown): string[] {
@@ -19,6 +26,59 @@ function sanitizeTags(tags: unknown): string[] {
     .map((tag) => tag.slice(0, 32));
 
   return Array.from(new Set(cleaned));
+}
+
+function parseTagArray(raw: string): string[] {
+  const trimmed = raw.trim();
+  if (!trimmed) return [];
+
+  try {
+    const parsed = JSON.parse(trimmed) as unknown;
+    return sanitizeTags(parsed);
+  } catch {
+    // continue
+  }
+
+  const codeBlock = trimmed.match(/```json\s*([\s\S]*?)```/i)?.[1] ?? trimmed.match(/```\s*([\s\S]*?)```/i)?.[1];
+  if (codeBlock) {
+    try {
+      const parsed = JSON.parse(codeBlock) as unknown;
+      return sanitizeTags(parsed);
+    } catch {
+      // continue
+    }
+  }
+
+  const arrayMatch = trimmed.match(/\[[\s\S]*\]/);
+  if (arrayMatch) {
+    try {
+      const parsed = JSON.parse(arrayMatch[0]) as unknown;
+      return sanitizeTags(parsed);
+    } catch {
+      return [];
+    }
+  }
+
+  return [];
+}
+
+async function autoGenerateTags(content: string): Promise<string[]> {
+  const sample = content.trim().slice(0, 3500);
+  if (!sample) return [];
+
+  const prompt = `Given this study note content, return ONLY a JSON array of 3-5 short tags like subject, topic, format. Example: ["Biology", "Photosynthesis", "Flashcards"]. Content: ${sample}`;
+
+  try {
+    const raw = await runGroqPrompt({
+      user: prompt,
+      temperature: 0.2,
+      maxTokens: 160,
+    });
+
+    return parseTagArray(raw).slice(0, 5);
+  } catch {
+    return [];
+  }
 }
 
 function getDateFilter(period: string | null) {
@@ -76,6 +136,7 @@ export async function GET(request: Request) {
     const tag = (searchParams.get("tag") ?? "").trim();
     const format = (searchParams.get("format") ?? "").trim();
     const period = (searchParams.get("period") ?? "").trim();
+    const sort = (searchParams.get("sort") ?? "newest").trim().toLowerCase();
     const page = parseInt(searchParams.get("page") ?? "1", 10);
     const limit = parseInt(searchParams.get("limit") ?? "20", 10);
 
@@ -102,11 +163,11 @@ export async function GET(request: Request) {
     };
 
     // Get total count and paginated notes in parallel
-    const [total, notes] = await Promise.all([
+    const [total, notes, recentlyViewed] = await Promise.all([
       db.note.count({ where: whereClause }),
       db.note.findMany({
         where: whereClause,
-        orderBy: { createdAt: "desc" },
+        orderBy: [{ isPinned: "desc" }, { createdAt: "desc" }],
         skip,
         take: limitNum,
         select: {
@@ -116,6 +177,26 @@ export async function GET(request: Request) {
           createdAt: true,
           content: true,
           tags: true,
+          isPinned: true,
+          lastViewedAt: true,
+        },
+      }),
+      db.note.findMany({
+        where: {
+          userId: session.user.id,
+          lastViewedAt: { not: null },
+        },
+        orderBy: { lastViewedAt: "desc" },
+        take: 3,
+        select: {
+          id: true,
+          title: true,
+          format: true,
+          createdAt: true,
+          content: true,
+          tags: true,
+          isPinned: true,
+          lastViewedAt: true,
         },
       }),
     ]);
@@ -125,17 +206,29 @@ export async function GET(request: Request) {
       relevanceScore: calculateRelevance(note, q),
     }));
 
-    const sorted = q
-      ? withScore.sort((a, b) => {
-          if (b.relevanceScore !== a.relevanceScore) {
-            return b.relevanceScore - a.relevanceScore;
-          }
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        })
-      : withScore;
+    const sortBy = (a: (typeof withScore)[number], b: (typeof withScore)[number]) => {
+      if (a.isPinned !== b.isPinned) return a.isPinned ? -1 : 1;
+
+      if (q && b.relevanceScore !== a.relevanceScore) {
+        return b.relevanceScore - a.relevanceScore;
+      }
+
+      if (sort === "oldest") {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      }
+
+      if (sort === "a-z") {
+        return a.title.localeCompare(b.title);
+      }
+
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    };
+
+    const sorted = withScore.sort(sortBy);
 
     return NextResponse.json({
       notes: sorted,
+      recentlyViewed,
       pagination: {
         page: pageNum,
         limit: limitNum,
@@ -164,12 +257,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
+    let nextTags = sanitizeTags(tags);
+    if (!nextTags.length) {
+      nextTags = await autoGenerateTags(content);
+    }
+
     const note = await db.note.create({
       data: {
         title,
         content,
         format,
-        tags: sanitizeTags(tags),
+        tags: nextTags,
         userId: session.user.id,
       },
     });
@@ -182,6 +280,59 @@ export async function POST(request: Request) {
       { error: "Failed to save note", details: errorMessage },
       { status: 500 },
     );
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { id, isPinned, markViewed } = (await request.json()) as NotePatchPayload;
+
+    if (!id) {
+      return NextResponse.json({ error: "Note ID required" }, { status: 400 });
+    }
+
+    const note = await db.note.findUnique({ where: { id } });
+    if (!note || note.userId !== session.user.id) {
+      return NextResponse.json({ error: "Note not found or unauthorized" }, { status: 404 });
+    }
+
+    const data: { isPinned?: boolean; lastViewedAt?: Date } = {};
+    if (typeof isPinned === "boolean") {
+      data.isPinned = isPinned;
+    }
+    if (markViewed) {
+      data.lastViewedAt = new Date();
+    }
+
+    if (!Object.keys(data).length) {
+      return NextResponse.json({ error: "No valid update fields provided" }, { status: 400 });
+    }
+
+    const updated = await db.note.update({
+      where: { id },
+      data,
+      select: {
+        id: true,
+        title: true,
+        format: true,
+        createdAt: true,
+        content: true,
+        tags: true,
+        isPinned: true,
+        lastViewedAt: true,
+      },
+    });
+
+    return NextResponse.json({ note: updated });
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("Error updating note:", errorMessage);
+    return NextResponse.json({ error: "Failed to update note", details: errorMessage }, { status: 500 });
   }
 }
 
