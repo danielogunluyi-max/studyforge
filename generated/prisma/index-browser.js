@@ -169,7 +169,11 @@ exports.Prisma.UserScalarFieldEnum = {
   autoSaveNotes: 'autoSaveNotes',
   emailNotifications: 'emailNotifications',
   lastActive: 'lastActive',
-  studyStreak: 'studyStreak'
+  studyStreak: 'studyStreak',
+  battleXp: 'battleXp',
+  battleWinStreak: 'battleWinStreak',
+  soloSessionsCompleted: 'soloSessionsCompleted',
+  battleAchievements: 'battleAchievements'
 };
 
 exports.Prisma.VerificationTokenScalarFieldEnum = {
@@ -184,6 +188,18 @@ exports.Prisma.NoteScalarFieldEnum = {
   content: 'content',
   format: 'format',
   tags: 'tags',
+  isPinned: 'isPinned',
+  lastViewedAt: 'lastViewedAt',
+  isShared: 'isShared',
+  folderId: 'folderId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.FolderScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId'
@@ -220,6 +236,9 @@ exports.Prisma.BattleScalarFieldEnum = {
   title: 'title',
   status: 'status',
   questionCount: 'questionCount',
+  mode: 'mode',
+  subject: 'subject',
+  metadata: 'metadata',
   questions: 'questions',
   hostScore: 'hostScore',
   opponentScore: 'opponentScore',
@@ -346,6 +365,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   VerificationToken: 'VerificationToken',
   Note: 'Note',
+  Folder: 'Folder',
   Citation: 'Citation',
   ExamPrediction: 'ExamPrediction',
   Battle: 'Battle',

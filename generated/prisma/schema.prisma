@@ -69,11 +69,16 @@ model User {
   emailNotifications    Boolean             @default(true)
   lastActive            DateTime?
   studyStreak           Int                 @default(0)
+  battleXp              Int                 @default(0)
+  battleWinStreak       Int                 @default(0)
+  soloSessionsCompleted Int                 @default(0)
+  battleAchievements    String[]            @default([])
   // Relations
   accounts              Account[]
   sessions              Session[]
   posts                 Post[]
   notes                 Note[]
+  folders               Folder[]
   citations             Citation[]
   examPredictions       ExamPrediction[]
   hostedBattles         Battle[]            @relation("BattleHost")
@@ -95,18 +100,37 @@ model VerificationToken {
 }
 
 model Note {
+  id           String    @id @default(cuid())
+  title        String
+  content      String    @db.Text
+  format       String
+  tags         String[]  @default([])
+  isPinned     Boolean   @default(false)
+  lastViewedAt DateTime?
+  isShared     Boolean   @default(false)
+  folderId     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  userId String
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder Folder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([userId])
+  @@index([folderId])
+}
+
+model Folder {
   id        String   @id @default(cuid())
-  title     String
-  content   String   @db.Text
-  format    String
-  tags      String[] @default([])
+  name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notes  Note[]
 
-  @@index([createdAt])
   @@index([userId])
 }
 
@@ -151,6 +175,9 @@ model Battle {
   title              String?
   status             String    @default("waiting")
   questionCount      Int       @default(10)
+  mode               String    @default("pvp")
+  subject            String?
+  metadata           Json?
   questions          Json
   hostScore          Int       @default(0)
   opponentScore      Int       @default(0)

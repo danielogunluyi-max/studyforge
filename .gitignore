@@ -79,3 +79,5 @@ generated/
 *.tmp
 *.swp
 *.pem
+.vercel
+.env*.local

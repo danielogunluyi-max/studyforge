@@ -30,6 +30,9 @@ export async function POST(request: Request) {
       title?: string;
       questionCount?: number;
       sourceText?: string;
+      subject?: string;
+      mode?: string;
+      difficulty?: string;
     };
 
     const questionCount = Math.max(5, Math.min(20, Number(body.questionCount ?? 10)));
@@ -43,8 +46,16 @@ export async function POST(request: Request) {
       sourceText = note.content;
     }
 
-    if (!sourceText) {
-      return NextResponse.json({ error: "Source text or noteId is required" }, { status: 400 });
+    const subject = (body.subject ?? "").trim();
+    const mode = (body.mode ?? "pvp").trim() || "pvp";
+    const difficulty = (body.difficulty ?? "Medium").trim() || "Medium";
+
+    if (!sourceText && !subject) {
+      return NextResponse.json({ error: "Source text, noteId, or subject is required" }, { status: 400 });
+    }
+
+    if (!sourceText && subject) {
+      sourceText = `${subject} study battle content focus at ${difficulty} difficulty.`;
     }
 
     const generated = await runGroqPrompt({
@@ -82,6 +93,11 @@ export async function POST(request: Request) {
         hostId: session.user.id,
         noteId: body.noteId ?? null,
         title: body.title?.trim() || "Study Battle",
+        mode,
+        subject: subject || null,
+        metadata: {
+          difficulty,
+        },
         status: "waiting",
         questionCount: questions.length,
         questions,

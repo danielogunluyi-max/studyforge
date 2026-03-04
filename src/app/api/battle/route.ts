@@ -16,6 +16,14 @@ export async function GET() {
       include: {
         host: { select: { id: true, name: true } },
         opponent: { select: { id: true, name: true } },
+        participants: {
+          select: {
+            userId: true,
+            score: true,
+            correctCount: true,
+            totalAnswered: true,
+          },
+        },
         result: true,
       },
       orderBy: { createdAt: "desc" },
@@ -30,7 +38,34 @@ export async function GET() {
       ).length,
     };
 
-    return NextResponse.json({ battles, stats });
+    const profile = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        battleXp: true,
+        battleWinStreak: true,
+        soloSessionsCompleted: true,
+        battleAchievements: true,
+      },
+    });
+
+    const xp = profile?.battleXp ?? 0;
+    const level = xp >= 3000 ? "Master" : xp >= 1500 ? "Expert" : xp >= 500 ? "Scholar" : "Beginner";
+    const nextLevelXp = xp >= 3000 ? 3000 : xp >= 1500 ? 3000 : xp >= 500 ? 1500 : 500;
+    const prevLevelXp = xp >= 3000 ? 3000 : xp >= 1500 ? 1500 : xp >= 500 ? 500 : 0;
+    const levelProgress = nextLevelXp === prevLevelXp ? 100 : Math.round(((xp - prevLevelXp) / (nextLevelXp - prevLevelXp)) * 100);
+
+    return NextResponse.json({
+      battles,
+      stats,
+      profile: {
+        xp,
+        level,
+        levelProgress: Math.max(0, Math.min(100, levelProgress)),
+        battleWinStreak: profile?.battleWinStreak ?? 0,
+        soloSessionsCompleted: profile?.soloSessionsCompleted ?? 0,
+        achievements: profile?.battleAchievements ?? [],
+      },
+    });
   } catch (error) {
     console.error("Battle list error:", error);
     return NextResponse.json({ error: "Failed to fetch battles" }, { status: 500 });

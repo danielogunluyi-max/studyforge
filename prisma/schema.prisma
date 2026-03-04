@@ -69,6 +69,10 @@ model User {
     emailNotifications Boolean @default(true)
     lastActive    DateTime?
     studyStreak   Int       @default(0)
+    battleXp      Int       @default(0)
+    battleWinStreak Int     @default(0)
+    soloSessionsCompleted Int @default(0)
+    battleAchievements String[] @default([])
     // Relations
     accounts      Account[]
     sessions      Session[]
@@ -171,6 +175,9 @@ model Battle {
     title          String?
     status         String   @default("waiting")
     questionCount  Int      @default(10)
+    mode           String   @default("pvp")
+    subject        String?
+    metadata       Json?
     questions      Json
     hostScore      Int      @default(0)
     opponentScore  Int      @default(0)

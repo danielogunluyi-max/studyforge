@@ -44,6 +44,11 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  */
 export type Note = $Result.DefaultSelection<Prisma.$NotePayload>
 /**
+ * Model Folder
+ * 
+ */
+export type Folder = $Result.DefaultSelection<Prisma.$FolderPayload>
+/**
  * Model Citation
  * 
  */
@@ -276,6 +281,16 @@ export class PrismaClient<
     * ```
     */
   get note(): Prisma.NoteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.folder`: Exposes CRUD operations for the **Folder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Folders
+    * const folders = await prisma.folder.findMany()
+    * ```
+    */
+  get folder(): Prisma.FolderDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.citation`: Exposes CRUD operations for the **Citation** model.
@@ -833,6 +848,7 @@ export namespace Prisma {
     User: 'User',
     VerificationToken: 'VerificationToken',
     Note: 'Note',
+    Folder: 'Folder',
     Citation: 'Citation',
     ExamPrediction: 'ExamPrediction',
     Battle: 'Battle',
@@ -862,7 +878,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "conceptConnection"
+      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "conceptConnection"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1307,6 +1323,80 @@ export namespace Prisma {
           count: {
             args: Prisma.NoteCountArgs<ExtArgs>
             result: $Utils.Optional<NoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      Folder: {
+        payload: Prisma.$FolderPayload<ExtArgs>
+        fields: Prisma.FolderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FolderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FolderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          findFirst: {
+            args: Prisma.FolderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FolderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          findMany: {
+            args: Prisma.FolderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>[]
+          }
+          create: {
+            args: Prisma.FolderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          createMany: {
+            args: Prisma.FolderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FolderCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>[]
+          }
+          delete: {
+            args: Prisma.FolderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          update: {
+            args: Prisma.FolderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          deleteMany: {
+            args: Prisma.FolderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FolderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FolderUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>[]
+          }
+          upsert: {
+            args: Prisma.FolderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FolderPayload>
+          }
+          aggregate: {
+            args: Prisma.FolderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFolder>
+          }
+          groupBy: {
+            args: Prisma.FolderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FolderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FolderCountArgs<ExtArgs>
+            result: $Utils.Optional<FolderCountAggregateOutputType> | number
           }
         }
       }
@@ -2226,6 +2316,7 @@ export namespace Prisma {
     user?: UserOmit
     verificationToken?: VerificationTokenOmit
     note?: NoteOmit
+    folder?: FolderOmit
     citation?: CitationOmit
     examPrediction?: ExamPredictionOmit
     battle?: BattleOmit
@@ -2321,6 +2412,7 @@ export namespace Prisma {
     sessions: number
     posts: number
     notes: number
+    folders: number
     citations: number
     examPredictions: number
     hostedBattles: number
@@ -2338,6 +2430,7 @@ export namespace Prisma {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     posts?: boolean | UserCountOutputTypeCountPostsArgs
     notes?: boolean | UserCountOutputTypeCountNotesArgs
+    folders?: boolean | UserCountOutputTypeCountFoldersArgs
     citations?: boolean | UserCountOutputTypeCountCitationsArgs
     examPredictions?: boolean | UserCountOutputTypeCountExamPredictionsArgs
     hostedBattles?: boolean | UserCountOutputTypeCountHostedBattlesArgs
@@ -2387,6 +2480,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NoteWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFoldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FolderWhereInput
   }
 
   /**
@@ -2457,6 +2557,37 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountConceptConnectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConceptConnectionWhereInput
+  }
+
+
+  /**
+   * Count Type FolderCountOutputType
+   */
+
+  export type FolderCountOutputType = {
+    notes: number
+  }
+
+  export type FolderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    notes?: boolean | FolderCountOutputTypeCountNotesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FolderCountOutputType without action
+   */
+  export type FolderCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FolderCountOutputType
+     */
+    select?: FolderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FolderCountOutputType without action
+   */
+  export type FolderCountOutputTypeCountNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NoteWhereInput
   }
 
 
@@ -5904,10 +6035,16 @@ export namespace Prisma {
 
   export type UserAvgAggregateOutputType = {
     studyStreak: number | null
+    battleXp: number | null
+    battleWinStreak: number | null
+    soloSessionsCompleted: number | null
   }
 
   export type UserSumAggregateOutputType = {
     studyStreak: number | null
+    battleXp: number | null
+    battleWinStreak: number | null
+    soloSessionsCompleted: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -5928,6 +6065,9 @@ export namespace Prisma {
     emailNotifications: boolean | null
     lastActive: Date | null
     studyStreak: number | null
+    battleXp: number | null
+    battleWinStreak: number | null
+    soloSessionsCompleted: number | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -5948,6 +6088,9 @@ export namespace Prisma {
     emailNotifications: boolean | null
     lastActive: Date | null
     studyStreak: number | null
+    battleXp: number | null
+    battleWinStreak: number | null
+    soloSessionsCompleted: number | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -5968,16 +6111,26 @@ export namespace Prisma {
     emailNotifications: number
     lastActive: number
     studyStreak: number
+    battleXp: number
+    battleWinStreak: number
+    soloSessionsCompleted: number
+    battleAchievements: number
     _all: number
   }
 
 
   export type UserAvgAggregateInputType = {
     studyStreak?: true
+    battleXp?: true
+    battleWinStreak?: true
+    soloSessionsCompleted?: true
   }
 
   export type UserSumAggregateInputType = {
     studyStreak?: true
+    battleXp?: true
+    battleWinStreak?: true
+    soloSessionsCompleted?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -5998,6 +6151,9 @@ export namespace Prisma {
     emailNotifications?: true
     lastActive?: true
     studyStreak?: true
+    battleXp?: true
+    battleWinStreak?: true
+    soloSessionsCompleted?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -6018,6 +6174,9 @@ export namespace Prisma {
     emailNotifications?: true
     lastActive?: true
     studyStreak?: true
+    battleXp?: true
+    battleWinStreak?: true
+    soloSessionsCompleted?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -6038,6 +6197,10 @@ export namespace Prisma {
     emailNotifications?: true
     lastActive?: true
     studyStreak?: true
+    battleXp?: true
+    battleWinStreak?: true
+    soloSessionsCompleted?: true
+    battleAchievements?: true
     _all?: true
   }
 
@@ -6145,6 +6308,10 @@ export namespace Prisma {
     emailNotifications: boolean
     lastActive: Date | null
     studyStreak: number
+    battleXp: number
+    battleWinStreak: number
+    soloSessionsCompleted: number
+    battleAchievements: string[]
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -6184,10 +6351,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: boolean
     studyStreak?: boolean
+    battleXp?: boolean
+    battleWinStreak?: boolean
+    soloSessionsCompleted?: boolean
+    battleAchievements?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     notes?: boolean | User$notesArgs<ExtArgs>
+    folders?: boolean | User$foldersArgs<ExtArgs>
     citations?: boolean | User$citationsArgs<ExtArgs>
     examPredictions?: boolean | User$examPredictionsArgs<ExtArgs>
     hostedBattles?: boolean | User$hostedBattlesArgs<ExtArgs>
@@ -6219,6 +6391,10 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: boolean
     studyStreak?: boolean
+    battleXp?: boolean
+    battleWinStreak?: boolean
+    soloSessionsCompleted?: boolean
+    battleAchievements?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6239,6 +6415,10 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: boolean
     studyStreak?: boolean
+    battleXp?: boolean
+    battleWinStreak?: boolean
+    soloSessionsCompleted?: boolean
+    battleAchievements?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -6259,14 +6439,19 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: boolean
     studyStreak?: boolean
+    battleXp?: boolean
+    battleWinStreak?: boolean
+    soloSessionsCompleted?: boolean
+    battleAchievements?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "learningStyle" | "autoAdapt" | "theme" | "accentColor" | "fontSize" | "compactMode" | "defaultNoteFormat" | "autoSaveNotes" | "emailNotifications" | "lastActive" | "studyStreak", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "learningStyle" | "autoAdapt" | "theme" | "accentColor" | "fontSize" | "compactMode" | "defaultNoteFormat" | "autoSaveNotes" | "emailNotifications" | "lastActive" | "studyStreak" | "battleXp" | "battleWinStreak" | "soloSessionsCompleted" | "battleAchievements", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     notes?: boolean | User$notesArgs<ExtArgs>
+    folders?: boolean | User$foldersArgs<ExtArgs>
     citations?: boolean | User$citationsArgs<ExtArgs>
     examPredictions?: boolean | User$examPredictionsArgs<ExtArgs>
     hostedBattles?: boolean | User$hostedBattlesArgs<ExtArgs>
@@ -6289,6 +6474,7 @@ export namespace Prisma {
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       posts: Prisma.$PostPayload<ExtArgs>[]
       notes: Prisma.$NotePayload<ExtArgs>[]
+      folders: Prisma.$FolderPayload<ExtArgs>[]
       citations: Prisma.$CitationPayload<ExtArgs>[]
       examPredictions: Prisma.$ExamPredictionPayload<ExtArgs>[]
       hostedBattles: Prisma.$BattlePayload<ExtArgs>[]
@@ -6318,6 +6504,10 @@ export namespace Prisma {
       emailNotifications: boolean
       lastActive: Date | null
       studyStreak: number
+      battleXp: number
+      battleWinStreak: number
+      soloSessionsCompleted: number
+      battleAchievements: string[]
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6716,6 +6906,7 @@ export namespace Prisma {
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notes<T extends User$notesArgs<ExtArgs> = {}>(args?: Subset<T, User$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    folders<T extends User$foldersArgs<ExtArgs> = {}>(args?: Subset<T, User$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     citations<T extends User$citationsArgs<ExtArgs> = {}>(args?: Subset<T, User$citationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     examPredictions<T extends User$examPredictionsArgs<ExtArgs> = {}>(args?: Subset<T, User$examPredictionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     hostedBattles<T extends User$hostedBattlesArgs<ExtArgs> = {}>(args?: Subset<T, User$hostedBattlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6772,6 +6963,10 @@ export namespace Prisma {
     readonly emailNotifications: FieldRef<"User", 'Boolean'>
     readonly lastActive: FieldRef<"User", 'DateTime'>
     readonly studyStreak: FieldRef<"User", 'Int'>
+    readonly battleXp: FieldRef<"User", 'Int'>
+    readonly battleWinStreak: FieldRef<"User", 'Int'>
+    readonly soloSessionsCompleted: FieldRef<"User", 'Int'>
+    readonly battleAchievements: FieldRef<"User", 'String[]'>
   }
     
 
@@ -7253,6 +7448,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NoteScalarFieldEnum | NoteScalarFieldEnum[]
+  }
+
+  /**
+   * User.folders
+   */
+  export type User$foldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    where?: FolderWhereInput
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    cursor?: FolderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
   }
 
   /**
@@ -8498,6 +8717,10 @@ export namespace Prisma {
     title: string | null
     content: string | null
     format: string | null
+    isPinned: boolean | null
+    lastViewedAt: Date | null
+    isShared: boolean | null
+    folderId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -8508,6 +8731,10 @@ export namespace Prisma {
     title: string | null
     content: string | null
     format: string | null
+    isPinned: boolean | null
+    lastViewedAt: Date | null
+    isShared: boolean | null
+    folderId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -8519,6 +8746,10 @@ export namespace Prisma {
     content: number
     format: number
     tags: number
+    isPinned: number
+    lastViewedAt: number
+    isShared: number
+    folderId: number
     createdAt: number
     updatedAt: number
     userId: number
@@ -8531,6 +8762,10 @@ export namespace Prisma {
     title?: true
     content?: true
     format?: true
+    isPinned?: true
+    lastViewedAt?: true
+    isShared?: true
+    folderId?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -8541,6 +8776,10 @@ export namespace Prisma {
     title?: true
     content?: true
     format?: true
+    isPinned?: true
+    lastViewedAt?: true
+    isShared?: true
+    folderId?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -8552,6 +8791,10 @@ export namespace Prisma {
     content?: true
     format?: true
     tags?: true
+    isPinned?: true
+    lastViewedAt?: true
+    isShared?: true
+    folderId?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -8636,6 +8879,10 @@ export namespace Prisma {
     content: string
     format: string
     tags: string[]
+    isPinned: boolean
+    lastViewedAt: Date | null
+    isShared: boolean
+    folderId: string | null
     createdAt: Date
     updatedAt: Date
     userId: string
@@ -8664,10 +8911,15 @@ export namespace Prisma {
     content?: boolean
     format?: boolean
     tags?: boolean
+    isPinned?: boolean
+    lastViewedAt?: boolean
+    isShared?: boolean
+    folderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Note$folderArgs<ExtArgs>
   }, ExtArgs["result"]["note"]>
 
   export type NoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8676,10 +8928,15 @@ export namespace Prisma {
     content?: boolean
     format?: boolean
     tags?: boolean
+    isPinned?: boolean
+    lastViewedAt?: boolean
+    isShared?: boolean
+    folderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Note$folderArgs<ExtArgs>
   }, ExtArgs["result"]["note"]>
 
   export type NoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8688,10 +8945,15 @@ export namespace Prisma {
     content?: boolean
     format?: boolean
     tags?: boolean
+    isPinned?: boolean
+    lastViewedAt?: boolean
+    isShared?: boolean
+    folderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Note$folderArgs<ExtArgs>
   }, ExtArgs["result"]["note"]>
 
   export type NoteSelectScalar = {
@@ -8700,26 +8962,34 @@ export namespace Prisma {
     content?: boolean
     format?: boolean
     tags?: boolean
+    isPinned?: boolean
+    lastViewedAt?: boolean
+    isShared?: boolean
+    folderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
   }
 
-  export type NoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "format" | "tags" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["note"]>
+  export type NoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "format" | "tags" | "isPinned" | "lastViewedAt" | "isShared" | "folderId" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["note"]>
   export type NoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Note$folderArgs<ExtArgs>
   }
   export type NoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Note$folderArgs<ExtArgs>
   }
   export type NoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Note$folderArgs<ExtArgs>
   }
 
   export type $NotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Note"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      folder: Prisma.$FolderPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8727,6 +8997,10 @@ export namespace Prisma {
       content: string
       format: string
       tags: string[]
+      isPinned: boolean
+      lastViewedAt: Date | null
+      isShared: boolean
+      folderId: string | null
       createdAt: Date
       updatedAt: Date
       userId: string
@@ -9125,6 +9399,7 @@ export namespace Prisma {
   export interface Prisma__NoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    folder<T extends Note$folderArgs<ExtArgs> = {}>(args?: Subset<T, Note$folderArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9159,6 +9434,10 @@ export namespace Prisma {
     readonly content: FieldRef<"Note", 'String'>
     readonly format: FieldRef<"Note", 'String'>
     readonly tags: FieldRef<"Note", 'String[]'>
+    readonly isPinned: FieldRef<"Note", 'Boolean'>
+    readonly lastViewedAt: FieldRef<"Note", 'DateTime'>
+    readonly isShared: FieldRef<"Note", 'Boolean'>
+    readonly folderId: FieldRef<"Note", 'String'>
     readonly createdAt: FieldRef<"Note", 'DateTime'>
     readonly updatedAt: FieldRef<"Note", 'DateTime'>
     readonly userId: FieldRef<"Note", 'String'>
@@ -9558,6 +9837,25 @@ export namespace Prisma {
   }
 
   /**
+   * Note.folder
+   */
+  export type Note$folderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    where?: FolderWhereInput
+  }
+
+  /**
    * Note without action
    */
   export type NoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9573,6 +9871,1094 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: NoteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Folder
+   */
+
+  export type AggregateFolder = {
+    _count: FolderCountAggregateOutputType | null
+    _min: FolderMinAggregateOutputType | null
+    _max: FolderMaxAggregateOutputType | null
+  }
+
+  export type FolderMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type FolderMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type FolderCountAggregateOutputType = {
+    id: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    userId: number
+    _all: number
+  }
+
+
+  export type FolderMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type FolderMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type FolderCountAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type FolderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Folder to aggregate.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Folders
+    **/
+    _count?: true | FolderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FolderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FolderMaxAggregateInputType
+  }
+
+  export type GetFolderAggregateType<T extends FolderAggregateArgs> = {
+        [P in keyof T & keyof AggregateFolder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFolder[P]>
+      : GetScalarType<T[P], AggregateFolder[P]>
+  }
+
+
+
+
+  export type FolderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FolderWhereInput
+    orderBy?: FolderOrderByWithAggregationInput | FolderOrderByWithAggregationInput[]
+    by: FolderScalarFieldEnum[] | FolderScalarFieldEnum
+    having?: FolderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FolderCountAggregateInputType | true
+    _min?: FolderMinAggregateInputType
+    _max?: FolderMaxAggregateInputType
+  }
+
+  export type FolderGroupByOutputType = {
+    id: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+    _count: FolderCountAggregateOutputType | null
+    _min: FolderMinAggregateOutputType | null
+    _max: FolderMaxAggregateOutputType | null
+  }
+
+  type GetFolderGroupByPayload<T extends FolderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FolderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FolderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FolderGroupByOutputType[P]>
+            : GetScalarType<T[P], FolderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FolderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    notes?: boolean | Folder$notesArgs<ExtArgs>
+    _count?: boolean | FolderCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["folder"]>
+
+  export type FolderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["folder"]>
+
+  export type FolderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["folder"]>
+
+  export type FolderSelectScalar = {
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+  }
+
+  export type FolderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["folder"]>
+  export type FolderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    notes?: boolean | Folder$notesArgs<ExtArgs>
+    _count?: boolean | FolderCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type FolderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type FolderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $FolderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Folder"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      notes: Prisma.$NotePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      createdAt: Date
+      updatedAt: Date
+      userId: string
+    }, ExtArgs["result"]["folder"]>
+    composites: {}
+  }
+
+  type FolderGetPayload<S extends boolean | null | undefined | FolderDefaultArgs> = $Result.GetResult<Prisma.$FolderPayload, S>
+
+  type FolderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FolderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FolderCountAggregateInputType | true
+    }
+
+  export interface FolderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Folder'], meta: { name: 'Folder' } }
+    /**
+     * Find zero or one Folder that matches the filter.
+     * @param {FolderFindUniqueArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FolderFindUniqueArgs>(args: SelectSubset<T, FolderFindUniqueArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Folder that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FolderFindUniqueOrThrowArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FolderFindUniqueOrThrowArgs>(args: SelectSubset<T, FolderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Folder that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderFindFirstArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FolderFindFirstArgs>(args?: SelectSubset<T, FolderFindFirstArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Folder that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderFindFirstOrThrowArgs} args - Arguments to find a Folder
+     * @example
+     * // Get one Folder
+     * const folder = await prisma.folder.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FolderFindFirstOrThrowArgs>(args?: SelectSubset<T, FolderFindFirstOrThrowArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Folders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Folders
+     * const folders = await prisma.folder.findMany()
+     * 
+     * // Get first 10 Folders
+     * const folders = await prisma.folder.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const folderWithIdOnly = await prisma.folder.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FolderFindManyArgs>(args?: SelectSubset<T, FolderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Folder.
+     * @param {FolderCreateArgs} args - Arguments to create a Folder.
+     * @example
+     * // Create one Folder
+     * const Folder = await prisma.folder.create({
+     *   data: {
+     *     // ... data to create a Folder
+     *   }
+     * })
+     * 
+     */
+    create<T extends FolderCreateArgs>(args: SelectSubset<T, FolderCreateArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Folders.
+     * @param {FolderCreateManyArgs} args - Arguments to create many Folders.
+     * @example
+     * // Create many Folders
+     * const folder = await prisma.folder.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FolderCreateManyArgs>(args?: SelectSubset<T, FolderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Folders and returns the data saved in the database.
+     * @param {FolderCreateManyAndReturnArgs} args - Arguments to create many Folders.
+     * @example
+     * // Create many Folders
+     * const folder = await prisma.folder.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Folders and only return the `id`
+     * const folderWithIdOnly = await prisma.folder.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FolderCreateManyAndReturnArgs>(args?: SelectSubset<T, FolderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Folder.
+     * @param {FolderDeleteArgs} args - Arguments to delete one Folder.
+     * @example
+     * // Delete one Folder
+     * const Folder = await prisma.folder.delete({
+     *   where: {
+     *     // ... filter to delete one Folder
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FolderDeleteArgs>(args: SelectSubset<T, FolderDeleteArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Folder.
+     * @param {FolderUpdateArgs} args - Arguments to update one Folder.
+     * @example
+     * // Update one Folder
+     * const folder = await prisma.folder.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FolderUpdateArgs>(args: SelectSubset<T, FolderUpdateArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Folders.
+     * @param {FolderDeleteManyArgs} args - Arguments to filter Folders to delete.
+     * @example
+     * // Delete a few Folders
+     * const { count } = await prisma.folder.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FolderDeleteManyArgs>(args?: SelectSubset<T, FolderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Folders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Folders
+     * const folder = await prisma.folder.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FolderUpdateManyArgs>(args: SelectSubset<T, FolderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Folders and returns the data updated in the database.
+     * @param {FolderUpdateManyAndReturnArgs} args - Arguments to update many Folders.
+     * @example
+     * // Update many Folders
+     * const folder = await prisma.folder.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Folders and only return the `id`
+     * const folderWithIdOnly = await prisma.folder.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FolderUpdateManyAndReturnArgs>(args: SelectSubset<T, FolderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Folder.
+     * @param {FolderUpsertArgs} args - Arguments to update or create a Folder.
+     * @example
+     * // Update or create a Folder
+     * const folder = await prisma.folder.upsert({
+     *   create: {
+     *     // ... data to create a Folder
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Folder we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FolderUpsertArgs>(args: SelectSubset<T, FolderUpsertArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Folders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderCountArgs} args - Arguments to filter Folders to count.
+     * @example
+     * // Count the number of Folders
+     * const count = await prisma.folder.count({
+     *   where: {
+     *     // ... the filter for the Folders we want to count
+     *   }
+     * })
+    **/
+    count<T extends FolderCountArgs>(
+      args?: Subset<T, FolderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FolderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Folder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FolderAggregateArgs>(args: Subset<T, FolderAggregateArgs>): Prisma.PrismaPromise<GetFolderAggregateType<T>>
+
+    /**
+     * Group by Folder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FolderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FolderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FolderGroupByArgs['orderBy'] }
+        : { orderBy?: FolderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FolderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFolderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Folder model
+   */
+  readonly fields: FolderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Folder.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FolderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    notes<T extends Folder$notesArgs<ExtArgs> = {}>(args?: Subset<T, Folder$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Folder model
+   */
+  interface FolderFieldRefs {
+    readonly id: FieldRef<"Folder", 'String'>
+    readonly name: FieldRef<"Folder", 'String'>
+    readonly createdAt: FieldRef<"Folder", 'DateTime'>
+    readonly updatedAt: FieldRef<"Folder", 'DateTime'>
+    readonly userId: FieldRef<"Folder", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Folder findUnique
+   */
+  export type FolderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder findUniqueOrThrow
+   */
+  export type FolderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder findFirst
+   */
+  export type FolderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Folders.
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Folders.
+     */
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
+  }
+
+  /**
+   * Folder findFirstOrThrow
+   */
+  export type FolderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folder to fetch.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Folders.
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Folders.
+     */
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
+  }
+
+  /**
+   * Folder findMany
+   */
+  export type FolderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Folders to fetch.
+     */
+    where?: FolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Folders to fetch.
+     */
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Folders.
+     */
+    cursor?: FolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Folders.
+     */
+    skip?: number
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
+  }
+
+  /**
+   * Folder create
+   */
+  export type FolderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Folder.
+     */
+    data: XOR<FolderCreateInput, FolderUncheckedCreateInput>
+  }
+
+  /**
+   * Folder createMany
+   */
+  export type FolderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Folders.
+     */
+    data: FolderCreateManyInput | FolderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Folder createManyAndReturn
+   */
+  export type FolderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * The data used to create many Folders.
+     */
+    data: FolderCreateManyInput | FolderCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Folder update
+   */
+  export type FolderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Folder.
+     */
+    data: XOR<FolderUpdateInput, FolderUncheckedUpdateInput>
+    /**
+     * Choose, which Folder to update.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder updateMany
+   */
+  export type FolderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Folders.
+     */
+    data: XOR<FolderUpdateManyMutationInput, FolderUncheckedUpdateManyInput>
+    /**
+     * Filter which Folders to update
+     */
+    where?: FolderWhereInput
+    /**
+     * Limit how many Folders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Folder updateManyAndReturn
+   */
+  export type FolderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * The data used to update Folders.
+     */
+    data: XOR<FolderUpdateManyMutationInput, FolderUncheckedUpdateManyInput>
+    /**
+     * Filter which Folders to update
+     */
+    where?: FolderWhereInput
+    /**
+     * Limit how many Folders to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Folder upsert
+   */
+  export type FolderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Folder to update in case it exists.
+     */
+    where: FolderWhereUniqueInput
+    /**
+     * In case the Folder found by the `where` argument doesn't exist, create a new Folder with this data.
+     */
+    create: XOR<FolderCreateInput, FolderUncheckedCreateInput>
+    /**
+     * In case the Folder was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FolderUpdateInput, FolderUncheckedUpdateInput>
+  }
+
+  /**
+   * Folder delete
+   */
+  export type FolderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    /**
+     * Filter which Folder to delete.
+     */
+    where: FolderWhereUniqueInput
+  }
+
+  /**
+   * Folder deleteMany
+   */
+  export type FolderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Folders to delete
+     */
+    where?: FolderWhereInput
+    /**
+     * Limit how many Folders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Folder.notes
+   */
+  export type Folder$notesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Note
+     */
+    select?: NoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Note
+     */
+    omit?: NoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
+    where?: NoteWhereInput
+    orderBy?: NoteOrderByWithRelationInput | NoteOrderByWithRelationInput[]
+    cursor?: NoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NoteScalarFieldEnum | NoteScalarFieldEnum[]
+  }
+
+  /**
+   * Folder without action
+   */
+  export type FolderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
   }
 
 
@@ -11819,6 +13205,8 @@ export namespace Prisma {
     title: string | null
     status: string | null
     questionCount: number | null
+    mode: string | null
+    subject: string | null
     hostScore: number | null
     opponentScore: number | null
     hostAnsweredAt: Date | null
@@ -11837,6 +13225,8 @@ export namespace Prisma {
     title: string | null
     status: string | null
     questionCount: number | null
+    mode: string | null
+    subject: string | null
     hostScore: number | null
     opponentScore: number | null
     hostAnsweredAt: Date | null
@@ -11855,6 +13245,9 @@ export namespace Prisma {
     title: number
     status: number
     questionCount: number
+    mode: number
+    subject: number
+    metadata: number
     questions: number
     hostScore: number
     opponentScore: number
@@ -11888,6 +13281,8 @@ export namespace Prisma {
     title?: true
     status?: true
     questionCount?: true
+    mode?: true
+    subject?: true
     hostScore?: true
     opponentScore?: true
     hostAnsweredAt?: true
@@ -11906,6 +13301,8 @@ export namespace Prisma {
     title?: true
     status?: true
     questionCount?: true
+    mode?: true
+    subject?: true
     hostScore?: true
     opponentScore?: true
     hostAnsweredAt?: true
@@ -11924,6 +13321,9 @@ export namespace Prisma {
     title?: true
     status?: true
     questionCount?: true
+    mode?: true
+    subject?: true
+    metadata?: true
     questions?: true
     hostScore?: true
     opponentScore?: true
@@ -12030,6 +13430,9 @@ export namespace Prisma {
     title: string | null
     status: string
     questionCount: number
+    mode: string
+    subject: string | null
+    metadata: JsonValue | null
     questions: JsonValue
     hostScore: number
     opponentScore: number
@@ -12068,6 +13471,9 @@ export namespace Prisma {
     title?: boolean
     status?: boolean
     questionCount?: boolean
+    mode?: boolean
+    subject?: boolean
+    metadata?: boolean
     questions?: boolean
     hostScore?: boolean
     opponentScore?: boolean
@@ -12093,6 +13499,9 @@ export namespace Prisma {
     title?: boolean
     status?: boolean
     questionCount?: boolean
+    mode?: boolean
+    subject?: boolean
+    metadata?: boolean
     questions?: boolean
     hostScore?: boolean
     opponentScore?: boolean
@@ -12114,6 +13523,9 @@ export namespace Prisma {
     title?: boolean
     status?: boolean
     questionCount?: boolean
+    mode?: boolean
+    subject?: boolean
+    metadata?: boolean
     questions?: boolean
     hostScore?: boolean
     opponentScore?: boolean
@@ -12135,6 +13547,9 @@ export namespace Prisma {
     title?: boolean
     status?: boolean
     questionCount?: boolean
+    mode?: boolean
+    subject?: boolean
+    metadata?: boolean
     questions?: boolean
     hostScore?: boolean
     opponentScore?: boolean
@@ -12147,7 +13562,7 @@ export namespace Prisma {
     opponentId?: boolean
   }
 
-  export type BattleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "noteId" | "title" | "status" | "questionCount" | "questions" | "hostScore" | "opponentScore" | "hostAnsweredAt" | "opponentAnsweredAt" | "startedAt" | "completedAt" | "createdAt" | "hostId" | "opponentId", ExtArgs["result"]["battle"]>
+  export type BattleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "noteId" | "title" | "status" | "questionCount" | "mode" | "subject" | "metadata" | "questions" | "hostScore" | "opponentScore" | "hostAnsweredAt" | "opponentAnsweredAt" | "startedAt" | "completedAt" | "createdAt" | "hostId" | "opponentId", ExtArgs["result"]["battle"]>
   export type BattleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     host?: boolean | UserDefaultArgs<ExtArgs>
     opponent?: boolean | Battle$opponentArgs<ExtArgs>
@@ -12181,6 +13596,9 @@ export namespace Prisma {
       title: string | null
       status: string
       questionCount: number
+      mode: string
+      subject: string | null
+      metadata: Prisma.JsonValue | null
       questions: Prisma.JsonValue
       hostScore: number
       opponentScore: number
@@ -12625,6 +14043,9 @@ export namespace Prisma {
     readonly title: FieldRef<"Battle", 'String'>
     readonly status: FieldRef<"Battle", 'String'>
     readonly questionCount: FieldRef<"Battle", 'Int'>
+    readonly mode: FieldRef<"Battle", 'String'>
+    readonly subject: FieldRef<"Battle", 'String'>
+    readonly metadata: FieldRef<"Battle", 'Json'>
     readonly questions: FieldRef<"Battle", 'Json'>
     readonly hostScore: FieldRef<"Battle", 'Int'>
     readonly opponentScore: FieldRef<"Battle", 'Int'>
@@ -22114,7 +23535,11 @@ export namespace Prisma {
     autoSaveNotes: 'autoSaveNotes',
     emailNotifications: 'emailNotifications',
     lastActive: 'lastActive',
-    studyStreak: 'studyStreak'
+    studyStreak: 'studyStreak',
+    battleXp: 'battleXp',
+    battleWinStreak: 'battleWinStreak',
+    soloSessionsCompleted: 'soloSessionsCompleted',
+    battleAchievements: 'battleAchievements'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -22135,12 +23560,27 @@ export namespace Prisma {
     content: 'content',
     format: 'format',
     tags: 'tags',
+    isPinned: 'isPinned',
+    lastViewedAt: 'lastViewedAt',
+    isShared: 'isShared',
+    folderId: 'folderId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId'
   };
 
   export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof NoteScalarFieldEnum]
+
+
+  export const FolderScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    userId: 'userId'
+  };
+
+  export type FolderScalarFieldEnum = (typeof FolderScalarFieldEnum)[keyof typeof FolderScalarFieldEnum]
 
 
   export const CitationScalarFieldEnum: {
@@ -22180,6 +23620,9 @@ export namespace Prisma {
     title: 'title',
     status: 'status',
     questionCount: 'questionCount',
+    mode: 'mode',
+    subject: 'subject',
+    metadata: 'metadata',
     questions: 'questions',
     hostScore: 'hostScore',
     opponentScore: 'opponentScore',
@@ -22654,10 +24097,15 @@ export namespace Prisma {
     emailNotifications?: BoolFilter<"User"> | boolean
     lastActive?: DateTimeNullableFilter<"User"> | Date | string | null
     studyStreak?: IntFilter<"User"> | number
+    battleXp?: IntFilter<"User"> | number
+    battleWinStreak?: IntFilter<"User"> | number
+    soloSessionsCompleted?: IntFilter<"User"> | number
+    battleAchievements?: StringNullableListFilter<"User">
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
     notes?: NoteListRelationFilter
+    folders?: FolderListRelationFilter
     citations?: CitationListRelationFilter
     examPredictions?: ExamPredictionListRelationFilter
     hostedBattles?: BattleListRelationFilter
@@ -22688,10 +24136,15 @@ export namespace Prisma {
     emailNotifications?: SortOrder
     lastActive?: SortOrderInput | SortOrder
     studyStreak?: SortOrder
+    battleXp?: SortOrder
+    battleWinStreak?: SortOrder
+    soloSessionsCompleted?: SortOrder
+    battleAchievements?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
     notes?: NoteOrderByRelationAggregateInput
+    folders?: FolderOrderByRelationAggregateInput
     citations?: CitationOrderByRelationAggregateInput
     examPredictions?: ExamPredictionOrderByRelationAggregateInput
     hostedBattles?: BattleOrderByRelationAggregateInput
@@ -22725,10 +24178,15 @@ export namespace Prisma {
     emailNotifications?: BoolFilter<"User"> | boolean
     lastActive?: DateTimeNullableFilter<"User"> | Date | string | null
     studyStreak?: IntFilter<"User"> | number
+    battleXp?: IntFilter<"User"> | number
+    battleWinStreak?: IntFilter<"User"> | number
+    soloSessionsCompleted?: IntFilter<"User"> | number
+    battleAchievements?: StringNullableListFilter<"User">
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
     notes?: NoteListRelationFilter
+    folders?: FolderListRelationFilter
     citations?: CitationListRelationFilter
     examPredictions?: ExamPredictionListRelationFilter
     hostedBattles?: BattleListRelationFilter
@@ -22759,6 +24217,10 @@ export namespace Prisma {
     emailNotifications?: SortOrder
     lastActive?: SortOrderInput | SortOrder
     studyStreak?: SortOrder
+    battleXp?: SortOrder
+    battleWinStreak?: SortOrder
+    soloSessionsCompleted?: SortOrder
+    battleAchievements?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -22787,6 +24249,10 @@ export namespace Prisma {
     emailNotifications?: BoolWithAggregatesFilter<"User"> | boolean
     lastActive?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     studyStreak?: IntWithAggregatesFilter<"User"> | number
+    battleXp?: IntWithAggregatesFilter<"User"> | number
+    battleWinStreak?: IntWithAggregatesFilter<"User"> | number
+    soloSessionsCompleted?: IntWithAggregatesFilter<"User"> | number
+    battleAchievements?: StringNullableListFilter<"User">
   }
 
   export type VerificationTokenWhereInput = {
@@ -22841,10 +24307,15 @@ export namespace Prisma {
     content?: StringFilter<"Note"> | string
     format?: StringFilter<"Note"> | string
     tags?: StringNullableListFilter<"Note">
+    isPinned?: BoolFilter<"Note"> | boolean
+    lastViewedAt?: DateTimeNullableFilter<"Note"> | Date | string | null
+    isShared?: BoolFilter<"Note"> | boolean
+    folderId?: StringNullableFilter<"Note"> | string | null
     createdAt?: DateTimeFilter<"Note"> | Date | string
     updatedAt?: DateTimeFilter<"Note"> | Date | string
     userId?: StringFilter<"Note"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
   }
 
   export type NoteOrderByWithRelationInput = {
@@ -22853,10 +24324,15 @@ export namespace Prisma {
     content?: SortOrder
     format?: SortOrder
     tags?: SortOrder
+    isPinned?: SortOrder
+    lastViewedAt?: SortOrderInput | SortOrder
+    isShared?: SortOrder
+    folderId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
+    folder?: FolderOrderByWithRelationInput
   }
 
   export type NoteWhereUniqueInput = Prisma.AtLeast<{
@@ -22868,10 +24344,15 @@ export namespace Prisma {
     content?: StringFilter<"Note"> | string
     format?: StringFilter<"Note"> | string
     tags?: StringNullableListFilter<"Note">
+    isPinned?: BoolFilter<"Note"> | boolean
+    lastViewedAt?: DateTimeNullableFilter<"Note"> | Date | string | null
+    isShared?: BoolFilter<"Note"> | boolean
+    folderId?: StringNullableFilter<"Note"> | string | null
     createdAt?: DateTimeFilter<"Note"> | Date | string
     updatedAt?: DateTimeFilter<"Note"> | Date | string
     userId?: StringFilter<"Note"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
   }, "id">
 
   export type NoteOrderByWithAggregationInput = {
@@ -22880,6 +24361,10 @@ export namespace Prisma {
     content?: SortOrder
     format?: SortOrder
     tags?: SortOrder
+    isPinned?: SortOrder
+    lastViewedAt?: SortOrderInput | SortOrder
+    isShared?: SortOrder
+    folderId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -22897,9 +24382,71 @@ export namespace Prisma {
     content?: StringWithAggregatesFilter<"Note"> | string
     format?: StringWithAggregatesFilter<"Note"> | string
     tags?: StringNullableListFilter<"Note">
+    isPinned?: BoolWithAggregatesFilter<"Note"> | boolean
+    lastViewedAt?: DateTimeNullableWithAggregatesFilter<"Note"> | Date | string | null
+    isShared?: BoolWithAggregatesFilter<"Note"> | boolean
+    folderId?: StringNullableWithAggregatesFilter<"Note"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Note"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Note"> | Date | string
     userId?: StringWithAggregatesFilter<"Note"> | string
+  }
+
+  export type FolderWhereInput = {
+    AND?: FolderWhereInput | FolderWhereInput[]
+    OR?: FolderWhereInput[]
+    NOT?: FolderWhereInput | FolderWhereInput[]
+    id?: StringFilter<"Folder"> | string
+    name?: StringFilter<"Folder"> | string
+    createdAt?: DateTimeFilter<"Folder"> | Date | string
+    updatedAt?: DateTimeFilter<"Folder"> | Date | string
+    userId?: StringFilter<"Folder"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    notes?: NoteListRelationFilter
+  }
+
+  export type FolderOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+    notes?: NoteOrderByRelationAggregateInput
+  }
+
+  export type FolderWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: FolderWhereInput | FolderWhereInput[]
+    OR?: FolderWhereInput[]
+    NOT?: FolderWhereInput | FolderWhereInput[]
+    name?: StringFilter<"Folder"> | string
+    createdAt?: DateTimeFilter<"Folder"> | Date | string
+    updatedAt?: DateTimeFilter<"Folder"> | Date | string
+    userId?: StringFilter<"Folder"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    notes?: NoteListRelationFilter
+  }, "id">
+
+  export type FolderOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    _count?: FolderCountOrderByAggregateInput
+    _max?: FolderMaxOrderByAggregateInput
+    _min?: FolderMinOrderByAggregateInput
+  }
+
+  export type FolderScalarWhereWithAggregatesInput = {
+    AND?: FolderScalarWhereWithAggregatesInput | FolderScalarWhereWithAggregatesInput[]
+    OR?: FolderScalarWhereWithAggregatesInput[]
+    NOT?: FolderScalarWhereWithAggregatesInput | FolderScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Folder"> | string
+    name?: StringWithAggregatesFilter<"Folder"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Folder"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Folder"> | Date | string
+    userId?: StringWithAggregatesFilter<"Folder"> | string
   }
 
   export type CitationWhereInput = {
@@ -23062,6 +24609,9 @@ export namespace Prisma {
     title?: StringNullableFilter<"Battle"> | string | null
     status?: StringFilter<"Battle"> | string
     questionCount?: IntFilter<"Battle"> | number
+    mode?: StringFilter<"Battle"> | string
+    subject?: StringNullableFilter<"Battle"> | string | null
+    metadata?: JsonNullableFilter<"Battle">
     questions?: JsonFilter<"Battle">
     hostScore?: IntFilter<"Battle"> | number
     opponentScore?: IntFilter<"Battle"> | number
@@ -23086,6 +24636,9 @@ export namespace Prisma {
     title?: SortOrderInput | SortOrder
     status?: SortOrder
     questionCount?: SortOrder
+    mode?: SortOrder
+    subject?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
     questions?: SortOrder
     hostScore?: SortOrder
     opponentScore?: SortOrder
@@ -23113,6 +24666,9 @@ export namespace Prisma {
     title?: StringNullableFilter<"Battle"> | string | null
     status?: StringFilter<"Battle"> | string
     questionCount?: IntFilter<"Battle"> | number
+    mode?: StringFilter<"Battle"> | string
+    subject?: StringNullableFilter<"Battle"> | string | null
+    metadata?: JsonNullableFilter<"Battle">
     questions?: JsonFilter<"Battle">
     hostScore?: IntFilter<"Battle"> | number
     opponentScore?: IntFilter<"Battle"> | number
@@ -23137,6 +24693,9 @@ export namespace Prisma {
     title?: SortOrderInput | SortOrder
     status?: SortOrder
     questionCount?: SortOrder
+    mode?: SortOrder
+    subject?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
     questions?: SortOrder
     hostScore?: SortOrder
     opponentScore?: SortOrder
@@ -23164,6 +24723,9 @@ export namespace Prisma {
     title?: StringNullableWithAggregatesFilter<"Battle"> | string | null
     status?: StringWithAggregatesFilter<"Battle"> | string
     questionCount?: IntWithAggregatesFilter<"Battle"> | number
+    mode?: StringWithAggregatesFilter<"Battle"> | string
+    subject?: StringNullableWithAggregatesFilter<"Battle"> | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"Battle">
     questions?: JsonWithAggregatesFilter<"Battle">
     hostScore?: IntWithAggregatesFilter<"Battle"> | number
     opponentScore?: IntWithAggregatesFilter<"Battle"> | number
@@ -23936,10 +25498,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -23970,10 +25537,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -24004,10 +25576,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -24038,10 +25615,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -24072,6 +25654,10 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
   }
 
   export type UserUpdateManyMutationInput = {
@@ -24092,6 +25678,10 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -24112,6 +25702,10 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
   }
 
   export type VerificationTokenCreateInput = {
@@ -24162,9 +25756,13 @@ export namespace Prisma {
     content: string
     format: string
     tags?: NoteCreatetagsInput | string[]
+    isPinned?: boolean
+    lastViewedAt?: Date | string | null
+    isShared?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutNotesInput
+    folder?: FolderCreateNestedOneWithoutNotesInput
   }
 
   export type NoteUncheckedCreateInput = {
@@ -24173,6 +25771,10 @@ export namespace Prisma {
     content: string
     format: string
     tags?: NoteCreatetagsInput | string[]
+    isPinned?: boolean
+    lastViewedAt?: Date | string | null
+    isShared?: boolean
+    folderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -24184,9 +25786,13 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     format?: StringFieldUpdateOperationsInput | string
     tags?: NoteUpdatetagsInput | string[]
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isShared?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutNotesNestedInput
+    folder?: FolderUpdateOneWithoutNotesNestedInput
   }
 
   export type NoteUncheckedUpdateInput = {
@@ -24195,6 +25801,10 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     format?: StringFieldUpdateOperationsInput | string
     tags?: NoteUpdatetagsInput | string[]
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -24206,6 +25816,10 @@ export namespace Prisma {
     content: string
     format: string
     tags?: NoteCreatetagsInput | string[]
+    isPinned?: boolean
+    lastViewedAt?: Date | string | null
+    isShared?: boolean
+    folderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -24217,6 +25831,9 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     format?: StringFieldUpdateOperationsInput | string
     tags?: NoteUpdatetagsInput | string[]
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isShared?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24227,6 +25844,69 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     format?: StringFieldUpdateOperationsInput | string
     tags?: NoteUpdatetagsInput | string[]
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FolderCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFoldersInput
+    notes?: NoteCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    notes?: NoteUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFoldersNestedInput
+    notes?: NoteUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    notes?: NoteUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type FolderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FolderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -24405,6 +26085,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -24427,6 +26110,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -24449,6 +26135,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -24471,6 +26160,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -24493,6 +26185,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -24512,6 +26207,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -24529,6 +26227,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -25360,6 +27061,14 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type AccountListRelationFilter = {
     every?: AccountWhereInput
     some?: AccountWhereInput
@@ -25382,6 +27091,12 @@ export namespace Prisma {
     every?: NoteWhereInput
     some?: NoteWhereInput
     none?: NoteWhereInput
+  }
+
+  export type FolderListRelationFilter = {
+    every?: FolderWhereInput
+    some?: FolderWhereInput
+    none?: FolderWhereInput
   }
 
   export type CitationListRelationFilter = {
@@ -25454,6 +27169,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type FolderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CitationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -25508,10 +27227,17 @@ export namespace Prisma {
     emailNotifications?: SortOrder
     lastActive?: SortOrder
     studyStreak?: SortOrder
+    battleXp?: SortOrder
+    battleWinStreak?: SortOrder
+    soloSessionsCompleted?: SortOrder
+    battleAchievements?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
     studyStreak?: SortOrder
+    battleXp?: SortOrder
+    battleWinStreak?: SortOrder
+    soloSessionsCompleted?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -25532,6 +27258,9 @@ export namespace Prisma {
     emailNotifications?: SortOrder
     lastActive?: SortOrder
     studyStreak?: SortOrder
+    battleXp?: SortOrder
+    battleWinStreak?: SortOrder
+    soloSessionsCompleted?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -25552,10 +27281,16 @@ export namespace Prisma {
     emailNotifications?: SortOrder
     lastActive?: SortOrder
     studyStreak?: SortOrder
+    battleXp?: SortOrder
+    battleWinStreak?: SortOrder
+    soloSessionsCompleted?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
     studyStreak?: SortOrder
+    battleXp?: SortOrder
+    battleWinStreak?: SortOrder
+    soloSessionsCompleted?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -25603,12 +27338,9 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
+  export type FolderNullableScalarRelationFilter = {
+    is?: FolderWhereInput | null
+    isNot?: FolderWhereInput | null
   }
 
   export type NoteCountOrderByAggregateInput = {
@@ -25617,6 +27349,10 @@ export namespace Prisma {
     content?: SortOrder
     format?: SortOrder
     tags?: SortOrder
+    isPinned?: SortOrder
+    lastViewedAt?: SortOrder
+    isShared?: SortOrder
+    folderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -25627,6 +27363,10 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     format?: SortOrder
+    isPinned?: SortOrder
+    lastViewedAt?: SortOrder
+    isShared?: SortOrder
+    folderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -25637,6 +27377,34 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     format?: SortOrder
+    isPinned?: SortOrder
+    lastViewedAt?: SortOrder
+    isShared?: SortOrder
+    folderId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type FolderCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type FolderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type FolderMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -25835,6 +27603,9 @@ export namespace Prisma {
     title?: SortOrder
     status?: SortOrder
     questionCount?: SortOrder
+    mode?: SortOrder
+    subject?: SortOrder
+    metadata?: SortOrder
     questions?: SortOrder
     hostScore?: SortOrder
     opponentScore?: SortOrder
@@ -25860,6 +27631,8 @@ export namespace Prisma {
     title?: SortOrder
     status?: SortOrder
     questionCount?: SortOrder
+    mode?: SortOrder
+    subject?: SortOrder
     hostScore?: SortOrder
     opponentScore?: SortOrder
     hostAnsweredAt?: SortOrder
@@ -25878,6 +27651,8 @@ export namespace Prisma {
     title?: SortOrder
     status?: SortOrder
     questionCount?: SortOrder
+    mode?: SortOrder
+    subject?: SortOrder
     hostScore?: SortOrder
     opponentScore?: SortOrder
     hostAnsweredAt?: SortOrder
@@ -26253,6 +28028,10 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
   }
 
+  export type UserCreatebattleAchievementsInput = {
+    set: string[]
+  }
+
   export type AccountCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -26279,6 +28058,13 @@ export namespace Prisma {
     connectOrCreate?: NoteCreateOrConnectWithoutUserInput | NoteCreateOrConnectWithoutUserInput[]
     createMany?: NoteCreateManyUserInputEnvelope
     connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+  }
+
+  export type FolderCreateNestedManyWithoutUserInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
   }
 
   export type CitationCreateNestedManyWithoutUserInput = {
@@ -26379,6 +28165,13 @@ export namespace Prisma {
     connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
   }
 
+  export type FolderUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+  }
+
   export type CitationUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<CitationCreateWithoutUserInput, CitationUncheckedCreateWithoutUserInput> | CitationCreateWithoutUserInput[] | CitationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CitationCreateOrConnectWithoutUserInput | CitationCreateOrConnectWithoutUserInput[]
@@ -26457,6 +28250,11 @@ export namespace Prisma {
     set?: boolean
   }
 
+  export type UserUpdatebattleAchievementsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
   export type AccountUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -26511,6 +28309,20 @@ export namespace Prisma {
     update?: NoteUpdateWithWhereUniqueWithoutUserInput | NoteUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: NoteUpdateManyWithWhereWithoutUserInput | NoteUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: NoteScalarWhereInput | NoteScalarWhereInput[]
+  }
+
+  export type FolderUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    upsert?: FolderUpsertWithWhereUniqueWithoutUserInput | FolderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    update?: FolderUpdateWithWhereUniqueWithoutUserInput | FolderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FolderUpdateManyWithWhereWithoutUserInput | FolderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
   }
 
   export type CitationUpdateManyWithoutUserNestedInput = {
@@ -26709,6 +28521,20 @@ export namespace Prisma {
     deleteMany?: NoteScalarWhereInput | NoteScalarWhereInput[]
   }
 
+  export type FolderUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    upsert?: FolderUpsertWithWhereUniqueWithoutUserInput | FolderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    update?: FolderUpdateWithWhereUniqueWithoutUserInput | FolderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FolderUpdateManyWithWhereWithoutUserInput | FolderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
+  }
+
   export type CitationUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<CitationCreateWithoutUserInput, CitationUncheckedCreateWithoutUserInput> | CitationCreateWithoutUserInput[] | CitationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CitationCreateOrConnectWithoutUserInput | CitationCreateOrConnectWithoutUserInput[]
@@ -26859,6 +28685,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type FolderCreateNestedOneWithoutNotesInput = {
+    create?: XOR<FolderCreateWithoutNotesInput, FolderUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: FolderCreateOrConnectWithoutNotesInput
+    connect?: FolderWhereUniqueInput
+  }
+
   export type NoteUpdatetagsInput = {
     set?: string[]
     push?: string | string[]
@@ -26870,6 +28702,72 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutNotesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotesInput, UserUpdateWithoutNotesInput>, UserUncheckedUpdateWithoutNotesInput>
+  }
+
+  export type FolderUpdateOneWithoutNotesNestedInput = {
+    create?: XOR<FolderCreateWithoutNotesInput, FolderUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: FolderCreateOrConnectWithoutNotesInput
+    upsert?: FolderUpsertWithoutNotesInput
+    disconnect?: FolderWhereInput | boolean
+    delete?: FolderWhereInput | boolean
+    connect?: FolderWhereUniqueInput
+    update?: XOR<XOR<FolderUpdateToOneWithWhereWithoutNotesInput, FolderUpdateWithoutNotesInput>, FolderUncheckedUpdateWithoutNotesInput>
+  }
+
+  export type UserCreateNestedOneWithoutFoldersInput = {
+    create?: XOR<UserCreateWithoutFoldersInput, UserUncheckedCreateWithoutFoldersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFoldersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type NoteCreateNestedManyWithoutFolderInput = {
+    create?: XOR<NoteCreateWithoutFolderInput, NoteUncheckedCreateWithoutFolderInput> | NoteCreateWithoutFolderInput[] | NoteUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutFolderInput | NoteCreateOrConnectWithoutFolderInput[]
+    createMany?: NoteCreateManyFolderInputEnvelope
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+  }
+
+  export type NoteUncheckedCreateNestedManyWithoutFolderInput = {
+    create?: XOR<NoteCreateWithoutFolderInput, NoteUncheckedCreateWithoutFolderInput> | NoteCreateWithoutFolderInput[] | NoteUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutFolderInput | NoteCreateOrConnectWithoutFolderInput[]
+    createMany?: NoteCreateManyFolderInputEnvelope
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutFoldersNestedInput = {
+    create?: XOR<UserCreateWithoutFoldersInput, UserUncheckedCreateWithoutFoldersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFoldersInput
+    upsert?: UserUpsertWithoutFoldersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFoldersInput, UserUpdateWithoutFoldersInput>, UserUncheckedUpdateWithoutFoldersInput>
+  }
+
+  export type NoteUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<NoteCreateWithoutFolderInput, NoteUncheckedCreateWithoutFolderInput> | NoteCreateWithoutFolderInput[] | NoteUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutFolderInput | NoteCreateOrConnectWithoutFolderInput[]
+    upsert?: NoteUpsertWithWhereUniqueWithoutFolderInput | NoteUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: NoteCreateManyFolderInputEnvelope
+    set?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    disconnect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    delete?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    update?: NoteUpdateWithWhereUniqueWithoutFolderInput | NoteUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: NoteUpdateManyWithWhereWithoutFolderInput | NoteUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: NoteScalarWhereInput | NoteScalarWhereInput[]
+  }
+
+  export type NoteUncheckedUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<NoteCreateWithoutFolderInput, NoteUncheckedCreateWithoutFolderInput> | NoteCreateWithoutFolderInput[] | NoteUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutFolderInput | NoteCreateOrConnectWithoutFolderInput[]
+    upsert?: NoteUpsertWithWhereUniqueWithoutFolderInput | NoteUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: NoteCreateManyFolderInputEnvelope
+    set?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    disconnect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    delete?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    update?: NoteUpdateWithWhereUniqueWithoutFolderInput | NoteUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: NoteUpdateManyWithWhereWithoutFolderInput | NoteUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: NoteScalarWhereInput | NoteScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutCitationsInput = {
@@ -27609,9 +29507,14 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -27642,9 +29545,14 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -27691,9 +29599,14 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -27724,9 +29637,14 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -27757,9 +29675,14 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -27790,9 +29713,14 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -27839,9 +29767,14 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -27872,9 +29805,14 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -27905,9 +29843,14 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -27938,9 +29881,14 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -27987,9 +29935,14 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -28020,9 +29973,14 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -28126,8 +30084,12 @@ export namespace Prisma {
     content: string
     format: string
     tags?: NoteCreatetagsInput | string[]
+    isPinned?: boolean
+    lastViewedAt?: Date | string | null
+    isShared?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    folder?: FolderCreateNestedOneWithoutNotesInput
   }
 
   export type NoteUncheckedCreateWithoutUserInput = {
@@ -28136,6 +30098,10 @@ export namespace Prisma {
     content: string
     format: string
     tags?: NoteCreatetagsInput | string[]
+    isPinned?: boolean
+    lastViewedAt?: Date | string | null
+    isShared?: boolean
+    folderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -28147,6 +30113,32 @@ export namespace Prisma {
 
   export type NoteCreateManyUserInputEnvelope = {
     data: NoteCreateManyUserInput | NoteCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FolderCreateWithoutUserInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: NoteCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: NoteUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderCreateOrConnectWithoutUserInput = {
+    where: FolderWhereUniqueInput
+    create: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput>
+  }
+
+  export type FolderCreateManyUserInputEnvelope = {
+    data: FolderCreateManyUserInput | FolderCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -28221,6 +30213,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -28242,6 +30237,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -28273,6 +30271,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -28294,6 +30295,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -28599,9 +30603,40 @@ export namespace Prisma {
     content?: StringFilter<"Note"> | string
     format?: StringFilter<"Note"> | string
     tags?: StringNullableListFilter<"Note">
+    isPinned?: BoolFilter<"Note"> | boolean
+    lastViewedAt?: DateTimeNullableFilter<"Note"> | Date | string | null
+    isShared?: BoolFilter<"Note"> | boolean
+    folderId?: StringNullableFilter<"Note"> | string | null
     createdAt?: DateTimeFilter<"Note"> | Date | string
     updatedAt?: DateTimeFilter<"Note"> | Date | string
     userId?: StringFilter<"Note"> | string
+  }
+
+  export type FolderUpsertWithWhereUniqueWithoutUserInput = {
+    where: FolderWhereUniqueInput
+    update: XOR<FolderUpdateWithoutUserInput, FolderUncheckedUpdateWithoutUserInput>
+    create: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput>
+  }
+
+  export type FolderUpdateWithWhereUniqueWithoutUserInput = {
+    where: FolderWhereUniqueInput
+    data: XOR<FolderUpdateWithoutUserInput, FolderUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FolderUpdateManyWithWhereWithoutUserInput = {
+    where: FolderScalarWhereInput
+    data: XOR<FolderUpdateManyMutationInput, FolderUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type FolderScalarWhereInput = {
+    AND?: FolderScalarWhereInput | FolderScalarWhereInput[]
+    OR?: FolderScalarWhereInput[]
+    NOT?: FolderScalarWhereInput | FolderScalarWhereInput[]
+    id?: StringFilter<"Folder"> | string
+    name?: StringFilter<"Folder"> | string
+    createdAt?: DateTimeFilter<"Folder"> | Date | string
+    updatedAt?: DateTimeFilter<"Folder"> | Date | string
+    userId?: StringFilter<"Folder"> | string
   }
 
   export type CitationUpsertWithWhereUniqueWithoutUserInput = {
@@ -28692,6 +30727,9 @@ export namespace Prisma {
     title?: StringNullableFilter<"Battle"> | string | null
     status?: StringFilter<"Battle"> | string
     questionCount?: IntFilter<"Battle"> | number
+    mode?: StringFilter<"Battle"> | string
+    subject?: StringNullableFilter<"Battle"> | string | null
+    metadata?: JsonNullableFilter<"Battle">
     questions?: JsonFilter<"Battle">
     hostScore?: IntFilter<"Battle"> | number
     opponentScore?: IntFilter<"Battle"> | number
@@ -28909,9 +30947,14 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -28942,9 +30985,14 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -28960,6 +31008,27 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutNotesInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutNotesInput, UserUncheckedCreateWithoutNotesInput>
+  }
+
+  export type FolderCreateWithoutNotesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFoldersInput
+  }
+
+  export type FolderUncheckedCreateWithoutNotesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type FolderCreateOrConnectWithoutNotesInput = {
+    where: FolderWhereUniqueInput
+    create: XOR<FolderCreateWithoutNotesInput, FolderUncheckedCreateWithoutNotesInput>
   }
 
   export type UserUpsertWithoutNotesInput = {
@@ -28991,9 +31060,14 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -29024,9 +31098,14 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -29037,6 +31116,255 @@ export namespace Prisma {
     studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
     groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type FolderUpsertWithoutNotesInput = {
+    update: XOR<FolderUpdateWithoutNotesInput, FolderUncheckedUpdateWithoutNotesInput>
+    create: XOR<FolderCreateWithoutNotesInput, FolderUncheckedCreateWithoutNotesInput>
+    where?: FolderWhereInput
+  }
+
+  export type FolderUpdateToOneWithWhereWithoutNotesInput = {
+    where?: FolderWhereInput
+    data: XOR<FolderUpdateWithoutNotesInput, FolderUncheckedUpdateWithoutNotesInput>
+  }
+
+  export type FolderUpdateWithoutNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFoldersNestedInput
+  }
+
+  export type FolderUncheckedUpdateWithoutNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserCreateWithoutFoldersInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutFoldersInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutFoldersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFoldersInput, UserUncheckedCreateWithoutFoldersInput>
+  }
+
+  export type NoteCreateWithoutFolderInput = {
+    id?: string
+    title: string
+    content: string
+    format: string
+    tags?: NoteCreatetagsInput | string[]
+    isPinned?: boolean
+    lastViewedAt?: Date | string | null
+    isShared?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutNotesInput
+  }
+
+  export type NoteUncheckedCreateWithoutFolderInput = {
+    id?: string
+    title: string
+    content: string
+    format: string
+    tags?: NoteCreatetagsInput | string[]
+    isPinned?: boolean
+    lastViewedAt?: Date | string | null
+    isShared?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type NoteCreateOrConnectWithoutFolderInput = {
+    where: NoteWhereUniqueInput
+    create: XOR<NoteCreateWithoutFolderInput, NoteUncheckedCreateWithoutFolderInput>
+  }
+
+  export type NoteCreateManyFolderInputEnvelope = {
+    data: NoteCreateManyFolderInput | NoteCreateManyFolderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutFoldersInput = {
+    update: XOR<UserUpdateWithoutFoldersInput, UserUncheckedUpdateWithoutFoldersInput>
+    create: XOR<UserCreateWithoutFoldersInput, UserUncheckedCreateWithoutFoldersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFoldersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFoldersInput, UserUncheckedUpdateWithoutFoldersInput>
+  }
+
+  export type UserUpdateWithoutFoldersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFoldersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type NoteUpsertWithWhereUniqueWithoutFolderInput = {
+    where: NoteWhereUniqueInput
+    update: XOR<NoteUpdateWithoutFolderInput, NoteUncheckedUpdateWithoutFolderInput>
+    create: XOR<NoteCreateWithoutFolderInput, NoteUncheckedCreateWithoutFolderInput>
+  }
+
+  export type NoteUpdateWithWhereUniqueWithoutFolderInput = {
+    where: NoteWhereUniqueInput
+    data: XOR<NoteUpdateWithoutFolderInput, NoteUncheckedUpdateWithoutFolderInput>
+  }
+
+  export type NoteUpdateManyWithWhereWithoutFolderInput = {
+    where: NoteScalarWhereInput
+    data: XOR<NoteUpdateManyMutationInput, NoteUncheckedUpdateManyWithoutFolderInput>
   }
 
   export type UserCreateWithoutCitationsInput = {
@@ -29057,10 +31385,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -29090,10 +31423,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -29139,10 +31477,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -29172,10 +31515,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -29205,10 +31553,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -29238,10 +31591,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -29287,10 +31645,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -29320,10 +31683,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -29353,10 +31721,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -29386,10 +31759,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -29424,10 +31802,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -29457,10 +31840,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -29585,10 +31973,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -29618,10 +32011,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -29662,10 +32060,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -29695,10 +32098,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -29789,6 +32197,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -29810,6 +32221,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -29847,6 +32261,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -29868,6 +32285,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -29889,6 +32309,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -29910,6 +32333,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -29947,10 +32373,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -29980,10 +32411,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -30018,6 +32454,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -30039,6 +32478,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -30082,10 +32524,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -30115,10 +32562,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -30137,6 +32589,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -30158,6 +32613,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -30195,10 +32653,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -30228,10 +32691,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -30266,6 +32734,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -30287,6 +32758,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -30330,10 +32804,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -30363,10 +32842,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -30396,10 +32880,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -30429,10 +32918,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -30552,10 +33046,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -30585,10 +33084,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -30705,10 +33209,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -30738,10 +33247,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -30820,10 +33334,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -30853,10 +33372,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -30913,10 +33437,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -30946,10 +33475,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -31028,10 +33562,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -31061,10 +33600,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -31154,10 +33698,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
@@ -31187,10 +33736,15 @@ export namespace Prisma {
     emailNotifications?: boolean
     lastActive?: Date | string | null
     studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
@@ -31236,10 +33790,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
@@ -31269,10 +33828,15 @@ export namespace Prisma {
     emailNotifications?: BoolFieldUpdateOperationsInput | boolean
     lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
@@ -31318,6 +33882,17 @@ export namespace Prisma {
     content: string
     format: string
     tags?: NoteCreatetagsInput | string[]
+    isPinned?: boolean
+    lastViewedAt?: Date | string | null
+    isShared?: boolean
+    folderId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FolderCreateManyUserInput = {
+    id?: string
+    name: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31351,6 +33926,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -31369,6 +33947,9 @@ export namespace Prisma {
     title?: string | null
     status?: string
     questionCount?: number
+    mode?: string
+    subject?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions: JsonNullValueInput | InputJsonValue
     hostScore?: number
     opponentScore?: number
@@ -31520,8 +34101,12 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     format?: StringFieldUpdateOperationsInput | string
     tags?: NoteUpdatetagsInput | string[]
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isShared?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folder?: FolderUpdateOneWithoutNotesNestedInput
   }
 
   export type NoteUncheckedUpdateWithoutUserInput = {
@@ -31530,6 +34115,10 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     format?: StringFieldUpdateOperationsInput | string
     tags?: NoteUpdatetagsInput | string[]
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31540,6 +34129,33 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     format?: StringFieldUpdateOperationsInput | string
     tags?: NoteUpdatetagsInput | string[]
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FolderUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NoteUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NoteUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31617,6 +34233,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -31638,6 +34257,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -31659,6 +34281,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -31677,6 +34302,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -31698,6 +34326,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -31719,6 +34350,9 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    mode?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     questions?: JsonNullValueInput | InputJsonValue
     hostScore?: IntFieldUpdateOperationsInput | number
     opponentScore?: IntFieldUpdateOperationsInput | number
@@ -31887,6 +34521,62 @@ export namespace Prisma {
     connectionDescription?: StringFieldUpdateOperationsInput | string
     strength?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NoteCreateManyFolderInput = {
+    id?: string
+    title: string
+    content: string
+    format: string
+    tags?: NoteCreatetagsInput | string[]
+    isPinned?: boolean
+    lastViewedAt?: Date | string | null
+    isShared?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type NoteUpdateWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    format?: StringFieldUpdateOperationsInput | string
+    tags?: NoteUpdatetagsInput | string[]
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutNotesNestedInput
+  }
+
+  export type NoteUncheckedUpdateWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    format?: StringFieldUpdateOperationsInput | string
+    tags?: NoteUpdatetagsInput | string[]
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type NoteUncheckedUpdateManyWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    format?: StringFieldUpdateOperationsInput | string
+    tags?: NoteUpdatetagsInput | string[]
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    lastViewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isShared?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type BattleQuestionCreateManyBattleInput = {
