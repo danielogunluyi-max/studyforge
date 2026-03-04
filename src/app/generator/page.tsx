@@ -770,23 +770,18 @@ export default function Generator() {
                 <div key={card.id}>
                   <div className="mb-2 flex items-center justify-between">
                     <p className="text-sm text-gray-500">Card {index + 1}</p>
-                    {knownCards.has(card.id) ? (
-                      <span className="rounded-full border border-green-300 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Known</span>
-                    ) : stillLearningCards.has(card.id) ? (
-                      <span className="rounded-full border border-yellow-300 bg-yellow-50 px-2 py-0.5 text-xs font-semibold text-yellow-700">Still Learning</span>
-                    ) : null}
                   </div>
                   <div
                     onClick={() => toggleCard(card.id)}
                     className="group relative h-48 cursor-pointer perspective"
                   >
                     <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(card.id) ? 'rotate-y-180' : ''}`}>
-                      <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-white p-6 backface-hidden">
+                      <div className={`absolute inset-0 flex items-center justify-center rounded-lg border-2 bg-white p-6 backface-hidden ${knownCards.has(card.id) ? "border-l-4 border-green-500" : stillLearningCards.has(card.id) ? "border-l-4 border-orange-500" : "border-blue-200"}`}>
                         <p className="text-center text-lg font-medium leading-relaxed text-gray-900">
                           {card.question}
                         </p>
                       </div>
-                      <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-white p-6 backface-hidden rotate-y-180">
+                      <div className={`absolute inset-0 flex items-center justify-center rounded-lg border-2 bg-white p-6 backface-hidden rotate-y-180 ${knownCards.has(card.id) ? "border-l-4 border-green-500" : stillLearningCards.has(card.id) ? "border-l-4 border-orange-500" : "border-blue-200"}`}>
                         <p className="text-center leading-relaxed text-gray-700">
                           {card.answer}
                         </p>
@@ -800,16 +795,16 @@ export default function Generator() {
                     <button
                       type="button"
                       onClick={() => markCardKnown(card.id)}
-                      className="rounded-lg border border-green-300 bg-green-50 px-3 py-1.5 text-sm font-semibold text-green-700 hover:bg-green-100"
+                      className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold"
                     >
-                      ✓ Got it
+                      Got it
                     </button>
                     <button
                       type="button"
                       onClick={() => markCardStillLearning(card.id)}
-                      className="rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-1.5 text-sm font-semibold text-yellow-700 hover:bg-yellow-100"
+                      className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg text-sm font-semibold"
                     >
-                      ↺ Still Learning
+                      Still Learning
                     </button>
                   </div>
                 </div>
