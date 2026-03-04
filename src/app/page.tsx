@@ -22,7 +22,7 @@ const stats: StatItem[] = [
 
 const featureCards = [
   {
-    emoji: "🧠",
+    emoji: "🎯",
     title: "AI Exam Predictor",
     description: "Upload past exams and get likely question predictions with confidence scoring.",
     href: "/exam-predictor",
@@ -38,7 +38,7 @@ const featureCards = [
     bg: "from-fuchsia-500/20 via-rose-500/20 to-orange-500/20",
   },
   {
-    emoji: "🧩",
+    emoji: "🧠",
     title: "Learning Style Quiz",
     description: "Find your learning style and tailor formats that match how you retain information.",
     href: "/learning-style-quiz",
@@ -62,7 +62,7 @@ const featureCards = [
     bg: "from-blue-500/20 via-sky-500/20 to-indigo-500/20",
   },
   {
-    emoji: "📎",
+    emoji: "📚",
     title: "Citation Assistant",
     description: "Generate citations quickly and keep your work clean, consistent, and academic-ready.",
     href: "/citations",
@@ -95,7 +95,7 @@ const testimonials = [
 export default function Home() {
   const [typedText, setTypedText] = useState(typingWords[0] ?? "");
   const [typingIndex, setTypingIndex] = useState(0);
-  const [typingCharIndex, setTypingCharIndex] = useState((typingWords[0] ?? "").length);
+  const [typingCharIndex, setTypingCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [statValues, setStatValues] = useState(stats.map(() => 0));
 
@@ -214,7 +214,7 @@ export default function Home() {
           <div className="absolute right-0 top-20 h-72 w-72 rounded-full bg-purple-500/20 blur-3xl" />
         </div>
 
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-2 lg:items-center">
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center">
           <div className="reveal-on-scroll" data-reveal="true">
             <div className="mb-5 flex flex-wrap items-center gap-2 text-xs font-semibold text-white/90">
               <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1">🔥 Free for students</span>
@@ -230,8 +230,7 @@ export default function Home() {
             </h1>
 
             <p className="mt-5 text-lg text-slate-200 sm:text-xl">
-              Generate <span className="font-semibold text-white">{typedText}</span>
-              <span className="ml-1 inline-block h-5 w-[2px] animate-pulse bg-violet-200 align-middle" /> in seconds from your notes.
+              Generate <span className="inline-flex items-center font-semibold text-white">{typedText}<span className="ml-1 inline-block h-5 w-[2px] animate-pulse bg-violet-200 align-middle" /></span> in seconds.
             </p>
 
             <p className="mt-4 max-w-xl text-sm text-slate-300 sm:text-base">
@@ -239,7 +238,7 @@ export default function Home() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Link href="/generator" className="rounded-xl bg-white px-6 py-3 text-center text-sm font-bold text-slate-900 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-white/20">
+              <Link href="/generator" className="rounded-xl bg-blue-600 px-6 py-3 text-center text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-900/40">
                 Paste Text →
               </Link>
               <Link href="/upload" className="rounded-xl border border-white/40 bg-white/10 px-6 py-3 text-center text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/20">
@@ -280,7 +279,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={statsRef} className="border-b border-gray-200 bg-white py-8">
+      <section ref={statsRef} className="border-b border-gray-200 bg-white py-20">
         <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
           {stats.map((item, index) => (
             <div key={item.label} className="reveal-on-scroll rounded-xl border border-gray-200 bg-gray-50 p-4 text-center shadow-sm" data-reveal="true">
@@ -295,19 +294,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="reveal-on-scroll mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20" data-reveal="true">
+      <section className="reveal-on-scroll mx-auto max-w-7xl px-4 py-20 sm:px-6" data-reveal="true">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">How it works</h2>
           <p className="mt-3 text-gray-600">A fast 3-step workflow to turn raw notes into confident exam prep.</p>
         </div>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {[
-            { icon: "📄", title: "Step 1", desc: "Paste your notes or upload a file" },
-            { icon: "🛠️", title: "Step 2", desc: "Choose your study format" },
-            { icon: "🏆", title: "Step 3", desc: "Ace your exam" },
+            { icon: "📄", title: "Step 1", desc: "Paste your notes or upload a file", accent: "border-blue-500" },
+            { icon: "🛠️", title: "Step 2", desc: "Choose your study format", accent: "border-indigo-500" },
+            { icon: "🏆", title: "Step 3", desc: "Ace your exam", accent: "border-purple-500" },
           ].map((step, index) => (
-            <div key={step.title} className="relative rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
-              {index < 2 && <span className="absolute -right-3 top-1/2 hidden h-[2px] w-6 bg-gradient-to-r from-blue-400 to-purple-400 md:block" />}
+            <div key={step.title} className={`relative rounded-xl border border-gray-200 border-l-4 ${step.accent} bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg`}>
+              {index < 2 && <span className="absolute -right-5 top-1/2 hidden -translate-y-1/2 text-2xl font-bold text-blue-500 md:block">→</span>}
               <div className="mb-3 text-3xl">{step.icon}</div>
               <h3 className="text-lg font-bold text-gray-900">{step.title}</h3>
               <p className="mt-2 text-sm text-gray-600">{step.desc}</p>
@@ -316,7 +315,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#060a1a] py-14 sm:py-20">
+      <section className="bg-[#060a1a] py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="reveal-on-scroll mb-12 text-center" data-reveal="true">
             <h2 className="text-3xl font-bold text-white sm:text-4xl">Unique features built for modern students</h2>
@@ -340,7 +339,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white py-14 sm:py-20">
+      <section className="bg-white py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="reveal-on-scroll mb-12 text-center" data-reveal="true">
             <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">Students are seeing real results</h2>
@@ -349,7 +348,7 @@ export default function Home() {
 
           <div className="grid gap-5 md:grid-cols-3">
             {testimonials.map((item) => (
-              <div key={item.author} className="reveal-on-scroll rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg" data-reveal="true">
+              <div key={item.author} className="reveal-on-scroll rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-lg" data-reveal="true">
                 <div className="mb-4 flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-sm font-bold text-white">
                     {item.initials}
@@ -359,6 +358,7 @@ export default function Home() {
                     <p className="text-xs text-gray-500">{item.meta}</p>
                   </div>
                 </div>
+                <p className="mb-3 text-sm text-amber-500">⭐⭐⭐⭐⭐</p>
                 <p className="text-sm leading-relaxed text-gray-700">“{item.quote}”</p>
               </div>
             ))}
@@ -366,7 +366,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-br from-[#0b1024] via-[#140f33] to-[#1b0f3f] py-14 sm:py-20">
+      <section className="bg-gradient-to-br from-[#0b1024] via-[#140f33] to-[#1b0f3f] py-20">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:items-center">
           <div className="reveal-on-scroll" data-reveal="true">
             <p className="inline-block rounded-full border border-purple-300/30 bg-purple-500/15 px-3 py-1 text-xs font-semibold text-purple-100">Nova AI Tutor</p>
@@ -392,7 +392,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="reveal-on-scroll mx-auto max-w-7xl px-4 py-14 text-center sm:px-6 sm:py-20" data-reveal="true">
+      <section className="reveal-on-scroll mx-auto max-w-7xl px-4 py-20 text-center sm:px-6" data-reveal="true">
         <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">Ready to study smarter?</h2>
         <p className="mx-auto mt-3 max-w-2xl text-gray-600">Join students using StudyForge to convert notes into focused prep, stronger confidence, and better results.</p>
         <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
@@ -405,7 +405,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="border-t border-gray-200 bg-[#060a1a] py-10">
+      <footer className="border-t border-gray-200 bg-[#060a1a] py-20">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:grid-cols-3 sm:px-6">
           <div>
             <div className="flex items-center gap-2">
@@ -430,15 +430,21 @@ export default function Home() {
           <div>
             <p className="text-sm font-semibold text-white">Social</p>
             <div className="mt-3 flex flex-wrap gap-2">
-              {[
-                { label: "X", href: "#" },
-                { label: "Discord", href: "#" },
-                { label: "Instagram", href: "#" },
-              ].map((item) => (
-                <a key={item.label} href={item.href} className="rounded-lg border border-white/20 px-3 py-2 text-xs font-semibold text-slate-300 transition hover:border-white/40 hover:text-white">
-                  {item.label}
-                </a>
-              ))}
+              <a href="#" aria-label="X" className="rounded-lg border border-white/20 p-2 text-slate-300 transition hover:border-white/40 hover:text-white">
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                  <path d="M18.244 2H21l-6.56 7.497L22.5 22h-6.31l-4.94-6.39L5.66 22H2.9l7.02-8.02L1.5 2h6.47l4.46 5.82L18.244 2Zm-1.11 18h1.75L6.93 3.9H5.06L17.134 20Z" />
+                </svg>
+              </a>
+              <a href="#" aria-label="Discord" className="rounded-lg border border-white/20 p-2 text-slate-300 transition hover:border-white/40 hover:text-white">
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                  <path d="M20.317 4.37A19.79 19.79 0 0 0 15.885 3a13.946 13.946 0 0 0-.678 1.394 18.77 18.77 0 0 0-5.414 0A13.915 13.915 0 0 0 9.115 3a19.736 19.736 0 0 0-4.433 1.371C1.857 8.589 1.09 12.702 1.473 16.757a19.902 19.902 0 0 0 5.432 2.743 14.323 14.323 0 0 0 1.163-1.915 12.94 12.94 0 0 1-1.833-.884c.154-.112.305-.229.452-.35 3.53 1.67 7.358 1.67 10.847 0 .148.121.299.238.452.35a12.87 12.87 0 0 1-1.836.885 14.218 14.218 0 0 0 1.165 1.914 19.876 19.876 0 0 0 5.433-2.743c.448-4.7-.765-8.775-3.21-12.387ZM8.02 14.39c-1.06 0-1.924-.96-1.924-2.14s.85-2.14 1.924-2.14c1.08 0 1.94.96 1.924 2.14 0 1.18-.85 2.14-1.924 2.14Zm7.96 0c-1.06 0-1.924-.96-1.924-2.14s.85-2.14 1.924-2.14c1.08 0 1.94.96 1.924 2.14 0 1.18-.848 2.14-1.924 2.14Z" />
+                </svg>
+              </a>
+              <a href="#" aria-label="Instagram" className="rounded-lg border border-white/20 p-2 text-slate-300 transition hover:border-white/40 hover:text-white">
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                  <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2ZM7.5 4A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm9.75 1.5a1.25 1.25 0 1 1-1.25 1.25 1.25 1.25 0 0 1 1.25-1.25ZM12 7a5 5 0 1 1-5 5 5 5 0 0 1 5-5Zm0 2a3 3 0 1 0 3 3 3 3 0 0 0-3-3Z" />
+                </svg>
+              </a>
             </div>
             <p className="mt-4 text-xs text-slate-400">© 2026 StudyForge</p>
           </div>
