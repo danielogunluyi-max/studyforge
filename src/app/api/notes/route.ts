@@ -8,12 +8,16 @@ type NotePayload = {
   content: string;
   format: string;
   tags?: string[];
+  folderId?: string | null;
 };
 
 type NotePatchPayload = {
   id?: string;
   isPinned?: boolean;
   markViewed?: boolean;
+  isShared?: boolean;
+  folderId?: string | null;
+  duplicate?: boolean;
 };
 
 function sanitizeTags(tags: unknown): string[] {
@@ -81,6 +85,39 @@ async function autoGenerateTags(content: string): Promise<string[]> {
   }
 }
 
+async function updateStudyStreak(userId: string) {
+  const user = await db.user.findUnique({
+    where: { id: userId },
+    select: { lastActive: true, studyStreak: true },
+  });
+
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  let nextStreak = 1;
+  if (user?.lastActive) {
+    const last = new Date(user.lastActive);
+    const lastStart = new Date(last.getFullYear(), last.getMonth(), last.getDate());
+    const dayDiff = Math.floor((todayStart.getTime() - lastStart.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (dayDiff <= 0) {
+      nextStreak = user.studyStreak || 1;
+    } else if (dayDiff === 1) {
+      nextStreak = (user.studyStreak || 0) + 1;
+    } else {
+      nextStreak = 1;
+    }
+  }
+
+  await db.user.update({
+    where: { id: userId },
+    data: {
+      lastActive: now,
+      studyStreak: nextStreak,
+    },
+  });
+}
+
 function getDateFilter(period: string | null) {
   if (!period) return undefined;
 
@@ -136,6 +173,7 @@ export async function GET(request: Request) {
     const tag = (searchParams.get("tag") ?? "").trim();
     const format = (searchParams.get("format") ?? "").trim();
     const period = (searchParams.get("period") ?? "").trim();
+    const folderId = (searchParams.get("folderId") ?? "").trim();
     const sort = (searchParams.get("sort") ?? "newest").trim().toLowerCase();
     const page = parseInt(searchParams.get("page") ?? "1", 10);
     const limit = parseInt(searchParams.get("limit") ?? "20", 10);
@@ -150,6 +188,7 @@ export async function GET(request: Request) {
       userId: session.user.id,
       ...(format ? { format } : {}),
       ...(tag ? { tags: { has: tag } } : {}),
+      ...(folderId ? { folderId } : {}),
       ...(period ? { createdAt: getDateFilter(period) } : {}),
       ...(q
         ? {
@@ -179,6 +218,8 @@ export async function GET(request: Request) {
           tags: true,
           isPinned: true,
           lastViewedAt: true,
+          isShared: true,
+          folderId: true,
         },
       }),
       db.note.findMany({
@@ -197,6 +238,8 @@ export async function GET(request: Request) {
           tags: true,
           isPinned: true,
           lastViewedAt: true,
+          isShared: true,
+          folderId: true,
         },
       }),
     ]);
@@ -251,7 +294,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { title, content, format, tags } = (await request.json()) as NotePayload;
+    const { title, content, format, tags, folderId } = (await request.json()) as NotePayload;
 
     if (!title || !content || !format) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -268,9 +311,12 @@ export async function POST(request: Request) {
         content,
         format,
         tags: nextTags,
+        folderId: folderId ?? undefined,
         userId: session.user.id,
       },
     });
+
+    await updateStudyStreak(session.user.id);
 
     return NextResponse.json({ note });
   } catch (error) {
@@ -290,7 +336,7 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, isPinned, markViewed } = (await request.json()) as NotePatchPayload;
+    const { id, isPinned, markViewed, isShared, folderId, duplicate } = (await request.json()) as NotePatchPayload;
 
     if (!id) {
       return NextResponse.json({ error: "Note ID required" }, { status: 400 });
@@ -301,12 +347,46 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Note not found or unauthorized" }, { status: 404 });
     }
 
-    const data: { isPinned?: boolean; lastViewedAt?: Date } = {};
+    if (duplicate) {
+      const copied = await db.note.create({
+        data: {
+          title: `Copy of ${note.title}`,
+          content: note.content,
+          format: note.format,
+          tags: note.tags,
+          userId: session.user.id,
+          folderId: note.folderId,
+        },
+        select: {
+          id: true,
+          title: true,
+          format: true,
+          createdAt: true,
+          content: true,
+          tags: true,
+          isPinned: true,
+          lastViewedAt: true,
+          isShared: true,
+          folderId: true,
+        },
+      });
+
+      await updateStudyStreak(session.user.id);
+      return NextResponse.json({ note: copied });
+    }
+
+    const data: { isPinned?: boolean; lastViewedAt?: Date; isShared?: boolean; folderId?: string | null } = {};
     if (typeof isPinned === "boolean") {
       data.isPinned = isPinned;
     }
     if (markViewed) {
       data.lastViewedAt = new Date();
+    }
+    if (typeof isShared === "boolean") {
+      data.isShared = isShared;
+    }
+    if (typeof folderId !== "undefined") {
+      data.folderId = folderId;
     }
 
     if (!Object.keys(data).length) {
@@ -325,6 +405,8 @@ export async function PATCH(request: Request) {
         tags: true,
         isPinned: true,
         lastViewedAt: true,
+        isShared: true,
+        folderId: true,
       },
     });
 

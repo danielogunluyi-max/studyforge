@@ -22,12 +22,20 @@ type Note = {
   tags: string[];
   isPinned: boolean;
   lastViewedAt: string | null;
+  isShared: boolean;
+  folderId: string | null;
   relevanceScore?: number;
 };
 
 type TagCount = {
   name: string;
   count: number;
+};
+
+type Folder = {
+  id: string;
+  name: string;
+  noteCount: number;
 };
 
 const TAG_COLOR_CLASSES = [
@@ -77,6 +85,7 @@ export default function MyNotes() {
 
   const [notes, setNotes] = useState<Note[]>([]);
   const [recentlyViewed, setRecentlyViewed] = useState<Note[]>([]);
+  const [folders, setFolders] = useState<Folder[]>([]);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [tagStats, setTagStats] = useState<TagCount[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -84,9 +93,15 @@ export default function MyNotes() {
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [activeTag, setActiveTag] = useState("");
+  const [activeFolder, setActiveFolder] = useState("");
   const [activePeriod, setActivePeriod] = useState("");
   const [activeFormat, setActiveFormat] = useState("");
   const [sortBy, setSortBy] = useState("newest");
+  const [studyStreak, setStudyStreak] = useState(0);
+  const [selectedNoteIds, setSelectedNoteIds] = useState<string[]>([]);
+  const [bulkMoveFolderId, setBulkMoveFolderId] = useState("");
+  const [hoveredNoteId, setHoveredNoteId] = useState("");
+  const [menuOpenNoteId, setMenuOpenNoteId] = useState("");
   const [error, setError] = useState("");
   const [exportingNoteId, setExportingNoteId] = useState("");
   const [tagModalOpen, setTagModalOpen] = useState(false);
@@ -107,9 +122,11 @@ export default function MyNotes() {
     const params = new URLSearchParams(window.location.search);
     const query = params.get("q") ?? "";
     const tag = params.get("tag") ?? "";
+    const folder = params.get("folder") ?? "";
     setSearchInput(query);
     setDebouncedSearch(query);
     setActiveTag(tag);
+    setActiveFolder(folder);
   }, []);
 
   useEffect(() => {
@@ -124,11 +141,13 @@ export default function MyNotes() {
     if (session) {
       void fetchNotes();
     }
-  }, [session, debouncedSearch, activeTag, activePeriod, activeFormat, sortBy]);
+  }, [session, debouncedSearch, activeTag, activeFolder, activePeriod, activeFormat, sortBy]);
 
   useEffect(() => {
     if (session) {
       void fetchTagStats();
+      void fetchFolders();
+      void fetchStreak();
     }
   }, [session]);
 
@@ -153,6 +172,7 @@ export default function MyNotes() {
       const params = new URLSearchParams();
       if (debouncedSearch.trim()) params.set("q", debouncedSearch.trim());
       if (activeTag) params.set("tag", activeTag);
+      if (activeFolder) params.set("folderId", activeFolder);
       if (activePeriod) params.set("period", activePeriod);
       if (activeFormat) params.set("format", activeFormat);
       if (sortBy) params.set("sort", sortBy);
@@ -167,7 +187,8 @@ export default function MyNotes() {
       }
 
       setNotes(data.notes ?? []);
-  setRecentlyViewed(data.recentlyViewed ?? []);
+      setRecentlyViewed(data.recentlyViewed ?? []);
+      setSelectedNoteIds([]);
     } catch (fetchError) {
       void fetchError;
       setError("Failed to fetch notes");
@@ -186,6 +207,28 @@ export default function MyNotes() {
       void tagError;
     } finally {
       setIsTagLoading(false);
+    }
+  };
+
+  const fetchFolders = async () => {
+    try {
+      const response = await fetch("/api/folders");
+      const data = (await response.json().catch(() => ({}))) as { folders?: Folder[] };
+      setFolders(data.folders ?? []);
+    } catch {
+      setFolders([]);
+    }
+  };
+
+  const fetchStreak = async () => {
+    try {
+      const response = await fetch("/api/user/preferences");
+      const data = (await response.json().catch(() => ({}))) as { studyStreak?: number };
+      if (response.ok) {
+        setStudyStreak(Math.max(0, data.studyStreak ?? 0));
+      }
+    } catch {
+      setStudyStreak(0);
     }
   };
 
@@ -298,6 +341,160 @@ export default function MyNotes() {
     router.push("/generator?source=upload");
   };
 
+  const createFolder = async () => {
+    const name = prompt("Folder name")?.trim();
+    if (!name) return;
+
+    try {
+      const response = await fetch("/api/folders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name }),
+      });
+
+      const data = (await response.json().catch(() => ({}))) as { folder?: Folder; error?: string };
+      if (!response.ok || !data.folder) {
+        setError(data.error ?? "Failed to create folder");
+        return;
+      }
+
+      setFolders((prev) => [...prev, data.folder!]);
+    } catch {
+      setError("Failed to create folder");
+    }
+  };
+
+  const moveNoteToFolder = async (noteId: string, folderId: string | null) => {
+    try {
+      const response = await fetch("/api/notes", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: noteId, folderId }),
+      });
+
+      if (!response.ok) {
+        setError("Failed to move note");
+        return;
+      }
+
+      await Promise.all([fetchNotes(), fetchFolders()]);
+    } catch {
+      setError("Failed to move note");
+    }
+  };
+
+  const toggleNoteSelected = (noteId: string) => {
+    setSelectedNoteIds((prev) =>
+      prev.includes(noteId) ? prev.filter((id) => id !== noteId) : [...prev, noteId],
+    );
+  };
+
+  const selectAllVisible = () => {
+    const allIds = notes.map((note) => note.id);
+    setSelectedNoteIds((prev) => (prev.length === allIds.length ? [] : allIds));
+  };
+
+  const bulkDeleteSelected = async () => {
+    if (!selectedNoteIds.length) return;
+    if (!confirm(`Delete ${selectedNoteIds.length} selected notes?`)) return;
+
+    try {
+      const response = await fetch("/api/notes/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selectedNoteIds, action: "delete" }),
+      });
+
+      if (!response.ok) {
+        setError("Failed to delete selected notes");
+        return;
+      }
+
+      await Promise.all([fetchNotes(), fetchTagStats(), fetchFolders()]);
+    } catch {
+      setError("Failed to delete selected notes");
+    }
+  };
+
+  const bulkMoveSelected = async () => {
+    if (!selectedNoteIds.length) return;
+
+    try {
+      const response = await fetch("/api/notes/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selectedNoteIds, action: "move", folderId: bulkMoveFolderId || null }),
+      });
+
+      if (!response.ok) {
+        setError("Failed to move selected notes");
+        return;
+      }
+
+      await Promise.all([fetchNotes(), fetchFolders()]);
+    } catch {
+      setError("Failed to move selected notes");
+    }
+  };
+
+  const bulkExportSelected = () => {
+    if (!selectedNoteIds.length) return;
+
+    const selected = notes.filter((note) => selectedNoteIds.includes(note.id));
+    const payload = selected
+      .map((note) => `${note.title}\n${"-".repeat(note.title.length)}\n${note.content}`)
+      .join("\n\n\n");
+
+    const blob = new Blob([payload], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "studyforge-notes.txt";
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const shareNote = async (note: Note) => {
+    try {
+      const response = await fetch("/api/notes", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: note.id, isShared: true }),
+      });
+
+      const data = (await response.json().catch(() => ({}))) as { note?: Note };
+      if (!response.ok || !data.note) {
+        setError("Failed to share note");
+        return;
+      }
+
+      setNotes((prev) => prev.map((item) => (item.id === note.id ? { ...item, isShared: true } : item)));
+      const link = `${window.location.origin}/notes/shared/${note.id}`;
+      await navigator.clipboard.writeText(link);
+    } catch {
+      setError("Failed to share note");
+    }
+  };
+
+  const duplicateNote = async (note: Note) => {
+    try {
+      const response = await fetch("/api/notes", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: note.id, duplicate: true }),
+      });
+
+      if (!response.ok) {
+        setError("Failed to duplicate note");
+        return;
+      }
+
+      await Promise.all([fetchNotes(), fetchTagStats(), fetchFolders(), fetchStreak()]);
+    } catch {
+      setError("Failed to duplicate note");
+    }
+  };
+
   const updateTags = async (payload: object) => {
     setTagActionError("");
 
@@ -386,6 +583,7 @@ export default function MyNotes() {
           <div>
             <h1 className="mb-2 text-4xl font-bold text-gray-900">My Notes</h1>
             <p className="text-lg text-gray-600">All your saved study notes in one place</p>
+            <p className="mt-1 text-sm font-semibold text-orange-600">🔥 {studyStreak} day streak</p>
           </div>
           <Button
             onClick={() => setTagModalOpen(true)}
@@ -452,10 +650,11 @@ export default function MyNotes() {
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <span className="text-sm text-gray-500">{resultLabel}</span>
-            {(activeTag || activeFormat || activePeriod || debouncedSearch) && (
+            {(activeTag || activeFolder || activeFormat || activePeriod || debouncedSearch) && (
               <Button
                 onClick={() => {
                   setActiveTag("");
+                  setActiveFolder("");
                   setActiveFormat("");
                   setActivePeriod("");
                   setSearchInput("");
@@ -498,6 +697,51 @@ export default function MyNotes() {
 
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
           <aside className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+            <div className="mb-4 rounded-lg border border-gray-100 p-3">
+              <div className="mb-2 flex items-center justify-between">
+                <h2 className="text-sm font-semibold text-gray-900">Folders</h2>
+                <Button onClick={() => void createFolder()} variant="secondary" size="sm" className="px-2 py-1 text-xs">
+                  New Folder
+                </Button>
+              </div>
+
+              <Button
+                onClick={() => setActiveFolder("")}
+                variant={!activeFolder ? "primary" : "secondary"}
+                fullWidth
+                size="sm"
+                className="mb-2 justify-start px-3 py-2 text-left text-sm"
+              >
+                All Folders
+              </Button>
+
+              <div className="space-y-2">
+                {folders.map((folder) => (
+                  <button
+                    key={folder.id}
+                    type="button"
+                    onClick={() => setActiveFolder(folder.id)}
+                    onDragOver={(event) => event.preventDefault()}
+                    onDrop={(event) => {
+                      event.preventDefault();
+                      const noteId = event.dataTransfer.getData("text/note-id");
+                      if (noteId) {
+                        void moveNoteToFolder(noteId, folder.id);
+                      }
+                    }}
+                    className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left text-sm ${
+                      activeFolder === folder.id
+                        ? "border-blue-200 bg-blue-50 text-blue-700"
+                        : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    <span className="truncate">{folder.name}</span>
+                    <span className="text-xs text-gray-500">{folder.noteCount}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <h2 className="mb-3 text-sm font-semibold text-gray-900">Tags</h2>
             <Button
               onClick={() => setActiveTag("")}
@@ -539,6 +783,36 @@ export default function MyNotes() {
           </aside>
 
           <section>
+            {selectedNoteIds.length > 0 && (
+              <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-medium text-blue-800">{selectedNoteIds.length} selected</span>
+                  <Button onClick={bulkDeleteSelected} variant="danger" size="sm" className="px-3 py-1 text-xs">
+                    Delete Selected
+                  </Button>
+                  <Button onClick={bulkExportSelected} variant="secondary" size="sm" className="px-3 py-1 text-xs">
+                    Export Selected
+                  </Button>
+                  <div className="w-44">
+                    <Listbox
+                      value={bulkMoveFolderId}
+                      onChange={(v) => setBulkMoveFolderId(v)}
+                      options={[
+                        { value: "", label: "No Folder" },
+                        ...folders.map((folder) => ({ value: folder.id, label: folder.name })),
+                      ]}
+                    />
+                  </div>
+                  <Button onClick={bulkMoveSelected} variant="secondary" size="sm" className="px-3 py-1 text-xs">
+                    Move to Folder
+                  </Button>
+                  <Button onClick={selectAllVisible} variant="secondary" size="sm" className="px-3 py-1 text-xs">
+                    {selectedNoteIds.length === notes.length ? "Unselect All" : "Select All"}
+                  </Button>
+                </div>
+              </div>
+            )}
+
             {error && (
               <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
                 {error}
@@ -549,9 +823,9 @@ export default function MyNotes() {
               <SkeletonList count={6} />
             ) : notes.length === 0 ? (
               <EmptyState
-                title={debouncedSearch || activeTag || activePeriod || activeFormat ? "No notes found" : "No notes yet"}
+                title={debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat ? "No notes found" : "No notes yet"}
                 description={
-                  debouncedSearch || activeTag || activePeriod || activeFormat
+                  debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat
                     ? "Try adjusting your search or removing filters to see more results."
                     : "Start creating notes from your study materials. Upload a PDF, paste text, or type directly into the generator."
                 }
@@ -565,14 +839,26 @@ export default function MyNotes() {
                 {notes.map((note) => (
                   <div
                     key={note.id}
-                    className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
+                    draggable
+                    onDragStart={(event) => event.dataTransfer.setData("text/note-id", note.id)}
+                    onMouseEnter={() => setHoveredNoteId(note.id)}
+                    onMouseLeave={() => setHoveredNoteId("")}
+                    className="group relative rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
                   >
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedNoteIds.includes(note.id)}
+                          onChange={() => toggleNoteSelected(note.id)}
+                          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          aria-label="Select note"
+                        />
                         {note.isPinned && <span className="rounded-full bg-yellow-100 px-2 py-1 text-[10px] font-semibold text-yellow-700">Pinned</span>}
                         <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getFormatBadgeColor(note.format)}`}>
                           {getFormatLabel(note.format)}
                         </span>
+                        {note.isShared && <span className="rounded-full bg-emerald-100 px-2 py-1 text-[10px] font-semibold text-emerald-700">Shared</span>}
                       </div>
                       <div className="flex items-center gap-1">
                         <Button
@@ -585,6 +871,30 @@ export default function MyNotes() {
                         >
                           <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path d="M10 1l2.4 4.86L18 6.69l-4 3.9.94 5.48L10 13.77l-4.94 2.3L6 10.6 2 6.7l5.6-.83L10 1z" />
+                          </svg>
+                        </Button>
+                        <Button
+                          onClick={() => void shareNote(note)}
+                          variant="ghost"
+                          size="sm"
+                          className="p-2 text-gray-400 transition hover:text-emerald-600"
+                          title="Share note link"
+                          aria-label="Share note link"
+                        >
+                          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C9.886 14.544 11.544 15.25 13.25 15.25s3.364-.706 4.566-1.908l1.768-1.768a4.75 4.75 0 00-6.717-6.717l-1.012 1.012m-.77 7.274l-1.012 1.012a4.75 4.75 0 01-6.717-6.717l1.768-1.768a4.75 4.75 0 016.717 0" />
+                          </svg>
+                        </Button>
+                        <Button
+                          onClick={() => setMenuOpenNoteId((prev) => (prev === note.id ? "" : note.id))}
+                          variant="ghost"
+                          size="sm"
+                          className="p-2 text-gray-400 transition hover:text-gray-700"
+                          title="More actions"
+                          aria-label="More actions"
+                        >
+                          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path d="M10 4a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 7a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 7a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
                           </svg>
                         </Button>
                         <Button
@@ -635,6 +945,29 @@ export default function MyNotes() {
                     <p className="mt-1 text-xs text-gray-500">
                       {getWordCount(note.content).toLocaleString()} words • {getReadTime(note.content)} min read
                     </p>
+
+                    {menuOpenNoteId === note.id && (
+                      <div className="mt-3 rounded-lg border border-gray-200 bg-gray-50 p-2">
+                        <Button
+                          onClick={() => {
+                            void duplicateNote(note);
+                            setMenuOpenNoteId("");
+                          }}
+                          variant="secondary"
+                          size="sm"
+                          className="w-full justify-start px-3 py-2 text-xs"
+                        >
+                          Duplicate
+                        </Button>
+                      </div>
+                    )}
+
+                    {hoveredNoteId === note.id && (
+                      <div className="pointer-events-none absolute left-full top-0 z-30 ml-3 hidden w-80 rounded-lg border border-gray-200 bg-white p-4 shadow-xl md:block">
+                        <p className="mb-2 text-sm font-semibold text-gray-900">Preview</p>
+                        <p className="max-h-72 overflow-y-auto whitespace-pre-wrap text-xs text-gray-700">{note.content}</p>
+                      </div>
+                    )}
 
                     <div className="mt-4 grid grid-cols-3 gap-2">
                       <Button

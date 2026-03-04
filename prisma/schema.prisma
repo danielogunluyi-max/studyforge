@@ -74,6 +74,7 @@ model User {
     sessions      Session[]
     posts         Post[]
     notes         Note[]
+    folders       Folder[]
     citations     Citation[]
     examPredictions ExamPrediction[]
     hostedBattles Battle[] @relation("BattleHost")
@@ -102,14 +103,31 @@ model Note {
     tags      String[] @default([])
     isPinned  Boolean  @default(false)
     lastViewedAt DateTime?
+    isShared  Boolean  @default(false)
+    folderId  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    folder    Folder?  @relation(fields: [folderId], references: [id], onDelete: SetNull)
 
   @@index([createdAt])
   @@index([userId])
+    @@index([folderId])
+}
+
+model Folder {
+    id        String   @id @default(cuid())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    notes     Note[]
+
+    @@index([userId])
 }
 
 model Citation {

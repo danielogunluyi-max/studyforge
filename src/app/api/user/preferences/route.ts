@@ -13,12 +13,13 @@ export async function GET() {
 
     const user = await db.user.findUnique({
       where: { id: session.user.id },
-      select: { learningStyle: true, autoAdapt: true },
+      select: { learningStyle: true, autoAdapt: true, studyStreak: true },
     });
 
     return NextResponse.json({
       learningStyle: (user?.learningStyle as LearningStyle | null) ?? "reading",
       autoAdapt: user?.autoAdapt ?? false,
+      studyStreak: user?.studyStreak ?? 0,
     });
   } catch (error) {
     console.error("Preferences get error:", error);
