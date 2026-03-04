@@ -326,8 +326,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="reveal-on-scroll relative" data-reveal="true">
-            <div className="absolute -left-6 top-8 rounded-full border border-cyan-300/40 bg-cyan-400/15 px-3 py-1 text-xs font-semibold text-cyan-100">
+          <div className="reveal-on-scroll" data-reveal="true">
+            <div className="mb-3 inline-flex rounded-full border border-cyan-300/40 bg-cyan-400/15 px-3 py-1 text-xs font-semibold text-cyan-100">
               Live Demo Preview
             </div>
             <div className="rounded-2xl border border-white/20 bg-white/10 p-4 shadow-2xl backdrop-blur sm:p-5">
