@@ -94,7 +94,7 @@ export function AppNav() {
   }, [showFeaturesDropdown]);
 
   return (
-    <nav className="site-nav sticky top-0 z-40 border-b border-gray-200 backdrop-blur">
+    <nav className="site-nav sticky top-0 z-40 isolate border-b border-gray-200 backdrop-blur">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 sm:gap-3">
           <img
@@ -143,7 +143,7 @@ export function AppNav() {
             </button>
             
             {showFeaturesDropdown && (
-              <div className="site-dropdown absolute right-0 top-full z-50 mt-2 w-[360px] rounded-xl border border-slate-700 bg-[#0d142b] p-2 text-slate-100 shadow-2xl shadow-black/40 animate-[featuresDrop_180ms_ease-out]">
+              <div className="site-dropdown absolute right-0 top-full z-[9999] mt-2 w-[360px] rounded-xl border border-slate-700 bg-[#0d142b] p-2 text-slate-100 shadow-2xl shadow-black/40 animate-[featuresDrop_180ms_ease-out]">
                 {Object.entries(groupedFeatureLinks).map(([section, items], sectionIndex) => (
                   <div key={section} className={sectionIndex > 0 ? "mt-2 border-t border-slate-700 pt-2" : ""}>
                     <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">{section}</p>

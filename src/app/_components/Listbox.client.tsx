@@ -10,9 +10,10 @@ interface Props {
   onChange: (value: string) => void;
   className?: string;
   id?: string;
+  dropdownListStyle?: React.CSSProperties;
 }
 
-export default function ListboxClient({ options, value, onChange, className, id }: Props) {
+export default function ListboxClient({ options, value, onChange, className, id, dropdownListStyle }: Props) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<number>(() => Math.max(0, options.findIndex((o) => o.value === value)));
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -71,7 +72,7 @@ export default function ListboxClient({ options, value, onChange, className, id 
         <ul
           className="listbox-premium-options absolute z-[9999] left-0 right-0 mt-1"
           role="listbox"
-          style={{ position: "absolute", zIndex: 9999, top: "100%", left: 0, right: 0 }}
+          style={dropdownListStyle ?? { position: "absolute", zIndex: 9999, top: "100%", left: 0, right: 0 }}
         >
           {options.map((opt, idx) => (
             <li key={opt.value} role="option" aria-selected={opt.value === value}>

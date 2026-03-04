@@ -1001,12 +1001,12 @@ export default function Generator() {
           </div>
         </div>
 
-        <div className="relative mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
-          <span className="absolute left-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">1</span>
+        <div className="mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
+          <div className="mb-4 flex items-center gap-3">
+            <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">1</span>
+            <h2 className="text-lg font-semibold text-white">Your Notes or Content</h2>
+          </div>
           <div className="mb-3 flex items-center justify-between">
-            <label className="pl-8 text-sm font-semibold text-gray-900">
-              Your Notes or Content
-            </label>
             <span className="text-sm text-gray-500">
               {characterCount} characters
               {characterCount > 0 && ` • ~${estimatedTime}s`}
@@ -1039,11 +1039,11 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           )}
         </div>
 
-        <div className="relative mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
-          <span className="absolute left-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">2</span>
-          <label className="mb-3 block pl-8 text-sm font-semibold text-gray-900">
-            Tags
-          </label>
+        <div className="mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
+          <div className="mb-4 flex items-center gap-3">
+            <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">2</span>
+            <h2 className="text-lg font-semibold text-white">Tags</h2>
+          </div>
           <input
             value={tagsInput}
             onChange={(event) => setTagsInput(event.target.value)}
@@ -1070,11 +1070,14 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           </div>
         </div>
 
-        <div className="relative mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
-          <span className="absolute left-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">3</span>
+        <div className="mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
+          <div className="mb-4 flex items-center gap-3">
+            <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">3</span>
+            <h2 className="text-lg font-semibold text-white">Output & Settings</h2>
+          </div>
           <div className="grid gap-4 lg:grid-cols-2">
             <div>
-              <label className="mb-3 block pl-8 text-sm font-semibold text-gray-900">Output Format</label>
+              <label className="mb-3 block text-sm font-semibold text-gray-900">Output Format</label>
               <Listbox
                 value={outputFormat}
                 onChange={(v) => setOutputFormat(v)}

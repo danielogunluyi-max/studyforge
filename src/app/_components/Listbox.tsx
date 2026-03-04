@@ -8,11 +8,13 @@ const ListboxClient = dynamic(() => import("./Listbox.client").then((m) => m.def
 });
 
 export default function Listbox(props: any) {
+  const dropdownListStyle = { position: "absolute" as const, zIndex: 9999, top: "100%", left: 0, right: 0 };
+
   // Defensive: if dynamic loader somehow returns null/undefined, render a harmless placeholder
   if (!ListboxClient) return <div className="relative w-full" style={{ position: "relative" }} />;
   return (
     <div className="relative w-full" style={{ position: "relative" }}>
-      <ListboxClient {...props} />
+      <ListboxClient {...props} dropdownListStyle={dropdownListStyle} />
     </div>
   );
 }
