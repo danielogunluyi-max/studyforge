@@ -88,6 +88,16 @@ model User {
     createdStudyGroups StudyGroup[] @relation("StudyGroupCreator")
     studyGroupMemberships StudyGroupMember[]
     groupMessages GroupMessage[]
+    sharedGroupNotes GroupSharedNote[] @relation("SharedNoteOwner")
+    groupNoteComments GroupSharedNoteComment[]
+    createdGroupFlashcards GroupFlashcard[]
+    groupQuizRoundsStarted GroupQuizRound[] @relation("QuizRoundStarter")
+    groupQuizSubmissions GroupQuizSubmission[]
+    groupResourcesShared GroupResource[] @relation("ResourceSharer")
+    groupSchedulesCreated GroupScheduleItem[] @relation("ScheduleCreator")
+    groupStats GroupMemberStats[]
+    hostedPomodoroTimers GroupPomodoroTimer[] @relation("PomodoroHost")
+    pinnedGroupMessages GroupPinnedMessage[]
     conceptConnections ConceptConnection[]
 }
 
@@ -115,6 +125,7 @@ model Note {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     folder    Folder?  @relation(fields: [folderId], references: [id], onDelete: SetNull)
+        sharedInGroups GroupSharedNote[]
 
   @@index([createdAt])
   @@index([userId])
@@ -253,6 +264,11 @@ model StudyGroup {
     name      String
     topic     String?
     inviteCode String  @unique
+    isPublic  Boolean  @default(false)
+    streakCount Int    @default(0)
+    lastActiveAt DateTime?
+    weeklyResetAt DateTime?
+    settings Json?
     createdAt DateTime @default(now())
 
     creatorId String
@@ -261,6 +277,14 @@ model StudyGroup {
     members  StudyGroupMember[]
     messages GroupMessage[]
     sessions GroupSession[]
+    sharedNotes GroupSharedNote[]
+    flashcards GroupFlashcard[]
+    quizRounds GroupQuizRound[]
+    scheduleItems GroupScheduleItem[]
+    resources GroupResource[]
+    leaderboardStats GroupMemberStats[]
+    pomodoroTimer GroupPomodoroTimer?
+    pinnedMessages GroupPinnedMessage[]
 
     @@index([creatorId])
 }
@@ -269,6 +293,8 @@ model StudyGroupMember {
     id        String   @id @default(cuid())
     groupId   String
     userId    String
+    role      String   @default("member")
+    lastSeenAt DateTime?
     joinedAt  DateTime @default(now())
 
     group StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
@@ -284,6 +310,7 @@ model GroupMessage {
     userId    String?
     message   String   @db.Text
     isAI      Boolean  @default(false)
+    metadata  Json?
     timestamp DateTime @default(now())
 
     group StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
@@ -304,6 +331,176 @@ model GroupSession {
     group StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
 
     @@index([groupId])
+}
+
+model GroupSharedNote {
+    id         String   @id @default(cuid())
+    groupId    String
+    noteId     String
+    sharedById String
+    pinned     Boolean  @default(false)
+    createdAt  DateTime @default(now())
+
+    group    StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    note     Note       @relation(fields: [noteId], references: [id], onDelete: Cascade)
+    sharedBy User       @relation("SharedNoteOwner", fields: [sharedById], references: [id], onDelete: Cascade)
+    comments GroupSharedNoteComment[]
+
+    @@unique([groupId, noteId])
+    @@index([groupId])
+    @@index([sharedById])
+}
+
+model GroupSharedNoteComment {
+    id         String   @id @default(cuid())
+    sharedNoteId String
+    userId     String
+    comment    String   @db.Text
+    createdAt  DateTime @default(now())
+
+    sharedNote GroupSharedNote @relation(fields: [sharedNoteId], references: [id], onDelete: Cascade)
+    user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([sharedNoteId])
+    @@index([userId])
+}
+
+model GroupFlashcard {
+    id         String   @id @default(cuid())
+    groupId    String
+    creatorId  String
+    front      String   @db.Text
+    back       String   @db.Text
+    knownBy    String[] @default([])
+    learningBy String[] @default([])
+    createdAt  DateTime @default(now())
+
+    group   StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    creator User       @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+    @@index([groupId])
+    @@index([creatorId])
+}
+
+model GroupQuizRound {
+    id                 String   @id @default(cuid())
+    groupId            String
+    startedById        String
+    title              String
+    status             String   @default("active")
+    questions          Json
+    currentQuestionIdx Int      @default(0)
+    startedAt          DateTime @default(now())
+    completedAt        DateTime?
+
+    group      StudyGroup           @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    startedBy  User                 @relation("QuizRoundStarter", fields: [startedById], references: [id], onDelete: Cascade)
+    submissions GroupQuizSubmission[]
+
+    @@index([groupId])
+    @@index([status])
+}
+
+model GroupQuizSubmission {
+    id         String   @id @default(cuid())
+    roundId    String
+    userId     String
+    answers    Json?
+    score      Int      @default(0)
+    completedAt DateTime?
+    updatedAt  DateTime @updatedAt
+
+    round GroupQuizRound @relation(fields: [roundId], references: [id], onDelete: Cascade)
+    user  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([roundId, userId])
+    @@index([userId])
+}
+
+model GroupScheduleItem {
+    id         String   @id @default(cuid())
+    groupId    String
+    createdById String
+    title      String
+    startsAt   DateTime
+    endsAt     DateTime?
+    createdAt  DateTime @default(now())
+
+    group     StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    createdBy User       @relation("ScheduleCreator", fields: [createdById], references: [id], onDelete: Cascade)
+
+    @@index([groupId])
+    @@index([startsAt])
+}
+
+model GroupResource {
+    id          String   @id @default(cuid())
+    groupId     String
+    sharedById  String
+    type        String
+    title       String
+    url         String?
+    noteId      String?
+    metadata    Json?
+    pinned      Boolean  @default(false)
+    createdAt   DateTime @default(now())
+
+    group    StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    sharedBy User       @relation("ResourceSharer", fields: [sharedById], references: [id], onDelete: Cascade)
+
+    @@index([groupId])
+    @@index([sharedById])
+    @@index([type])
+}
+
+model GroupMemberStats {
+    id               String   @id @default(cuid())
+    groupId          String
+    userId           String
+    weekKey          String
+    notesSaved       Int      @default(0)
+    quizzesCompleted Int      @default(0)
+    messagesSent     Int      @default(0)
+    weeklyScore      Int      @default(0)
+    allTimeScore     Int      @default(0)
+    updatedAt        DateTime @updatedAt
+
+    group StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([groupId, userId, weekKey])
+    @@index([groupId])
+    @@index([userId])
+}
+
+model GroupPomodoroTimer {
+    id               String   @id @default(cuid())
+    groupId          String   @unique
+    hostId           String
+    status           String   @default("paused")
+    mode             String   @default("study")
+    remainingSeconds Int      @default(1500)
+    cycleCount       Int      @default(0)
+    startedAt        DateTime?
+    updatedAt        DateTime @updatedAt
+
+    group StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    host  User       @relation("PomodoroHost", fields: [hostId], references: [id], onDelete: Cascade)
+}
+
+model GroupPinnedMessage {
+    id         String   @id @default(cuid())
+    groupId    String
+    messageId  String
+    pinnedById String
+    createdAt  DateTime @default(now())
+
+    group    StudyGroup  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    message  GroupMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+    pinnedBy User         @relation(fields: [pinnedById], references: [id], onDelete: Cascade)
+
+    @@index([groupId])
+    @@index([messageId])
 }
 
 model ConceptConnection {

@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { runGroqPrompt } from "~/server/groq";
+import { ensureGroupMember } from "~/server/study-groups";
 
 export async function POST(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ id: string }> },
 ) {
   try {
@@ -14,10 +15,7 @@ export async function POST(
     }
 
     const { id } = await context.params;
-    const membership = await db.studyGroupMember.findUnique({
-      where: { groupId_userId: { groupId: id, userId: session.user.id } },
-      include: { group: true },
-    });
+    const membership = await ensureGroupMember(id, session.user.id);
 
     if (!membership) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -35,10 +33,16 @@ export async function POST(
       .map((msg) => `${msg.isAI ? "AI Moderator" : msg.user?.name || msg.user?.email || "Member"}: ${msg.message}`)
       .join("\n");
 
+    const body = (await request.json().catch(() => ({}))) as { mode?: "tip" | "summary" };
+    const mode = body.mode ?? "tip";
+
     const aiMessage = await runGroqPrompt({
       system:
         "You are a concise AI study-group moderator. Keep discussion productive, ask Socratic questions, and redirect gently if needed.",
-      user: `Study group topic: ${membership.group.topic || membership.group.name}\n\nRecent discussion:\n${transcript || "(No messages yet)"}\n\nRespond with one moderator message (max 80 words).`,
+      user:
+        mode === "summary"
+          ? `Study group topic: ${membership.group.topic || membership.group.name}\n\nRecent discussion:\n${transcript || "(No messages yet)"}\n\nProvide a concise end-of-session summary in bullet style.`
+          : `Study group topic: ${membership.group.topic || membership.group.name}\n\nRecent discussion:\n${transcript || "(No messages yet)"}\n\nRespond with one moderator message (max 80 words).`,
       temperature: 0.7,
       maxTokens: 260,
     });

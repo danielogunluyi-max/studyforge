@@ -31,8 +31,19 @@ export async function POST(request: Request) {
       create: {
         groupId: group.id,
         userId: session.user.id,
+        role: "member",
+        lastSeenAt: new Date(),
       },
-      update: {},
+      update: {
+        lastSeenAt: new Date(),
+      },
+    });
+
+    await db.studyGroup.update({
+      where: { id: group.id },
+      data: {
+        lastActiveAt: new Date(),
+      },
     });
 
     return NextResponse.json({ groupId: group.id });

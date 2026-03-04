@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = (await request.json()) as { name?: string; topic?: string };
+    const body = (await request.json()) as { name?: string; topic?: string; isPublic?: boolean };
     const name = (body.name ?? "").trim();
     const topic = (body.topic ?? "").trim();
 
@@ -37,11 +37,24 @@ export async function POST(request: Request) {
       data: {
         name,
         topic: topic || null,
+        isPublic: Boolean(body.isPublic),
+        lastActiveAt: new Date(),
+        weeklyResetAt: new Date(),
         inviteCode,
         creatorId: session.user.id,
         members: {
           create: {
             userId: session.user.id,
+            role: "owner",
+          },
+        },
+        pomodoroTimer: {
+          create: {
+            hostId: session.user.id,
+            status: "paused",
+            mode: "study",
+            remainingSeconds: 1500,
+            cycleCount: 0,
           },
         },
       },
