@@ -153,6 +153,11 @@ export type GroupPinnedMessage = $Result.DefaultSelection<Prisma.$GroupPinnedMes
  * 
  */
 export type ConceptConnection = $Result.DefaultSelection<Prisma.$ConceptConnectionPayload>
+/**
+ * Model LearningStyleResult
+ * 
+ */
+export type LearningStyleResult = $Result.DefaultSelection<Prisma.$LearningStyleResultPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -551,6 +556,16 @@ export class PrismaClient<
     * ```
     */
   get conceptConnection(): Prisma.ConceptConnectionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.learningStyleResult`: Exposes CRUD operations for the **LearningStyleResult** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LearningStyleResults
+    * const learningStyleResults = await prisma.learningStyleResult.findMany()
+    * ```
+    */
+  get learningStyleResult(): Prisma.LearningStyleResultDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1019,7 +1034,8 @@ export namespace Prisma {
     GroupMemberStats: 'GroupMemberStats',
     GroupPomodoroTimer: 'GroupPomodoroTimer',
     GroupPinnedMessage: 'GroupPinnedMessage',
-    ConceptConnection: 'ConceptConnection'
+    ConceptConnection: 'ConceptConnection',
+    LearningStyleResult: 'LearningStyleResult'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1038,7 +1054,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection"
+      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3114,6 +3130,80 @@ export namespace Prisma {
           }
         }
       }
+      LearningStyleResult: {
+        payload: Prisma.$LearningStyleResultPayload<ExtArgs>
+        fields: Prisma.LearningStyleResultFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LearningStyleResultFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LearningStyleResultPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LearningStyleResultFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LearningStyleResultPayload>
+          }
+          findFirst: {
+            args: Prisma.LearningStyleResultFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LearningStyleResultPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LearningStyleResultFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LearningStyleResultPayload>
+          }
+          findMany: {
+            args: Prisma.LearningStyleResultFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LearningStyleResultPayload>[]
+          }
+          create: {
+            args: Prisma.LearningStyleResultCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LearningStyleResultPayload>
+          }
+          createMany: {
+            args: Prisma.LearningStyleResultCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LearningStyleResultCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LearningStyleResultPayload>[]
+          }
+          delete: {
+            args: Prisma.LearningStyleResultDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LearningStyleResultPayload>
+          }
+          update: {
+            args: Prisma.LearningStyleResultUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LearningStyleResultPayload>
+          }
+          deleteMany: {
+            args: Prisma.LearningStyleResultDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LearningStyleResultUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LearningStyleResultUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LearningStyleResultPayload>[]
+          }
+          upsert: {
+            args: Prisma.LearningStyleResultUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LearningStyleResultPayload>
+          }
+          aggregate: {
+            args: Prisma.LearningStyleResultAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLearningStyleResult>
+          }
+          groupBy: {
+            args: Prisma.LearningStyleResultGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LearningStyleResultGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LearningStyleResultCountArgs<ExtArgs>
+            result: $Utils.Optional<LearningStyleResultCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3238,6 +3328,7 @@ export namespace Prisma {
     groupPomodoroTimer?: GroupPomodoroTimerOmit
     groupPinnedMessage?: GroupPinnedMessageOmit
     conceptConnection?: ConceptConnectionOmit
+    learningStyleResult?: LearningStyleResultOmit
   }
 
   /* Types for Logging */
@@ -3343,6 +3434,7 @@ export namespace Prisma {
     hostedPomodoroTimers: number
     pinnedGroupMessages: number
     conceptConnections: number
+    learningStyleResults: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3371,6 +3463,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: boolean | UserCountOutputTypeCountHostedPomodoroTimersArgs
     pinnedGroupMessages?: boolean | UserCountOutputTypeCountPinnedGroupMessagesArgs
     conceptConnections?: boolean | UserCountOutputTypeCountConceptConnectionsArgs
+    learningStyleResults?: boolean | UserCountOutputTypeCountLearningStyleResultsArgs
   }
 
   // Custom InputTypes
@@ -3557,6 +3650,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountConceptConnectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConceptConnectionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLearningStyleResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LearningStyleResultWhereInput
   }
 
 
@@ -7567,6 +7667,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: boolean | User$hostedPomodoroTimersArgs<ExtArgs>
     pinnedGroupMessages?: boolean | User$pinnedGroupMessagesArgs<ExtArgs>
     conceptConnections?: boolean | User$conceptConnectionsArgs<ExtArgs>
+    learningStyleResults?: boolean | User$learningStyleResultsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -7669,6 +7770,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: boolean | User$hostedPomodoroTimersArgs<ExtArgs>
     pinnedGroupMessages?: boolean | User$pinnedGroupMessagesArgs<ExtArgs>
     conceptConnections?: boolean | User$conceptConnectionsArgs<ExtArgs>
+    learningStyleResults?: boolean | User$learningStyleResultsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7702,6 +7804,7 @@ export namespace Prisma {
       hostedPomodoroTimers: Prisma.$GroupPomodoroTimerPayload<ExtArgs>[]
       pinnedGroupMessages: Prisma.$GroupPinnedMessagePayload<ExtArgs>[]
       conceptConnections: Prisma.$ConceptConnectionPayload<ExtArgs>[]
+      learningStyleResults: Prisma.$LearningStyleResultPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8144,6 +8247,7 @@ export namespace Prisma {
     hostedPomodoroTimers<T extends User$hostedPomodoroTimersArgs<ExtArgs> = {}>(args?: Subset<T, User$hostedPomodoroTimersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPomodoroTimerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pinnedGroupMessages<T extends User$pinnedGroupMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$pinnedGroupMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPinnedMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     conceptConnections<T extends User$conceptConnectionsArgs<ExtArgs> = {}>(args?: Subset<T, User$conceptConnectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    learningStyleResults<T extends User$learningStyleResultsArgs<ExtArgs> = {}>(args?: Subset<T, User$learningStyleResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9179,6 +9283,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConceptConnectionScalarFieldEnum | ConceptConnectionScalarFieldEnum[]
+  }
+
+  /**
+   * User.learningStyleResults
+   */
+  export type User$learningStyleResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultInclude<ExtArgs> | null
+    where?: LearningStyleResultWhereInput
+    orderBy?: LearningStyleResultOrderByWithRelationInput | LearningStyleResultOrderByWithRelationInput[]
+    cursor?: LearningStyleResultWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LearningStyleResultScalarFieldEnum | LearningStyleResultScalarFieldEnum[]
   }
 
   /**
@@ -36551,6 +36679,1149 @@ export namespace Prisma {
 
 
   /**
+   * Model LearningStyleResult
+   */
+
+  export type AggregateLearningStyleResult = {
+    _count: LearningStyleResultCountAggregateOutputType | null
+    _avg: LearningStyleResultAvgAggregateOutputType | null
+    _sum: LearningStyleResultSumAggregateOutputType | null
+    _min: LearningStyleResultMinAggregateOutputType | null
+    _max: LearningStyleResultMaxAggregateOutputType | null
+  }
+
+  export type LearningStyleResultAvgAggregateOutputType = {
+    visualPercent: number | null
+    auditoryPercent: number | null
+    readingPercent: number | null
+    kinestheticPercent: number | null
+  }
+
+  export type LearningStyleResultSumAggregateOutputType = {
+    visualPercent: number | null
+    auditoryPercent: number | null
+    readingPercent: number | null
+    kinestheticPercent: number | null
+  }
+
+  export type LearningStyleResultMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    dominantStyle: string | null
+    visualPercent: number | null
+    auditoryPercent: number | null
+    readingPercent: number | null
+    kinestheticPercent: number | null
+    createdAt: Date | null
+  }
+
+  export type LearningStyleResultMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    dominantStyle: string | null
+    visualPercent: number | null
+    auditoryPercent: number | null
+    readingPercent: number | null
+    kinestheticPercent: number | null
+    createdAt: Date | null
+  }
+
+  export type LearningStyleResultCountAggregateOutputType = {
+    id: number
+    userId: number
+    dominantStyle: number
+    visualPercent: number
+    auditoryPercent: number
+    readingPercent: number
+    kinestheticPercent: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LearningStyleResultAvgAggregateInputType = {
+    visualPercent?: true
+    auditoryPercent?: true
+    readingPercent?: true
+    kinestheticPercent?: true
+  }
+
+  export type LearningStyleResultSumAggregateInputType = {
+    visualPercent?: true
+    auditoryPercent?: true
+    readingPercent?: true
+    kinestheticPercent?: true
+  }
+
+  export type LearningStyleResultMinAggregateInputType = {
+    id?: true
+    userId?: true
+    dominantStyle?: true
+    visualPercent?: true
+    auditoryPercent?: true
+    readingPercent?: true
+    kinestheticPercent?: true
+    createdAt?: true
+  }
+
+  export type LearningStyleResultMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    dominantStyle?: true
+    visualPercent?: true
+    auditoryPercent?: true
+    readingPercent?: true
+    kinestheticPercent?: true
+    createdAt?: true
+  }
+
+  export type LearningStyleResultCountAggregateInputType = {
+    id?: true
+    userId?: true
+    dominantStyle?: true
+    visualPercent?: true
+    auditoryPercent?: true
+    readingPercent?: true
+    kinestheticPercent?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LearningStyleResultAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LearningStyleResult to aggregate.
+     */
+    where?: LearningStyleResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LearningStyleResults to fetch.
+     */
+    orderBy?: LearningStyleResultOrderByWithRelationInput | LearningStyleResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LearningStyleResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LearningStyleResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LearningStyleResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LearningStyleResults
+    **/
+    _count?: true | LearningStyleResultCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LearningStyleResultAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LearningStyleResultSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LearningStyleResultMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LearningStyleResultMaxAggregateInputType
+  }
+
+  export type GetLearningStyleResultAggregateType<T extends LearningStyleResultAggregateArgs> = {
+        [P in keyof T & keyof AggregateLearningStyleResult]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLearningStyleResult[P]>
+      : GetScalarType<T[P], AggregateLearningStyleResult[P]>
+  }
+
+
+
+
+  export type LearningStyleResultGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LearningStyleResultWhereInput
+    orderBy?: LearningStyleResultOrderByWithAggregationInput | LearningStyleResultOrderByWithAggregationInput[]
+    by: LearningStyleResultScalarFieldEnum[] | LearningStyleResultScalarFieldEnum
+    having?: LearningStyleResultScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LearningStyleResultCountAggregateInputType | true
+    _avg?: LearningStyleResultAvgAggregateInputType
+    _sum?: LearningStyleResultSumAggregateInputType
+    _min?: LearningStyleResultMinAggregateInputType
+    _max?: LearningStyleResultMaxAggregateInputType
+  }
+
+  export type LearningStyleResultGroupByOutputType = {
+    id: string
+    userId: string
+    dominantStyle: string
+    visualPercent: number
+    auditoryPercent: number
+    readingPercent: number
+    kinestheticPercent: number
+    createdAt: Date
+    _count: LearningStyleResultCountAggregateOutputType | null
+    _avg: LearningStyleResultAvgAggregateOutputType | null
+    _sum: LearningStyleResultSumAggregateOutputType | null
+    _min: LearningStyleResultMinAggregateOutputType | null
+    _max: LearningStyleResultMaxAggregateOutputType | null
+  }
+
+  type GetLearningStyleResultGroupByPayload<T extends LearningStyleResultGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LearningStyleResultGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LearningStyleResultGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LearningStyleResultGroupByOutputType[P]>
+            : GetScalarType<T[P], LearningStyleResultGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LearningStyleResultSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    dominantStyle?: boolean
+    visualPercent?: boolean
+    auditoryPercent?: boolean
+    readingPercent?: boolean
+    kinestheticPercent?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["learningStyleResult"]>
+
+  export type LearningStyleResultSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    dominantStyle?: boolean
+    visualPercent?: boolean
+    auditoryPercent?: boolean
+    readingPercent?: boolean
+    kinestheticPercent?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["learningStyleResult"]>
+
+  export type LearningStyleResultSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    dominantStyle?: boolean
+    visualPercent?: boolean
+    auditoryPercent?: boolean
+    readingPercent?: boolean
+    kinestheticPercent?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["learningStyleResult"]>
+
+  export type LearningStyleResultSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    dominantStyle?: boolean
+    visualPercent?: boolean
+    auditoryPercent?: boolean
+    readingPercent?: boolean
+    kinestheticPercent?: boolean
+    createdAt?: boolean
+  }
+
+  export type LearningStyleResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "dominantStyle" | "visualPercent" | "auditoryPercent" | "readingPercent" | "kinestheticPercent" | "createdAt", ExtArgs["result"]["learningStyleResult"]>
+  export type LearningStyleResultInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LearningStyleResultIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LearningStyleResultIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $LearningStyleResultPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LearningStyleResult"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      dominantStyle: string
+      visualPercent: number
+      auditoryPercent: number
+      readingPercent: number
+      kinestheticPercent: number
+      createdAt: Date
+    }, ExtArgs["result"]["learningStyleResult"]>
+    composites: {}
+  }
+
+  type LearningStyleResultGetPayload<S extends boolean | null | undefined | LearningStyleResultDefaultArgs> = $Result.GetResult<Prisma.$LearningStyleResultPayload, S>
+
+  type LearningStyleResultCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LearningStyleResultFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LearningStyleResultCountAggregateInputType | true
+    }
+
+  export interface LearningStyleResultDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LearningStyleResult'], meta: { name: 'LearningStyleResult' } }
+    /**
+     * Find zero or one LearningStyleResult that matches the filter.
+     * @param {LearningStyleResultFindUniqueArgs} args - Arguments to find a LearningStyleResult
+     * @example
+     * // Get one LearningStyleResult
+     * const learningStyleResult = await prisma.learningStyleResult.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LearningStyleResultFindUniqueArgs>(args: SelectSubset<T, LearningStyleResultFindUniqueArgs<ExtArgs>>): Prisma__LearningStyleResultClient<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LearningStyleResult that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LearningStyleResultFindUniqueOrThrowArgs} args - Arguments to find a LearningStyleResult
+     * @example
+     * // Get one LearningStyleResult
+     * const learningStyleResult = await prisma.learningStyleResult.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LearningStyleResultFindUniqueOrThrowArgs>(args: SelectSubset<T, LearningStyleResultFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LearningStyleResultClient<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LearningStyleResult that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LearningStyleResultFindFirstArgs} args - Arguments to find a LearningStyleResult
+     * @example
+     * // Get one LearningStyleResult
+     * const learningStyleResult = await prisma.learningStyleResult.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LearningStyleResultFindFirstArgs>(args?: SelectSubset<T, LearningStyleResultFindFirstArgs<ExtArgs>>): Prisma__LearningStyleResultClient<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LearningStyleResult that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LearningStyleResultFindFirstOrThrowArgs} args - Arguments to find a LearningStyleResult
+     * @example
+     * // Get one LearningStyleResult
+     * const learningStyleResult = await prisma.learningStyleResult.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LearningStyleResultFindFirstOrThrowArgs>(args?: SelectSubset<T, LearningStyleResultFindFirstOrThrowArgs<ExtArgs>>): Prisma__LearningStyleResultClient<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LearningStyleResults that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LearningStyleResultFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LearningStyleResults
+     * const learningStyleResults = await prisma.learningStyleResult.findMany()
+     * 
+     * // Get first 10 LearningStyleResults
+     * const learningStyleResults = await prisma.learningStyleResult.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const learningStyleResultWithIdOnly = await prisma.learningStyleResult.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LearningStyleResultFindManyArgs>(args?: SelectSubset<T, LearningStyleResultFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LearningStyleResult.
+     * @param {LearningStyleResultCreateArgs} args - Arguments to create a LearningStyleResult.
+     * @example
+     * // Create one LearningStyleResult
+     * const LearningStyleResult = await prisma.learningStyleResult.create({
+     *   data: {
+     *     // ... data to create a LearningStyleResult
+     *   }
+     * })
+     * 
+     */
+    create<T extends LearningStyleResultCreateArgs>(args: SelectSubset<T, LearningStyleResultCreateArgs<ExtArgs>>): Prisma__LearningStyleResultClient<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LearningStyleResults.
+     * @param {LearningStyleResultCreateManyArgs} args - Arguments to create many LearningStyleResults.
+     * @example
+     * // Create many LearningStyleResults
+     * const learningStyleResult = await prisma.learningStyleResult.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LearningStyleResultCreateManyArgs>(args?: SelectSubset<T, LearningStyleResultCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LearningStyleResults and returns the data saved in the database.
+     * @param {LearningStyleResultCreateManyAndReturnArgs} args - Arguments to create many LearningStyleResults.
+     * @example
+     * // Create many LearningStyleResults
+     * const learningStyleResult = await prisma.learningStyleResult.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LearningStyleResults and only return the `id`
+     * const learningStyleResultWithIdOnly = await prisma.learningStyleResult.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LearningStyleResultCreateManyAndReturnArgs>(args?: SelectSubset<T, LearningStyleResultCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LearningStyleResult.
+     * @param {LearningStyleResultDeleteArgs} args - Arguments to delete one LearningStyleResult.
+     * @example
+     * // Delete one LearningStyleResult
+     * const LearningStyleResult = await prisma.learningStyleResult.delete({
+     *   where: {
+     *     // ... filter to delete one LearningStyleResult
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LearningStyleResultDeleteArgs>(args: SelectSubset<T, LearningStyleResultDeleteArgs<ExtArgs>>): Prisma__LearningStyleResultClient<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LearningStyleResult.
+     * @param {LearningStyleResultUpdateArgs} args - Arguments to update one LearningStyleResult.
+     * @example
+     * // Update one LearningStyleResult
+     * const learningStyleResult = await prisma.learningStyleResult.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LearningStyleResultUpdateArgs>(args: SelectSubset<T, LearningStyleResultUpdateArgs<ExtArgs>>): Prisma__LearningStyleResultClient<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LearningStyleResults.
+     * @param {LearningStyleResultDeleteManyArgs} args - Arguments to filter LearningStyleResults to delete.
+     * @example
+     * // Delete a few LearningStyleResults
+     * const { count } = await prisma.learningStyleResult.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LearningStyleResultDeleteManyArgs>(args?: SelectSubset<T, LearningStyleResultDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LearningStyleResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LearningStyleResultUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LearningStyleResults
+     * const learningStyleResult = await prisma.learningStyleResult.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LearningStyleResultUpdateManyArgs>(args: SelectSubset<T, LearningStyleResultUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LearningStyleResults and returns the data updated in the database.
+     * @param {LearningStyleResultUpdateManyAndReturnArgs} args - Arguments to update many LearningStyleResults.
+     * @example
+     * // Update many LearningStyleResults
+     * const learningStyleResult = await prisma.learningStyleResult.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LearningStyleResults and only return the `id`
+     * const learningStyleResultWithIdOnly = await prisma.learningStyleResult.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LearningStyleResultUpdateManyAndReturnArgs>(args: SelectSubset<T, LearningStyleResultUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LearningStyleResult.
+     * @param {LearningStyleResultUpsertArgs} args - Arguments to update or create a LearningStyleResult.
+     * @example
+     * // Update or create a LearningStyleResult
+     * const learningStyleResult = await prisma.learningStyleResult.upsert({
+     *   create: {
+     *     // ... data to create a LearningStyleResult
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LearningStyleResult we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LearningStyleResultUpsertArgs>(args: SelectSubset<T, LearningStyleResultUpsertArgs<ExtArgs>>): Prisma__LearningStyleResultClient<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LearningStyleResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LearningStyleResultCountArgs} args - Arguments to filter LearningStyleResults to count.
+     * @example
+     * // Count the number of LearningStyleResults
+     * const count = await prisma.learningStyleResult.count({
+     *   where: {
+     *     // ... the filter for the LearningStyleResults we want to count
+     *   }
+     * })
+    **/
+    count<T extends LearningStyleResultCountArgs>(
+      args?: Subset<T, LearningStyleResultCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LearningStyleResultCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LearningStyleResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LearningStyleResultAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LearningStyleResultAggregateArgs>(args: Subset<T, LearningStyleResultAggregateArgs>): Prisma.PrismaPromise<GetLearningStyleResultAggregateType<T>>
+
+    /**
+     * Group by LearningStyleResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LearningStyleResultGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LearningStyleResultGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LearningStyleResultGroupByArgs['orderBy'] }
+        : { orderBy?: LearningStyleResultGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LearningStyleResultGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLearningStyleResultGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LearningStyleResult model
+   */
+  readonly fields: LearningStyleResultFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LearningStyleResult.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LearningStyleResultClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LearningStyleResult model
+   */
+  interface LearningStyleResultFieldRefs {
+    readonly id: FieldRef<"LearningStyleResult", 'String'>
+    readonly userId: FieldRef<"LearningStyleResult", 'String'>
+    readonly dominantStyle: FieldRef<"LearningStyleResult", 'String'>
+    readonly visualPercent: FieldRef<"LearningStyleResult", 'Int'>
+    readonly auditoryPercent: FieldRef<"LearningStyleResult", 'Int'>
+    readonly readingPercent: FieldRef<"LearningStyleResult", 'Int'>
+    readonly kinestheticPercent: FieldRef<"LearningStyleResult", 'Int'>
+    readonly createdAt: FieldRef<"LearningStyleResult", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LearningStyleResult findUnique
+   */
+  export type LearningStyleResultFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultInclude<ExtArgs> | null
+    /**
+     * Filter, which LearningStyleResult to fetch.
+     */
+    where: LearningStyleResultWhereUniqueInput
+  }
+
+  /**
+   * LearningStyleResult findUniqueOrThrow
+   */
+  export type LearningStyleResultFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultInclude<ExtArgs> | null
+    /**
+     * Filter, which LearningStyleResult to fetch.
+     */
+    where: LearningStyleResultWhereUniqueInput
+  }
+
+  /**
+   * LearningStyleResult findFirst
+   */
+  export type LearningStyleResultFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultInclude<ExtArgs> | null
+    /**
+     * Filter, which LearningStyleResult to fetch.
+     */
+    where?: LearningStyleResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LearningStyleResults to fetch.
+     */
+    orderBy?: LearningStyleResultOrderByWithRelationInput | LearningStyleResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LearningStyleResults.
+     */
+    cursor?: LearningStyleResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LearningStyleResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LearningStyleResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LearningStyleResults.
+     */
+    distinct?: LearningStyleResultScalarFieldEnum | LearningStyleResultScalarFieldEnum[]
+  }
+
+  /**
+   * LearningStyleResult findFirstOrThrow
+   */
+  export type LearningStyleResultFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultInclude<ExtArgs> | null
+    /**
+     * Filter, which LearningStyleResult to fetch.
+     */
+    where?: LearningStyleResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LearningStyleResults to fetch.
+     */
+    orderBy?: LearningStyleResultOrderByWithRelationInput | LearningStyleResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LearningStyleResults.
+     */
+    cursor?: LearningStyleResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LearningStyleResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LearningStyleResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LearningStyleResults.
+     */
+    distinct?: LearningStyleResultScalarFieldEnum | LearningStyleResultScalarFieldEnum[]
+  }
+
+  /**
+   * LearningStyleResult findMany
+   */
+  export type LearningStyleResultFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultInclude<ExtArgs> | null
+    /**
+     * Filter, which LearningStyleResults to fetch.
+     */
+    where?: LearningStyleResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LearningStyleResults to fetch.
+     */
+    orderBy?: LearningStyleResultOrderByWithRelationInput | LearningStyleResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LearningStyleResults.
+     */
+    cursor?: LearningStyleResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LearningStyleResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LearningStyleResults.
+     */
+    skip?: number
+    distinct?: LearningStyleResultScalarFieldEnum | LearningStyleResultScalarFieldEnum[]
+  }
+
+  /**
+   * LearningStyleResult create
+   */
+  export type LearningStyleResultCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LearningStyleResult.
+     */
+    data: XOR<LearningStyleResultCreateInput, LearningStyleResultUncheckedCreateInput>
+  }
+
+  /**
+   * LearningStyleResult createMany
+   */
+  export type LearningStyleResultCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LearningStyleResults.
+     */
+    data: LearningStyleResultCreateManyInput | LearningStyleResultCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LearningStyleResult createManyAndReturn
+   */
+  export type LearningStyleResultCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * The data used to create many LearningStyleResults.
+     */
+    data: LearningStyleResultCreateManyInput | LearningStyleResultCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LearningStyleResult update
+   */
+  export type LearningStyleResultUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LearningStyleResult.
+     */
+    data: XOR<LearningStyleResultUpdateInput, LearningStyleResultUncheckedUpdateInput>
+    /**
+     * Choose, which LearningStyleResult to update.
+     */
+    where: LearningStyleResultWhereUniqueInput
+  }
+
+  /**
+   * LearningStyleResult updateMany
+   */
+  export type LearningStyleResultUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LearningStyleResults.
+     */
+    data: XOR<LearningStyleResultUpdateManyMutationInput, LearningStyleResultUncheckedUpdateManyInput>
+    /**
+     * Filter which LearningStyleResults to update
+     */
+    where?: LearningStyleResultWhereInput
+    /**
+     * Limit how many LearningStyleResults to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LearningStyleResult updateManyAndReturn
+   */
+  export type LearningStyleResultUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * The data used to update LearningStyleResults.
+     */
+    data: XOR<LearningStyleResultUpdateManyMutationInput, LearningStyleResultUncheckedUpdateManyInput>
+    /**
+     * Filter which LearningStyleResults to update
+     */
+    where?: LearningStyleResultWhereInput
+    /**
+     * Limit how many LearningStyleResults to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LearningStyleResult upsert
+   */
+  export type LearningStyleResultUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LearningStyleResult to update in case it exists.
+     */
+    where: LearningStyleResultWhereUniqueInput
+    /**
+     * In case the LearningStyleResult found by the `where` argument doesn't exist, create a new LearningStyleResult with this data.
+     */
+    create: XOR<LearningStyleResultCreateInput, LearningStyleResultUncheckedCreateInput>
+    /**
+     * In case the LearningStyleResult was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LearningStyleResultUpdateInput, LearningStyleResultUncheckedUpdateInput>
+  }
+
+  /**
+   * LearningStyleResult delete
+   */
+  export type LearningStyleResultDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultInclude<ExtArgs> | null
+    /**
+     * Filter which LearningStyleResult to delete.
+     */
+    where: LearningStyleResultWhereUniqueInput
+  }
+
+  /**
+   * LearningStyleResult deleteMany
+   */
+  export type LearningStyleResultDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LearningStyleResults to delete
+     */
+    where?: LearningStyleResultWhereInput
+    /**
+     * Limit how many LearningStyleResults to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LearningStyleResult without action
+   */
+  export type LearningStyleResultDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LearningStyleResult
+     */
+    select?: LearningStyleResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LearningStyleResult
+     */
+    omit?: LearningStyleResultOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LearningStyleResultInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -36968,6 +38239,20 @@ export namespace Prisma {
   export type ConceptConnectionScalarFieldEnum = (typeof ConceptConnectionScalarFieldEnum)[keyof typeof ConceptConnectionScalarFieldEnum]
 
 
+  export const LearningStyleResultScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    dominantStyle: 'dominantStyle',
+    visualPercent: 'visualPercent',
+    auditoryPercent: 'auditoryPercent',
+    readingPercent: 'readingPercent',
+    kinestheticPercent: 'kinestheticPercent',
+    createdAt: 'createdAt'
+  };
+
+  export type LearningStyleResultScalarFieldEnum = (typeof LearningStyleResultScalarFieldEnum)[keyof typeof LearningStyleResultScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -37356,6 +38641,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerListRelationFilter
     pinnedGroupMessages?: GroupPinnedMessageListRelationFilter
     conceptConnections?: ConceptConnectionListRelationFilter
+    learningStyleResults?: LearningStyleResultListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -37405,6 +38691,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerOrderByRelationAggregateInput
     pinnedGroupMessages?: GroupPinnedMessageOrderByRelationAggregateInput
     conceptConnections?: ConceptConnectionOrderByRelationAggregateInput
+    learningStyleResults?: LearningStyleResultOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -37457,6 +38744,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerListRelationFilter
     pinnedGroupMessages?: GroupPinnedMessageListRelationFilter
     conceptConnections?: ConceptConnectionListRelationFilter
+    learningStyleResults?: LearningStyleResultListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -39334,6 +40622,78 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"ConceptConnection"> | string
   }
 
+  export type LearningStyleResultWhereInput = {
+    AND?: LearningStyleResultWhereInput | LearningStyleResultWhereInput[]
+    OR?: LearningStyleResultWhereInput[]
+    NOT?: LearningStyleResultWhereInput | LearningStyleResultWhereInput[]
+    id?: StringFilter<"LearningStyleResult"> | string
+    userId?: StringFilter<"LearningStyleResult"> | string
+    dominantStyle?: StringFilter<"LearningStyleResult"> | string
+    visualPercent?: IntFilter<"LearningStyleResult"> | number
+    auditoryPercent?: IntFilter<"LearningStyleResult"> | number
+    readingPercent?: IntFilter<"LearningStyleResult"> | number
+    kinestheticPercent?: IntFilter<"LearningStyleResult"> | number
+    createdAt?: DateTimeFilter<"LearningStyleResult"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type LearningStyleResultOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    dominantStyle?: SortOrder
+    visualPercent?: SortOrder
+    auditoryPercent?: SortOrder
+    readingPercent?: SortOrder
+    kinestheticPercent?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type LearningStyleResultWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LearningStyleResultWhereInput | LearningStyleResultWhereInput[]
+    OR?: LearningStyleResultWhereInput[]
+    NOT?: LearningStyleResultWhereInput | LearningStyleResultWhereInput[]
+    userId?: StringFilter<"LearningStyleResult"> | string
+    dominantStyle?: StringFilter<"LearningStyleResult"> | string
+    visualPercent?: IntFilter<"LearningStyleResult"> | number
+    auditoryPercent?: IntFilter<"LearningStyleResult"> | number
+    readingPercent?: IntFilter<"LearningStyleResult"> | number
+    kinestheticPercent?: IntFilter<"LearningStyleResult"> | number
+    createdAt?: DateTimeFilter<"LearningStyleResult"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type LearningStyleResultOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    dominantStyle?: SortOrder
+    visualPercent?: SortOrder
+    auditoryPercent?: SortOrder
+    readingPercent?: SortOrder
+    kinestheticPercent?: SortOrder
+    createdAt?: SortOrder
+    _count?: LearningStyleResultCountOrderByAggregateInput
+    _avg?: LearningStyleResultAvgOrderByAggregateInput
+    _max?: LearningStyleResultMaxOrderByAggregateInput
+    _min?: LearningStyleResultMinOrderByAggregateInput
+    _sum?: LearningStyleResultSumOrderByAggregateInput
+  }
+
+  export type LearningStyleResultScalarWhereWithAggregatesInput = {
+    AND?: LearningStyleResultScalarWhereWithAggregatesInput | LearningStyleResultScalarWhereWithAggregatesInput[]
+    OR?: LearningStyleResultScalarWhereWithAggregatesInput[]
+    NOT?: LearningStyleResultScalarWhereWithAggregatesInput | LearningStyleResultScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LearningStyleResult"> | string
+    userId?: StringWithAggregatesFilter<"LearningStyleResult"> | string
+    dominantStyle?: StringWithAggregatesFilter<"LearningStyleResult"> | string
+    visualPercent?: IntWithAggregatesFilter<"LearningStyleResult"> | number
+    auditoryPercent?: IntWithAggregatesFilter<"LearningStyleResult"> | number
+    readingPercent?: IntWithAggregatesFilter<"LearningStyleResult"> | number
+    kinestheticPercent?: IntWithAggregatesFilter<"LearningStyleResult"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"LearningStyleResult"> | Date | string
+  }
+
   export type PostCreateInput = {
     name: string
     createdAt?: Date | string
@@ -39592,6 +40952,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -39641,6 +41002,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -39690,6 +41052,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -39739,6 +41102,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -41703,6 +43067,82 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type LearningStyleResultCreateInput = {
+    id?: string
+    dominantStyle: string
+    visualPercent: number
+    auditoryPercent: number
+    readingPercent: number
+    kinestheticPercent: number
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutLearningStyleResultsInput
+  }
+
+  export type LearningStyleResultUncheckedCreateInput = {
+    id?: string
+    userId: string
+    dominantStyle: string
+    visualPercent: number
+    auditoryPercent: number
+    readingPercent: number
+    kinestheticPercent: number
+    createdAt?: Date | string
+  }
+
+  export type LearningStyleResultUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dominantStyle?: StringFieldUpdateOperationsInput | string
+    visualPercent?: IntFieldUpdateOperationsInput | number
+    auditoryPercent?: IntFieldUpdateOperationsInput | number
+    readingPercent?: IntFieldUpdateOperationsInput | number
+    kinestheticPercent?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutLearningStyleResultsNestedInput
+  }
+
+  export type LearningStyleResultUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    dominantStyle?: StringFieldUpdateOperationsInput | string
+    visualPercent?: IntFieldUpdateOperationsInput | number
+    auditoryPercent?: IntFieldUpdateOperationsInput | number
+    readingPercent?: IntFieldUpdateOperationsInput | number
+    kinestheticPercent?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LearningStyleResultCreateManyInput = {
+    id?: string
+    userId: string
+    dominantStyle: string
+    visualPercent: number
+    auditoryPercent: number
+    readingPercent: number
+    kinestheticPercent: number
+    createdAt?: Date | string
+  }
+
+  export type LearningStyleResultUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dominantStyle?: StringFieldUpdateOperationsInput | string
+    visualPercent?: IntFieldUpdateOperationsInput | number
+    auditoryPercent?: IntFieldUpdateOperationsInput | number
+    readingPercent?: IntFieldUpdateOperationsInput | number
+    kinestheticPercent?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LearningStyleResultUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    dominantStyle?: StringFieldUpdateOperationsInput | string
+    visualPercent?: IntFieldUpdateOperationsInput | number
+    auditoryPercent?: IntFieldUpdateOperationsInput | number
+    readingPercent?: IntFieldUpdateOperationsInput | number
+    kinestheticPercent?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -42142,6 +43582,12 @@ export namespace Prisma {
     none?: ConceptConnectionWhereInput
   }
 
+  export type LearningStyleResultListRelationFilter = {
+    every?: LearningStyleResultWhereInput
+    some?: LearningStyleResultWhereInput
+    none?: LearningStyleResultWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -42235,6 +43681,10 @@ export namespace Prisma {
   }
 
   export type ConceptConnectionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LearningStyleResultOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -43406,6 +44856,53 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type LearningStyleResultCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    dominantStyle?: SortOrder
+    visualPercent?: SortOrder
+    auditoryPercent?: SortOrder
+    readingPercent?: SortOrder
+    kinestheticPercent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LearningStyleResultAvgOrderByAggregateInput = {
+    visualPercent?: SortOrder
+    auditoryPercent?: SortOrder
+    readingPercent?: SortOrder
+    kinestheticPercent?: SortOrder
+  }
+
+  export type LearningStyleResultMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    dominantStyle?: SortOrder
+    visualPercent?: SortOrder
+    auditoryPercent?: SortOrder
+    readingPercent?: SortOrder
+    kinestheticPercent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LearningStyleResultMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    dominantStyle?: SortOrder
+    visualPercent?: SortOrder
+    auditoryPercent?: SortOrder
+    readingPercent?: SortOrder
+    kinestheticPercent?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LearningStyleResultSumOrderByAggregateInput = {
+    visualPercent?: SortOrder
+    auditoryPercent?: SortOrder
+    readingPercent?: SortOrder
+    kinestheticPercent?: SortOrder
+  }
+
   export type UserCreateNestedOneWithoutPostsInput = {
     create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput
@@ -43655,6 +45152,13 @@ export namespace Prisma {
     connect?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
   }
 
+  export type LearningStyleResultCreateNestedManyWithoutUserInput = {
+    create?: XOR<LearningStyleResultCreateWithoutUserInput, LearningStyleResultUncheckedCreateWithoutUserInput> | LearningStyleResultCreateWithoutUserInput[] | LearningStyleResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LearningStyleResultCreateOrConnectWithoutUserInput | LearningStyleResultCreateOrConnectWithoutUserInput[]
+    createMany?: LearningStyleResultCreateManyUserInputEnvelope
+    connect?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -43828,6 +45332,13 @@ export namespace Prisma {
     connectOrCreate?: ConceptConnectionCreateOrConnectWithoutUserInput | ConceptConnectionCreateOrConnectWithoutUserInput[]
     createMany?: ConceptConnectionCreateManyUserInputEnvelope
     connect?: ConceptConnectionWhereUniqueInput | ConceptConnectionWhereUniqueInput[]
+  }
+
+  export type LearningStyleResultUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LearningStyleResultCreateWithoutUserInput, LearningStyleResultUncheckedCreateWithoutUserInput> | LearningStyleResultCreateWithoutUserInput[] | LearningStyleResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LearningStyleResultCreateOrConnectWithoutUserInput | LearningStyleResultCreateOrConnectWithoutUserInput[]
+    createMany?: LearningStyleResultCreateManyUserInputEnvelope
+    connect?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -44193,6 +45704,20 @@ export namespace Prisma {
     deleteMany?: ConceptConnectionScalarWhereInput | ConceptConnectionScalarWhereInput[]
   }
 
+  export type LearningStyleResultUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LearningStyleResultCreateWithoutUserInput, LearningStyleResultUncheckedCreateWithoutUserInput> | LearningStyleResultCreateWithoutUserInput[] | LearningStyleResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LearningStyleResultCreateOrConnectWithoutUserInput | LearningStyleResultCreateOrConnectWithoutUserInput[]
+    upsert?: LearningStyleResultUpsertWithWhereUniqueWithoutUserInput | LearningStyleResultUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LearningStyleResultCreateManyUserInputEnvelope
+    set?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
+    disconnect?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
+    delete?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
+    connect?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
+    update?: LearningStyleResultUpdateWithWhereUniqueWithoutUserInput | LearningStyleResultUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LearningStyleResultUpdateManyWithWhereWithoutUserInput | LearningStyleResultUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LearningStyleResultScalarWhereInput | LearningStyleResultScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -44541,6 +46066,20 @@ export namespace Prisma {
     update?: ConceptConnectionUpdateWithWhereUniqueWithoutUserInput | ConceptConnectionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ConceptConnectionUpdateManyWithWhereWithoutUserInput | ConceptConnectionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ConceptConnectionScalarWhereInput | ConceptConnectionScalarWhereInput[]
+  }
+
+  export type LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LearningStyleResultCreateWithoutUserInput, LearningStyleResultUncheckedCreateWithoutUserInput> | LearningStyleResultCreateWithoutUserInput[] | LearningStyleResultUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LearningStyleResultCreateOrConnectWithoutUserInput | LearningStyleResultCreateOrConnectWithoutUserInput[]
+    upsert?: LearningStyleResultUpsertWithWhereUniqueWithoutUserInput | LearningStyleResultUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LearningStyleResultCreateManyUserInputEnvelope
+    set?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
+    disconnect?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
+    delete?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
+    connect?: LearningStyleResultWhereUniqueInput | LearningStyleResultWhereUniqueInput[]
+    update?: LearningStyleResultUpdateWithWhereUniqueWithoutUserInput | LearningStyleResultUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LearningStyleResultUpdateManyWithWhereWithoutUserInput | LearningStyleResultUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LearningStyleResultScalarWhereInput | LearningStyleResultScalarWhereInput[]
   }
 
   export type NoteCreatetagsInput = {
@@ -45930,6 +47469,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutConceptConnectionsInput, UserUpdateWithoutConceptConnectionsInput>, UserUncheckedUpdateWithoutConceptConnectionsInput>
   }
 
+  export type UserCreateNestedOneWithoutLearningStyleResultsInput = {
+    create?: XOR<UserCreateWithoutLearningStyleResultsInput, UserUncheckedCreateWithoutLearningStyleResultsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLearningStyleResultsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutLearningStyleResultsNestedInput = {
+    create?: XOR<UserCreateWithoutLearningStyleResultsInput, UserUncheckedCreateWithoutLearningStyleResultsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLearningStyleResultsInput
+    upsert?: UserUpsertWithoutLearningStyleResultsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLearningStyleResultsInput, UserUpdateWithoutLearningStyleResultsInput>, UserUncheckedUpdateWithoutLearningStyleResultsInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -46223,6 +47776,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -46271,6 +47825,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -46335,6 +47890,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -46383,6 +47939,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -46431,6 +47988,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -46479,6 +48037,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -46543,6 +48102,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -46591,6 +48151,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -46639,6 +48200,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -46687,6 +48249,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -46751,6 +48314,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -46799,6 +48363,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -47630,6 +49195,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LearningStyleResultCreateWithoutUserInput = {
+    id?: string
+    dominantStyle: string
+    visualPercent: number
+    auditoryPercent: number
+    readingPercent: number
+    kinestheticPercent: number
+    createdAt?: Date | string
+  }
+
+  export type LearningStyleResultUncheckedCreateWithoutUserInput = {
+    id?: string
+    dominantStyle: string
+    visualPercent: number
+    auditoryPercent: number
+    readingPercent: number
+    kinestheticPercent: number
+    createdAt?: Date | string
+  }
+
+  export type LearningStyleResultCreateOrConnectWithoutUserInput = {
+    where: LearningStyleResultWhereUniqueInput
+    create: XOR<LearningStyleResultCreateWithoutUserInput, LearningStyleResultUncheckedCreateWithoutUserInput>
+  }
+
+  export type LearningStyleResultCreateManyUserInputEnvelope = {
+    data: LearningStyleResultCreateManyUserInput | LearningStyleResultCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -48373,6 +49968,36 @@ export namespace Prisma {
     userId?: StringFilter<"ConceptConnection"> | string
   }
 
+  export type LearningStyleResultUpsertWithWhereUniqueWithoutUserInput = {
+    where: LearningStyleResultWhereUniqueInput
+    update: XOR<LearningStyleResultUpdateWithoutUserInput, LearningStyleResultUncheckedUpdateWithoutUserInput>
+    create: XOR<LearningStyleResultCreateWithoutUserInput, LearningStyleResultUncheckedCreateWithoutUserInput>
+  }
+
+  export type LearningStyleResultUpdateWithWhereUniqueWithoutUserInput = {
+    where: LearningStyleResultWhereUniqueInput
+    data: XOR<LearningStyleResultUpdateWithoutUserInput, LearningStyleResultUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LearningStyleResultUpdateManyWithWhereWithoutUserInput = {
+    where: LearningStyleResultScalarWhereInput
+    data: XOR<LearningStyleResultUpdateManyMutationInput, LearningStyleResultUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type LearningStyleResultScalarWhereInput = {
+    AND?: LearningStyleResultScalarWhereInput | LearningStyleResultScalarWhereInput[]
+    OR?: LearningStyleResultScalarWhereInput[]
+    NOT?: LearningStyleResultScalarWhereInput | LearningStyleResultScalarWhereInput[]
+    id?: StringFilter<"LearningStyleResult"> | string
+    userId?: StringFilter<"LearningStyleResult"> | string
+    dominantStyle?: StringFilter<"LearningStyleResult"> | string
+    visualPercent?: IntFilter<"LearningStyleResult"> | number
+    auditoryPercent?: IntFilter<"LearningStyleResult"> | number
+    readingPercent?: IntFilter<"LearningStyleResult"> | number
+    kinestheticPercent?: IntFilter<"LearningStyleResult"> | number
+    createdAt?: DateTimeFilter<"LearningStyleResult"> | Date | string
+  }
+
   export type UserCreateWithoutNotesInput = {
     id?: string
     name?: string | null
@@ -48419,6 +50044,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotesInput = {
@@ -48467,6 +50093,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotesInput = {
@@ -48580,6 +50207,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotesInput = {
@@ -48628,6 +50256,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FolderUpsertWithoutNotesInput = {
@@ -48719,6 +50348,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFoldersInput = {
@@ -48767,6 +50397,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFoldersInput = {
@@ -48871,6 +50502,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFoldersInput = {
@@ -48919,6 +50551,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type NoteUpsertWithWhereUniqueWithoutFolderInput = {
@@ -48983,6 +50616,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCitationsInput = {
@@ -49031,6 +50665,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCitationsInput = {
@@ -49095,6 +50730,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCitationsInput = {
@@ -49143,6 +50779,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamPredictionsInput = {
@@ -49191,6 +50828,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamPredictionsInput = {
@@ -49239,6 +50877,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamPredictionsInput = {
@@ -49303,6 +50942,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamPredictionsInput = {
@@ -49351,6 +50991,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHostedBattlesInput = {
@@ -49399,6 +51040,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedBattlesInput = {
@@ -49447,6 +51089,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedBattlesInput = {
@@ -49500,6 +51143,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutJoinedBattlesInput = {
@@ -49548,6 +51192,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutJoinedBattlesInput = {
@@ -49691,6 +51336,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedBattlesInput = {
@@ -49739,6 +51385,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutJoinedBattlesInput = {
@@ -49798,6 +51445,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutJoinedBattlesInput = {
@@ -49846,6 +51494,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleQuestionUpsertWithWhereUniqueWithoutBattleInput = {
@@ -50131,6 +51780,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleParticipantsInput = {
@@ -50179,6 +51829,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleParticipantsInput = {
@@ -50302,6 +51953,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleParticipantsInput = {
@@ -50350,6 +52002,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleCreateWithoutResultInput = {
@@ -50451,6 +52104,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleResultsInput = {
@@ -50499,6 +52153,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleResultsInput = {
@@ -50622,6 +52277,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleResultsInput = {
@@ -50670,6 +52326,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreatedStudyGroupsInput = {
@@ -50718,6 +52375,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedStudyGroupsInput = {
@@ -50766,6 +52424,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedStudyGroupsInput = {
@@ -51151,6 +52810,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedStudyGroupsInput = {
@@ -51199,6 +52859,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
@@ -51505,6 +53166,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStudyGroupMembershipsInput = {
@@ -51553,6 +53215,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStudyGroupMembershipsInput = {
@@ -51676,6 +53339,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudyGroupMembershipsInput = {
@@ -51724,6 +53388,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutMessagesInput = {
@@ -51825,6 +53490,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupMessagesInput = {
@@ -51873,6 +53539,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupMessagesInput = {
@@ -52020,6 +53687,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupMessagesInput = {
@@ -52068,6 +53736,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupPinnedMessageUpsertWithWhereUniqueWithoutMessageInput = {
@@ -52332,6 +54001,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSharedGroupNotesInput = {
@@ -52380,6 +54050,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSharedGroupNotesInput = {
@@ -52568,6 +54239,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSharedGroupNotesInput = {
@@ -52616,6 +54288,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupSharedNoteCommentUpsertWithWhereUniqueWithoutSharedNoteInput = {
@@ -52703,6 +54376,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupNoteCommentsInput = {
@@ -52751,6 +54425,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupNoteCommentsInput = {
@@ -52844,6 +54519,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupNoteCommentsInput = {
@@ -52892,6 +54568,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutFlashcardsInput = {
@@ -52993,6 +54670,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedGroupFlashcardsInput = {
@@ -53041,6 +54719,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedGroupFlashcardsInput = {
@@ -53164,6 +54843,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedGroupFlashcardsInput = {
@@ -53212,6 +54892,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutQuizRoundsInput = {
@@ -53313,6 +54994,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizRoundsStartedInput = {
@@ -53361,6 +55043,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizRoundsStartedInput = {
@@ -53512,6 +55195,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizRoundsStartedInput = {
@@ -53560,6 +55244,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupQuizSubmissionUpsertWithWhereUniqueWithoutRoundInput = {
@@ -53653,6 +55338,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizSubmissionsInput = {
@@ -53701,6 +55387,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizSubmissionsInput = {
@@ -53800,6 +55487,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizSubmissionsInput = {
@@ -53848,6 +55536,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutScheduleItemsInput = {
@@ -53949,6 +55638,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupSchedulesCreatedInput = {
@@ -53997,6 +55687,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupSchedulesCreatedInput = {
@@ -54120,6 +55811,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupSchedulesCreatedInput = {
@@ -54168,6 +55860,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutResourcesInput = {
@@ -54269,6 +55962,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupResourcesSharedInput = {
@@ -54317,6 +56011,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupResourcesSharedInput = {
@@ -54440,6 +56135,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupResourcesSharedInput = {
@@ -54488,6 +56184,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutLeaderboardStatsInput = {
@@ -54589,6 +56286,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupStatsInput = {
@@ -54637,6 +56335,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupStatsInput = {
@@ -54760,6 +56459,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupStatsInput = {
@@ -54808,6 +56508,7 @@ export namespace Prisma {
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPomodoroTimerInput = {
@@ -54909,6 +56610,7 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedPomodoroTimersInput = {
@@ -54957,6 +56659,7 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedPomodoroTimersInput = {
@@ -55080,6 +56783,7 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedPomodoroTimersInput = {
@@ -55128,6 +56832,7 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPinnedMessagesInput = {
@@ -55254,6 +56959,7 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPinnedGroupMessagesInput = {
@@ -55302,6 +57008,7 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPinnedGroupMessagesInput = {
@@ -55456,6 +57163,7 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPinnedGroupMessagesInput = {
@@ -55504,6 +57212,7 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptConnectionsInput = {
@@ -55552,6 +57261,7 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
     hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptConnectionsInput = {
@@ -55600,6 +57310,7 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptConnectionsInput = {
@@ -55664,6 +57375,7 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
     hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptConnectionsInput = {
@@ -55712,6 +57424,219 @@ export namespace Prisma {
     groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
     hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutLearningStyleResultsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutLearningStyleResultsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutLearningStyleResultsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLearningStyleResultsInput, UserUncheckedCreateWithoutLearningStyleResultsInput>
+  }
+
+  export type UserUpsertWithoutLearningStyleResultsInput = {
+    update: XOR<UserUpdateWithoutLearningStyleResultsInput, UserUncheckedUpdateWithoutLearningStyleResultsInput>
+    create: XOR<UserCreateWithoutLearningStyleResultsInput, UserUncheckedCreateWithoutLearningStyleResultsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLearningStyleResultsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLearningStyleResultsInput, UserUncheckedUpdateWithoutLearningStyleResultsInput>
+  }
+
+  export type UserUpdateWithoutLearningStyleResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLearningStyleResultsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -55979,6 +57904,16 @@ export namespace Prisma {
     concept2: string
     connectionDescription: string
     strength: string
+    createdAt?: Date | string
+  }
+
+  export type LearningStyleResultCreateManyUserInput = {
+    id?: string
+    dominantStyle: string
+    visualPercent: number
+    auditoryPercent: number
+    readingPercent: number
+    kinestheticPercent: number
     createdAt?: Date | string
   }
 
@@ -56826,6 +58761,36 @@ export namespace Prisma {
     concept2?: StringFieldUpdateOperationsInput | string
     connectionDescription?: StringFieldUpdateOperationsInput | string
     strength?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LearningStyleResultUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dominantStyle?: StringFieldUpdateOperationsInput | string
+    visualPercent?: IntFieldUpdateOperationsInput | number
+    auditoryPercent?: IntFieldUpdateOperationsInput | number
+    readingPercent?: IntFieldUpdateOperationsInput | number
+    kinestheticPercent?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LearningStyleResultUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dominantStyle?: StringFieldUpdateOperationsInput | string
+    visualPercent?: IntFieldUpdateOperationsInput | number
+    auditoryPercent?: IntFieldUpdateOperationsInput | number
+    readingPercent?: IntFieldUpdateOperationsInput | number
+    kinestheticPercent?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LearningStyleResultUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dominantStyle?: StringFieldUpdateOperationsInput | string
+    visualPercent?: IntFieldUpdateOperationsInput | number
+    auditoryPercent?: IntFieldUpdateOperationsInput | number
+    readingPercent?: IntFieldUpdateOperationsInput | number
+    kinestheticPercent?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

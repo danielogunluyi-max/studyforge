@@ -441,6 +441,17 @@ exports.Prisma.ConceptConnectionScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.LearningStyleResultScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  dominantStyle: 'dominantStyle',
+  visualPercent: 'visualPercent',
+  auditoryPercent: 'auditoryPercent',
+  readingPercent: 'readingPercent',
+  kinestheticPercent: 'kinestheticPercent',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -500,7 +511,8 @@ exports.Prisma.ModelName = {
   GroupMemberStats: 'GroupMemberStats',
   GroupPomodoroTimer: 'GroupPomodoroTimer',
   GroupPinnedMessage: 'GroupPinnedMessage',
-  ConceptConnection: 'ConceptConnection'
+  ConceptConnection: 'ConceptConnection',
+  LearningStyleResult: 'LearningStyleResult'
 };
 
 /**

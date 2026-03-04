@@ -99,6 +99,7 @@ model User {
     hostedPomodoroTimers GroupPomodoroTimer[] @relation("PomodoroHost")
     pinnedGroupMessages GroupPinnedMessage[]
     conceptConnections ConceptConnection[]
+    learningStyleResults LearningStyleResult[]
 }
 
 model VerificationToken {
@@ -519,4 +520,21 @@ model ConceptConnection {
 
     @@index([userId])
     @@index([createdAt])
+}
+
+model LearningStyleResult {
+    id                 String   @id @default(cuid())
+    userId             String
+    dominantStyle      String
+    visualPercent      Int
+    auditoryPercent    Int
+    readingPercent     Int
+    kinestheticPercent Int
+    createdAt          DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([createdAt])
+    @@index([dominantStyle])
 }
