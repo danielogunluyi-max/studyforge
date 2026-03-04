@@ -58,6 +58,7 @@ export default function Generator() {
   const [stillLearningCards, setStillLearningCards] = useState<Set<number>>(new Set());
   const [studyMode, setStudyMode] = useState(false);
   const [studyCardIndex, setStudyCardIndex] = useState(0);
+  const [studyCompleted, setStudyCompleted] = useState(false);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
   const [checkedAnswers, setCheckedAnswers] = useState<Set<number>>(new Set());
   const [checkingAnswers, setCheckingAnswers] = useState<Set<number>>(new Set());
@@ -117,6 +118,7 @@ export default function Generator() {
     setStillLearningCards(new Set());
     setStudyMode(false);
     setStudyCardIndex(0);
+    setStudyCompleted(false);
     setQuizAnswers({});
     setCheckedAnswers(new Set());
     setCheckingAnswers(new Set());
@@ -169,6 +171,7 @@ export default function Generator() {
     setStillLearningCards(new Set());
     setStudyMode(false);
     setStudyCardIndex(0);
+    setStudyCompleted(false);
     setQuizAnswers({});
     setCheckedAnswers(new Set());
     setCheckingAnswers(new Set());
@@ -352,6 +355,7 @@ export default function Generator() {
     setStillLearningCards(new Set());
     setStudyMode(false);
     setStudyCardIndex(0);
+    setStudyCompleted(false);
     setQuizAnswers({});
     setCheckedAnswers(new Set());
     setCheckingAnswers(new Set());
@@ -537,6 +541,7 @@ export default function Generator() {
     if (outputFormat !== "flashcards") {
       setStudyMode(false);
       setStudyCardIndex(0);
+      setStudyCompleted(false);
       return;
     }
 
@@ -547,6 +552,7 @@ export default function Generator() {
     setReviewedCards(new Set());
     setKnownCards(new Set());
     setStillLearningCards(new Set());
+    setStudyCompleted(false);
   }, [generatedNotes, outputFormat]);
 
   const shuffleFlashcards = () => {
@@ -557,6 +563,16 @@ export default function Generator() {
     }
     setShuffledCards(baseCards);
     setStudyCardIndex(0);
+    setStudyCompleted(false);
+  };
+
+  const resetFlashcardProgress = () => {
+    setFlippedCards(new Set());
+    setReviewedCards(new Set());
+    setKnownCards(new Set());
+    setStillLearningCards(new Set());
+    setStudyCardIndex(0);
+    setStudyCompleted(false);
   };
 
   const markCardKnown = (cardId: number) => {
@@ -584,6 +600,56 @@ export default function Generator() {
       return next;
     });
   };
+
+  const moveStudyCard = (delta: number) => {
+    setStudyCardIndex((prev) => {
+      const maxIndex = Math.max(0, shuffledCards.length - 1);
+      return Math.min(maxIndex, Math.max(0, prev + delta));
+    });
+  };
+
+  const markStudyCard = (cardId: number, status: "known" | "learning") => {
+    if (status === "known") {
+      markCardKnown(cardId);
+    } else {
+      markCardStillLearning(cardId);
+    }
+
+    setReviewedCards((prev) => {
+      const next = new Set(prev);
+      next.add(cardId);
+
+      const totalCards = shuffledCards.length;
+      if (totalCards > 0 && next.size >= totalCards) {
+        setStudyCompleted(true);
+      } else {
+        setStudyCardIndex((prevIndex) => Math.min(totalCards - 1, prevIndex + 1));
+      }
+
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    if (!studyMode || studyCompleted || outputFormat !== "flashcards") return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.code === "Space") {
+        event.preventDefault();
+        const activeCard = shuffledCards[studyCardIndex];
+        if (activeCard) toggleCard(activeCard.id);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        moveStudyCard(1);
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        moveStudyCard(-1);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [studyMode, studyCompleted, outputFormat, shuffledCards, studyCardIndex, flippedCards]);
 
   const parseQuestions = (text: string) => {
     const questions: Array<{ question: string; answer: string }> = [];
@@ -641,15 +707,15 @@ export default function Generator() {
 
     if (outputFormat === "flashcards") {
       const cards = shuffledCards;
-      const reviewedCount = cards.filter((card) => reviewedCards.has(card.id)).length;
       const knownCount = cards.filter((card) => knownCards.has(card.id)).length;
       const stillLearningCount = cards.filter((card) => stillLearningCards.has(card.id)).length;
-      const progressPct = cards.length ? Math.round((reviewedCount / cards.length) * 100) : 0;
+      const markedCount = cards.filter((card) => knownCards.has(card.id) || stillLearningCards.has(card.id)).length;
+      const progressPct = cards.length ? Math.round((markedCount / cards.length) * 100) : 0;
       const activeCard = cards[studyCardIndex] ?? null;
       return (
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-4">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-white">
               Your Flashcards ({cards.length} cards)
             </h2>
             <div className="flex gap-2">
@@ -662,8 +728,20 @@ export default function Generator() {
                 Shuffle
               </Button>
               <Button
+                onClick={resetFlashcardProgress}
+                variant="secondary"
+                size="sm"
+                disabled={cards.length === 0}
+              >
+                Reset Progress
+              </Button>
+              <Button
                 onClick={() => {
-                  setStudyMode((prev) => !prev);
+                  setStudyMode((prev) => {
+                    const next = !prev;
+                    if (next) setStudyCompleted(false);
+                    return next;
+                  });
                   setStudyCardIndex(0);
                 }}
                 variant="secondary"
@@ -748,153 +826,204 @@ export default function Generator() {
               </div>
 
               <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-                <button
-                  type="button"
+                <div className="mb-2 flex items-center justify-between text-sm text-gray-400">
+                  <span>{markedCount}/{cards.length} cards marked</span>
                   onClick={() => markCardKnown(activeCard.id)}
                   className="rounded-lg border border-green-300 bg-green-50 px-3 py-1.5 text-sm font-semibold text-green-700 hover:bg-green-100"
-                >
+                <div className="h-2 w-full rounded-full bg-gray-800">
                   ✓ Got it
                 </button>
                 <button
                   type="button"
                   onClick={() => markCardStillLearning(activeCard.id)}
+                <div className="mt-2 text-sm font-semibold text-gray-300">
+                  {knownCount} known • {stillLearningCount} still learning
+                </div>
                   className="rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-1.5 text-sm font-semibold text-yellow-700 hover:bg-yellow-100"
                 >
-                  ↺ Still Learning
+              {studyMode && studyCompleted ? (
+                <div className="rounded-xl border border-green-700 bg-green-900/20 p-8 text-center">
+                  <p className="text-3xl font-bold text-white">You got {knownCount}/{cards.length} correct! 🎉</p>
+                  <p className="mt-2 text-gray-300">Keep practicing to improve your retention.</p>
+                  <div className="mt-6 flex items-center justify-center gap-3">
+                    <Button
+                      onClick={() => {
+                        resetFlashcardProgress();
+                        setStudyMode(true);
+                      }}
+                      size="sm"
+                    >
+                      Retry
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setStudyMode(false);
+                        setStudyCompleted(false);
+                      }}
+                      variant="secondary"
+                      size="sm"
+                    >
+                      Back to Grid
+                    </Button>
+                  </div>
+                </div>
+              ) : studyMode && activeCard ? (
                 </button>
-              </div>
-            </div>
+                  <div className="mb-4 text-center text-base font-semibold text-gray-200">
+                    {studyCardIndex + 1} of {cards.length}
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2">
-              {cards.map((card, index) => (
-                <div key={card.id}>
-                  <div className="mb-2 flex items-center justify-between">
-                    <p className="text-sm text-gray-500">Card {index + 1}</p>
-                    {knownCards.has(card.id) ? (
-                      <span className="rounded-full border border-green-300 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Known</span>
-                    ) : stillLearningCards.has(card.id) ? (
-                      <span className="rounded-full border border-yellow-300 bg-yellow-50 px-2 py-0.5 text-xs font-semibold text-yellow-700">Still Learning</span>
-                    ) : null}
-                  </div>
-                  <div
-                    onClick={() => toggleCard(card.id)}
-                    className="group relative h-48 cursor-pointer perspective"
-                  >
-                    <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(card.id) ? 'rotate-y-180' : ''}`}>
-                      <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-white p-6 backface-hidden">
-                        <p className="text-center text-lg font-medium leading-relaxed text-gray-900">
-                          {card.question}
-                        </p>
-                      </div>
-                      <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-white p-6 backface-hidden rotate-y-180">
-                        <p className="text-center leading-relaxed text-gray-700">
-                          {card.answer}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <p className="mt-3 text-center text-sm text-gray-500">
-                    Click to flip
-                  </p>
-                  <div className="mt-3 flex items-center justify-center gap-2">
+                  <div className="flex items-center justify-center gap-4">
                     <button
                       type="button"
-                      onClick={() => markCardKnown(card.id)}
-                      className="rounded-lg border border-green-300 bg-green-50 px-3 py-1.5 text-sm font-semibold text-green-700 hover:bg-green-100"
+                      onClick={() => moveStudyCard(-1)}
+                      disabled={studyCardIndex === 0}
+                      className="flex h-14 w-14 items-center justify-center rounded-full border border-gray-700 bg-gray-800 text-3xl font-bold text-white transition hover:border-blue-400 hover:text-blue-200 disabled:cursor-not-allowed disabled:opacity-40"
+                      aria-label="Previous card"
+                    >
+                      ‹
+                    </button>
+
+                    <div
+                      onClick={() => toggleCard(activeCard.id)}
+                      className="group perspective relative w-full max-w-3xl cursor-pointer"
+                    >
+                      <div className={`flashcard relative h-[300px] w-full ${flippedCards.has(activeCard.id) ? "flipped" : ""}`}>
+                        <div className="flashcard-front absolute inset-0 overflow-hidden rounded-xl border border-blue-500/40 bg-gradient-to-br from-slate-900 via-blue-950 to-blue-900 p-8 shadow-[0_0_0_1px_rgba(96,165,250,0.12)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_0_0_1px_rgba(96,165,250,0.32),0_0_22px_rgba(59,130,246,0.25)]">
+                          <span className="absolute left-4 top-4 rounded-full border border-blue-300/40 bg-blue-600/20 px-2 py-0.5 text-xs font-bold text-blue-100">Q</span>
+                          <p className="flex h-full items-center justify-center text-center text-lg font-semibold leading-relaxed text-white">
+                            {activeCard.question}
+                          </p>
+                        </div>
+                        <div className="flashcard-back absolute inset-0 overflow-hidden rounded-xl border border-purple-500/40 bg-gradient-to-br from-slate-900 via-purple-950 to-purple-900 p-8 shadow-[0_0_0_1px_rgba(168,85,247,0.12)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_0_0_1px_rgba(168,85,247,0.32),0_0_22px_rgba(147,51,234,0.25)]">
+                          <span className="absolute left-4 top-4 rounded-full border border-purple-300/40 bg-purple-600/20 px-2 py-0.5 text-xs font-bold text-purple-100">A</span>
+                          <p className="flex h-full items-center justify-center text-center text-lg font-medium leading-relaxed text-blue-200">
+                            {activeCard.answer}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => moveStudyCard(1)}
+                      disabled={studyCardIndex >= cards.length - 1}
+                      className="flex h-14 w-14 items-center justify-center rounded-full border border-gray-700 bg-gray-800 text-3xl font-bold text-white transition hover:border-blue-400 hover:text-blue-200 disabled:cursor-not-allowed disabled:opacity-40"
+                      aria-label="Next card"
+                    >
+                      ›
+                    </button>
+                  </div>
+
+                  <div className="mt-3 text-center text-xs font-semibold uppercase tracking-wide text-gray-400">
+                    <svg className="mr-1 inline h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+                    </svg>
+                    Flip card • Space | Navigate • ← →
+                  </div>
+
+                  <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                    <button
+                      type="button"
+                      onClick={() => markStudyCard(activeCard.id, "known")}
+                      className="rounded-xl border border-green-500/60 bg-green-900/30 px-5 py-4 text-base font-bold text-green-200 transition hover:bg-green-800/40"
                     >
                       ✓ Got it
                     </button>
                     <button
                       type="button"
-                      onClick={() => markCardStillLearning(card.id)}
-                      className="rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-1.5 text-sm font-semibold text-yellow-700 hover:bg-yellow-100"
+                      onClick={() => markStudyCard(activeCard.id, "learning")}
+                      className="rounded-xl border border-orange-500/60 bg-orange-900/30 px-5 py-4 text-base font-bold text-orange-200 transition hover:bg-orange-800/40"
                     >
                       ↺ Still Learning
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-
-          {cards.length > 0 && (
-            <div className="mt-5 border-t border-gray-200 pt-4 text-sm font-semibold text-gray-700">
-              Known: {knownCount} | Still Learning: {stillLearningCount}
-            </div>
-          )}
-
-          {cards.length === 0 && (
-            <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
-              <p className="font-semibold">No flashcards parsed from AI output.</p>
-              <p className="mt-2 whitespace-pre-wrap text-xs text-gray-700">{generatedNotes}</p>
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    if (outputFormat === "questions") {
-      const questions = parseQuestions(generatedNotes);
-      return (
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <div className="mb-6 flex flex-col gap-3 border-b border-gray-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="text-xl font-semibold text-gray-900">
-              Practice Quiz ({questions.length} questions)
-            </h2>
-            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-              <Button
-                onClick={handleSave}
-                disabled={isSaving}
-                size="sm"
-                loading={isSaving}
-              >
-                {isSaving ? "Saving..." : "Save"}
-              </Button>
-              <Button
-                onClick={handleCopy}
-                variant="secondary"
-                size="sm"
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                Copy
-              </Button>
-            </div>
-          </div>
-          <div className="space-y-6">
-            {questions.map((q, index) => (
-              <div key={index} className="rounded-lg border border-gray-200 bg-gray-50 p-4 sm:p-6">
-                <div className="mb-4 flex items-start gap-3">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
-                    {index + 1}
-                  </span>
-                  <p className="flex-1 break-words pt-1 text-base font-medium text-gray-900 sm:text-lg">
-                    {q.question.replace(/\$/g, "")}
-                  </p>
+              ) : (
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {cards.map((card, index) => (
+                    <div key={card.id}>
+                      <div className="mb-2 flex items-center justify-between">
+                        <p className="inline-flex items-center gap-2 text-sm font-semibold text-gray-300">
+                          <span>Card {index + 1}</span>
+                          <span className="rounded-full border border-gray-600 bg-gray-800 px-2 py-0.5 text-xs text-gray-300">
+                            {index + 1}/{cards.length}
+                          </span>
+                        </p>
+                        {knownCards.has(card.id) ? (
+                          <span className="rounded-full border border-green-500/60 bg-green-900/30 px-2 py-0.5 text-xs font-semibold text-green-300">Known</span>
+                        ) : stillLearningCards.has(card.id) ? (
+                          <span className="rounded-full border border-orange-500/60 bg-orange-900/30 px-2 py-0.5 text-xs font-semibold text-orange-300">Still Learning</span>
+                        ) : null}
+                      </div>
+                      <div
+                        onClick={() => toggleCard(card.id)}
+                        className="group perspective relative cursor-pointer"
+                      >
+                        <div className={`flashcard relative min-h-[200px] w-full ${flippedCards.has(card.id) ? "flipped" : ""}`}>
+                          <div
+                            className={`flashcard-front absolute inset-0 overflow-hidden rounded-xl border bg-gradient-to-br from-slate-900 via-blue-950 to-blue-900 p-6 shadow-[0_0_0_1px_rgba(96,165,250,0.12)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_0_0_1px_rgba(96,165,250,0.32),0_0_16px_rgba(59,130,246,0.22)] ${stillLearningCards.has(card.id) ? "border-orange-500/70" : "border-blue-500/40"}`}
+                          >
+                            <span className="absolute left-4 top-4 rounded-full border border-blue-300/40 bg-blue-600/20 px-2 py-0.5 text-xs font-bold text-blue-100">Q</span>
+                            {knownCards.has(card.id) ? (
+                              <span className="absolute right-4 top-4 inline-flex h-7 w-7 items-center justify-center rounded-full border border-green-400 bg-green-500/20 text-sm font-bold text-green-200">
+                                ✓
+                              </span>
+                            ) : null}
+                            <p className="flex min-h-[200px] items-center justify-center text-center text-lg font-semibold leading-relaxed text-white">
+                              {card.question}
+                            </p>
+                          </div>
+                          <div
+                            className={`flashcard-back absolute inset-0 overflow-hidden rounded-xl border bg-gradient-to-br from-slate-900 via-purple-950 to-purple-900 p-6 shadow-[0_0_0_1px_rgba(168,85,247,0.12)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_0_0_1px_rgba(168,85,247,0.32),0_0_16px_rgba(147,51,234,0.22)] ${stillLearningCards.has(card.id) ? "border-orange-500/70" : "border-purple-500/40"}`}
+                          >
+                            <span className="absolute left-4 top-4 rounded-full border border-purple-300/40 bg-purple-600/20 px-2 py-0.5 text-xs font-bold text-purple-100">A</span>
+                            {knownCards.has(card.id) ? (
+                              <span className="absolute right-4 top-4 inline-flex h-7 w-7 items-center justify-center rounded-full border border-green-400 bg-green-500/20 text-sm font-bold text-green-200">
+                                ✓
+                              </span>
+                            ) : null}
+                            <p className="flex min-h-[200px] items-center justify-center text-center text-base font-medium leading-relaxed text-blue-200">
+                              {card.answer}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="mt-3 text-center text-xs text-gray-400" aria-label="Flip card hint">
+                        <svg className="inline h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+                        </svg>
+                      </p>
+                      <div className="mt-3 flex items-center justify-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => markCardKnown(card.id)}
+                          className="rounded-lg border border-green-500/60 bg-green-900/30 px-3 py-1.5 text-sm font-semibold text-green-200 hover:bg-green-800/40"
+                        >
+                          ✓ Got it
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => markCardStillLearning(card.id)}
+                          className="rounded-lg border border-orange-500/60 bg-orange-900/30 px-3 py-1.5 text-sm font-semibold text-orange-200 hover:bg-orange-800/40"
+                        >
+                          ↺ Still Learning
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <textarea
-                  value={quizAnswers[index] ?? ''}
-                  onChange={(e) => handleQuizAnswer(index, e.target.value)}
-                  placeholder="Type your answer here..."
-                  className="mb-3 w-full resize-none rounded-lg border border-gray-300 p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  rows={3}
-                  disabled={checkedAnswers.has(index)}
-                />
-                {!checkedAnswers.has(index) ? (
-                  <Button
-                    onClick={() => void checkAnswer(index, q.answer)}
+              )}
                     disabled={!quizAnswers[index]?.trim() || checkingAnswers.has(index)}
                     size="sm"
-                  >
-                    {checkingAnswers.has(index) ? "Checking..." : "Check Answer"}
+                <div className="mt-5 border-t border-gray-700 pt-4 text-sm font-semibold text-gray-300">
+                  {knownCount} known • {stillLearningCount} still learning
                   </Button>
                 ) : (
                   <div className="rounded-lg border border-green-200 bg-green-50 p-4">
                     {answerChecks[index] && (
-                      <div className={`mb-3 rounded-md border px-3 py-2 text-sm ${answerChecks[index]?.correct ? "border-green-300 bg-green-100 text-green-800" : "border-red-300 bg-red-100 text-red-800"}`}>
+                <div className="mt-4 rounded-lg border border-yellow-700 bg-yellow-900/30 p-4 text-sm text-yellow-300">
                         <p className="font-semibold">
-                          {answerChecks[index]?.correct ? "✓ Correct" : "✗ Incorrect"}
+                  <p className="mt-2 whitespace-pre-wrap text-xs text-gray-200">{generatedNotes}</p>
                         </p>
                         <p className="mt-1">{answerChecks[index]?.feedback}</p>
                       </div>
