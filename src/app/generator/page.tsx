@@ -987,7 +987,7 @@ export default function Generator() {
           }
         />
 
-        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+        <div className="mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-4 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-gray-600">
               Prefer uploading a PDF or image? Use the dedicated upload workflow.
@@ -1001,9 +1001,10 @@ export default function Generator() {
           </div>
         </div>
 
-        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="relative mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
+          <span className="absolute left-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">1</span>
           <div className="mb-3 flex items-center justify-between">
-            <label className="text-sm font-semibold text-gray-900">
+            <label className="pl-8 text-sm font-semibold text-gray-900">
               Your Notes or Content
             </label>
             <span className="text-sm text-gray-500">
@@ -1020,7 +1021,7 @@ export default function Generator() {
             placeholder="Paste lecture notes, textbook paragraphs, or study material here...
 
 Example: 'Photosynthesis is the process by which plants convert sunlight into energy. It occurs in the chloroplasts and involves...'"
-            className="h-64 w-full resize-none rounded-lg border border-gray-300 p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="min-h-[300px] w-full resize-none rounded-lg border border-gray-300 p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
           {detectedSubject && suggestedFormat && (
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-900">
@@ -1038,8 +1039,9 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           )}
         </div>
 
-        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <label className="mb-3 block text-sm font-semibold text-gray-900">
+        <div className="relative mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
+          <span className="absolute left-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">2</span>
+          <label className="mb-3 block pl-8 text-sm font-semibold text-gray-900">
             Tags
           </label>
           <input
@@ -1068,23 +1070,41 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           </div>
         </div>
 
-        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <label className="mb-3 block text-sm font-semibold text-gray-900">
-            Output Format
-          </label>
-          <Listbox
-            value={outputFormat}
-            onChange={(v) => setOutputFormat(v)}
-            options={[
-              { value: "summary", label: "Summary - Quick overview of main points" },
-              { value: "detailed", label: "Detailed Notes - Comprehensive study guide" },
-              { value: "flashcards", label: "Flashcards - Interactive flip cards" },
-              { value: "questions", label: "Practice Quiz - Answer questions interactively" },
-            ]}
-          />
+        <div className="relative mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
+          <span className="absolute left-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">3</span>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div>
+              <label className="mb-3 block pl-8 text-sm font-semibold text-gray-900">Output Format</label>
+              <Listbox
+                value={outputFormat}
+                onChange={(v) => setOutputFormat(v)}
+                options={[
+                  { value: "summary", label: "Summary - Quick overview of main points" },
+                  { value: "detailed", label: "Detailed Notes - Comprehensive study guide" },
+                  { value: "flashcards", label: "Flashcards - Interactive flip cards" },
+                  { value: "questions", label: "Practice Quiz - Answer questions interactively" },
+                ]}
+              />
+            </div>
+
+            {(outputFormat === "summary" || outputFormat === "detailed") && (
+              <div>
+                <p className="mb-3 text-sm font-semibold text-gray-900">Notes Length</p>
+                <Listbox
+                  value={notesLength}
+                  onChange={(v) => setNotesLength(v)}
+                  options={[
+                    { value: "brief", label: "Brief" },
+                    { value: "medium", label: "Medium" },
+                    { value: "comprehensive", label: "Comprehensive" },
+                  ]}
+                />
+              </div>
+            )}
+          </div>
 
           {outputFormat === "questions" && (
-            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4 lg:col-span-2">
               <p className="mb-3 text-sm font-semibold text-gray-900">Practice Quiz Settings</p>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div>
@@ -1131,21 +1151,6 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
             </div>
           )}
 
-          {(outputFormat === "summary" || outputFormat === "detailed") && (
-            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <p className="mb-3 text-sm font-semibold text-gray-900">Notes Length</p>
-              <Listbox
-                value={notesLength}
-                onChange={(v) => setNotesLength(v)}
-                options={[
-                  { value: "brief", label: "Brief" },
-                  { value: "medium", label: "Medium" },
-                  { value: "comprehensive", label: "Comprehensive" },
-                ]}
-              />
-            </div>
-          )}
-
           {learningStyle && (
             <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4">
               <div className="flex items-center justify-between">
@@ -1178,6 +1183,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
             fullWidth
             size="lg"
             loading={isLoading}
+            className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-4 text-lg font-bold text-white shadow-lg shadow-blue-500/25 hover:from-blue-700 hover:to-purple-700"
           >
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">

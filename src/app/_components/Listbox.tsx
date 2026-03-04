@@ -9,6 +9,10 @@ const ListboxClient = dynamic(() => import("./Listbox.client").then((m) => m.def
 
 export default function Listbox(props: any) {
   // Defensive: if dynamic loader somehow returns null/undefined, render a harmless placeholder
-  if (!ListboxClient) return <div className="w-full" />;
-  return <ListboxClient {...props} />;
+  if (!ListboxClient) return <div className="relative w-full" />;
+  return (
+    <div className="relative w-full">
+      <ListboxClient {...props} />
+    </div>
+  );
 }
