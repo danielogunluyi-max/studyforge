@@ -347,6 +347,41 @@ html.dark .site-select {
   background-color: #111827 !important;
 }
 
+.app-premium-dark {
+  counter-reset: section-card;
+}
+
+.app-premium-dark .rounded-xl.border.border-gray-200,
+.app-premium-dark .rounded-xl.border.border-gray-300,
+.app-premium-dark .rounded-xl.border.border-slate-700,
+.app-premium-dark .rounded-xl.border.border-slate-600 {
+  position: relative;
+  border-left: 4px solid #3b82f6 !important;
+  padding-left: 1.25rem !important;
+}
+
+.app-premium-dark .rounded-xl.border.border-gray-200::before,
+.app-premium-dark .rounded-xl.border.border-gray-300::before,
+.app-premium-dark .rounded-xl.border.border-slate-700::before,
+.app-premium-dark .rounded-xl.border.border-slate-600::before {
+  counter-increment: section-card;
+  content: counter(section-card);
+  position: absolute;
+  top: 0.9rem;
+  left: 0.55rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 9999px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+
 [data-compact="true"] .p-6 {
   padding: 1.25rem !important;
 }

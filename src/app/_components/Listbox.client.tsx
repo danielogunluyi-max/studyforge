@@ -68,7 +68,11 @@ export default function ListboxClient({ options, value, onChange, className, id 
       </button>
 
       {open && (
-        <ul className="listbox-premium-options absolute z-[9999] left-0 right-0 mt-1" role="listbox">
+        <ul
+          className="listbox-premium-options absolute z-[9999] left-0 right-0 mt-1"
+          role="listbox"
+          style={{ position: "absolute", zIndex: 9999, top: "100%", left: 0, right: 0 }}
+        >
           {options.map((opt, idx) => (
             <li key={opt.value} role="option" aria-selected={opt.value === value}>
               <button
