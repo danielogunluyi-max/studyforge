@@ -315,6 +315,7 @@ model GroupMessage {
 
     group StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
     user  User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+    pinnedInGroups GroupPinnedMessage[]
 
     @@index([groupId])
     @@index([timestamp])

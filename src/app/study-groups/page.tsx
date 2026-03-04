@@ -11,32 +11,56 @@ type Group = {
   name: string;
   topic: string | null;
   inviteCode: string;
+  streakCount?: number;
+  activeNow?: boolean;
+  myRole?: string;
+  avatars?: Array<{ userId: string; name: string; image: string | null; role: string }>;
   _count: { members: number; messages: number };
 };
+
+type PublicGroup = {
+  id: string;
+  name: string;
+  topic: string | null;
+  inviteCode: string;
+  _count: { members: number; messages: number };
+};
+
+function initials(name: string): string {
+  const parts = name.split(" ").filter(Boolean);
+  if (parts.length >= 2) return `${parts[0]?.[0] ?? "S"}${parts[1]?.[0] ?? "G"}`.toUpperCase();
+  return (name.slice(0, 2) || "SG").toUpperCase();
+}
 
 export default function StudyGroupsPage() {
   const router = useRouter();
   const [groups, setGroups] = useState<Group[]>([]);
+  const [publicGroups, setPublicGroups] = useState<PublicGroup[]>([]);
   const [name, setName] = useState("");
   const [topic, setTopic] = useState("");
+  const [isPublic, setIsPublic] = useState(false);
   const [joinCode, setJoinCode] = useState("");
+  const [search, setSearch] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     const load = async () => {
-      const response = await fetch("/api/study-groups");
-      const data = (await response.json()) as { groups?: Group[] };
+      const params = new URLSearchParams();
+      if (search.trim()) params.set("q", search.trim());
+      const response = await fetch(`/api/study-groups${params.toString() ? `?${params.toString()}` : ""}`);
+      const data = (await response.json()) as { groups?: Group[]; publicGroups?: PublicGroup[] };
       setGroups(data.groups ?? []);
+      setPublicGroups(data.publicGroups ?? []);
     };
     void load();
-  }, []);
+  }, [search]);
 
   const createGroup = async () => {
     setError("");
     const response = await fetch("/api/study-groups/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, topic }),
+      body: JSON.stringify({ name, topic, isPublic }),
     });
 
     const data = (await response.json()) as { group?: Group; error?: string };
@@ -70,7 +94,17 @@ export default function StudyGroupsPage() {
       <AppNav />
       <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
         <h1 className="mb-2 text-4xl font-bold text-gray-900">AI Study Groups</h1>
-        <p className="mb-8 text-lg text-gray-600">Collaborate with friends while an AI moderator keeps sessions focused.</p>
+        <p className="mb-6 text-lg text-gray-600">Powerful collaborative rooms with AI moderation, quizzes, shared notes, and streak tracking.</p>
+
+        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+          <label className="mb-1 block text-xs font-semibold text-gray-600">Find public groups by subject</label>
+          <input
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search by subject or group name"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          />
+        </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -87,6 +121,10 @@ export default function StudyGroupsPage() {
               placeholder="Topic (optional)"
               className="mb-4 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
             />
+            <label className="mb-4 flex items-center gap-2 text-sm text-gray-700">
+              <input type="checkbox" checked={isPublic} onChange={(event) => setIsPublic(event.target.checked)} />
+              Make this group public/discoverable
+            </label>
             <Button 
               onClick={() => void createGroup()} 
               fullWidth
@@ -118,25 +156,52 @@ export default function StudyGroupsPage() {
         {error && <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">{error}</div>}
 
         <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">Active Groups</h2>
+          <h2 className="mb-4 text-lg font-semibold text-gray-900">My Study Rooms</h2>
           {groups.length === 0 ? (
             <EmptyState
               title="No study groups yet"
               description="Create a new group to study with friends, or join an existing group using an invite code."
             />
           ) : (
-            <div className="space-y-3">
+            <div className="grid gap-4 md:grid-cols-2">
               {groups.map((group) => (
-                <Button
-                  key={group.id}
-                  onClick={() => router.push(`/study-groups/${group.id}`)}
-                  variant="secondary"
-                  fullWidth
-                  className="justify-start border-gray-200 bg-gray-50 p-4 text-left hover:bg-gray-100"
-                >
-                  <p className="font-semibold text-gray-900">{group.name}</p>
-                  <p className="text-xs text-gray-500">{group.topic || "General"} • Code: {group.inviteCode} • {group._count.members} members</p>
-                </Button>
+                <div key={group.id} className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                  <div className="mb-2 flex items-start justify-between gap-2">
+                    <div>
+                      <p className="font-semibold text-gray-900">{group.name}</p>
+                      <p className="text-xs text-gray-500">{group.topic ?? "General"} • {group.myRole ?? "member"}</p>
+                    </div>
+                    {group.activeNow ? <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">Active Now</span> : null}
+                  </div>
+                  <div className="mb-3 flex flex-wrap gap-2">
+                    {(group.avatars ?? []).slice(0, 4).map((avatar) => (
+                      <span key={avatar.userId} className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-700">
+                        {initials(avatar.name)}
+                      </span>
+                    ))}
+                    <span className="rounded-full bg-white px-2 py-1 text-xs text-gray-600">🔥 {group.streakCount ?? 0}</span>
+                    <span className="rounded-full bg-white px-2 py-1 text-xs text-gray-600">{group._count.members} members</span>
+                  </div>
+                  <Button onClick={() => router.push(`/study-groups/${group.id}`)} fullWidth>
+                    Enter Study Room
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900">Public Groups</h2>
+          {publicGroups.length === 0 ? (
+            <p className="text-sm text-gray-500">No public groups match your search.</p>
+          ) : (
+            <div className="space-y-2">
+              {publicGroups.map((group) => (
+                <div key={group.id} className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm">
+                  <p className="text-gray-700">{group.name} • {group.topic ?? "General"} • {group._count.members} members</p>
+                  <Button size="sm" variant="secondary" onClick={() => setJoinCode(group.inviteCode)}>Use Code</Button>
+                </div>
               ))}
             </div>
           )}

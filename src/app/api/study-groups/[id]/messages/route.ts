@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { runGroqPrompt } from "~/server/groq";
-import { bumpMessageStats, ensureGroupMember } from "~/server/study-groups";
+import { bumpGroupStreak, bumpMessageStats, ensureGroupMember } from "~/server/study-groups";
 
 function getLinkPreview(text: string): { title: string; url: string; host: string } | null {
   const urlMatch = text.match(/https?:\/\/[^\s]+/i);
@@ -112,10 +112,7 @@ export async function POST(
     });
 
     await bumpMessageStats(id, session.user.id);
-    await db.studyGroup.update({
-      where: { id },
-      data: { lastActiveAt: new Date() },
-    });
+    await bumpGroupStreak(id);
 
     if (linkPreview) {
       await db.groupResource.create({

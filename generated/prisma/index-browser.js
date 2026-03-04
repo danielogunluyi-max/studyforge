@@ -286,6 +286,11 @@ exports.Prisma.StudyGroupScalarFieldEnum = {
   name: 'name',
   topic: 'topic',
   inviteCode: 'inviteCode',
+  isPublic: 'isPublic',
+  streakCount: 'streakCount',
+  lastActiveAt: 'lastActiveAt',
+  weeklyResetAt: 'weeklyResetAt',
+  settings: 'settings',
   createdAt: 'createdAt',
   creatorId: 'creatorId'
 };
@@ -294,6 +299,8 @@ exports.Prisma.StudyGroupMemberScalarFieldEnum = {
   id: 'id',
   groupId: 'groupId',
   userId: 'userId',
+  role: 'role',
+  lastSeenAt: 'lastSeenAt',
   joinedAt: 'joinedAt'
 };
 
@@ -303,6 +310,7 @@ exports.Prisma.GroupMessageScalarFieldEnum = {
   userId: 'userId',
   message: 'message',
   isAI: 'isAI',
+  metadata: 'metadata',
   timestamp: 'timestamp'
 };
 
@@ -312,6 +320,112 @@ exports.Prisma.GroupSessionScalarFieldEnum = {
   summary: 'summary',
   duration: 'duration',
   topics: 'topics',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GroupSharedNoteScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  noteId: 'noteId',
+  sharedById: 'sharedById',
+  pinned: 'pinned',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GroupSharedNoteCommentScalarFieldEnum = {
+  id: 'id',
+  sharedNoteId: 'sharedNoteId',
+  userId: 'userId',
+  comment: 'comment',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GroupFlashcardScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  creatorId: 'creatorId',
+  front: 'front',
+  back: 'back',
+  knownBy: 'knownBy',
+  learningBy: 'learningBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GroupQuizRoundScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  startedById: 'startedById',
+  title: 'title',
+  status: 'status',
+  questions: 'questions',
+  currentQuestionIdx: 'currentQuestionIdx',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt'
+};
+
+exports.Prisma.GroupQuizSubmissionScalarFieldEnum = {
+  id: 'id',
+  roundId: 'roundId',
+  userId: 'userId',
+  answers: 'answers',
+  score: 'score',
+  completedAt: 'completedAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GroupScheduleItemScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  createdById: 'createdById',
+  title: 'title',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GroupResourceScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  sharedById: 'sharedById',
+  type: 'type',
+  title: 'title',
+  url: 'url',
+  noteId: 'noteId',
+  metadata: 'metadata',
+  pinned: 'pinned',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GroupMemberStatsScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  userId: 'userId',
+  weekKey: 'weekKey',
+  notesSaved: 'notesSaved',
+  quizzesCompleted: 'quizzesCompleted',
+  messagesSent: 'messagesSent',
+  weeklyScore: 'weeklyScore',
+  allTimeScore: 'allTimeScore',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GroupPomodoroTimerScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  hostId: 'hostId',
+  status: 'status',
+  mode: 'mode',
+  remainingSeconds: 'remainingSeconds',
+  cycleCount: 'cycleCount',
+  startedAt: 'startedAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GroupPinnedMessageScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  messageId: 'messageId',
+  pinnedById: 'pinnedById',
   createdAt: 'createdAt'
 };
 
@@ -376,6 +490,16 @@ exports.Prisma.ModelName = {
   StudyGroupMember: 'StudyGroupMember',
   GroupMessage: 'GroupMessage',
   GroupSession: 'GroupSession',
+  GroupSharedNote: 'GroupSharedNote',
+  GroupSharedNoteComment: 'GroupSharedNoteComment',
+  GroupFlashcard: 'GroupFlashcard',
+  GroupQuizRound: 'GroupQuizRound',
+  GroupQuizSubmission: 'GroupQuizSubmission',
+  GroupScheduleItem: 'GroupScheduleItem',
+  GroupResource: 'GroupResource',
+  GroupMemberStats: 'GroupMemberStats',
+  GroupPomodoroTimer: 'GroupPomodoroTimer',
+  GroupPinnedMessage: 'GroupPinnedMessage',
   ConceptConnection: 'ConceptConnection'
 };
 
