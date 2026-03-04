@@ -33,8 +33,9 @@ function domainFromUrl(url: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = (await req.json()) as { url?: string };
+    const body = (await req.json()) as { url?: string; sourceType?: string };
     const normalizedUrl = normalizeUrl(body.url ?? "");
+    const sourceType = String(body.sourceType ?? "website").trim() || "website";
 
     if (!normalizedUrl) {
       return NextResponse.json({ error: "A valid URL is required" }, { status: 400 });
@@ -70,31 +71,26 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const prompt = `Given this URL: ${normalizedUrl}
+    const prompt = `You are extracting metadata from a webpage URL to fill in a citation form.
 
-I need you to return a JSON object with metadata about this webpage. Use your knowledge of this website and URL to fill in as much as possible.
+URL: ${normalizedUrl}
+Source type: ${sourceType}
 
-For this URL specifically:
-- Look at the URL path/slug to guess the title (e.g. /article/richard-wagamese suggests the title is about Richard Wagamese)
-- The author is who WROTE the article, not the subject of the article
-- siteName is the website brand name
+Rules:
+- "title" = the title of the specific article, page, or video. For encyclopedia entries, the subject name IS the title.
+- "author" = the PERSON WHO WROTE this specific article. For encyclopedias, news sites, or reference sites where the author is unknown, return empty string.
+- "siteName" = the name of the website or publication (e.g. "The Canadian Encyclopedia", "BBC News")
+- "publishedDate" = when this was published in YYYY-MM-DD format, empty string if unknown
+- Never confuse the subject of an article with its author.
 
-Return ONLY this JSON, no other text:
+Return ONLY valid JSON, no other text:
 {
-  "title": "the article or page title derived from URL path or your knowledge",
-  "author": "who wrote this article, or empty string if unknown",  
-  "siteName": "website brand name",
-  "publishedDate": "YYYY-MM-DD or empty string",
+  "title": "",
+  "author": "",
+  "siteName": "",
+  "publishedDate": "",
   "sourceType": "website"
-}
-
-Rules for title vs author:
-- title = the actual article/page title (example: "Richard Wagamese - Biography").
-- author = the person who wrote the page/article.
-- If unsure about author, return an empty string for author.
-- Never put a person's name by itself in the title field.
-- For encyclopedia entries, biography pages, or reference articles, the subject of the article IS the title.
-- The author is the person who wrote it, which is often unknown for encyclopedias — return empty string for author in that case.`;
+}`;
 
     const raw = await runGroqPrompt({
       user: prompt,

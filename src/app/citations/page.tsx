@@ -393,7 +393,7 @@ export default function CitationsPage() {
       <main className="app-premium-dark flex min-h-screen items-center justify-center bg-gray-950">
         <div className="text-center">
           <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-400">Loading...</p>
         </div>
       </main>
     );
@@ -597,15 +597,15 @@ export default function CitationsPage() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2 print-citations-hide">
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">Source Details</h2>
+          <div className="rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+            <h2 className="mb-4 text-lg font-semibold text-white">Source Details</h2>
 
             <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_auto_auto]">
               <input
                 value={draft.url}
                 onChange={(event) => updateDraft("url", event.target.value)}
                 placeholder="Paste source URL"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
               <div className="w-full sm:w-44">
                 <Listbox
@@ -640,14 +640,14 @@ export default function CitationsPage() {
                 const fieldValue = String(draft[field.key] ?? "").trim();
                 return (
                   <div key={field.key} className="sm:col-span-1">
-                    <label className="mb-1 block text-xs font-semibold text-gray-700">
+                    <label className="mb-1 block text-xs font-semibold text-gray-300">
                       {field.label} {isRequired ? (!fieldValue && <span className="text-red-400 text-xs">(required)</span>) : <span className="text-gray-400">(optional)</span>}
                     </label>
                     <input
                       value={String(draft[field.key] ?? "")}
                       onChange={(event) => updateDraft(field.key, event.target.value)}
                       placeholder={field.placeholder || field.label}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      className="w-full rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                   </div>
                 );
@@ -661,9 +661,9 @@ export default function CitationsPage() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-3 text-lg font-semibold text-gray-900">Live Preview</h2>
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-800" style={{ paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
+          <div className="rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+            <h2 className="mb-3 text-lg font-semibold text-white">Live Preview</h2>
+            <div className="rounded-lg border border-gray-700 bg-gray-800 p-4 text-sm text-gray-100" style={{ paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
               {preview.html ? <span dangerouslySetInnerHTML={{ __html: preview.html }} /> : "Fill in fields to preview the citation."}
             </div>
 
@@ -672,7 +672,7 @@ export default function CitationsPage() {
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Search saved citations by author or title"
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
               <Button onClick={() => void copyAll()} variant="secondary" size="sm" fullWidth>Copy All</Button>
               <Button onClick={exportWord} size="sm" fullWidth>Export Word</Button>
@@ -683,20 +683,20 @@ export default function CitationsPage() {
           </div>
         </div>
 
-        {error && <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800 print-citations-hide">{error}</div>}
-        {success && <div className="mt-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800 print-citations-hide">{success}</div>}
+        {error && <div className="mt-6 rounded-lg border border-red-700 bg-red-900/30 p-4 text-sm text-red-300 print-citations-hide">{error}</div>}
+        {success && <div className="mt-6 rounded-lg border border-green-700 bg-green-900/30 p-4 text-sm text-green-300 print-citations-hide">{success}</div>}
 
-        <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm print-citations-only">
+        <div className="mt-8 rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-sm print-citations-only">
           <div className="mb-4 flex items-center justify-between print-citations-hide">
-            <h2 className="text-lg font-semibold text-gray-900">{worksHeader} ({sortedFiltered.length} sources)</h2>
+            <h2 className="text-lg font-semibold text-white">{worksHeader} ({sortedFiltered.length} sources)</h2>
           </div>
 
           {sortedFiltered.length === 0 ? (
-            <p className="text-sm text-gray-500">No citations saved yet.</p>
+            <p className="text-sm text-gray-400">No citations saved yet.</p>
           ) : (
-            <ol className="space-y-3 text-sm text-gray-800">
+            <ol className="space-y-3 text-sm text-gray-100">
               {sortedFiltered.map((citation, index) => (
-                <li key={citation.id} className="rounded-lg border border-gray-200 bg-gray-50 p-3" style={{ paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
+                <li key={citation.id} className="rounded-lg border border-gray-700 bg-gray-800 p-3" style={{ paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
                   <div className="print-citations-hide mb-2 flex items-center justify-between">
                     <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">{citation.style} • {citation.sourceType}</span>
                     <div className="flex gap-2">
