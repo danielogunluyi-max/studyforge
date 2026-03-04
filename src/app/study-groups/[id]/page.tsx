@@ -422,7 +422,7 @@ export default function StudyGroupInteriorPage() {
   const activeQuestion = quizQuestions[quizIndex] ?? null;
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="app-premium-dark min-h-screen bg-gray-950">
       <AppNav />
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">

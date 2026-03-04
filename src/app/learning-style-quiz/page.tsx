@@ -434,7 +434,7 @@ export default function LearningStyleQuizPage() {
   const mainBgClass = resultTheme ? `bg-gradient-to-br ${resultTheme.bg}` : "bg-gray-50";
 
   return (
-    <main className={`app-premium-dark min-h-screen ${mainBgClass} transition-colors duration-500`}>
+    <main className={`app-premium-dark min-h-screen bg-gray-950 ${mainBgClass} transition-colors duration-500`}>
       <AppNav />
       <div className="container mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
         {!result && (

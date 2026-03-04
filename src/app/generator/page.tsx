@@ -140,7 +140,7 @@ export default function Generator() {
 
   if (status === "loading") {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50">
+      <main className="app-premium-dark flex min-h-screen items-center justify-center bg-gray-950">
         <div className="text-center">
           <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent mx-auto" />
           <p className="text-gray-600">Loading...</p>
@@ -972,7 +972,7 @@ export default function Generator() {
   };
 
   return (
-    <main className="app-premium-dark min-h-screen bg-gray-50">
+    <main className="app-premium-dark min-h-screen bg-gray-950">
       <AppNav />
 
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">

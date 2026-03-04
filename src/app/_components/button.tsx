@@ -29,7 +29,7 @@ export function Button({
   // Variant styles
   const variantStyles = {
     primary: "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-sm hover:-translate-y-0.5 hover:from-blue-700 hover:to-blue-600 hover:shadow-lg",
-    secondary: "border border-gray-300 bg-transparent text-gray-700 hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50/60 hover:text-blue-700",
+    secondary: "border border-gray-600 bg-transparent text-gray-300 hover:-translate-y-0.5 hover:border-gray-400 hover:bg-transparent hover:text-white",
     danger: "bg-red-600 text-white shadow-sm hover:-translate-y-0.5 hover:bg-red-700 hover:shadow-lg",
     ghost: "bg-transparent text-gray-700 hover:bg-gray-100 hover:text-gray-900",
     icon: "border border-gray-300 bg-transparent text-gray-700 hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50/60",

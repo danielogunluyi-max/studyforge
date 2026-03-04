@@ -133,7 +133,7 @@ export default function SignUp() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="app-premium-dark min-h-screen bg-gray-950">
       {/* Navigation */}
       <nav className="border-b border-gray-200 bg-white">
         <div className="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
