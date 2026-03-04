@@ -6,6 +6,7 @@ import { Button } from "~/app/_components/button";
 import Listbox from "~/app/_components/Listbox";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton-loader";
+import { PageHero } from "~/app/_components/page-hero";
 
 type Confidence = "High" | "Medium" | "Low";
 
@@ -494,13 +495,11 @@ export default function ExamPredictorPage() {
       <AppNav />
 
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">AI Exam Predictor</h1>
-            <p className="mt-2 text-base text-gray-600 sm:text-lg">Premium prediction engine with structure builder, confidence intelligence, and simulation mode.</p>
-          </div>
-          <Button href="/my-predictions" variant="secondary" size="sm">My Predictions</Button>
-        </div>
+        <PageHero
+          title="AI Exam Predictor"
+          description="Premium prediction engine with structure builder, confidence intelligence, and simulation mode."
+          actions={<Button href="/my-predictions" variant="secondary" size="sm">My Predictions</Button>}
+        />
 
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
           <div className="overflow-x-auto">

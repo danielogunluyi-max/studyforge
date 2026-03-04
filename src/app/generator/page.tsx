@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
+import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
 
 const PREFILL_STORAGE_KEY = "studyforge:prefillText";
@@ -975,14 +976,16 @@ export default function Generator() {
       <AppNav />
 
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mb-8 text-center">
-          <h1 className="mb-2 text-4xl font-bold text-gray-900">
-            Note Generator
-          </h1>
-          <p className="text-lg text-gray-600">
-            Paste your study material and let AI do the work
-          </p>
-        </div>
+        <PageHero
+          title="Note Generator"
+          description="Paste your study material and let AI transform it into focused study formats in seconds."
+          actions={
+            <>
+              <Button href="/upload" variant="secondary" size="sm">Upload File</Button>
+              <Button href="/my-notes" variant="secondary" size="sm">My Notes</Button>
+            </>
+          }
+        />
 
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3">

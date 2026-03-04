@@ -251,12 +251,12 @@ export default function TutorPage() {
     <main className="min-h-screen bg-[#070b1a] text-white">
       <AppNav />
       <div className="mx-auto flex h-[calc(100vh-72px)] w-full max-w-6xl flex-col px-4 py-4 pb-28 sm:px-6 sm:pb-4">
-        <div className="mb-3 rounded-xl border border-slate-700 bg-[#0d142b] p-4 shadow-lg">
+        <div className="mb-3 rounded-xl border border-slate-700/80 bg-gradient-to-br from-[#07102a] via-[#0f1737] to-[#2a1243] p-5 shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-600/30 text-xl">🤖</div>
               <div>
-                <h1 className="text-xl font-semibold">Nova, your StudyForge AI Tutor</h1>
+                <h1 className="text-3xl font-bold text-white">Nova AI Tutor</h1>
                 <p className="text-sm text-slate-300">Conversational tutoring with guided reasoning.</p>
               </div>
             </div>

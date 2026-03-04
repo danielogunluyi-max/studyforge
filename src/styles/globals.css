@@ -293,6 +293,70 @@ html.dark select {
   border-color: var(--app-border-strong) !important;
 }
 
+h1 {
+  font-size: 1.875rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.rounded-xl.border {
+  border-color: var(--app-border) !important;
+  box-shadow: 0 10px 28px rgba(2, 6, 23, 0.06);
+}
+
+.rounded-xl.shadow-sm,
+.rounded-xl.shadow-md,
+.rounded-xl.shadow-lg {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+@media (hover: hover) {
+  .rounded-xl.shadow-sm:hover,
+  .rounded-xl.shadow-md:hover,
+  .rounded-xl.shadow-lg:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(2, 6, 23, 0.1);
+  }
+}
+
+html.dark .rounded-xl.border {
+  border-color: #374151 !important;
+}
+
+button,
+a {
+  transition-duration: 200ms !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280 !important;
+}
+
+input,
+textarea,
+select {
+  transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent-500) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16) !important;
+}
+
 /* Consistent radii across site */
 .rounded-lg, .rounded-xl, .rounded-md {
   border-radius: var(--radius) !important;

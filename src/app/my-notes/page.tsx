@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
+import { PageHero } from "~/app/_components/page-hero";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton-loader";
 import Listbox from "~/app/_components/Listbox";
@@ -580,20 +581,11 @@ export default function MyNotes() {
       <AppNav />
 
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="mb-2 text-4xl font-bold text-gray-900">My Notes</h1>
-            <p className="text-lg text-gray-600">All your saved study notes in one place</p>
-            <p className="mt-1 text-sm font-semibold text-orange-600">🔥 {studyStreak} day streak</p>
-          </div>
-          <Button
-            onClick={() => setTagModalOpen(true)}
-            variant="secondary"
-            size="sm"
-          >
-            Manage Tags
-          </Button>
-        </div>
+        <PageHero
+          title="My Notes"
+          description={`All your saved study notes in one place • 🔥 ${studyStreak} day streak`}
+          actions={<Button onClick={() => setTagModalOpen(true)} variant="secondary" size="sm">Manage Tags</Button>}
+        />
 
         <div className="mb-4 lg:hidden">
           <Button

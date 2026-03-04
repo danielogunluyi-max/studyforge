@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
+import { PageHero } from "~/app/_components/page-hero";
 
 type Style = "visual" | "auditory" | "reading" | "kinesthetic";
 
@@ -438,8 +439,11 @@ export default function LearningStyleQuizPage() {
       <div className="container mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
         {!result && (
           <>
-            <h1 className="mb-2 text-4xl font-bold text-gray-900">Learning Style Shapeshifter</h1>
-            <p className="mb-8 text-lg text-gray-600">Discover how your brain learns best with a personalized quiz experience.</p>
+            <PageHero
+              title="Learning Style Shapeshifter"
+              description="Discover how your brain learns best with a personalized quiz experience."
+              actions={<Button href="/generator" variant="secondary" size="sm">Open Generator</Button>}
+            />
 
             <div className="mb-5 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
               <div className="mb-2 flex items-center justify-between text-sm text-gray-700">

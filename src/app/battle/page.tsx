@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
 import { EmptyState } from "~/app/_components/empty-state";
 import { Button } from "~/app/_components/button";
+import { PageHero } from "~/app/_components/page-hero";
 
 type NoteOption = { id: string; title: string };
 
@@ -238,8 +239,11 @@ export default function BattlePage() {
     <main className="min-h-screen bg-gray-50">
       <AppNav />
       <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-        <h1 className="mb-2 text-4xl font-bold text-gray-900">Study Battle Arena</h1>
-        <p className="mb-6 text-lg text-gray-600">Real-time duels, solo practice, AI rivals, rooms, and tournament ladders.</p>
+        <PageHero
+          title="Study Battle Arena"
+          description="Real-time duels, solo practice, AI rivals, rooms, and tournament ladders."
+          actions={<Button href="/my-notes" variant="secondary" size="sm">Choose Note Source</Button>}
+        />
 
         {profile && (
           <div className="mb-6 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">

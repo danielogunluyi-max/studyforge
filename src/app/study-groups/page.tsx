@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { EmptyState } from "~/app/_components/empty-state";
+import { PageHero } from "~/app/_components/page-hero";
 
 type Group = {
   id: string;
@@ -93,8 +94,11 @@ export default function StudyGroupsPage() {
     <main className="min-h-screen bg-gray-50">
       <AppNav />
       <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-        <h1 className="mb-2 text-4xl font-bold text-gray-900">AI Study Groups</h1>
-        <p className="mb-6 text-lg text-gray-600">Powerful collaborative rooms with AI moderation, quizzes, shared notes, and streak tracking.</p>
+        <PageHero
+          title="AI Study Groups"
+          description="Powerful collaborative rooms with AI moderation, quizzes, shared notes, and streak tracking."
+          actions={<Button href="/battle" variant="secondary" size="sm">Open Battle Arena</Button>}
+        />
 
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
           <label className="mb-1 block text-xs font-semibold text-gray-600">Find public groups by subject</label>

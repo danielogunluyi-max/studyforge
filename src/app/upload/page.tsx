@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
 import { SkeletonCard } from "~/app/_components/skeleton-loader";
 import { Button } from "~/app/_components/button";
+import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
 
 const MAX_PDF_BYTES = 10 * 1024 * 1024;
@@ -231,22 +232,16 @@ export default function UploadPage() {
       <AppNav />
 
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900">Upload File</h1>
-            <p className="mt-2 text-lg text-gray-600">
-              Extract text from PDF or image, review it, then send it to the generator.
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button href="/" variant="secondary" size="sm">
-              Home
-            </Button>
-            <Button href="/generator" variant="secondary" size="sm">
-              Paste Text Instead
-            </Button>
-          </div>
-        </div>
+        <PageHero
+          title="Upload File"
+          description="Extract text from PDF or image, review it, then send it to the generator."
+          actions={
+            <>
+              <Button href="/" variant="secondary" size="sm">Home</Button>
+              <Button href="/generator" variant="secondary" size="sm">Paste Text Instead</Button>
+            </>
+          }
+        />
 
         <div
           className={`mb-6 rounded-xl border bg-white p-6 shadow-sm transition ${dragActive ? "border-blue-500 ring-1 ring-blue-500" : "border-gray-200"}`}

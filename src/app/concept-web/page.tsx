@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointer
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { EmptyState } from "~/app/_components/empty-state";
+import { PageHero } from "~/app/_components/page-hero";
 
 type NodeItem = {
   id: string;
@@ -419,8 +420,11 @@ export default function ConceptWebPage() {
     <main className="min-h-screen bg-[#050816] text-white">
       <AppNav />
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
-        <h1 className="mb-2 text-4xl font-bold text-white">AI Concept Web Builder</h1>
-        <p className="mb-6 text-lg text-slate-300">Type a topic, expand ideas with AI, and shape your own interactive mind map canvas.</p>
+        <PageHero
+          title="AI Concept Web Builder"
+          description="Type a topic, expand ideas with AI, and shape your own interactive mind map canvas."
+          actions={<Button href="/my-notes" variant="secondary" size="sm">My Notes</Button>}
+        />
 
         <div className="mb-4 rounded-xl border border-slate-700 bg-[#0B1228] p-4 shadow-lg">
           <div className="grid gap-2 lg:grid-cols-[1fr_auto_auto]">

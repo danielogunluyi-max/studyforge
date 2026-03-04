@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
+import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
 
 type CitationStyle = "MLA 9" | "APA 7" | "MLA 8" | "MLA 7" | "APA 6" | "Harvard" | "IEEE" | "Chicago";
@@ -587,12 +588,12 @@ export default function CitationsPage() {
       <AppNav />
 
       <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-3 print-citations-hide">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900">Citation Generator</h1>
-            <p className="mt-2 text-lg text-gray-600">Generate accurate MLA, APA, Harvard, IEEE, and Chicago citations with smart metadata import.</p>
-          </div>
-          <Button href="/generator" variant="secondary" size="sm">Back to Generator</Button>
+        <div className="print-citations-hide">
+          <PageHero
+            title="Citation Generator"
+            description="Generate accurate MLA, APA, Harvard, IEEE, and Chicago citations with smart metadata import."
+            actions={<Button href="/generator" variant="secondary" size="sm">Back to Generator</Button>}
+          />
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2 print-citations-hide">
