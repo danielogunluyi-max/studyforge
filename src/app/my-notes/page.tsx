@@ -8,8 +8,9 @@ import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import { EmptyState } from "~/app/_components/empty-state";
-import { SkeletonList } from "~/app/_components/skeleton-loader";
+import { SkeletonList } from "~/app/_components/skeleton";
 import Listbox from "~/app/_components/Listbox";
+import { useToast } from "~/app/_components/toast";
 
 const PREFILL_STORAGE_KEY = "studyforge:prefillText";
 const PREFILL_FORMAT_KEY = "studyforge:prefillFormat";
@@ -113,6 +114,7 @@ export default function MyNotes() {
   const [mergeSourceTag, setMergeSourceTag] = useState("");
   const [mergeTargetTag, setMergeTargetTag] = useState("");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -138,6 +140,16 @@ export default function MyNotes() {
 
     return () => clearTimeout(timeout);
   }, [searchInput]);
+
+  useEffect(() => {
+    if (!error) return;
+    showToast(error, "error");
+  }, [error, showToast]);
+
+  useEffect(() => {
+    if (!tagActionError) return;
+    showToast(tagActionError, "error");
+  }, [tagActionError, showToast]);
 
   useEffect(() => {
     if (session) {
@@ -563,11 +575,8 @@ export default function MyNotes() {
 
   if (status === "loading") {
     return (
-      <main className="app-premium-dark flex min-h-screen items-center justify-center bg-gray-950">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-          <p className="text-gray-600">Loading...</p>
-        </div>
+      <main className="app-premium-dark min-h-screen bg-gray-950 p-6">
+        <SkeletonList count={6} />
       </main>
     );
   }
@@ -680,13 +689,13 @@ export default function MyNotes() {
               <h2 className="text-sm font-semibold text-gray-900">Recently Viewed</h2>
               <span className="text-xs text-gray-500">Last 3 notes accessed</span>
             </div>
-            <div className="grid gap-3 md:grid-cols-3">
+            <div className="stagger-grid grid gap-3 md:grid-cols-3">
               {recentlyViewed.slice(0, 3).map((note) => (
                 <button
                   key={`recent-${note.id}`}
                   type="button"
                   onClick={() => void openNote(note)}
-                  className="rounded-lg border border-gray-200 bg-gray-50 p-3 text-left transition hover:border-blue-300 hover:bg-blue-50"
+                  className="stagger-card rounded-lg border border-gray-200 bg-gray-50 p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:bg-blue-50 hover:shadow-lg"
                 >
                   <p className="line-clamp-1 text-sm font-semibold text-gray-900">{note.title}</p>
                   <p className="mt-1 line-clamp-2 text-xs text-gray-600">{note.content}</p>
@@ -823,12 +832,6 @@ export default function MyNotes() {
               </div>
             )}
 
-            {error && (
-              <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-                {error}
-              </div>
-            )}
-
             {isLoading ? (
               <SkeletonList count={6} />
             ) : notes.length === 0 ? (
@@ -845,7 +848,7 @@ export default function MyNotes() {
                 secondaryActionHref="/upload"
               />
             ) : (
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="stagger-grid grid gap-6 md:grid-cols-2">
                 {notes.map((note) => (
                   <div
                     key={note.id}
@@ -853,7 +856,7 @@ export default function MyNotes() {
                     onDragStart={(event) => event.dataTransfer.setData("text/note-id", note.id)}
                     onMouseEnter={() => setHoveredNoteId(note.id)}
                     onMouseLeave={() => setHoveredNoteId("")}
-                    className="group relative rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
+                    className="stagger-card group relative rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
                   >
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -1183,12 +1186,6 @@ export default function MyNotes() {
                 </Button>
               </div>
             </div>
-
-            {tagActionError && (
-              <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
-                {tagActionError}
-              </div>
-            )}
 
             <div className="mt-5 flex justify-end">
               <Button

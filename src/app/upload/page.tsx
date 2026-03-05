@@ -8,6 +8,7 @@ import { SkeletonCard } from "~/app/_components/skeleton-loader";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
+import { useToast } from "~/app/_components/toast";
 
 const MAX_PDF_BYTES = 10 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -39,6 +40,7 @@ export default function UploadPage() {
   const [processingStage, setProcessingStage] = useState<"idle" | "uploading" | "extracting" | "analyzing" | "done">("idle");
   const [dragActive, setDragActive] = useState(false);
   const [error, setError] = useState("");
+  const { showToast } = useToast();
 
   const pdfInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -48,6 +50,11 @@ export default function UploadPage() {
       router.push("/login?from=/upload");
     }
   }, [status, router]);
+
+  useEffect(() => {
+    if (!error) return;
+    showToast(error, "error");
+  }, [error, showToast]);
 
   const validateFile = (file: File): string | null => {
     const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
@@ -421,11 +428,6 @@ export default function UploadPage() {
           </div>
         </div>
 
-        {error && (
-          <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-            {error}
-          </div>
-        )}
       </div>
     </main>
   );

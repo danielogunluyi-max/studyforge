@@ -7,6 +7,8 @@ import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
+import { useToast } from "~/app/_components/toast";
+import { SkeletonList } from "~/app/_components/skeleton";
 
 type CitationStyle = "MLA 9" | "APA 7" | "MLA 8" | "MLA 7" | "APA 6" | "Harvard" | "IEEE" | "Chicago";
 type SourceType = "website" | "video" | "book" | "journal" | "newspaper" | "magazine";
@@ -381,6 +383,7 @@ export default function CitationsPage() {
   const [isImporting, setIsImporting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -388,13 +391,20 @@ export default function CitationsPage() {
     }
   }, [status, router]);
 
+  useEffect(() => {
+    if (!error) return;
+    showToast(error, "error");
+  }, [error, showToast]);
+
+  useEffect(() => {
+    if (!success) return;
+    showToast(success, "success");
+  }, [success, showToast]);
+
   if (status === "loading") {
     return (
-      <main className="app-premium-dark flex min-h-screen items-center justify-center bg-gray-950">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-          <p className="text-gray-400">Loading...</p>
-        </div>
+      <main className="app-premium-dark min-h-screen bg-gray-950 p-6">
+        <SkeletonList count={3} />
       </main>
     );
   }
@@ -682,9 +692,6 @@ export default function CitationsPage() {
             </div>
           </div>
         </div>
-
-        {error && <div className="mt-6 rounded-lg border border-red-700 bg-red-900/30 p-4 text-sm text-red-300 print-citations-hide">{error}</div>}
-        {success && <div className="mt-6 rounded-lg border border-green-700 bg-green-900/30 p-4 text-sm text-green-300 print-citations-hide">{success}</div>}
 
         <div className="mt-8 rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-sm print-citations-only">
           <div className="mb-4 flex items-center justify-between print-citations-hide">

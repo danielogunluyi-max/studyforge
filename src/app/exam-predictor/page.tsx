@@ -7,6 +7,7 @@ import Listbox from "~/app/_components/Listbox";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton-loader";
 import { PageHero } from "~/app/_components/page-hero";
+import { useToast } from "~/app/_components/toast";
 
 type Confidence = "High" | "Medium" | "Low";
 
@@ -178,6 +179,7 @@ export default function ExamPredictorPage() {
   const [isStudyPlanLoading, setIsStudyPlanLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const { showToast } = useToast();
 
   useEffect(() => {
     try {
@@ -227,6 +229,16 @@ export default function ExamPredictorPage() {
   useEffect(() => {
     setStep(detectedStep);
   }, [detectedStep]);
+
+  useEffect(() => {
+    if (!error) return;
+    showToast(error, "error");
+  }, [error, showToast]);
+
+  useEffect(() => {
+    if (!success) return;
+    showToast(success, "success");
+  }, [success, showToast]);
 
   const extractFileText = async (file: File, target: "past" | "syllabus") => {
     const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
@@ -745,9 +757,6 @@ export default function ExamPredictorPage() {
           </div>
 
           <div className="space-y-6">
-            {error && <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">{error}</div>}
-            {success && <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">{success}</div>}
-
             {isLoading && <SkeletonList count={4} />}
 
             {!isLoading && predictions.length === 0 && (

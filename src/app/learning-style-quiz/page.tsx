@@ -655,7 +655,7 @@ export default function LearningStyleQuizPage() {
             <div className={`rounded-2xl border border-gray-200 bg-white p-6 shadow-md transition-all duration-200 ${transitioning ? "translate-x-2 opacity-0" : "translate-x-0 opacity-100"}`}>
               <p className="mb-4 text-xl font-semibold text-gray-900">{question?.prompt}</p>
 
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="stagger-grid grid gap-3 sm:grid-cols-2">
                 {(question?.options ?? []).map((option) => {
                   const active = selected === option.style;
                   return (
@@ -663,7 +663,7 @@ export default function LearningStyleQuizPage() {
                       key={`${question?.prompt ?? "q"}-${option.label}`}
                       type="button"
                       onClick={() => setAnswers((prev) => ({ ...prev, [currentQuestion]: option.style }))}
-                      className={`flex items-center justify-between rounded-xl border-2 px-4 py-3 text-left text-sm font-medium transition-all duration-300 hover:-translate-y-1 ${
+                      className={`stagger-card flex items-center justify-between rounded-xl border-2 px-4 py-3 text-left text-sm font-medium transition-all duration-300 active:scale-95 hover:-translate-y-1 ${
                         active
                           ? "border-blue-500 bg-blue-600/20 text-blue-100 shadow-[0_0_0_1px_rgba(59,130,246,0.35)]"
                           : "border-gray-700 bg-gray-900 text-gray-300 opacity-70 hover:border-blue-400 hover:bg-gray-800"

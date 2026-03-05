@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
+import { useToast } from "~/app/_components/toast";
+import { SkeletonList } from "~/app/_components/skeleton";
 
 type BattleQuestion = {
   id?: string;
@@ -66,6 +68,11 @@ export default function BattleRoomPage() {
   const [hiddenOption, setHiddenOption] = useState("");
   const [aiThinking, setAiThinking] = useState(false);
   const [reactions, setReactions] = useState<Array<{ id: number; emoji: string; left: number }>>([]);
+  const [scorePop, setScorePop] = useState(0);
+  const [answerFeedback, setAnswerFeedback] = useState<"correct" | "wrong" | "">("");
+  const [levelFlash, setLevelFlash] = useState(false);
+  const previousMultiplierRef = useRef(1);
+  const { showToast } = useToast();
 
   const normalizedQuestions = useMemo(() => {
     if (!battle) return [] as BattleQuestion[];
@@ -133,6 +140,14 @@ export default function BattleRoomPage() {
     setAiThinking(false);
   }, [currentIndex]);
 
+  useEffect(() => {
+    if (streakMultiplier > previousMultiplierRef.current && streakMultiplier >= 2) {
+      setLevelFlash(true);
+      window.setTimeout(() => setLevelFlash(false), 260);
+    }
+    previousMultiplierRef.current = streakMultiplier;
+  }, [streakMultiplier]);
+
   const currentQuestion = useMemo(() => {
     return normalizedQuestions[currentIndex] ?? null;
   }, [normalizedQuestions, currentIndex]);
@@ -171,12 +186,20 @@ export default function BattleRoomPage() {
     setAiThinking(false);
 
     if (!response.ok) {
-      setResultMsg(data.error ?? "Failed to submit answer");
+      const message = data.error ?? "Failed to submit answer";
+      setResultMsg(message);
+      showToast(message, "error");
       return;
     }
 
     setStreak(data.streak ?? 0);
     setStreakMultiplier(data.streakMultiplier ?? 1);
+    setScorePop(data.scoreIncrease ?? 0);
+    if ((data.scoreIncrease ?? 0) > 0) {
+      window.setTimeout(() => setScorePop(0), 600);
+    }
+    setAnswerFeedback(data.correct ? "correct" : "wrong");
+    window.setTimeout(() => setAnswerFeedback(""), 420);
     setResultMsg(data.correct ? `Correct! +${data.scoreIncrease ?? 0}` : "Incorrect");
 
     if (data.completed) {
@@ -219,8 +242,8 @@ export default function BattleRoomPage() {
 
   if (isLoading || !battle) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50">
-        <p className="text-sm text-gray-600">Loading battle room...</p>
+      <main className="app-premium-dark min-h-screen bg-gray-950 p-6">
+        <SkeletonList count={2} />
       </main>
     );
   }
@@ -228,6 +251,7 @@ export default function BattleRoomPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <AppNav />
+      {levelFlash && <div className="pointer-events-none fixed inset-0 z-50 animate-pulse bg-white/50" />}
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -235,13 +259,13 @@ export default function BattleRoomPage() {
               <h1 className="text-2xl font-bold text-gray-900">Battle Room: {battle.code}</h1>
               <p className="text-sm text-gray-600">{battle.mode ?? "pvp"} • {battle.subject ?? "Mixed"} • {battle.status}</p>
             </div>
-            <div className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700">
+            <div className={`rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700 ${timer <= 5 ? "animate-pulse border-red-300 bg-red-50 text-red-700" : ""}`}>
               Timer: {timer}s
             </div>
           </div>
 
           <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-lg bg-blue-50 px-3 py-2 text-sm text-blue-800">You: {myParticipant?.score ?? 0}</div>
+            <div className="relative rounded-lg bg-blue-50 px-3 py-2 text-sm text-blue-800">You: {myParticipant?.score ?? 0}{scorePop > 0 && <span className="ml-2 inline-block animate-bounce font-bold text-green-600">+{scorePop}</span>}</div>
             <div className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-800">Opponent: {opponentParticipant?.score ?? 0}</div>
             <div className="rounded-lg bg-purple-50 px-3 py-2 text-sm text-purple-800">Streak: {streak}x</div>
             <div className="rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">Multiplier: {streakMultiplier}x</div>
@@ -287,7 +311,7 @@ export default function BattleRoomPage() {
             </Button>
           </div>
         ) : currentQuestion ? (
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <div className={`rounded-xl border border-gray-200 bg-white p-6 shadow-sm ${answerFeedback === "correct" ? "ring-2 ring-green-400" : answerFeedback === "wrong" ? "animate-[shake_0.3s_ease-in-out] ring-2 ring-red-400" : ""}`}>
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Question {currentIndex + 1} of {battle.questionCount}</p>
             <h2 className="mt-2 text-lg font-semibold text-gray-900">{currentQuestion.question}</h2>
 
@@ -340,7 +364,7 @@ export default function BattleRoomPage() {
               </Button>
             </div>
 
-            {resultMsg && <p className="mt-3 text-sm text-gray-700">{resultMsg}</p>}
+            {resultMsg && <p className={`mt-3 text-sm ${answerFeedback === "correct" ? "text-green-700" : answerFeedback === "wrong" ? "text-red-700" : "text-gray-700"}`}>{resultMsg}</p>}
             {aiThinking && <p className="mt-2 animate-pulse text-xs font-semibold text-blue-700">AI is thinking...</p>}
           </div>
         ) : (
@@ -349,6 +373,15 @@ export default function BattleRoomPage() {
           </div>
         )}
       </div>
+
+      <style jsx>{`
+        @keyframes shake {
+          0%,
+          100% { transform: translateX(0); }
+          25% { transform: translateX(-6px); }
+          75% { transform: translateX(6px); }
+        }
+      `}</style>
     </main>
   );
 }

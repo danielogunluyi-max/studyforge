@@ -7,6 +7,8 @@ import { useSession, signOut } from "next-auth/react";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import Listbox from "~/app/_components/Listbox";
+import { useToast } from "~/app/_components/toast";
+import { SkeletonList } from "~/app/_components/skeleton";
 
 type Style = "visual" | "auditory" | "reading" | "kinesthetic";
 type Theme = "light" | "dark" | "auto";
@@ -88,6 +90,7 @@ export default function SettingsPage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -117,6 +120,16 @@ export default function SettingsPage() {
     void loadSettings();
   }, [session]);
 
+  useEffect(() => {
+    if (!error) return;
+    showToast(error, "error");
+  }, [error, showToast]);
+
+  useEffect(() => {
+    if (!success) return;
+    showToast(success, "success");
+  }, [success, showToast]);
+
   // Handle Escape key to close modal
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -131,11 +144,8 @@ export default function SettingsPage() {
 
   if (status === "loading") {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent mx-auto" />
-          <p className="text-gray-600">Loading...</p>
-        </div>
+      <main className="app-premium-dark min-h-screen bg-gray-950 p-6">
+        <SkeletonList count={3} />
       </main>
     );
   }
@@ -237,18 +247,6 @@ export default function SettingsPage() {
           <h1 className="mb-2 text-4xl font-bold text-gray-900">Settings</h1>
           <p className="text-lg text-gray-600">Customize your StudyForge experience</p>
         </div>
-
-        {success && (
-          <div className="mb-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">
-            {success}
-          </div>
-        )}
-
-        {error && (
-          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-            {error}
-          </div>
-        )}
 
         <div className="space-y-6">
           {/* APPEARANCE SECTION */}

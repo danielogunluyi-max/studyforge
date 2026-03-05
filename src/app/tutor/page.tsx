@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
+import { useToast } from "~/app/_components/toast";
 
 type Subject = "Math" | "Science" | "English" | "History" | "Chemistry" | "Physics" | "General";
 
@@ -56,6 +57,8 @@ export default function TutorPage() {
   const [savingId, setSavingId] = useState<string | null>(null);
   const [flashcardsLoading, setFlashcardsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isTypingResponse, setIsTypingResponse] = useState(false);
+  const { showToast } = useToast();
 
   const endRef = useRef<HTMLDivElement | null>(null);
 
@@ -110,7 +113,34 @@ export default function TutorPage() {
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages, isThinking]);
+  }, [messages, isThinking, isTypingResponse]);
+
+  useEffect(() => {
+    if (!error) return;
+    showToast(error, "error");
+  }, [error, showToast]);
+
+  const typeAssistantMessage = async (content: string) => {
+    const id = makeId();
+    setIsTypingResponse(true);
+    setMessages((prev) => [
+      ...prev,
+      {
+        id,
+        role: "assistant",
+        content: "",
+        createdAt: new Date().toISOString(),
+      },
+    ]);
+
+    for (let index = 0; index < content.length; index += 1) {
+      await new Promise((resolve) => window.setTimeout(resolve, 10));
+      const next = content.slice(0, index + 1);
+      setMessages((prev) => prev.map((message) => (message.id === id ? { ...message, content: next } : message)));
+    }
+
+    setIsTypingResponse(false);
+  };
 
   const sendMessage = async (preset?: string) => {
     const text = (preset ?? input).trim();
@@ -158,15 +188,7 @@ export default function TutorPage() {
 
       const assistantContent = data.message ?? "";
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: makeId(),
-          role: "assistant",
-          content: assistantContent,
-          createdAt: new Date().toISOString(),
-        },
-      ]);
+      await typeAssistantMessage(assistantContent);
     } catch {
       setError("Failed to send message. Please try again.");
     } finally {
@@ -305,13 +327,13 @@ export default function TutorPage() {
               <div
                 key={message.id}
                 className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
-                style={{ animation: `fadeIn 180ms ease-out ${Math.min(index * 18, 220)}ms both` }}
+                style={{ animationDelay: `${Math.min(index * 18, 220)}ms` }}
               >
                 <div
                   className={`max-w-[92%] rounded-2xl px-4 py-3 text-sm sm:max-w-[75%] ${
                     message.role === "user"
-                      ? "bg-blue-600 text-white"
-                      : "border border-slate-600 bg-[#111a38] text-slate-100"
+                      ? "chat-bubble-user bg-blue-600 text-white"
+                      : "chat-bubble-nova border border-slate-600 bg-[#111a38] text-slate-100"
                   }`}
                 >
                   <p className="whitespace-pre-wrap break-words">{message.content}</p>
@@ -333,7 +355,7 @@ export default function TutorPage() {
               </div>
             ))}
 
-            {isThinking && (
+            {(isThinking || isTypingResponse) && (
               <div className="flex justify-start">
                 <div className="rounded-2xl border border-slate-600 bg-[#111a38] px-4 py-3">
                   <div className="flex items-center gap-1">
@@ -348,8 +370,6 @@ export default function TutorPage() {
             <div ref={endRef} />
           </div>
         </div>
-
-        {error && <p className="mt-2 text-sm text-red-300">{error}</p>}
 
         <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-slate-700 bg-[#0d142b]/95 p-3 backdrop-blur sm:static sm:mt-3 sm:rounded-xl sm:border sm:bg-[#0d142b] sm:p-3 sm:backdrop-blur-none">
           <div className="mx-auto w-full max-w-6xl sm:max-w-none">
@@ -389,14 +409,33 @@ export default function TutorPage() {
       </div>
 
       <style jsx>{`
-        @keyframes fadeIn {
+        .chat-bubble-nova {
+          animation: slideNovaIn 260ms ease-out both;
+        }
+
+        .chat-bubble-user {
+          animation: slideUserIn 260ms ease-out both;
+        }
+
+        @keyframes slideNovaIn {
           from {
             opacity: 0;
-            transform: translateY(8px);
+            transform: translateX(-12px);
           }
           to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slideUserIn {
+          from {
+            opacity: 0;
+            transform: translateX(12px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
           }
         }
       `}</style>

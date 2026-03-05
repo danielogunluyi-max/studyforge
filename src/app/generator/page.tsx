@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { MouseEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -8,6 +9,8 @@ import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
+import { useToast } from "~/app/_components/toast";
+import { SkeletonList } from "~/app/_components/skeleton";
 
 const PREFILL_STORAGE_KEY = "studyforge:prefillText";
 const PREFILL_FORMAT_KEY = "studyforge:prefillFormat";
@@ -70,9 +73,12 @@ export default function Generator() {
   const [suggestedFormat, setSuggestedFormat] = useState<string | null>(null);
   const [learningStyle, setLearningStyle] = useState<string | null>(null);
   const [adaptContent, setAdaptContent] = useState(false);
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const isGeneratingRef = useRef(false);
   const detectSubjectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const detectSubjectOnNextChangeRef = useRef(false);
+  const { showToast } = useToast();
+  const loadingMessages = ["Reading your notes...", "Generating content...", "Almost ready..."];
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -138,13 +144,31 @@ export default function Generator() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isLoading) {
+      setLoadingMessageIndex(0);
+      return;
+    }
+    const interval = window.setInterval(() => {
+      setLoadingMessageIndex((prev) => (prev + 1) % loadingMessages.length);
+    }, 900);
+    return () => window.clearInterval(interval);
+  }, [isLoading, loadingMessages.length]);
+
+  useEffect(() => {
+    if (!error) return;
+    showToast(error, "error");
+  }, [error, showToast]);
+
+  useEffect(() => {
+    if (!saveSuccess) return;
+    showToast("Note saved successfully.", "success");
+  }, [saveSuccess, showToast]);
+
   if (status === "loading") {
     return (
-      <main className="app-premium-dark flex min-h-screen items-center justify-center bg-gray-950">
-        <div className="text-center">
-          <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent mx-auto" />
-          <p className="text-gray-600">Loading...</p>
-        </div>
+      <main className="app-premium-dark min-h-screen bg-gray-950 p-6">
+        <SkeletonList count={4} />
       </main>
     );
   }
@@ -360,7 +384,23 @@ export default function Generator() {
 
   const handleCopy = () => {
     void navigator.clipboard.writeText(generatedNotes);
-    alert("Notes copied to clipboard.");
+    showToast("Notes copied to clipboard.", "info");
+  };
+
+  const handleCardTilt = (event: MouseEvent<HTMLDivElement>) => {
+    const target = event.currentTarget;
+    const rect = target.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const rx = ((y / rect.height) * -8 + 4).toFixed(2);
+    const ry = ((x / rect.width) * 8 - 4).toFixed(2);
+    target.style.setProperty("--rx", `${rx}deg`);
+    target.style.setProperty("--ry", `${ry}deg`);
+  };
+
+  const resetCardTilt = (event: MouseEvent<HTMLDivElement>) => {
+    event.currentTarget.style.setProperty("--rx", "0deg");
+    event.currentTarget.style.setProperty("--ry", "0deg");
   };
 
   const handleExportPdf = () => {
@@ -751,29 +791,31 @@ export default function Generator() {
                 <button
                   type="button"
                   onClick={() => markCardKnown(activeCard.id)}
-                  className="rounded-lg border border-green-300 bg-green-50 px-3 py-1.5 text-sm font-semibold text-green-700 hover:bg-green-100"
+                  className="rounded-lg border border-green-300 bg-green-50 px-3 py-1.5 text-sm font-semibold text-green-700 transition-all duration-200 active:scale-95 hover:bg-green-100"
                 >
                   ✓ Got it
                 </button>
                 <button
                   type="button"
                   onClick={() => markCardStillLearning(activeCard.id)}
-                  className="rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-1.5 text-sm font-semibold text-yellow-700 hover:bg-yellow-100"
+                  className="rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-1.5 text-sm font-semibold text-yellow-700 transition-all duration-200 active:scale-95 hover:bg-yellow-100"
                 >
                   ↺ Still Learning
                 </button>
               </div>
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="stagger-grid grid gap-6 sm:grid-cols-2">
               {cards.map((card, index) => (
-                <div key={card.id}>
+                <div key={card.id} className="stagger-card">
                   <div className="mb-2 flex items-center justify-between">
                     <p className="text-sm text-gray-500">Card {index + 1}</p>
                   </div>
                   <div
                     onClick={() => toggleCard(card.id)}
-                    className="group relative h-48 cursor-pointer perspective"
+                    onMouseMove={handleCardTilt}
+                    onMouseLeave={resetCardTilt}
+                    className="flashcard-tilt group relative h-48 cursor-pointer perspective"
                   >
                     <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(card.id) ? 'rotate-y-180' : ''}`}>
                       <div className={`absolute inset-0 flex items-center justify-center rounded-lg border-2 bg-white p-6 backface-hidden ${knownCards.has(card.id) ? "border-l-4 border-green-500" : stillLearningCards.has(card.id) ? "border-l-4 border-orange-500" : "border-blue-200"}`}>
@@ -795,14 +837,14 @@ export default function Generator() {
                     <button
                       type="button"
                       onClick={() => markCardKnown(card.id)}
-                      className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold"
+                      className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 active:scale-95 hover:bg-green-700"
                     >
                       Got it
                     </button>
                     <button
                       type="button"
                       onClick={() => markCardStillLearning(card.id)}
-                      className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg text-sm font-semibold"
+                      className="rounded-lg bg-orange-600 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 active:scale-95 hover:bg-orange-700"
                     >
                       Still Learning
                     </button>
@@ -969,6 +1011,11 @@ export default function Generator() {
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950">
       <AppNav />
+      {isLoading && (
+        <div className="pointer-events-none fixed left-0 right-0 top-0 z-50 h-0.5 overflow-hidden bg-blue-500/25">
+          <div className="h-full w-1/3 animate-[loadingScan_1.1s_ease-in-out_infinite] bg-blue-500" />
+        </div>
+      )}
 
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
         <PageHero
@@ -1184,8 +1231,18 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
             className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-4 text-lg font-bold text-white shadow-lg shadow-blue-500/25 hover:from-blue-700 hover:to-purple-700"
           >
             {isLoading ? (
-              <span className="flex items-center justify-center gap-2">
-                Generating... (~{estimatedTime}s)
+              <span className="flex flex-col items-center justify-center gap-1">
+                <span className="flex items-center gap-1">
+                  Generating
+                  <span className="inline-flex gap-1">
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white [animation-delay:-0.25s]" />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white [animation-delay:-0.1s]" />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white" />
+                  </span>
+                </span>
+                <span className="text-xs font-medium text-blue-100">
+                  {loadingMessages[loadingMessageIndex]} (~{estimatedTime}s)
+                </span>
               </span>
             ) : (
               "Generate Notes"
@@ -1224,20 +1281,23 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           )}
         </div>
 
-        {saveSuccess && (
-          <div className="mb-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">
-            Note saved successfully. <Link href="/my-notes" className="font-semibold underline">View all notes</Link>
-          </div>
+        {saveSuccess && !generatedNotes && (
+          <div className="mb-6 text-sm text-green-300">Saved. <Link href="/my-notes" className="font-semibold underline">View all notes</Link></div>
         )}
 
-        {error && (
-          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-            {error}
-          </div>
+        {isLoading && !generatedNotes ? (
+          <SkeletonList count={2} />
+        ) : (
+          <div className="animate-[fadeInUp_0.4s_ease_forwards]">{renderOutput()}</div>
         )}
-
-        {renderOutput()}
       </div>
+
+      <style jsx>{`
+        @keyframes loadingScan {
+          0% { transform: translateX(-120%); }
+          100% { transform: translateX(420%); }
+        }
+      `}</style>
     </main>
   );
 }

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Button } from "~/app/_components/button";
+import { useToast } from "~/app/_components/toast";
 
 export default function SignUp() {
   const router = useRouter();
@@ -17,6 +18,12 @@ export default function SignUp() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const { showToast } = useToast();
+
+  useEffect(() => {
+    if (!error) return;
+    showToast(error, "error");
+  }, [error, showToast]);
 
   const validateField = (name: string, value: string): string => {
     switch (name) {
@@ -243,13 +250,6 @@ export default function SignUp() {
                   </p>
                 )}
               </div>
-
-              {/* Error Message */}
-              {error && (
-                <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
-                  {error}
-                </div>
-              )}
 
               {/* Submit Button */}
               <Button

@@ -6,6 +6,7 @@ import { AppNav } from "~/app/_components/app-nav";
 import { EmptyState } from "~/app/_components/empty-state";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
+import { useToast } from "~/app/_components/toast";
 
 type NoteOption = { id: string; title: string };
 
@@ -89,6 +90,7 @@ export default function BattlePage() {
   const [isJoiningRoom, setIsJoiningRoom] = useState(false);
   const [isBuildingBracket, setIsBuildingBracket] = useState(false);
   const [error, setError] = useState("");
+  const { showToast } = useToast();
 
   useEffect(() => {
     const loadData = async () => {
@@ -118,6 +120,11 @@ export default function BattlePage() {
 
     void loadLeaderboard();
   }, [leaderboardPeriod, leaderboardSubject]);
+
+  useEffect(() => {
+    if (!error) return;
+    showToast(error, "error");
+  }, [error, showToast]);
 
   const createBattle = async () => {
     setIsCreating(true);
@@ -290,8 +297,8 @@ export default function BattlePage() {
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="stagger-grid grid gap-6 lg:grid-cols-2">
+          <div className="stagger-card rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
             <h2 className="mb-4 text-lg font-semibold text-gray-900">Create Session</h2>
             <input
               value={battleTitle}
@@ -358,7 +365,7 @@ export default function BattlePage() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="stagger-card rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
             <h2 className="mb-4 text-lg font-semibold text-gray-900">Join Battle</h2>
             <input
               value={joinCode}
@@ -401,7 +408,7 @@ export default function BattlePage() {
                     key={emoji}
                     type="button"
                     onClick={() => pushReaction(emoji)}
-                    className="rounded border border-gray-300 bg-white px-2 py-1 text-lg hover:bg-gray-100"
+                    className="rounded border border-gray-300 bg-white px-2 py-1 text-lg transition-all duration-200 active:scale-95 hover:bg-gray-100"
                   >
                     {emoji}
                   </button>
@@ -411,8 +418,6 @@ export default function BattlePage() {
             </div>
           </div>
         </div>
-
-        {error && <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">{error}</div>}
 
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">

@@ -1,10 +1,11 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Button } from "~/app/_components/button";
+import { useToast } from "~/app/_components/toast";
 
 export default function Login() {
   return (
@@ -28,6 +29,17 @@ function LoginContent() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const { showToast } = useToast();
+
+  useEffect(() => {
+    if (!error) return;
+    showToast(error, "error");
+  }, [error, showToast]);
+
+  useEffect(() => {
+    if (!registered) return;
+    showToast("Account created. Please log in.", "success");
+  }, [registered, showToast]);
 
   const validateField = (name: string, value: string): string => {
     switch (name) {
@@ -132,12 +144,6 @@ function LoginContent() {
             </p>
           </div>
 
-          {registered && (
-            <div className="mb-6 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800">
-              Account created. Please log in.
-            </div>
-          )}
-
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -181,12 +187,6 @@ function LoginContent() {
                   <p className="mt-1 text-sm text-red-600">{fieldErrors.password}</p>
                 )}
               </div>
-
-              {error && (
-                <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
-                  {error}
-                </div>
-              )}
 
               <Button
                 type="submit"

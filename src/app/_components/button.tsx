@@ -24,11 +24,11 @@ export function Button({
   className = "",
   ...rest
 }: ButtonProps) {
-  const baseStyles = "inline-flex min-h-11 items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70";
+  const baseStyles = "button-ripple inline-flex min-h-11 items-center justify-center gap-2 overflow-hidden rounded-lg font-semibold transition-all duration-200 ease-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70";
 
   // Variant styles
   const variantStyles = {
-    primary: "rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold shadow-lg shadow-blue-500/25 hover:-translate-y-0.5 hover:from-blue-700 hover:to-purple-700",
+    primary: "button-shimmer rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold shadow-lg shadow-blue-500/25 hover:-translate-y-0.5 hover:from-blue-700 hover:to-purple-700 hover:shadow-lg hover:shadow-blue-500/20",
     secondary: "border border-gray-600 bg-transparent text-gray-300 hover:-translate-y-0.5 hover:border-gray-400 hover:bg-transparent hover:text-white",
     danger: "bg-red-600 text-white shadow-sm hover:-translate-y-0.5 hover:bg-red-700 hover:shadow-lg",
     ghost: "bg-transparent text-gray-700 hover:bg-gray-100 hover:text-gray-900",

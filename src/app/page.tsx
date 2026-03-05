@@ -243,7 +243,7 @@ export default function Home() {
   useEffect(() => {
     if (!statsInView) return;
 
-    const duration = 1400;
+    const duration = 2000;
     const start = performance.now();
     let frame = 0;
 
@@ -356,9 +356,9 @@ export default function Home() {
       </section>
 
       <section ref={statsRef} className="border-b border-gray-200 bg-white py-20">
-        <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
+        <div className="stagger-grid mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
           {stats.map((item, index) => (
-            <div key={item.label} className="reveal-on-scroll rounded-xl border border-gray-200 bg-gray-50 p-4 text-center shadow-sm" data-reveal="true">
+            <div key={item.label} className="stagger-card reveal-on-scroll rounded-xl border border-gray-200 bg-gray-50 p-4 text-center shadow-sm" data-reveal="true">
               <div className="mx-auto w-fit text-blue-600"><Icon name={item.icon} size={24} /></div>
               <p className="mt-2 text-2xl font-extrabold text-gray-900 sm:text-3xl">
                 {statValues[index].toLocaleString()}
@@ -420,9 +420,9 @@ export default function Home() {
             <p className="mt-3 text-slate-300">Explore tools that make StudyForge feel like a complete exam-prep operating system.</p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="stagger-grid grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {featureCards.map((feature) => (
-              <div key={feature.title} className={`reveal-on-scroll rounded-2xl border border-white/10 bg-gradient-to-br ${feature.bg} p-6 shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/40`} data-reveal="true">
+              <div key={feature.title} className={`stagger-card feature-tilt reveal-on-scroll rounded-2xl border border-white/10 bg-gradient-to-br ${feature.bg} p-6 shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/40`} data-reveal="true">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-white backdrop-blur-sm animate-[float_4s_ease-in-out_infinite]">
                   <Icon name={feature.icon} size={28} />
                 </div>
@@ -607,6 +607,15 @@ export default function Home() {
           50% {
             transform: translateY(-4px);
           }
+        }
+
+        .feature-tilt {
+          transform-style: preserve-3d;
+          perspective: 1000px;
+        }
+
+        .feature-tilt:hover {
+          transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-6px);
         }
       `}</style>
     </main>

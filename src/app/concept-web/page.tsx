@@ -5,6 +5,7 @@ import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { EmptyState } from "~/app/_components/empty-state";
 import { PageHero } from "~/app/_components/page-hero";
+import { useToast } from "~/app/_components/toast";
 
 type NodeItem = {
   id: string;
@@ -104,6 +105,7 @@ export default function ConceptWebPage() {
   const [isPanning, setIsPanning] = useState(false);
   const [lastPointer, setLastPointer] = useState<{ x: number; y: number } | null>(null);
   const [copyState, setCopyState] = useState("");
+  const { showToast } = useToast();
 
   const selectedNode = useMemo(() => nodes.find((node) => node.id === selectedNodeId) ?? null, [nodes, selectedNodeId]);
 
@@ -132,6 +134,11 @@ export default function ConceptWebPage() {
   useEffect(() => {
     void loadBootstrap();
   }, []);
+
+  useEffect(() => {
+    if (!error) return;
+    showToast(error, "error");
+  }, [error, showToast]);
 
   const generateByTopic = async () => {
     if (!topic.trim()) {
@@ -467,8 +474,6 @@ export default function ConceptWebPage() {
             </div>
           </div>
         )}
-
-        {error && <div className="mb-4 rounded-lg border border-red-400/30 bg-red-500/10 p-3 text-sm text-red-200">{error}</div>}
 
         {nodes.length === 0 && !isLoading && (
           <EmptyState

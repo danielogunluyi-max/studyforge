@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { AppearanceSync } from "~/app/_components/appearance-sync";
+import { ToastProvider, ToastViewport } from "~/app/_components/toast";
 
 export const metadata: Metadata = {
   title: {
@@ -69,7 +70,10 @@ export default function RootLayout({
               {/* Removed global Listbox guard — prefer component-level guards. */}
               <AppearanceSync />
               <TRPCReactProvider>
-                <div className="page-fade">{children}</div>
+                <ToastProvider>
+                  <div className="page-enter">{children}</div>
+                  <ToastViewport />
+                </ToastProvider>
               </TRPCReactProvider>
             </SessionProvider>
       </body>

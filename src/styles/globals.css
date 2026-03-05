@@ -36,6 +36,32 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
 * {
   min-width: 0;
   box-sizing: border-box;
@@ -62,13 +88,153 @@ html.dark {
   --app-border-strong: #4b5563;
 }
 
-/* Page fade-in for smoother perception of load */
-.page-fade {
-  animation: pageFade 260ms cubic-bezier(.2,.8,.2,1) both;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-@keyframes pageFade {
-  from { opacity: 0; transform: translateY(6px) }
-  to { opacity: 1; transform: translateY(0) }
+
+.page-enter {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-card {
+  opacity: 0;
+  animation: slideInUp 0.5s ease forwards;
+}
+
+.stagger-grid > .stagger-card:nth-child(1) { animation-delay: 0.1s; }
+.stagger-grid > .stagger-card:nth-child(2) { animation-delay: 0.2s; }
+.stagger-grid > .stagger-card:nth-child(3) { animation-delay: 0.3s; }
+.stagger-grid > .stagger-card:nth-child(4) { animation-delay: 0.4s; }
+.stagger-grid > .stagger-card:nth-child(5) { animation-delay: 0.5s; }
+.stagger-grid > .stagger-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-block {
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.18) 25%, rgba(148, 163, 184, 0.34) 50%, rgba(148, 163, 184, 0.18) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.button-shimmer {
+  position: relative;
+}
+
+.button-shimmer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-120%);
+  background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.22) 45%, transparent 75%);
+  transition: transform 0.45s ease;
+}
+
+.button-shimmer:hover::before {
+  transform: translateX(120%);
+}
+
+.button-ripple::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: 50%;
+  top: 50%;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(255, 255, 255, 0.28);
+  opacity: 0;
+}
+
+@media (hover: none) {
+  .button-ripple:active::after {
+    animation: touchRipple 0.45s ease-out;
+  }
+}
+
+@keyframes touchRipple {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(14); opacity: 0; }
+}
+
+.flashcard-tilt {
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 120ms ease;
+}
+
+.flashcard-tilt:hover {
+  box-shadow: 0 18px 30px rgba(2, 6, 23, 0.26);
+}
+
+.nav-link-animated {
+  position: relative;
+}
+
+.nav-link-animated::after {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.3rem;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms ease;
+  background: currentColor;
+}
+
+.nav-link-animated:hover::after {
+  transform: scaleX(1);
+}
+
+.toast-item {
+  animation: toastIn 220ms ease-out forwards, toastOut 220ms ease-in 2.75s forwards;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-8px) translateX(10px); }
+  to { opacity: 1; transform: translateY(0) translateX(0); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; }
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+.overflow-y-auto,
+.overflow-x-auto,
+.overflow-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (pointer: coarse) {
+  button:active,
+  a:active,
+  [role="button"]:active {
+    transform: scale(0.98);
+  }
 }
 
 /* Site nav theming */

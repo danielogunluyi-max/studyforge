@@ -111,7 +111,7 @@ export function AppNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`nav-link-animated rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 isActive(item.href) ? "bg-blue-50 text-blue-700 shadow-sm" : "text-gray-700"
               }`}
             >
@@ -179,7 +179,7 @@ export function AppNav() {
             <>
               <Link
                 href="/settings"
-                className="rounded-lg p-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
+                className="nav-link-animated rounded-lg p-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
                 title="Settings"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -189,7 +189,7 @@ export function AppNav() {
               </Link>
               <button
                 onClick={() => void handleSignOut()}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
+                className="nav-link-animated rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
               >
                 Sign Out
               </button>
@@ -198,7 +198,7 @@ export function AppNav() {
             <>
               <Link
                 href="/login"
-                className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
+                className="nav-link-animated rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
               >
                 Log In
               </Link>
