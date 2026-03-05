@@ -266,6 +266,130 @@ const SUBJECT_TIPS: Record<Style, Record<string, string[]>> = {
   },
 };
 
+const STYLE_TITLE_GRADIENT: Record<Style, string> = {
+  visual: "bg-gradient-to-r from-purple-300 via-fuchsia-300 to-violet-400",
+  auditory: "bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-400",
+  reading: "bg-gradient-to-r from-green-300 via-emerald-300 to-lime-300",
+  kinesthetic: "bg-gradient-to-r from-orange-300 via-amber-300 to-yellow-300",
+};
+
+const STYLE_TINT_BG: Record<Style, string> = {
+  visual: "bg-purple-900/20",
+  auditory: "bg-blue-900/20",
+  reading: "bg-green-900/20",
+  kinesthetic: "bg-orange-900/20",
+};
+
+const STYLE_BADGE: Record<Style, string> = {
+  visual: "bg-purple-500/20 border border-purple-400/50 text-purple-200",
+  auditory: "bg-blue-500/20 border border-blue-400/50 text-blue-200",
+  reading: "bg-green-500/20 border border-green-400/50 text-green-200",
+  kinesthetic: "bg-orange-500/20 border border-orange-400/50 text-orange-200",
+};
+
+const STYLE_PERCENT_TEXT: Record<Style, string> = {
+  visual: "text-purple-300",
+  auditory: "text-blue-300",
+  reading: "text-green-300",
+  kinesthetic: "text-orange-300",
+};
+
+const STYLE_BAR_TRACK: Record<Style, string> = {
+  visual: "bg-purple-900/30",
+  auditory: "bg-blue-900/30",
+  reading: "bg-green-900/30",
+  kinesthetic: "bg-orange-900/30",
+};
+
+const STYLE_CARD_ACCENT: Record<Style, string> = {
+  visual: "border-l-4 border-purple-500",
+  auditory: "border-l-4 border-blue-500",
+  reading: "border-l-4 border-green-500",
+  kinesthetic: "border-l-4 border-orange-500",
+};
+
+const STYLE_COMPATIBILITY: Record<Style, { match: Style; score: string }> = {
+  visual: { match: "reading", score: "92%" },
+  auditory: { match: "kinesthetic", score: "89%" },
+  reading: { match: "visual", score: "92%" },
+  kinesthetic: { match: "auditory", score: "89%" },
+};
+
+const STYLE_SCHEDULE: Record<Style, Record<"Mon" | "Wed" | "Fri", string>> = {
+  visual: {
+    Mon: "Use mind maps for new topics",
+    Wed: "Watch video summaries and annotate visuals",
+    Fri: "Diagram review and color-coded recall",
+  },
+  auditory: {
+    Mon: "Record voice notes and listen back",
+    Wed: "Join a study group discussion session",
+    Fri: "Verbal recall drills out loud",
+  },
+  reading: {
+    Mon: "Read and annotate key chapters",
+    Wed: "Write concise concept summaries",
+    Fri: "Past papers with written corrections",
+  },
+  kinesthetic: {
+    Mon: "Practice problem sets with timers",
+    Wed: "Lab-style experiments or simulations",
+    Fri: "Timed quizzes and active drills",
+  },
+};
+
+const STYLE_ORDER: Style[] = ["visual", "auditory", "reading", "kinesthetic"];
+
+function formatHistoryDate(input: string): string {
+  return new Date(input).toLocaleString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+function styleTrendArrow(current: Style, previous: Style | null): "↑" | "↓" | "→" {
+  if (!previous || current === previous) return "→";
+  const currentIndex = STYLE_ORDER.indexOf(current);
+  const previousIndex = STYLE_ORDER.indexOf(previous);
+  return currentIndex > previousIndex ? "↑" : "↓";
+}
+
+function styleIcon(style: Style) {
+  if (style === "visual") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-12 w-12" fill="none" stroke="currentColor" strokeWidth={1.8}>
+        <path d="M2.5 12s3.8-6.5 9.5-6.5S21.5 12 21.5 12s-3.8 6.5-9.5 6.5S2.5 12 2.5 12Z" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    );
+  }
+  if (style === "auditory") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-12 w-12" fill="none" stroke="currentColor" strokeWidth={1.8}>
+        <path d="M12 4a7 7 0 1 0 7 7" />
+        <path d="M15.5 3.5a9.5 9.5 0 0 1 0 17" />
+        <path d="M8.5 9.5h2.5l3-2.5v10l-3-2.5H8.5a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2Z" />
+      </svg>
+    );
+  }
+  if (style === "reading") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-12 w-12" fill="none" stroke="currentColor" strokeWidth={1.8}>
+        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z" />
+        <path d="M8 7h8M8 11h8M8 15h6" />
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox="0 0 24 24" className="h-12 w-12" fill="none" stroke="currentColor" strokeWidth={1.8}>
+      <path d="M6 3v9M18 3v9M6 12h12M8 21l4-4 4 4" />
+    </svg>
+  );
+}
+
 function chartSegmentPath(startAngle: number, endAngle: number, radius = 52, center = 60): string {
   const start = polarToCartesian(center, center, radius, endAngle);
   const end = polarToCartesian(center, center, radius, startAngle);
@@ -299,6 +423,7 @@ export default function LearningStyleQuizPage() {
   const [userId, setUserId] = useState<string>("");
   const [showShareCard, setShowShareCard] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [displayName, setDisplayName] = useState("StudyForge Learner");
 
   const scores = useMemo(() => {
     const initial: Record<Style, number> = {
@@ -355,6 +480,21 @@ export default function LearningStyleQuizPage() {
 
   useEffect(() => {
     void loadInsights();
+  }, []);
+
+  useEffect(() => {
+    void (async () => {
+      try {
+        const sessionRes = await fetch("/api/auth/session", { cache: "no-store" });
+        if (!sessionRes.ok) return;
+        const sessionData = (await sessionRes.json()) as { user?: { name?: string } };
+        if (sessionData.user?.name?.trim()) {
+          setDisplayName(sessionData.user.name.trim());
+        }
+      } catch {
+        // ignore session name lookup issues
+      }
+    })();
   }, []);
 
   useEffect(() => {
@@ -419,6 +559,63 @@ export default function LearningStyleQuizPage() {
     setTimeout(() => setCopied(false), 1500);
   };
 
+  const downloadStyleCard = () => {
+    if (!result || !resultTheme) return;
+    const canvas = document.createElement("canvas");
+    canvas.width = 1200;
+    canvas.height = 630;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+
+    context.fillStyle = "#0B1220";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    const gradient = context.createLinearGradient(0, 0, canvas.width, 0);
+    if (result === "visual") {
+      gradient.addColorStop(0, "#A78BFA");
+      gradient.addColorStop(1, "#D946EF");
+    } else if (result === "auditory") {
+      gradient.addColorStop(0, "#60A5FA");
+      gradient.addColorStop(1, "#22D3EE");
+    } else if (result === "reading") {
+      gradient.addColorStop(0, "#4ADE80");
+      gradient.addColorStop(1, "#A3E635");
+    } else {
+      gradient.addColorStop(0, "#FB923C");
+      gradient.addColorStop(1, "#FBBF24");
+    }
+
+    context.fillStyle = "rgba(255,255,255,0.06)";
+    context.fillRect(40, 40, 1120, 550);
+
+    context.fillStyle = "#E5E7EB";
+    context.font = "bold 42px Inter, system-ui, sans-serif";
+    context.fillText(displayName, 84, 128);
+
+    context.fillStyle = gradient;
+    context.font = "bold 64px Inter, system-ui, sans-serif";
+    context.fillText(STYLE_LABEL[result], 84, 210);
+
+    context.fillStyle = "#CBD5E1";
+    context.font = "28px Inter, system-ui, sans-serif";
+    context.fillText("Top 3 Tips", 84, 278);
+
+    const tips = resultTheme.techniques.slice(0, 3);
+    context.font = "24px Inter, system-ui, sans-serif";
+    tips.forEach((tip, index) => {
+      context.fillText(`${index + 1}. ${tip}`, 84, 328 + index * 52);
+    });
+
+    context.fillStyle = "#93C5FD";
+    context.font = "bold 24px Inter, system-ui, sans-serif";
+    context.fillText("StudyForge", 84, 550);
+
+    const link = document.createElement("a");
+    link.href = canvas.toDataURL("image/png");
+    link.download = "style-card.png";
+    link.click();
+  };
+
   const comparisonSlices = useMemo(() => {
     const styles: Style[] = ["visual", "auditory", "reading", "kinesthetic"];
     let current = 0;
@@ -466,10 +663,10 @@ export default function LearningStyleQuizPage() {
                       key={`${question?.prompt ?? "q"}-${option.label}`}
                       type="button"
                       onClick={() => setAnswers((prev) => ({ ...prev, [currentQuestion]: option.style }))}
-                      className={`flex items-center justify-between rounded-xl border-2 px-4 py-3 text-left text-sm font-medium transition ${
+                      className={`flex items-center justify-between rounded-xl border-2 px-4 py-3 text-left text-sm font-medium transition-all duration-300 hover:-translate-y-1 ${
                         active
-                          ? "border-blue-500 bg-blue-50 text-blue-800"
-                          : "border-gray-200 bg-white text-gray-700 hover:border-blue-200 hover:bg-gray-50"
+                          ? "border-blue-500 bg-blue-600/20 text-blue-100 shadow-[0_0_0_1px_rgba(59,130,246,0.35)]"
+                          : "border-gray-700 bg-gray-900 text-gray-300 opacity-70 hover:border-blue-400 hover:bg-gray-800"
                       }`}
                     >
                       <span>{option.label}</span>
@@ -497,34 +694,38 @@ export default function LearningStyleQuizPage() {
         )}
 
         {result && resultTheme && (
-          <div className="space-y-6">
-            <div className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
-              <div className="pointer-events-none absolute inset-0">
-                {resultTheme.confetti.map((dot, idx) => (
+          <div className={`space-y-6 rounded-3xl border border-gray-700 p-4 sm:p-6 ${STYLE_TINT_BG[result]}`}>
+            <div className="relative overflow-hidden rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-md">
+              <div className="pointer-events-none absolute inset-0 overflow-hidden">
+                {Array.from({ length: 26 }).map((_, idx) => (
                   <span
-                    key={`${dot}-${idx}`}
-                    className={`absolute h-2 w-2 animate-bounce rounded-full opacity-70 ${dot}`}
+                    key={`confetti-${idx}`}
+                    className={`lsq-confetti-piece ${resultTheme.confetti[idx % resultTheme.confetti.length]}`}
                     style={{
-                      top: `${12 + idx * 8}%`,
-                      left: `${8 + idx * 10}%`,
-                      animationDelay: `${idx * 100}ms`,
+                      left: `${(idx * 13) % 100}%`,
+                      animationDelay: `${(idx % 8) * 0.22}s`,
+                      animationDuration: `${3 + (idx % 5) * 0.45}s`,
                     }}
                   />
                 ))}
               </div>
 
-              <p className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${resultTheme.chip}`}>Learning Profile Unlocked</p>
-              <h2 className="mt-3 text-3xl font-bold text-gray-900">{resultTheme.title} {resultTheme.emoji}</h2>
-              <p className="mt-2 text-gray-700">{resultTheme.description}</p>
+              <div className="relative z-10">
+                <div className={`inline-flex rounded-2xl border p-3 ${STYLE_BADGE[result]}`}>
+                  {styleIcon(result)}
+                </div>
+                <h2 className={`mt-4 bg-clip-text text-5xl font-bold text-transparent ${STYLE_TITLE_GRADIENT[result]}`}>{STYLE_LABEL[result]}</h2>
+                <p className="mt-3 text-xl text-gray-300">{resultTheme.description}</p>
+              </div>
 
               <div className="mt-6 space-y-3">
                 {(["visual", "auditory", "reading", "kinesthetic"] as Style[]).map((style) => (
                   <div key={style}>
-                    <div className="mb-1 flex items-center justify-between text-sm text-gray-700">
-                      <span>{STYLE_LABEL[style]}</span>
-                      <span>{percentages[style]}%</span>
+                    <div className="mb-1 flex items-center justify-between text-sm">
+                      <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${STYLE_BADGE[style]}`}>{STYLE_LABEL[style]}</span>
+                      <span className={`font-semibold ${STYLE_PERCENT_TEXT[style]}`}>{percentages[style]}%</span>
                     </div>
-                    <div className="h-3 rounded-full bg-gray-200">
+                    <div className={`h-3 rounded-full ${STYLE_BAR_TRACK[style]}`}>
                       <div
                         className={`h-3 rounded-full transition-all duration-700 ${STYLE_THEME[style].accent}`}
                         style={{ width: `${barAnimate ? percentages[style] : 0}%` }}
@@ -535,12 +736,12 @@ export default function LearningStyleQuizPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900">Your Study Strategy</h3>
-              <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-700">
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+              <h3 className="text-xl font-bold text-white">Your Study Strategy</h3>
+              <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-300">
                 {resultTheme.techniques.slice(0, 3).map((tip) => <li key={tip}>{tip}</li>)}
               </ul>
-              <p className="mt-3 text-sm text-red-600">{resultTheme.avoid}</p>
+              <p className="mt-3 text-sm text-red-300">{resultTheme.avoid}</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {resultTheme.bestFeatures.map((feature) => (
                   <Button key={feature.href} href={feature.href} size="sm" variant="secondary">{feature.label}</Button>
@@ -548,13 +749,13 @@ export default function LearningStyleQuizPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900">Subject-specific Tips</h3>
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+              <h3 className="text-xl font-bold text-white">Subject-specific Tips</h3>
               <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {Object.entries(SUBJECT_TIPS[result]).map(([subject, tips]) => (
-                  <div key={subject} className="rounded-xl border border-gray-200 bg-gray-50 p-4">
-                    <p className="text-sm font-semibold text-gray-900">{subject}</p>
-                    <ul className="mt-2 list-disc space-y-1 pl-4 text-xs text-gray-700">
+                  <div key={subject} className="rounded-xl border border-gray-700 bg-gray-800 p-4">
+                    <p className="text-sm font-semibold text-white">{subject}</p>
+                    <ul className="mt-2 list-disc space-y-1 pl-4 text-xs text-gray-300">
                       {tips.map((tip) => <li key={tip}>{tip}</li>)}
                     </ul>
                   </div>
@@ -562,17 +763,17 @@ export default function LearningStyleQuizPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900">Your Study Toolkit</h3>
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+              <h3 className="text-xl font-bold text-white">Your Study Toolkit</h3>
               <div className="mt-4 grid gap-4 lg:grid-cols-3">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Techniques</p>
-                  <div className="mt-2 space-y-2 text-sm text-gray-700">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Techniques</p>
+                  <div className="mt-2 space-y-2 text-sm text-gray-300">
                     {resultTheme.toolkit.map((item) => <p key={item.label}>{item.icon} {item.label}</p>)}
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">StudyForge Features</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">StudyForge Features</p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     {resultTheme.bestFeatures.map((feature) => (
                       <Button key={`${feature.href}-tool`} href={feature.href} size="sm" variant="secondary">{feature.label}</Button>
@@ -580,51 +781,83 @@ export default function LearningStyleQuizPage() {
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">External Resources</p>
-                  <ul className="mt-2 list-disc space-y-1 pl-4 text-sm text-gray-700">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">External Resources</p>
+                  <ul className="mt-2 list-disc space-y-1 pl-4 text-sm text-gray-300">
                     {resultTheme.external.map((resource) => <li key={resource}>{resource}</li>)}
                   </ul>
                 </div>
               </div>
             </div>
 
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+              <h3 className="text-xl font-bold text-white">Your Personalized Study Schedule</h3>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                {(["Mon", "Wed", "Fri"] as const).map((day) => (
+                  <div key={day} className="rounded-xl border border-gray-700 bg-gray-800 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">{day}</p>
+                    <p className="mt-2 text-sm text-gray-200">{STYLE_SCHEDULE[result][day]}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+              <h3 className="text-xl font-bold text-white">Best Study Group Match</h3>
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
+                <div className={`rounded-xl bg-gray-800 p-4 ${STYLE_CARD_ACCENT[result]}`}>
+                  <p className="text-xs uppercase tracking-wide text-gray-400">You</p>
+                  <p className="mt-1 text-lg font-bold text-white">{STYLE_LABEL[result]}</p>
+                  <p className="mt-2 text-sm text-gray-300">Best paired for balanced sessions and stronger retention.</p>
+                </div>
+                <div className={`rounded-xl bg-gray-800 p-4 ${STYLE_CARD_ACCENT[STYLE_COMPATIBILITY[result].match]}`}>
+                  <p className="text-xs uppercase tracking-wide text-gray-400">Best Match</p>
+                  <p className="mt-1 text-lg font-bold text-white">{STYLE_LABEL[STYLE_COMPATIBILITY[result].match]}</p>
+                  <p className="mt-2 text-sm text-rose-300">❤️ Compatibility Score: {STYLE_COMPATIBILITY[result].score}</p>
+                </div>
+              </div>
+            </div>
+
             {history.length > 1 && (
-              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                <h3 className="text-xl font-bold text-gray-900">Your Style History</h3>
-                <p className="mt-1 text-sm text-gray-600">
+              <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+                <h3 className="text-xl font-bold text-white">Your Style History</h3>
+                <p className="mt-1 text-sm text-gray-400">
                   {dominantChanged ? "Your dominant style changed since your previous attempt." : "Your dominant style has stayed consistent so far."}
                 </p>
                 <div className="mt-3 space-y-2">
-                  {history.slice(0, 5).map((item) => (
-                    <div key={item.id} className="flex items-center justify-between rounded-lg border border-gray-200 px-3 py-2 text-sm">
-                      <span>{new Date(item.createdAt).toLocaleString()}</span>
-                      <span className="font-semibold">{STYLE_LABEL[item.dominantStyle]}</span>
+                  {history.slice(0, 5).map((item, idx, arr) => (
+                    <div key={item.id} className={`flex items-center justify-between rounded-lg border border-gray-700 bg-gray-800 px-3 py-3 text-sm ${STYLE_CARD_ACCENT[item.dominantStyle]}`}>
+                      <div>
+                        <p className="text-gray-300">{formatHistoryDate(item.createdAt)}</p>
+                        <p className="mt-1 text-xs text-gray-400">Trend {styleTrendArrow(item.dominantStyle, arr[idx + 1]?.dominantStyle ?? null)}</p>
+                      </div>
+                      <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${STYLE_BADGE[item.dominantStyle]}`}>{STYLE_LABEL[item.dominantStyle]}</span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
               <div className="flex flex-wrap items-center gap-3">
-                <h3 className="text-xl font-bold text-gray-900">Shareable Style Card</h3>
+                <h3 className="text-xl font-bold text-white">Shareable Style Card</h3>
                 <Button size="sm" onClick={() => setShowShareCard((prev) => !prev)}>Share My Style</Button>
+                <Button size="sm" variant="secondary" onClick={downloadStyleCard}>Download My Style Card</Button>
                 {showShareCard && <Button size="sm" variant="secondary" onClick={() => void copyShare()} disabled={!shareUrl}>{copied ? "Copied" : "Copy Link"}</Button>}
               </div>
               {showShareCard && (
-                <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-4">
-                  <p className="text-xs uppercase tracking-wide text-gray-500">Learning Style Card</p>
-                  <p className="mt-1 text-lg font-bold text-gray-900">{resultTheme.title} {resultTheme.emoji}</p>
-                  <p className="text-sm text-gray-700">Top trait: {STYLE_LABEL[result]}</p>
-                  <p className="mt-2 text-xs text-gray-600">Visual {percentages.visual}% • Auditory {percentages.auditory}% • Reading {percentages.reading}% • Kinesthetic {percentages.kinesthetic}%</p>
-                  {shareUrl && <p className="mt-2 break-all text-xs text-blue-700">{shareUrl}</p>}
+                <div className="mt-4 rounded-xl border border-gray-700 bg-gray-800 p-4">
+                  <p className="text-xs uppercase tracking-wide text-gray-400">Learning Style Card</p>
+                  <p className="mt-1 text-lg font-bold text-white">{resultTheme.title}</p>
+                  <p className="text-sm text-gray-300">Top trait: {STYLE_LABEL[result]}</p>
+                  <p className="mt-2 text-xs text-gray-400">Visual {percentages.visual}% • Auditory {percentages.auditory}% • Reading {percentages.reading}% • Kinesthetic {percentages.kinesthetic}%</p>
+                  {shareUrl && <p className="mt-2 break-all text-xs text-blue-300">{shareUrl}</p>}
                 </div>
               )}
             </div>
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900">How You Compare</h3>
-              <p className="mt-1 text-sm text-gray-600">{comparison.percentages[result]}% of StudyForge users are {STYLE_LABEL[result]} learners.</p>
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+              <h3 className="text-xl font-bold text-white">How You Compare</h3>
+              <p className="mt-1 text-sm text-gray-400">{comparison.percentages[result]}% of StudyForge users are {STYLE_LABEL[result]} learners.</p>
               <div className="mt-4 grid gap-4 lg:grid-cols-[180px_1fr]">
                 <div className="relative mx-auto h-36 w-36">
                   <svg viewBox="0 0 120 120" className="h-36 w-36 -rotate-90">
@@ -643,15 +876,15 @@ export default function LearningStyleQuizPage() {
                         }
                       />
                     ))}
-                    <circle cx="60" cy="60" r="28" className="fill-white" />
+                    <circle cx="60" cy="60" r="28" className="fill-slate-900" />
                   </svg>
-                  <div className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-gray-700">
+                  <div className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-gray-300">
                     {comparison.totalUsers} users
                   </div>
                 </div>
                 <div className="space-y-2 text-sm">
                   {(["visual", "auditory", "reading", "kinesthetic"] as Style[]).map((style) => (
-                    <p key={style} className="text-gray-700">{STYLE_LABEL[style]}: <span className="font-semibold">{comparison.percentages[style]}%</span></p>
+                    <p key={style} className="text-gray-300">{STYLE_LABEL[style]}: <span className="font-semibold">{comparison.percentages[style]}%</span></p>
                   ))}
                 </div>
               </div>
@@ -664,6 +897,32 @@ export default function LearningStyleQuizPage() {
           </div>
         )}
       </div>
+      <style jsx global>{`
+        @keyframes lsq-confetti-fall {
+          0% {
+            transform: translateY(-18vh) rotate(0deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 0.95;
+          }
+          100% {
+            transform: translateY(110vh) rotate(360deg);
+            opacity: 0;
+          }
+        }
+
+        .lsq-confetti-piece {
+          position: absolute;
+          top: -10%;
+          width: 10px;
+          height: 10px;
+          border-radius: 2px;
+          animation-name: lsq-confetti-fall;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+        }
+      `}</style>
     </main>
   );
 }
