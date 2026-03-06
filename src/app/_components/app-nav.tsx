@@ -16,6 +16,7 @@ export function AppNav() {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const primaryLinks = [
+    { href: "/dashboard", label: "Dashboard" },
     { href: "/generator", label: "Generator" },
     { href: "/upload", label: "Upload File" },
     { href: "/my-notes", label: "My Notes" },
@@ -23,6 +24,7 @@ export function AppNav() {
   ];
 
   const featureLinks = [
+    { href: "/dashboard", label: "Exam Dashboard", description: "Track countdowns, pressure, and daily plans", icon: "spark", section: "Study Tools" },
     { href: "/generator", label: "Generator", description: "Turn notes into study formats", icon: "doc", section: "Study Tools" },
     { href: "/upload", label: "Upload File", description: "Extract text from PDFs and images", icon: "upload", section: "Study Tools" },
     { href: "/my-notes", label: "My Notes", description: "Manage your saved study library", icon: "stack", section: "Study Tools" },
