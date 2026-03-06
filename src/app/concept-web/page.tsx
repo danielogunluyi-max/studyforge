@@ -424,7 +424,7 @@ export default function ConceptWebPage() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950 text-white">
-      <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+      <div className="container mx-auto mb-[100px] max-w-7xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-10">
         <PageHero
           title="AI Concept Web Builder"
           description="Type a topic, expand ideas with AI, and shape your own interactive mind map canvas."

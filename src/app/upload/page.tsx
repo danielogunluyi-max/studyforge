@@ -356,7 +356,7 @@ export default function UploadPage() {
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950">
 
-      <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
+      <div className="container mx-auto mb-[100px] max-w-4xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
         <PageHero
           title="Upload File"
           description="Extract text from PDF or image, review it, then send it to the generator."
@@ -369,7 +369,7 @@ export default function UploadPage() {
         />
 
         <div
-          className={`mb-6 rounded-xl border bg-white p-6 shadow-sm transition ${dragActive ? "border-blue-500 ring-1 ring-blue-500" : "border-gray-200"}`}
+          className="mb-6 card p-6"
           onDragOver={(event) => {
             event.preventDefault();
             setDragActive(true);
@@ -384,7 +384,10 @@ export default function UploadPage() {
         >
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-sm font-semibold text-gray-900">Upload & Scan</h2>
+              <div className="mb-2 flex items-center gap-3">
+                <span className="section-badge">1</span>
+                <h2 className="text-sm font-semibold text-gray-900">Upload & Scan</h2>
+              </div>
               <p className="mt-1 text-sm text-gray-500">
                 PDF (10MB), image OCR (5MB), handwritten scanner (15MB)
               </p>
@@ -405,26 +408,43 @@ export default function UploadPage() {
           <div className="mb-4 inline-flex rounded-lg border border-[var(--border-default)] bg-[var(--bg-surface)] p-1 text-xs font-semibold text-[var(--text-secondary)]">
             <button
               type="button"
-              className={`rounded-md px-3 py-1.5 transition ${activeTab === "pdf" ? "bg-white text-gray-900 shadow" : "text-gray-600"}`}
+              className={`premium-tab ${activeTab === "pdf" ? "is-active" : ""}`}
               onClick={() => setActiveTab("pdf")}
             >
               PDF
             </button>
             <button
               type="button"
-              className={`rounded-md px-3 py-1.5 transition ${activeTab === "image" ? "bg-white text-gray-900 shadow" : "text-gray-600"}`}
+              className={`premium-tab ${activeTab === "image" ? "is-active" : ""}`}
               onClick={() => setActiveTab("image")}
             >
               Image
             </button>
             <button
               type="button"
-              className={`rounded-md px-3 py-1.5 transition ${activeTab === "handwritten" ? "bg-white text-gray-900 shadow" : "text-gray-600"}`}
+              className={`premium-tab ${activeTab === "handwritten" ? "is-active" : ""}`}
               onClick={() => setActiveTab("handwritten")}
             >
               Handwritten Notes
             </button>
           </div>
+
+          {(activeTab === "pdf" || activeTab === "image") && (
+            <button
+              type="button"
+              onClick={() => {
+                if (activeTab === "pdf") {
+                  pdfInputRef.current?.click();
+                } else {
+                  imageInputRef.current?.click();
+                }
+              }}
+              className={`upload-dropzone mb-4 block w-full ${dragActive ? "is-dragging" : ""}`}
+            >
+              <p className="text-sm font-semibold text-[var(--text-primary)]">Drop your {activeTab === "pdf" ? "PDF" : "image"} here</p>
+              <p className="mt-1 text-xs text-[var(--text-secondary)]">or click to browse files</p>
+            </button>
+          )}
 
           <div className="flex flex-wrap gap-3">
             {activeTab === "pdf" && (
@@ -540,9 +560,12 @@ export default function UploadPage() {
           />
         </div>
 
-        <div className="card">
+        <div className="card p-6">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-gray-900">Extracted Text Preview</h2>
+            <div className="flex items-center gap-3">
+              <span className="section-badge">2</span>
+              <h2 className="text-sm font-semibold text-gray-900">Extracted Text Preview</h2>
+            </div>
             <span className="text-sm text-gray-500">{extractedText.length} characters</span>
           </div>
 
@@ -556,7 +579,7 @@ export default function UploadPage() {
             value={extractedText}
             onChange={(event) => setExtractedText(event.target.value)}
             placeholder="Upload a file to preview extracted text here..."
-            className="input h-72 w-full resize-none p-4"
+            className="input textarea min-h-[300px] w-full p-4"
           />
 
           {extractedText.trim() && (
@@ -580,11 +603,12 @@ export default function UploadPage() {
             </div>
           )}
 
-          <div className="mt-4 flex flex-wrap gap-3">
+          <div className="mt-4 flex flex-wrap gap-2 rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-2">
             <Button
               onClick={() => handleUseText("summary")}
               disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
-              size="md"
+              size="lg"
+              className="flex-1"
             >
               Generate Notes
             </Button>
@@ -592,7 +616,7 @@ export default function UploadPage() {
               onClick={() => handleUseText("flashcards")}
               disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
               variant="secondary"
-              size="md"
+              className="flex-1"
             >
               Create Flashcards
             </Button>
@@ -600,7 +624,7 @@ export default function UploadPage() {
               onClick={() => handleUseText("questions")}
               disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
               variant="secondary"
-              size="md"
+              className="flex-1"
             >
               Practice Quiz
             </Button>
@@ -608,7 +632,7 @@ export default function UploadPage() {
               onClick={() => handleUseText("detailed")}
               disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
               variant="secondary"
-              size="md"
+              className="flex-1"
             >
               Detailed Notes
             </Button>
@@ -616,7 +640,7 @@ export default function UploadPage() {
               onClick={() => setExtractedText("")}
               disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
               variant="secondary"
-              size="md"
+              className="flex-1"
             >
               Clear
             </Button>

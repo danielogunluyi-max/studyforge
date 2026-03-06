@@ -587,7 +587,7 @@ export default function MyNotes() {
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950">
 
-      <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
+      <div className="container mx-auto mb-[100px] max-w-7xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
         <PageHero
           title="My Notes"
           description={`All your saved study notes in one place • 🔥 ${studyStreak} day streak`}

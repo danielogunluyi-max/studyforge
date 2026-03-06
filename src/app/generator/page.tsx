@@ -1015,7 +1015,7 @@ export default function Generator() {
         </div>
       )}
 
-      <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
+      <div className="container mx-auto mb-[100px] max-w-4xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
         <PageHero
           title="Note Generator"
           description="Paste your study material and let AI transform it into focused study formats in seconds."
@@ -1079,7 +1079,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           )}
         </div>
 
-        <div className="mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
+        <div className="mb-6 card border-l-4 border-l-blue-500 p-6">
           <div className="mb-4 flex items-center gap-3">
             <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">2</span>
             <h2 className="text-lg font-semibold text-white">Tags</h2>
@@ -1110,7 +1110,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           </div>
         </div>
 
-        <div className="mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
+        <div className="mb-6 card border-l-4 border-l-blue-500 p-6">
           <div className="mb-4 flex items-center gap-3">
             <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">3</span>
             <h2 className="text-lg font-semibold text-white">Output & Settings</h2>

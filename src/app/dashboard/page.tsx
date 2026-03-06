@@ -439,7 +439,7 @@ export default function DashboardPage() {
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950 text-white">
 
-      <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
+      <div className="container mx-auto mb-[100px] max-w-7xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
         <PageHero
           title="Exam Countdown Dashboard"
           description="Track every upcoming exam, pressure level, and AI-generated day-by-day preparation plan."

@@ -631,7 +631,7 @@ export default function LearningStyleQuizPage() {
 
   return (
     <main className={`app-premium-dark min-h-screen bg-gray-950 ${mainBgClass} transition-colors duration-500`}>
-      <div className="container mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
+      <div className="container mx-auto mb-[100px] max-w-5xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
         {!result && (
           <>
             <PageHero
