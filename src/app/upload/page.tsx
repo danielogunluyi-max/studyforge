@@ -57,11 +57,11 @@ export default function UploadPage() {
   const handwrittenInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!handwrittenPreviewUrl) return;
+    if (!handwritingPreviewUrl) return;
     return () => {
-      URL.revokeObjectURL(handwrittenPreviewUrl);
+      URL.revokeObjectURL(handwritingPreviewUrl);
     };
-  }, [handwrittenPreviewUrl]);
+  }, [handwritingPreviewUrl]);
 
   useEffect(() => {
     if (status === "unauthenticated") {
