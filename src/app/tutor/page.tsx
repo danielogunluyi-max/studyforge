@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { useToast } from "~/app/_components/toast";
 
@@ -271,7 +270,6 @@ export default function TutorPage() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950 text-white">
-      <AppNav />
       <div className="mx-auto flex h-[calc(100vh-72px)] w-full max-w-6xl flex-col px-4 py-4 pb-28 sm:px-6 sm:pb-4">
         <div className="mb-3 rounded-xl border border-slate-700/80 bg-gradient-to-br from-[#07102a] via-[#0f1737] to-[#2a1243] p-5 shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -442,3 +440,4 @@ export default function TutorPage() {
     </main>
   );
 }
+

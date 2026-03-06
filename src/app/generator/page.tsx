@@ -5,7 +5,6 @@ import type { MouseEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
@@ -687,7 +686,7 @@ export default function Generator() {
       const progressPct = cards.length ? Math.round((reviewedCount / cards.length) * 100) : 0;
       const activeCard = cards[studyCardIndex] ?? null;
       return (
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="card">
           <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-4">
             <h2 className="text-xl font-semibold text-gray-900">
               Your Flashcards ({cards.length} cards)
@@ -873,7 +872,7 @@ export default function Generator() {
     if (outputFormat === "questions") {
       const questions = parseQuestions(generatedNotes);
       return (
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="card">
           <div className="mb-6 flex flex-col gap-3 border-b border-gray-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="text-xl font-semibold text-gray-900">
               Practice Quiz ({questions.length} questions)
@@ -901,7 +900,7 @@ export default function Generator() {
           </div>
           <div className="space-y-6">
             {questions.map((q, index) => (
-              <div key={index} className="rounded-lg border border-gray-200 bg-gray-50 p-4 sm:p-6">
+              <div key={index} className="card sm:p-6">
                 <div className="mb-4 flex items-start gap-3">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
                     {index + 1}
@@ -914,7 +913,7 @@ export default function Generator() {
                   value={quizAnswers[index] ?? ''}
                   onChange={(e) => handleQuizAnswer(index, e.target.value)}
                   placeholder="Type your answer here..."
-                  className="mb-3 w-full resize-none rounded-lg border border-gray-300 p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="mb-3 w-full resize-none input p-3"
                   rows={3}
                   disabled={checkedAnswers.has(index)}
                 />
@@ -961,7 +960,7 @@ export default function Generator() {
     }
 
     return (
-      <div className="print-notes-only rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <div className="print-notes-only card">
         <div className="print-hide mb-4 flex flex-col gap-3 border-b border-gray-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-xl font-semibold text-gray-900">
             Your Study Notes
@@ -1010,7 +1009,6 @@ export default function Generator() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950">
-      <AppNav />
       {isLoading && (
         <div className="pointer-events-none fixed left-0 right-0 top-0 z-50 h-0.5 overflow-hidden bg-blue-500/25">
           <div className="h-full w-1/3 animate-[loadingScan_1.1s_ease-in-out_infinite] bg-blue-500" />
@@ -1029,21 +1027,21 @@ export default function Generator() {
           }
         />
 
-        <div className="mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-4 shadow-sm">
+        <div className="mb-6 card border-l-4 border-l-blue-500">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-gray-600">
               Prefer uploading a PDF or image? Use the dedicated upload workflow.
             </p>
             <Link
               href="/upload"
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+              className="card px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
             >
               Upload File Instead
             </Link>
           </div>
         </div>
 
-        <div className="mb-6 rounded-xl border border-gray-200 border-l-4 border-l-blue-500 bg-white p-6 shadow-sm">
+        <div className="mb-6 card border-l-4 border-l-blue-500">
           <div className="mb-4 flex items-center gap-3">
             <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">1</span>
             <h2 className="text-lg font-semibold text-white">Your Notes or Content</h2>
@@ -1063,7 +1061,7 @@ export default function Generator() {
             placeholder="Paste lecture notes, textbook paragraphs, or study material here...
 
 Example: 'Photosynthesis is the process by which plants convert sunlight into energy. It occurs in the chloroplasts and involves...'"
-            className="min-h-[300px] w-full resize-none rounded-lg border border-gray-300 p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="min-h-[300px] w-full resize-none input p-4"
           />
           {detectedSubject && suggestedFormat && (
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-900">
@@ -1090,7 +1088,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
             value={tagsInput}
             onChange={(event) => setTagsInput(event.target.value)}
             placeholder="Comma-separated tags (e.g., Biology, Exam Prep, Chapter 5)"
-            className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full input"
           />
           <div className="mt-3 flex flex-wrap gap-2">
             {TAG_SUGGESTIONS.map((tag) => (
@@ -1149,7 +1147,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           </div>
 
           {outputFormat === "questions" && (
-            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4 lg:col-span-2">
+            <div className="mt-4 card lg:col-span-2">
               <p className="mb-3 text-sm font-semibold text-gray-900">Practice Quiz Settings</p>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div>

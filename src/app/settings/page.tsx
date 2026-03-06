@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
@@ -240,7 +239,6 @@ export default function SettingsPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <AppNav />
       
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="mb-8">
@@ -523,3 +521,4 @@ export default function SettingsPage() {
     </main>
   );
 }
+

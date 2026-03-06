@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type WheelEvent as ReactWheelEvent } from "react";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { EmptyState } from "~/app/_components/empty-state";
 import { PageHero } from "~/app/_components/page-hero";
@@ -425,7 +424,6 @@ export default function ConceptWebPage() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950 text-white">
-      <AppNav />
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
         <PageHero
           title="AI Concept Web Builder"
@@ -624,3 +622,4 @@ export default function ConceptWebPage() {
     </main>
   );
 }
+

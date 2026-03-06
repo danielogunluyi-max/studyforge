@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
@@ -595,7 +594,6 @@ export default function CitationsPage() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950">
-      <AppNav />
 
       <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="print-citations-hide">
@@ -615,7 +613,7 @@ export default function CitationsPage() {
                 value={draft.url}
                 onChange={(event) => updateDraft("url", event.target.value)}
                 placeholder="Paste source URL"
-                className="w-full rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full input"
               />
               <div className="w-full sm:w-44">
                 <Listbox
@@ -657,7 +655,7 @@ export default function CitationsPage() {
                       value={String(draft[field.key] ?? "")}
                       onChange={(event) => updateDraft(field.key, event.target.value)}
                       placeholder={field.placeholder || field.label}
-                      className="w-full rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      className="w-full input"
                     />
                   </div>
                 );
@@ -682,7 +680,7 @@ export default function CitationsPage() {
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Search saved citations by author or title"
-                className="w-full rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full input"
               />
               <Button onClick={() => void copyAll()} variant="secondary" size="sm" fullWidth>Copy All</Button>
               <Button onClick={exportWord} size="sm" fullWidth>Export Word</Button>
@@ -722,3 +720,4 @@ export default function CitationsPage() {
     </main>
   );
 }
+

@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 
@@ -632,7 +631,6 @@ export default function LearningStyleQuizPage() {
 
   return (
     <main className={`app-premium-dark min-h-screen bg-gray-950 ${mainBgClass} transition-colors duration-500`}>
-      <AppNav />
       <div className="container mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
         {!result && (
           <>
@@ -642,7 +640,7 @@ export default function LearningStyleQuizPage() {
               actions={<Button href="/generator" variant="secondary" size="sm">Open Generator</Button>}
             />
 
-            <div className="mb-5 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+            <div className="mb-5 card">
               <div className="mb-2 flex items-center justify-between text-sm text-gray-700">
                 <p className="font-semibold">Question {currentQuestion + 1} of {QUESTIONS.length}</p>
                 <p>{progressPercent}% complete</p>
@@ -926,3 +924,4 @@ export default function LearningStyleQuizPage() {
     </main>
   );
 }
+

@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import { useToast } from "~/app/_components/toast";
@@ -439,7 +438,6 @@ export default function DashboardPage() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950 text-white">
-      <AppNav />
 
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <PageHero
@@ -659,3 +657,4 @@ export default function DashboardPage() {
     </main>
   );
 }
+

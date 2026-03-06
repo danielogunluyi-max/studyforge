@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AppNav } from "~/app/_components/app-nav";
 import { EmptyState } from "~/app/_components/empty-state";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
@@ -244,7 +243,6 @@ export default function BattlePage() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950">
-      <AppNav />
       <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
         <PageHero
           title="Study Battle Arena"
@@ -253,7 +251,7 @@ export default function BattlePage() {
         />
 
         {profile && (
-          <div className="mb-6 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <div className="mb-6 card">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Battle Progression</p>
@@ -277,7 +275,7 @@ export default function BattlePage() {
           </div>
         )}
 
-        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+        <div className="mb-6 card">
           <p className="mb-2 text-sm font-semibold text-gray-800">Battle mode</p>
           <div className="grid gap-2 sm:flex sm:flex-wrap">
             {[
@@ -298,12 +296,12 @@ export default function BattlePage() {
         </div>
 
         <div className="stagger-grid grid gap-6 lg:grid-cols-2">
-          <div className="stagger-card rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="stagger-card card">
             <h2 className="mb-4 text-lg font-semibold text-gray-900">Create Session</h2>
             <input
               value={battleTitle}
               onChange={(event) => setBattleTitle(event.target.value)}
-              className="mb-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              className="mb-3 w-full input"
               placeholder="Battle title"
             />
 
@@ -311,7 +309,7 @@ export default function BattlePage() {
             <select
               value={subject}
               onChange={(event) => setSubject(event.target.value)}
-              className="mb-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              className="mb-3 w-full input"
             >
               {ARENA_SUBJECTS.map((roomSubject) => (
                 <option key={roomSubject} value={roomSubject}>{roomSubject}</option>
@@ -322,7 +320,7 @@ export default function BattlePage() {
             <select
               value={difficulty}
               onChange={(event) => setDifficulty(event.target.value)}
-              className="mb-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              className="mb-3 w-full input"
             >
               <option value="Easy">Easy</option>
               <option value="Medium">Medium</option>
@@ -333,7 +331,7 @@ export default function BattlePage() {
             <select
               value={selectedNoteId}
               onChange={(event) => setSelectedNoteId(event.target.value)}
-              className="mb-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              className="mb-3 w-full input"
             >
               <option value="">Use subject-only generation</option>
               {notes.map((note) => (
@@ -348,7 +346,7 @@ export default function BattlePage() {
               max={20}
               value={questionCount}
               onChange={(event) => setQuestionCount(Number(event.target.value))}
-              className="mb-4 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              className="mb-4 w-full input"
             />
             <Button
               onClick={() => void createBattle()}
@@ -359,18 +357,18 @@ export default function BattlePage() {
               {isCreating ? "Starting..." : mode === "pvp" ? "Create Live Battle" : mode === "ai" ? "Start AI Duel" : "Start Solo Session"}
             </Button>
 
-            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-3 text-xs text-gray-600">
+            <div className="mt-4 card text-xs text-gray-600">
               <p className="font-semibold text-gray-700">Powerups in battle room</p>
               <p>Double Points • Freeze Timer • Skip Question • Option Swap</p>
             </div>
           </div>
 
-          <div className="stagger-card rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="stagger-card card">
             <h2 className="mb-4 text-lg font-semibold text-gray-900">Join Battle</h2>
             <input
               value={joinCode}
               onChange={(event) => setJoinCode(event.target.value.toUpperCase())}
-              className="mb-4 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm tracking-widest"
+              className="mb-4 w-full input tracking-widest"
               placeholder="Enter battle code"
             />
             <Button
@@ -385,7 +383,7 @@ export default function BattlePage() {
               <p className="mb-2 text-sm font-semibold text-gray-900">Subject Rooms</p>
               <div className="space-y-2">
                 {(rooms.length ? rooms : ARENA_SUBJECTS.map((item) => ({ subject: item, online: 0, waiting: 0 }))).map((room) => (
-                  <div key={room.subject} className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
+                  <div key={room.subject} className="flex items-center justify-between panel-muted px-3 py-2">
                     <p className="text-sm text-gray-700">{room.subject} • {room.online} online</p>
                     <Button
                       size="sm"
@@ -400,7 +398,7 @@ export default function BattlePage() {
               </div>
             </div>
 
-            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-700">
+            <div className="mt-4 card text-sm text-gray-700">
               <p className="font-semibold">Emoji Battle Chat</p>
               <div className="mt-2 flex gap-2">
                 {"🔥⚡😎🎯👏".split("").map((emoji) => (
@@ -420,14 +418,14 @@ export default function BattlePage() {
         </div>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="card">
             <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
               <h2 className="text-lg font-semibold text-gray-900">Global Leaderboard</h2>
               <div className="flex flex-wrap gap-2">
                 <select
                   value={leaderboardSubject}
                   onChange={(event) => setLeaderboardSubject(event.target.value)}
-                  className="rounded-lg border border-gray-300 px-2 py-1 text-xs"
+                  className="input"
                 >
                   <option value="All">All Subjects</option>
                   {ARENA_SUBJECTS.map((roomSubject) => (
@@ -437,7 +435,7 @@ export default function BattlePage() {
                 <select
                   value={leaderboardPeriod}
                   onChange={(event) => setLeaderboardPeriod(event.target.value)}
-                  className="rounded-lg border border-gray-300 px-2 py-1 text-xs"
+                  className="input"
                 >
                   <option value="week">Weekly</option>
                   <option value="month">Monthly</option>
@@ -448,7 +446,7 @@ export default function BattlePage() {
 
             <div className="space-y-2">
               {leaderboard.slice(0, 8).map((row) => (
-                <div key={row.userId} className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm">
+                <div key={row.userId} className="flex items-center justify-between panel-muted px-3 py-2 text-sm">
                   <p className="font-semibold text-gray-800">#{row.rank} {row.name}</p>
                   <p className="text-gray-600">{row.xp} XP • {row.level}</p>
                 </div>
@@ -456,7 +454,7 @@ export default function BattlePage() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="card">
             <div className="mb-3 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900">Tournament Mode</h2>
               <Button size="sm" onClick={() => void createTournament()} loading={isBuildingBracket}>
@@ -468,7 +466,7 @@ export default function BattlePage() {
             ) : (
               <div className="space-y-3">
                 {tournament.rounds.map((round) => (
-                  <div key={round.name} className="rounded-lg border border-gray-200 bg-gray-50 p-3">
+                  <div key={round.name} className="card">
                     <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">{round.name}</p>
                     <div className="space-y-2 text-sm text-gray-700">
                       {round.matches.map((match) => (
@@ -482,7 +480,7 @@ export default function BattlePage() {
           </div>
         </div>
 
-        <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="mt-8 card">
           <h2 className="mb-3 text-lg font-semibold text-gray-900">Arena Music</h2>
           <p className="mb-2 text-xs text-gray-500 md:hidden">Mini player</p>
           <div className="mb-3 hidden flex-wrap gap-2 md:flex">
@@ -502,7 +500,7 @@ export default function BattlePage() {
           </audio>
         </div>
 
-        <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="mt-8 card">
           <h2 className="mb-4 text-lg font-semibold text-gray-900">Battle History</h2>
           {history.length === 0 ? (
             <EmptyState
@@ -530,3 +528,4 @@ export default function BattlePage() {
     </main>
   );
 }
+

@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { AppNav } from "~/app/_components/app-nav";
 import { SkeletonCard } from "~/app/_components/skeleton-loader";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
@@ -343,7 +342,6 @@ export default function UploadPage() {
   if (status === "loading") {
     return (
       <main className="app-premium-dark min-h-screen bg-gray-950">
-        <AppNav />
         <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12">
           <SkeletonCard />
         </div>
@@ -357,7 +355,6 @@ export default function UploadPage() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950">
-      <AppNav />
 
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
         <PageHero
@@ -395,17 +392,17 @@ export default function UploadPage() {
 
             {uploadedFileName && (
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-700">
+                <span className="badge badge-purple px-3 py-1 text-xs font-medium text-gray-700">
                   {uploadedFileName}
                 </span>
-                <span className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
+                <span className="badge badge-info px-3 py-1 text-xs font-medium text-blue-700">
                   OCR: {OCR_LANGUAGE_LABELS[ocrLanguage] ?? "English"}
                 </span>
               </div>
             )}
           </div>
 
-          <div className="mb-4 inline-flex rounded-lg border border-gray-200 bg-gray-50 p-1 text-xs font-semibold text-gray-700">
+          <div className="mb-4 inline-flex rounded-lg border border-[var(--border-default)] bg-[var(--bg-surface)] p-1 text-xs font-semibold text-[var(--text-secondary)]">
             <button
               type="button"
               className={`rounded-md px-3 py-1.5 transition ${activeTab === "pdf" ? "bg-white text-gray-900 shadow" : "text-gray-600"}`}
@@ -477,7 +474,7 @@ export default function UploadPage() {
                 <select
                   value={handwritingSubject}
                   onChange={(event) => setHandwritingSubject(event.target.value as (typeof HANDWRITING_SUBJECTS)[number])}
-                  className="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900"
+                  className="input text-gray-900"
                 >
                   {HANDWRITING_SUBJECTS.map((option) => (
                     <option key={option} value={option}>{option}</option>
@@ -499,7 +496,7 @@ export default function UploadPage() {
           </div>
 
           {activeTab === "handwritten" && handwritingPreviewUrl && (
-            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-3">
+            <div className="mt-4 card">
               <p className="mb-2 text-xs font-semibold text-gray-700">Handwritten preview</p>
               <img src={handwritingPreviewUrl} alt="Handwritten preview" className="max-h-60 w-full rounded object-contain" />
             </div>
@@ -543,14 +540,14 @@ export default function UploadPage() {
           />
         </div>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="card">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-sm font-semibold text-gray-900">Extracted Text Preview</h2>
             <span className="text-sm text-gray-500">{extractedText.length} characters</span>
           </div>
 
           {scanConfidence !== null && (
-            <div className="mb-3 inline-flex items-center gap-2 rounded-lg border border-violet-200 bg-violet-50 px-3 py-2 text-xs font-semibold text-violet-700">
+            <div className="mb-3 inline-flex items-center gap-2 badge badge-premium px-3 py-2 text-xs font-semibold">
               Handwritten confidence: {scanConfidence}%
             </div>
           )}
@@ -559,11 +556,11 @@ export default function UploadPage() {
             value={extractedText}
             onChange={(event) => setExtractedText(event.target.value)}
             placeholder="Upload a file to preview extracted text here..."
-            className="h-72 w-full resize-none rounded-lg border border-gray-300 p-4 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="input h-72 w-full resize-none p-4"
           />
 
           {extractedText.trim() && (
-            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <div className="mt-4 card">
               <h3 className="text-sm font-semibold text-gray-900">Document Stats</h3>
               <div className="mt-2 grid gap-2 text-sm text-gray-700 sm:grid-cols-2">
                 <p>Word count: <span className="font-medium">{wordCount.toLocaleString()}</span></p>
@@ -575,7 +572,7 @@ export default function UploadPage() {
           )}
 
           {extractedText.trim() && (
-            <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
+            <div className="mt-4 panel-muted p-4">
               <h3 className="text-sm font-semibold text-blue-900">Document Overview</h3>
               <p className="mt-2 whitespace-pre-wrap text-sm text-blue-900">
                 {documentOverview || "Analyzing document overview..."}
@@ -630,3 +627,4 @@ export default function UploadPage() {
     </main>
   );
 }
+

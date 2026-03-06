@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import { EmptyState } from "~/app/_components/empty-state";
@@ -41,10 +40,10 @@ type Folder = {
 };
 
 const TAG_COLOR_CLASSES = [
-  "bg-blue-100 text-blue-700",
-  "bg-green-100 text-green-700",
-  "bg-purple-100 text-purple-700",
-  "bg-orange-100 text-orange-700",
+  "badge-blue",
+  "badge-green",
+  "badge-purple",
+  "badge-orange",
   "bg-pink-100 text-pink-700",
   "bg-indigo-100 text-indigo-700",
 ];
@@ -541,15 +540,15 @@ export default function MyNotes() {
   const getFormatBadgeColor = (format: string) => {
     switch (format) {
       case "summary":
-        return "bg-blue-100 text-blue-700";
+        return "badge-blue";
       case "detailed":
-        return "bg-purple-100 text-purple-700";
+        return "badge-purple";
       case "flashcards":
-        return "bg-green-100 text-green-700";
+        return "badge-green";
       case "questions":
-        return "bg-orange-100 text-orange-700";
+        return "badge-orange";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "badge-neutral";
     }
   };
 
@@ -587,7 +586,6 @@ export default function MyNotes() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950">
-      <AppNav />
 
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <PageHero
@@ -607,14 +605,14 @@ export default function MyNotes() {
           </Button>
         </div>
 
-        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+        <div className="mb-6 card">
           <div className="grid gap-3 md:grid-cols-4">
             <input
               type="text"
               placeholder="Search title and content..."
               value={searchInput}
               onChange={(event) => setSearchInput(event.target.value)}
-              className="md:col-span-2 w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="md:col-span-2 w-full input"
               aria-label="Search notes"
             />
             <div className="w-full sm:w-48">
@@ -684,7 +682,7 @@ export default function MyNotes() {
         </div>
 
         {recentlyViewed.length > 0 && (
-          <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+          <div className="mb-6 card">
             <div className="mb-3 flex items-center justify-between">
               <h2 className="text-sm font-semibold text-gray-900">Recently Viewed</h2>
               <span className="text-xs text-gray-500">Last 3 notes accessed</span>
@@ -695,7 +693,7 @@ export default function MyNotes() {
                   key={`recent-${note.id}`}
                   type="button"
                   onClick={() => void openNote(note)}
-                  className="stagger-card rounded-lg border border-gray-200 bg-gray-50 p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:bg-blue-50 hover:shadow-lg"
+                  className="stagger-card card text-left transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:bg-blue-50 hover:shadow-lg"
                 >
                   <p className="line-clamp-1 text-sm font-semibold text-gray-900">{note.title}</p>
                   <p className="mt-1 line-clamp-2 text-xs text-gray-600">{note.content}</p>
@@ -709,7 +707,7 @@ export default function MyNotes() {
         )}
 
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-          <aside className={`${showMobileFilters ? "block" : "hidden"} rounded-xl border border-gray-200 bg-white p-4 shadow-sm lg:block`}>
+          <aside className={`${showMobileFilters ? "block" : "hidden"} card lg:block`}>
             <div className="mb-3 flex items-center justify-between lg:hidden">
               <p className="text-sm font-semibold text-gray-900">Filters</p>
               <Button size="sm" variant="secondary" onClick={() => setShowMobileFilters(false)}>
@@ -856,7 +854,7 @@ export default function MyNotes() {
                     onDragStart={(event) => event.dataTransfer.setData("text/note-id", note.id)}
                     onMouseEnter={() => setHoveredNoteId(note.id)}
                     onMouseLeave={() => setHoveredNoteId("")}
-                    className="stagger-card group relative rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
+                    className="stagger-card group relative card transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
                   >
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -867,11 +865,11 @@ export default function MyNotes() {
                           className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                           aria-label="Select note"
                         />
-                        {note.isPinned && <span className="rounded-full bg-yellow-100 px-2 py-1 text-[10px] font-semibold text-yellow-700">Pinned</span>}
+                        {note.isPinned && <span className="badge badge-warning px-2 py-1 text-[10px] font-semibold">Pinned</span>}
                         <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getFormatBadgeColor(note.format)}`}>
                           {getFormatLabel(note.format)}
                         </span>
-                        {note.isShared && <span className="rounded-full bg-emerald-100 px-2 py-1 text-[10px] font-semibold text-emerald-700">Shared</span>}
+                        {note.isShared && <span className="badge badge-success px-2 py-1 text-[10px] font-semibold">Shared</span>}
                       </div>
                       <div className="flex items-center gap-1">
                         <Button
@@ -960,7 +958,7 @@ export default function MyNotes() {
                     </p>
 
                     {menuOpenNoteId === note.id && (
-                      <div className="mt-3 rounded-lg border border-gray-200 bg-gray-50 p-2">
+                      <div className="mt-3 card p-2">
                         <Button
                           onClick={() => {
                             void duplicateNote(note);
@@ -976,7 +974,7 @@ export default function MyNotes() {
                     )}
 
                     {hoveredNoteId === note.id && (
-                      <div className="pointer-events-none absolute left-full top-0 z-30 ml-3 hidden w-80 rounded-lg border border-gray-200 bg-white p-4 shadow-xl md:block">
+                      <div className="pointer-events-none absolute left-full top-0 z-30 ml-3 hidden w-80 card shadow-xl md:block">
                         <p className="mb-2 text-sm font-semibold text-gray-900">Preview</p>
                         <p className="max-h-72 overflow-y-auto whitespace-pre-wrap text-xs text-gray-700">{note.content}</p>
                       </div>
@@ -1060,7 +1058,7 @@ export default function MyNotes() {
               </Button>
             </div>
 
-            <div className="prose max-w-none whitespace-pre-wrap rounded-lg border border-gray-200 bg-gray-50 p-6 text-gray-700">
+            <div className="prose max-w-none whitespace-pre-wrap card text-gray-700">
               <HighlightText text={selectedNote.content} query={debouncedSearch} />
             </div>
 
@@ -1113,13 +1111,13 @@ export default function MyNotes() {
                     value={renameOldTag}
                     onChange={(event) => setRenameOldTag(event.target.value)}
                     placeholder="Current tag"
-                    className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                    className="input"
                   />
                   <input
                     value={renameNewTag}
                     onChange={(event) => setRenameNewTag(event.target.value)}
                     placeholder="New tag"
-                    className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                    className="input"
                   />
                 </div>
                 <Button
@@ -1143,7 +1141,7 @@ export default function MyNotes() {
                   value={deleteTagName}
                   onChange={(event) => setDeleteTagName(event.target.value)}
                   placeholder="Tag to delete"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                  className="w-full input"
                 />
                 <Button
                   onClick={() => void updateTags({ action: "delete", tag: deleteTagName })}
@@ -1162,13 +1160,13 @@ export default function MyNotes() {
                     value={mergeSourceTag}
                     onChange={(event) => setMergeSourceTag(event.target.value)}
                     placeholder="Source tag"
-                    className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                    className="input"
                   />
                   <input
                     value={mergeTargetTag}
                     onChange={(event) => setMergeTargetTag(event.target.value)}
                     placeholder="Target tag"
-                    className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                    className="input"
                   />
                 </div>
                 <Button
@@ -1202,3 +1200,4 @@ export default function MyNotes() {
     </main>
   );
 }
+

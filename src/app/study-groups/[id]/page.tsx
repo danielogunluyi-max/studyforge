@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 
 type GroupMember = {
@@ -423,9 +422,8 @@ export default function StudyGroupInteriorPage() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950">
-      <AppNav />
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+        <div className="card">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">{group?.name || "Study Room"}</h1>
@@ -434,7 +432,7 @@ export default function StudyGroupInteriorPage() {
               <p className="mt-1 text-sm text-orange-600">🔥 Streak: {group?.streakCount ?? 0} days</p>
               {milestoneText && <p className="text-xs font-semibold text-orange-500">{milestoneText}</p>}
             </div>
-            <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-center">
+            <div className="panel-muted px-4 py-3 text-center">
               <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Pomodoro</p>
               <p className="text-2xl font-bold text-blue-900">{formatDuration(timerRemaining)}</p>
               <p className="text-xs text-blue-700">25:00 study / 05:00 break</p>
@@ -448,12 +446,12 @@ export default function StudyGroupInteriorPage() {
 
           <div className="mt-4 flex flex-wrap gap-2">
             {group?.members.map((member) => (
-              <div key={member.id} className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs">
+              <div key={member.id} className="flex items-center gap-2 badge badge-neutral px-3 py-1 text-xs">
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 font-semibold text-blue-700">
                   {initials(member.user.name, member.user.email)}
                 </span>
                 <span>{member.user.name || member.user.email || "Member"}</span>
-                <span className="rounded-full bg-white px-2 py-0.5 font-semibold text-gray-600">{member.role}</span>
+                <span className="badge badge-neutral px-2 py-0.5 font-semibold">{member.role}</span>
               </div>
             ))}
           </div>
@@ -471,18 +469,18 @@ export default function StudyGroupInteriorPage() {
           </div>
         </div>
 
-        <div className={`mt-6 rounded-xl border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${activeTab === "Chat" ? "pb-24 sm:pb-6" : ""}`}>
+        <div className={`mt-6 card sm:p-6 ${activeTab === "Chat" ? "pb-24 sm:pb-6" : ""}`}>
           {activeTab === "Chat" && (
             <div>
-              <div className="mb-3 h-[420px] overflow-y-auto rounded-lg border border-gray-200 bg-gray-50 p-3">
+              <div className="mb-3 h-[420px] overflow-y-auto card">
                 {messages.length === 0 ? (
                   <p className="text-sm text-gray-500">No messages yet.</p>
                 ) : (
                   <div className="space-y-2">
                     {messages.map((message) => (
-                      <div key={message.id} className={`rounded-lg p-3 ${message.isAI ? "border border-blue-200 bg-blue-50" : "border border-gray-200 bg-white"}`}>
+                      <div key={message.id} className={`rounded-lg p-3 ${message.isAI ? "card border-blue-400/40 bg-blue-500/10" : "card"}`}>
                         <div className="mb-1 flex items-center gap-2 text-xs text-gray-500">
-                          <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full font-semibold ${message.isAI ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700"}`}>
+                          <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full font-semibold ${message.isAI ? "bg-blue-600 text-white" : "badge badge-neutral"}`}>
                             {message.isAI ? "AI" : initials(message.user?.name, message.user?.email)}
                           </span>
                           <span className="font-semibold">{message.isAI ? "StudyForge AI" : message.senderName || message.user?.name || message.user?.email || "Member"}</span>
@@ -490,7 +488,7 @@ export default function StudyGroupInteriorPage() {
                         </div>
                         <p className="break-words text-sm text-gray-800">{message.message}</p>
                         {message.metadata?.preview?.url && (
-                          <a href={message.metadata.preview.url} target="_blank" rel="noreferrer" className="mt-2 inline-block rounded border border-blue-200 bg-white px-2 py-1 text-xs text-blue-700">
+                          <a href={message.metadata.preview.url} target="_blank" rel="noreferrer" className="mt-2 inline-block badge badge-info px-2 py-1 text-xs text-blue-700">
                             Link preview: {message.metadata.preview.title || message.metadata.preview.host}
                           </a>
                         )}
@@ -501,7 +499,7 @@ export default function StudyGroupInteriorPage() {
               </div>
               <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-gray-200 bg-white p-3 sm:static sm:border-0 sm:bg-transparent sm:p-0">
                 <div className="flex gap-2">
-                <input value={chatInput} onChange={(event) => setChatInput(event.target.value)} placeholder="Ask questions with ? , mention @AI, or /quiz" className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm" />
+                <input value={chatInput} onChange={(event) => setChatInput(event.target.value)} placeholder="Ask questions with ? , mention @AI, or /quiz" className="flex-1 input" />
                 <Button onClick={() => void sendChat()} loading={chatLoading} disabled={!chatInput.trim() || chatLoading}>Send</Button>
                 </div>
               </div>
@@ -511,7 +509,7 @@ export default function StudyGroupInteriorPage() {
           {activeTab === "Shared Notes" && (
             <div className="space-y-4">
               <div className="flex gap-2">
-                <select value={selectedNoteId} onChange={(event) => setSelectedNoteId(event.target.value)} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+                <select value={selectedNoteId} onChange={(event) => setSelectedNoteId(event.target.value)} className="w-full input">
                   <option value="">Select your note to share</option>
                   {myNotes.map((note) => <option key={note.id} value={note.id}>{note.title}</option>)}
                 </select>
@@ -519,7 +517,7 @@ export default function StudyGroupInteriorPage() {
               </div>
               <div className="space-y-3">
                 {sharedNotes.map((entry) => (
-                  <div key={entry.id} className="rounded-lg border border-gray-200 bg-gray-50 p-3">
+                  <div key={entry.id} className="card">
                     <p className="font-semibold text-gray-900">{entry.note.title}</p>
                     <p className="text-xs text-gray-500">Shared by {entry.sharedBy.name ?? entry.sharedBy.email} • {new Date(entry.createdAt).toLocaleString()}</p>
                     <p className="mt-2 line-clamp-3 text-sm text-gray-700">{entry.note.content}</p>
@@ -533,7 +531,7 @@ export default function StudyGroupInteriorPage() {
                         value={noteComments[entry.id] ?? ""}
                         onChange={(event) => setNoteComments((prev) => ({ ...prev, [entry.id]: event.target.value }))}
                         placeholder="Add comment"
-                        className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-xs"
+                        className="flex-1 input"
                       />
                       <Button size="sm" variant="secondary" onClick={() => void addNoteComment(entry.id)} disabled={!(noteComments[entry.id] ?? "").trim()}>
                         Comment
@@ -555,7 +553,7 @@ export default function StudyGroupInteriorPage() {
                 <p className="text-sm text-gray-500">No active group quiz yet.</p>
               ) : (
                 <div className="grid gap-4 lg:grid-cols-2">
-                  <div className="rounded-lg border border-gray-200 p-3">
+                  <div className="card">
                     <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Question {quizIndex + 1}</p>
                     <p className="mt-1 text-sm font-semibold text-gray-900">{activeQuestion?.question || "All answered"}</p>
                     <div className="mt-3 space-y-2">
@@ -567,7 +565,7 @@ export default function StudyGroupInteriorPage() {
                     </div>
                     <Button className="mt-3" size="sm" onClick={() => void submitQuizAnswer()} disabled={!quizAnswer}>Submit Answer</Button>
                   </div>
-                  <div className="rounded-lg border border-gray-200 p-3">
+                  <div className="card">
                     <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">Live Leaderboard</p>
                     <div className="space-y-2 text-sm">
                       {(quizRound.submissions ?? []).map((row: QuizSubmission, idx: number) => (
@@ -583,13 +581,13 @@ export default function StudyGroupInteriorPage() {
           {activeTab === "Flashcards" && (
             <div className="space-y-4">
               <div className="grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
-                <input value={flashFront} onChange={(event) => setFlashFront(event.target.value)} placeholder="Front" className="rounded-lg border border-gray-300 px-3 py-2 text-sm" />
-                <input value={flashBack} onChange={(event) => setFlashBack(event.target.value)} placeholder="Back" className="rounded-lg border border-gray-300 px-3 py-2 text-sm" />
+                <input value={flashFront} onChange={(event) => setFlashFront(event.target.value)} placeholder="Front" className="input" />
+                <input value={flashBack} onChange={(event) => setFlashBack(event.target.value)} placeholder="Back" className="input" />
                 <Button onClick={() => void addFlashcard()}>Add Card</Button>
               </div>
               <div className="space-y-3">
                 {flashcards.map((card) => (
-                  <div key={card.id} className="rounded-lg border border-gray-200 bg-gray-50 p-3">
+                  <div key={card.id} className="card">
                     <p className="font-semibold text-gray-900">{card.front}</p>
                     <p className="text-sm text-gray-700">{card.back}</p>
                     <p className="text-xs text-gray-500">By {card.creator.name || card.creator.email}</p>
@@ -606,13 +604,13 @@ export default function StudyGroupInteriorPage() {
           {activeTab === "Schedule" && (
             <div className="space-y-4">
               <div className="grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
-                <input value={scheduleTitle} onChange={(event) => setScheduleTitle(event.target.value)} placeholder="Session title" className="rounded-lg border border-gray-300 px-3 py-2 text-sm" />
-                <input type="datetime-local" value={scheduleStart} onChange={(event) => setScheduleStart(event.target.value)} className="rounded-lg border border-gray-300 px-3 py-2 text-sm" />
+                <input value={scheduleTitle} onChange={(event) => setScheduleTitle(event.target.value)} placeholder="Session title" className="input" />
+                <input type="datetime-local" value={scheduleStart} onChange={(event) => setScheduleStart(event.target.value)} className="input" />
                 <Button onClick={() => void addSchedule()}>Add</Button>
               </div>
               <div className="space-y-2">
                 {schedule.map((item) => (
-                  <div key={item.id} className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700">
+                  <div key={item.id} className="panel-muted px-3 py-2 text-sm text-gray-700">
                     {item.title} • {new Date(item.startsAt).toLocaleString()}
                   </div>
                 ))}
@@ -622,7 +620,7 @@ export default function StudyGroupInteriorPage() {
 
           {activeTab === "Leaderboard" && (
             <div className="grid gap-4 lg:grid-cols-2">
-              <div className="rounded-lg border border-gray-200 p-3">
+              <div className="card">
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">Weekly</p>
                 <div className="space-y-2 text-sm">
                   {(leaderboard?.weekly ?? []).map((row: LeaderboardRow, idx: number) => (
@@ -630,7 +628,7 @@ export default function StudyGroupInteriorPage() {
                   ))}
                 </div>
               </div>
-              <div className="rounded-lg border border-gray-200 p-3">
+              <div className="card">
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">All-time</p>
                 <div className="space-y-2 text-sm">
                   {(leaderboard?.allTime ?? []).map((row: LeaderboardRow, idx: number) => (
@@ -644,19 +642,19 @@ export default function StudyGroupInteriorPage() {
           {activeTab === "Resources" && (
             <div className="space-y-4">
               <div className="grid gap-2 sm:grid-cols-[120px_1fr_1fr_auto]">
-                <select value={resourceType} onChange={(event) => setResourceType(event.target.value)} className="rounded-lg border border-gray-300 px-2 py-2 text-sm">
+                <select value={resourceType} onChange={(event) => setResourceType(event.target.value)} className="input">
                   <option value="link">Link</option>
                   <option value="pdf">PDF</option>
                   <option value="note">Note</option>
                   <option value="video">Video</option>
                 </select>
-                <input value={resourceTitle} onChange={(event) => setResourceTitle(event.target.value)} placeholder="Resource title" className="rounded-lg border border-gray-300 px-3 py-2 text-sm" />
-                <input value={resourceUrl} onChange={(event) => setResourceUrl(event.target.value)} placeholder="URL (optional)" className="rounded-lg border border-gray-300 px-3 py-2 text-sm" />
+                <input value={resourceTitle} onChange={(event) => setResourceTitle(event.target.value)} placeholder="Resource title" className="input" />
+                <input value={resourceUrl} onChange={(event) => setResourceUrl(event.target.value)} placeholder="URL (optional)" className="input" />
                 <Button onClick={() => void addResource()}>Share</Button>
               </div>
               <div className="space-y-2">
                 {resources.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm">
+                  <div key={item.id} className="flex items-center justify-between panel-muted px-3 py-2 text-sm">
                     <p>{item.type === "pdf" ? "📄" : item.type === "note" ? "📝" : item.type === "video" ? "🎬" : "🔗"} {item.title}</p>
                     {canManage && (
                       <Button size="sm" variant="secondary" onClick={() => void togglePinResource(item.id, !item.pinned)}>
@@ -670,12 +668,12 @@ export default function StudyGroupInteriorPage() {
           )}
         </div>
 
-        <div className="mt-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+        <div className="mt-6 card">
           <p className="mb-3 text-sm font-semibold text-gray-900">Member Roles</p>
           <div className="space-y-2">
             {group?.members.map((member) => (
-              <div key={member.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm">
-                <p>{member.user.name || member.user.email || "Member"} <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs">{member.role}</span></p>
+              <div key={member.id} className="flex flex-wrap items-center justify-between gap-2 panel-muted text-sm">
+                <p>{member.user.name || member.user.email || "Member"} <span className="badge badge-neutral px-2 py-0.5 text-xs">{member.role}</span></p>
                 {isOwner && member.role !== "owner" && (
                   <div className="flex gap-2">
                     <Button size="sm" variant="secondary" onClick={() => void updateRole(member.userId, member.role === "moderator" ? "member" : "moderator")}>{member.role === "moderator" ? "Set Member" : "Set Moderator"}</Button>
@@ -688,12 +686,12 @@ export default function StudyGroupInteriorPage() {
         </div>
 
         {isOwner && (
-          <div className="mt-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+          <div className="mt-6 card">
             <p className="mb-3 text-sm font-semibold text-gray-900">Group Settings</p>
             <div className="grid gap-2 sm:grid-cols-[1fr_1fr_auto_auto]">
-              <input value={settingsName} onChange={(event) => setSettingsName(event.target.value)} placeholder="Group name" className="rounded-lg border border-gray-300 px-3 py-2 text-sm" />
-              <input value={settingsTopic} onChange={(event) => setSettingsTopic(event.target.value)} placeholder="Topic" className="rounded-lg border border-gray-300 px-3 py-2 text-sm" />
-              <label className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm">
+              <input value={settingsName} onChange={(event) => setSettingsName(event.target.value)} placeholder="Group name" className="input" />
+              <input value={settingsTopic} onChange={(event) => setSettingsTopic(event.target.value)} placeholder="Topic" className="input" />
+              <label className="inline-flex items-center gap-2 input">
                 <input type="checkbox" checked={settingsPublic} onChange={(event) => setSettingsPublic(event.target.checked)} />
                 Public
               </label>

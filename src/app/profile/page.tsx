@@ -3,7 +3,6 @@ import Link from "next/link";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { Button } from "~/app/_components/button";
-import { AppNav } from "~/app/_components/app-nav";
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -31,7 +30,6 @@ export default async function ProfilePage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <AppNav />
 
       {/* Profile Content */}
       <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12">
@@ -117,3 +115,4 @@ export default async function ProfilePage() {
     </main>
   );
 }
+

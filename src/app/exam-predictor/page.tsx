@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import Listbox from "~/app/_components/Listbox";
 import { EmptyState } from "~/app/_components/empty-state";
@@ -125,9 +124,9 @@ function toParagraphs(text: string) {
 }
 
 function confidenceColor(confidence: Confidence) {
-  if (confidence === "High") return "bg-green-100 text-green-700";
-  if (confidence === "Medium") return "bg-yellow-100 text-yellow-700";
-  return "bg-red-100 text-red-700";
+  if (confidence === "High") return "badge-green";
+  if (confidence === "Medium") return "badge-orange";
+  return "badge-red";
 }
 
 function likelihoodBarColor(likelihood: Confidence) {
@@ -504,7 +503,6 @@ export default function ExamPredictorPage() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950">
-      <AppNav />
 
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <PageHero
@@ -513,7 +511,7 @@ export default function ExamPredictorPage() {
           actions={<Button href="/my-predictions" variant="secondary" size="sm">My Predictions</Button>}
         />
 
-        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+        <div className="mb-6 card">
           <div className="overflow-x-auto">
             <div className="flex min-w-max gap-2 sm:grid sm:min-w-0 sm:grid-cols-4">
             {[
@@ -533,7 +531,7 @@ export default function ExamPredictorPage() {
 
         <div className="grid gap-6 xl:grid-cols-[1.1fr_1fr]">
           <div className="space-y-6">
-            <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <section className="card">
               <h2 className="mb-3 text-lg font-semibold text-gray-900">Step 1 • Upload & Source Content</h2>
 
               <label className="mb-1 block text-sm font-semibold text-gray-900">Past Exams (multiple uploads supported)</label>
@@ -541,7 +539,7 @@ export default function ExamPredictorPage() {
                 value={pastExamText}
                 onChange={(event) => setPastExamText(event.target.value)}
                 placeholder="Paste one or more past exams..."
-                className="h-44 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="h-44 w-full input"
               />
 
               <div className="mt-2 flex flex-wrap items-center gap-3">
@@ -566,7 +564,7 @@ export default function ExamPredictorPage() {
                 value={syllabusText}
                 onChange={(event) => setSyllabusText(event.target.value)}
                 placeholder="Paste syllabus, outcomes, and objectives..."
-                className="h-32 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="h-32 w-full input"
               />
 
               <div className="mt-2">
@@ -584,7 +582,7 @@ export default function ExamPredictorPage() {
               </div>
             </section>
 
-            <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <section className="card">
               <h2 className="mb-3 text-lg font-semibold text-gray-900">Step 2 • Test Structure Builder</h2>
 
               <label className="mb-1 block text-sm font-semibold text-gray-900">Preset</label>
@@ -595,7 +593,7 @@ export default function ExamPredictorPage() {
               />
 
               {testPreset === "Custom" && (
-                <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                <div className="mt-4 card">
                   <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
                     <Button onClick={addSection} variant="secondary" size="sm" className="w-full sm:w-auto">Add Section</Button>
                     <Button onClick={saveCustomPreset} variant="secondary" size="sm" className="w-full sm:w-auto">Save Custom Preset</Button>
@@ -618,13 +616,13 @@ export default function ExamPredictorPage() {
 
                   <div className="space-y-3">
                     {customSections.map((section) => (
-                      <div key={section.id} className="rounded-lg border border-gray-200 bg-white p-3">
+                      <div key={section.id} className="card p-3">
                         <div className="grid gap-2 md:grid-cols-4">
                           <input
                             value={section.sectionName}
                             onChange={(event) => updateSection(section.id, { sectionName: event.target.value })}
                             placeholder="Section name"
-                            className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                            className="input"
                           />
                           <Listbox
                             value={section.questionType}
@@ -637,7 +635,7 @@ export default function ExamPredictorPage() {
                             value={section.questionCount}
                             onChange={(event) => updateSection(section.id, { questionCount: Math.max(1, Number(event.target.value) || 1) })}
                             placeholder="No. questions"
-                            className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                            className="input"
                           />
                           <input
                             type="number"
@@ -645,7 +643,7 @@ export default function ExamPredictorPage() {
                             value={section.marksPerQuestion}
                             onChange={(event) => updateSection(section.id, { marksPerQuestion: Math.max(1, Number(event.target.value) || 1) })}
                             placeholder="Marks each"
-                            className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                            className="input"
                           />
                         </div>
                         <div className="mt-2 flex justify-end">
@@ -696,7 +694,7 @@ export default function ExamPredictorPage() {
                       max={50}
                       value={customPredictionCount}
                       onChange={(event) => setCustomPredictionCount(Math.max(5, Math.min(50, Number(event.target.value) || 10)))}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                      className="w-full input"
                     />
                   </div>
                 )}
@@ -747,7 +745,7 @@ export default function ExamPredictorPage() {
               </div>
             </section>
 
-            <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <section className="card">
               <h2 className="mb-3 text-lg font-semibold text-gray-900">Step 3 • Generate</h2>
               <Button onClick={() => void generatePredictions()} disabled={!pastExamText.trim() || isLoading} loading={isLoading} fullWidth>
                 {isLoading ? "Analyzing patterns..." : "Generate Predicted Exam"}
@@ -767,7 +765,7 @@ export default function ExamPredictorPage() {
             )}
 
             {!isLoading && predictions.length > 0 && (
-              <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm print:bg-white">
+              <section className="card print:bg-white">
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                   <h2 className="text-xl font-semibold text-gray-900">Step 4 • Predicted Exam Paper</h2>
                   <div className="flex flex-wrap gap-2">
@@ -776,7 +774,7 @@ export default function ExamPredictorPage() {
                   </div>
                 </div>
 
-                <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-700">
+                <div className="mb-4 card text-sm text-gray-700">
                   <p><span className="font-semibold">Total Marks:</span> {totalMarks}</p>
                   <p><span className="font-semibold">Exam Style:</span> {analytics?.style}</p>
                   <p><span className="font-semibold">Difficulty Trend:</span> {analytics?.difficultyTrend}</p>
@@ -829,12 +827,12 @@ export default function ExamPredictorPage() {
 
                 <div className="space-y-3">
                   {predictions.map((prediction, index) => (
-                    <div key={prediction.id} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                    <div key={prediction.id} className="card">
                       <div className="mb-2 flex flex-wrap items-center gap-2 text-xs">
-                        <span className="rounded-full bg-blue-100 px-2 py-1 font-semibold text-blue-700">{prediction.sectionName}</span>
-                        <span className="rounded-full bg-purple-100 px-2 py-1 font-semibold text-purple-700">{prediction.type}</span>
+                        <span className="badge badge-info px-2 py-1 font-semibold">{prediction.sectionName}</span>
+                        <span className="badge badge-premium px-2 py-1 font-semibold">{prediction.type}</span>
                         <span className={`rounded-full px-2 py-1 font-semibold ${confidenceColor(prediction.confidence)}`}>{prediction.confidence}</span>
-                        <span className="rounded-full bg-gray-200 px-2 py-1 font-semibold text-gray-700">{prediction.marks} marks</span>
+                        <span className="badge badge-neutral px-2 py-1 font-semibold">{prediction.marks} marks</span>
                       </div>
                       <p className="text-sm font-semibold text-gray-900">{index + 1}. {prediction.question}</p>
                       <p className="mt-1 text-xs text-gray-600">Reasoning: {prediction.reason}</p>
@@ -853,9 +851,9 @@ export default function ExamPredictorPage() {
                     type="date"
                     value={examDate}
                     onChange={(event) => setExamDate(event.target.value)}
-                    className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                    className="input"
                   />
-                  <div className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm">
+                  <div className="panel-muted px-3 py-2 text-sm">
                     Hours/day: <span className="font-semibold">{hoursPerDay}</span>
                     <input
                       type="range"
@@ -871,7 +869,7 @@ export default function ExamPredictorPage() {
             )}
 
             {simulationRunning && currentQuestion && (
-              <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <section className="card">
                 <div className="mb-3 flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-gray-900">Exam Simulation Mode</h3>
                   <span className="text-sm font-semibold text-red-600">
@@ -880,8 +878,8 @@ export default function ExamPredictorPage() {
                 </div>
 
                 <div className="mb-3 flex items-center gap-2 text-xs">
-                  <span className="rounded-full bg-blue-100 px-2 py-1 font-semibold text-blue-700">Q {simulationIndex + 1} / {predictions.length}</span>
-                  <span className="rounded-full bg-gray-200 px-2 py-1 font-semibold text-gray-700">{currentQuestion.marks} marks</span>
+                  <span className="badge badge-info px-2 py-1 font-semibold">Q {simulationIndex + 1} / {predictions.length}</span>
+                  <span className="badge badge-neutral px-2 py-1 font-semibold">{currentQuestion.marks} marks</span>
                 </div>
 
                 <p className="text-sm font-semibold text-gray-900">{currentQuestion.question}</p>
@@ -889,7 +887,7 @@ export default function ExamPredictorPage() {
                   value={simulationAnswers[currentQuestion.id] ?? ""}
                   onChange={(event) => setSimulationAnswers((prev) => ({ ...prev, [currentQuestion.id]: event.target.value }))}
                   placeholder="Type your answer here..."
-                  className="mt-3 h-36 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                  className="mt-3 h-36 w-full input"
                 />
 
                 <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
@@ -917,7 +915,7 @@ export default function ExamPredictorPage() {
             )}
 
             {simulationCompleted && (
-              <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <section className="card">
                 <h3 className="text-lg font-semibold text-gray-900">Simulation Results</h3>
                 <p className="mt-1 text-sm text-gray-700">Score: {simulationScore} / {predictions.reduce((sum, q) => sum + q.marks, 0)}</p>
                 <p className="text-sm text-gray-700">Time used: {Math.max(0, simulationTimeLimit * 60 - timeRemainingSeconds)} sec</p>
@@ -929,11 +927,11 @@ export default function ExamPredictorPage() {
             )}
 
             {markScheme.length > 0 && (
-              <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <section className="card">
                 <h3 className="mb-3 text-lg font-semibold text-gray-900">Mark Scheme</h3>
                 <div className="space-y-3">
                   {markScheme.map((item) => (
-                    <div key={item.questionId} className="rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-700">
+                    <div key={item.questionId} className="card text-sm text-gray-700">
                       <p className="font-semibold text-gray-900">{item.question}</p>
                       <p className="mt-1 text-xs">Total marks: {item.totalMarks}</p>
                       <p className="mt-2 font-semibold">Expected points</p>
@@ -949,12 +947,12 @@ export default function ExamPredictorPage() {
             )}
 
             {studyPlan.length > 0 && (
-              <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <section className="card">
                 <h3 className="text-lg font-semibold text-gray-900">Study Plan</h3>
                 {studyPlanSummary && <p className="mt-1 text-sm text-gray-700">{studyPlanSummary}</p>}
                 <div className="mt-3 space-y-3">
                   {studyPlan.map((day) => (
-                    <div key={day.day} className="rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-700">
+                    <div key={day.day} className="card text-sm text-gray-700">
                       <p className="font-semibold text-gray-900">{day.day} • {day.hours}h</p>
                       <p className="mt-1"><span className="font-semibold">Focus topics:</span> {day.focusTopics.join(", ")}</p>
                       <ul className="mt-1 list-disc pl-5">{day.tasks.map((task) => <li key={task}>{task}</li>)}</ul>
@@ -969,3 +967,4 @@ export default function ExamPredictorPage() {
     </main>
   );
 }
+

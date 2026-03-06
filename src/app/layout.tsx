@@ -1,13 +1,13 @@
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Geist } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { AppearanceSync } from "~/app/_components/appearance-sync";
 import { ToastProvider, ToastViewport } from "~/app/_components/toast";
 import { ExamWidget } from "~/app/_components/exam-widget";
+import { AppShell } from "~/app/_components/app-shell";
 
 export const metadata: Metadata = {
   title: {
@@ -56,23 +56,20 @@ export const metadata: Metadata = {
   },
 };
 
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
             <SessionProvider>
               {/* Removed global Listbox guard — prefer component-level guards. */}
               <AppearanceSync />
               <TRPCReactProvider>
                 <ToastProvider>
-                  <div className="page-enter">{children}</div>
+                  <AppShell>
+                    <div className="page-enter">{children}</div>
+                  </AppShell>
                   <ExamWidget />
                   <ToastViewport />
                 </ToastProvider>

@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
@@ -250,7 +249,6 @@ export default function BattleRoomPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <AppNav />
       {levelFlash && <div className="pointer-events-none fixed inset-0 z-50 animate-pulse bg-white/50" />}
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">

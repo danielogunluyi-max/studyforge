@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton-loader";
@@ -40,7 +39,6 @@ export default function MyPredictionsPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <AppNav />
       <div className="container mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-3xl font-bold text-gray-900">My Predictions</h1>
@@ -84,3 +82,4 @@ export default function MyPredictionsPage() {
     </main>
   );
 }
+
