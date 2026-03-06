@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { AppNav } from "~/app/_components/app-nav";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
@@ -182,6 +183,7 @@ function subjectIcon(subject: string) {
 }
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [exams, setExams] = useState<Exam[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -190,12 +192,15 @@ export default function DashboardPage() {
   const [studyStreak, setStudyStreak] = useState(0);
   const [_, setClockTick] = useState(0);
   const [noteTitles, setNoteTitles] = useState<string[]>([]);
+  const [isScanningNotes, setIsScanningNotes] = useState(false);
+  const [scanConfidence, setScanConfidence] = useState<number | null>(null);
 
   const [subject, setSubject] = useState("");
   const [examDate, setExamDate] = useState("");
   const [board, setBoard] = useState("");
   const [difficulty, setDifficulty] = useState("Medium");
   const [topics, setTopics] = useState("");
+  const scanFileInputRef = useRef<HTMLInputElement>(null);
 
   const { showToast } = useToast();
 
@@ -374,6 +379,64 @@ export default function DashboardPage() {
     }
   };
 
+  const openScanPicker = () => {
+    scanFileInputRef.current?.click();
+  };
+
+  const handleScanFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      showToast("Please select an image for handwritten scanning", "error");
+      return;
+    }
+
+    setIsScanningNotes(true);
+    setScanConfidence(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const response = await fetch("/api/scan-handwritten", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = (await response.json().catch(() => ({}))) as {
+        text?: string;
+        confidence?: number;
+        error?: string;
+      };
+
+      if (!response.ok) {
+        showToast(data.error ?? "Failed to scan handwritten notes", "error");
+        return;
+      }
+
+      const text = String(data.text ?? "").trim();
+      if (!text) {
+        showToast("No readable handwritten text found", "error");
+        return;
+      }
+
+      if (typeof data.confidence === "number") {
+        setScanConfidence(data.confidence);
+      }
+
+      sessionStorage.setItem("studyforge:prefillText", text);
+      sessionStorage.setItem("studyforge:prefillFormat", "summary");
+      showToast("Handwritten notes ready in generator", "success");
+      router.push("/generator?source=dashboard-scan");
+    } catch {
+      showToast("Failed to scan handwritten notes", "error");
+    } finally {
+      setIsScanningNotes(false);
+    }
+  };
+
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950 text-white">
       <AppNav />
@@ -382,8 +445,31 @@ export default function DashboardPage() {
         <PageHero
           title="Exam Countdown Dashboard"
           description="Track every upcoming exam, pressure level, and AI-generated day-by-day preparation plan."
-          actions={<Button href="/my-notes" variant="secondary" size="sm">Open My Notes</Button>}
+          actions={
+            <div className="flex flex-wrap gap-2">
+              <Button href="/my-notes" variant="secondary" size="sm">Open My Notes</Button>
+              <Button onClick={openScanPicker} loading={isScanningNotes} disabled={isScanningNotes} variant="secondary" size="sm">
+                Scan Handwritten Notes
+              </Button>
+            </div>
+          }
         />
+
+        <input
+          ref={scanFileInputRef}
+          type="file"
+          accept="image/png,image/jpeg,.jpg,.jpeg"
+          className="hidden"
+          onChange={(event) => {
+            void handleScanFile(event);
+          }}
+        />
+
+        {scanConfidence !== null && (
+          <div className="mb-4 inline-flex items-center gap-2 rounded-lg border border-violet-400/40 bg-violet-500/15 px-3 py-2 text-xs font-semibold text-violet-200">
+            Latest handwritten scan confidence: {scanConfidence}%
+          </div>
+        )}
 
         <div className="mb-6 grid gap-4 lg:grid-cols-4">
           <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-900/40 via-indigo-900/20 to-purple-900/40 p-5 shadow-xl lg:col-span-2">

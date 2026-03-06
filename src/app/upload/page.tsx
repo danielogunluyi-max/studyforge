@@ -39,11 +39,14 @@ export default function UploadPage() {
   const [pdfPageCount, setPdfPageCount] = useState<number | null>(null);
   const [processingStage, setProcessingStage] = useState<"idle" | "uploading" | "extracting" | "analyzing" | "done">("idle");
   const [dragActive, setDragActive] = useState(false);
+  const [isScanningHandwritten, setIsScanningHandwritten] = useState(false);
+  const [scanConfidence, setScanConfidence] = useState<number | null>(null);
   const [error, setError] = useState("");
   const { showToast } = useToast();
 
   const pdfInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const handwrittenInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -94,6 +97,7 @@ export default function UploadPage() {
     setWordCount(0);
     setEstimatedReadMinutes(0);
     setPdfPageCount(null);
+    setScanConfidence(null);
 
     try {
       const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
@@ -133,9 +137,21 @@ export default function UploadPage() {
       setWordCount(words);
       setEstimatedReadMinutes(Math.max(1, Math.ceil(words / 200)));
 
-      setProcessingStage("analyzing");
+      await analyzeExtractedText(text);
+      setProcessingStage("done");
+    } catch (uploadError) {
+      void uploadError;
+      setError("Network error while processing file. Please try again.");
+      setProcessingStage("idle");
+    } finally {
+      setIsExtracting(false);
+    }
+  };
 
-      const [summaryResult, subjectResult] = await Promise.all([
+  const analyzeExtractedText = async (text: string) => {
+    setProcessingStage("analyzing");
+
+    const [summaryResult, subjectResult] = await Promise.all([
         fetch("/api/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -162,15 +178,71 @@ export default function UploadPage() {
           .catch(() => ""),
       ]);
 
-      setDocumentOverview(summaryResult);
-      setDetectedSubject(subjectResult);
+    setDocumentOverview(summaryResult);
+    setDetectedSubject(subjectResult);
+  };
+
+  const scanHandwrittenFile = async (file: File) => {
+    const validationError = validateFile(file);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    if (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
+      setError("Handwritten scanner supports image files only.");
+      return;
+    }
+
+    setIsScanningHandwritten(true);
+    setError("");
+    setProcessingStage("extracting");
+    setUploadedFileName(file.name);
+    setPdfPageCount(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const response = await fetch("/api/scan-handwritten", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = (await response.json().catch(() => ({}))) as {
+        text?: string;
+        confidence?: number;
+        error?: string;
+      };
+
+      if (!response.ok) {
+        setError(data.error ?? "Failed to scan handwritten notes.");
+        setProcessingStage("idle");
+        return;
+      }
+
+      const text = String(data.text ?? "").trim();
+      if (!text) {
+        setError("No readable handwritten text found.");
+        setProcessingStage("idle");
+        return;
+      }
+
+      setExtractedText(text);
+      setScanConfidence(typeof data.confidence === "number" ? data.confidence : null);
+
+      const words = text.split(/\s+/).filter(Boolean).length;
+      setWordCount(words);
+      setEstimatedReadMinutes(Math.max(1, Math.ceil(words / 200)));
+
+      await analyzeExtractedText(text);
       setProcessingStage("done");
-    } catch (uploadError) {
-      void uploadError;
-      setError("Network error while processing file. Please try again.");
+      showToast("Handwritten notes scanned", "success");
+    } catch {
+      setError("Failed to scan handwritten notes.");
       setProcessingStage("idle");
     } finally {
-      setIsExtracting(false);
+      setIsScanningHandwritten(false);
     }
   };
 
@@ -194,6 +266,16 @@ export default function UploadPage() {
     }
 
     await extractTextFromFile(droppedFile);
+  };
+
+  const handleHandwrittenSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (!selectedFile) {
+      return;
+    }
+
+    await scanHandwrittenFile(selectedFile);
+    event.target.value = "";
   };
 
   const handleUseText = (format: "summary" | "flashcards" | "questions" | "detailed") => {
@@ -288,7 +370,7 @@ export default function UploadPage() {
             <Button
               type="button"
               onClick={() => pdfInputRef.current?.click()}
-              disabled={isExtracting}
+              disabled={isExtracting || isScanningHandwritten}
               variant="secondary"
               size="sm"
             >
@@ -297,11 +379,20 @@ export default function UploadPage() {
             <Button
               type="button"
               onClick={() => imageInputRef.current?.click()}
-              disabled={isExtracting}
+              disabled={isExtracting || isScanningHandwritten}
               variant="secondary"
               size="sm"
             >
               Upload Image
+            </Button>
+            <Button
+              type="button"
+              onClick={() => handwrittenInputRef.current?.click()}
+              disabled={isExtracting || isScanningHandwritten}
+              variant="secondary"
+              size="sm"
+            >
+              {isScanningHandwritten ? "Scanning..." : "Scan Handwritten Notes"}
             </Button>
             <div className="w-48">
               <Listbox
@@ -311,13 +402,13 @@ export default function UploadPage() {
               />
             </div>
 
-            {isExtracting && (
+            {(isExtracting || isScanningHandwritten) && (
               <span className="inline-flex items-center gap-2 text-sm font-medium text-blue-700">
                 <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                {stageLabel || "Processing file..."}
+                {isScanningHandwritten ? "Scanning handwritten notes..." : (stageLabel || "Processing file...")}
               </span>
             )}
           </div>
@@ -349,6 +440,15 @@ export default function UploadPage() {
               void handleFileSelect(event);
             }}
           />
+          <input
+            ref={handwrittenInputRef}
+            type="file"
+            accept="image/png,image/jpeg,.jpg,.jpeg"
+            className="hidden"
+            onChange={(event) => {
+              void handleHandwrittenSelect(event);
+            }}
+          />
         </div>
 
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -356,6 +456,12 @@ export default function UploadPage() {
             <h2 className="text-sm font-semibold text-gray-900">Extracted Text Preview</h2>
             <span className="text-sm text-gray-500">{extractedText.length} characters</span>
           </div>
+
+          {scanConfidence !== null && (
+            <div className="mb-3 inline-flex items-center gap-2 rounded-lg border border-violet-200 bg-violet-50 px-3 py-2 text-xs font-semibold text-violet-700">
+              Handwritten confidence: {scanConfidence}%
+            </div>
+          )}
 
           <textarea
             value={extractedText}
@@ -388,14 +494,14 @@ export default function UploadPage() {
           <div className="mt-4 flex flex-wrap gap-3">
             <Button
               onClick={() => handleUseText("summary")}
-              disabled={!extractedText.trim() || isExtracting}
+              disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
               size="md"
             >
               Generate Notes
             </Button>
             <Button
               onClick={() => handleUseText("flashcards")}
-              disabled={!extractedText.trim() || isExtracting}
+              disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
               variant="secondary"
               size="md"
             >
@@ -403,7 +509,7 @@ export default function UploadPage() {
             </Button>
             <Button
               onClick={() => handleUseText("questions")}
-              disabled={!extractedText.trim() || isExtracting}
+              disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
               variant="secondary"
               size="md"
             >
@@ -411,7 +517,7 @@ export default function UploadPage() {
             </Button>
             <Button
               onClick={() => handleUseText("detailed")}
-              disabled={!extractedText.trim() || isExtracting}
+              disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
               variant="secondary"
               size="md"
             >
@@ -419,7 +525,7 @@ export default function UploadPage() {
             </Button>
             <Button
               onClick={() => setExtractedText("")}
-              disabled={!extractedText.trim() || isExtracting}
+              disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
               variant="secondary"
               size="md"
             >

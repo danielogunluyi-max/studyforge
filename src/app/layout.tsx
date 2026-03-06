@@ -7,6 +7,7 @@ import { SessionProvider } from "next-auth/react";
 import { TRPCReactProvider } from "~/trpc/react";
 import { AppearanceSync } from "~/app/_components/appearance-sync";
 import { ToastProvider, ToastViewport } from "~/app/_components/toast";
+import { ExamWidget } from "~/app/_components/exam-widget";
 
 export const metadata: Metadata = {
   title: {
@@ -72,6 +73,7 @@ export default function RootLayout({
               <TRPCReactProvider>
                 <ToastProvider>
                   <div className="page-enter">{children}</div>
+                  <ExamWidget />
                   <ToastViewport />
                 </ToastProvider>
               </TRPCReactProvider>
