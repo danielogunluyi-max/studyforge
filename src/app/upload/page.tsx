@@ -9,6 +9,7 @@ import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
+import { preprocessHandwritingImage } from "~/lib/imagePreprocessor";
 
 const MAX_PDF_BYTES = 10 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -23,6 +24,10 @@ const OCR_LANGUAGE_LABELS: Record<string, string> = {
   "eng+ita": "English + Italian",
   "eng+por": "English + Portuguese",
 };
+
+const HANDWRITING_SUBJECTS = ["Math", "Science", "English", "History", "Chemistry", "Physics", "General"] as const;
+
+type UploadTab = "pdf" | "image" | "handwritten";
 
 export default function UploadPage() {
   const { data: session, status } = useSession();
@@ -39,14 +44,25 @@ export default function UploadPage() {
   const [pdfPageCount, setPdfPageCount] = useState<number | null>(null);
   const [processingStage, setProcessingStage] = useState<"idle" | "uploading" | "extracting" | "analyzing" | "done">("idle");
   const [dragActive, setDragActive] = useState(false);
+  const [activeTab, setActiveTab] = useState<UploadTab>("pdf");
   const [isScanningHandwritten, setIsScanningHandwritten] = useState(false);
   const [scanConfidence, setScanConfidence] = useState<number | null>(null);
+  const [scanPasses, setScanPasses] = useState<number | null>(null);
+  const [handwritingSubject, setHandwritingSubject] = useState<(typeof HANDWRITING_SUBJECTS)[number]>("General");
+  const [handwritingPreviewUrl, setHandwritingPreviewUrl] = useState<string | null>(null);
   const [error, setError] = useState("");
   const { showToast } = useToast();
 
   const pdfInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const handwrittenInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!handwrittenPreviewUrl) return;
+    return () => {
+      URL.revokeObjectURL(handwrittenPreviewUrl);
+    };
+  }, [handwrittenPreviewUrl]);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -98,6 +114,7 @@ export default function UploadPage() {
     setEstimatedReadMinutes(0);
     setPdfPageCount(null);
     setScanConfidence(null);
+    setScanPasses(null);
 
     try {
       const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
@@ -196,22 +213,33 @@ export default function UploadPage() {
 
     setIsScanningHandwritten(true);
     setError("");
-    setProcessingStage("extracting");
+    setProcessingStage("uploading");
     setUploadedFileName(file.name);
     setPdfPageCount(null);
 
     try {
-      const formData = new FormData();
-      formData.append("image", file);
+      if (handwritingPreviewUrl) {
+        URL.revokeObjectURL(handwritingPreviewUrl);
+      }
+      setHandwritingPreviewUrl(URL.createObjectURL(file));
 
-      const response = await fetch("/api/scan-handwritten", {
+      const processed = await preprocessHandwritingImage(file);
+      setProcessingStage("extracting");
+
+      const response = await fetch("/api/scan-handwriting", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          imageBase64: processed.base64,
+          mimeType: processed.mimeType,
+          subject: handwritingSubject,
+        }),
       });
 
       const data = (await response.json().catch(() => ({}))) as {
         text?: string;
         confidence?: number;
+        passes?: number;
         error?: string;
       };
 
@@ -230,11 +258,13 @@ export default function UploadPage() {
 
       setExtractedText(text);
       setScanConfidence(typeof data.confidence === "number" ? data.confidence : null);
+  setScanPasses(typeof data.passes === "number" ? data.passes : null);
 
       const words = text.split(/\s+/).filter(Boolean).length;
       setWordCount(words);
       setEstimatedReadMinutes(Math.max(1, Math.ceil(words / 200)));
 
+  setProcessingStage((typeof data.passes === "number" && data.passes >= 3) ? "analyzing" : "extracting");
       await analyzeExtractedText(text);
       setProcessingStage("done");
       showToast("Handwritten notes scanned", "success");
@@ -265,6 +295,11 @@ export default function UploadPage() {
       return;
     }
 
+    if (activeTab === "handwritten") {
+      await scanHandwrittenFile(droppedFile);
+      return;
+    }
+
     await extractTextFromFile(droppedFile);
   };
 
@@ -292,11 +327,15 @@ export default function UploadPage() {
 
   const stageLabel =
     processingStage === "uploading"
-      ? "Uploading..."
+      ? isScanningHandwritten ? "Preprocessing image..." : "Uploading..."
       : processingStage === "extracting"
-        ? "Extracting text..."
+        ? isScanningHandwritten ? "Reading handwriting (Pass 1)..." : "Extracting text..."
         : processingStage === "analyzing"
-          ? "Analyzing document..."
+          ? isScanningHandwritten
+            ? scanPasses && scanPasses >= 3
+              ? "Improving unclear sections (Pass 2)..."
+              : "Cleaning and structuring..."
+            : "Analyzing document..."
           : processingStage === "done"
             ? "Done!"
             : "";
@@ -348,9 +387,9 @@ export default function UploadPage() {
         >
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-sm font-semibold text-gray-900">Upload a PDF or Image</h2>
+              <h2 className="text-sm font-semibold text-gray-900">Upload & Scan</h2>
               <p className="mt-1 text-sm text-gray-500">
-                Accepted: PDF (max 10MB), JPG/JPEG/PNG (max 5MB)
+                PDF (10MB), image OCR (5MB), handwritten scanner (15MB)
               </p>
             </div>
 
@@ -366,41 +405,87 @@ export default function UploadPage() {
             )}
           </div>
 
+          <div className="mb-4 inline-flex rounded-lg border border-gray-200 bg-gray-50 p-1 text-xs font-semibold text-gray-700">
+            <button
+              type="button"
+              className={`rounded-md px-3 py-1.5 transition ${activeTab === "pdf" ? "bg-white text-gray-900 shadow" : "text-gray-600"}`}
+              onClick={() => setActiveTab("pdf")}
+            >
+              PDF
+            </button>
+            <button
+              type="button"
+              className={`rounded-md px-3 py-1.5 transition ${activeTab === "image" ? "bg-white text-gray-900 shadow" : "text-gray-600"}`}
+              onClick={() => setActiveTab("image")}
+            >
+              Image
+            </button>
+            <button
+              type="button"
+              className={`rounded-md px-3 py-1.5 transition ${activeTab === "handwritten" ? "bg-white text-gray-900 shadow" : "text-gray-600"}`}
+              onClick={() => setActiveTab("handwritten")}
+            >
+              Handwritten Notes
+            </button>
+          </div>
+
           <div className="flex flex-wrap gap-3">
-            <Button
-              type="button"
-              onClick={() => pdfInputRef.current?.click()}
-              disabled={isExtracting || isScanningHandwritten}
-              variant="secondary"
-              size="sm"
-            >
-              Upload PDF
-            </Button>
-            <Button
-              type="button"
-              onClick={() => imageInputRef.current?.click()}
-              disabled={isExtracting || isScanningHandwritten}
-              variant="secondary"
-              size="sm"
-            >
-              Upload Image
-            </Button>
-            <Button
-              type="button"
-              onClick={() => handwrittenInputRef.current?.click()}
-              disabled={isExtracting || isScanningHandwritten}
-              variant="secondary"
-              size="sm"
-            >
-              {isScanningHandwritten ? "Scanning..." : "Scan Handwritten Notes"}
-            </Button>
-            <div className="w-48">
-              <Listbox
-                value={ocrLanguage}
-                onChange={(v) => setOcrLanguage(v)}
-                options={Object.entries(OCR_LANGUAGE_LABELS).map(([k, v]) => ({ value: k, label: v }))}
-              />
-            </div>
+            {activeTab === "pdf" && (
+              <Button
+                type="button"
+                onClick={() => pdfInputRef.current?.click()}
+                disabled={isExtracting || isScanningHandwritten}
+                variant="secondary"
+                size="sm"
+              >
+                Upload PDF
+              </Button>
+            )}
+
+            {activeTab === "image" && (
+              <>
+                <Button
+                  type="button"
+                  onClick={() => imageInputRef.current?.click()}
+                  disabled={isExtracting || isScanningHandwritten}
+                  variant="secondary"
+                  size="sm"
+                >
+                  Upload Image
+                </Button>
+                <div className="w-48">
+                  <Listbox
+                    value={ocrLanguage}
+                    onChange={(v) => setOcrLanguage(v)}
+                    options={Object.entries(OCR_LANGUAGE_LABELS).map(([k, v]) => ({ value: k, label: v }))}
+                  />
+                </div>
+              </>
+            )}
+
+            {activeTab === "handwritten" && (
+              <>
+                <Button
+                  type="button"
+                  onClick={() => handwrittenInputRef.current?.click()}
+                  disabled={isExtracting || isScanningHandwritten}
+                  variant="secondary"
+                  size="sm"
+                >
+                  {isScanningHandwritten ? "Scanning..." : "Scan Handwritten Notes"}
+                </Button>
+                <select
+                  value={handwritingSubject}
+                  onChange={(event) => setHandwritingSubject(event.target.value as (typeof HANDWRITING_SUBJECTS)[number])}
+                  className="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900"
+                >
+                  {HANDWRITING_SUBJECTS.map((option) => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
+                <Button href="/scan" variant="secondary" size="sm">Open Full Scanner</Button>
+              </>
+            )}
 
             {(isExtracting || isScanningHandwritten) && (
               <span className="inline-flex items-center gap-2 text-sm font-medium text-blue-700">
@@ -408,16 +493,23 @@ export default function UploadPage() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                {isScanningHandwritten ? "Scanning handwritten notes..." : (stageLabel || "Processing file...")}
+                {isScanningHandwritten ? (stageLabel || "Scanning handwritten notes...") : (stageLabel || "Processing file...")}
               </span>
             )}
           </div>
+
+          {activeTab === "handwritten" && handwritingPreviewUrl && (
+            <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-3">
+              <p className="mb-2 text-xs font-semibold text-gray-700">Handwritten preview</p>
+              <img src={handwritingPreviewUrl} alt="Handwritten preview" className="max-h-60 w-full rounded object-contain" />
+            </div>
+          )}
 
           {(isExtracting || processingStage === "done") && (
             <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
               <div className="font-medium">{stageLabel || "Ready"}</div>
               <div className="mt-1 text-xs text-blue-700">
-                Uploading... → Extracting text... → Analyzing document... → Done!
+                Preprocessing image... → Reading handwriting (Pass 1)... → Improving unclear sections (Pass 2)... → Cleaning and structuring... → Done!
               </div>
             </div>
           )}

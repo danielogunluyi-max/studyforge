@@ -104,7 +104,7 @@ export default function Generator() {
 
   useEffect(() => {
     const source = new URLSearchParams(window.location.search).get("source");
-    if (source !== "upload") {
+    if (!source || !["upload", "scan", "dashboard-scan"].includes(source)) {
       return;
     }
 

@@ -81,6 +81,7 @@ model User {
     folders       Folder[]
     citations     Citation[]
     exams         Exam[]
+    scanHistories ScanHistory[]
     examPredictions ExamPrediction[]
     hostedBattles Battle[] @relation("BattleHost")
     joinedBattles Battle[] @relation("BattleOpponent")
@@ -574,5 +575,19 @@ model Exam {
 
     @@index([userId])
     @@index([examDate])
+    @@index([createdAt])
+}
+
+model ScanHistory {
+    id         String   @id @default(cuid())
+    userId     String
+    confidence Int
+    wordCount  Int
+    subject    String?
+    createdAt  DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
     @@index([createdAt])
 }

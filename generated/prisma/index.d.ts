@@ -163,6 +163,16 @@ export type LearningStyleResult = $Result.DefaultSelection<Prisma.$LearningStyle
  * 
  */
 export type ConceptWeb = $Result.DefaultSelection<Prisma.$ConceptWebPayload>
+/**
+ * Model Exam
+ * 
+ */
+export type Exam = $Result.DefaultSelection<Prisma.$ExamPayload>
+/**
+ * Model ScanHistory
+ * 
+ */
+export type ScanHistory = $Result.DefaultSelection<Prisma.$ScanHistoryPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -581,6 +591,26 @@ export class PrismaClient<
     * ```
     */
   get conceptWeb(): Prisma.ConceptWebDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.exam`: Exposes CRUD operations for the **Exam** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Exams
+    * const exams = await prisma.exam.findMany()
+    * ```
+    */
+  get exam(): Prisma.ExamDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.scanHistory`: Exposes CRUD operations for the **ScanHistory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScanHistories
+    * const scanHistories = await prisma.scanHistory.findMany()
+    * ```
+    */
+  get scanHistory(): Prisma.ScanHistoryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1051,7 +1081,9 @@ export namespace Prisma {
     GroupPinnedMessage: 'GroupPinnedMessage',
     ConceptConnection: 'ConceptConnection',
     LearningStyleResult: 'LearningStyleResult',
-    ConceptWeb: 'ConceptWeb'
+    ConceptWeb: 'ConceptWeb',
+    Exam: 'Exam',
+    ScanHistory: 'ScanHistory'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1070,7 +1102,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb"
+      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3294,6 +3326,154 @@ export namespace Prisma {
           }
         }
       }
+      Exam: {
+        payload: Prisma.$ExamPayload<ExtArgs>
+        fields: Prisma.ExamFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ExamFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ExamFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPayload>
+          }
+          findFirst: {
+            args: Prisma.ExamFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ExamFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPayload>
+          }
+          findMany: {
+            args: Prisma.ExamFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPayload>[]
+          }
+          create: {
+            args: Prisma.ExamCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPayload>
+          }
+          createMany: {
+            args: Prisma.ExamCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ExamCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPayload>[]
+          }
+          delete: {
+            args: Prisma.ExamDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPayload>
+          }
+          update: {
+            args: Prisma.ExamUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPayload>
+          }
+          deleteMany: {
+            args: Prisma.ExamDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ExamUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ExamUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPayload>[]
+          }
+          upsert: {
+            args: Prisma.ExamUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamPayload>
+          }
+          aggregate: {
+            args: Prisma.ExamAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateExam>
+          }
+          groupBy: {
+            args: Prisma.ExamGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ExamGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ExamCountArgs<ExtArgs>
+            result: $Utils.Optional<ExamCountAggregateOutputType> | number
+          }
+        }
+      }
+      ScanHistory: {
+        payload: Prisma.$ScanHistoryPayload<ExtArgs>
+        fields: Prisma.ScanHistoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScanHistoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanHistoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScanHistoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanHistoryPayload>
+          }
+          findFirst: {
+            args: Prisma.ScanHistoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanHistoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScanHistoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanHistoryPayload>
+          }
+          findMany: {
+            args: Prisma.ScanHistoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanHistoryPayload>[]
+          }
+          create: {
+            args: Prisma.ScanHistoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanHistoryPayload>
+          }
+          createMany: {
+            args: Prisma.ScanHistoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScanHistoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanHistoryPayload>[]
+          }
+          delete: {
+            args: Prisma.ScanHistoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanHistoryPayload>
+          }
+          update: {
+            args: Prisma.ScanHistoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanHistoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.ScanHistoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScanHistoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ScanHistoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanHistoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.ScanHistoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScanHistoryPayload>
+          }
+          aggregate: {
+            args: Prisma.ScanHistoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScanHistory>
+          }
+          groupBy: {
+            args: Prisma.ScanHistoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScanHistoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScanHistoryCountArgs<ExtArgs>
+            result: $Utils.Optional<ScanHistoryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3420,6 +3600,8 @@ export namespace Prisma {
     conceptConnection?: ConceptConnectionOmit
     learningStyleResult?: LearningStyleResultOmit
     conceptWeb?: ConceptWebOmit
+    exam?: ExamOmit
+    scanHistory?: ScanHistoryOmit
   }
 
   /* Types for Logging */
@@ -3506,6 +3688,8 @@ export namespace Prisma {
     notes: number
     folders: number
     citations: number
+    exams: number
+    scanHistories: number
     examPredictions: number
     hostedBattles: number
     joinedBattles: number
@@ -3536,6 +3720,8 @@ export namespace Prisma {
     notes?: boolean | UserCountOutputTypeCountNotesArgs
     folders?: boolean | UserCountOutputTypeCountFoldersArgs
     citations?: boolean | UserCountOutputTypeCountCitationsArgs
+    exams?: boolean | UserCountOutputTypeCountExamsArgs
+    scanHistories?: boolean | UserCountOutputTypeCountScanHistoriesArgs
     examPredictions?: boolean | UserCountOutputTypeCountExamPredictionsArgs
     hostedBattles?: boolean | UserCountOutputTypeCountHostedBattlesArgs
     joinedBattles?: boolean | UserCountOutputTypeCountJoinedBattlesArgs
@@ -3610,6 +3796,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CitationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountExamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExamWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountScanHistoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScanHistoryWhereInput
   }
 
   /**
@@ -7748,6 +7948,8 @@ export namespace Prisma {
     notes?: boolean | User$notesArgs<ExtArgs>
     folders?: boolean | User$foldersArgs<ExtArgs>
     citations?: boolean | User$citationsArgs<ExtArgs>
+    exams?: boolean | User$examsArgs<ExtArgs>
+    scanHistories?: boolean | User$scanHistoriesArgs<ExtArgs>
     examPredictions?: boolean | User$examPredictionsArgs<ExtArgs>
     hostedBattles?: boolean | User$hostedBattlesArgs<ExtArgs>
     joinedBattles?: boolean | User$joinedBattlesArgs<ExtArgs>
@@ -7852,6 +8054,8 @@ export namespace Prisma {
     notes?: boolean | User$notesArgs<ExtArgs>
     folders?: boolean | User$foldersArgs<ExtArgs>
     citations?: boolean | User$citationsArgs<ExtArgs>
+    exams?: boolean | User$examsArgs<ExtArgs>
+    scanHistories?: boolean | User$scanHistoriesArgs<ExtArgs>
     examPredictions?: boolean | User$examPredictionsArgs<ExtArgs>
     hostedBattles?: boolean | User$hostedBattlesArgs<ExtArgs>
     joinedBattles?: boolean | User$joinedBattlesArgs<ExtArgs>
@@ -7887,6 +8091,8 @@ export namespace Prisma {
       notes: Prisma.$NotePayload<ExtArgs>[]
       folders: Prisma.$FolderPayload<ExtArgs>[]
       citations: Prisma.$CitationPayload<ExtArgs>[]
+      exams: Prisma.$ExamPayload<ExtArgs>[]
+      scanHistories: Prisma.$ScanHistoryPayload<ExtArgs>[]
       examPredictions: Prisma.$ExamPredictionPayload<ExtArgs>[]
       hostedBattles: Prisma.$BattlePayload<ExtArgs>[]
       joinedBattles: Prisma.$BattlePayload<ExtArgs>[]
@@ -8331,6 +8537,8 @@ export namespace Prisma {
     notes<T extends User$notesArgs<ExtArgs> = {}>(args?: Subset<T, User$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     folders<T extends User$foldersArgs<ExtArgs> = {}>(args?: Subset<T, User$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     citations<T extends User$citationsArgs<ExtArgs> = {}>(args?: Subset<T, User$citationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    exams<T extends User$examsArgs<ExtArgs> = {}>(args?: Subset<T, User$examsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    scanHistories<T extends User$scanHistoriesArgs<ExtArgs> = {}>(args?: Subset<T, User$scanHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     examPredictions<T extends User$examPredictionsArgs<ExtArgs> = {}>(args?: Subset<T, User$examPredictionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamPredictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     hostedBattles<T extends User$hostedBattlesArgs<ExtArgs> = {}>(args?: Subset<T, User$hostedBattlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     joinedBattles<T extends User$joinedBattlesArgs<ExtArgs> = {}>(args?: Subset<T, User$joinedBattlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BattlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8931,6 +9139,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CitationScalarFieldEnum | CitationScalarFieldEnum[]
+  }
+
+  /**
+   * User.exams
+   */
+  export type User$examsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamInclude<ExtArgs> | null
+    where?: ExamWhereInput
+    orderBy?: ExamOrderByWithRelationInput | ExamOrderByWithRelationInput[]
+    cursor?: ExamWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExamScalarFieldEnum | ExamScalarFieldEnum[]
+  }
+
+  /**
+   * User.scanHistories
+   */
+  export type User$scanHistoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryInclude<ExtArgs> | null
+    where?: ScanHistoryWhereInput
+    orderBy?: ScanHistoryOrderByWithRelationInput | ScanHistoryOrderByWithRelationInput[]
+    cursor?: ScanHistoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScanHistoryScalarFieldEnum | ScanHistoryScalarFieldEnum[]
   }
 
   /**
@@ -39056,6 +39312,2225 @@ export namespace Prisma {
 
 
   /**
+   * Model Exam
+   */
+
+  export type AggregateExam = {
+    _count: ExamCountAggregateOutputType | null
+    _min: ExamMinAggregateOutputType | null
+    _max: ExamMaxAggregateOutputType | null
+  }
+
+  export type ExamMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    subject: string | null
+    examDate: Date | null
+    board: string | null
+    difficulty: string | null
+    topics: string | null
+    studyPlan: string | null
+    createdAt: Date | null
+  }
+
+  export type ExamMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    subject: string | null
+    examDate: Date | null
+    board: string | null
+    difficulty: string | null
+    topics: string | null
+    studyPlan: string | null
+    createdAt: Date | null
+  }
+
+  export type ExamCountAggregateOutputType = {
+    id: number
+    userId: number
+    subject: number
+    examDate: number
+    board: number
+    difficulty: number
+    topics: number
+    studyPlan: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ExamMinAggregateInputType = {
+    id?: true
+    userId?: true
+    subject?: true
+    examDate?: true
+    board?: true
+    difficulty?: true
+    topics?: true
+    studyPlan?: true
+    createdAt?: true
+  }
+
+  export type ExamMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    subject?: true
+    examDate?: true
+    board?: true
+    difficulty?: true
+    topics?: true
+    studyPlan?: true
+    createdAt?: true
+  }
+
+  export type ExamCountAggregateInputType = {
+    id?: true
+    userId?: true
+    subject?: true
+    examDate?: true
+    board?: true
+    difficulty?: true
+    topics?: true
+    studyPlan?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ExamAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Exam to aggregate.
+     */
+    where?: ExamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Exams to fetch.
+     */
+    orderBy?: ExamOrderByWithRelationInput | ExamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ExamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Exams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Exams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Exams
+    **/
+    _count?: true | ExamCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ExamMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ExamMaxAggregateInputType
+  }
+
+  export type GetExamAggregateType<T extends ExamAggregateArgs> = {
+        [P in keyof T & keyof AggregateExam]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateExam[P]>
+      : GetScalarType<T[P], AggregateExam[P]>
+  }
+
+
+
+
+  export type ExamGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExamWhereInput
+    orderBy?: ExamOrderByWithAggregationInput | ExamOrderByWithAggregationInput[]
+    by: ExamScalarFieldEnum[] | ExamScalarFieldEnum
+    having?: ExamScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ExamCountAggregateInputType | true
+    _min?: ExamMinAggregateInputType
+    _max?: ExamMaxAggregateInputType
+  }
+
+  export type ExamGroupByOutputType = {
+    id: string
+    userId: string
+    subject: string
+    examDate: Date
+    board: string | null
+    difficulty: string | null
+    topics: string | null
+    studyPlan: string | null
+    createdAt: Date
+    _count: ExamCountAggregateOutputType | null
+    _min: ExamMinAggregateOutputType | null
+    _max: ExamMaxAggregateOutputType | null
+  }
+
+  type GetExamGroupByPayload<T extends ExamGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ExamGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ExamGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ExamGroupByOutputType[P]>
+            : GetScalarType<T[P], ExamGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ExamSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    subject?: boolean
+    examDate?: boolean
+    board?: boolean
+    difficulty?: boolean
+    topics?: boolean
+    studyPlan?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["exam"]>
+
+  export type ExamSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    subject?: boolean
+    examDate?: boolean
+    board?: boolean
+    difficulty?: boolean
+    topics?: boolean
+    studyPlan?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["exam"]>
+
+  export type ExamSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    subject?: boolean
+    examDate?: boolean
+    board?: boolean
+    difficulty?: boolean
+    topics?: boolean
+    studyPlan?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["exam"]>
+
+  export type ExamSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    subject?: boolean
+    examDate?: boolean
+    board?: boolean
+    difficulty?: boolean
+    topics?: boolean
+    studyPlan?: boolean
+    createdAt?: boolean
+  }
+
+  export type ExamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "subject" | "examDate" | "board" | "difficulty" | "topics" | "studyPlan" | "createdAt", ExtArgs["result"]["exam"]>
+  export type ExamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ExamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ExamIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ExamPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Exam"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      subject: string
+      examDate: Date
+      board: string | null
+      difficulty: string | null
+      topics: string | null
+      studyPlan: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["exam"]>
+    composites: {}
+  }
+
+  type ExamGetPayload<S extends boolean | null | undefined | ExamDefaultArgs> = $Result.GetResult<Prisma.$ExamPayload, S>
+
+  type ExamCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ExamFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ExamCountAggregateInputType | true
+    }
+
+  export interface ExamDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Exam'], meta: { name: 'Exam' } }
+    /**
+     * Find zero or one Exam that matches the filter.
+     * @param {ExamFindUniqueArgs} args - Arguments to find a Exam
+     * @example
+     * // Get one Exam
+     * const exam = await prisma.exam.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ExamFindUniqueArgs>(args: SelectSubset<T, ExamFindUniqueArgs<ExtArgs>>): Prisma__ExamClient<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Exam that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ExamFindUniqueOrThrowArgs} args - Arguments to find a Exam
+     * @example
+     * // Get one Exam
+     * const exam = await prisma.exam.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ExamFindUniqueOrThrowArgs>(args: SelectSubset<T, ExamFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExamClient<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Exam that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamFindFirstArgs} args - Arguments to find a Exam
+     * @example
+     * // Get one Exam
+     * const exam = await prisma.exam.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ExamFindFirstArgs>(args?: SelectSubset<T, ExamFindFirstArgs<ExtArgs>>): Prisma__ExamClient<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Exam that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamFindFirstOrThrowArgs} args - Arguments to find a Exam
+     * @example
+     * // Get one Exam
+     * const exam = await prisma.exam.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ExamFindFirstOrThrowArgs>(args?: SelectSubset<T, ExamFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExamClient<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Exams that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Exams
+     * const exams = await prisma.exam.findMany()
+     * 
+     * // Get first 10 Exams
+     * const exams = await prisma.exam.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const examWithIdOnly = await prisma.exam.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ExamFindManyArgs>(args?: SelectSubset<T, ExamFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Exam.
+     * @param {ExamCreateArgs} args - Arguments to create a Exam.
+     * @example
+     * // Create one Exam
+     * const Exam = await prisma.exam.create({
+     *   data: {
+     *     // ... data to create a Exam
+     *   }
+     * })
+     * 
+     */
+    create<T extends ExamCreateArgs>(args: SelectSubset<T, ExamCreateArgs<ExtArgs>>): Prisma__ExamClient<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Exams.
+     * @param {ExamCreateManyArgs} args - Arguments to create many Exams.
+     * @example
+     * // Create many Exams
+     * const exam = await prisma.exam.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ExamCreateManyArgs>(args?: SelectSubset<T, ExamCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Exams and returns the data saved in the database.
+     * @param {ExamCreateManyAndReturnArgs} args - Arguments to create many Exams.
+     * @example
+     * // Create many Exams
+     * const exam = await prisma.exam.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Exams and only return the `id`
+     * const examWithIdOnly = await prisma.exam.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ExamCreateManyAndReturnArgs>(args?: SelectSubset<T, ExamCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Exam.
+     * @param {ExamDeleteArgs} args - Arguments to delete one Exam.
+     * @example
+     * // Delete one Exam
+     * const Exam = await prisma.exam.delete({
+     *   where: {
+     *     // ... filter to delete one Exam
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ExamDeleteArgs>(args: SelectSubset<T, ExamDeleteArgs<ExtArgs>>): Prisma__ExamClient<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Exam.
+     * @param {ExamUpdateArgs} args - Arguments to update one Exam.
+     * @example
+     * // Update one Exam
+     * const exam = await prisma.exam.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ExamUpdateArgs>(args: SelectSubset<T, ExamUpdateArgs<ExtArgs>>): Prisma__ExamClient<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Exams.
+     * @param {ExamDeleteManyArgs} args - Arguments to filter Exams to delete.
+     * @example
+     * // Delete a few Exams
+     * const { count } = await prisma.exam.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ExamDeleteManyArgs>(args?: SelectSubset<T, ExamDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Exams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Exams
+     * const exam = await prisma.exam.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ExamUpdateManyArgs>(args: SelectSubset<T, ExamUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Exams and returns the data updated in the database.
+     * @param {ExamUpdateManyAndReturnArgs} args - Arguments to update many Exams.
+     * @example
+     * // Update many Exams
+     * const exam = await prisma.exam.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Exams and only return the `id`
+     * const examWithIdOnly = await prisma.exam.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ExamUpdateManyAndReturnArgs>(args: SelectSubset<T, ExamUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Exam.
+     * @param {ExamUpsertArgs} args - Arguments to update or create a Exam.
+     * @example
+     * // Update or create a Exam
+     * const exam = await prisma.exam.upsert({
+     *   create: {
+     *     // ... data to create a Exam
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Exam we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ExamUpsertArgs>(args: SelectSubset<T, ExamUpsertArgs<ExtArgs>>): Prisma__ExamClient<$Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Exams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamCountArgs} args - Arguments to filter Exams to count.
+     * @example
+     * // Count the number of Exams
+     * const count = await prisma.exam.count({
+     *   where: {
+     *     // ... the filter for the Exams we want to count
+     *   }
+     * })
+    **/
+    count<T extends ExamCountArgs>(
+      args?: Subset<T, ExamCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ExamCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Exam.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ExamAggregateArgs>(args: Subset<T, ExamAggregateArgs>): Prisma.PrismaPromise<GetExamAggregateType<T>>
+
+    /**
+     * Group by Exam.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ExamGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ExamGroupByArgs['orderBy'] }
+        : { orderBy?: ExamGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ExamGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExamGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Exam model
+   */
+  readonly fields: ExamFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Exam.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ExamClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Exam model
+   */
+  interface ExamFieldRefs {
+    readonly id: FieldRef<"Exam", 'String'>
+    readonly userId: FieldRef<"Exam", 'String'>
+    readonly subject: FieldRef<"Exam", 'String'>
+    readonly examDate: FieldRef<"Exam", 'DateTime'>
+    readonly board: FieldRef<"Exam", 'String'>
+    readonly difficulty: FieldRef<"Exam", 'String'>
+    readonly topics: FieldRef<"Exam", 'String'>
+    readonly studyPlan: FieldRef<"Exam", 'String'>
+    readonly createdAt: FieldRef<"Exam", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Exam findUnique
+   */
+  export type ExamFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamInclude<ExtArgs> | null
+    /**
+     * Filter, which Exam to fetch.
+     */
+    where: ExamWhereUniqueInput
+  }
+
+  /**
+   * Exam findUniqueOrThrow
+   */
+  export type ExamFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamInclude<ExtArgs> | null
+    /**
+     * Filter, which Exam to fetch.
+     */
+    where: ExamWhereUniqueInput
+  }
+
+  /**
+   * Exam findFirst
+   */
+  export type ExamFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamInclude<ExtArgs> | null
+    /**
+     * Filter, which Exam to fetch.
+     */
+    where?: ExamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Exams to fetch.
+     */
+    orderBy?: ExamOrderByWithRelationInput | ExamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Exams.
+     */
+    cursor?: ExamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Exams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Exams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Exams.
+     */
+    distinct?: ExamScalarFieldEnum | ExamScalarFieldEnum[]
+  }
+
+  /**
+   * Exam findFirstOrThrow
+   */
+  export type ExamFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamInclude<ExtArgs> | null
+    /**
+     * Filter, which Exam to fetch.
+     */
+    where?: ExamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Exams to fetch.
+     */
+    orderBy?: ExamOrderByWithRelationInput | ExamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Exams.
+     */
+    cursor?: ExamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Exams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Exams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Exams.
+     */
+    distinct?: ExamScalarFieldEnum | ExamScalarFieldEnum[]
+  }
+
+  /**
+   * Exam findMany
+   */
+  export type ExamFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamInclude<ExtArgs> | null
+    /**
+     * Filter, which Exams to fetch.
+     */
+    where?: ExamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Exams to fetch.
+     */
+    orderBy?: ExamOrderByWithRelationInput | ExamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Exams.
+     */
+    cursor?: ExamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Exams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Exams.
+     */
+    skip?: number
+    distinct?: ExamScalarFieldEnum | ExamScalarFieldEnum[]
+  }
+
+  /**
+   * Exam create
+   */
+  export type ExamCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Exam.
+     */
+    data: XOR<ExamCreateInput, ExamUncheckedCreateInput>
+  }
+
+  /**
+   * Exam createMany
+   */
+  export type ExamCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Exams.
+     */
+    data: ExamCreateManyInput | ExamCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Exam createManyAndReturn
+   */
+  export type ExamCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * The data used to create many Exams.
+     */
+    data: ExamCreateManyInput | ExamCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Exam update
+   */
+  export type ExamUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Exam.
+     */
+    data: XOR<ExamUpdateInput, ExamUncheckedUpdateInput>
+    /**
+     * Choose, which Exam to update.
+     */
+    where: ExamWhereUniqueInput
+  }
+
+  /**
+   * Exam updateMany
+   */
+  export type ExamUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Exams.
+     */
+    data: XOR<ExamUpdateManyMutationInput, ExamUncheckedUpdateManyInput>
+    /**
+     * Filter which Exams to update
+     */
+    where?: ExamWhereInput
+    /**
+     * Limit how many Exams to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Exam updateManyAndReturn
+   */
+  export type ExamUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * The data used to update Exams.
+     */
+    data: XOR<ExamUpdateManyMutationInput, ExamUncheckedUpdateManyInput>
+    /**
+     * Filter which Exams to update
+     */
+    where?: ExamWhereInput
+    /**
+     * Limit how many Exams to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Exam upsert
+   */
+  export type ExamUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Exam to update in case it exists.
+     */
+    where: ExamWhereUniqueInput
+    /**
+     * In case the Exam found by the `where` argument doesn't exist, create a new Exam with this data.
+     */
+    create: XOR<ExamCreateInput, ExamUncheckedCreateInput>
+    /**
+     * In case the Exam was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ExamUpdateInput, ExamUncheckedUpdateInput>
+  }
+
+  /**
+   * Exam delete
+   */
+  export type ExamDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamInclude<ExtArgs> | null
+    /**
+     * Filter which Exam to delete.
+     */
+    where: ExamWhereUniqueInput
+  }
+
+  /**
+   * Exam deleteMany
+   */
+  export type ExamDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Exams to delete
+     */
+    where?: ExamWhereInput
+    /**
+     * Limit how many Exams to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Exam without action
+   */
+  export type ExamDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Exam
+     */
+    select?: ExamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Exam
+     */
+    omit?: ExamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ScanHistory
+   */
+
+  export type AggregateScanHistory = {
+    _count: ScanHistoryCountAggregateOutputType | null
+    _avg: ScanHistoryAvgAggregateOutputType | null
+    _sum: ScanHistorySumAggregateOutputType | null
+    _min: ScanHistoryMinAggregateOutputType | null
+    _max: ScanHistoryMaxAggregateOutputType | null
+  }
+
+  export type ScanHistoryAvgAggregateOutputType = {
+    confidence: number | null
+    wordCount: number | null
+  }
+
+  export type ScanHistorySumAggregateOutputType = {
+    confidence: number | null
+    wordCount: number | null
+  }
+
+  export type ScanHistoryMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    confidence: number | null
+    wordCount: number | null
+    subject: string | null
+    createdAt: Date | null
+  }
+
+  export type ScanHistoryMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    confidence: number | null
+    wordCount: number | null
+    subject: string | null
+    createdAt: Date | null
+  }
+
+  export type ScanHistoryCountAggregateOutputType = {
+    id: number
+    userId: number
+    confidence: number
+    wordCount: number
+    subject: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ScanHistoryAvgAggregateInputType = {
+    confidence?: true
+    wordCount?: true
+  }
+
+  export type ScanHistorySumAggregateInputType = {
+    confidence?: true
+    wordCount?: true
+  }
+
+  export type ScanHistoryMinAggregateInputType = {
+    id?: true
+    userId?: true
+    confidence?: true
+    wordCount?: true
+    subject?: true
+    createdAt?: true
+  }
+
+  export type ScanHistoryMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    confidence?: true
+    wordCount?: true
+    subject?: true
+    createdAt?: true
+  }
+
+  export type ScanHistoryCountAggregateInputType = {
+    id?: true
+    userId?: true
+    confidence?: true
+    wordCount?: true
+    subject?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ScanHistoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScanHistory to aggregate.
+     */
+    where?: ScanHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanHistories to fetch.
+     */
+    orderBy?: ScanHistoryOrderByWithRelationInput | ScanHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScanHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScanHistories
+    **/
+    _count?: true | ScanHistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ScanHistoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ScanHistorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScanHistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScanHistoryMaxAggregateInputType
+  }
+
+  export type GetScanHistoryAggregateType<T extends ScanHistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateScanHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScanHistory[P]>
+      : GetScalarType<T[P], AggregateScanHistory[P]>
+  }
+
+
+
+
+  export type ScanHistoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScanHistoryWhereInput
+    orderBy?: ScanHistoryOrderByWithAggregationInput | ScanHistoryOrderByWithAggregationInput[]
+    by: ScanHistoryScalarFieldEnum[] | ScanHistoryScalarFieldEnum
+    having?: ScanHistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScanHistoryCountAggregateInputType | true
+    _avg?: ScanHistoryAvgAggregateInputType
+    _sum?: ScanHistorySumAggregateInputType
+    _min?: ScanHistoryMinAggregateInputType
+    _max?: ScanHistoryMaxAggregateInputType
+  }
+
+  export type ScanHistoryGroupByOutputType = {
+    id: string
+    userId: string
+    confidence: number
+    wordCount: number
+    subject: string | null
+    createdAt: Date
+    _count: ScanHistoryCountAggregateOutputType | null
+    _avg: ScanHistoryAvgAggregateOutputType | null
+    _sum: ScanHistorySumAggregateOutputType | null
+    _min: ScanHistoryMinAggregateOutputType | null
+    _max: ScanHistoryMaxAggregateOutputType | null
+  }
+
+  type GetScanHistoryGroupByPayload<T extends ScanHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScanHistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScanHistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScanHistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], ScanHistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScanHistorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    confidence?: boolean
+    wordCount?: boolean
+    subject?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scanHistory"]>
+
+  export type ScanHistorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    confidence?: boolean
+    wordCount?: boolean
+    subject?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scanHistory"]>
+
+  export type ScanHistorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    confidence?: boolean
+    wordCount?: boolean
+    subject?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scanHistory"]>
+
+  export type ScanHistorySelectScalar = {
+    id?: boolean
+    userId?: boolean
+    confidence?: boolean
+    wordCount?: boolean
+    subject?: boolean
+    createdAt?: boolean
+  }
+
+  export type ScanHistoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "confidence" | "wordCount" | "subject" | "createdAt", ExtArgs["result"]["scanHistory"]>
+  export type ScanHistoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ScanHistoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ScanHistoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ScanHistoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ScanHistory"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      confidence: number
+      wordCount: number
+      subject: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["scanHistory"]>
+    composites: {}
+  }
+
+  type ScanHistoryGetPayload<S extends boolean | null | undefined | ScanHistoryDefaultArgs> = $Result.GetResult<Prisma.$ScanHistoryPayload, S>
+
+  type ScanHistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ScanHistoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ScanHistoryCountAggregateInputType | true
+    }
+
+  export interface ScanHistoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ScanHistory'], meta: { name: 'ScanHistory' } }
+    /**
+     * Find zero or one ScanHistory that matches the filter.
+     * @param {ScanHistoryFindUniqueArgs} args - Arguments to find a ScanHistory
+     * @example
+     * // Get one ScanHistory
+     * const scanHistory = await prisma.scanHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScanHistoryFindUniqueArgs>(args: SelectSubset<T, ScanHistoryFindUniqueArgs<ExtArgs>>): Prisma__ScanHistoryClient<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ScanHistory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ScanHistoryFindUniqueOrThrowArgs} args - Arguments to find a ScanHistory
+     * @example
+     * // Get one ScanHistory
+     * const scanHistory = await prisma.scanHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScanHistoryFindUniqueOrThrowArgs>(args: SelectSubset<T, ScanHistoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScanHistoryClient<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScanHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanHistoryFindFirstArgs} args - Arguments to find a ScanHistory
+     * @example
+     * // Get one ScanHistory
+     * const scanHistory = await prisma.scanHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScanHistoryFindFirstArgs>(args?: SelectSubset<T, ScanHistoryFindFirstArgs<ExtArgs>>): Prisma__ScanHistoryClient<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ScanHistory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanHistoryFindFirstOrThrowArgs} args - Arguments to find a ScanHistory
+     * @example
+     * // Get one ScanHistory
+     * const scanHistory = await prisma.scanHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScanHistoryFindFirstOrThrowArgs>(args?: SelectSubset<T, ScanHistoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScanHistoryClient<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ScanHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanHistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScanHistories
+     * const scanHistories = await prisma.scanHistory.findMany()
+     * 
+     * // Get first 10 ScanHistories
+     * const scanHistories = await prisma.scanHistory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scanHistoryWithIdOnly = await prisma.scanHistory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScanHistoryFindManyArgs>(args?: SelectSubset<T, ScanHistoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ScanHistory.
+     * @param {ScanHistoryCreateArgs} args - Arguments to create a ScanHistory.
+     * @example
+     * // Create one ScanHistory
+     * const ScanHistory = await prisma.scanHistory.create({
+     *   data: {
+     *     // ... data to create a ScanHistory
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScanHistoryCreateArgs>(args: SelectSubset<T, ScanHistoryCreateArgs<ExtArgs>>): Prisma__ScanHistoryClient<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ScanHistories.
+     * @param {ScanHistoryCreateManyArgs} args - Arguments to create many ScanHistories.
+     * @example
+     * // Create many ScanHistories
+     * const scanHistory = await prisma.scanHistory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScanHistoryCreateManyArgs>(args?: SelectSubset<T, ScanHistoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ScanHistories and returns the data saved in the database.
+     * @param {ScanHistoryCreateManyAndReturnArgs} args - Arguments to create many ScanHistories.
+     * @example
+     * // Create many ScanHistories
+     * const scanHistory = await prisma.scanHistory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ScanHistories and only return the `id`
+     * const scanHistoryWithIdOnly = await prisma.scanHistory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScanHistoryCreateManyAndReturnArgs>(args?: SelectSubset<T, ScanHistoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ScanHistory.
+     * @param {ScanHistoryDeleteArgs} args - Arguments to delete one ScanHistory.
+     * @example
+     * // Delete one ScanHistory
+     * const ScanHistory = await prisma.scanHistory.delete({
+     *   where: {
+     *     // ... filter to delete one ScanHistory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScanHistoryDeleteArgs>(args: SelectSubset<T, ScanHistoryDeleteArgs<ExtArgs>>): Prisma__ScanHistoryClient<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ScanHistory.
+     * @param {ScanHistoryUpdateArgs} args - Arguments to update one ScanHistory.
+     * @example
+     * // Update one ScanHistory
+     * const scanHistory = await prisma.scanHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScanHistoryUpdateArgs>(args: SelectSubset<T, ScanHistoryUpdateArgs<ExtArgs>>): Prisma__ScanHistoryClient<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ScanHistories.
+     * @param {ScanHistoryDeleteManyArgs} args - Arguments to filter ScanHistories to delete.
+     * @example
+     * // Delete a few ScanHistories
+     * const { count } = await prisma.scanHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScanHistoryDeleteManyArgs>(args?: SelectSubset<T, ScanHistoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScanHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScanHistories
+     * const scanHistory = await prisma.scanHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScanHistoryUpdateManyArgs>(args: SelectSubset<T, ScanHistoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScanHistories and returns the data updated in the database.
+     * @param {ScanHistoryUpdateManyAndReturnArgs} args - Arguments to update many ScanHistories.
+     * @example
+     * // Update many ScanHistories
+     * const scanHistory = await prisma.scanHistory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ScanHistories and only return the `id`
+     * const scanHistoryWithIdOnly = await prisma.scanHistory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ScanHistoryUpdateManyAndReturnArgs>(args: SelectSubset<T, ScanHistoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ScanHistory.
+     * @param {ScanHistoryUpsertArgs} args - Arguments to update or create a ScanHistory.
+     * @example
+     * // Update or create a ScanHistory
+     * const scanHistory = await prisma.scanHistory.upsert({
+     *   create: {
+     *     // ... data to create a ScanHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScanHistory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScanHistoryUpsertArgs>(args: SelectSubset<T, ScanHistoryUpsertArgs<ExtArgs>>): Prisma__ScanHistoryClient<$Result.GetResult<Prisma.$ScanHistoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ScanHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanHistoryCountArgs} args - Arguments to filter ScanHistories to count.
+     * @example
+     * // Count the number of ScanHistories
+     * const count = await prisma.scanHistory.count({
+     *   where: {
+     *     // ... the filter for the ScanHistories we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScanHistoryCountArgs>(
+      args?: Subset<T, ScanHistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScanHistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScanHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScanHistoryAggregateArgs>(args: Subset<T, ScanHistoryAggregateArgs>): Prisma.PrismaPromise<GetScanHistoryAggregateType<T>>
+
+    /**
+     * Group by ScanHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScanHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScanHistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScanHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: ScanHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScanHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScanHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ScanHistory model
+   */
+  readonly fields: ScanHistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScanHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScanHistoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ScanHistory model
+   */
+  interface ScanHistoryFieldRefs {
+    readonly id: FieldRef<"ScanHistory", 'String'>
+    readonly userId: FieldRef<"ScanHistory", 'String'>
+    readonly confidence: FieldRef<"ScanHistory", 'Int'>
+    readonly wordCount: FieldRef<"ScanHistory", 'Int'>
+    readonly subject: FieldRef<"ScanHistory", 'String'>
+    readonly createdAt: FieldRef<"ScanHistory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ScanHistory findUnique
+   */
+  export type ScanHistoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ScanHistory to fetch.
+     */
+    where: ScanHistoryWhereUniqueInput
+  }
+
+  /**
+   * ScanHistory findUniqueOrThrow
+   */
+  export type ScanHistoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ScanHistory to fetch.
+     */
+    where: ScanHistoryWhereUniqueInput
+  }
+
+  /**
+   * ScanHistory findFirst
+   */
+  export type ScanHistoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ScanHistory to fetch.
+     */
+    where?: ScanHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanHistories to fetch.
+     */
+    orderBy?: ScanHistoryOrderByWithRelationInput | ScanHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScanHistories.
+     */
+    cursor?: ScanHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScanHistories.
+     */
+    distinct?: ScanHistoryScalarFieldEnum | ScanHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * ScanHistory findFirstOrThrow
+   */
+  export type ScanHistoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ScanHistory to fetch.
+     */
+    where?: ScanHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanHistories to fetch.
+     */
+    orderBy?: ScanHistoryOrderByWithRelationInput | ScanHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScanHistories.
+     */
+    cursor?: ScanHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScanHistories.
+     */
+    distinct?: ScanHistoryScalarFieldEnum | ScanHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * ScanHistory findMany
+   */
+  export type ScanHistoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ScanHistories to fetch.
+     */
+    where?: ScanHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScanHistories to fetch.
+     */
+    orderBy?: ScanHistoryOrderByWithRelationInput | ScanHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScanHistories.
+     */
+    cursor?: ScanHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScanHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScanHistories.
+     */
+    skip?: number
+    distinct?: ScanHistoryScalarFieldEnum | ScanHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * ScanHistory create
+   */
+  export type ScanHistoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ScanHistory.
+     */
+    data: XOR<ScanHistoryCreateInput, ScanHistoryUncheckedCreateInput>
+  }
+
+  /**
+   * ScanHistory createMany
+   */
+  export type ScanHistoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ScanHistories.
+     */
+    data: ScanHistoryCreateManyInput | ScanHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScanHistory createManyAndReturn
+   */
+  export type ScanHistoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many ScanHistories.
+     */
+    data: ScanHistoryCreateManyInput | ScanHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScanHistory update
+   */
+  export type ScanHistoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ScanHistory.
+     */
+    data: XOR<ScanHistoryUpdateInput, ScanHistoryUncheckedUpdateInput>
+    /**
+     * Choose, which ScanHistory to update.
+     */
+    where: ScanHistoryWhereUniqueInput
+  }
+
+  /**
+   * ScanHistory updateMany
+   */
+  export type ScanHistoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ScanHistories.
+     */
+    data: XOR<ScanHistoryUpdateManyMutationInput, ScanHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which ScanHistories to update
+     */
+    where?: ScanHistoryWhereInput
+    /**
+     * Limit how many ScanHistories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScanHistory updateManyAndReturn
+   */
+  export type ScanHistoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to update ScanHistories.
+     */
+    data: XOR<ScanHistoryUpdateManyMutationInput, ScanHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which ScanHistories to update
+     */
+    where?: ScanHistoryWhereInput
+    /**
+     * Limit how many ScanHistories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScanHistory upsert
+   */
+  export type ScanHistoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ScanHistory to update in case it exists.
+     */
+    where: ScanHistoryWhereUniqueInput
+    /**
+     * In case the ScanHistory found by the `where` argument doesn't exist, create a new ScanHistory with this data.
+     */
+    create: XOR<ScanHistoryCreateInput, ScanHistoryUncheckedCreateInput>
+    /**
+     * In case the ScanHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScanHistoryUpdateInput, ScanHistoryUncheckedUpdateInput>
+  }
+
+  /**
+   * ScanHistory delete
+   */
+  export type ScanHistoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryInclude<ExtArgs> | null
+    /**
+     * Filter which ScanHistory to delete.
+     */
+    where: ScanHistoryWhereUniqueInput
+  }
+
+  /**
+   * ScanHistory deleteMany
+   */
+  export type ScanHistoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScanHistories to delete
+     */
+    where?: ScanHistoryWhereInput
+    /**
+     * Limit how many ScanHistories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScanHistory without action
+   */
+  export type ScanHistoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScanHistory
+     */
+    select?: ScanHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScanHistory
+     */
+    omit?: ScanHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScanHistoryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -39502,6 +41977,33 @@ export namespace Prisma {
   export type ConceptWebScalarFieldEnum = (typeof ConceptWebScalarFieldEnum)[keyof typeof ConceptWebScalarFieldEnum]
 
 
+  export const ExamScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    subject: 'subject',
+    examDate: 'examDate',
+    board: 'board',
+    difficulty: 'difficulty',
+    topics: 'topics',
+    studyPlan: 'studyPlan',
+    createdAt: 'createdAt'
+  };
+
+  export type ExamScalarFieldEnum = (typeof ExamScalarFieldEnum)[keyof typeof ExamScalarFieldEnum]
+
+
+  export const ScanHistoryScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    confidence: 'confidence',
+    wordCount: 'wordCount',
+    subject: 'subject',
+    createdAt: 'createdAt'
+  };
+
+  export type ScanHistoryScalarFieldEnum = (typeof ScanHistoryScalarFieldEnum)[keyof typeof ScanHistoryScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -39871,6 +42373,8 @@ export namespace Prisma {
     notes?: NoteListRelationFilter
     folders?: FolderListRelationFilter
     citations?: CitationListRelationFilter
+    exams?: ExamListRelationFilter
+    scanHistories?: ScanHistoryListRelationFilter
     examPredictions?: ExamPredictionListRelationFilter
     hostedBattles?: BattleListRelationFilter
     joinedBattles?: BattleListRelationFilter
@@ -39922,6 +42426,8 @@ export namespace Prisma {
     notes?: NoteOrderByRelationAggregateInput
     folders?: FolderOrderByRelationAggregateInput
     citations?: CitationOrderByRelationAggregateInput
+    exams?: ExamOrderByRelationAggregateInput
+    scanHistories?: ScanHistoryOrderByRelationAggregateInput
     examPredictions?: ExamPredictionOrderByRelationAggregateInput
     hostedBattles?: BattleOrderByRelationAggregateInput
     joinedBattles?: BattleOrderByRelationAggregateInput
@@ -39976,6 +42482,8 @@ export namespace Prisma {
     notes?: NoteListRelationFilter
     folders?: FolderListRelationFilter
     citations?: CitationListRelationFilter
+    exams?: ExamListRelationFilter
+    scanHistories?: ScanHistoryListRelationFilter
     examPredictions?: ExamPredictionListRelationFilter
     hostedBattles?: BattleListRelationFilter
     joinedBattles?: BattleListRelationFilter
@@ -42021,6 +44529,143 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ConceptWeb"> | Date | string
   }
 
+  export type ExamWhereInput = {
+    AND?: ExamWhereInput | ExamWhereInput[]
+    OR?: ExamWhereInput[]
+    NOT?: ExamWhereInput | ExamWhereInput[]
+    id?: StringFilter<"Exam"> | string
+    userId?: StringFilter<"Exam"> | string
+    subject?: StringFilter<"Exam"> | string
+    examDate?: DateTimeFilter<"Exam"> | Date | string
+    board?: StringNullableFilter<"Exam"> | string | null
+    difficulty?: StringNullableFilter<"Exam"> | string | null
+    topics?: StringNullableFilter<"Exam"> | string | null
+    studyPlan?: StringNullableFilter<"Exam"> | string | null
+    createdAt?: DateTimeFilter<"Exam"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ExamOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    subject?: SortOrder
+    examDate?: SortOrder
+    board?: SortOrderInput | SortOrder
+    difficulty?: SortOrderInput | SortOrder
+    topics?: SortOrderInput | SortOrder
+    studyPlan?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ExamWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ExamWhereInput | ExamWhereInput[]
+    OR?: ExamWhereInput[]
+    NOT?: ExamWhereInput | ExamWhereInput[]
+    userId?: StringFilter<"Exam"> | string
+    subject?: StringFilter<"Exam"> | string
+    examDate?: DateTimeFilter<"Exam"> | Date | string
+    board?: StringNullableFilter<"Exam"> | string | null
+    difficulty?: StringNullableFilter<"Exam"> | string | null
+    topics?: StringNullableFilter<"Exam"> | string | null
+    studyPlan?: StringNullableFilter<"Exam"> | string | null
+    createdAt?: DateTimeFilter<"Exam"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ExamOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    subject?: SortOrder
+    examDate?: SortOrder
+    board?: SortOrderInput | SortOrder
+    difficulty?: SortOrderInput | SortOrder
+    topics?: SortOrderInput | SortOrder
+    studyPlan?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ExamCountOrderByAggregateInput
+    _max?: ExamMaxOrderByAggregateInput
+    _min?: ExamMinOrderByAggregateInput
+  }
+
+  export type ExamScalarWhereWithAggregatesInput = {
+    AND?: ExamScalarWhereWithAggregatesInput | ExamScalarWhereWithAggregatesInput[]
+    OR?: ExamScalarWhereWithAggregatesInput[]
+    NOT?: ExamScalarWhereWithAggregatesInput | ExamScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Exam"> | string
+    userId?: StringWithAggregatesFilter<"Exam"> | string
+    subject?: StringWithAggregatesFilter<"Exam"> | string
+    examDate?: DateTimeWithAggregatesFilter<"Exam"> | Date | string
+    board?: StringNullableWithAggregatesFilter<"Exam"> | string | null
+    difficulty?: StringNullableWithAggregatesFilter<"Exam"> | string | null
+    topics?: StringNullableWithAggregatesFilter<"Exam"> | string | null
+    studyPlan?: StringNullableWithAggregatesFilter<"Exam"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Exam"> | Date | string
+  }
+
+  export type ScanHistoryWhereInput = {
+    AND?: ScanHistoryWhereInput | ScanHistoryWhereInput[]
+    OR?: ScanHistoryWhereInput[]
+    NOT?: ScanHistoryWhereInput | ScanHistoryWhereInput[]
+    id?: StringFilter<"ScanHistory"> | string
+    userId?: StringFilter<"ScanHistory"> | string
+    confidence?: IntFilter<"ScanHistory"> | number
+    wordCount?: IntFilter<"ScanHistory"> | number
+    subject?: StringNullableFilter<"ScanHistory"> | string | null
+    createdAt?: DateTimeFilter<"ScanHistory"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ScanHistoryOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    confidence?: SortOrder
+    wordCount?: SortOrder
+    subject?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ScanHistoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ScanHistoryWhereInput | ScanHistoryWhereInput[]
+    OR?: ScanHistoryWhereInput[]
+    NOT?: ScanHistoryWhereInput | ScanHistoryWhereInput[]
+    userId?: StringFilter<"ScanHistory"> | string
+    confidence?: IntFilter<"ScanHistory"> | number
+    wordCount?: IntFilter<"ScanHistory"> | number
+    subject?: StringNullableFilter<"ScanHistory"> | string | null
+    createdAt?: DateTimeFilter<"ScanHistory"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ScanHistoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    confidence?: SortOrder
+    wordCount?: SortOrder
+    subject?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ScanHistoryCountOrderByAggregateInput
+    _avg?: ScanHistoryAvgOrderByAggregateInput
+    _max?: ScanHistoryMaxOrderByAggregateInput
+    _min?: ScanHistoryMinOrderByAggregateInput
+    _sum?: ScanHistorySumOrderByAggregateInput
+  }
+
+  export type ScanHistoryScalarWhereWithAggregatesInput = {
+    AND?: ScanHistoryScalarWhereWithAggregatesInput | ScanHistoryScalarWhereWithAggregatesInput[]
+    OR?: ScanHistoryScalarWhereWithAggregatesInput[]
+    NOT?: ScanHistoryScalarWhereWithAggregatesInput | ScanHistoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ScanHistory"> | string
+    userId?: StringWithAggregatesFilter<"ScanHistory"> | string
+    confidence?: IntWithAggregatesFilter<"ScanHistory"> | number
+    wordCount?: IntWithAggregatesFilter<"ScanHistory"> | number
+    subject?: StringNullableWithAggregatesFilter<"ScanHistory"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ScanHistory"> | Date | string
+  }
+
   export type PostCreateInput = {
     name: string
     createdAt?: Date | string
@@ -42260,6 +44905,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -42311,6 +44958,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -42362,6 +45011,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -42413,6 +45064,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -44557,6 +47210,151 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ExamCreateInput = {
+    id?: string
+    subject: string
+    examDate: Date | string
+    board?: string | null
+    difficulty?: string | null
+    topics?: string | null
+    studyPlan?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutExamsInput
+  }
+
+  export type ExamUncheckedCreateInput = {
+    id?: string
+    userId: string
+    subject: string
+    examDate: Date | string
+    board?: string | null
+    difficulty?: string | null
+    topics?: string | null
+    studyPlan?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ExamUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    board?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
+    topics?: NullableStringFieldUpdateOperationsInput | string | null
+    studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutExamsNestedInput
+  }
+
+  export type ExamUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    board?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
+    topics?: NullableStringFieldUpdateOperationsInput | string | null
+    studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamCreateManyInput = {
+    id?: string
+    userId: string
+    subject: string
+    examDate: Date | string
+    board?: string | null
+    difficulty?: string | null
+    topics?: string | null
+    studyPlan?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ExamUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    board?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
+    topics?: NullableStringFieldUpdateOperationsInput | string | null
+    studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    board?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
+    topics?: NullableStringFieldUpdateOperationsInput | string | null
+    studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScanHistoryCreateInput = {
+    id?: string
+    confidence: number
+    wordCount: number
+    subject?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutScanHistoriesInput
+  }
+
+  export type ScanHistoryUncheckedCreateInput = {
+    id?: string
+    userId: string
+    confidence: number
+    wordCount: number
+    subject?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScanHistoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    confidence?: IntFieldUpdateOperationsInput | number
+    wordCount?: IntFieldUpdateOperationsInput | number
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutScanHistoriesNestedInput
+  }
+
+  export type ScanHistoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    confidence?: IntFieldUpdateOperationsInput | number
+    wordCount?: IntFieldUpdateOperationsInput | number
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScanHistoryCreateManyInput = {
+    id?: string
+    userId: string
+    confidence: number
+    wordCount: number
+    subject?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScanHistoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    confidence?: IntFieldUpdateOperationsInput | number
+    wordCount?: IntFieldUpdateOperationsInput | number
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScanHistoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    confidence?: IntFieldUpdateOperationsInput | number
+    wordCount?: IntFieldUpdateOperationsInput | number
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -44888,6 +47686,18 @@ export namespace Prisma {
     none?: CitationWhereInput
   }
 
+  export type ExamListRelationFilter = {
+    every?: ExamWhereInput
+    some?: ExamWhereInput
+    none?: ExamWhereInput
+  }
+
+  export type ScanHistoryListRelationFilter = {
+    every?: ScanHistoryWhereInput
+    some?: ScanHistoryWhereInput
+    none?: ScanHistoryWhereInput
+  }
+
   export type ExamPredictionListRelationFilter = {
     every?: ExamPredictionWhereInput
     some?: ExamPredictionWhereInput
@@ -45029,6 +47839,14 @@ export namespace Prisma {
   }
 
   export type CitationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ExamOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ScanHistoryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -46361,6 +49179,79 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type ExamCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    subject?: SortOrder
+    examDate?: SortOrder
+    board?: SortOrder
+    difficulty?: SortOrder
+    topics?: SortOrder
+    studyPlan?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExamMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    subject?: SortOrder
+    examDate?: SortOrder
+    board?: SortOrder
+    difficulty?: SortOrder
+    topics?: SortOrder
+    studyPlan?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExamMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    subject?: SortOrder
+    examDate?: SortOrder
+    board?: SortOrder
+    difficulty?: SortOrder
+    topics?: SortOrder
+    studyPlan?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScanHistoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    confidence?: SortOrder
+    wordCount?: SortOrder
+    subject?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScanHistoryAvgOrderByAggregateInput = {
+    confidence?: SortOrder
+    wordCount?: SortOrder
+  }
+
+  export type ScanHistoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    confidence?: SortOrder
+    wordCount?: SortOrder
+    subject?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScanHistoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    confidence?: SortOrder
+    wordCount?: SortOrder
+    subject?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScanHistorySumOrderByAggregateInput = {
+    confidence?: SortOrder
+    wordCount?: SortOrder
+  }
+
   export type UserCreateNestedOneWithoutPostsInput = {
     create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput
@@ -46475,6 +49366,20 @@ export namespace Prisma {
     connectOrCreate?: CitationCreateOrConnectWithoutUserInput | CitationCreateOrConnectWithoutUserInput[]
     createMany?: CitationCreateManyUserInputEnvelope
     connect?: CitationWhereUniqueInput | CitationWhereUniqueInput[]
+  }
+
+  export type ExamCreateNestedManyWithoutUserInput = {
+    create?: XOR<ExamCreateWithoutUserInput, ExamUncheckedCreateWithoutUserInput> | ExamCreateWithoutUserInput[] | ExamUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamCreateOrConnectWithoutUserInput | ExamCreateOrConnectWithoutUserInput[]
+    createMany?: ExamCreateManyUserInputEnvelope
+    connect?: ExamWhereUniqueInput | ExamWhereUniqueInput[]
+  }
+
+  export type ScanHistoryCreateNestedManyWithoutUserInput = {
+    create?: XOR<ScanHistoryCreateWithoutUserInput, ScanHistoryUncheckedCreateWithoutUserInput> | ScanHistoryCreateWithoutUserInput[] | ScanHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScanHistoryCreateOrConnectWithoutUserInput | ScanHistoryCreateOrConnectWithoutUserInput[]
+    createMany?: ScanHistoryCreateManyUserInputEnvelope
+    connect?: ScanHistoryWhereUniqueInput | ScanHistoryWhereUniqueInput[]
   }
 
   export type ExamPredictionCreateNestedManyWithoutUserInput = {
@@ -46664,6 +49569,20 @@ export namespace Prisma {
     connectOrCreate?: CitationCreateOrConnectWithoutUserInput | CitationCreateOrConnectWithoutUserInput[]
     createMany?: CitationCreateManyUserInputEnvelope
     connect?: CitationWhereUniqueInput | CitationWhereUniqueInput[]
+  }
+
+  export type ExamUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ExamCreateWithoutUserInput, ExamUncheckedCreateWithoutUserInput> | ExamCreateWithoutUserInput[] | ExamUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamCreateOrConnectWithoutUserInput | ExamCreateOrConnectWithoutUserInput[]
+    createMany?: ExamCreateManyUserInputEnvelope
+    connect?: ExamWhereUniqueInput | ExamWhereUniqueInput[]
+  }
+
+  export type ScanHistoryUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ScanHistoryCreateWithoutUserInput, ScanHistoryUncheckedCreateWithoutUserInput> | ScanHistoryCreateWithoutUserInput[] | ScanHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScanHistoryCreateOrConnectWithoutUserInput | ScanHistoryCreateOrConnectWithoutUserInput[]
+    createMany?: ScanHistoryCreateManyUserInputEnvelope
+    connect?: ScanHistoryWhereUniqueInput | ScanHistoryWhereUniqueInput[]
   }
 
   export type ExamPredictionUncheckedCreateNestedManyWithoutUserInput = {
@@ -46908,6 +49827,34 @@ export namespace Prisma {
     update?: CitationUpdateWithWhereUniqueWithoutUserInput | CitationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CitationUpdateManyWithWhereWithoutUserInput | CitationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CitationScalarWhereInput | CitationScalarWhereInput[]
+  }
+
+  export type ExamUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ExamCreateWithoutUserInput, ExamUncheckedCreateWithoutUserInput> | ExamCreateWithoutUserInput[] | ExamUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamCreateOrConnectWithoutUserInput | ExamCreateOrConnectWithoutUserInput[]
+    upsert?: ExamUpsertWithWhereUniqueWithoutUserInput | ExamUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ExamCreateManyUserInputEnvelope
+    set?: ExamWhereUniqueInput | ExamWhereUniqueInput[]
+    disconnect?: ExamWhereUniqueInput | ExamWhereUniqueInput[]
+    delete?: ExamWhereUniqueInput | ExamWhereUniqueInput[]
+    connect?: ExamWhereUniqueInput | ExamWhereUniqueInput[]
+    update?: ExamUpdateWithWhereUniqueWithoutUserInput | ExamUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ExamUpdateManyWithWhereWithoutUserInput | ExamUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ExamScalarWhereInput | ExamScalarWhereInput[]
+  }
+
+  export type ScanHistoryUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ScanHistoryCreateWithoutUserInput, ScanHistoryUncheckedCreateWithoutUserInput> | ScanHistoryCreateWithoutUserInput[] | ScanHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScanHistoryCreateOrConnectWithoutUserInput | ScanHistoryCreateOrConnectWithoutUserInput[]
+    upsert?: ScanHistoryUpsertWithWhereUniqueWithoutUserInput | ScanHistoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ScanHistoryCreateManyUserInputEnvelope
+    set?: ScanHistoryWhereUniqueInput | ScanHistoryWhereUniqueInput[]
+    disconnect?: ScanHistoryWhereUniqueInput | ScanHistoryWhereUniqueInput[]
+    delete?: ScanHistoryWhereUniqueInput | ScanHistoryWhereUniqueInput[]
+    connect?: ScanHistoryWhereUniqueInput | ScanHistoryWhereUniqueInput[]
+    update?: ScanHistoryUpdateWithWhereUniqueWithoutUserInput | ScanHistoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ScanHistoryUpdateManyWithWhereWithoutUserInput | ScanHistoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ScanHistoryScalarWhereInput | ScanHistoryScalarWhereInput[]
   }
 
   export type ExamPredictionUpdateManyWithoutUserNestedInput = {
@@ -47286,6 +50233,34 @@ export namespace Prisma {
     update?: CitationUpdateWithWhereUniqueWithoutUserInput | CitationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CitationUpdateManyWithWhereWithoutUserInput | CitationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CitationScalarWhereInput | CitationScalarWhereInput[]
+  }
+
+  export type ExamUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ExamCreateWithoutUserInput, ExamUncheckedCreateWithoutUserInput> | ExamCreateWithoutUserInput[] | ExamUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamCreateOrConnectWithoutUserInput | ExamCreateOrConnectWithoutUserInput[]
+    upsert?: ExamUpsertWithWhereUniqueWithoutUserInput | ExamUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ExamCreateManyUserInputEnvelope
+    set?: ExamWhereUniqueInput | ExamWhereUniqueInput[]
+    disconnect?: ExamWhereUniqueInput | ExamWhereUniqueInput[]
+    delete?: ExamWhereUniqueInput | ExamWhereUniqueInput[]
+    connect?: ExamWhereUniqueInput | ExamWhereUniqueInput[]
+    update?: ExamUpdateWithWhereUniqueWithoutUserInput | ExamUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ExamUpdateManyWithWhereWithoutUserInput | ExamUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ExamScalarWhereInput | ExamScalarWhereInput[]
+  }
+
+  export type ScanHistoryUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ScanHistoryCreateWithoutUserInput, ScanHistoryUncheckedCreateWithoutUserInput> | ScanHistoryCreateWithoutUserInput[] | ScanHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScanHistoryCreateOrConnectWithoutUserInput | ScanHistoryCreateOrConnectWithoutUserInput[]
+    upsert?: ScanHistoryUpsertWithWhereUniqueWithoutUserInput | ScanHistoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ScanHistoryCreateManyUserInputEnvelope
+    set?: ScanHistoryWhereUniqueInput | ScanHistoryWhereUniqueInput[]
+    disconnect?: ScanHistoryWhereUniqueInput | ScanHistoryWhereUniqueInput[]
+    delete?: ScanHistoryWhereUniqueInput | ScanHistoryWhereUniqueInput[]
+    connect?: ScanHistoryWhereUniqueInput | ScanHistoryWhereUniqueInput[]
+    update?: ScanHistoryUpdateWithWhereUniqueWithoutUserInput | ScanHistoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ScanHistoryUpdateManyWithWhereWithoutUserInput | ScanHistoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ScanHistoryScalarWhereInput | ScanHistoryScalarWhereInput[]
   }
 
   export type ExamPredictionUncheckedUpdateManyWithoutUserNestedInput = {
@@ -48997,6 +51972,34 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutConceptWebsInput, UserUpdateWithoutConceptWebsInput>, UserUncheckedUpdateWithoutConceptWebsInput>
   }
 
+  export type UserCreateNestedOneWithoutExamsInput = {
+    create?: XOR<UserCreateWithoutExamsInput, UserUncheckedCreateWithoutExamsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutExamsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutExamsNestedInput = {
+    create?: XOR<UserCreateWithoutExamsInput, UserUncheckedCreateWithoutExamsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutExamsInput
+    upsert?: UserUpsertWithoutExamsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutExamsInput, UserUpdateWithoutExamsInput>, UserUncheckedUpdateWithoutExamsInput>
+  }
+
+  export type UserCreateNestedOneWithoutScanHistoriesInput = {
+    create?: XOR<UserCreateWithoutScanHistoriesInput, UserUncheckedCreateWithoutScanHistoriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutScanHistoriesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutScanHistoriesNestedInput = {
+    create?: XOR<UserCreateWithoutScanHistoriesInput, UserUncheckedCreateWithoutScanHistoriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutScanHistoriesInput
+    upsert?: UserUpsertWithoutScanHistoriesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutScanHistoriesInput, UserUpdateWithoutScanHistoriesInput>, UserUncheckedUpdateWithoutScanHistoriesInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -49271,6 +52274,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -49321,6 +52326,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -49387,6 +52394,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -49437,6 +52446,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -49487,6 +52498,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -49537,6 +52550,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -49603,6 +52618,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -49653,6 +52670,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -49703,6 +52722,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -49753,6 +52774,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -49819,6 +52842,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -49869,6 +52894,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -50074,6 +53101,64 @@ export namespace Prisma {
 
   export type CitationCreateManyUserInputEnvelope = {
     data: CitationCreateManyUserInput | CitationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ExamCreateWithoutUserInput = {
+    id?: string
+    subject: string
+    examDate: Date | string
+    board?: string | null
+    difficulty?: string | null
+    topics?: string | null
+    studyPlan?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ExamUncheckedCreateWithoutUserInput = {
+    id?: string
+    subject: string
+    examDate: Date | string
+    board?: string | null
+    difficulty?: string | null
+    topics?: string | null
+    studyPlan?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ExamCreateOrConnectWithoutUserInput = {
+    where: ExamWhereUniqueInput
+    create: XOR<ExamCreateWithoutUserInput, ExamUncheckedCreateWithoutUserInput>
+  }
+
+  export type ExamCreateManyUserInputEnvelope = {
+    data: ExamCreateManyUserInput | ExamCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScanHistoryCreateWithoutUserInput = {
+    id?: string
+    confidence: number
+    wordCount: number
+    subject?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScanHistoryUncheckedCreateWithoutUserInput = {
+    id?: string
+    confidence: number
+    wordCount: number
+    subject?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScanHistoryCreateOrConnectWithoutUserInput = {
+    where: ScanHistoryWhereUniqueInput
+    create: XOR<ScanHistoryCreateWithoutUserInput, ScanHistoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type ScanHistoryCreateManyUserInputEnvelope = {
+    data: ScanHistoryCreateManyUserInput | ScanHistoryCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -50964,6 +54049,65 @@ export namespace Prisma {
     userId?: StringFilter<"Citation"> | string
   }
 
+  export type ExamUpsertWithWhereUniqueWithoutUserInput = {
+    where: ExamWhereUniqueInput
+    update: XOR<ExamUpdateWithoutUserInput, ExamUncheckedUpdateWithoutUserInput>
+    create: XOR<ExamCreateWithoutUserInput, ExamUncheckedCreateWithoutUserInput>
+  }
+
+  export type ExamUpdateWithWhereUniqueWithoutUserInput = {
+    where: ExamWhereUniqueInput
+    data: XOR<ExamUpdateWithoutUserInput, ExamUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ExamUpdateManyWithWhereWithoutUserInput = {
+    where: ExamScalarWhereInput
+    data: XOR<ExamUpdateManyMutationInput, ExamUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ExamScalarWhereInput = {
+    AND?: ExamScalarWhereInput | ExamScalarWhereInput[]
+    OR?: ExamScalarWhereInput[]
+    NOT?: ExamScalarWhereInput | ExamScalarWhereInput[]
+    id?: StringFilter<"Exam"> | string
+    userId?: StringFilter<"Exam"> | string
+    subject?: StringFilter<"Exam"> | string
+    examDate?: DateTimeFilter<"Exam"> | Date | string
+    board?: StringNullableFilter<"Exam"> | string | null
+    difficulty?: StringNullableFilter<"Exam"> | string | null
+    topics?: StringNullableFilter<"Exam"> | string | null
+    studyPlan?: StringNullableFilter<"Exam"> | string | null
+    createdAt?: DateTimeFilter<"Exam"> | Date | string
+  }
+
+  export type ScanHistoryUpsertWithWhereUniqueWithoutUserInput = {
+    where: ScanHistoryWhereUniqueInput
+    update: XOR<ScanHistoryUpdateWithoutUserInput, ScanHistoryUncheckedUpdateWithoutUserInput>
+    create: XOR<ScanHistoryCreateWithoutUserInput, ScanHistoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type ScanHistoryUpdateWithWhereUniqueWithoutUserInput = {
+    where: ScanHistoryWhereUniqueInput
+    data: XOR<ScanHistoryUpdateWithoutUserInput, ScanHistoryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ScanHistoryUpdateManyWithWhereWithoutUserInput = {
+    where: ScanHistoryScalarWhereInput
+    data: XOR<ScanHistoryUpdateManyMutationInput, ScanHistoryUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ScanHistoryScalarWhereInput = {
+    AND?: ScanHistoryScalarWhereInput | ScanHistoryScalarWhereInput[]
+    OR?: ScanHistoryScalarWhereInput[]
+    NOT?: ScanHistoryScalarWhereInput | ScanHistoryScalarWhereInput[]
+    id?: StringFilter<"ScanHistory"> | string
+    userId?: StringFilter<"ScanHistory"> | string
+    confidence?: IntFilter<"ScanHistory"> | number
+    wordCount?: IntFilter<"ScanHistory"> | number
+    subject?: StringNullableFilter<"ScanHistory"> | string | null
+    createdAt?: DateTimeFilter<"ScanHistory"> | Date | string
+  }
+
   export type ExamPredictionUpsertWithWhereUniqueWithoutUserInput = {
     where: ExamPredictionWhereUniqueInput
     update: XOR<ExamPredictionUpdateWithoutUserInput, ExamPredictionUncheckedUpdateWithoutUserInput>
@@ -51614,6 +54758,8 @@ export namespace Prisma {
     posts?: PostCreateNestedManyWithoutCreatedByInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -51664,6 +54810,8 @@ export namespace Prisma {
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -51779,6 +54927,8 @@ export namespace Prisma {
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -51829,6 +54979,8 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -51922,6 +55074,8 @@ export namespace Prisma {
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -51972,6 +55126,8 @@ export namespace Prisma {
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -52078,6 +55234,8 @@ export namespace Prisma {
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -52128,6 +55286,8 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -52194,6 +55354,8 @@ export namespace Prisma {
     posts?: PostCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -52244,6 +55406,8 @@ export namespace Prisma {
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -52310,6 +55474,8 @@ export namespace Prisma {
     posts?: PostUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -52360,6 +55526,8 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -52411,6 +55579,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
     battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
@@ -52461,6 +55631,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
     battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
@@ -52527,6 +55699,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
     battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
@@ -52577,6 +55751,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
     battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
@@ -52627,6 +55803,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
     battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
@@ -52677,6 +55855,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
     battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
@@ -52732,6 +55912,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
@@ -52782,6 +55964,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
@@ -52927,6 +56111,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
     battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
@@ -52977,6 +56163,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
     battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
@@ -53038,6 +56226,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
@@ -53088,6 +56278,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
@@ -53375,6 +56567,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -53425,6 +56619,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -53550,6 +56746,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -53600,6 +56798,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -53703,6 +56903,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -53753,6 +56955,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -53878,6 +57082,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -53928,6 +57134,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -53978,6 +57186,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -54028,6 +57238,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -54415,6 +57627,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -54465,6 +57679,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -54773,6 +57989,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -54823,6 +58041,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -54948,6 +58168,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -54998,6 +58220,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -55101,6 +58325,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -55151,6 +58377,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -55300,6 +58528,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -55350,6 +58580,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -55616,6 +58848,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -55666,6 +58900,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -55856,6 +59092,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -55906,6 +59144,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -55995,6 +59235,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -56045,6 +59287,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -56140,6 +59384,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -56190,6 +59436,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -56293,6 +59541,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -56343,6 +59593,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -56468,6 +59720,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -56518,6 +59772,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -56621,6 +59877,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -56671,6 +59929,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -56824,6 +60084,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -56874,6 +60136,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -56969,6 +60233,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -57019,6 +60285,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -57120,6 +60388,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -57170,6 +60440,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -57273,6 +60545,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -57323,6 +60597,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -57448,6 +60724,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -57498,6 +60776,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -57601,6 +60881,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -57651,6 +60933,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -57776,6 +61060,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -57826,6 +61112,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -57929,6 +61217,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -57979,6 +61269,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -58104,6 +61396,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -58154,6 +61448,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -58257,6 +61553,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -58307,6 +61605,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -58432,6 +61732,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -58482,6 +61784,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -58610,6 +61914,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -58660,6 +61966,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -58816,6 +62124,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -58866,6 +62176,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -58916,6 +62228,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -58966,6 +62280,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -59032,6 +62348,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -59082,6 +62400,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -59132,6 +62452,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -59182,6 +62504,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -59248,6 +62572,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -59298,6 +62624,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -59348,6 +62676,8 @@ export namespace Prisma {
     notes?: NoteCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
     citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
     hostedBattles?: BattleCreateNestedManyWithoutHostInput
     joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
@@ -59398,6 +62728,8 @@ export namespace Prisma {
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
     examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
     hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
     joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
@@ -59464,6 +62796,8 @@ export namespace Prisma {
     notes?: NoteUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
     citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
@@ -59514,6 +62848,8 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
     examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
     hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
     joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
@@ -59534,6 +62870,454 @@ export namespace Prisma {
     pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutExamsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutExamsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutExamsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutExamsInput, UserUncheckedCreateWithoutExamsInput>
+  }
+
+  export type UserUpsertWithoutExamsInput = {
+    update: XOR<UserUpdateWithoutExamsInput, UserUncheckedUpdateWithoutExamsInput>
+    create: XOR<UserCreateWithoutExamsInput, UserUncheckedCreateWithoutExamsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutExamsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutExamsInput, UserUncheckedUpdateWithoutExamsInput>
+  }
+
+  export type UserUpdateWithoutExamsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutExamsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutScanHistoriesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutScanHistoriesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutScanHistoriesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutScanHistoriesInput, UserUncheckedCreateWithoutScanHistoriesInput>
+  }
+
+  export type UserUpsertWithoutScanHistoriesInput = {
+    update: XOR<UserUpdateWithoutScanHistoriesInput, UserUncheckedUpdateWithoutScanHistoriesInput>
+    create: XOR<UserCreateWithoutScanHistoriesInput, UserUncheckedCreateWithoutScanHistoriesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutScanHistoriesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutScanHistoriesInput, UserUncheckedUpdateWithoutScanHistoriesInput>
+  }
+
+  export type UserUpdateWithoutScanHistoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutScanHistoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -59594,6 +63378,25 @@ export namespace Prisma {
     url?: string | null
     pages?: string | null
     format: string
+    createdAt?: Date | string
+  }
+
+  export type ExamCreateManyUserInput = {
+    id?: string
+    subject: string
+    examDate: Date | string
+    board?: string | null
+    difficulty?: string | null
+    topics?: string | null
+    studyPlan?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ScanHistoryCreateManyUserInput = {
+    id?: string
+    confidence: number
+    wordCount: number
+    subject?: string | null
     createdAt?: Date | string
   }
 
@@ -60008,6 +63811,63 @@ export namespace Prisma {
     url?: NullableStringFieldUpdateOperationsInput | string | null
     pages?: NullableStringFieldUpdateOperationsInput | string | null
     format?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    board?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
+    topics?: NullableStringFieldUpdateOperationsInput | string | null
+    studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    board?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
+    topics?: NullableStringFieldUpdateOperationsInput | string | null
+    studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    board?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
+    topics?: NullableStringFieldUpdateOperationsInput | string | null
+    studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScanHistoryUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    confidence?: IntFieldUpdateOperationsInput | number
+    wordCount?: IntFieldUpdateOperationsInput | number
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScanHistoryUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    confidence?: IntFieldUpdateOperationsInput | number
+    wordCount?: IntFieldUpdateOperationsInput | number
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScanHistoryUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    confidence?: IntFieldUpdateOperationsInput | number
+    wordCount?: IntFieldUpdateOperationsInput | number
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

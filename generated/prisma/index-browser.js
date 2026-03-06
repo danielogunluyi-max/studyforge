@@ -464,6 +464,27 @@ exports.Prisma.ConceptWebScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ExamScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  subject: 'subject',
+  examDate: 'examDate',
+  board: 'board',
+  difficulty: 'difficulty',
+  topics: 'topics',
+  studyPlan: 'studyPlan',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ScanHistoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  confidence: 'confidence',
+  wordCount: 'wordCount',
+  subject: 'subject',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -525,7 +546,9 @@ exports.Prisma.ModelName = {
   GroupPinnedMessage: 'GroupPinnedMessage',
   ConceptConnection: 'ConceptConnection',
   LearningStyleResult: 'LearningStyleResult',
-  ConceptWeb: 'ConceptWeb'
+  ConceptWeb: 'ConceptWeb',
+  Exam: 'Exam',
+  ScanHistory: 'ScanHistory'
 };
 
 /**

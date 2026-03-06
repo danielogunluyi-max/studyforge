@@ -26,6 +26,7 @@ export function AppNav() {
   const featureLinks = [
     { href: "/dashboard", label: "Exam Dashboard", description: "Track countdowns, pressure, and daily plans", icon: "spark", section: "Study Tools" },
     { href: "/generator", label: "Generator", description: "Turn notes into study formats", icon: "doc", section: "Study Tools" },
+    { href: "/scan", label: "Scan Notes", description: "Scan handwritten notes with AI", icon: "camera", section: "Study Tools" },
     { href: "/upload", label: "Upload File", description: "Extract text from PDFs and images", icon: "upload", section: "Study Tools" },
     { href: "/my-notes", label: "My Notes", description: "Manage your saved study library", icon: "stack", section: "Study Tools" },
     { href: "/citations", label: "Citations", description: "Generate academic citations quickly", icon: "book", section: "Study Tools" },
@@ -53,6 +54,7 @@ export function AppNav() {
     if (icon === "puzzle") return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.25 4.5A1.75 1.75 0 0110 2.75h2A1.75 1.75 0 0113.75 4.5v.75h2.75A1.75 1.75 0 0118.25 7v2.75h.75a1.75 1.75 0 010 3.5h-.75V16A1.75 1.75 0 0116.5 17.75h-2.75v.75A1.75 1.75 0 0112 20.25h-2a1.75 1.75 0 01-1.75-1.75v-.75H5.5A1.75 1.75 0 013.75 16v-2.75H3a1.75 1.75 0 010-3.5h.75V7A1.75 1.75 0 015.5 5.25h2.75V4.5z" /></svg>;
     if (icon === "group") return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 18.75v-1.5a3.75 3.75 0 00-7.5 0v1.5M12.75 9.75a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zM19.5 9a1.5 1.5 0 11-3 0" /></svg>;
     if (icon === "nodes") return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="5" cy="12" r="2" /><circle cx="12" cy="5" r="2" /><circle cx="19" cy="12" r="2" /><circle cx="12" cy="19" r="2" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.7 10.9 10.3 6.1M13.7 6.1l3.6 4.8M17.3 13.1 13.7 17.9M10.3 17.9 6.7 13.1" /></svg>;
+    if (icon === "camera") return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 7.5h3l1.5-2.25h7.5l1.5 2.25h3A1.5 1.5 0 0121.75 9v9.75A1.5 1.5 0 0120.25 20.25H3.75A1.5 1.5 0 012.25 18.75V9A1.5 1.5 0 013.75 7.5z" /><circle cx="12" cy="13" r="3.25" strokeWidth={1.5} /></svg>;
     return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="m12 3 1.5 3.5L17 8l-3.5 1.5L12 13l-1.5-3.5L7 8l3.5-1.5L12 3z" /></svg>;
   };
 
