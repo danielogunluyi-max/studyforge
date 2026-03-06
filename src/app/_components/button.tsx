@@ -24,11 +24,11 @@ export function Button({
   className = "",
   ...rest
 }: ButtonProps) {
-  const baseStyles = "btn button-ripple focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-70";
+  const baseStyles = "btn focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-70";
 
   // Variant styles
   const variantStyles = {
-    primary: "btn-primary button-shimmer",
+    primary: "btn-primary",
     secondary: "btn-ghost",
     danger: "btn-danger",
     ghost: "btn-ghost",
