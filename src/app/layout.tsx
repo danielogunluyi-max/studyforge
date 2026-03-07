@@ -7,6 +7,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { AppearanceSync } from "~/app/_components/appearance-sync";
 import { ToastProvider, ToastViewport } from "~/app/_components/toast";
 import { ExamWidget } from "~/app/_components/exam-widget";
+import { PomodoroWidget } from "~/app/_components/pomodoro-widget";
 import { AppShell } from "~/app/_components/app-shell";
 
 export const metadata: Metadata = {
@@ -70,6 +71,7 @@ export default function RootLayout({
                   <AppShell>
                     <div className="page-enter">{children}</div>
                   </AppShell>
+                  <PomodoroWidget />
                   <ExamWidget />
                   <ToastViewport />
                 </ToastProvider>
