@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type ExamLite = {
   id: string;
@@ -38,6 +38,98 @@ export function ExamWidget() {
   const [upcomingExams, setUpcomingExams] = useState<ExamLite[]>([]);
   const [tick, setTick] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+
+  const widgetRef = useRef<HTMLDivElement>(null);
+  const dragStartRef = useRef({ mouseX: 0, mouseY: 0, startX: 0, startY: 0 });
+
+  const BASE_RIGHT = 16;
+  const BASE_BOTTOM = 16;
+  const SESSION_KEY = "studyforge:exam-widget-offset";
+
+  const clampOffset = (nextX: number, nextY: number) => {
+    const width = widgetRef.current?.offsetWidth ?? 320;
+    const height = widgetRef.current?.offsetHeight ?? 160;
+    const maxRight = Math.max(0, window.innerWidth - width);
+    const maxBottom = Math.max(0, window.innerHeight - height);
+
+    const minOffsetX = BASE_RIGHT - maxRight;
+    const maxOffsetX = BASE_RIGHT;
+    const minOffsetY = BASE_BOTTOM - maxBottom;
+    const maxOffsetY = BASE_BOTTOM;
+
+    return {
+      x: Math.max(minOffsetX, Math.min(maxOffsetX, nextX)),
+      y: Math.max(minOffsetY, Math.min(maxOffsetY, nextY)),
+    };
+  };
+
+  const persistOffset = (nextOffset: { x: number; y: number }) => {
+    try {
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(nextOffset));
+    } catch {
+      // Ignore persistence errors in restricted environments.
+    }
+  };
+
+  const startDrag = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(true);
+    dragStartRef.current = {
+      mouseX: event.clientX,
+      mouseY: event.clientY,
+      startX: offset.x,
+      startY: offset.y,
+    };
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const deltaX = moveEvent.clientX - dragStartRef.current.mouseX;
+      const deltaY = moveEvent.clientY - dragStartRef.current.mouseY;
+
+      const unclampedX = dragStartRef.current.startX + deltaX;
+      const unclampedY = dragStartRef.current.startY + deltaY;
+      const next = clampOffset(unclampedX, unclampedY);
+      setOffset(next);
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      persistOffset(offset);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  };
+
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(SESSION_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as { x?: number; y?: number };
+      if (typeof parsed.x === "number" && typeof parsed.y === "number") {
+        setOffset(clampOffset(parsed.x, parsed.y));
+      }
+    } catch {
+      // Ignore malformed session data.
+    }
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => {
+      setOffset((current) => clampOffset(current.x, current.y));
+    };
+
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    persistOffset(offset);
+  }, [offset]);
 
   useEffect(() => {
     if (status !== "authenticated" || !session?.user) {
@@ -91,83 +183,191 @@ export function ExamWidget() {
     return null;
   }
 
+  const right = BASE_RIGHT - offset.x;
+  const bottom = BASE_BOTTOM - offset.y;
+
   return (
-    <div className="pointer-events-none fixed bottom-4 left-3 right-3 z-40 sm:left-auto sm:right-4">
+    <div
+      style={{
+        position: "fixed",
+        zIndex: 40,
+        right,
+        bottom,
+        width: 320,
+        maxWidth: "calc(100vw - 24px)",
+      }}
+    >
       <div
-        className="pointer-events-auto w-full rounded-xl bg-slate-900/95 p-3 text-slate-100 shadow-2xl sm:w-80"
+        ref={widgetRef}
         style={{
-          borderWidth: "1px",
-          borderStyle: "solid",
-          borderColor: nearest ? urgencyColor(nearest.examDate) : "var(--border-default)",
+          width: "100%",
+          border: `1px solid ${nearest && !isCollapsed ? urgencyColor(nearest.examDate) : "var(--border)"}`,
+          borderRadius: 12,
+          background: "var(--bg-card)",
+          color: "var(--text-primary)",
+          boxShadow: "0 20px 45px rgba(0, 0, 0, 0.4)",
+          overflow: "hidden",
         }}
       >
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Exam Widget</p>
-          <span className="rounded-full border border-slate-600 px-2 py-0.5 text-[11px] font-semibold text-slate-300">
-            {upcoming.length}
-          </span>
-        </div>
+        <div
+          onMouseDown={startDrag}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 8,
+            padding: "10px 12px",
+            borderBottom: isCollapsed ? "none" : "1px solid var(--border)",
+            cursor: isDragging ? "grabbing" : "grab",
+            userSelect: "none",
+            background: "var(--bg-card-hover)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
+            <span
+              aria-hidden="true"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 4px)",
+                gridTemplateRows: "repeat(2, 4px)",
+                gap: 3,
+                opacity: 0.8,
+              }}
+            >
+              {Array.from({ length: 6 }).map((_, index) => (
+                <span key={`grip-${index}`} style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--text-secondary)" }} />
+              ))}
+            </span>
+            <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: "var(--text-secondary)", letterSpacing: 0.6, textTransform: "uppercase" }}>
+              Exam Widget
+            </p>
+            <span
+              style={{
+                borderRadius: 20,
+                border: "1px solid var(--border)",
+                padding: "2px 8px",
+                fontSize: 11,
+                fontWeight: 700,
+                color: "var(--text-secondary)",
+              }}
+            >
+              {upcoming.length}
+            </span>
+          </div>
 
-        {!nearest ? (
-          <>
-            <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>No upcoming exams</p>
-            <Link href="/dashboard" className="mt-2 inline-block text-xs font-semibold" style={{ color: "var(--text-muted)" }}>
-              Add one →
-            </Link>
-          </>
-        ) : (
-          <>
-            <p className="mt-1 truncate text-sm font-semibold text-white">{nearest.subject}</p>
-            {(() => {
-              const parts = countdownFromNow(nearest.examDate);
-              return (
-                <p className="mt-1 text-sm font-semibold" style={{ color: urgencyColor(nearest.examDate) }}>
-                  {parts.days}d {parts.hours}h {parts.minutes}m left
-                </p>
-              );
-            })()}
-            <p className="mt-1 text-xs text-slate-400">{new Date(nearest.examDate).toLocaleString()}</p>
-          </>
-        )}
-
-        <div className="mt-2 flex items-center gap-3">
           <button
             type="button"
             onClick={() => {
-              setIsExpanded((prev) => !prev);
+              setIsCollapsed((prev) => !prev);
             }}
-            className="text-xs font-semibold text-blue-300 hover:text-blue-200"
+            style={{
+              width: 28,
+              height: 28,
+              borderRadius: 8,
+              border: "1px solid var(--border)",
+              background: "var(--bg-card)",
+              color: "var(--text-primary)",
+              fontSize: 16,
+              lineHeight: 1,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            title={isCollapsed ? "Expand widget" : "Collapse widget"}
           >
-            {isExpanded ? "Hide list" : "View all"}
+            {isCollapsed ? "📅" : "−"}
           </button>
-          <Link href="/dashboard" className="text-xs font-semibold text-blue-300 hover:text-blue-200">
-            Open Dashboard →
-          </Link>
         </div>
 
-        {isExpanded && (
-          <div className="mt-3 border-t border-slate-700 pt-3">
-            {upcoming.length === 0 ? (
-              <div>
-                <p className="text-sm" style={{ color: "var(--text-muted)" }}>You have no upcoming exams</p>
-                <Link href="/dashboard" className="mt-1 inline-block text-xs font-semibold text-blue-300 hover:text-blue-200">
+        {!isCollapsed && (
+          <div style={{ padding: 12 }}>
+            {!nearest ? (
+              <>
+                <p style={{ margin: 0, fontSize: 14, color: "var(--text-secondary)" }}>No upcoming exams</p>
+                <Link href="/dashboard" style={{ marginTop: 8, display: "inline-block", fontSize: 12, fontWeight: 700, color: "var(--text-secondary)" }}>
                   Add one →
                 </Link>
-              </div>
+              </>
             ) : (
-              <div className="space-y-2">
-                {upcoming.map((exam) => {
-                  const parts = countdownFromNow(exam.examDate);
+              <>
+                <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "var(--text-primary)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {nearest.subject}
+                </p>
+                {(() => {
+                  const parts = countdownFromNow(nearest.examDate);
                   return (
-                    <div key={exam.id} className="rounded-lg border border-slate-700 bg-slate-800/60 p-2">
-                      <p className="truncate text-sm font-semibold text-white">{exam.subject}</p>
-                      <p className="text-xs font-semibold" style={{ color: urgencyColor(exam.examDate) }}>
-                        {parts.days}d {parts.hours}h {parts.minutes}m left
-                      </p>
-                      <p className="text-[11px] text-slate-400">{new Date(exam.examDate).toLocaleString()}</p>
-                    </div>
+                    <p style={{ margin: "6px 0 0", fontSize: 14, fontWeight: 700, color: urgencyColor(nearest.examDate) }}>
+                      {parts.days}d {parts.hours}h {parts.minutes}m left
+                    </p>
                   );
-                })}
+                })()}
+                <p style={{ margin: "6px 0 0", fontSize: 12, color: "var(--text-secondary)" }}>
+                  {new Date(nearest.examDate).toLocaleString()}
+                </p>
+              </>
+            )}
+
+            <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 12 }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsExpanded((prev) => !prev);
+                }}
+                style={{
+                  border: "none",
+                  background: "transparent",
+                  padding: 0,
+                  color: "var(--accent-blue)",
+                  fontSize: 12,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                {isExpanded ? "Hide list" : "View all"}
+              </button>
+              <Link href="/dashboard" style={{ color: "var(--accent-blue)", fontSize: 12, fontWeight: 700 }}>
+                Open Dashboard →
+              </Link>
+            </div>
+
+            {isExpanded && (
+              <div style={{ marginTop: 12, borderTop: "1px solid var(--border)", paddingTop: 10 }}>
+                {upcoming.length === 0 ? (
+                  <div>
+                    <p style={{ margin: 0, fontSize: 14, color: "var(--text-secondary)" }}>You have no upcoming exams</p>
+                    <Link href="/dashboard" style={{ marginTop: 6, display: "inline-block", fontSize: 12, fontWeight: 700, color: "var(--accent-blue)" }}>
+                      Add one →
+                    </Link>
+                  </div>
+                ) : (
+                  <div style={{ display: "grid", gap: 8 }}>
+                    {upcoming.map((exam) => {
+                      const parts = countdownFromNow(exam.examDate);
+                      return (
+                        <div
+                          key={exam.id}
+                          style={{
+                            borderRadius: 10,
+                            border: "1px solid var(--border)",
+                            background: "var(--bg-card-hover)",
+                            padding: 8,
+                          }}
+                        >
+                          <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "var(--text-primary)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                            {exam.subject}
+                          </p>
+                          <p style={{ margin: "4px 0 0", fontSize: 12, fontWeight: 700, color: urgencyColor(exam.examDate) }}>
+                            {parts.days}d {parts.hours}h {parts.minutes}m left
+                          </p>
+                          <p style={{ margin: "4px 0 0", fontSize: 11, color: "var(--text-secondary)" }}>
+                            {new Date(exam.examDate).toLocaleString()}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             )}
           </div>
