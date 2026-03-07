@@ -293,7 +293,7 @@ export default function ScanPage() {
           actions={<Button href="/upload" variant="secondary" size="sm">Back to Upload</Button>}
         />
 
-        <section className="rounded-2xl border border-slate-700 bg-[#0d142b] p-5 shadow-lg">
+        <section className="rounded-2xl border border-slate-700 bg-[#0d142b] p-5">
           <div
             className={`rounded-xl border-2 border-dashed p-6 text-center transition ${isDragging ? "border-blue-400 bg-blue-500/10" : "border-slate-600 bg-slate-900/60"}`}
             onDragOver={(event) => {
@@ -390,7 +390,7 @@ export default function ScanPage() {
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-slate-700 bg-[#0d142b] p-5 shadow-lg">
+        <section className="mt-6 rounded-2xl border border-slate-700 bg-[#0d142b] p-5">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-300">Processing Stages</h2>
           <div className="mt-3 space-y-2">
             {stages.map((stage) => (
@@ -411,7 +411,7 @@ export default function ScanPage() {
         </section>
 
         {text.trim() && (
-          <section className="mt-6 rounded-2xl border border-slate-700 bg-[#0d142b] p-5 shadow-lg">
+          <section className="mt-6 rounded-2xl border border-slate-700 bg-[#0d142b] p-5">
             <div className="mb-3 flex flex-wrap items-center gap-2">
               {confidence !== null && (
                 <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${confidenceBadge(confidence)}`}>
@@ -441,7 +441,7 @@ export default function ScanPage() {
           </section>
         )}
 
-        <section className="mt-6 rounded-2xl border border-slate-700 bg-[#0d142b] p-5 shadow-lg">
+        <section className="mt-6 rounded-2xl border border-slate-700 bg-[#0d142b] p-5">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-300">Recent Scans</h2>
           {history.length === 0 ? (
             <p className="mt-3 text-sm text-slate-400">No scan history yet.</p>

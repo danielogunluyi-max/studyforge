@@ -605,8 +605,8 @@ export default function CitationsPage() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2 print-citations-hide">
-          <div className="rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
-            <h2 className="mb-4 text-lg font-semibold text-white">Source Details</h2>
+          <div className="rounded-xl border border-gray-700 bg-gray-900 p-6">
+            <h2 className="mb-4 text-[20px] font-semibold text-white">Source Details</h2>
 
             <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_auto_auto]">
               <input
@@ -669,8 +669,8 @@ export default function CitationsPage() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
-            <h2 className="mb-3 text-lg font-semibold text-white">Live Preview</h2>
+          <div className="rounded-xl border border-gray-700 bg-gray-900 p-6">
+            <h2 className="mb-3 text-[20px] font-semibold text-white">Live Preview</h2>
             <div className="rounded-lg border border-gray-700 bg-gray-800 p-4 text-sm text-gray-100" style={{ paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
               {preview.html ? <span dangerouslySetInnerHTML={{ __html: preview.html }} /> : "Fill in fields to preview the citation."}
             </div>
@@ -691,9 +691,9 @@ export default function CitationsPage() {
           </div>
         </div>
 
-        <div className="mt-8 rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-sm print-citations-only">
+        <div className="mt-8 rounded-xl border border-gray-700 bg-gray-900 p-6 print-citations-only">
           <div className="mb-4 flex items-center justify-between print-citations-hide">
-            <h2 className="text-lg font-semibold text-white">{worksHeader} ({sortedFiltered.length} sources)</h2>
+            <h2 className="text-[20px] font-semibold text-white">{worksHeader} ({sortedFiltered.length} sources)</h2>
           </div>
 
           {sortedFiltered.length === 0 ? (

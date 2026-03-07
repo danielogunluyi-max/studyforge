@@ -117,7 +117,7 @@ export default function StudyGroupsPage() {
 
         <div className="stagger-grid grid gap-6 lg:grid-cols-2">
           <div className="stagger-card card">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">Create Group</h2>
+            <h2 className="mb-4 text-[20px] font-semibold text-white">Create Group</h2>
             <input
               value={name}
               onChange={(event) => setName(event.target.value)}
@@ -144,7 +144,7 @@ export default function StudyGroupsPage() {
           </div>
 
           <div className="stagger-card card">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">Join Group</h2>
+            <h2 className="mb-4 text-[20px] font-semibold text-white">Join Group</h2>
             <input
               value={joinCode}
               onChange={(event) => setJoinCode(event.target.value.toUpperCase())}
@@ -163,7 +163,7 @@ export default function StudyGroupsPage() {
         </div>
 
         <div className="mt-8 card">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">My Study Rooms</h2>
+          <h2 className="mb-4 text-[20px] font-semibold text-white">My Study Rooms</h2>
           {groups.length === 0 ? (
             <EmptyState
               title="No study groups yet"
@@ -172,10 +172,10 @@ export default function StudyGroupsPage() {
           ) : (
             <div className="stagger-grid grid gap-4 md:grid-cols-2">
               {groups.map((group) => (
-                <div key={group.id} className="stagger-card panel-muted p-4 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+                <div key={group.id} className="stagger-card panel-muted p-4 transition-all duration-200 hover:-translate-y-1">
                   <div className="mb-2 flex items-start justify-between gap-2">
                     <div>
-                      <p className="font-semibold text-gray-900">{group.name}</p>
+                      <p className="font-semibold text-white">{group.name}</p>
                       <p className="text-xs text-gray-500">{group.topic ?? "General"} • {group.myRole ?? "member"}</p>
                     </div>
                     {group.activeNow ? <span className="badge badge-success px-2 py-0.5 text-xs font-semibold">Active Now</span> : null}
@@ -199,13 +199,13 @@ export default function StudyGroupsPage() {
         </div>
 
         <div className="mt-8 card">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">Public Groups</h2>
+          <h2 className="mb-4 text-[20px] font-semibold text-white">Public Groups</h2>
           {publicGroups.length === 0 ? (
             <p className="text-sm text-gray-500">No public groups match your search.</p>
           ) : (
             <div className="stagger-grid space-y-2">
               {publicGroups.map((group) => (
-                <div key={group.id} className="stagger-card flex items-center justify-between panel-muted px-3 py-2 text-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                <div key={group.id} className="stagger-card flex items-center justify-between panel-muted px-3 py-2 text-sm transition-all duration-200 hover:-translate-y-0.5">
                   <p className="text-gray-700">{group.name} • {group.topic ?? "General"} • {group._count.members} members</p>
                   <Button size="sm" variant="secondary" onClick={() => setJoinCode(group.inviteCode)}>Use Code</Button>
                 </div>

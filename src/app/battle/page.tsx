@@ -255,7 +255,7 @@ export default function BattlePage() {
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Battle Progression</p>
-                <p className="text-xl font-bold text-gray-900">{profile.level} • {profile.xp} XP</p>
+                <p className="text-xl font-bold text-white">{profile.level} • {profile.xp} XP</p>
                 <p className="text-sm text-gray-600">Streak: {profile.battleWinStreak} • Solo sessions: {profile.soloSessionsCompleted}</p>
               </div>
               <div className="min-w-56 flex-1">
@@ -297,7 +297,7 @@ export default function BattlePage() {
 
         <div className="stagger-grid grid gap-6 lg:grid-cols-2">
           <div className="stagger-card card">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">Create Session</h2>
+            <h2 className="mb-4 text-[20px] font-semibold text-white">Create Session</h2>
             <input
               value={battleTitle}
               onChange={(event) => setBattleTitle(event.target.value)}
@@ -364,7 +364,7 @@ export default function BattlePage() {
           </div>
 
           <div className="stagger-card card">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">Join Battle</h2>
+            <h2 className="mb-4 text-[20px] font-semibold text-white">Join Battle</h2>
             <input
               value={joinCode}
               onChange={(event) => setJoinCode(event.target.value.toUpperCase())}
@@ -379,8 +379,8 @@ export default function BattlePage() {
               Join Battle
             </Button>
 
-            <div className="mt-5 border-t border-gray-200 pt-4">
-              <p className="mb-2 text-sm font-semibold text-gray-900">Subject Rooms</p>
+            <div className="mt-5 border-t border-[var(--border-default)] pt-4">
+              <p className="mb-2 text-sm font-semibold text-white">Subject Rooms</p>
               <div className="space-y-2">
                 {(rooms.length ? rooms : ARENA_SUBJECTS.map((item) => ({ subject: item, online: 0, waiting: 0 }))).map((room) => (
                   <div key={room.subject} className="flex items-center justify-between panel-muted px-3 py-2">
@@ -406,7 +406,7 @@ export default function BattlePage() {
                     key={emoji}
                     type="button"
                     onClick={() => pushReaction(emoji)}
-                    className="rounded border border-gray-300 bg-white px-2 py-1 text-lg transition-all duration-200 active:scale-95 hover:bg-gray-100"
+                    className="rounded border border-gray-300 bg-[var(--bg-card)] px-2 py-1 text-lg transition-all duration-200 active:scale-95 hover:bg-gray-100"
                   >
                     {emoji}
                   </button>
@@ -420,7 +420,7 @@ export default function BattlePage() {
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
           <div className="card">
             <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
-              <h2 className="text-lg font-semibold text-gray-900">Global Leaderboard</h2>
+              <h2 className="text-[20px] font-semibold text-white">Global Leaderboard</h2>
               <div className="flex flex-wrap gap-2">
                 <select
                   value={leaderboardSubject}
@@ -456,7 +456,7 @@ export default function BattlePage() {
 
           <div className="card">
             <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900">Tournament Mode</h2>
+              <h2 className="text-[20px] font-semibold text-white">Tournament Mode</h2>
               <Button size="sm" onClick={() => void createTournament()} loading={isBuildingBracket}>
                 Generate Bracket
               </Button>
@@ -481,7 +481,7 @@ export default function BattlePage() {
         </div>
 
         <div className="mt-8 card">
-          <h2 className="mb-3 text-lg font-semibold text-gray-900">Arena Music</h2>
+          <h2 className="mb-3 text-[20px] font-semibold text-white">Arena Music</h2>
           <p className="mb-2 text-xs text-gray-500 md:hidden">Mini player</p>
           <div className="mb-3 hidden flex-wrap gap-2 md:flex">
             {TRACKS.map((track) => (
@@ -501,11 +501,11 @@ export default function BattlePage() {
         </div>
 
         <div className="mt-8 card">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">Battle History</h2>
+          <h2 className="mb-4 text-[20px] font-semibold text-white">Battle History</h2>
           {history.length === 0 ? (
             <EmptyState
-              title="No battles yet"
-              description="Create your first battle to challenge friends or join an existing battle with a code."
+              title="No battles yet - challenge a friend!"
+              description="Spin up a new battle room or jump in with a code and start competing."
             />
           ) : (
             <div className="space-y-3">
@@ -515,7 +515,7 @@ export default function BattlePage() {
                   onClick={() => router.push(`/battle/${battle.id}`)}
                   variant="secondary"
                   fullWidth
-                  className="justify-start border-gray-200 bg-gray-50 text-left text-gray-700 hover:bg-gray-100"
+                  className="justify-start border-[var(--border-default)] bg-[var(--bg-surface)] text-left text-gray-700 hover:bg-gray-100"
                 >
                   <p className="font-semibold">{battle.code} • {battle.mode ?? "pvp"} • {battle.status}</p>
                   <p className="text-xs text-gray-500">{battle.subject ?? "Mixed"} • Score: {battle.hostScore} - {battle.opponentScore} • {new Date(battle.createdAt).toLocaleString()}</p>

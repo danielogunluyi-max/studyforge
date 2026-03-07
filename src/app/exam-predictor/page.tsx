@@ -520,7 +520,7 @@ export default function ExamPredictorPage() {
               { id: 3, label: "Step 3", desc: "Generate" },
               { id: 4, label: "Step 4", desc: "Results" },
             ].map((item) => (
-              <div key={item.id} className={`w-[132px] shrink-0 rounded-lg border px-3 py-2 sm:w-auto sm:shrink ${step >= item.id ? "border-blue-200 bg-blue-50" : "border-gray-200 bg-gray-50"}`}>
+              <div key={item.id} className={`w-[132px] shrink-0 rounded-lg border px-3 py-2 sm:w-auto sm:shrink ${step >= item.id ? "border-blue-200 bg-blue-50" : "border-[var(--border-default)] bg-[var(--bg-surface)]"}`}>
                 <p className={`text-xs font-semibold ${step >= item.id ? "text-blue-700" : "text-gray-500"}`}>{item.label}</p>
                 <p className="text-sm font-medium text-gray-800">{item.desc}</p>
               </div>
@@ -532,9 +532,9 @@ export default function ExamPredictorPage() {
         <div className="grid gap-6 xl:grid-cols-[1.1fr_1fr]">
           <div className="space-y-6">
             <section className="card">
-              <h2 className="mb-3 text-lg font-semibold text-gray-900">Step 1 • Upload & Source Content</h2>
+              <h2 className="mb-3 text-[20px] font-semibold text-white">Step 1 • Upload & Source Content</h2>
 
-              <label className="mb-1 block text-sm font-semibold text-gray-900">Past Exams (multiple uploads supported)</label>
+              <label className="mb-1 block text-sm font-semibold text-white">Past Exams (multiple uploads supported)</label>
               <textarea
                 value={pastExamText}
                 onChange={(event) => setPastExamText(event.target.value)}
@@ -559,7 +559,7 @@ export default function ExamPredictorPage() {
                 )}
               </div>
 
-              <label className="mb-1 mt-4 block text-sm font-semibold text-gray-900">Syllabus Content (optional)</label>
+              <label className="mb-1 mt-4 block text-sm font-semibold text-white">Syllabus Content (optional)</label>
               <textarea
                 value={syllabusText}
                 onChange={(event) => setSyllabusText(event.target.value)}
@@ -583,9 +583,9 @@ export default function ExamPredictorPage() {
             </section>
 
             <section className="card">
-              <h2 className="mb-3 text-lg font-semibold text-gray-900">Step 2 • Test Structure Builder</h2>
+              <h2 className="mb-3 text-[20px] font-semibold text-white">Step 2 • Test Structure Builder</h2>
 
-              <label className="mb-1 block text-sm font-semibold text-gray-900">Preset</label>
+              <label className="mb-1 block text-sm font-semibold text-white">Preset</label>
               <Listbox
                 value={testPreset}
                 onChange={(value: string) => applyPreset(value)}
@@ -657,7 +657,7 @@ export default function ExamPredictorPage() {
 
               <div className="mt-4 grid gap-3 md:grid-cols-2">
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-gray-900">Exam Type</label>
+                  <label className="mb-1 block text-sm font-semibold text-white">Exam Type</label>
                   <Listbox
                     value={examType}
                     onChange={(value: string) => setExamType(value)}
@@ -671,7 +671,7 @@ export default function ExamPredictorPage() {
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-gray-900">Predicted Questions</label>
+                  <label className="mb-1 block text-sm font-semibold text-white">Predicted Questions</label>
                   <Listbox
                     value={predictionCountOption}
                     onChange={(value: string) => setPredictionCountOption(value)}
@@ -687,7 +687,7 @@ export default function ExamPredictorPage() {
 
                 {predictionCountOption === "custom" && (
                   <div>
-                    <label className="mb-1 block text-sm font-semibold text-gray-900">Custom Count</label>
+                    <label className="mb-1 block text-sm font-semibold text-white">Custom Count</label>
                     <input
                       type="number"
                       min={5}
@@ -700,7 +700,7 @@ export default function ExamPredictorPage() {
                 )}
 
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-gray-900">Difficulty Level</label>
+                  <label className="mb-1 block text-sm font-semibold text-white">Difficulty Level</label>
                   <Listbox
                     value={difficultyLevel}
                     onChange={(value: string) => setDifficultyLevel(value)}
@@ -714,7 +714,7 @@ export default function ExamPredictorPage() {
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-gray-900">Subject Type</label>
+                  <label className="mb-1 block text-sm font-semibold text-white">Subject Type</label>
                   <Listbox
                     value={subjectType}
                     onChange={(value: string) => setSubjectType(value as SubjectType)}
@@ -729,7 +729,7 @@ export default function ExamPredictorPage() {
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-gray-900">Exam Board / Curriculum</label>
+                  <label className="mb-1 block text-sm font-semibold text-white">Exam Board / Curriculum</label>
                   <Listbox
                     value={curriculum}
                     onChange={(value: string) => setCurriculum(value)}
@@ -746,7 +746,7 @@ export default function ExamPredictorPage() {
             </section>
 
             <section className="card">
-              <h2 className="mb-3 text-lg font-semibold text-gray-900">Step 3 • Generate</h2>
+              <h2 className="mb-3 text-[20px] font-semibold text-white">Step 3 • Generate</h2>
               <Button onClick={() => void generatePredictions()} disabled={!pastExamText.trim() || isLoading} loading={isLoading} fullWidth>
                 {isLoading ? "Analyzing patterns..." : "Generate Predicted Exam"}
               </Button>
@@ -765,9 +765,9 @@ export default function ExamPredictorPage() {
             )}
 
             {!isLoading && predictions.length > 0 && (
-              <section className="card print:bg-white">
+              <section className="card print:bg-[var(--bg-card)]">
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-                  <h2 className="text-xl font-semibold text-gray-900">Step 4 • Predicted Exam Paper</h2>
+                  <h2 className="text-[20px] font-semibold text-white">Step 4 • Predicted Exam Paper</h2>
                   <div className="flex flex-wrap gap-2">
                     <Button onClick={() => window.print()} variant="secondary" size="sm">Print</Button>
                     <Button onClick={exportPredictedExam} size="sm">Export</Button>
@@ -780,8 +780,8 @@ export default function ExamPredictorPage() {
                   <p><span className="font-semibold">Difficulty Trend:</span> {analytics?.difficultyTrend}</p>
                 </div>
 
-                <div className="mb-6 rounded-lg border border-gray-200 p-4">
-                  <h3 className="mb-2 text-sm font-semibold text-gray-900">Topic Weighting Analysis</h3>
+                <div className="mb-6 rounded-lg border border-[var(--border-default)] p-4">
+                  <h3 className="mb-2 text-sm font-semibold text-white">Topic Weighting Analysis</h3>
                   <div className="space-y-2">
                     {(analytics?.topicDistribution ?? []).map((item) => (
                       <div key={item.topic}>
@@ -797,8 +797,8 @@ export default function ExamPredictorPage() {
                   </div>
                 </div>
 
-                <div className="mb-6 rounded-lg border border-gray-200 p-4">
-                  <h3 className="mb-2 text-sm font-semibold text-gray-900">Past Exam Pattern Analyzer</h3>
+                <div className="mb-6 rounded-lg border border-[var(--border-default)] p-4">
+                  <h3 className="mb-2 text-sm font-semibold text-white">Past Exam Pattern Analyzer</h3>
                   <div className="grid gap-3 text-sm text-gray-700 md:grid-cols-2">
                     <div>
                       <p className="font-semibold">Most repeated topics</p>
@@ -834,7 +834,7 @@ export default function ExamPredictorPage() {
                         <span className={`rounded-full px-2 py-1 font-semibold ${confidenceColor(prediction.confidence)}`}>{prediction.confidence}</span>
                         <span className="badge badge-neutral px-2 py-1 font-semibold">{prediction.marks} marks</span>
                       </div>
-                      <p className="text-sm font-semibold text-gray-900">{index + 1}. {prediction.question}</p>
+                      <p className="text-sm font-semibold text-white">{index + 1}. {prediction.question}</p>
                       <p className="mt-1 text-xs text-gray-600">Reasoning: {prediction.reason}</p>
                     </div>
                   ))}
@@ -871,7 +871,7 @@ export default function ExamPredictorPage() {
             {simulationRunning && currentQuestion && (
               <section className="card">
                 <div className="mb-3 flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-gray-900">Exam Simulation Mode</h3>
+                  <h3 className="text-[20px] font-semibold text-white">Exam Simulation Mode</h3>
                   <span className="text-sm font-semibold text-red-600">
                     {Math.floor(timeRemainingSeconds / 60)}:{String(timeRemainingSeconds % 60).padStart(2, "0")}
                   </span>
@@ -882,7 +882,7 @@ export default function ExamPredictorPage() {
                   <span className="badge badge-neutral px-2 py-1 font-semibold">{currentQuestion.marks} marks</span>
                 </div>
 
-                <p className="text-sm font-semibold text-gray-900">{currentQuestion.question}</p>
+                <p className="text-sm font-semibold text-white">{currentQuestion.question}</p>
                 <textarea
                   value={simulationAnswers[currentQuestion.id] ?? ""}
                   onChange={(event) => setSimulationAnswers((prev) => ({ ...prev, [currentQuestion.id]: event.target.value }))}
@@ -916,10 +916,10 @@ export default function ExamPredictorPage() {
 
             {simulationCompleted && (
               <section className="card">
-                <h3 className="text-lg font-semibold text-gray-900">Simulation Results</h3>
+                <h3 className="text-[20px] font-semibold text-white">Simulation Results</h3>
                 <p className="mt-1 text-sm text-gray-700">Score: {simulationScore} / {predictions.reduce((sum, q) => sum + q.marks, 0)}</p>
                 <p className="text-sm text-gray-700">Time used: {Math.max(0, simulationTimeLimit * 60 - timeRemainingSeconds)} sec</p>
-                <p className="mt-2 text-sm font-semibold text-gray-900">Weak topics</p>
+                <p className="mt-2 text-sm font-semibold text-white">Weak topics</p>
                 <ul className="list-disc pl-5 text-sm text-gray-700">
                   {weakTopics.length ? weakTopics.map((topic) => <li key={topic}>{topic}</li>) : <li>No obvious weak areas detected.</li>}
                 </ul>
@@ -928,11 +928,11 @@ export default function ExamPredictorPage() {
 
             {markScheme.length > 0 && (
               <section className="card">
-                <h3 className="mb-3 text-lg font-semibold text-gray-900">Mark Scheme</h3>
+                <h3 className="mb-3 text-[20px] font-semibold text-white">Mark Scheme</h3>
                 <div className="space-y-3">
                   {markScheme.map((item) => (
                     <div key={item.questionId} className="card text-sm text-gray-700">
-                      <p className="font-semibold text-gray-900">{item.question}</p>
+                      <p className="font-semibold text-white">{item.question}</p>
                       <p className="mt-1 text-xs">Total marks: {item.totalMarks}</p>
                       <p className="mt-2 font-semibold">Expected points</p>
                       <ul className="list-disc pl-5">{item.expectedAnswerPoints.map((point) => <li key={point}>{point}</li>)}</ul>
@@ -948,12 +948,12 @@ export default function ExamPredictorPage() {
 
             {studyPlan.length > 0 && (
               <section className="card">
-                <h3 className="text-lg font-semibold text-gray-900">Study Plan</h3>
+                <h3 className="text-[20px] font-semibold text-white">Study Plan</h3>
                 {studyPlanSummary && <p className="mt-1 text-sm text-gray-700">{studyPlanSummary}</p>}
                 <div className="mt-3 space-y-3">
                   {studyPlan.map((day) => (
                     <div key={day.day} className="card text-sm text-gray-700">
-                      <p className="font-semibold text-gray-900">{day.day} • {day.hours}h</p>
+                      <p className="font-semibold text-white">{day.day} • {day.hours}h</p>
                       <p className="mt-1"><span className="font-semibold">Focus topics:</span> {day.focusTopics.join(", ")}</p>
                       <ul className="mt-1 list-disc pl-5">{day.tasks.map((task) => <li key={task}>{task}</li>)}</ul>
                     </div>

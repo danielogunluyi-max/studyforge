@@ -627,7 +627,7 @@ export default function LearningStyleQuizPage() {
     });
   }, [comparison]);
 
-  const mainBgClass = resultTheme ? `bg-gradient-to-br ${resultTheme.bg}` : "bg-gray-50";
+  const mainBgClass = resultTheme ? `bg-gradient-to-br ${resultTheme.bg}` : "bg-[var(--bg-surface)]";
 
   return (
     <main className={`app-premium-dark min-h-screen bg-gray-950 ${mainBgClass} transition-colors duration-500`}>
@@ -650,8 +650,8 @@ export default function LearningStyleQuizPage() {
               </div>
             </div>
 
-            <div className={`rounded-2xl border border-gray-200 bg-white p-6 shadow-md transition-all duration-200 ${transitioning ? "translate-x-2 opacity-0" : "translate-x-0 opacity-100"}`}>
-              <p className="mb-4 text-xl font-semibold text-gray-900">{question?.prompt}</p>
+            <div className={`rounded-2xl border border-[var(--border-default)] bg-[var(--bg-card)] p-6 transition-all duration-200 ${transitioning ? "translate-x-2 opacity-0" : "translate-x-0 opacity-100"}`}>
+              <p className="mb-4 text-[20px] font-semibold text-white">{question?.prompt}</p>
 
               <div className="stagger-grid grid gap-3 sm:grid-cols-2">
                 {(question?.options ?? []).map((option) => {
@@ -693,7 +693,7 @@ export default function LearningStyleQuizPage() {
 
         {result && resultTheme && (
           <div className={`space-y-6 rounded-3xl border border-gray-700 p-4 sm:p-6 ${STYLE_TINT_BG[result]}`}>
-            <div className="relative overflow-hidden rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-md">
+            <div className="relative overflow-hidden rounded-2xl border border-gray-700 bg-gray-900 p-6">
               <div className="pointer-events-none absolute inset-0 overflow-hidden">
                 {Array.from({ length: 26 }).map((_, idx) => (
                   <span
@@ -734,7 +734,7 @@ export default function LearningStyleQuizPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6">
               <h3 className="text-xl font-bold text-white">Your Study Strategy</h3>
               <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-300">
                 {resultTheme.techniques.slice(0, 3).map((tip) => <li key={tip}>{tip}</li>)}
@@ -747,7 +747,7 @@ export default function LearningStyleQuizPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6">
               <h3 className="text-xl font-bold text-white">Subject-specific Tips</h3>
               <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {Object.entries(SUBJECT_TIPS[result]).map(([subject, tips]) => (
@@ -761,7 +761,7 @@ export default function LearningStyleQuizPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6">
               <h3 className="text-xl font-bold text-white">Your Study Toolkit</h3>
               <div className="mt-4 grid gap-4 lg:grid-cols-3">
                 <div>
@@ -787,7 +787,7 @@ export default function LearningStyleQuizPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6">
               <h3 className="text-xl font-bold text-white">Your Personalized Study Schedule</h3>
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 {(["Mon", "Wed", "Fri"] as const).map((day) => (
@@ -799,7 +799,7 @@ export default function LearningStyleQuizPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6">
               <h3 className="text-xl font-bold text-white">Best Study Group Match</h3>
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 <div className={`rounded-xl bg-gray-800 p-4 ${STYLE_CARD_ACCENT[result]}`}>
@@ -816,7 +816,7 @@ export default function LearningStyleQuizPage() {
             </div>
 
             {history.length > 1 && (
-              <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+              <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6">
                 <h3 className="text-xl font-bold text-white">Your Style History</h3>
                 <p className="mt-1 text-sm text-gray-400">
                   {dominantChanged ? "Your dominant style changed since your previous attempt." : "Your dominant style has stayed consistent so far."}
@@ -835,7 +835,7 @@ export default function LearningStyleQuizPage() {
               </div>
             )}
 
-            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6">
               <div className="flex flex-wrap items-center gap-3">
                 <h3 className="text-xl font-bold text-white">Shareable Style Card</h3>
                 <Button size="sm" onClick={() => setShowShareCard((prev) => !prev)}>Share My Style</Button>
@@ -853,7 +853,7 @@ export default function LearningStyleQuizPage() {
               )}
             </div>
 
-            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-sm">
+            <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6">
               <h3 className="text-xl font-bold text-white">How You Compare</h3>
               <p className="mt-1 text-sm text-gray-400">{comparison.percentages[result]}% of StudyForge users are {STYLE_LABEL[result]} learners.</p>
               <div className="mt-4 grid gap-4 lg:grid-cols-[180px_1fr]">

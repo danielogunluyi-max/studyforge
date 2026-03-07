@@ -687,8 +687,8 @@ export default function Generator() {
       const activeCard = cards[studyCardIndex] ?? null;
       return (
         <div className="card">
-          <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-4">
-            <h2 className="text-xl font-semibold text-gray-900">
+          <div className="mb-4 flex items-center justify-between border-b border-[var(--border-default)] pb-4">
+            <h2 className="text-[20px] font-semibold text-white">
               Your Flashcards ({cards.length} cards)
             </h2>
             <div className="flex gap-2">
@@ -754,12 +754,12 @@ export default function Generator() {
                 className="group relative h-56 cursor-pointer perspective"
               >
                 <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(activeCard.id) ? 'rotate-y-180' : ''}`}>
-                  <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-white p-6 backface-hidden">
-                    <p className="text-center text-lg font-medium leading-relaxed text-gray-900">
+                  <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-[var(--bg-card)] p-6 backface-hidden">
+                    <p className="text-center text-lg font-medium leading-relaxed text-white">
                       {activeCard.question}
                     </p>
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-white p-6 backface-hidden rotate-y-180">
+                  <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-[var(--bg-card)] p-6 backface-hidden rotate-y-180">
                     <p className="text-center leading-relaxed text-gray-700">
                       {activeCard.answer}
                     </p>
@@ -817,12 +817,12 @@ export default function Generator() {
                     className="flashcard-tilt group relative h-48 cursor-pointer perspective"
                   >
                     <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(card.id) ? 'rotate-y-180' : ''}`}>
-                      <div className={`absolute inset-0 flex items-center justify-center rounded-lg border-2 bg-white p-6 backface-hidden ${knownCards.has(card.id) ? "border-l-4 border-green-500" : stillLearningCards.has(card.id) ? "border-l-4 border-orange-500" : "border-blue-200"}`}>
-                        <p className="text-center text-lg font-medium leading-relaxed text-gray-900">
+                      <div className={`absolute inset-0 flex items-center justify-center rounded-lg border-2 bg-[var(--bg-card)] p-6 backface-hidden ${knownCards.has(card.id) ? "border-l-4 border-green-500" : stillLearningCards.has(card.id) ? "border-l-4 border-orange-500" : "border-blue-200"}`}>
+                        <p className="text-center text-lg font-medium leading-relaxed text-white">
                           {card.question}
                         </p>
                       </div>
-                      <div className={`absolute inset-0 flex items-center justify-center rounded-lg border-2 bg-white p-6 backface-hidden rotate-y-180 ${knownCards.has(card.id) ? "border-l-4 border-green-500" : stillLearningCards.has(card.id) ? "border-l-4 border-orange-500" : "border-blue-200"}`}>
+                      <div className={`absolute inset-0 flex items-center justify-center rounded-lg border-2 bg-[var(--bg-card)] p-6 backface-hidden rotate-y-180 ${knownCards.has(card.id) ? "border-l-4 border-green-500" : stillLearningCards.has(card.id) ? "border-l-4 border-orange-500" : "border-blue-200"}`}>
                         <p className="text-center leading-relaxed text-gray-700">
                           {card.answer}
                         </p>
@@ -854,7 +854,7 @@ export default function Generator() {
           )}
 
           {cards.length > 0 && (
-            <div className="mt-5 border-t border-gray-200 pt-4 text-sm font-semibold text-gray-700">
+            <div className="mt-5 border-t border-[var(--border-default)] pt-4 text-sm font-semibold text-gray-700">
               Known: {knownCount} | Still Learning: {stillLearningCount}
             </div>
           )}
@@ -873,8 +873,8 @@ export default function Generator() {
       const questions = parseQuestions(generatedNotes);
       return (
         <div className="card">
-          <div className="mb-6 flex flex-col gap-3 border-b border-gray-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="text-xl font-semibold text-gray-900">
+          <div className="mb-6 flex flex-col gap-3 border-b border-[var(--border-default)] pb-4 sm:flex-row sm:items-center sm:justify-between">
+            <h2 className="text-[20px] font-semibold text-white">
               Practice Quiz ({questions.length} questions)
             </h2>
             <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
@@ -905,7 +905,7 @@ export default function Generator() {
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
                     {index + 1}
                   </span>
-                  <p className="flex-1 break-words pt-1 text-base font-medium text-gray-900 sm:text-lg">
+                  <p className="flex-1 break-words pt-1 text-base font-medium text-white sm:text-lg">
                     {q.question.replace(/\$/g, "")}
                   </p>
                 </div>
@@ -961,8 +961,8 @@ export default function Generator() {
 
     return (
       <div className="print-notes-only card">
-        <div className="print-hide mb-4 flex flex-col gap-3 border-b border-gray-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">
+        <div className="print-hide mb-4 flex flex-col gap-3 border-b border-[var(--border-default)] pb-4 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-[20px] font-semibold text-white">
             Your Study Notes
           </h2>
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
@@ -1034,7 +1034,7 @@ export default function Generator() {
             </p>
             <Link
               href="/upload"
-              className="card px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+              className="card px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-[var(--bg-surface)]"
             >
               Upload File Instead
             </Link>
@@ -1044,7 +1044,7 @@ export default function Generator() {
         <div className="mb-6 card border-l-4 border-l-blue-500">
           <div className="mb-4 flex items-center gap-3">
             <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">1</span>
-            <h2 className="text-lg font-semibold text-white">Your Notes or Content</h2>
+            <h2 className="text-[20px] font-semibold text-white">Your Notes or Content</h2>
           </div>
           <div className="mb-3 flex items-center justify-between">
             <span className="text-sm text-gray-500">
@@ -1071,7 +1071,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
               <button
                 type="button"
                 onClick={() => setOutputFormat(suggestedFormat)}
-                className="rounded-md border border-blue-300 bg-white px-3 py-1 text-xs font-semibold text-blue-700 hover:bg-blue-100"
+                className="rounded-md border border-blue-300 bg-[var(--bg-card)] px-3 py-1 text-xs font-semibold text-blue-700 hover:bg-blue-100"
               >
                 {suggestedFormat === "questions" ? "Switch to Practice Quiz" : `Switch to ${formatSuggestionLabel(suggestedFormat)}`}
               </button>
@@ -1082,7 +1082,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
         <div className="mb-6 card border-l-4 border-l-blue-500 p-6">
           <div className="mb-4 flex items-center gap-3">
             <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">2</span>
-            <h2 className="text-lg font-semibold text-white">Tags</h2>
+            <h2 className="text-[20px] font-semibold text-white">Tags</h2>
           </div>
           <input
             value={tagsInput}
@@ -1113,11 +1113,11 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
         <div className="mb-6 card border-l-4 border-l-blue-500 p-6">
           <div className="mb-4 flex items-center gap-3">
             <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">3</span>
-            <h2 className="text-lg font-semibold text-white">Output & Settings</h2>
+            <h2 className="text-[20px] font-semibold text-white">Output & Settings</h2>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
             <div>
-              <label className="mb-3 block text-sm font-semibold text-gray-900">Output Format</label>
+              <label className="mb-3 block text-sm font-semibold text-white">Output Format</label>
               <Listbox
                 value={outputFormat}
                 onChange={(v) => setOutputFormat(v)}
@@ -1132,7 +1132,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
 
             {(outputFormat === "summary" || outputFormat === "detailed") && (
               <div>
-                <p className="mb-3 text-sm font-semibold text-gray-900">Notes Length</p>
+                <p className="mb-3 text-sm font-semibold text-white">Notes Length</p>
                 <Listbox
                   value={notesLength}
                   onChange={(v) => setNotesLength(v)}
@@ -1148,7 +1148,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
 
           {outputFormat === "questions" && (
             <div className="mt-4 card lg:col-span-2">
-              <p className="mb-3 text-sm font-semibold text-gray-900">Practice Quiz Settings</p>
+              <p className="mb-3 text-sm font-semibold text-white">Practice Quiz Settings</p>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div>
                   <label className="mb-2 block text-xs font-semibold text-gray-700">Number of questions</label>
@@ -1198,7 +1198,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
             <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-semibold text-gray-900">
+                  <p className="text-sm font-semibold text-white">
                     Adapt to Your Learning Style
                   </p>
                   <p className="mt-1 text-xs text-gray-600">
@@ -1212,7 +1212,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
                     onChange={(e) => setAdaptContent(e.target.checked)}
                     className="peer sr-only"
                   />
-                  <div className="peer h-6 w-11 rounded-full bg-gray-300 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300"></div>
+                  <div className="peer h-6 w-11 rounded-full bg-gray-300 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-[var(--bg-card)] after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300"></div>
                 </label>
               </div>
             </div>
@@ -1226,16 +1226,16 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
             fullWidth
             size="lg"
             loading={isLoading}
-            className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-4 text-lg font-bold text-white shadow-lg shadow-blue-500/25 hover:from-blue-700 hover:to-purple-700"
+            className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-4 text-lg font-bold text-white hover:from-blue-700 hover:to-purple-700"
           >
             {isLoading ? (
               <span className="flex flex-col items-center justify-center gap-1">
                 <span className="flex items-center gap-1">
                   Generating
                   <span className="inline-flex gap-1">
-                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white [animation-delay:-0.25s]" />
-                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white [animation-delay:-0.1s]" />
-                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white" />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--bg-card)] [animation-delay:-0.25s]" />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--bg-card)] [animation-delay:-0.1s]" />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--bg-card)]" />
                   </span>
                 </span>
                 <span className="text-xs font-medium text-blue-100">

@@ -470,7 +470,7 @@ export default function DashboardPage() {
         )}
 
         <div className="mb-6 grid gap-4 lg:grid-cols-4">
-          <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-900/40 via-indigo-900/20 to-purple-900/40 p-5 shadow-xl lg:col-span-2">
+          <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-900/40 via-indigo-900/20 to-purple-900/40 p-5 lg:col-span-2">
             <p className="text-xs font-semibold uppercase tracking-wide text-blue-200">Next Exam Countdown</p>
             {nextExam ? (
               <>
@@ -481,23 +481,23 @@ export default function DashboardPage() {
                 <p className="mt-2 text-xs text-slate-300">{new Date(nextExam.examDate).toLocaleString()}</p>
               </>
             ) : (
-              <p className="mt-3 text-sm text-slate-300">No exams added yet.</p>
+              <p className="mt-3 text-sm text-slate-300">No exams added - add one so we can count down together!</p>
             )}
           </div>
 
-          <div className="rounded-2xl border border-slate-700 bg-slate-900 p-5 shadow-lg">
+          <div className="rounded-2xl border border-slate-700 bg-slate-900 p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Exams This Month</p>
             <p className="mt-2 text-4xl font-extrabold text-white">{totalExamsThisMonth}</p>
           </div>
 
-          <div className="rounded-2xl border border-slate-700 bg-slate-900 p-5 shadow-lg">
+          <div className="rounded-2xl border border-slate-700 bg-slate-900 p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Study Streak</p>
             <p className="mt-2 text-4xl font-extrabold text-white">{studyStreak}</p>
             <p className="text-xs text-slate-400">days</p>
           </div>
         </div>
 
-        <div className="mb-6 rounded-2xl border border-slate-700 bg-slate-900 p-5 shadow-lg">
+        <div className="mb-6 rounded-2xl border border-slate-700 bg-slate-900 p-5">
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Overall Readiness Score</p>
@@ -509,8 +509,8 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="mb-8 rounded-2xl border border-slate-700 bg-[#0d142b] p-5 shadow-lg">
-          <h2 className="mb-4 text-lg font-semibold text-white">Add Upcoming Exam</h2>
+        <div className="mb-8 rounded-2xl border border-slate-700 bg-[#0d142b] p-5">
+          <h2 className="mb-4 text-[20px] font-semibold text-white">Add Upcoming Exam</h2>
           <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
             <input
               value={subject}
@@ -554,7 +554,7 @@ export default function DashboardPage() {
         {isLoading ? (
           <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 text-sm text-slate-300">Loading dashboard...</div>
         ) : exams.length === 0 ? (
-          <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 text-sm text-slate-300">No exams yet. Add one above to start your countdown dashboard.</div>
+          <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 text-sm text-slate-300">No exams added - add one so we can count down together!</div>
         ) : (
           <div className="stagger-grid grid gap-5 xl:grid-cols-2">
             {sortedUpcoming.map((exam) => {
@@ -565,7 +565,7 @@ export default function DashboardPage() {
               const planDays = parseStudyPlan(exam.studyPlan);
 
               return (
-                <div key={exam.id} className="stagger-card rounded-2xl border border-slate-700 bg-[#0d142b] p-5 shadow-lg">
+                <div key={exam.id} className="stagger-card rounded-2xl border border-slate-700 bg-[#0d142b] p-5">
                   <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                     <p className="text-lg font-bold text-white">{subjectIcon(exam.subject)} {exam.subject}</p>
                     <span className={`rounded-full border px-2 py-1 text-xs font-semibold ${urgency.badge} ${urgency.pulse}`}>

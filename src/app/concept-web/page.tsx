@@ -431,7 +431,7 @@ export default function ConceptWebPage() {
           actions={<Button href="/my-notes" variant="secondary" size="sm">My Notes</Button>}
         />
 
-        <div className="mb-4 rounded-xl border border-slate-700 bg-[#0B1228] p-4 shadow-lg">
+        <div className="mb-4 rounded-xl border border-slate-700 bg-[#0B1228] p-4">
           <div className="grid gap-2 lg:grid-cols-[1fr_auto_auto]">
             <input
               value={topic}
@@ -484,7 +484,7 @@ export default function ConceptWebPage() {
 
         {nodes.length > 0 && (
           <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
-            <div className="rounded-xl border border-slate-700 bg-[#0B1228] p-3 shadow-lg">
+            <div className="rounded-xl border border-slate-700 bg-[#0B1228] p-3">
               <div
                 className="relative overflow-hidden rounded-lg border border-slate-700 bg-[#070D1E]"
                 onWheel={handleWheel}
@@ -571,7 +571,7 @@ export default function ConceptWebPage() {
             </div>
 
             <div className="space-y-4">
-              <div className="rounded-xl border border-slate-700 bg-[#0B1228] p-4 shadow-sm">
+              <div className="rounded-xl border border-slate-700 bg-[#0B1228] p-4">
                 <h2 className="mb-3 text-sm font-semibold text-white">Connection Details</h2>
                 {selectedNode ? (
                   <div className="space-y-2 text-sm text-slate-200">
@@ -584,7 +584,7 @@ export default function ConceptWebPage() {
                 )}
               </div>
 
-              <div className="rounded-xl border border-slate-700 bg-[#0B1228] p-4 shadow-sm">
+              <div className="rounded-xl border border-slate-700 bg-[#0B1228] p-4">
                 <h2 className="mb-2 text-sm font-semibold text-white">Breadcrumb Trail</h2>
                 {breadcrumb.length > 0 ? (
                   <p className="text-sm text-slate-200">{breadcrumb.join("  ›  ")}</p>
@@ -593,7 +593,7 @@ export default function ConceptWebPage() {
                 )}
               </div>
 
-              <div className="rounded-xl border border-slate-700 bg-[#0B1228] p-4 shadow-sm">
+              <div className="rounded-xl border border-slate-700 bg-[#0B1228] p-4">
                 <h2 className="mb-2 text-sm font-semibold text-white">Zoom Controls</h2>
                 <div className="flex gap-2">
                   <Button size="sm" variant="secondary" onClick={() => setZoom((value) => Math.max(0.45, value - 0.1))}>-</Button>

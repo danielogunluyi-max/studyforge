@@ -386,7 +386,7 @@ export default function UploadPage() {
             <div>
               <div className="mb-2 flex items-center gap-3">
                 <span className="section-badge">1</span>
-                <h2 className="text-sm font-semibold text-gray-900">Upload & Scan</h2>
+                <h2 className="text-sm font-semibold text-white">Upload & Scan</h2>
               </div>
               <p className="mt-1 text-sm text-gray-500">
                 PDF (10MB), image OCR (5MB), handwritten scanner (15MB)
@@ -494,7 +494,7 @@ export default function UploadPage() {
                 <select
                   value={handwritingSubject}
                   onChange={(event) => setHandwritingSubject(event.target.value as (typeof HANDWRITING_SUBJECTS)[number])}
-                  className="input text-gray-900"
+                  className="input text-white"
                 >
                   {HANDWRITING_SUBJECTS.map((option) => (
                     <option key={option} value={option}>{option}</option>
@@ -564,7 +564,7 @@ export default function UploadPage() {
           <div className="mb-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="section-badge">2</span>
-              <h2 className="text-sm font-semibold text-gray-900">Extracted Text Preview</h2>
+              <h2 className="text-sm font-semibold text-white">Extracted Text Preview</h2>
             </div>
             <span className="text-sm text-gray-500">{extractedText.length} characters</span>
           </div>
@@ -584,7 +584,7 @@ export default function UploadPage() {
 
           {extractedText.trim() && (
             <div className="mt-4 card">
-              <h3 className="text-sm font-semibold text-gray-900">Document Stats</h3>
+              <h3 className="text-sm font-semibold text-white">Document Stats</h3>
               <div className="mt-2 grid gap-2 text-sm text-gray-700 sm:grid-cols-2">
                 <p>Word count: <span className="font-medium">{wordCount.toLocaleString()}</span></p>
                 <p>Estimated read time: <span className="font-medium">{estimatedReadMinutes} min</span></p>

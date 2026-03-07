@@ -684,7 +684,7 @@ export default function MyNotes() {
         {recentlyViewed.length > 0 && (
           <div className="mb-6 card">
             <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-gray-900">Recently Viewed</h2>
+              <h2 className="text-sm font-semibold text-white">Recently Viewed</h2>
               <span className="text-xs text-gray-500">Last 3 notes accessed</span>
             </div>
             <div className="stagger-grid grid gap-3 md:grid-cols-3">
@@ -693,9 +693,9 @@ export default function MyNotes() {
                   key={`recent-${note.id}`}
                   type="button"
                   onClick={() => void openNote(note)}
-                  className="stagger-card card text-left transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:bg-blue-50 hover:shadow-lg"
+                  className="stagger-card card text-left transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:bg-blue-50"
                 >
-                  <p className="line-clamp-1 text-sm font-semibold text-gray-900">{note.title}</p>
+                  <p className="line-clamp-1 text-sm font-semibold text-white">{note.title}</p>
                   <p className="mt-1 line-clamp-2 text-xs text-gray-600">{note.content}</p>
                   <p className="mt-2 text-[11px] text-gray-500">
                     {note.lastViewedAt ? formatDate(note.lastViewedAt) : "Recently viewed"}
@@ -709,14 +709,14 @@ export default function MyNotes() {
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
           <aside className={`${showMobileFilters ? "block" : "hidden"} card lg:block`}>
             <div className="mb-3 flex items-center justify-between lg:hidden">
-              <p className="text-sm font-semibold text-gray-900">Filters</p>
+              <p className="text-sm font-semibold text-white">Filters</p>
               <Button size="sm" variant="secondary" onClick={() => setShowMobileFilters(false)}>
                 Close
               </Button>
             </div>
             <div className="mb-4 rounded-lg border border-gray-100 p-3">
               <div className="mb-2 flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-gray-900">Folders</h2>
+                <h2 className="text-sm font-semibold text-white">Folders</h2>
                 <Button onClick={() => void createFolder()} variant="secondary" size="sm" className="px-2 py-1 text-xs">
                   New Folder
                 </Button>
@@ -749,7 +749,7 @@ export default function MyNotes() {
                     className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left text-sm ${
                       activeFolder === folder.id
                         ? "border-blue-200 bg-blue-50 text-blue-700"
-                        : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                        : "border-[var(--border-default)] bg-[var(--bg-card)] text-gray-700 hover:bg-[var(--bg-surface)]"
                     }`}
                   >
                     <span className="truncate">{folder.name}</span>
@@ -759,14 +759,14 @@ export default function MyNotes() {
               </div>
             </div>
 
-            <h2 className="mb-3 text-sm font-semibold text-gray-900">Tags</h2>
+            <h2 className="mb-3 text-sm font-semibold text-white">Tags</h2>
             <Button
               onClick={() => setActiveTag("")}
               variant={!activeTag ? "primary" : "secondary"}
               fullWidth
               size="sm"
               className={`mb-2 justify-start px-3 py-2 text-left text-sm font-medium ${
-                !activeTag ? "bg-blue-600 text-white" : "border border-gray-200 text-gray-700 hover:bg-gray-50"
+                !activeTag ? "bg-blue-600 text-white" : "border border-[var(--border-default)] text-gray-700 hover:bg-[var(--bg-surface)]"
               }`}
             >
               All Notes
@@ -788,7 +788,7 @@ export default function MyNotes() {
                     className={`flex justify-between px-3 py-2 text-sm ${
                       activeTag === tag.name
                         ? "border-blue-200 bg-blue-50 text-blue-700"
-                        : "border-gray-200 text-gray-700 hover:bg-gray-50"
+                        : "border-[var(--border-default)] text-gray-700 hover:bg-[var(--bg-surface)]"
                     }`}
                   >
                     <span className="truncate">{tag.name}</span>
@@ -834,11 +834,11 @@ export default function MyNotes() {
               <SkeletonList count={6} />
             ) : notes.length === 0 ? (
               <EmptyState
-                title={debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat ? "No notes found" : "No notes yet"}
+                title={debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat ? "No notes found" : "Nothing here yet - generate your first note!"}
                 description={
                   debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat
                     ? "Try adjusting your search or removing filters to see more results."
-                    : "Start creating notes from your study materials. Upload a PDF, paste text, or type directly into the generator."
+                    : "Upload a file or paste text and we will turn it into study-ready notes in seconds."
                 }
                 actionLabel="Create Your First Note"
                 actionHref="/generator"
@@ -854,7 +854,7 @@ export default function MyNotes() {
                     onDragStart={(event) => event.dataTransfer.setData("text/note-id", note.id)}
                     onMouseEnter={() => setHoveredNoteId(note.id)}
                     onMouseLeave={() => setHoveredNoteId("")}
-                    className="stagger-card group relative card transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
+                    className="stagger-card group relative card transition-all duration-200 hover:-translate-y-1"
                   >
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -928,7 +928,7 @@ export default function MyNotes() {
                       </div>
                     </div>
 
-                    <h3 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-900">
+                    <h3 className="mb-2 line-clamp-2 text-[20px] font-semibold text-white">
                       <HighlightText text={note.title} query={debouncedSearch} />
                     </h3>
 
@@ -974,8 +974,8 @@ export default function MyNotes() {
                     )}
 
                     {hoveredNoteId === note.id && (
-                      <div className="pointer-events-none absolute left-full top-0 z-30 ml-3 hidden w-80 card shadow-xl md:block">
-                        <p className="mb-2 text-sm font-semibold text-gray-900">Preview</p>
+                      <div className="pointer-events-none absolute left-full top-0 z-30 ml-3 hidden w-80 card md:block">
+                        <p className="mb-2 text-sm font-semibold text-white">Preview</p>
                         <p className="max-h-72 overflow-y-auto whitespace-pre-wrap text-xs text-gray-700">{note.content}</p>
                       </div>
                     )}
@@ -1024,7 +1024,7 @@ export default function MyNotes() {
           aria-labelledby="note-title"
         >
           <div
-            className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-xl bg-white p-8 shadow-2xl"
+            className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-xl bg-[var(--bg-card)] p-8"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-6 flex items-start justify-between">
@@ -1032,7 +1032,7 @@ export default function MyNotes() {
                 <span className={`mb-3 inline-block rounded-full px-3 py-1 text-xs font-semibold ${getFormatBadgeColor(selectedNote.format)}`}>
                   {getFormatLabel(selectedNote.format)}
                 </span>
-                <h2 id="note-title" className="text-2xl font-bold text-gray-900">{selectedNote.title}</h2>
+                <h2 id="note-title" className="text-2xl font-bold text-white">{selectedNote.title}</h2>
                 <p className="mt-1 text-sm text-gray-500">{formatDate(selectedNote.createdAt)}</p>
                 {selectedNote.tags.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-2">
@@ -1098,13 +1098,13 @@ export default function MyNotes() {
       {tagModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setTagModalOpen(false)}>
           <div
-            className="w-full max-w-xl rounded-xl bg-white p-6 shadow-2xl"
+            className="w-full max-w-xl rounded-xl bg-[var(--bg-card)] p-6"
             onClick={(event) => event.stopPropagation()}
           >
-            <h2 className="mb-4 text-xl font-semibold text-gray-900">Manage Tags</h2>
+            <h2 className="mb-4 text-[20px] font-semibold text-white">Manage Tags</h2>
 
             <div className="space-y-5">
-              <div className="rounded-lg border border-gray-200 p-4">
+              <div className="rounded-lg border border-[var(--border-default)] p-4">
                 <p className="mb-2 text-sm font-semibold text-gray-800">Rename tag</p>
                 <div className="grid gap-2 sm:grid-cols-2">
                   <input
@@ -1135,7 +1135,7 @@ export default function MyNotes() {
                 </Button>
               </div>
 
-              <div className="rounded-lg border border-gray-200 p-4">
+              <div className="rounded-lg border border-[var(--border-default)] p-4">
                 <p className="mb-2 text-sm font-semibold text-gray-800">Delete tag</p>
                 <input
                   value={deleteTagName}
@@ -1153,7 +1153,7 @@ export default function MyNotes() {
                 </Button>
               </div>
 
-              <div className="rounded-lg border border-gray-200 p-4">
+              <div className="rounded-lg border border-[var(--border-default)] p-4">
                 <p className="mb-2 text-sm font-semibold text-gray-800">Merge tags</p>
                 <div className="grid gap-2 sm:grid-cols-2">
                   <input
