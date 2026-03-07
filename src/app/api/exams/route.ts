@@ -26,6 +26,9 @@ export async function GET() {
       orderBy: [{ examDate: "asc" }, { createdAt: "desc" }],
     });
 
+    // Client handles filtering by date — server returns all exams for the user
+    // This allows past exams to appear in the 'Past Exams' section on dashboard
+
     return NextResponse.json({ exams });
   } catch (error) {
     console.error("Exams GET error:", error);

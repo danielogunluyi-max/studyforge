@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "~/app/_components/button";
@@ -189,7 +190,7 @@ export default function DashboardPage() {
   const [generatingExamId, setGeneratingExamId] = useState("");
   const [savingPlanExamId, setSavingPlanExamId] = useState("");
   const [studyStreak, setStudyStreak] = useState(0);
-  const [_, setClockTick] = useState(0);
+  const [clockTick, setClockTick] = useState(0);
   const [noteTitles, setNoteTitles] = useState<string[]>([]);
   const [isScanningNotes, setIsScanningNotes] = useState(false);
   const [scanConfidence, setScanConfidence] = useState<number | null>(null);
@@ -248,9 +249,19 @@ export default function DashboardPage() {
     return () => window.clearInterval(timer);
   }, []);
 
+  const { upcomingExams, pastExams } = useMemo(() => {
+    void clockTick;
+    const now = new Date();
+    const nowMs = now.getTime();
+    return {
+      upcomingExams: exams.filter((e) => new Date(e.examDate).getTime() > nowMs),
+      pastExams: exams.filter((e) => new Date(e.examDate).getTime() <= nowMs),
+    };
+  }, [clockTick, exams]);
+
   const sortedUpcoming = useMemo(
-    () => [...exams].sort((a, b) => new Date(a.examDate).getTime() - new Date(b.examDate).getTime()),
-    [exams],
+    () => [...upcomingExams].sort((a, b) => new Date(a.examDate).getTime() - new Date(b.examDate).getTime()),
+    [upcomingExams],
   );
 
   const nextExam = sortedUpcoming[0] ?? null;
@@ -260,19 +271,37 @@ export default function DashboardPage() {
     const month = now.getMonth();
     const year = now.getFullYear();
 
-    return exams.filter((exam) => {
+    return upcomingExams.filter((exam) => {
       const date = new Date(exam.examDate);
       return date.getMonth() === month && date.getFullYear() === year;
     }).length;
-  }, [exams]);
+  }, [upcomingExams]);
 
   const readinessScore = useMemo(() => {
-    const allDays = exams.flatMap((exam) => parseStudyPlan(exam.studyPlan));
+    if (!upcomingExams.length) return 100;
+
+    const allDays = upcomingExams.flatMap((exam) => parseStudyPlan(exam.studyPlan));
     if (!allDays.length) return 0;
 
     const completed = allDays.filter((day) => day.completed).length;
     return Math.round((completed / allDays.length) * 100);
-  }, [exams]);
+  }, [upcomingExams]);
+
+  const handleDeleteExam = async (examId: string) => {
+    try {
+      const response = await fetch(`/api/exams/${examId}`, { method: "DELETE" });
+      const data = (await response.json().catch(() => ({}))) as { error?: string };
+      if (!response.ok) {
+        showToast(data.error ?? "Failed to delete exam", "error");
+        return;
+      }
+
+      setExams((prev) => prev.filter((exam) => exam.id !== examId));
+      showToast("Exam deleted", "success");
+    } catch {
+      showToast("Failed to delete exam", "error");
+    }
+  };
 
   const createExam = async () => {
     if (!subject.trim() || !examDate) {
@@ -481,7 +510,12 @@ export default function DashboardPage() {
                 <p className="mt-2 text-xs text-slate-300">{new Date(nextExam.examDate).toLocaleString()}</p>
               </>
             ) : (
-              <p className="mt-3 text-sm text-slate-300">No exams added - add one so we can count down together!</p>
+              <div className="mt-3">
+                <p className="text-sm text-slate-300">No upcoming exams 🎉</p>
+                <Link href="/dashboard" className="mt-1 inline-block text-xs text-slate-400 hover:text-slate-300">
+                  Add one
+                </Link>
+              </div>
             )}
           </div>
 
@@ -501,7 +535,9 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Overall Readiness Score</p>
-              <p className="mt-1 text-3xl font-extrabold text-white">{readinessScore}%</p>
+              <p className="mt-1 text-3xl font-extrabold text-white">
+                {upcomingExams.length === 0 ? "All caught up!" : `${readinessScore}%`}
+              </p>
             </div>
             <div className="h-3 w-48 overflow-hidden rounded-full bg-slate-700 sm:w-72">
               <div className="h-full bg-gradient-to-r from-blue-500 to-emerald-500 transition-all duration-300" style={{ width: `${readinessScore}%` }} />
@@ -556,102 +592,176 @@ export default function DashboardPage() {
         ) : exams.length === 0 ? (
           <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 text-sm text-slate-300">No exams added - add one so we can count down together!</div>
         ) : (
-          <div className="stagger-grid grid gap-5 xl:grid-cols-2">
-            {sortedUpcoming.map((exam) => {
-              const days = safeDaysUntil(exam.examDate);
-              const urgencyTier = urgencyFromDays(days);
-              const urgency = urgencyClasses(urgencyTier);
-              const panic = panicData(exam);
-              const planDays = parseStudyPlan(exam.studyPlan);
+          <>
+            {upcomingExams.length === 0 ? (
+              <div className="card" style={{ textAlign: "center", padding: "48px" }}>
+                <p style={{ fontSize: "32px", marginBottom: "8px" }}>🎉</p>
+                <p style={{ color: "var(--text-primary)", fontWeight: 600 }}>No upcoming exams</p>
+                <p style={{ color: "var(--text-muted)", fontSize: "13px", marginTop: "4px" }}>Add an exam above to start your countdown</p>
+              </div>
+            ) : (
+              <div className="stagger-grid grid gap-5 xl:grid-cols-2">
+                {[...upcomingExams]
+                  .sort((a, b) => new Date(a.examDate).getTime() - new Date(b.examDate).getTime())
+                  .map((exam) => {
+                    const days = safeDaysUntil(exam.examDate);
+                    const urgencyTier = urgencyFromDays(days);
+                    const urgency = urgencyClasses(urgencyTier);
+                    const panic = panicData(exam);
+                    const planDays = parseStudyPlan(exam.studyPlan);
 
-              return (
-                <div key={exam.id} className="stagger-card rounded-2xl border border-slate-700 bg-[#0d142b] p-5">
-                  <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                    <p className="text-lg font-bold text-white">{subjectIcon(exam.subject)} {exam.subject}</p>
-                    <span className={`rounded-full border px-2 py-1 text-xs font-semibold ${urgency.badge} ${urgency.pulse}`}>
-                      {urgencyTier.toUpperCase()} URGENCY
-                    </span>
-                  </div>
+                    return (
+                      <div key={exam.id} className="stagger-card rounded-2xl border border-slate-700 bg-[#0d142b] p-5">
+                        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                          <p className="text-lg font-bold text-white">{subjectIcon(exam.subject)} {exam.subject}</p>
+                          <span className={`rounded-full border px-2 py-1 text-xs font-semibold ${urgency.badge} ${urgency.pulse}`}>
+                            {urgencyTier.toUpperCase()} URGENCY
+                          </span>
+                        </div>
 
-                  <p className="text-xs text-slate-400">{new Date(exam.examDate).toLocaleString()} • {exam.board || "No board"} • {exam.difficulty || "Medium"}</p>
+                        <p className="text-xs text-slate-400">{new Date(exam.examDate).toLocaleString()} • {exam.board || "No board"} • {exam.difficulty || "Medium"}</p>
 
-                  <p className={`mt-3 bg-gradient-to-r from-blue-300 via-purple-300 to-cyan-300 bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl ${urgency.pulse}`}>
-                    {formatCountdown(exam.examDate)}
-                  </p>
+                        <p className={`mt-3 bg-gradient-to-r from-blue-300 via-purple-300 to-cyan-300 bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl ${urgency.pulse}`}>
+                          {formatCountdown(exam.examDate)}
+                        </p>
 
-                  <div className="mt-3">
-                    <div className="mb-1 flex items-center justify-between text-xs text-slate-400">
-                      <span>Panic meter</span>
-                      <span>{urgencyProgress(days)}%</span>
-                    </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-slate-700">
-                      <div className={`h-full ${urgency.bar}`} style={{ width: `${urgencyProgress(days)}%` }} />
-                    </div>
-                  </div>
+                        <div className="mt-3">
+                          <div className="mb-1 flex items-center justify-between text-xs text-slate-400">
+                            <span>Panic meter</span>
+                            <span>{urgencyProgress(days)}%</span>
+                          </div>
+                          <div className="h-2 overflow-hidden rounded-full bg-slate-700">
+                            <div className={`h-full ${urgency.bar}`} style={{ width: `${urgencyProgress(days)}%` }} />
+                          </div>
+                        </div>
 
-                  <div className="mt-3 rounded-lg border border-slate-700 bg-slate-900/60 p-3 text-sm">
-                    <p className={`font-semibold ${panic.tier.color}`}>{panic.tier.label}</p>
-                    <p className="mt-1 text-xs text-slate-300">
-                      Topics: {panic.totalTopics} • Days available: {panic.daysAvailable} • Topics/day needed: {panic.topicsPerDay.toFixed(2)}
-                    </p>
-                  </div>
+                        <div className="mt-3 rounded-lg border border-slate-700 bg-slate-900/60 p-3 text-sm">
+                          <p className={`font-semibold ${panic.tier.color}`}>{panic.tier.label}</p>
+                          <p className="mt-1 text-xs text-slate-300">
+                            Topics: {panic.totalTopics} • Days available: {panic.daysAvailable} • Topics/day needed: {panic.topicsPerDay.toFixed(2)}
+                          </p>
+                        </div>
 
-                  <div className="mt-4 flex items-center gap-2">
-                    <Button
-                      onClick={() => void generateStudyPlan(exam.id)}
-                      loading={generatingExamId === exam.id}
-                      disabled={generatingExamId === exam.id}
-                      size="sm"
-                    >
-                      Generate Study Plan
-                    </Button>
-                  </div>
+                        <div className="mt-4 flex items-center gap-2">
+                          <Button
+                            onClick={() => void generateStudyPlan(exam.id)}
+                            loading={generatingExamId === exam.id}
+                            disabled={generatingExamId === exam.id}
+                            size="sm"
+                          >
+                            Generate Study Plan
+                          </Button>
+                        </div>
 
-                  {planDays.length > 0 && (
-                    <div className="mt-4">
-                      <p className="mb-2 text-sm font-semibold text-slate-200">Study Timeline</p>
-                      <div className="space-y-2">
-                        {planDays.map((day, index) => {
-                          const completed = Boolean(day.completed);
-                          const today = isTodayLabel(day.date);
+                        {planDays.length > 0 && (
+                          <div className="mt-4">
+                            <p className="mb-2 text-sm font-semibold text-slate-200">Study Timeline</p>
+                            <div className="space-y-2">
+                              {planDays.map((day, index) => {
+                                const completed = Boolean(day.completed);
+                                const today = isTodayLabel(day.date);
 
-                          const cardClass = completed
-                            ? "border-emerald-500/40 bg-emerald-500/15"
-                            : today
-                              ? "border-blue-500/40 bg-blue-500/15"
-                              : "border-slate-700 bg-slate-900/60";
+                                const cardClass = completed
+                                  ? "border-emerald-500/40 bg-emerald-500/15"
+                                  : today
+                                    ? "border-blue-500/40 bg-blue-500/15"
+                                    : "border-slate-700 bg-slate-900/60";
 
-                          return (
-                            <div key={`${exam.id}-${index}`} className={`rounded-lg border p-3 ${cardClass}`}>
-                              <div className="flex items-start gap-3">
-                                <input
-                                  type="checkbox"
-                                  checked={completed}
-                                  disabled={savingPlanExamId === exam.id}
-                                  onChange={() => void togglePlanDay(exam, index)}
-                                  className="mt-1 h-4 w-4 rounded border-slate-500 bg-transparent"
-                                />
-                                <div className="min-w-0">
-                                  <p className="text-sm font-semibold text-white">Day {index + 1} ({day.date}): {day.title}</p>
-                                  {day.tasks.length > 0 && (
-                                    <ul className="mt-1 list-disc space-y-1 pl-5 text-xs text-slate-300">
-                                      {day.tasks.map((task, taskIndex) => (
-                                        <li key={`${exam.id}-${index}-${taskIndex}`}>{task}</li>
-                                      ))}
-                                    </ul>
-                                  )}
-                                </div>
-                              </div>
+                                return (
+                                  <div key={`${exam.id}-${index}`} className={`rounded-lg border p-3 ${cardClass}`}>
+                                    <div className="flex items-start gap-3">
+                                      <input
+                                        type="checkbox"
+                                        checked={completed}
+                                        disabled={savingPlanExamId === exam.id}
+                                        onChange={() => void togglePlanDay(exam, index)}
+                                        className="mt-1 h-4 w-4 rounded border-slate-500 bg-transparent"
+                                      />
+                                      <div className="min-w-0">
+                                        <p className="text-sm font-semibold text-white">Day {index + 1} ({day.date}): {day.title}</p>
+                                        {day.tasks.length > 0 && (
+                                          <ul className="mt-1 list-disc space-y-1 pl-5 text-xs text-slate-300">
+                                            {day.tasks.map((task, taskIndex) => (
+                                              <li key={`${exam.id}-${index}-${taskIndex}`}>{task}</li>
+                                            ))}
+                                          </ul>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
                             </div>
-                          );
-                        })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+
+            {pastExams.length > 0 && (
+              <div style={{ marginTop: "48px" }}>
+                <p className="text-label" style={{ marginBottom: "16px" }}>Past Exams</p>
+                {[...pastExams]
+                  .sort((a, b) => new Date(b.examDate).getTime() - new Date(a.examDate).getTime())
+                  .map((exam) => (
+                    <div
+                      key={exam.id}
+                      className="card"
+                      style={{
+                        opacity: 0.55,
+                        marginBottom: "12px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        padding: "16px 20px",
+                      }}
+                    >
+                      <div>
+                        <p
+                          style={{
+                            fontWeight: 600,
+                            color: "var(--text-secondary)",
+                            textDecoration: "line-through",
+                            fontSize: "15px",
+                          }}
+                        >
+                          {exam.subject}
+                        </p>
+                        <p
+                          style={{
+                            fontSize: "12px",
+                            color: "var(--text-muted)",
+                            marginTop: "2px",
+                          }}
+                        >
+                          Completed — {new Date(exam.examDate).toLocaleDateString("en-CA", {
+                            month: "short", day: "numeric", year: "numeric",
+                          })}
+                        </p>
+                        {exam.board && (
+                          <p style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>{exam.board}</p>
+                        )}
+                      </div>
+                      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                        <button className="btn btn-ghost btn-sm" style={{ opacity: 0.7 }}>
+                          Record Results
+                        </button>
+                        <button
+                          onClick={() => {
+                            void handleDeleteExam(exam.id);
+                          }}
+                          className="btn btn-danger btn-sm"
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                  ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </main>
