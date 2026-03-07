@@ -10,6 +10,23 @@ type ExamLite = {
   examDate: string;
 };
 
+function examTimestamp(examDate: string) {
+  const parsed = new Date(examDate);
+  if (Number.isNaN(parsed.getTime())) return Number.NaN;
+
+  // Treat date-only values as end-of-day so same-day exams stay visible.
+  if (
+    parsed.getHours() === 0 &&
+    parsed.getMinutes() === 0 &&
+    parsed.getSeconds() === 0 &&
+    parsed.getMilliseconds() === 0
+  ) {
+    parsed.setHours(23, 59, 59, 999);
+  }
+
+  return parsed.getTime();
+}
+
 function countdown(examDate: string) {
   const target = new Date(examDate).getTime();
   const diff = Math.max(0, target - Date.now());
@@ -40,10 +57,19 @@ export function ExamWidget() {
     }
 
     const load = async () => {
-      const response = await fetch("/api/exams").catch(() => null);
+      const response = await fetch("/api/exams", {
+        method: "GET",
+        credentials: "include",
+        cache: "no-store",
+      }).catch(() => null);
       if (!response?.ok) return;
-      const payload = (await response.json().catch(() => ({}))) as { exams?: ExamLite[] };
-      setExams(Array.isArray(payload.exams) ? payload.exams : []);
+      const payload = (await response.json().catch(() => ({}))) as { exams?: ExamLite[]; items?: ExamLite[] };
+      const items = Array.isArray(payload.exams)
+        ? payload.exams
+        : Array.isArray(payload.items)
+          ? payload.items
+          : [];
+      setExams(items);
     };
 
     void load();
@@ -63,8 +89,11 @@ export function ExamWidget() {
     void tick;
     const now = Date.now();
     return [...exams]
-      .filter((exam) => new Date(exam.examDate).getTime() > now)
-      .sort((a, b) => new Date(a.examDate).getTime() - new Date(b.examDate).getTime())[0] ?? null;
+      .filter((exam) => {
+        const ts = examTimestamp(exam.examDate);
+        return Number.isFinite(ts) && ts >= now;
+      })
+      .sort((a, b) => examTimestamp(a.examDate) - examTimestamp(b.examDate))[0] ?? null;
   }, [exams, tick]);
 
   if (status !== "authenticated") {

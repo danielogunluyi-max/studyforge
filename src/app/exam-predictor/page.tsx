@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "~/app/_components/button";
 import Listbox from "~/app/_components/Listbox";
 import { EmptyState } from "~/app/_components/empty-state";
@@ -136,12 +136,16 @@ function likelihoodBarColor(likelihood: Confidence) {
 }
 
 export default function ExamPredictorPage() {
+  const pastFileInputRef = useRef<HTMLInputElement>(null);
+  const syllabusFileInputRef = useRef<HTMLInputElement>(null);
+
   const [step, setStep] = useState(1);
 
   const [examType, setExamType] = useState("Final");
   const [pastExamText, setPastExamText] = useState("");
   const [syllabusText, setSyllabusText] = useState("");
   const [uploadedPastExams, setUploadedPastExams] = useState<string[]>([]);
+  const [uploadedSyllabusFiles, setUploadedSyllabusFiles] = useState<string[]>([]);
 
   const [testPreset, setTestPreset] = useState("Mixed (Standard)");
   const [customSections, setCustomSections] = useState<SectionConfig[]>(presetSections["Mixed (Standard)"] ?? []);
@@ -543,16 +547,26 @@ export default function ExamPredictorPage() {
               />
 
               <div className="mt-2 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => pastFileInputRef.current?.click()}
+                  className="upload-dropzone w-full !p-6"
+                >
+                  <span className="block text-sm font-semibold text-[var(--text-primary)]">Upload Past Exam File</span>
+                  <span className="mt-1 block text-xs text-[var(--text-secondary)]">PDF, PNG, JPG</span>
+                </button>
                 <input
+                  ref={pastFileInputRef}
                   type="file"
                   accept="application/pdf,image/png,image/jpeg,.pdf,.png,.jpg,.jpeg"
+                  className="hidden"
                   onChange={(event) => {
                     const file = event.target.files?.[0];
                     if (!file) return;
+                    setUploadedPastExams((prev) => [...prev, file.name]);
                     void extractFileText(file, "past");
                     event.target.value = "";
                   }}
-                  className="text-xs"
                 />
                 {uploadedPastExams.length > 0 && (
                   <span className="text-xs text-gray-600">Uploaded: {uploadedPastExams.length} file(s)</span>
@@ -568,17 +582,30 @@ export default function ExamPredictorPage() {
               />
 
               <div className="mt-2">
+                <button
+                  type="button"
+                  onClick={() => syllabusFileInputRef.current?.click()}
+                  className="upload-dropzone w-full !p-6"
+                >
+                  <span className="block text-sm font-semibold text-[var(--text-primary)]">Upload Syllabus File</span>
+                  <span className="mt-1 block text-xs text-[var(--text-secondary)]">PDF, PNG, JPG</span>
+                </button>
                 <input
+                  ref={syllabusFileInputRef}
                   type="file"
                   accept="application/pdf,image/png,image/jpeg,.pdf,.png,.jpg,.jpeg"
+                  className="hidden"
                   onChange={(event) => {
                     const file = event.target.files?.[0];
                     if (!file) return;
+                    setUploadedSyllabusFiles((prev) => [...prev, file.name]);
                     void extractFileText(file, "syllabus");
                     event.target.value = "";
                   }}
-                  className="text-xs"
                 />
+                {uploadedSyllabusFiles.length > 0 && (
+                  <span className="mt-2 inline-block text-xs text-gray-600">Syllabus uploads: {uploadedSyllabusFiles.length} file(s)</span>
+                )}
               </div>
             </section>
 

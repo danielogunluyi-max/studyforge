@@ -247,7 +247,7 @@ export default function BattlePage() {
         <PageHero
           title="Study Battle Arena"
           description="Real-time duels, solo practice, AI rivals, rooms, and tournament ladders."
-          actions={<Button href="/my-notes" variant="secondary" size="sm">Choose Note Source</Button>}
+          actions={<Button href="/my-notes" variant="secondary" size="sm" className="btn btn-ghost text-white">Choose Note Source</Button>}
         />
 
         {profile && (
@@ -259,7 +259,7 @@ export default function BattlePage() {
                 <p className="text-sm text-gray-600">Streak: {profile.battleWinStreak} • Solo sessions: {profile.soloSessionsCompleted}</p>
               </div>
               <div className="min-w-56 flex-1">
-                <div className="h-2 overflow-hidden rounded bg-gray-200">
+                <div className="h-2 overflow-hidden rounded bg-[var(--bg-elevated)]">
                   <div className="h-full bg-blue-600" style={{ width: `${profile.levelProgress}%` }} />
                 </div>
                 <p className="mt-1 text-xs text-gray-500">Level progress: {profile.levelProgress}%</p>

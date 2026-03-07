@@ -182,7 +182,7 @@ export default function StudyGroupsPage() {
                   </div>
                   <div className="mb-3 flex flex-wrap gap-2">
                     {(group.avatars ?? []).slice(0, 4).map((avatar) => (
-                      <span key={avatar.userId} className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-700">
+                      <span key={avatar.userId} className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--bg-elevated)] text-xs font-semibold text-[var(--text-muted)]">
                         {initials(avatar.name)}
                       </span>
                     ))}
