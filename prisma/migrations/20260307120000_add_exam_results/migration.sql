@@ -1,0 +1,10 @@
+-- Add exam results tracking columns
+ALTER TABLE "Exam"
+ADD COLUMN "resultRecorded" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN "scorePercent" DOUBLE PRECISION,
+ADD COLUMN "gradeKU" DOUBLE PRECISION,
+ADD COLUMN "gradeThinking" DOUBLE PRECISION,
+ADD COLUMN "gradeComm" DOUBLE PRECISION,
+ADD COLUMN "gradeApp" DOUBLE PRECISION,
+ADD COLUMN "resultNotes" TEXT,
+ADD COLUMN "resultRecordedAt" TIMESTAMP(3);

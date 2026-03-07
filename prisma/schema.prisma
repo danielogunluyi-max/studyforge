@@ -561,15 +561,23 @@ model ConceptWeb {
 }
 
 model Exam {
-    id         String   @id @default(cuid())
-    userId     String
-    subject    String
-    examDate   DateTime
-    board      String?
-    difficulty String?
-    topics     String?
-    studyPlan  String?
-    createdAt  DateTime @default(now())
+    id               String    @id @default(cuid())
+    userId           String
+    subject          String
+    examDate         DateTime
+    board            String?
+    difficulty       String?
+    topics           String?
+    studyPlan        String?
+    resultRecorded   Boolean   @default(false)
+    scorePercent     Float?
+    gradeKU          Float?
+    gradeThinking    Float?
+    gradeComm        Float?
+    gradeApp         Float?
+    resultNotes      String?
+    resultRecordedAt DateTime?
+    createdAt        DateTime  @default(now())
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

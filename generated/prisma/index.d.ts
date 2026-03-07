@@ -39317,8 +39317,26 @@ export namespace Prisma {
 
   export type AggregateExam = {
     _count: ExamCountAggregateOutputType | null
+    _avg: ExamAvgAggregateOutputType | null
+    _sum: ExamSumAggregateOutputType | null
     _min: ExamMinAggregateOutputType | null
     _max: ExamMaxAggregateOutputType | null
+  }
+
+  export type ExamAvgAggregateOutputType = {
+    scorePercent: number | null
+    gradeKU: number | null
+    gradeThinking: number | null
+    gradeComm: number | null
+    gradeApp: number | null
+  }
+
+  export type ExamSumAggregateOutputType = {
+    scorePercent: number | null
+    gradeKU: number | null
+    gradeThinking: number | null
+    gradeComm: number | null
+    gradeApp: number | null
   }
 
   export type ExamMinAggregateOutputType = {
@@ -39330,6 +39348,14 @@ export namespace Prisma {
     difficulty: string | null
     topics: string | null
     studyPlan: string | null
+    resultRecorded: boolean | null
+    scorePercent: number | null
+    gradeKU: number | null
+    gradeThinking: number | null
+    gradeComm: number | null
+    gradeApp: number | null
+    resultNotes: string | null
+    resultRecordedAt: Date | null
     createdAt: Date | null
   }
 
@@ -39342,6 +39368,14 @@ export namespace Prisma {
     difficulty: string | null
     topics: string | null
     studyPlan: string | null
+    resultRecorded: boolean | null
+    scorePercent: number | null
+    gradeKU: number | null
+    gradeThinking: number | null
+    gradeComm: number | null
+    gradeApp: number | null
+    resultNotes: string | null
+    resultRecordedAt: Date | null
     createdAt: Date | null
   }
 
@@ -39354,10 +39388,34 @@ export namespace Prisma {
     difficulty: number
     topics: number
     studyPlan: number
+    resultRecorded: number
+    scorePercent: number
+    gradeKU: number
+    gradeThinking: number
+    gradeComm: number
+    gradeApp: number
+    resultNotes: number
+    resultRecordedAt: number
     createdAt: number
     _all: number
   }
 
+
+  export type ExamAvgAggregateInputType = {
+    scorePercent?: true
+    gradeKU?: true
+    gradeThinking?: true
+    gradeComm?: true
+    gradeApp?: true
+  }
+
+  export type ExamSumAggregateInputType = {
+    scorePercent?: true
+    gradeKU?: true
+    gradeThinking?: true
+    gradeComm?: true
+    gradeApp?: true
+  }
 
   export type ExamMinAggregateInputType = {
     id?: true
@@ -39368,6 +39426,14 @@ export namespace Prisma {
     difficulty?: true
     topics?: true
     studyPlan?: true
+    resultRecorded?: true
+    scorePercent?: true
+    gradeKU?: true
+    gradeThinking?: true
+    gradeComm?: true
+    gradeApp?: true
+    resultNotes?: true
+    resultRecordedAt?: true
     createdAt?: true
   }
 
@@ -39380,6 +39446,14 @@ export namespace Prisma {
     difficulty?: true
     topics?: true
     studyPlan?: true
+    resultRecorded?: true
+    scorePercent?: true
+    gradeKU?: true
+    gradeThinking?: true
+    gradeComm?: true
+    gradeApp?: true
+    resultNotes?: true
+    resultRecordedAt?: true
     createdAt?: true
   }
 
@@ -39392,6 +39466,14 @@ export namespace Prisma {
     difficulty?: true
     topics?: true
     studyPlan?: true
+    resultRecorded?: true
+    scorePercent?: true
+    gradeKU?: true
+    gradeThinking?: true
+    gradeComm?: true
+    gradeApp?: true
+    resultNotes?: true
+    resultRecordedAt?: true
     createdAt?: true
     _all?: true
   }
@@ -39434,6 +39516,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ExamAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ExamSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ExamMinAggregateInputType
@@ -39464,6 +39558,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ExamCountAggregateInputType | true
+    _avg?: ExamAvgAggregateInputType
+    _sum?: ExamSumAggregateInputType
     _min?: ExamMinAggregateInputType
     _max?: ExamMaxAggregateInputType
   }
@@ -39477,8 +39573,18 @@ export namespace Prisma {
     difficulty: string | null
     topics: string | null
     studyPlan: string | null
+    resultRecorded: boolean
+    scorePercent: number | null
+    gradeKU: number | null
+    gradeThinking: number | null
+    gradeComm: number | null
+    gradeApp: number | null
+    resultNotes: string | null
+    resultRecordedAt: Date | null
     createdAt: Date
     _count: ExamCountAggregateOutputType | null
+    _avg: ExamAvgAggregateOutputType | null
+    _sum: ExamSumAggregateOutputType | null
     _min: ExamMinAggregateOutputType | null
     _max: ExamMaxAggregateOutputType | null
   }
@@ -39506,6 +39612,14 @@ export namespace Prisma {
     difficulty?: boolean
     topics?: boolean
     studyPlan?: boolean
+    resultRecorded?: boolean
+    scorePercent?: boolean
+    gradeKU?: boolean
+    gradeThinking?: boolean
+    gradeComm?: boolean
+    gradeApp?: boolean
+    resultNotes?: boolean
+    resultRecordedAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["exam"]>
@@ -39519,6 +39633,14 @@ export namespace Prisma {
     difficulty?: boolean
     topics?: boolean
     studyPlan?: boolean
+    resultRecorded?: boolean
+    scorePercent?: boolean
+    gradeKU?: boolean
+    gradeThinking?: boolean
+    gradeComm?: boolean
+    gradeApp?: boolean
+    resultNotes?: boolean
+    resultRecordedAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["exam"]>
@@ -39532,6 +39654,14 @@ export namespace Prisma {
     difficulty?: boolean
     topics?: boolean
     studyPlan?: boolean
+    resultRecorded?: boolean
+    scorePercent?: boolean
+    gradeKU?: boolean
+    gradeThinking?: boolean
+    gradeComm?: boolean
+    gradeApp?: boolean
+    resultNotes?: boolean
+    resultRecordedAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["exam"]>
@@ -39545,10 +39675,18 @@ export namespace Prisma {
     difficulty?: boolean
     topics?: boolean
     studyPlan?: boolean
+    resultRecorded?: boolean
+    scorePercent?: boolean
+    gradeKU?: boolean
+    gradeThinking?: boolean
+    gradeComm?: boolean
+    gradeApp?: boolean
+    resultNotes?: boolean
+    resultRecordedAt?: boolean
     createdAt?: boolean
   }
 
-  export type ExamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "subject" | "examDate" | "board" | "difficulty" | "topics" | "studyPlan" | "createdAt", ExtArgs["result"]["exam"]>
+  export type ExamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "subject" | "examDate" | "board" | "difficulty" | "topics" | "studyPlan" | "resultRecorded" | "scorePercent" | "gradeKU" | "gradeThinking" | "gradeComm" | "gradeApp" | "resultNotes" | "resultRecordedAt" | "createdAt", ExtArgs["result"]["exam"]>
   export type ExamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -39573,6 +39711,14 @@ export namespace Prisma {
       difficulty: string | null
       topics: string | null
       studyPlan: string | null
+      resultRecorded: boolean
+      scorePercent: number | null
+      gradeKU: number | null
+      gradeThinking: number | null
+      gradeComm: number | null
+      gradeApp: number | null
+      resultNotes: string | null
+      resultRecordedAt: Date | null
       createdAt: Date
     }, ExtArgs["result"]["exam"]>
     composites: {}
@@ -40006,6 +40152,14 @@ export namespace Prisma {
     readonly difficulty: FieldRef<"Exam", 'String'>
     readonly topics: FieldRef<"Exam", 'String'>
     readonly studyPlan: FieldRef<"Exam", 'String'>
+    readonly resultRecorded: FieldRef<"Exam", 'Boolean'>
+    readonly scorePercent: FieldRef<"Exam", 'Float'>
+    readonly gradeKU: FieldRef<"Exam", 'Float'>
+    readonly gradeThinking: FieldRef<"Exam", 'Float'>
+    readonly gradeComm: FieldRef<"Exam", 'Float'>
+    readonly gradeApp: FieldRef<"Exam", 'Float'>
+    readonly resultNotes: FieldRef<"Exam", 'String'>
+    readonly resultRecordedAt: FieldRef<"Exam", 'DateTime'>
     readonly createdAt: FieldRef<"Exam", 'DateTime'>
   }
     
@@ -41986,6 +42140,14 @@ export namespace Prisma {
     difficulty: 'difficulty',
     topics: 'topics',
     studyPlan: 'studyPlan',
+    resultRecorded: 'resultRecorded',
+    scorePercent: 'scorePercent',
+    gradeKU: 'gradeKU',
+    gradeThinking: 'gradeThinking',
+    gradeComm: 'gradeComm',
+    gradeApp: 'gradeApp',
+    resultNotes: 'resultNotes',
+    resultRecordedAt: 'resultRecordedAt',
     createdAt: 'createdAt'
   };
 
@@ -44541,6 +44703,14 @@ export namespace Prisma {
     difficulty?: StringNullableFilter<"Exam"> | string | null
     topics?: StringNullableFilter<"Exam"> | string | null
     studyPlan?: StringNullableFilter<"Exam"> | string | null
+    resultRecorded?: BoolFilter<"Exam"> | boolean
+    scorePercent?: FloatNullableFilter<"Exam"> | number | null
+    gradeKU?: FloatNullableFilter<"Exam"> | number | null
+    gradeThinking?: FloatNullableFilter<"Exam"> | number | null
+    gradeComm?: FloatNullableFilter<"Exam"> | number | null
+    gradeApp?: FloatNullableFilter<"Exam"> | number | null
+    resultNotes?: StringNullableFilter<"Exam"> | string | null
+    resultRecordedAt?: DateTimeNullableFilter<"Exam"> | Date | string | null
     createdAt?: DateTimeFilter<"Exam"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -44554,6 +44724,14 @@ export namespace Prisma {
     difficulty?: SortOrderInput | SortOrder
     topics?: SortOrderInput | SortOrder
     studyPlan?: SortOrderInput | SortOrder
+    resultRecorded?: SortOrder
+    scorePercent?: SortOrderInput | SortOrder
+    gradeKU?: SortOrderInput | SortOrder
+    gradeThinking?: SortOrderInput | SortOrder
+    gradeComm?: SortOrderInput | SortOrder
+    gradeApp?: SortOrderInput | SortOrder
+    resultNotes?: SortOrderInput | SortOrder
+    resultRecordedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
   }
@@ -44570,6 +44748,14 @@ export namespace Prisma {
     difficulty?: StringNullableFilter<"Exam"> | string | null
     topics?: StringNullableFilter<"Exam"> | string | null
     studyPlan?: StringNullableFilter<"Exam"> | string | null
+    resultRecorded?: BoolFilter<"Exam"> | boolean
+    scorePercent?: FloatNullableFilter<"Exam"> | number | null
+    gradeKU?: FloatNullableFilter<"Exam"> | number | null
+    gradeThinking?: FloatNullableFilter<"Exam"> | number | null
+    gradeComm?: FloatNullableFilter<"Exam"> | number | null
+    gradeApp?: FloatNullableFilter<"Exam"> | number | null
+    resultNotes?: StringNullableFilter<"Exam"> | string | null
+    resultRecordedAt?: DateTimeNullableFilter<"Exam"> | Date | string | null
     createdAt?: DateTimeFilter<"Exam"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -44583,10 +44769,20 @@ export namespace Prisma {
     difficulty?: SortOrderInput | SortOrder
     topics?: SortOrderInput | SortOrder
     studyPlan?: SortOrderInput | SortOrder
+    resultRecorded?: SortOrder
+    scorePercent?: SortOrderInput | SortOrder
+    gradeKU?: SortOrderInput | SortOrder
+    gradeThinking?: SortOrderInput | SortOrder
+    gradeComm?: SortOrderInput | SortOrder
+    gradeApp?: SortOrderInput | SortOrder
+    resultNotes?: SortOrderInput | SortOrder
+    resultRecordedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: ExamCountOrderByAggregateInput
+    _avg?: ExamAvgOrderByAggregateInput
     _max?: ExamMaxOrderByAggregateInput
     _min?: ExamMinOrderByAggregateInput
+    _sum?: ExamSumOrderByAggregateInput
   }
 
   export type ExamScalarWhereWithAggregatesInput = {
@@ -44601,6 +44797,14 @@ export namespace Prisma {
     difficulty?: StringNullableWithAggregatesFilter<"Exam"> | string | null
     topics?: StringNullableWithAggregatesFilter<"Exam"> | string | null
     studyPlan?: StringNullableWithAggregatesFilter<"Exam"> | string | null
+    resultRecorded?: BoolWithAggregatesFilter<"Exam"> | boolean
+    scorePercent?: FloatNullableWithAggregatesFilter<"Exam"> | number | null
+    gradeKU?: FloatNullableWithAggregatesFilter<"Exam"> | number | null
+    gradeThinking?: FloatNullableWithAggregatesFilter<"Exam"> | number | null
+    gradeComm?: FloatNullableWithAggregatesFilter<"Exam"> | number | null
+    gradeApp?: FloatNullableWithAggregatesFilter<"Exam"> | number | null
+    resultNotes?: StringNullableWithAggregatesFilter<"Exam"> | string | null
+    resultRecordedAt?: DateTimeNullableWithAggregatesFilter<"Exam"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Exam"> | Date | string
   }
 
@@ -47218,6 +47422,14 @@ export namespace Prisma {
     difficulty?: string | null
     topics?: string | null
     studyPlan?: string | null
+    resultRecorded?: boolean
+    scorePercent?: number | null
+    gradeKU?: number | null
+    gradeThinking?: number | null
+    gradeComm?: number | null
+    gradeApp?: number | null
+    resultNotes?: string | null
+    resultRecordedAt?: Date | string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutExamsInput
   }
@@ -47231,6 +47443,14 @@ export namespace Prisma {
     difficulty?: string | null
     topics?: string | null
     studyPlan?: string | null
+    resultRecorded?: boolean
+    scorePercent?: number | null
+    gradeKU?: number | null
+    gradeThinking?: number | null
+    gradeComm?: number | null
+    gradeApp?: number | null
+    resultNotes?: string | null
+    resultRecordedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -47242,6 +47462,14 @@ export namespace Prisma {
     difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     topics?: NullableStringFieldUpdateOperationsInput | string | null
     studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecorded?: BoolFieldUpdateOperationsInput | boolean
+    scorePercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeKU?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeThinking?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeComm?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeApp?: NullableFloatFieldUpdateOperationsInput | number | null
+    resultNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecordedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutExamsNestedInput
   }
@@ -47255,6 +47483,14 @@ export namespace Prisma {
     difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     topics?: NullableStringFieldUpdateOperationsInput | string | null
     studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecorded?: BoolFieldUpdateOperationsInput | boolean
+    scorePercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeKU?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeThinking?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeComm?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeApp?: NullableFloatFieldUpdateOperationsInput | number | null
+    resultNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecordedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -47267,6 +47503,14 @@ export namespace Prisma {
     difficulty?: string | null
     topics?: string | null
     studyPlan?: string | null
+    resultRecorded?: boolean
+    scorePercent?: number | null
+    gradeKU?: number | null
+    gradeThinking?: number | null
+    gradeComm?: number | null
+    gradeApp?: number | null
+    resultNotes?: string | null
+    resultRecordedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -47278,6 +47522,14 @@ export namespace Prisma {
     difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     topics?: NullableStringFieldUpdateOperationsInput | string | null
     studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecorded?: BoolFieldUpdateOperationsInput | boolean
+    scorePercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeKU?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeThinking?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeComm?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeApp?: NullableFloatFieldUpdateOperationsInput | number | null
+    resultNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecordedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -47290,6 +47542,14 @@ export namespace Prisma {
     difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     topics?: NullableStringFieldUpdateOperationsInput | string | null
     studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecorded?: BoolFieldUpdateOperationsInput | boolean
+    scorePercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeKU?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeThinking?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeComm?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeApp?: NullableFloatFieldUpdateOperationsInput | number | null
+    resultNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecordedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -49179,6 +49439,17 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ExamCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -49188,7 +49459,23 @@ export namespace Prisma {
     difficulty?: SortOrder
     topics?: SortOrder
     studyPlan?: SortOrder
+    resultRecorded?: SortOrder
+    scorePercent?: SortOrder
+    gradeKU?: SortOrder
+    gradeThinking?: SortOrder
+    gradeComm?: SortOrder
+    gradeApp?: SortOrder
+    resultNotes?: SortOrder
+    resultRecordedAt?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type ExamAvgOrderByAggregateInput = {
+    scorePercent?: SortOrder
+    gradeKU?: SortOrder
+    gradeThinking?: SortOrder
+    gradeComm?: SortOrder
+    gradeApp?: SortOrder
   }
 
   export type ExamMaxOrderByAggregateInput = {
@@ -49200,6 +49487,14 @@ export namespace Prisma {
     difficulty?: SortOrder
     topics?: SortOrder
     studyPlan?: SortOrder
+    resultRecorded?: SortOrder
+    scorePercent?: SortOrder
+    gradeKU?: SortOrder
+    gradeThinking?: SortOrder
+    gradeComm?: SortOrder
+    gradeApp?: SortOrder
+    resultNotes?: SortOrder
+    resultRecordedAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -49212,7 +49507,39 @@ export namespace Prisma {
     difficulty?: SortOrder
     topics?: SortOrder
     studyPlan?: SortOrder
+    resultRecorded?: SortOrder
+    scorePercent?: SortOrder
+    gradeKU?: SortOrder
+    gradeThinking?: SortOrder
+    gradeComm?: SortOrder
+    gradeApp?: SortOrder
+    resultNotes?: SortOrder
+    resultRecordedAt?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type ExamSumOrderByAggregateInput = {
+    scorePercent?: SortOrder
+    gradeKU?: SortOrder
+    gradeThinking?: SortOrder
+    gradeComm?: SortOrder
+    gradeApp?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type ScanHistoryCountOrderByAggregateInput = {
@@ -51978,6 +52305,14 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserUpdateOneRequiredWithoutExamsNestedInput = {
     create?: XOR<UserCreateWithoutExamsInput, UserUncheckedCreateWithoutExamsInput>
     connectOrCreate?: UserCreateOrConnectWithoutExamsInput
@@ -52245,6 +52580,22 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type UserCreateWithoutPostsInput = {
@@ -53112,6 +53463,14 @@ export namespace Prisma {
     difficulty?: string | null
     topics?: string | null
     studyPlan?: string | null
+    resultRecorded?: boolean
+    scorePercent?: number | null
+    gradeKU?: number | null
+    gradeThinking?: number | null
+    gradeComm?: number | null
+    gradeApp?: number | null
+    resultNotes?: string | null
+    resultRecordedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -53123,6 +53482,14 @@ export namespace Prisma {
     difficulty?: string | null
     topics?: string | null
     studyPlan?: string | null
+    resultRecorded?: boolean
+    scorePercent?: number | null
+    gradeKU?: number | null
+    gradeThinking?: number | null
+    gradeComm?: number | null
+    gradeApp?: number | null
+    resultNotes?: string | null
+    resultRecordedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -54077,6 +54444,14 @@ export namespace Prisma {
     difficulty?: StringNullableFilter<"Exam"> | string | null
     topics?: StringNullableFilter<"Exam"> | string | null
     studyPlan?: StringNullableFilter<"Exam"> | string | null
+    resultRecorded?: BoolFilter<"Exam"> | boolean
+    scorePercent?: FloatNullableFilter<"Exam"> | number | null
+    gradeKU?: FloatNullableFilter<"Exam"> | number | null
+    gradeThinking?: FloatNullableFilter<"Exam"> | number | null
+    gradeComm?: FloatNullableFilter<"Exam"> | number | null
+    gradeApp?: FloatNullableFilter<"Exam"> | number | null
+    resultNotes?: StringNullableFilter<"Exam"> | string | null
+    resultRecordedAt?: DateTimeNullableFilter<"Exam"> | Date | string | null
     createdAt?: DateTimeFilter<"Exam"> | Date | string
   }
 
@@ -63389,6 +63764,14 @@ export namespace Prisma {
     difficulty?: string | null
     topics?: string | null
     studyPlan?: string | null
+    resultRecorded?: boolean
+    scorePercent?: number | null
+    gradeKU?: number | null
+    gradeThinking?: number | null
+    gradeComm?: number | null
+    gradeApp?: number | null
+    resultNotes?: string | null
+    resultRecordedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -63822,6 +64205,14 @@ export namespace Prisma {
     difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     topics?: NullableStringFieldUpdateOperationsInput | string | null
     studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecorded?: BoolFieldUpdateOperationsInput | boolean
+    scorePercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeKU?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeThinking?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeComm?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeApp?: NullableFloatFieldUpdateOperationsInput | number | null
+    resultNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecordedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -63833,6 +64224,14 @@ export namespace Prisma {
     difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     topics?: NullableStringFieldUpdateOperationsInput | string | null
     studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecorded?: BoolFieldUpdateOperationsInput | boolean
+    scorePercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeKU?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeThinking?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeComm?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeApp?: NullableFloatFieldUpdateOperationsInput | number | null
+    resultNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecordedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -63844,6 +64243,14 @@ export namespace Prisma {
     difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     topics?: NullableStringFieldUpdateOperationsInput | string | null
     studyPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecorded?: BoolFieldUpdateOperationsInput | boolean
+    scorePercent?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeKU?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeThinking?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeComm?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeApp?: NullableFloatFieldUpdateOperationsInput | number | null
+    resultNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    resultRecordedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

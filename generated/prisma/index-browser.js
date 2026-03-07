@@ -473,6 +473,14 @@ exports.Prisma.ExamScalarFieldEnum = {
   difficulty: 'difficulty',
   topics: 'topics',
   studyPlan: 'studyPlan',
+  resultRecorded: 'resultRecorded',
+  scorePercent: 'scorePercent',
+  gradeKU: 'gradeKU',
+  gradeThinking: 'gradeThinking',
+  gradeComm: 'gradeComm',
+  gradeApp: 'gradeApp',
+  resultNotes: 'resultNotes',
+  resultRecordedAt: 'resultRecordedAt',
   createdAt: 'createdAt'
 };
 

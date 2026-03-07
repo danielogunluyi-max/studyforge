@@ -49,6 +49,11 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       icon: <NavIcon><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="3.75" y="3.75" width="6.75" height="6.75" rx="1.5" /><rect x="13.5" y="3.75" width="6.75" height="6.75" rx="1.5" /><rect x="3.75" y="13.5" width="6.75" height="6.75" rx="1.5" /><rect x="13.5" y="13.5" width="6.75" height="6.75" rx="1.5" /></svg></NavIcon>,
     },
     {
+      href: "/results",
+      label: "My Results",
+      icon: <NavIcon><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75h7.5m-8.25-12v3m4.5-3v6m4.5-6v9" /><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 4.5h9l-.75 2.25H8.25L7.5 4.5z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 18.75 12 21l2.25-2.25" /></svg></NavIcon>,
+    },
+    {
       href: "/generator",
       label: "Generator",
       icon: <NavIcon><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m12 3 1.5 3.5L17 8l-3.5 1.5L12 13l-1.5-3.5L7 8l3.5-1.5L12 3z" /></svg></NavIcon>,

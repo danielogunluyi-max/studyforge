@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import { useToast } from "~/app/_components/toast";
+import { RecordResultModal } from "@/components/RecordResultModal";
+import { getGradeColor, percentToLetter } from "@/lib/gradeUtils";
 
 type Exam = {
   id: string;
@@ -15,6 +17,14 @@ type Exam = {
   difficulty: string | null;
   topics: string | null;
   studyPlan: string | null;
+  resultRecorded: boolean;
+  scorePercent: number | null;
+  gradeKU: number | null;
+  gradeThinking: number | null;
+  gradeComm: number | null;
+  gradeApp: number | null;
+  resultNotes: string | null;
+  resultRecordedAt: string | null;
   createdAt: string;
 };
 
@@ -200,6 +210,12 @@ export default function DashboardPage() {
   const [board, setBoard] = useState("");
   const [difficulty, setDifficulty] = useState("Medium");
   const [topics, setTopics] = useState("");
+  const [selectedExamForResult, setSelectedExamForResult] = useState<{
+    id: string;
+    subject: string;
+    examDate: string;
+    board: string | null;
+  } | null>(null);
   const scanFileInputRef = useRef<HTMLInputElement>(null);
 
   const { showToast } = useToast();
@@ -745,9 +761,50 @@ export default function DashboardPage() {
                         )}
                       </div>
                       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                        <button className="btn btn-ghost btn-sm" style={{ opacity: 0.7 }}>
-                          Record Results
-                        </button>
+                        {!exam.resultRecorded ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSelectedExamForResult({
+                                id: exam.id,
+                                subject: exam.subject,
+                                examDate: exam.examDate,
+                                board: exam.board,
+                              });
+                            }}
+                            style={{
+                              border: "1px solid var(--accent-blue)",
+                              borderRadius: 8,
+                              background: "transparent",
+                              color: "var(--accent-blue)",
+                              padding: "6px 10px",
+                              fontSize: 12,
+                              fontWeight: 600,
+                              cursor: "pointer",
+                            }}
+                          >
+                            Record Result
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              void router.push("/results");
+                            }}
+                            style={{
+                              border: "none",
+                              borderRadius: 20,
+                              background: getGradeColor(exam.scorePercent ?? 0),
+                              color: "var(--text-primary)",
+                              padding: "6px 10px",
+                              fontSize: 12,
+                              fontWeight: 700,
+                              cursor: "pointer",
+                            }}
+                          >
+                            {percentToLetter(exam.scorePercent ?? 0)} {(exam.scorePercent ?? 0).toFixed(1)}%
+                          </button>
+                        )}
                         <button
                           onClick={() => {
                             void handleDeleteExam(exam.id);
@@ -764,6 +821,19 @@ export default function DashboardPage() {
           </>
         )}
       </div>
+
+      {selectedExamForResult && (
+        <RecordResultModal
+          exam={selectedExamForResult}
+          onClose={() => {
+            setSelectedExamForResult(null);
+          }}
+          onSuccess={() => {
+            setSelectedExamForResult(null);
+            void fetchExams();
+          }}
+        />
+      )}
     </main>
   );
 }
