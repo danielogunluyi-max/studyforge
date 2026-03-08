@@ -354,6 +354,10 @@ export default function MyNotes() {
     router.push("/generator?source=upload");
   };
 
+  const openFlashcardsFromNote = (noteId: string) => {
+    router.push(`/flashcards?generateFrom=${encodeURIComponent(noteId)}`);
+  };
+
   const createFolder = async () => {
     const name = prompt("Folder name")?.trim();
     if (!name) return;
@@ -980,7 +984,7 @@ export default function MyNotes() {
                       </div>
                     )}
 
-                    <div className="mt-4 grid grid-cols-3 gap-2">
+                    <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
                       <Button
                         onClick={() => void openNote(note)}
                         variant="secondary"
@@ -996,6 +1000,14 @@ export default function MyNotes() {
                         className="py-2"
                       >
                         Continue Studying
+                      </Button>
+                      <Button
+                        onClick={() => openFlashcardsFromNote(note.id)}
+                        variant="secondary"
+                        size="sm"
+                        className="py-2"
+                      >
+                        -&gt; Flashcards
                       </Button>
                       <Button
                         onClick={() => void exportNotePdf(note.id)}
@@ -1062,7 +1074,7 @@ export default function MyNotes() {
               <HighlightText text={selectedNote.content} query={debouncedSearch} />
             </div>
 
-            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-4">
               <Button
                 onClick={() => {
                   void navigator.clipboard.writeText(selectedNote.content);
@@ -1071,6 +1083,13 @@ export default function MyNotes() {
                 size="md"
               >
                 Copy
+              </Button>
+              <Button
+                onClick={() => openFlashcardsFromNote(selectedNote.id)}
+                variant="secondary"
+                size="md"
+              >
+                -&gt; Flashcards
               </Button>
               <Button
                 onClick={() => void exportNotePdf(selectedNote.id)}

@@ -493,6 +493,29 @@ exports.Prisma.ScanHistoryScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.FlashcardDeckScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  subject: 'subject',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FlashcardScalarFieldEnum = {
+  id: 'id',
+  deckId: 'deckId',
+  front: 'front',
+  back: 'back',
+  easeFactor: 'easeFactor',
+  interval: 'interval',
+  repetitions: 'repetitions',
+  nextReview: 'nextReview',
+  lastReviewed: 'lastReviewed',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -556,7 +579,9 @@ exports.Prisma.ModelName = {
   LearningStyleResult: 'LearningStyleResult',
   ConceptWeb: 'ConceptWeb',
   Exam: 'Exam',
-  ScanHistory: 'ScanHistory'
+  ScanHistory: 'ScanHistory',
+  FlashcardDeck: 'FlashcardDeck',
+  Flashcard: 'Flashcard'
 };
 
 /**

@@ -103,6 +103,7 @@ model User {
   conceptConnections     ConceptConnection[]
   learningStyleResults   LearningStyleResult[]
   conceptWebs            ConceptWeb[]
+  flashcardDecks         FlashcardDeck[]
 }
 
 model VerificationToken {
@@ -598,4 +599,39 @@ model ScanHistory {
 
   @@index([userId])
   @@index([createdAt])
+}
+
+model FlashcardDeck {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  subject     String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cards Flashcard[]
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Flashcard {
+  id           String    @id @default(cuid())
+  deckId       String
+  front        String
+  back         String
+  easeFactor   Float     @default(2.5)
+  interval     Int       @default(1)
+  repetitions  Int       @default(0)
+  nextReview   DateTime  @default(now())
+  lastReviewed DateTime?
+  createdAt    DateTime  @default(now())
+
+  deck FlashcardDeck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+
+  @@index([deckId])
+  @@index([nextReview])
+  @@index([lastReviewed])
 }
