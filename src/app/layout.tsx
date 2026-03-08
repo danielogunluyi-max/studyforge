@@ -8,6 +8,7 @@ import { AppearanceSync } from "~/app/_components/appearance-sync";
 import { ToastProvider, ToastViewport } from "~/app/_components/toast";
 import { ExamWidget } from "~/app/_components/exam-widget";
 import { PomodoroWidget } from "~/app/_components/pomodoro-widget";
+import AmbientPlayer from "~/app/_components/ambient-player";
 import { AppShell } from "~/app/_components/app-shell";
 
 export const metadata: Metadata = {
@@ -71,6 +72,7 @@ export default function RootLayout({
                   <AppShell>
                     <div className="page-enter">{children}</div>
                   </AppShell>
+                  <AmbientPlayer />
                   <PomodoroWidget />
                   <ExamWidget />
                   <ToastViewport />
