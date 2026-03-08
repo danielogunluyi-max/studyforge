@@ -140,69 +140,55 @@ export default async function FocusPage() {
   const maxDayMinutes = Math.max(1, ...weekDays.map((day) => day.minutes));
 
   return (
-    <main style={{ minHeight: "100vh", background: "var(--bg-base)", padding: "24px 16px 96px" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <h1 className="text-title">Focus Mode 🎯</h1>
-        <p style={{ color: "var(--text-secondary)", marginTop: "4px" }}>
+    <main className="page-shell app-premium-dark min-h-screen bg-gray-950 pb-24">
+      <div className="mx-auto w-full max-w-6xl">
+        <h1 className="text-[28px] font-bold tracking-tight text-white">Focus Mode 🎯</h1>
+        <p className="mt-1.5 text-sm text-[var(--text-secondary)]">
           Track your deep work sessions and build focus habits
         </p>
 
-        <section
-          style={{
-            marginTop: "20px",
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "16px",
-          }}
-        >
-          <div className="card" style={{ padding: "16px" }}>
-            <p className="text-label" style={{ color: "var(--text-muted)" }}>This Week</p>
-            <p style={{ fontSize: "26px", fontWeight: 800, color: "var(--text-primary)", marginTop: "6px" }}>
+        <section className="metrics-grid mt-5">
+          <div className="card p-4">
+            <p className="text-label text-[var(--text-muted)]">This Week</p>
+            <p className="mt-1.5 text-[26px] font-extrabold text-[var(--text-primary)]">
               {formatMinutes(totalMinutesThisWeek)}
             </p>
           </div>
-          <div className="card" style={{ padding: "16px" }}>
-            <p className="text-label" style={{ color: "var(--text-muted)" }}>Avg Session</p>
-            <p style={{ fontSize: "26px", fontWeight: 800, color: "var(--text-primary)", marginTop: "6px" }}>
+          <div className="card p-4">
+            <p className="text-label text-[var(--text-muted)]">Avg Session</p>
+            <p className="mt-1.5 text-[26px] font-extrabold text-[var(--text-primary)]">
               {averageSessionLength} min
             </p>
           </div>
-          <div className="card" style={{ padding: "16px" }}>
-            <p className="text-label" style={{ color: "var(--text-muted)" }}>Completion Rate</p>
-            <p style={{ fontSize: "26px", fontWeight: 800, color: "var(--text-primary)", marginTop: "6px" }}>
+          <div className="card p-4">
+            <p className="text-label text-[var(--text-muted)]">Completion Rate</p>
+            <p className="mt-1.5 text-[26px] font-extrabold text-[var(--text-primary)]">
               {completionRate}%
             </p>
           </div>
-          <div className="card" style={{ padding: "16px" }}>
-            <p className="text-label" style={{ color: "var(--text-muted)" }}>Longest Session</p>
-            <p style={{ fontSize: "26px", fontWeight: 800, color: "var(--text-primary)", marginTop: "6px" }}>
+          <div className="card p-4">
+            <p className="text-label text-[var(--text-muted)]">Longest Session</p>
+            <p className="mt-1.5 text-[26px] font-extrabold text-[var(--text-primary)]">
               {longestSession} min
             </p>
           </div>
-          <div className="card" style={{ padding: "16px" }}>
-            <p className="text-label" style={{ color: "var(--text-muted)" }}>Total Distractions</p>
-            <p
-              style={{
-                fontSize: "26px",
-                fontWeight: 800,
-                color: totalDistractions < 5 ? "var(--accent-green)" : "var(--text-primary)",
-                marginTop: "6px",
-              }}
-            >
+          <div className="card p-4">
+            <p className="text-label text-[var(--text-muted)]">Total Distractions</p>
+            <p className="mt-1.5 text-[26px] font-extrabold" style={{ color: totalDistractions < 5 ? "var(--accent-green)" : "var(--text-primary)" }}>
               {totalDistractions}
             </p>
           </div>
-          <div className="card" style={{ padding: "16px" }}>
-            <p className="text-label" style={{ color: "var(--text-muted)" }}>Current Streak</p>
-            <p style={{ fontSize: "26px", fontWeight: 800, color: "var(--text-primary)", marginTop: "6px" }}>
+          <div className="card p-4">
+            <p className="text-label text-[var(--text-muted)]">Current Streak</p>
+            <p className="mt-1.5 text-[26px] font-extrabold text-[var(--text-primary)]">
               {streak} day{streak === 1 ? "" : "s"}
             </p>
           </div>
         </section>
 
-        <section className="card" style={{ marginTop: "18px", padding: "18px" }}>
-          <p style={{ fontWeight: 700, color: "var(--text-primary)" }}>Weekly Focus Minutes</p>
-          <div style={{ display: "flex", alignItems: "flex-end", gap: "8px", height: "80px", marginTop: "16px" }}>
+        <section className="card mt-4 p-[18px]">
+          <p className="font-semibold text-[var(--text-primary)]">Weekly Focus Minutes</p>
+          <div className="mt-4 flex h-20 items-end gap-2">
             {weekDays.map((day) => (
               <div
                 key={day.label}
@@ -231,9 +217,9 @@ export default async function FocusPage() {
           </div>
         </section>
 
-        <section className="card" style={{ marginTop: "18px", padding: "18px", overflowX: "auto" }}>
-          <p style={{ fontWeight: 700, color: "var(--text-primary)", marginBottom: "12px" }}>Session History</p>
-          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "760px" }}>
+        <section className="card mt-4 overflow-x-auto p-[18px]">
+          <p className="mb-3 font-semibold text-[var(--text-primary)]">Session History</p>
+          <table className="w-full min-w-[760px] border-collapse">
             <thead>
               <tr>
                 {["Date", "Goal", "Duration", "Actual", "Distractions", "Status"].map((header) => (

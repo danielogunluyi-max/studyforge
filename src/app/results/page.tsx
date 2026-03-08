@@ -60,85 +60,43 @@ export default async function ResultsPage({ searchParams }: ResultsPageProps) {
   const hasTrend = allResults.length >= 6;
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg-primary)",
-        color: "var(--text-primary)",
-        padding: "24px 16px 96px",
-      }}
-    >
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <header style={{ marginBottom: 20 }}>
-          <h1 style={{ margin: 0, fontSize: 32, fontWeight: 800 }}>My Results</h1>
-          <p style={{ margin: "8px 0 0", color: "var(--text-secondary)", fontSize: 14 }}>Track your academic progress</p>
+    <main className="page-shell app-premium-dark min-h-screen bg-gray-950 pb-24">
+      <div className="mx-auto w-full max-w-6xl">
+        <header className="mb-5 border-b border-[var(--border-subtle)] pb-5">
+          <h1 className="text-[28px] font-bold tracking-tight text-white">My Results</h1>
+          <p className="mt-1.5 text-sm text-[var(--text-secondary)]">Track your academic progress</p>
         </header>
 
-        <section
-          style={{
-            marginBottom: 18,
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: 12,
-          }}
-        >
-          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12, padding: 16 }}>
-            <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 12 }}>Average Score</p>
-            <p style={{ margin: "8px 0 0", fontSize: 26, fontWeight: 800 }}>{avgScore.toFixed(1)}%</p>
+        <section className="mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="card p-4">
+            <p className="text-xs text-[var(--text-secondary)]">Average Score</p>
+            <p className="mt-2 text-[26px] font-extrabold text-white">{avgScore.toFixed(1)}%</p>
           </div>
 
-          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12, padding: 16 }}>
-            <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 12 }}>Best Score</p>
-            <p style={{ margin: "8px 0 0", fontSize: 26, fontWeight: 800 }}>{best ? `${(best.scorePercent ?? 0).toFixed(1)}%` : "-"}</p>
-            <p style={{ margin: "4px 0 0", color: "var(--text-secondary)", fontSize: 12 }}>{best?.subject ?? "No exams yet"}</p>
+          <div className="card p-4">
+            <p className="text-xs text-[var(--text-secondary)]">Best Score</p>
+            <p className="mt-2 text-[26px] font-extrabold text-white">{best ? `${(best.scorePercent ?? 0).toFixed(1)}%` : "-"}</p>
+            <p className="mt-1 text-xs text-[var(--text-secondary)]">{best?.subject ?? "No exams yet"}</p>
           </div>
 
-          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12, padding: 16 }}>
-            <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 12 }}>Total Exams Recorded</p>
-            <p style={{ margin: "8px 0 0", fontSize: 26, fontWeight: 800 }}>{allResults.length}</p>
+          <div className="card p-4">
+            <p className="text-xs text-[var(--text-secondary)]">Total Exams Recorded</p>
+            <p className="mt-2 text-[26px] font-extrabold text-white">{allResults.length}</p>
           </div>
 
-          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12, padding: 16 }}>
-            <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 12 }}>Improvement Trend</p>
-            <p style={{ margin: "8px 0 0", fontSize: 26, fontWeight: 800, color: trendDelta >= 0 ? "var(--accent-green)" : "var(--accent-red)" }}>
+          <div className="card p-4">
+            <p className="text-xs text-[var(--text-secondary)]">Improvement Trend</p>
+            <p className="mt-2 text-[26px] font-extrabold" style={{ color: trendDelta >= 0 ? "var(--accent-green)" : "var(--accent-red)" }}>
               {hasTrend ? `${trendDelta >= 0 ? "↑" : "↓"} ${Math.abs(trendDelta).toFixed(1)}%` : "N/A"}
             </p>
-            <p style={{ margin: "4px 0 0", color: "var(--text-secondary)", fontSize: 12 }}>
-              {hasTrend ? "Last 3 vs previous 3" : "Need at least 6 results"}
-            </p>
+            <p className="mt-1 text-xs text-[var(--text-secondary)]">{hasTrend ? "Last 3 vs previous 3" : "Need at least 6 results"}</p>
           </div>
         </section>
 
-        <form
-          method="GET"
-          style={{
-            background: "var(--bg-card)",
-            border: "1px solid var(--border)",
-            borderRadius: 12,
-            padding: 12,
-            marginBottom: 18,
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 10,
-            alignItems: "end",
-          }}
-        >
-          <div style={{ minWidth: 220, flex: "1 1 220px" }}>
-            <label htmlFor="subject" style={{ display: "block", marginBottom: 6, color: "var(--text-secondary)", fontSize: 12 }}>Subject</label>
-            <select
-              id="subject"
-              name="subject"
-              defaultValue={selectedSubject}
-              style={{
-                width: "100%",
-                height: 40,
-                borderRadius: 8,
-                border: "1px solid var(--border)",
-                background: "var(--bg-card-hover)",
-                color: "var(--text-primary)",
-                padding: "0 10px",
-              }}
-            >
+        <form method="GET" className="card mb-5 flex flex-wrap items-end gap-3 p-3">
+          <div className="min-w-[220px] flex-1">
+            <label htmlFor="subject" className="mb-1.5 block text-xs text-[var(--text-secondary)]">Subject</label>
+            <select id="subject" name="subject" defaultValue={selectedSubject} className="input h-10 w-full">
               <option value="all">All Subjects</option>
               {subjects.map((subject) => (
                 <option key={subject} value={subject}>{subject}</option>
@@ -146,84 +104,29 @@ export default async function ResultsPage({ searchParams }: ResultsPageProps) {
             </select>
           </div>
 
-          <div style={{ minWidth: 180, flex: "1 1 180px" }}>
-            <label htmlFor="sort" style={{ display: "block", marginBottom: 6, color: "var(--text-secondary)", fontSize: 12 }}>Sort By</label>
-            <select
-              id="sort"
-              name="sort"
-              defaultValue={sort}
-              style={{
-                width: "100%",
-                height: 40,
-                borderRadius: 8,
-                border: "1px solid var(--border)",
-                background: "var(--bg-card-hover)",
-                color: "var(--text-primary)",
-                padding: "0 10px",
-              }}
-            >
+          <div className="min-w-[180px] flex-1">
+            <label htmlFor="sort" className="mb-1.5 block text-xs text-[var(--text-secondary)]">Sort By</label>
+            <select id="sort" name="sort" defaultValue={sort} className="input h-10 w-full">
               <option value="date">Date (Newest)</option>
               <option value="score">Score (Highest)</option>
             </select>
           </div>
 
-          <button
-            type="submit"
-            style={{
-              height: 40,
-              borderRadius: 8,
-              border: "none",
-              background: "var(--accent-blue)",
-              color: "var(--text-primary)",
-              padding: "0 16px",
-              fontWeight: 700,
-              cursor: "pointer",
-            }}
-          >
-            Apply
-          </button>
+          <button type="submit" className="btn btn-primary h-10 px-5">Apply</button>
         </form>
 
         {sorted.length === 0 ? (
-          <div
-            style={{
-              background: "var(--bg-card)",
-              border: "1px solid var(--border)",
-              borderRadius: 12,
-              padding: "48px 16px",
-              textAlign: "center",
-            }}
-          >
-            <div
-              aria-hidden="true"
-              style={{
-                width: 72,
-                height: 72,
-                borderRadius: "50%",
-                border: "1px solid var(--border)",
-                margin: "0 auto 14px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "var(--text-secondary)",
-                fontSize: 30,
-              }}
-            >
+          <div className="card py-12 text-center">
+            <div aria-hidden="true" className="mx-auto mb-3 flex h-[72px] w-[72px] items-center justify-center rounded-full border border-[var(--border-default)] text-3xl text-[var(--text-secondary)]">
               📊
             </div>
-            <p style={{ margin: 0, color: "var(--text-primary)", fontWeight: 700 }}>No results recorded yet.</p>
-            <p style={{ margin: "8px 0 0", color: "var(--text-secondary)", fontSize: 13 }}>
+            <p className="font-semibold text-[var(--text-primary)]">No results recorded yet.</p>
+            <p className="mt-2 text-sm text-[var(--text-secondary)]">
               Record your first exam result from the Dashboard.
             </p>
           </div>
         ) : (
-          <section
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: 14,
-            }}
-          >
+          <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {sorted.map((exam) => (
               <ExamResultCard key={exam.id} exam={exam} />
             ))}

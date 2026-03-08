@@ -430,7 +430,7 @@ export default function PhotoQuizPage() {
   };
 
   if (status === "loading") {
-    return <main style={{ minHeight: "100vh", background: "var(--bg-base)" }} />;
+    return <main className="min-h-screen bg-[var(--bg-base)]" />;
   }
 
   if (!session) {
@@ -440,11 +440,11 @@ export default function PhotoQuizPage() {
   const confidenceBadge = getConfidenceBadge(confidence);
 
   return (
-    <main style={{ minHeight: "100vh", background: "var(--bg-base)", padding: "24px 16px 96px" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ marginBottom: "32px" }}>
+    <main className="min-h-screen bg-[var(--bg-base)] px-4 py-6 pb-24">
+      <div className="max-w-[1200px] mx-auto">
+        <div className="mb-8">
           <h1 className="text-title">Photo to Quiz 📸</h1>
-          <p style={{ color: "var(--text-secondary)", marginTop: "4px" }}>
+          <p className="text-[var(--text-secondary)] mt-1">
             Snap any textbook page and get an instant quiz
           </p>
         </div>
@@ -457,8 +457,8 @@ export default function PhotoQuizPage() {
             alignItems: "start",
           }}
         >
-          <section className="card" style={{ padding: "20px" }}>
-            <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "20px" }}>
+          <section className="card p-5">
+            <div className="flex gap-3.5 flex-wrap mb-5">
               {stepIndicator(1, "Upload Photo")}
               {stepIndicator(2, "Configure Quiz")}
               {stepIndicator(3, "Take Quiz")}
@@ -472,69 +472,46 @@ export default function PhotoQuizPage() {
               onDragLeave={() => setIsDragOver(false)}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
+              className="rounded-xl px-6 py-10 text-center cursor-pointer transition-all duration-200 ease-in-out"
               style={{
                 border: `2px dashed ${isDragOver ? "var(--accent-blue)" : "var(--border-strong)"}`,
-                borderRadius: "12px",
-                padding: "40px 24px",
-                textAlign: "center",
-                cursor: "pointer",
                 background: isDragOver ? "var(--bg-hover)" : "var(--bg-elevated)",
-                transition: "all 0.2s ease",
               }}
             >
-              <div style={{ fontSize: "40px", marginBottom: "12px" }}>📸</div>
-              <p style={{ color: "var(--text-primary)", fontWeight: 600, marginBottom: "4px" }}>
+              <div className="text-[40px] mb-3">📸</div>
+              <p className="text-[var(--text-primary)] font-semibold mb-1">
                 Drop textbook photo here
               </p>
-              <p style={{ color: "var(--text-muted)", fontSize: "13px" }}>or click to browse</p>
-              <p style={{ color: "var(--text-muted)", fontSize: "11px", marginTop: "8px" }}>
+              <p className="text-[var(--text-muted)] text-[13px]">or click to browse</p>
+              <p className="text-[var(--text-muted)] text-[11px] mt-2">
                 JPG, PNG, WEBP - max 15MB
               </p>
             </div>
 
-            <input ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handleFileSelect} />
+            <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileSelect} />
             <input
               ref={cameraInputRef}
               type="file"
               accept="image/*"
               capture="environment"
-              style={{ display: "none" }}
+              className="hidden"
               onChange={handleFileSelect}
             />
 
-            <button className="btn btn-ghost" style={{ width: "100%", marginTop: "8px", gap: "8px" }} onClick={handleCameraCapture}>
+            <button className="btn btn-ghost w-full mt-2 gap-2" onClick={handleCameraCapture}>
               📷 Use Camera
             </button>
 
             {imagePreviewUrl && (
-              <div style={{ position: "relative", marginTop: "16px" }}>
+              <div className="relative mt-4">
                 <img
                   src={imagePreviewUrl}
                   alt="Textbook page"
-                  style={{
-                    width: "100%",
-                    borderRadius: "8px",
-                    border: "1px solid var(--border-default)",
-                    maxHeight: "300px",
-                    objectFit: "contain",
-                    background: "var(--bg-elevated)",
-                  }}
+                  className="w-full rounded-lg border border-[var(--border-default)] max-h-[300px] object-contain bg-[var(--bg-elevated)]"
                 />
                 <button
                   onClick={clearImage}
-                  style={{
-                    position: "absolute",
-                    top: 8,
-                    right: 8,
-                    background: "var(--bg-card)",
-                    border: "1px solid var(--border-default)",
-                    color: "var(--text-primary)",
-                    borderRadius: "50%",
-                    width: 28,
-                    height: 28,
-                    cursor: "pointer",
-                    fontSize: "14px",
-                  }}
+                  className="absolute top-2 right-2 bg-[var(--bg-card)] border border-[var(--border-default)] text-[var(--text-primary)] rounded-full w-7 h-7 cursor-pointer text-sm"
                   aria-label="Clear selected image"
                 >
                   ✕
@@ -543,25 +520,18 @@ export default function PhotoQuizPage() {
             )}
 
             {imageFile && !extractedText && (
-              <button className="btn btn-primary" style={{ width: "100%", marginTop: "12px" }} onClick={handleExtract} disabled={isExtracting}>
+              <button className="btn btn-primary w-full mt-3" onClick={handleExtract} disabled={isExtracting}>
                 {isExtracting ? "⏳ Reading image..." : "🔍 Extract Text →"}
               </button>
             )}
 
             {extractedText && (
-              <div className="card" style={{ marginTop: "16px", padding: "14px" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", marginBottom: textExpanded ? "10px" : 0 }}>
+              <div className="card mt-4 p-3.5">
+                <div className="flex items-center justify-between gap-2.5" style={{ marginBottom: textExpanded ? "10px" : 0 }}>
                   <button
                     type="button"
                     onClick={() => setTextExpanded((prev) => !prev)}
-                    style={{
-                      border: "none",
-                      background: "transparent",
-                      color: "var(--text-primary)",
-                      cursor: "pointer",
-                      fontWeight: 600,
-                      fontSize: "14px",
-                    }}
+                    className="border-none bg-transparent text-[var(--text-primary)] cursor-pointer font-semibold text-sm"
                   >
                     Extracted Text {textExpanded ? "▴" : "▾"}
                   </button>
@@ -570,17 +540,16 @@ export default function PhotoQuizPage() {
 
                 {textExpanded && (
                   <textarea
-                    className="textarea"
+                    className="textarea w-full min-h-[160px]"
                     value={extractedText}
                     onChange={(event) => setExtractedText(event.target.value)}
-                    style={{ width: "100%", minHeight: "160px" }}
                   />
                 )}
               </div>
             )}
 
             {extractedText && (
-              <div style={{ marginTop: "16px", display: "grid", gap: "12px" }}>
+              <div className="mt-4 grid gap-3">
                 <input
                   className="input"
                   placeholder="Subject (e.g. Biology, Chapter 4)"
@@ -595,8 +564,8 @@ export default function PhotoQuizPage() {
                 </datalist>
 
                 <div>
-                  <p className="text-label" style={{ marginBottom: "8px" }}>Difficulty</p>
-                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  <p className="text-label mb-2">Difficulty</p>
+                  <div className="flex gap-2 flex-wrap">
                     {([
                       { value: "easy", label: "Easy", color: "var(--accent-green)" },
                       { value: "medium", label: "Medium", color: "var(--accent-orange)" },
@@ -626,8 +595,8 @@ export default function PhotoQuizPage() {
                 </div>
 
                 <div>
-                  <p className="text-label" style={{ marginBottom: "8px" }}>Quiz Type</p>
-                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  <p className="text-label mb-2">Quiz Type</p>
+                  <div className="flex gap-2 flex-wrap">
                     {([
                       { value: "multiple_choice", label: "Multiple Choice" },
                       { value: "true_false", label: "True/False" },
@@ -640,17 +609,10 @@ export default function PhotoQuizPage() {
                           key={item.value}
                           type="button"
                           onClick={() => setQuizType(item.value)}
+                          className="border border-[var(--border-default)] rounded-full px-3 py-1.5 text-xs cursor-pointer inline-flex items-center gap-1.5"
                           style={{
-                            border: "1px solid var(--border-default)",
-                            borderRadius: "999px",
-                            padding: "6px 12px",
                             background: active ? "var(--accent-blue)" : "var(--bg-elevated)",
                             color: active ? "var(--text-primary)" : "var(--text-muted)",
-                            fontSize: "12px",
-                            cursor: "pointer",
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "6px",
                           }}
                         >
                           {item.label}
@@ -670,22 +632,18 @@ export default function PhotoQuizPage() {
                     step="1"
                     value={count}
                     onChange={(event) => setCount(Number.parseInt(event.target.value, 10))}
-                    style={{ width: "100%", accentColor: "var(--accent-blue)", marginTop: "8px" }}
+                    className="w-full mt-2"
+                    style={{ accentColor: "var(--accent-blue)" }}
                   />
                   <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      fontSize: "11px",
-                      color: "var(--text-muted)",
-                    }}
+                    className="flex justify-between text-[11px] text-[var(--text-muted)]"
                   >
                     <span>5 quick</span>
                     <span>20 thorough</span>
                   </div>
                 </div>
 
-                <button className="btn btn-primary" style={{ width: "100%" }} onClick={handleGenerate} disabled={isGenerating || !extractedText.trim()}>
+                <button className="btn btn-primary w-full" onClick={handleGenerate} disabled={isGenerating || !extractedText.trim()}>
                   {isGenerating ? "⚡ Generating quiz..." : "⚡ Generate Quiz →"}
                 </button>
               </div>
@@ -695,38 +653,29 @@ export default function PhotoQuizPage() {
           <section>
             {!quiz && !isGenerating && (
               <div
-                className="card"
-                style={{
-                  padding: "60px 24px",
-                  textAlign: "center",
-                  minHeight: "500px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                className="card px-6 py-16 text-center min-h-[500px] flex flex-col items-center justify-center"
               >
-                <div style={{ fontSize: "56px", marginBottom: "16px" }}>🎯</div>
-                <p style={{ color: "var(--text-secondary)", fontSize: "15px" }}>Upload a photo to generate your quiz</p>
-                <p style={{ color: "var(--text-muted)", fontSize: "13px", marginTop: "8px" }}>
+                <div className="text-[56px] mb-4">🎯</div>
+                <p className="text-[var(--text-secondary)] text-[15px]">Upload a photo to generate your quiz</p>
+                <p className="text-[var(--text-muted)] text-[13px] mt-2">
                   Works with textbooks, worksheets, slides, handwritten notes
                 </p>
               </div>
             )}
 
             {isGenerating && (
-              <div className="card" style={{ padding: "24px", minHeight: "500px" }}>
+              <div className="card p-6 min-h-[500px]">
                 {[...Array(5)].map((_, idx) => (
-                  <div key={idx} className="skeleton" style={{ height: "18px", marginBottom: "12px", borderRadius: "8px" }} />
+                  <div key={idx} className="skeleton h-[18px] mb-3 rounded-lg" />
                 ))}
               </div>
             )}
 
             {quiz && !quizStarted && !quizComplete && !isGenerating && (
-              <div className="card" style={{ padding: "24px", textAlign: "center" }}>
-                <div style={{ fontSize: "48px", marginBottom: "12px" }}>🎯</div>
-                <h2 style={{ fontWeight: 700, fontSize: "20px", color: "var(--text-primary)" }}>{quiz.title}</h2>
-                <p style={{ color: "var(--text-secondary)", margin: "8px 0 20px" }}>
+              <div className="card p-6 text-center">
+                <div className="text-5xl mb-3">🎯</div>
+                <h2 className="font-bold text-xl text-[var(--text-primary)]">{quiz.title}</h2>
+                <p className="text-[var(--text-secondary)] my-2">
                   {quiz.questions.length} questions • {difficulty} difficulty
                 </p>
                 <button className="btn btn-primary" onClick={startQuiz}>
@@ -737,15 +686,9 @@ export default function PhotoQuizPage() {
 
             {quiz && quizStarted && !quizComplete && currentQuestion && (
               <div>
-                <div style={{ marginBottom: "24px" }}>
+                <div className="mb-6">
                   <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      fontSize: "13px",
-                      color: "var(--text-secondary)",
-                      marginBottom: "8px",
-                    }}
+                    className="flex justify-between text-[13px] text-[var(--text-secondary)] mb-2"
                   >
                     <span>
                       Question {currentIndex + 1} of {quiz.questions.length}
@@ -754,28 +697,19 @@ export default function PhotoQuizPage() {
                       ✓ {correct} ✗ {incorrect}
                     </span>
                   </div>
-                  <div style={{ height: "4px", background: "var(--border-default)", borderRadius: "2px" }}>
+                  <div className="h-1 bg-[var(--border-default)] rounded-sm">
                     <div
+                      className="h-full rounded-sm bg-[var(--accent-blue)] transition-[width] duration-300 ease-in-out"
                       style={{
-                        height: "100%",
-                        borderRadius: "2px",
                         width: `${(currentIndex / quiz.questions.length) * 100}%`,
-                        background: "var(--accent-blue)",
-                        transition: "width 0.3s ease",
                       }}
                     />
                   </div>
                 </div>
 
-                <div className="card" style={{ padding: "24px", marginBottom: "16px" }}>
+                <div className="card p-6 mb-4">
                   <p
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: 600,
-                      color: "var(--text-primary)",
-                      lineHeight: 1.5,
-                      marginBottom: "20px",
-                    }}
+                    className="text-base font-semibold text-[var(--text-primary)] leading-[1.5] mb-5"
                   >
                     {currentQuestion.question}
                   </p>
@@ -792,12 +726,8 @@ export default function PhotoQuizPage() {
                           <button
                             key={`${currentQuestion.id}-${letter}`}
                             onClick={() => !answered && handleAnswer(letter)}
+                            className="w-full text-left px-4 py-3 mb-2 rounded-[10px] text-sm transition-all duration-200 ease-in-out flex items-center gap-2.5"
                             style={{
-                              width: "100%",
-                              textAlign: "left",
-                              padding: "12px 16px",
-                              marginBottom: "8px",
-                              borderRadius: "10px",
                               cursor: answered ? "default" : "pointer",
                               border: `1px solid ${
                                 isCorrect
@@ -816,31 +746,16 @@ export default function PhotoQuizPage() {
                                     ? "var(--glow-blue)"
                                     : "var(--bg-elevated)",
                               color: "var(--text-primary)",
-                              fontSize: "14px",
-                              transition: "all 0.2s ease",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "10px",
                             }}
                           >
                             <span
+                              className="w-6 h-6 rounded-full shrink-0 border border-[var(--border-strong)] flex items-center justify-center text-[11px] font-bold text-[var(--text-primary)]"
                               style={{
-                                width: 24,
-                                height: 24,
-                                borderRadius: "50%",
-                                flexShrink: 0,
                                 background: isCorrect
                                   ? "var(--accent-green)"
                                   : isWrong
                                     ? "var(--accent-red)"
                                     : "var(--bg-card)",
-                                border: "1px solid var(--border-strong)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: "11px",
-                                fontWeight: 700,
-                                color: "var(--text-primary)",
                               }}
                             >
                               {isCorrect ? "✓" : isWrong ? "✗" : letter}
@@ -854,7 +769,7 @@ export default function PhotoQuizPage() {
 
                   {!currentQuestion.options &&
                   (currentQuestion.correct === "True" || currentQuestion.correct === "False") ? (
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                    <div className="grid grid-cols-2 gap-3">
                       {["True", "False"].map((opt) => {
                         const isSelected = selectedAnswer === opt;
                         const isCorrect = answered && opt === currentQuestion.correct;
@@ -863,11 +778,8 @@ export default function PhotoQuizPage() {
                           <button
                             key={opt}
                             onClick={() => !answered && handleAnswer(opt)}
+                            className="p-4 rounded-[10px] font-semibold text-[15px] transition-all duration-200 ease-in-out"
                             style={{
-                              padding: "16px",
-                              borderRadius: "10px",
-                              fontWeight: 600,
-                              fontSize: "15px",
                               cursor: answered ? "default" : "pointer",
                               border: `1px solid ${
                                 isCorrect
@@ -882,7 +794,6 @@ export default function PhotoQuizPage() {
                                   ? "var(--bg-hover)"
                                   : "var(--bg-elevated)",
                               color: opt === "True" ? "var(--accent-green)" : "var(--accent-red)",
-                              transition: "all 0.2s ease",
                             }}
                           >
                             {opt === "True" ? "✓ True" : "✗ False"}
@@ -895,12 +806,11 @@ export default function PhotoQuizPage() {
                   {currentQuestion.keywords?.length ? (
                     <div>
                       <textarea
-                        className="textarea"
+                        className="textarea w-full mb-2"
                         value={shortAnswer}
                         onChange={(event) => setShortAnswer(event.target.value)}
                         placeholder="Type your answer..."
                         disabled={answered}
-                        style={{ width: "100%", marginBottom: "8px" }}
                       />
                       {!answered && (
                         <button className="btn btn-primary" onClick={handleShortAnswer}>
@@ -913,25 +823,21 @@ export default function PhotoQuizPage() {
 
                 {answered && (
                   <div
-                    className="animate-fade-in-up"
+                    className="animate-fade-in-up rounded-[10px] px-4 py-3 mb-4"
                     style={{
                       background: isLastCorrect ? "var(--bg-hover)" : "var(--bg-hover)",
                       border: `1px solid ${isLastCorrect ? "var(--accent-green)" : "var(--accent-red)"}`,
-                      borderRadius: "10px",
-                      padding: "12px 16px",
-                      marginBottom: "16px",
                     }}
                   >
                     <p
+                      className="font-semibold mb-1"
                       style={{
-                        fontWeight: 600,
                         color: isLastCorrect ? "var(--accent-green)" : "var(--accent-red)",
-                        marginBottom: "4px",
                       }}
                     >
                       {isLastCorrect ? "✓ Correct!" : "✗ Not quite"}
                     </p>
-                    <p style={{ fontSize: "13px", color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                    <p className="text-[13px] text-[var(--text-secondary)] leading-[1.5]">
                       {currentQuestion.explanation ??
                         `Correct answer: ${currentQuestion.correct ?? currentQuestion.answer ?? "N/A"}`}
                       {!isLastCorrect && currentQuestion.keywords?.length
@@ -942,7 +848,7 @@ export default function PhotoQuizPage() {
                 )}
 
                 {answered && (
-                  <button className="btn btn-primary" style={{ width: "100%" }} onClick={nextQuestion}>
+                  <button className="btn btn-primary w-full" onClick={nextQuestion}>
                     {currentIndex < quiz.questions.length - 1 ? "Next Question →" : "See Results →"}
                   </button>
                 )}
@@ -950,31 +856,16 @@ export default function PhotoQuizPage() {
             )}
 
             {quiz && quizComplete && (
-              <div className="card animate-fade-in-up" style={{ padding: "32px", textAlign: "center" }}>
+              <div className="card animate-fade-in-up p-8 text-center">
                 <div
+                  className="w-[100px] h-[100px] rounded-full mx-auto mb-5 flex items-center justify-center relative"
                   style={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: "50%",
-                    margin: "0 auto 20px",
                     background: `conic-gradient(${scoreColor} ${score}%, var(--border-default) 0)`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    position: "relative",
                   }}
                 >
                   <div
+                    className="w-20 h-20 rounded-full bg-[var(--bg-card)] flex items-center justify-center text-xl font-extrabold"
                     style={{
-                      width: 80,
-                      height: 80,
-                      borderRadius: "50%",
-                      background: "var(--bg-card)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "20px",
-                      fontWeight: 800,
                       color: scoreColor,
                     }}
                   >
@@ -982,36 +873,31 @@ export default function PhotoQuizPage() {
                   </div>
                 </div>
 
-                <h2 style={{ fontWeight: 700, fontSize: "22px", color: "var(--text-primary)" }}>
+                <h2 className="font-bold text-[22px] text-[var(--text-primary)]">
                   {score >= 80 ? "🏆 Excellent!" : score >= 60 ? "👍 Good Work!" : "📚 Keep Studying!"}
                 </h2>
-                <p style={{ color: "var(--text-secondary)", margin: "8px 0 24px" }}>
+                <p className="text-[var(--text-secondary)] my-2">
                   {correct} correct out of {quiz.questions.length} questions
                 </p>
 
                 <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(3,1fr)",
-                    gap: "12px",
-                    marginBottom: "24px",
-                  }}
+                  className="grid grid-cols-3 gap-3 mb-6"
                 >
-                  <div className="card" style={{ padding: "12px" }}>
-                    <div style={{ fontSize: "20px", fontWeight: 800, color: "var(--accent-green)" }}>{correct}</div>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>Correct</div>
+                  <div className="card p-3">
+                    <div className="text-xl font-extrabold text-[var(--accent-green)]">{correct}</div>
+                    <div className="text-[11px] text-[var(--text-muted)]">Correct</div>
                   </div>
-                  <div className="card" style={{ padding: "12px" }}>
-                    <div style={{ fontSize: "20px", fontWeight: 800, color: "var(--accent-red)" }}>{incorrect}</div>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>Wrong</div>
+                  <div className="card p-3">
+                    <div className="text-xl font-extrabold text-[var(--accent-red)]">{incorrect}</div>
+                    <div className="text-[11px] text-[var(--text-muted)]">Wrong</div>
                   </div>
-                  <div className="card" style={{ padding: "12px" }}>
-                    <div style={{ fontSize: "20px", fontWeight: 800, color: "var(--accent-blue)" }}>{percentToLetter(score)}</div>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>Grade</div>
+                  <div className="card p-3">
+                    <div className="text-xl font-extrabold text-[var(--accent-blue)]">{percentToLetter(score)}</div>
+                    <div className="text-[11px] text-[var(--text-muted)]">Grade</div>
                   </div>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <div className="flex flex-col gap-2">
                   <button className="btn btn-primary" onClick={retryQuiz}>
                     🔄 Retry Quiz
                   </button>

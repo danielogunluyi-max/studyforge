@@ -944,8 +944,7 @@ export default function Generator() {
                       {formatMathAnswerSteps(q.answer).map((line, stepIndex, arr) => (
                         <p
                           key={`${index}-${stepIndex}`}
-                          className={`text-sm ${stepIndex === arr.length - 1 ? "font-bold" : ""}`}
-                          style={{ color: "#111827" }}
+                          className={`text-sm text-gray-900 ${stepIndex === arr.length - 1 ? "font-bold" : ""}`}
                         >
                           <span className="mr-1 font-semibold">{stepIndex + 1}.</span>
                           {line}

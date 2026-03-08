@@ -55,7 +55,9 @@ export function AppShell({ children }: { children: ReactNode }) {
       <Sidebar mobileOpen={mobileSidebarOpen} onCloseMobile={() => setMobileSidebarOpen(false)} />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Topbar title={pageTitle} onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5">
+          <div className="mx-auto w-full max-w-[1220px]">{children}</div>
+        </main>
       </div>
     </div>
   );

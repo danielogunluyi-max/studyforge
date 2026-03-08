@@ -160,12 +160,12 @@ export default function PdfLibraryPage() {
   };
 
   return (
-    <main style={{ minHeight: "100vh", background: "var(--bg-base)", padding: "24px 16px 96px" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "32px" }}>
+    <main className="page-shell app-premium-dark min-h-screen bg-gray-950 pb-24">
+      <div className="mx-auto w-full max-w-6xl">
+        <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="text-title">PDF Library 📄</h1>
-            <p style={{ color: "var(--text-secondary)", marginTop: "4px" }}>
+            <h1 className="text-[28px] font-bold tracking-tight text-white">PDF Library 📄</h1>
+            <p className="mt-1.5 text-sm text-[var(--text-secondary)]">
               Search, highlight, and annotate your documents
             </p>
           </div>
@@ -174,7 +174,7 @@ export default function PdfLibraryPage() {
           </button>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "16px", marginBottom: "24px" }}>
+        <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <div className="card" style={{ padding: "16px" }}>
             <p className="text-label" style={{ color: "var(--text-muted)" }}>Total Documents</p>
             <p style={{ fontSize: "28px", fontWeight: 700, color: "var(--text-primary)", marginTop: "6px" }}>
@@ -200,11 +200,11 @@ export default function PdfLibraryPage() {
           placeholder="🔍 Search across all PDFs..."
           value={globalSearch}
           onChange={(event) => setGlobalSearch(event.target.value)}
-          style={{ width: "100%", marginBottom: "20px" }}
+          style={{ width: "100%", marginBottom: "20px", height: 42 }}
         />
 
         {isLoading ? (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "16px" }}>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {[...Array(6)].map((_, idx) => (
               <div key={idx} className="card skeleton" style={{ height: "180px" }} />
             ))}
@@ -221,7 +221,7 @@ export default function PdfLibraryPage() {
             </button>
           </div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "16px" }}>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {documents.map((doc) => (
               <div
                 key={doc.id}

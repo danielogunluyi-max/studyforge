@@ -156,19 +156,12 @@ export default function RoomsLobbyPage() {
   };
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg-base)",
-        color: "var(--text-primary)",
-        padding: "28px 20px 100px",
-      }}
-    >
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "32px", gap: 16 }}>
+    <main className="min-h-screen bg-[var(--bg-base)] px-5 py-7 pb-24 text-[var(--text-primary)] md:px-6">
+      <div className="mx-auto max-w-[1200px]">
+        <div className="mb-8 flex items-start justify-between gap-4">
           <div>
             <h1 className="text-title">Study Rooms 🏠</h1>
-            <p style={{ color: "var(--text-secondary)", marginTop: "4px" }}>
+            <p className="mt-1 text-[var(--text-secondary)]">
               Study together in real time - shared focus, shared Pomodoro
             </p>
           </div>
@@ -177,31 +170,14 @@ export default function RoomsLobbyPage() {
           </button>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px" }}>
-          <div
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              background: "var(--accent-green)",
-              boxShadow: "0 0 0 3px rgba(16,185,129,0.2)",
-              animation: "pulse-green 2s infinite",
-            }}
-          />
-          <span style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
+        <div className="mb-6 flex items-center gap-2">
+          <div className="h-2 w-2 animate-[pulse-green_2s_infinite] rounded-full bg-[var(--accent-green)] shadow-[0_0_0_3px_rgba(16,185,129,0.2)]" />
+          <span className="text-xs text-[var(--text-secondary)]">
             {totalActive} students studying right now
           </span>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            gap: 8,
-            overflowX: "auto",
-            paddingBottom: 8,
-            marginBottom: 18,
-          }}
-        >
+        <div className="mb-4 flex gap-2 overflow-x-auto pb-2">
           {SUBJECT_FILTERS.map((filter) => {
             const active = filter === activeFilter;
             return (
@@ -209,17 +185,7 @@ export default function RoomsLobbyPage() {
                 key={filter}
                 type="button"
                 onClick={() => setActiveFilter(filter)}
-                style={{
-                  border: "none",
-                  borderRadius: 999,
-                  whiteSpace: "nowrap",
-                  cursor: "pointer",
-                  padding: "8px 14px",
-                  background: active ? "var(--accent-blue)" : "var(--bg-elevated)",
-                  color: active ? "white" : "var(--text-muted)",
-                  fontWeight: active ? 700 : 500,
-                  fontSize: 12,
-                }}
+                className={`cursor-pointer whitespace-nowrap rounded-full border-none px-3.5 py-2 text-xs ${active ? "bg-[var(--accent-blue)] font-bold text-white" : "bg-[var(--bg-elevated)] font-medium text-[var(--text-muted)]"}`}
               >
                 {filter}
               </button>
@@ -228,114 +194,71 @@ export default function RoomsLobbyPage() {
         </div>
 
         {error && (
-          <div className="card" style={{ marginBottom: 16, borderColor: "var(--accent-red)", color: "var(--accent-red)", padding: "10px 14px" }}>
+          <div className="card mb-4 border-[var(--accent-red)] px-3.5 py-2.5 text-[var(--accent-red)]">
             {error}
           </div>
         )}
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-            gap: 16,
-          }}
-        >
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
           {loading
             ? Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="skeleton" style={{ height: 220, borderRadius: 14 }} />
+                <div key={index} className="skeleton h-[220px] rounded-[14px]" />
               ))
             : null}
 
           {!loading && visibleRooms.map((room) => (
-            <div key={room.id} className="card" style={{ padding: "20px", position: "relative", transition: "transform 0.2s ease" }}>
-              <div
-                style={{
-                  position: "absolute",
-                  top: 12,
-                  right: 12,
-                  background: "rgba(16,185,129,0.15)",
-                  border: "1px solid var(--accent-green)",
-                  color: "var(--accent-green)",
-                  borderRadius: "20px",
-                  padding: "2px 10px",
-                  fontSize: "11px",
-                  fontWeight: 600,
-                }}
-              >
+            <div key={room.id} className="card relative p-5 transition-transform duration-200">
+              <div className="absolute right-3 top-3 rounded-[20px] border border-[var(--accent-green)] bg-[rgba(16,185,129,0.15)] px-2.5 py-0.5 text-[11px] font-semibold text-[var(--accent-green)]">
                 ● LIVE
               </div>
 
-              <h3 style={{ fontWeight: 700, fontSize: "16px", color: "var(--text-primary)", marginBottom: "4px" }}>
+              <h3 className="mb-1 text-base font-bold text-[var(--text-primary)]">
                 {room.name}
               </h3>
-              <span className="badge" style={{ background: "rgba(59,130,246,0.15)", color: "var(--accent-blue)", border: "1px solid var(--accent-blue)" }}>
+              <span className="badge border border-[var(--accent-blue)] bg-[rgba(59,130,246,0.15)] text-[var(--accent-blue)]">
                 {room.subject}
               </span>
 
               {room.description && (
-                <p style={{ fontSize: "13px", color: "var(--text-muted)", margin: "8px 0", lineHeight: 1.5 }}>
+                <p className="my-2 text-xs leading-relaxed text-[var(--text-muted)]">
                   {room.description}
                 </p>
               )}
 
-              <div style={{ display: "flex", alignItems: "center", gap: "6px", margin: "12px 0" }}>
+              <div className="my-3 flex items-center gap-1.5">
                 {room.members.slice(0, 5).map((member, index) => (
                   <div
                     key={member.userId}
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "50%",
-                      background: memberColor(index),
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      color: "white",
-                      border: "2px solid var(--bg-card)",
-                    }}
+                    className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-[var(--bg-card)] text-[11px] font-bold text-white"
+                    style={{ background: memberColor(index) }}
                   >
                     {member.user.name?.[0]?.toUpperCase() ?? "?"}
                   </div>
                 ))}
 
                 {room.members.length > 5 && (
-                  <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+                  <span className="text-xs text-[var(--text-muted)]">
                     +{room.members.length - 5} more
                   </span>
                 )}
 
-                <span style={{ fontSize: "12px", color: "var(--text-secondary)", marginLeft: "auto" }}>
+                <span className="ml-auto text-xs text-[var(--text-secondary)]">
                   {room.members.length}/{room.maxMembers}
                 </span>
               </div>
 
               {room.pomodoroState?.isRunning && (
-                <div
-                  style={{
-                    background: "var(--bg-elevated)",
-                    borderRadius: "8px",
-                    padding: "6px 10px",
-                    fontSize: "12px",
-                    color: "var(--text-secondary)",
-                    marginBottom: "12px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                  }}
-                >
+                <div className="mb-3 flex items-center gap-1.5 rounded-lg bg-[var(--bg-elevated)] px-2.5 py-1.5 text-xs text-[var(--text-secondary)]">
                   ⏱️ {room.pomodoroState.phase === "work" ? "Pomodoro running" : "On break"} - {Math.floor(room.pomodoroState.timeLeft / 60)}:{String(room.pomodoroState.timeLeft % 60).padStart(2, "0")} left
                 </div>
               )}
 
-              <div style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "12px" }}>
+              <div className="mb-3 text-[11px] text-[var(--text-muted)]">
                 Hosted by {room.host.name ?? "Host"}
               </div>
 
               <button
-                className="btn btn-primary"
-                style={{ width: "100%" }}
+                className="btn btn-primary w-full"
                 onClick={() => router.push(`/rooms/${room.id}`)}
                 disabled={room.members.length >= room.maxMembers}
               >
@@ -345,13 +268,13 @@ export default function RoomsLobbyPage() {
           ))}
 
           {!loading && visibleRooms.length === 0 && (
-            <div style={{ textAlign: "center", padding: "80px 24px", gridColumn: "1 / -1" }}>
-              <div style={{ fontSize: "64px", marginBottom: "16px" }}>🏠</div>
-              <p className="text-title" style={{ fontSize: 24 }}>No rooms right now</p>
-              <p style={{ color: "var(--text-muted)", marginTop: "8px" }}>
+            <div className="col-span-full px-6 py-20 text-center">
+              <div className="mb-4 text-6xl">🏠</div>
+              <p className="text-title text-2xl">No rooms right now</p>
+              <p className="mt-2 text-[var(--text-muted)]">
                 Be the first to start a study session!
               </p>
-              <button className="btn btn-primary" style={{ marginTop: "24px" }} onClick={() => setShowCreate(true)}>
+              <button className="btn btn-primary mt-6" onClick={() => setShowCreate(true)}>
                 Create a Room
               </button>
             </div>
@@ -362,59 +285,29 @@ export default function RoomsLobbyPage() {
       {showCreate && (
         <div
           onClick={() => setShowCreate(false)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0, 0, 0, 0.6)",
-            zIndex: 1000,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 20,
-          }}
+          className="fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(0,0,0,0.6)] p-5"
         >
           <div
-            className="card"
+            className="card w-full max-w-[560px] p-5"
             onClick={(event) => event.stopPropagation()}
-            style={{
-              width: "100%",
-              maxWidth: 560,
-              padding: 20,
-            }}
           >
-            <h2 className="text-title" style={{ fontSize: 24, marginBottom: 16 }}>Create Study Room</h2>
+            <h2 className="text-title mb-4 text-2xl">Create Study Room</h2>
 
-            <label className="text-label" style={{ display: "block", marginBottom: 6 }}>Room Name</label>
+            <label className="text-label mb-1.5 block">Room Name</label>
             <input
               value={roomName}
               onChange={(event) => setRoomName(event.target.value)}
               placeholder="Nightly Physics Sprint"
-              style={{
-                width: "100%",
-                background: "var(--bg-elevated)",
-                border: "1px solid var(--border-default)",
-                borderRadius: 10,
-                color: "var(--text-primary)",
-                padding: "10px 12px",
-                marginBottom: 12,
-              }}
+              className="input mb-3 w-full px-3 py-2.5"
             />
 
-            <label className="text-label" style={{ display: "block", marginBottom: 6 }}>Subject</label>
+            <label className="text-label mb-1.5 block">Subject</label>
             <input
               value={subject}
               onChange={(event) => setSubject(event.target.value)}
               placeholder="Physics"
               list="room-subjects"
-              style={{
-                width: "100%",
-                background: "var(--bg-elevated)",
-                border: "1px solid var(--border-default)",
-                borderRadius: 10,
-                color: "var(--text-primary)",
-                padding: "10px 12px",
-                marginBottom: 12,
-              }}
+              className="input mb-3 w-full px-3 py-2.5"
             />
             <datalist id="room-subjects">
               {SUBJECT_SUGGESTIONS.map((item) => (
@@ -422,26 +315,17 @@ export default function RoomsLobbyPage() {
               ))}
             </datalist>
 
-            <label className="text-label" style={{ display: "block", marginBottom: 6 }}>Description (optional)</label>
+            <label className="text-label mb-1.5 block">Description (optional)</label>
             <textarea
               value={description}
               onChange={(event) => setDescription(event.target.value)}
               rows={3}
               placeholder="Open focus room for final exam prep"
-              style={{
-                width: "100%",
-                resize: "vertical",
-                background: "var(--bg-elevated)",
-                border: "1px solid var(--border-default)",
-                borderRadius: 10,
-                color: "var(--text-primary)",
-                padding: "10px 12px",
-                marginBottom: 14,
-              }}
+              className="input mb-3.5 w-full resize-y px-3 py-2.5"
             />
 
-            <label className="text-label" style={{ display: "block", marginBottom: 8 }}>Max Members</label>
-            <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
+            <label className="text-label mb-2 block">Max Members</label>
+            <div className="mb-3.5 flex gap-2">
               {[2, 5, 10, 20].map((size) => {
                 const active = maxMembers === size;
                 return (
@@ -449,16 +333,7 @@ export default function RoomsLobbyPage() {
                     key={size}
                     type="button"
                     onClick={() => setMaxMembers(size)}
-                    style={{
-                      border: "none",
-                      borderRadius: 999,
-                      cursor: "pointer",
-                      padding: "7px 12px",
-                      background: active ? "var(--accent-blue)" : "var(--bg-elevated)",
-                      color: active ? "white" : "var(--text-secondary)",
-                      fontWeight: 600,
-                      fontSize: 12,
-                    }}
+                    className={`cursor-pointer rounded-full border-none px-3 py-1.5 text-xs font-semibold ${active ? "bg-[var(--accent-blue)] text-white" : "bg-[var(--bg-elevated)] text-[var(--text-secondary)]"}`}
                   >
                     {size}
                   </button>
@@ -466,48 +341,32 @@ export default function RoomsLobbyPage() {
               })}
             </div>
 
-            <label className="text-label" style={{ display: "block", marginBottom: 8 }}>Visibility</label>
-            <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+            <label className="text-label mb-2 block">Visibility</label>
+            <div className="mb-3 flex gap-2">
               <button
                 type="button"
                 onClick={() => setIsPublic(true)}
-                style={{
-                  border: "none",
-                  borderRadius: 999,
-                  cursor: "pointer",
-                  padding: "8px 14px",
-                  background: isPublic ? "var(--accent-blue)" : "var(--bg-elevated)",
-                  color: isPublic ? "white" : "var(--text-secondary)",
-                  fontWeight: 600,
-                }}
+                className={`cursor-pointer rounded-full border-none px-3.5 py-2 font-semibold ${isPublic ? "bg-[var(--accent-blue)] text-white" : "bg-[var(--bg-elevated)] text-[var(--text-secondary)]"}`}
               >
                 Public
               </button>
               <button
                 type="button"
                 onClick={() => setIsPublic(false)}
-                style={{
-                  border: "none",
-                  borderRadius: 999,
-                  cursor: "pointer",
-                  padding: "8px 14px",
-                  background: !isPublic ? "var(--accent-blue)" : "var(--bg-elevated)",
-                  color: !isPublic ? "white" : "var(--text-secondary)",
-                  fontWeight: 600,
-                }}
+                className={`cursor-pointer rounded-full border-none px-3.5 py-2 font-semibold ${!isPublic ? "bg-[var(--accent-blue)] text-white" : "bg-[var(--bg-elevated)] text-[var(--text-secondary)]"}`}
               >
                 Private
               </button>
             </div>
 
             {!isPublic && (
-              <div className="card" style={{ padding: "10px 12px", marginBottom: 14, background: "var(--bg-elevated)" }}>
-                <p style={{ margin: 0, fontSize: 12, color: "var(--text-secondary)" }}>Invite code</p>
-                <p style={{ margin: "6px 0 0", fontSize: 18, letterSpacing: 1.5, color: "var(--text-primary)", fontWeight: 800 }}>{inviteCode}</p>
+              <div className="card mb-3.5 bg-[var(--bg-elevated)] px-3 py-2.5">
+                <p className="m-0 text-xs text-[var(--text-secondary)]">Invite code</p>
+                <p className="mt-1.5 text-lg font-extrabold tracking-widest text-[var(--text-primary)]">{inviteCode}</p>
               </div>
             )}
 
-            <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+            <div className="flex justify-end gap-2.5">
               <button className="btn btn-ghost" onClick={() => setShowCreate(false)}>Cancel</button>
               <button className="btn btn-primary" disabled={creating || !roomName.trim() || !subject.trim()} onClick={() => void createRoom()}>
                 {creating ? "Creating..." : "Create Room"}

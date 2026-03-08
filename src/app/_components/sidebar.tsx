@@ -189,7 +189,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       />
 
       <aside
-        className={`sidebar-shell fixed inset-y-0 left-0 z-50 w-[220px] shrink-0 transition-transform duration-200 md:static md:translate-x-0 ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`sidebar-shell fixed inset-y-0 left-0 z-50 w-[244px] shrink-0 transition-transform duration-200 md:static md:w-[228px] md:translate-x-0 ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="sidebar-logo h-12 px-3">
           <Link href="/dashboard" onClick={onCloseMobile} className="inline-flex min-h-11 items-center gap-2 text-white">
@@ -198,7 +198,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           </Link>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-2 py-3">
+        <div className="flex-1 overflow-y-auto px-2.5 py-3">
           <nav className="space-y-5">
             {renderNavGroup("MAIN", mainItems)}
             {renderNavGroup("FEATURES", featureItems)}
@@ -209,7 +209,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
 
         <div className="sidebar-user-section p-3">
           <div className="mb-3 flex items-center gap-2">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1e1e30] text-sm font-semibold text-white">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-[#1e1e30] text-sm font-semibold text-white">
               {initials}
             </div>
             <div className="min-w-0 flex-1">

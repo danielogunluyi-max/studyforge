@@ -39,9 +39,9 @@ function shuffle<T>(list: T[]): T[] {
 
 function StatCard({ label, value, color }: { label: string; value: number; color?: string }) {
   return (
-    <div className="card" style={{ padding: 14 }}>
-      <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 12 }}>{label}</p>
-      <p style={{ margin: "8px 0 0", fontSize: 28, fontWeight: 800, color: color ?? "var(--text-primary)" }}>{value}</p>
+    <div className="card p-3.5">
+      <p className="m-0 text-xs text-[var(--text-secondary)]">{label}</p>
+      <p className="mt-2 text-[28px] font-extrabold" style={{ color: color ?? "var(--text-primary)" }}>{value}</p>
     </div>
   );
 }
@@ -170,25 +170,25 @@ export default function StudyDeckPage() {
   }, [isComplete, isFlipped, currentCard, currentIndex, queue]);
 
   if (isLoading) {
-    return <main style={{ padding: 24, color: "var(--text-primary)" }}>Loading session...</main>;
+    return <main className="p-6 text-[var(--text-primary)]">Loading session...</main>;
   }
 
   if (error) {
-    return <main style={{ padding: 24, color: "var(--accent-red)" }}>{error}</main>;
+    return <main className="p-6 text-[var(--accent-red)]">{error}</main>;
   }
 
   if (!isComplete && queue.length === 0) {
     return (
-      <main style={{ minHeight: "100vh", background: "var(--bg-base)", color: "var(--text-primary)", padding: "24px 16px 100px" }}>
-        <div className="card" style={{ maxWidth: 760, margin: "0 auto", textAlign: "center", padding: "60px 24px" }}>
-          <div style={{ fontSize: 72, marginBottom: 16 }}>🎉</div>
-          <h2 className="text-title" style={{ margin: 0 }}>Nothing due! Come back tomorrow.</h2>
+      <main className="min-h-screen bg-[var(--bg-base)] px-4 py-6 pb-24 text-[var(--text-primary)] md:px-6">
+        <div className="card mx-auto max-w-[760px] p-6 text-center md:py-16">
+          <div className="mb-4 text-7xl">🎉</div>
+          <h2 className="text-title m-0">Nothing due! Come back tomorrow.</h2>
           {nextDueDate && (
-            <p style={{ color: "var(--text-secondary)", marginTop: 10 }}>
+            <p className="mt-2.5 text-[var(--text-secondary)]">
               Next due: {nextDueDate.toLocaleDateString()} {nextDueDate.toLocaleTimeString()}
             </p>
           )}
-          <button className="btn btn-primary" style={{ marginTop: 20 }} onClick={() => router.push("/flashcards")}>Back to Decks</button>
+          <button className="btn btn-primary mt-5" onClick={() => router.push("/flashcards")}>Back to Decks</button>
         </div>
       </main>
     );
@@ -196,19 +196,19 @@ export default function StudyDeckPage() {
 
   if (isComplete) {
     return (
-      <main style={{ minHeight: "100vh", background: "var(--bg-base)", color: "var(--text-primary)", padding: "24px 16px 100px" }}>
-        <div className="card" style={{ maxWidth: 840, margin: "0 auto", textAlign: "center", padding: "60px 24px" }}>
-          <div style={{ fontSize: "72px", marginBottom: "16px" }}>🎉</div>
+      <main className="min-h-screen bg-[var(--bg-base)] px-4 py-6 pb-24 text-[var(--text-primary)] md:px-6">
+        <div className="card mx-auto max-w-[840px] p-6 text-center md:py-16">
+          <div className="mb-4 text-7xl">🎉</div>
           <h2 className="text-title">Session Complete!</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "16px", margin: "32px 0" }}>
+          <div className="my-8 grid grid-cols-3 gap-4">
             <StatCard label="Reviewed" value={totalReviewed} />
             <StatCard label="Correct" value={correct} color="var(--accent-green)" />
             <StatCard label="Again" value={wrong} color="var(--accent-red)" />
           </div>
-          <p style={{ color: "var(--text-secondary)" }}>
+          <p className="text-[var(--text-secondary)]">
             Accuracy: {totalReviewed > 0 ? Math.round((correct / totalReviewed) * 100) : 0}%
           </p>
-          <div style={{ display: "flex", gap: "12px", justifyContent: "center", marginTop: "24px" }}>
+          <div className="mt-6 flex justify-center gap-3">
             <button className="btn btn-primary" onClick={() => router.push("/flashcards")}>Back to Decks</button>
             <button className="btn btn-ghost" onClick={restartWithWrong} disabled={wrong === 0}>Study Wrong Cards Again</button>
           </div>
@@ -220,68 +220,39 @@ export default function StudyDeckPage() {
   const progressPercent = Math.round(((currentIndex + 1) / queue.length) * 100);
 
   return (
-    <main style={{ minHeight: "100vh", background: "var(--bg-base)", color: "var(--text-primary)", padding: "24px 16px 100px" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+    <main className="min-h-screen bg-[var(--bg-base)] px-4 py-6 pb-24 text-[var(--text-primary)] md:px-6">
+      <div className="mx-auto max-w-[900px]">
+        <div className="mb-4 flex items-center justify-between">
           <div>
-            <p style={{ margin: 0, color: "var(--text-secondary)" }}>Card {currentIndex + 1} of {queue.length}</p>
-            <p style={{ margin: "4px 0 0", color: "var(--text-muted)", fontSize: 12 }}>Session Stats: ✓ {correct} ✗ {wrong}</p>
+            <p className="m-0 text-[var(--text-secondary)]">Card {currentIndex + 1} of {queue.length}</p>
+            <p className="mt-1 text-xs text-[var(--text-muted)]">Session Stats: ✓ {correct} ✗ {wrong}</p>
           </div>
           <button className="btn btn-ghost" onClick={() => router.push(`/flashcards/${deckId}`)}>✕ End</button>
         </div>
 
-        <div style={{ width: "100%", height: 10, borderRadius: 999, background: "var(--bg-elevated)", overflow: "hidden", marginBottom: 18 }}>
-          <div style={{ width: `${progressPercent}%`, height: "100%", background: "var(--accent-blue)", transition: "width 0.25s ease" }} />
+        <div className="mb-4 h-2.5 w-full overflow-hidden rounded-full bg-[var(--bg-elevated)]">
+          <div className="h-full bg-[var(--accent-blue)] transition-[width] duration-[250ms] ease-[ease]" style={{ width: `${progressPercent}%` }} />
         </div>
 
-        <div className="card-container" style={{ perspective: 1000, maxWidth: 600, margin: "0 auto" }}>
+        <div className="card-container mx-auto max-w-[600px]" style={{ perspective: 1000 }}>
           <button
             type="button"
             onClick={() => setIsFlipped((prev) => !prev)}
-            style={{
-              width: "100%",
-              minHeight: 280,
-              border: "none",
-              background: "transparent",
-              padding: 0,
-              cursor: "pointer",
-            }}
+            className="w-full border-none bg-transparent p-0"
+            style={{ minHeight: 280, cursor: "pointer" }}
           >
-            <div className={`card-inner ${isFlipped ? "flipped" : ""}`} style={{ position: "relative", width: "100%", minHeight: 280 }}>
-              <div className="card-front" style={{
-                position: "absolute",
-                inset: 0,
-                backfaceVisibility: "hidden",
-                background: "var(--bg-card)",
-                border: "1px solid var(--border-strong)",
-                borderRadius: 16,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: 24,
-              }}>
+            <div className={`card-inner relative w-full ${isFlipped ? "flipped" : ""}`} style={{ minHeight: 280 }}>
+              <div className="card-front absolute inset-0 flex items-center justify-center rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-card)] p-6" style={{ backfaceVisibility: "hidden" }}>
                 <div>
-                  <p style={{ margin: 0, textAlign: "center", fontSize: 20, fontWeight: 600 }}>{currentCard?.front}</p>
-                  <p style={{ margin: "16px 0 0", textAlign: "center", color: "var(--text-muted)", fontSize: 12 }}>Click to reveal answer</p>
+                  <p className="m-0 text-center text-xl font-semibold">{currentCard?.front}</p>
+                  <p className="mt-4 text-center text-xs text-[var(--text-muted)]">Click to reveal answer</p>
                 </div>
               </div>
 
-              <div className="card-back" style={{
-                position: "absolute",
-                inset: 0,
-                backfaceVisibility: "hidden",
-                transform: "rotateY(180deg)",
-                background: "var(--bg-card)",
-                border: "1px solid var(--border-strong)",
-                borderRadius: 16,
-                padding: 24,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}>
+              <div className="card-back absolute inset-0 flex items-center justify-center rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-card)] p-6" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
                 <div>
-                  <p style={{ margin: "0 0 10px", color: "var(--text-muted)", fontSize: 12 }}>Front:</p>
-                  <p style={{ margin: 0, textAlign: "center", fontSize: 20, fontWeight: 600 }}>{currentCard?.back}</p>
+                  <p className="mb-2.5 text-xs text-[var(--text-muted)]">Front:</p>
+                  <p className="m-0 text-center text-xl font-semibold">{currentCard?.back}</p>
                 </div>
               </div>
             </div>
@@ -290,33 +261,26 @@ export default function StudyDeckPage() {
 
         {isFlipped && (
           <>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 10, marginTop: 16 }}>
+            <div className="mt-4 grid grid-cols-4 gap-2.5">
               {ratings.map((rating) => (
                 <button
                   key={rating.value}
                   type="button"
                   onClick={() => void rateCard(rating.value)}
+                  className="grid cursor-pointer justify-items-center gap-1 rounded-lg px-2.5 py-3 text-sm font-semibold"
                   style={{
-                    borderRadius: 10,
                     border: `1px solid ${rating.color}`,
                     background: `color-mix(in srgb, ${rating.color} 15%, transparent)`,
                     color: rating.color,
-                    padding: "12px 10px",
-                    fontSize: 14,
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    display: "grid",
-                    gap: 4,
-                    justifyItems: "center",
                   }}
                 >
-                  <span style={{ fontSize: 18 }}>{rating.emoji}</span>
+                  <span className="text-lg">{rating.emoji}</span>
                   <span>{rating.label}</span>
-                  <span style={{ color: "var(--text-muted)", fontSize: 11 }}>{rating.hint}</span>
+                  <span className="text-[11px] text-[var(--text-muted)]">{rating.hint}</span>
                 </button>
               ))}
             </div>
-            <p style={{ marginTop: 10, textAlign: "center", color: "var(--text-muted)", fontSize: 12 }}>
+            <p className="mt-2.5 text-center text-xs text-[var(--text-muted)]">
               1-4 to rate • Space to flip
             </p>
           </>

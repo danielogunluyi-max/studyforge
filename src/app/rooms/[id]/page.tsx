@@ -394,11 +394,11 @@ export default function RoomInteriorPage() {
 
   if (error) {
     return (
-      <main style={{ minHeight: "100vh", background: "var(--bg-base)", color: "var(--text-primary)", padding: 24 }}>
-        <div className="card" style={{ maxWidth: 720, margin: "0 auto", padding: 22 }}>
-          <h1 className="text-title" style={{ marginBottom: 8 }}>Could not open room</h1>
-          <p style={{ color: "var(--accent-red)" }}>{error}</p>
-          <button className="btn btn-primary" style={{ marginTop: 14 }} onClick={() => router.push("/rooms")}>Back to Rooms</button>
+      <main className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] p-6">
+        <div className="card max-w-[720px] mx-auto p-5">
+          <h1 className="text-title mb-2">Could not open room</h1>
+          <p className="text-[var(--accent-red)]">{error}</p>
+          <button className="btn btn-primary mt-3.5" onClick={() => router.push("/rooms")}>Back to Rooms</button>
         </div>
       </main>
     );
@@ -406,26 +406,26 @@ export default function RoomInteriorPage() {
 
   if (!room) {
     return (
-      <main style={{ minHeight: "100vh", background: "var(--bg-base)", padding: 24 }}>
-        <div className="skeleton" style={{ maxWidth: 980, height: 420, margin: "0 auto", borderRadius: 14 }} />
+      <main className="min-h-screen bg-[var(--bg-base)] p-6">
+        <div className="skeleton max-w-[980px] h-[420px] mx-auto rounded-[14px]" />
       </main>
     );
   }
 
   return (
-    <main style={{ minHeight: "100vh", background: "var(--bg-base)", color: "var(--text-primary)", padding: "24px 18px 100px" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18, gap: 12 }}>
+    <main className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] px-4 py-6 pb-24 md:px-6">
+      <div className="max-w-[1200px] mx-auto">
+        <div className="flex items-center justify-between mb-4 gap-3">
           <div>
-            <button className="btn btn-ghost" onClick={() => router.push("/rooms")} style={{ marginBottom: 10 }}>
+            <button className="btn btn-ghost mb-2.5" onClick={() => router.push("/rooms")}>
               ← All Rooms
             </button>
-            <h1 className="text-title" style={{ marginBottom: 4 }}>{room.name}</h1>
-            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-              <span className="badge" style={{ background: "rgba(59,130,246,0.15)", color: "var(--accent-blue)", border: "1px solid var(--accent-blue)" }}>
+            <h1 className="text-title mb-1">{room.name}</h1>
+            <div className="flex gap-2 items-center flex-wrap">
+              <span className="badge bg-[rgba(59,130,246,0.15)] text-[var(--accent-blue)] border border-[var(--accent-blue)]">
                 {room.subject}
               </span>
-              <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>{activeCount} studying now</span>
+              <span className="text-xs text-[var(--text-secondary)]">{activeCount} studying now</span>
             </div>
           </div>
 
@@ -450,9 +450,9 @@ export default function RoomInteriorPage() {
             gap: 16,
           }}
         >
-          <section className="card" style={{ padding: 20 }}>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ position: "relative", width: 220, height: 220, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <section className="card p-5">
+            <div className="flex justify-center">
+              <div className="relative w-[220px] h-[220px] flex items-center justify-center">
                 <svg width="180" height="180" viewBox="0 0 200 200" aria-hidden="true">
                   <circle
                     cx="100"
@@ -477,21 +477,21 @@ export default function RoomInteriorPage() {
                   />
                 </svg>
 
-                <div style={{ position: "absolute", textAlign: "center" }}>
-                  <p style={{ margin: 0, fontSize: 44, fontWeight: 800, letterSpacing: 1 }}>{formatClock(effectiveTimeLeft)}</p>
-                  <p style={{ margin: "6px 0 0", color: "var(--text-secondary)", fontSize: 13 }}>
+                <div className="absolute text-center">
+                  <p className="m-0 text-[44px] font-extrabold tracking-wider">{formatClock(effectiveTimeLeft)}</p>
+                  <p className="mt-1.5 text-[var(--text-secondary)] text-[13px]">
                     {pomodoroState?.phase === "break" ? "Break Time" : "Focus Session"}
                   </p>
                 </div>
               </div>
             </div>
 
-            <p style={{ textAlign: "center", margin: "8px 0 0", fontSize: 12, color: "var(--text-muted)" }}>
+            <p className="text-center mt-2 text-xs text-[var(--text-muted)]">
               Session {sessionOfFour} of 4
             </p>
 
             {isHost ? (
-              <div style={{ display: "flex", gap: "8px", justifyContent: "center", marginTop: "16px", flexWrap: "wrap" }}>
+              <div className="flex gap-2 justify-center mt-4 flex-wrap">
                 <button className="btn btn-primary" onClick={() => void controlPomodoro("start")} disabled={Boolean(pomodoroState?.isRunning)}>
                   ▶ Start
                 </button>
@@ -506,40 +506,25 @@ export default function RoomInteriorPage() {
                 </button>
               </div>
             ) : (
-              <p style={{ textAlign: "center", marginTop: 14, fontSize: 13, color: "var(--text-secondary)" }}>
+              <p className="text-center mt-3.5 text-[13px] text-[var(--text-secondary)]">
                 {pomodoroState?.isRunning ? "Shared timer is running" : "⏱️ Waiting for host to start..."}
               </p>
             )}
 
-            <div className="card" style={{ marginTop: 18, padding: 14, background: "var(--bg-elevated)" }}>
-              <p className="text-label" style={{ marginBottom: 10 }}>Live Activity</p>
+            <div className="card mt-4 p-3.5 bg-[var(--bg-elevated)]">
+              <p className="text-label mb-2.5">Live Activity</p>
               <div
-                style={{
-                  maxHeight: 220,
-                  overflowY: "auto",
-                  border: "1px solid var(--border-default)",
-                  borderRadius: 8,
-                  padding: "8px 10px",
-                  background: "var(--bg-card)",
-                }}
+                className="max-h-[220px] overflow-y-auto border border-[var(--border-default)] rounded-lg px-2.5 py-2 bg-[var(--bg-card)]"
               >
                 {feed.length === 0 ? (
-                  <p style={{ margin: 0, fontSize: 12, color: "var(--text-muted)" }}>No activity yet</p>
+                  <p className="m-0 text-xs text-[var(--text-muted)]">No activity yet</p>
                 ) : (
                   feed.map((item) => (
                     <div
                       key={item.id}
-                      style={{
-                        fontSize: "12px",
-                        color: "var(--text-muted)",
-                        padding: "4px 0",
-                        borderBottom: "1px solid var(--border-default)",
-                        display: "flex",
-                        gap: "8px",
-                        alignItems: "center",
-                      }}
+                      className="text-xs text-[var(--text-muted)] py-1 border-b border-[var(--border-default)] flex gap-2 items-center"
                     >
-                      <span style={{ color: "var(--text-muted)", flexShrink: 0 }}>
+                      <span className="text-[var(--text-muted)] shrink-0">
                         {formatTime(item.timestamp)}
                       </span>
                       <span>{item.message}</span>
@@ -550,9 +535,9 @@ export default function RoomInteriorPage() {
               </div>
             </div>
 
-            <div className="card" style={{ marginTop: 14, padding: 14 }}>
-              <p className="text-label" style={{ marginBottom: 8 }}>Your Status</p>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <div className="card mt-3.5 p-3.5">
+              <p className="text-label mb-2">Your Status</p>
+              <div className="flex gap-2 flex-wrap">
                 {[
                   { key: "studying", label: "📚 Studying" },
                   { key: "on_break", label: "☕ On Break" },
@@ -568,15 +553,10 @@ export default function RoomInteriorPage() {
                         setMyStatus(nextStatus);
                         void postHeartbeat(nextStatus);
                       }}
+                      className="border-none rounded-full cursor-pointer px-3 py-2 text-xs font-semibold"
                       style={{
-                        border: "none",
-                        borderRadius: 999,
-                        cursor: "pointer",
-                        padding: "8px 12px",
                         background: active ? "var(--accent-blue)" : "var(--bg-elevated)",
                         color: active ? "white" : "var(--text-secondary)",
-                        fontSize: 12,
-                        fontWeight: 600,
                       }}
                     >
                       {option.label}
@@ -587,51 +567,36 @@ export default function RoomInteriorPage() {
             </div>
           </section>
 
-          <aside className="card" style={{ padding: 16 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-              <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>In This Room</h2>
-              <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>{members.length}</span>
+          <aside className="card p-4">
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="m-0 text-base font-bold">In This Room</h2>
+              <span className="text-xs text-[var(--text-secondary)]">{members.length}</span>
             </div>
 
             <div>
               {members.map((member) => (
                 <div
                   key={member.userId}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    padding: "10px 0",
-                    borderBottom: "1px solid var(--border-default)",
-                  }}
+                  className="flex items-center gap-2.5 py-2.5 border-b border-[var(--border-default)]"
                 >
                   <div
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
                     style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: "50%",
                       background: member.userId === room.hostId ? "var(--accent-purple)" : "var(--bg-elevated)",
                       border: `2px solid ${statusColor(member.status)}`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "14px",
-                      fontWeight: 700,
-                      color: "white",
-                      flexShrink: 0,
                     }}
                   >
                     {member.user.name?.[0]?.toUpperCase() ?? "?"}
                   </div>
 
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "6px" }}>
+                  <div className="flex-1">
+                    <div className="text-[13px] font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
                       {member.user.name ?? "Student"}
                       {member.userId === room.hostId && (
-                        <span style={{ fontSize: "10px", color: "var(--accent-purple)" }}>HOST</span>
+                        <span className="text-[10px] text-[var(--accent-purple)]">HOST</span>
                       )}
                     </div>
-                    <div style={{ fontSize: "11px", color: statusColor(member.status) }}>
+                    <div className="text-[11px]" style={{ color: statusColor(member.status) }}>
                       {statusEmoji(member.status)} {statusLabel(member.status)}
                     </div>
                   </div>
@@ -639,17 +604,17 @@ export default function RoomInteriorPage() {
               ))}
             </div>
 
-            <div className="card" style={{ marginTop: 16, padding: 12, background: "var(--bg-elevated)" }}>
-              <p className="text-label" style={{ marginBottom: 8 }}>Room Info</p>
-              <div style={{ marginBottom: 8 }}>
-                <span className="badge" style={{ background: "rgba(59,130,246,0.15)", color: "var(--accent-blue)", border: "1px solid var(--accent-blue)" }}>
+            <div className="card mt-4 p-3 bg-[var(--bg-elevated)]">
+              <p className="text-label mb-2">Room Info</p>
+              <div className="mb-2">
+                <span className="badge bg-[rgba(59,130,246,0.15)] text-[var(--accent-blue)] border border-[var(--accent-blue)]">
                   {room.subject}
                 </span>
               </div>
-              <p style={{ margin: 0, fontSize: 12, color: "var(--text-secondary)" }}>
+              <p className="m-0 text-xs text-[var(--text-secondary)]">
                 Room created by {room.host?.name ?? "Host"}
               </p>
-              <button className="btn btn-ghost" style={{ marginTop: 10, width: "100%" }}>
+              <button className="btn btn-ghost mt-2.5 w-full">
                 Report Room
               </button>
             </div>
