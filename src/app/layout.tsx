@@ -11,6 +11,7 @@ import { PomodoroWidget } from "~/app/_components/pomodoro-widget";
 import AmbientPlayer from "~/app/_components/ambient-player";
 import { AppShell } from "~/app/_components/app-shell";
 import NovaDailyAward from "~/app/_components/nova-daily-award";
+import FocusMode from "~/app/_components/focus-mode";
 
 export const metadata: Metadata = {
   title: {
@@ -75,6 +76,7 @@ export default function RootLayout({
                     <div className="page-enter">{children}</div>
                   </AppShell>
                   <AmbientPlayer />
+                  <FocusMode />
                   <PomodoroWidget />
                   <ExamWidget />
                   <ToastViewport />

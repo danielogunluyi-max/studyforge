@@ -109,6 +109,7 @@ model User {
     roomMemberships RoomMember[]
     pdfDocuments PDFDocument[]
     annotations  Annotation[]
+    focusSessions FocusSession[]
 }
 
 model VerificationToken {
@@ -727,4 +728,21 @@ model Annotation {
     @@index([docId])
     @@index([userId])
     @@index([page])
+}
+
+model FocusSession {
+    id           String   @id @default(cuid())
+    userId       String
+    goal         String?
+    durationMins Int
+    actualMins   Int?
+    completed    Boolean  @default(false)
+    abandoned    Boolean  @default(false)
+    distractions Int      @default(0)
+    startedAt    DateTime @default(now())
+    endedAt      DateTime?
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([startedAt])
 }

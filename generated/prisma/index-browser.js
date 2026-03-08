@@ -580,6 +580,19 @@ exports.Prisma.AnnotationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.FocusSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  goal: 'goal',
+  durationMins: 'durationMins',
+  actualMins: 'actualMins',
+  completed: 'completed',
+  abandoned: 'abandoned',
+  distractions: 'distractions',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -650,7 +663,8 @@ exports.Prisma.ModelName = {
   StudyRoom: 'StudyRoom',
   RoomMember: 'RoomMember',
   PDFDocument: 'PDFDocument',
-  Annotation: 'Annotation'
+  Annotation: 'Annotation',
+  FocusSession: 'FocusSession'
 };
 
 /**

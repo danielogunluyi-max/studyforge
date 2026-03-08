@@ -690,6 +690,26 @@ export default function AmbientPlayer() {
     };
   }, []);
 
+  useEffect(() => {
+    const onAmbientPlay = (event: Event) => {
+      const custom = event as CustomEvent<{ soundId?: string }>;
+      const requested = findSound(custom.detail?.soundId ?? "lofi").id;
+
+      setMixMode(false);
+      setCurrentSoundId(requested);
+      setActiveSounds(new Set([requested]));
+
+      void (async () => {
+        stopAll();
+        await playSound(requested);
+        setIsPlaying(true);
+      })();
+    };
+
+    document.addEventListener("ambient:play", onAmbientPlay);
+    return () => document.removeEventListener("ambient:play", onAmbientPlay);
+  }, []);
+
   const left = BASE_LEFT + pos.x;
   const bottom = BASE_BOTTOM - pos.y;
 

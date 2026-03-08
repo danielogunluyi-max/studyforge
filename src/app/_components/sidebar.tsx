@@ -98,6 +98,11 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
 
   const featureItems: NavItem[] = [
     {
+      href: "/focus",
+      label: "Focus Mode",
+      icon: <NavIcon><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></NavIcon>,
+    },
+    {
       href: "/tutor",
       label: "Nova AI Tutor",
       icon: <NavIcon><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3.75l1.8 3.9L18 9.5l-4.2 1.85L12 15.25l-1.8-3.9L6 9.5l4.2-1.85L12 3.75z" /></svg></NavIcon>,

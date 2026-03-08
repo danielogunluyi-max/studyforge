@@ -208,6 +208,11 @@ export type PDFDocument = $Result.DefaultSelection<Prisma.$PDFDocumentPayload>
  * 
  */
 export type Annotation = $Result.DefaultSelection<Prisma.$AnnotationPayload>
+/**
+ * Model FocusSession
+ * 
+ */
+export type FocusSession = $Result.DefaultSelection<Prisma.$FocusSessionPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -716,6 +721,16 @@ export class PrismaClient<
     * ```
     */
   get annotation(): Prisma.AnnotationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.focusSession`: Exposes CRUD operations for the **FocusSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FocusSessions
+    * const focusSessions = await prisma.focusSession.findMany()
+    * ```
+    */
+  get focusSession(): Prisma.FocusSessionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1195,7 +1210,8 @@ export namespace Prisma {
     StudyRoom: 'StudyRoom',
     RoomMember: 'RoomMember',
     PDFDocument: 'PDFDocument',
-    Annotation: 'Annotation'
+    Annotation: 'Annotation',
+    FocusSession: 'FocusSession'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1214,7 +1230,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember" | "pDFDocument" | "annotation"
+      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember" | "pDFDocument" | "annotation" | "focusSession"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4104,6 +4120,80 @@ export namespace Prisma {
           }
         }
       }
+      FocusSession: {
+        payload: Prisma.$FocusSessionPayload<ExtArgs>
+        fields: Prisma.FocusSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FocusSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FocusSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FocusSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FocusSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.FocusSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FocusSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FocusSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FocusSessionPayload>
+          }
+          findMany: {
+            args: Prisma.FocusSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FocusSessionPayload>[]
+          }
+          create: {
+            args: Prisma.FocusSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FocusSessionPayload>
+          }
+          createMany: {
+            args: Prisma.FocusSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FocusSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FocusSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.FocusSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FocusSessionPayload>
+          }
+          update: {
+            args: Prisma.FocusSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FocusSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.FocusSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FocusSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FocusSessionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FocusSessionPayload>[]
+          }
+          upsert: {
+            args: Prisma.FocusSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FocusSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.FocusSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFocusSession>
+          }
+          groupBy: {
+            args: Prisma.FocusSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FocusSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FocusSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<FocusSessionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4239,6 +4329,7 @@ export namespace Prisma {
     roomMember?: RoomMemberOmit
     pDFDocument?: PDFDocumentOmit
     annotation?: AnnotationOmit
+    focusSession?: FocusSessionOmit
   }
 
   /* Types for Logging */
@@ -4353,6 +4444,7 @@ export namespace Prisma {
     roomMemberships: number
     pdfDocuments: number
     annotations: number
+    focusSessions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4390,6 +4482,7 @@ export namespace Prisma {
     roomMemberships?: boolean | UserCountOutputTypeCountRoomMembershipsArgs
     pdfDocuments?: boolean | UserCountOutputTypeCountPdfDocumentsArgs
     annotations?: boolean | UserCountOutputTypeCountAnnotationsArgs
+    focusSessions?: boolean | UserCountOutputTypeCountFocusSessionsArgs
   }
 
   // Custom InputTypes
@@ -4639,6 +4732,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAnnotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AnnotationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFocusSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FocusSessionWhereInput
   }
 
 
@@ -8752,6 +8852,7 @@ export namespace Prisma {
     roomMemberships?: boolean | User$roomMembershipsArgs<ExtArgs>
     pdfDocuments?: boolean | User$pdfDocumentsArgs<ExtArgs>
     annotations?: boolean | User$annotationsArgs<ExtArgs>
+    focusSessions?: boolean | User$focusSessionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -8864,6 +8965,7 @@ export namespace Prisma {
     roomMemberships?: boolean | User$roomMembershipsArgs<ExtArgs>
     pdfDocuments?: boolean | User$pdfDocumentsArgs<ExtArgs>
     annotations?: boolean | User$annotationsArgs<ExtArgs>
+    focusSessions?: boolean | User$focusSessionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8907,6 +9009,7 @@ export namespace Prisma {
       roomMemberships: Prisma.$RoomMemberPayload<ExtArgs>[]
       pdfDocuments: Prisma.$PDFDocumentPayload<ExtArgs>[]
       annotations: Prisma.$AnnotationPayload<ExtArgs>[]
+      focusSessions: Prisma.$FocusSessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9359,6 +9462,7 @@ export namespace Prisma {
     roomMemberships<T extends User$roomMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$roomMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pdfDocuments<T extends User$pdfDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, User$pdfDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     annotations<T extends User$annotationsArgs<ExtArgs> = {}>(args?: Subset<T, User$annotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    focusSessions<T extends User$focusSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$focusSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10629,6 +10733,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AnnotationScalarFieldEnum | AnnotationScalarFieldEnum[]
+  }
+
+  /**
+   * User.focusSessions
+   */
+  export type User$focusSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionInclude<ExtArgs> | null
+    where?: FocusSessionWhereInput
+    orderBy?: FocusSessionOrderByWithRelationInput | FocusSessionOrderByWithRelationInput[]
+    cursor?: FocusSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FocusSessionScalarFieldEnum | FocusSessionScalarFieldEnum[]
   }
 
   /**
@@ -50740,6 +50868,1171 @@ export namespace Prisma {
 
 
   /**
+   * Model FocusSession
+   */
+
+  export type AggregateFocusSession = {
+    _count: FocusSessionCountAggregateOutputType | null
+    _avg: FocusSessionAvgAggregateOutputType | null
+    _sum: FocusSessionSumAggregateOutputType | null
+    _min: FocusSessionMinAggregateOutputType | null
+    _max: FocusSessionMaxAggregateOutputType | null
+  }
+
+  export type FocusSessionAvgAggregateOutputType = {
+    durationMins: number | null
+    actualMins: number | null
+    distractions: number | null
+  }
+
+  export type FocusSessionSumAggregateOutputType = {
+    durationMins: number | null
+    actualMins: number | null
+    distractions: number | null
+  }
+
+  export type FocusSessionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    goal: string | null
+    durationMins: number | null
+    actualMins: number | null
+    completed: boolean | null
+    abandoned: boolean | null
+    distractions: number | null
+    startedAt: Date | null
+    endedAt: Date | null
+  }
+
+  export type FocusSessionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    goal: string | null
+    durationMins: number | null
+    actualMins: number | null
+    completed: boolean | null
+    abandoned: boolean | null
+    distractions: number | null
+    startedAt: Date | null
+    endedAt: Date | null
+  }
+
+  export type FocusSessionCountAggregateOutputType = {
+    id: number
+    userId: number
+    goal: number
+    durationMins: number
+    actualMins: number
+    completed: number
+    abandoned: number
+    distractions: number
+    startedAt: number
+    endedAt: number
+    _all: number
+  }
+
+
+  export type FocusSessionAvgAggregateInputType = {
+    durationMins?: true
+    actualMins?: true
+    distractions?: true
+  }
+
+  export type FocusSessionSumAggregateInputType = {
+    durationMins?: true
+    actualMins?: true
+    distractions?: true
+  }
+
+  export type FocusSessionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    goal?: true
+    durationMins?: true
+    actualMins?: true
+    completed?: true
+    abandoned?: true
+    distractions?: true
+    startedAt?: true
+    endedAt?: true
+  }
+
+  export type FocusSessionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    goal?: true
+    durationMins?: true
+    actualMins?: true
+    completed?: true
+    abandoned?: true
+    distractions?: true
+    startedAt?: true
+    endedAt?: true
+  }
+
+  export type FocusSessionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    goal?: true
+    durationMins?: true
+    actualMins?: true
+    completed?: true
+    abandoned?: true
+    distractions?: true
+    startedAt?: true
+    endedAt?: true
+    _all?: true
+  }
+
+  export type FocusSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FocusSession to aggregate.
+     */
+    where?: FocusSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FocusSessions to fetch.
+     */
+    orderBy?: FocusSessionOrderByWithRelationInput | FocusSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FocusSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FocusSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FocusSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FocusSessions
+    **/
+    _count?: true | FocusSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FocusSessionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FocusSessionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FocusSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FocusSessionMaxAggregateInputType
+  }
+
+  export type GetFocusSessionAggregateType<T extends FocusSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregateFocusSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFocusSession[P]>
+      : GetScalarType<T[P], AggregateFocusSession[P]>
+  }
+
+
+
+
+  export type FocusSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FocusSessionWhereInput
+    orderBy?: FocusSessionOrderByWithAggregationInput | FocusSessionOrderByWithAggregationInput[]
+    by: FocusSessionScalarFieldEnum[] | FocusSessionScalarFieldEnum
+    having?: FocusSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FocusSessionCountAggregateInputType | true
+    _avg?: FocusSessionAvgAggregateInputType
+    _sum?: FocusSessionSumAggregateInputType
+    _min?: FocusSessionMinAggregateInputType
+    _max?: FocusSessionMaxAggregateInputType
+  }
+
+  export type FocusSessionGroupByOutputType = {
+    id: string
+    userId: string
+    goal: string | null
+    durationMins: number
+    actualMins: number | null
+    completed: boolean
+    abandoned: boolean
+    distractions: number
+    startedAt: Date
+    endedAt: Date | null
+    _count: FocusSessionCountAggregateOutputType | null
+    _avg: FocusSessionAvgAggregateOutputType | null
+    _sum: FocusSessionSumAggregateOutputType | null
+    _min: FocusSessionMinAggregateOutputType | null
+    _max: FocusSessionMaxAggregateOutputType | null
+  }
+
+  type GetFocusSessionGroupByPayload<T extends FocusSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FocusSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FocusSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FocusSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], FocusSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FocusSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    goal?: boolean
+    durationMins?: boolean
+    actualMins?: boolean
+    completed?: boolean
+    abandoned?: boolean
+    distractions?: boolean
+    startedAt?: boolean
+    endedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["focusSession"]>
+
+  export type FocusSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    goal?: boolean
+    durationMins?: boolean
+    actualMins?: boolean
+    completed?: boolean
+    abandoned?: boolean
+    distractions?: boolean
+    startedAt?: boolean
+    endedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["focusSession"]>
+
+  export type FocusSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    goal?: boolean
+    durationMins?: boolean
+    actualMins?: boolean
+    completed?: boolean
+    abandoned?: boolean
+    distractions?: boolean
+    startedAt?: boolean
+    endedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["focusSession"]>
+
+  export type FocusSessionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    goal?: boolean
+    durationMins?: boolean
+    actualMins?: boolean
+    completed?: boolean
+    abandoned?: boolean
+    distractions?: boolean
+    startedAt?: boolean
+    endedAt?: boolean
+  }
+
+  export type FocusSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "goal" | "durationMins" | "actualMins" | "completed" | "abandoned" | "distractions" | "startedAt" | "endedAt", ExtArgs["result"]["focusSession"]>
+  export type FocusSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type FocusSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type FocusSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $FocusSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FocusSession"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      goal: string | null
+      durationMins: number
+      actualMins: number | null
+      completed: boolean
+      abandoned: boolean
+      distractions: number
+      startedAt: Date
+      endedAt: Date | null
+    }, ExtArgs["result"]["focusSession"]>
+    composites: {}
+  }
+
+  type FocusSessionGetPayload<S extends boolean | null | undefined | FocusSessionDefaultArgs> = $Result.GetResult<Prisma.$FocusSessionPayload, S>
+
+  type FocusSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FocusSessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FocusSessionCountAggregateInputType | true
+    }
+
+  export interface FocusSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FocusSession'], meta: { name: 'FocusSession' } }
+    /**
+     * Find zero or one FocusSession that matches the filter.
+     * @param {FocusSessionFindUniqueArgs} args - Arguments to find a FocusSession
+     * @example
+     * // Get one FocusSession
+     * const focusSession = await prisma.focusSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FocusSessionFindUniqueArgs>(args: SelectSubset<T, FocusSessionFindUniqueArgs<ExtArgs>>): Prisma__FocusSessionClient<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FocusSession that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FocusSessionFindUniqueOrThrowArgs} args - Arguments to find a FocusSession
+     * @example
+     * // Get one FocusSession
+     * const focusSession = await prisma.focusSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FocusSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, FocusSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FocusSessionClient<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FocusSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FocusSessionFindFirstArgs} args - Arguments to find a FocusSession
+     * @example
+     * // Get one FocusSession
+     * const focusSession = await prisma.focusSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FocusSessionFindFirstArgs>(args?: SelectSubset<T, FocusSessionFindFirstArgs<ExtArgs>>): Prisma__FocusSessionClient<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FocusSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FocusSessionFindFirstOrThrowArgs} args - Arguments to find a FocusSession
+     * @example
+     * // Get one FocusSession
+     * const focusSession = await prisma.focusSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FocusSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, FocusSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__FocusSessionClient<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FocusSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FocusSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FocusSessions
+     * const focusSessions = await prisma.focusSession.findMany()
+     * 
+     * // Get first 10 FocusSessions
+     * const focusSessions = await prisma.focusSession.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const focusSessionWithIdOnly = await prisma.focusSession.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FocusSessionFindManyArgs>(args?: SelectSubset<T, FocusSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FocusSession.
+     * @param {FocusSessionCreateArgs} args - Arguments to create a FocusSession.
+     * @example
+     * // Create one FocusSession
+     * const FocusSession = await prisma.focusSession.create({
+     *   data: {
+     *     // ... data to create a FocusSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends FocusSessionCreateArgs>(args: SelectSubset<T, FocusSessionCreateArgs<ExtArgs>>): Prisma__FocusSessionClient<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FocusSessions.
+     * @param {FocusSessionCreateManyArgs} args - Arguments to create many FocusSessions.
+     * @example
+     * // Create many FocusSessions
+     * const focusSession = await prisma.focusSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FocusSessionCreateManyArgs>(args?: SelectSubset<T, FocusSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FocusSessions and returns the data saved in the database.
+     * @param {FocusSessionCreateManyAndReturnArgs} args - Arguments to create many FocusSessions.
+     * @example
+     * // Create many FocusSessions
+     * const focusSession = await prisma.focusSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FocusSessions and only return the `id`
+     * const focusSessionWithIdOnly = await prisma.focusSession.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FocusSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, FocusSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a FocusSession.
+     * @param {FocusSessionDeleteArgs} args - Arguments to delete one FocusSession.
+     * @example
+     * // Delete one FocusSession
+     * const FocusSession = await prisma.focusSession.delete({
+     *   where: {
+     *     // ... filter to delete one FocusSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FocusSessionDeleteArgs>(args: SelectSubset<T, FocusSessionDeleteArgs<ExtArgs>>): Prisma__FocusSessionClient<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FocusSession.
+     * @param {FocusSessionUpdateArgs} args - Arguments to update one FocusSession.
+     * @example
+     * // Update one FocusSession
+     * const focusSession = await prisma.focusSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FocusSessionUpdateArgs>(args: SelectSubset<T, FocusSessionUpdateArgs<ExtArgs>>): Prisma__FocusSessionClient<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FocusSessions.
+     * @param {FocusSessionDeleteManyArgs} args - Arguments to filter FocusSessions to delete.
+     * @example
+     * // Delete a few FocusSessions
+     * const { count } = await prisma.focusSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FocusSessionDeleteManyArgs>(args?: SelectSubset<T, FocusSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FocusSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FocusSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FocusSessions
+     * const focusSession = await prisma.focusSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FocusSessionUpdateManyArgs>(args: SelectSubset<T, FocusSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FocusSessions and returns the data updated in the database.
+     * @param {FocusSessionUpdateManyAndReturnArgs} args - Arguments to update many FocusSessions.
+     * @example
+     * // Update many FocusSessions
+     * const focusSession = await prisma.focusSession.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more FocusSessions and only return the `id`
+     * const focusSessionWithIdOnly = await prisma.focusSession.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FocusSessionUpdateManyAndReturnArgs>(args: SelectSubset<T, FocusSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one FocusSession.
+     * @param {FocusSessionUpsertArgs} args - Arguments to update or create a FocusSession.
+     * @example
+     * // Update or create a FocusSession
+     * const focusSession = await prisma.focusSession.upsert({
+     *   create: {
+     *     // ... data to create a FocusSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FocusSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FocusSessionUpsertArgs>(args: SelectSubset<T, FocusSessionUpsertArgs<ExtArgs>>): Prisma__FocusSessionClient<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FocusSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FocusSessionCountArgs} args - Arguments to filter FocusSessions to count.
+     * @example
+     * // Count the number of FocusSessions
+     * const count = await prisma.focusSession.count({
+     *   where: {
+     *     // ... the filter for the FocusSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends FocusSessionCountArgs>(
+      args?: Subset<T, FocusSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FocusSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FocusSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FocusSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FocusSessionAggregateArgs>(args: Subset<T, FocusSessionAggregateArgs>): Prisma.PrismaPromise<GetFocusSessionAggregateType<T>>
+
+    /**
+     * Group by FocusSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FocusSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FocusSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FocusSessionGroupByArgs['orderBy'] }
+        : { orderBy?: FocusSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FocusSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFocusSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FocusSession model
+   */
+  readonly fields: FocusSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FocusSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FocusSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FocusSession model
+   */
+  interface FocusSessionFieldRefs {
+    readonly id: FieldRef<"FocusSession", 'String'>
+    readonly userId: FieldRef<"FocusSession", 'String'>
+    readonly goal: FieldRef<"FocusSession", 'String'>
+    readonly durationMins: FieldRef<"FocusSession", 'Int'>
+    readonly actualMins: FieldRef<"FocusSession", 'Int'>
+    readonly completed: FieldRef<"FocusSession", 'Boolean'>
+    readonly abandoned: FieldRef<"FocusSession", 'Boolean'>
+    readonly distractions: FieldRef<"FocusSession", 'Int'>
+    readonly startedAt: FieldRef<"FocusSession", 'DateTime'>
+    readonly endedAt: FieldRef<"FocusSession", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FocusSession findUnique
+   */
+  export type FocusSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which FocusSession to fetch.
+     */
+    where: FocusSessionWhereUniqueInput
+  }
+
+  /**
+   * FocusSession findUniqueOrThrow
+   */
+  export type FocusSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which FocusSession to fetch.
+     */
+    where: FocusSessionWhereUniqueInput
+  }
+
+  /**
+   * FocusSession findFirst
+   */
+  export type FocusSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which FocusSession to fetch.
+     */
+    where?: FocusSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FocusSessions to fetch.
+     */
+    orderBy?: FocusSessionOrderByWithRelationInput | FocusSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FocusSessions.
+     */
+    cursor?: FocusSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FocusSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FocusSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FocusSessions.
+     */
+    distinct?: FocusSessionScalarFieldEnum | FocusSessionScalarFieldEnum[]
+  }
+
+  /**
+   * FocusSession findFirstOrThrow
+   */
+  export type FocusSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which FocusSession to fetch.
+     */
+    where?: FocusSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FocusSessions to fetch.
+     */
+    orderBy?: FocusSessionOrderByWithRelationInput | FocusSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FocusSessions.
+     */
+    cursor?: FocusSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FocusSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FocusSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FocusSessions.
+     */
+    distinct?: FocusSessionScalarFieldEnum | FocusSessionScalarFieldEnum[]
+  }
+
+  /**
+   * FocusSession findMany
+   */
+  export type FocusSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which FocusSessions to fetch.
+     */
+    where?: FocusSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FocusSessions to fetch.
+     */
+    orderBy?: FocusSessionOrderByWithRelationInput | FocusSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FocusSessions.
+     */
+    cursor?: FocusSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FocusSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FocusSessions.
+     */
+    skip?: number
+    distinct?: FocusSessionScalarFieldEnum | FocusSessionScalarFieldEnum[]
+  }
+
+  /**
+   * FocusSession create
+   */
+  export type FocusSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FocusSession.
+     */
+    data: XOR<FocusSessionCreateInput, FocusSessionUncheckedCreateInput>
+  }
+
+  /**
+   * FocusSession createMany
+   */
+  export type FocusSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FocusSessions.
+     */
+    data: FocusSessionCreateManyInput | FocusSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FocusSession createManyAndReturn
+   */
+  export type FocusSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * The data used to create many FocusSessions.
+     */
+    data: FocusSessionCreateManyInput | FocusSessionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FocusSession update
+   */
+  export type FocusSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FocusSession.
+     */
+    data: XOR<FocusSessionUpdateInput, FocusSessionUncheckedUpdateInput>
+    /**
+     * Choose, which FocusSession to update.
+     */
+    where: FocusSessionWhereUniqueInput
+  }
+
+  /**
+   * FocusSession updateMany
+   */
+  export type FocusSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FocusSessions.
+     */
+    data: XOR<FocusSessionUpdateManyMutationInput, FocusSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which FocusSessions to update
+     */
+    where?: FocusSessionWhereInput
+    /**
+     * Limit how many FocusSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FocusSession updateManyAndReturn
+   */
+  export type FocusSessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * The data used to update FocusSessions.
+     */
+    data: XOR<FocusSessionUpdateManyMutationInput, FocusSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which FocusSessions to update
+     */
+    where?: FocusSessionWhereInput
+    /**
+     * Limit how many FocusSessions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FocusSession upsert
+   */
+  export type FocusSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FocusSession to update in case it exists.
+     */
+    where: FocusSessionWhereUniqueInput
+    /**
+     * In case the FocusSession found by the `where` argument doesn't exist, create a new FocusSession with this data.
+     */
+    create: XOR<FocusSessionCreateInput, FocusSessionUncheckedCreateInput>
+    /**
+     * In case the FocusSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FocusSessionUpdateInput, FocusSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * FocusSession delete
+   */
+  export type FocusSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionInclude<ExtArgs> | null
+    /**
+     * Filter which FocusSession to delete.
+     */
+    where: FocusSessionWhereUniqueInput
+  }
+
+  /**
+   * FocusSession deleteMany
+   */
+  export type FocusSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FocusSessions to delete
+     */
+    where?: FocusSessionWhereInput
+    /**
+     * Limit how many FocusSessions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FocusSession without action
+   */
+  export type FocusSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FocusSession
+     */
+    select?: FocusSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FocusSession
+     */
+    omit?: FocusSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FocusSessionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -51329,6 +52622,22 @@ export namespace Prisma {
   export type AnnotationScalarFieldEnum = (typeof AnnotationScalarFieldEnum)[keyof typeof AnnotationScalarFieldEnum]
 
 
+  export const FocusSessionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    goal: 'goal',
+    durationMins: 'durationMins',
+    actualMins: 'actualMins',
+    completed: 'completed',
+    abandoned: 'abandoned',
+    distractions: 'distractions',
+    startedAt: 'startedAt',
+    endedAt: 'endedAt'
+  };
+
+  export type FocusSessionScalarFieldEnum = (typeof FocusSessionScalarFieldEnum)[keyof typeof FocusSessionScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -51727,6 +53036,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberListRelationFilter
     pdfDocuments?: PDFDocumentListRelationFilter
     annotations?: AnnotationListRelationFilter
+    focusSessions?: FocusSessionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -51786,6 +53096,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberOrderByRelationAggregateInput
     pdfDocuments?: PDFDocumentOrderByRelationAggregateInput
     annotations?: AnnotationOrderByRelationAggregateInput
+    focusSessions?: FocusSessionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -51848,6 +53159,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberListRelationFilter
     pdfDocuments?: PDFDocumentListRelationFilter
     annotations?: AnnotationListRelationFilter
+    focusSessions?: FocusSessionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -54617,6 +55929,88 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Annotation"> | Date | string
   }
 
+  export type FocusSessionWhereInput = {
+    AND?: FocusSessionWhereInput | FocusSessionWhereInput[]
+    OR?: FocusSessionWhereInput[]
+    NOT?: FocusSessionWhereInput | FocusSessionWhereInput[]
+    id?: StringFilter<"FocusSession"> | string
+    userId?: StringFilter<"FocusSession"> | string
+    goal?: StringNullableFilter<"FocusSession"> | string | null
+    durationMins?: IntFilter<"FocusSession"> | number
+    actualMins?: IntNullableFilter<"FocusSession"> | number | null
+    completed?: BoolFilter<"FocusSession"> | boolean
+    abandoned?: BoolFilter<"FocusSession"> | boolean
+    distractions?: IntFilter<"FocusSession"> | number
+    startedAt?: DateTimeFilter<"FocusSession"> | Date | string
+    endedAt?: DateTimeNullableFilter<"FocusSession"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type FocusSessionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    goal?: SortOrderInput | SortOrder
+    durationMins?: SortOrder
+    actualMins?: SortOrderInput | SortOrder
+    completed?: SortOrder
+    abandoned?: SortOrder
+    distractions?: SortOrder
+    startedAt?: SortOrder
+    endedAt?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type FocusSessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: FocusSessionWhereInput | FocusSessionWhereInput[]
+    OR?: FocusSessionWhereInput[]
+    NOT?: FocusSessionWhereInput | FocusSessionWhereInput[]
+    userId?: StringFilter<"FocusSession"> | string
+    goal?: StringNullableFilter<"FocusSession"> | string | null
+    durationMins?: IntFilter<"FocusSession"> | number
+    actualMins?: IntNullableFilter<"FocusSession"> | number | null
+    completed?: BoolFilter<"FocusSession"> | boolean
+    abandoned?: BoolFilter<"FocusSession"> | boolean
+    distractions?: IntFilter<"FocusSession"> | number
+    startedAt?: DateTimeFilter<"FocusSession"> | Date | string
+    endedAt?: DateTimeNullableFilter<"FocusSession"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type FocusSessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    goal?: SortOrderInput | SortOrder
+    durationMins?: SortOrder
+    actualMins?: SortOrderInput | SortOrder
+    completed?: SortOrder
+    abandoned?: SortOrder
+    distractions?: SortOrder
+    startedAt?: SortOrder
+    endedAt?: SortOrderInput | SortOrder
+    _count?: FocusSessionCountOrderByAggregateInput
+    _avg?: FocusSessionAvgOrderByAggregateInput
+    _max?: FocusSessionMaxOrderByAggregateInput
+    _min?: FocusSessionMinOrderByAggregateInput
+    _sum?: FocusSessionSumOrderByAggregateInput
+  }
+
+  export type FocusSessionScalarWhereWithAggregatesInput = {
+    AND?: FocusSessionScalarWhereWithAggregatesInput | FocusSessionScalarWhereWithAggregatesInput[]
+    OR?: FocusSessionScalarWhereWithAggregatesInput[]
+    NOT?: FocusSessionScalarWhereWithAggregatesInput | FocusSessionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FocusSession"> | string
+    userId?: StringWithAggregatesFilter<"FocusSession"> | string
+    goal?: StringNullableWithAggregatesFilter<"FocusSession"> | string | null
+    durationMins?: IntWithAggregatesFilter<"FocusSession"> | number
+    actualMins?: IntNullableWithAggregatesFilter<"FocusSession"> | number | null
+    completed?: BoolWithAggregatesFilter<"FocusSession"> | boolean
+    abandoned?: BoolWithAggregatesFilter<"FocusSession"> | boolean
+    distractions?: IntWithAggregatesFilter<"FocusSession"> | number
+    startedAt?: DateTimeWithAggregatesFilter<"FocusSession"> | Date | string
+    endedAt?: DateTimeNullableWithAggregatesFilter<"FocusSession"> | Date | string | null
+  }
+
   export type PostCreateInput = {
     name: string
     createdAt?: Date | string
@@ -54885,6 +56279,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -54944,6 +56339,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -55003,6 +56399,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -55062,6 +56459,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -57998,6 +59396,96 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FocusSessionCreateInput = {
+    id?: string
+    goal?: string | null
+    durationMins: number
+    actualMins?: number | null
+    completed?: boolean
+    abandoned?: boolean
+    distractions?: number
+    startedAt?: Date | string
+    endedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutFocusSessionsInput
+  }
+
+  export type FocusSessionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    goal?: string | null
+    durationMins: number
+    actualMins?: number | null
+    completed?: boolean
+    abandoned?: boolean
+    distractions?: number
+    startedAt?: Date | string
+    endedAt?: Date | string | null
+  }
+
+  export type FocusSessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMins?: IntFieldUpdateOperationsInput | number
+    actualMins?: NullableIntFieldUpdateOperationsInput | number | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    abandoned?: BoolFieldUpdateOperationsInput | boolean
+    distractions?: IntFieldUpdateOperationsInput | number
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutFocusSessionsNestedInput
+  }
+
+  export type FocusSessionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMins?: IntFieldUpdateOperationsInput | number
+    actualMins?: NullableIntFieldUpdateOperationsInput | number | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    abandoned?: BoolFieldUpdateOperationsInput | boolean
+    distractions?: IntFieldUpdateOperationsInput | number
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type FocusSessionCreateManyInput = {
+    id?: string
+    userId: string
+    goal?: string | null
+    durationMins: number
+    actualMins?: number | null
+    completed?: boolean
+    abandoned?: boolean
+    distractions?: number
+    startedAt?: Date | string
+    endedAt?: Date | string | null
+  }
+
+  export type FocusSessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMins?: IntFieldUpdateOperationsInput | number
+    actualMins?: NullableIntFieldUpdateOperationsInput | number | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    abandoned?: BoolFieldUpdateOperationsInput | boolean
+    distractions?: IntFieldUpdateOperationsInput | number
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type FocusSessionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMins?: IntFieldUpdateOperationsInput | number
+    actualMins?: NullableIntFieldUpdateOperationsInput | number | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    abandoned?: BoolFieldUpdateOperationsInput | boolean
+    distractions?: IntFieldUpdateOperationsInput | number
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -58496,6 +59984,12 @@ export namespace Prisma {
     none?: AnnotationWhereInput
   }
 
+  export type FocusSessionListRelationFilter = {
+    every?: FocusSessionWhereInput
+    some?: FocusSessionWhereInput
+    none?: FocusSessionWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -58625,6 +60119,10 @@ export namespace Prisma {
   }
 
   export type AnnotationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FocusSessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -60391,6 +61889,57 @@ export namespace Prisma {
     page?: SortOrder
   }
 
+  export type FocusSessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    goal?: SortOrder
+    durationMins?: SortOrder
+    actualMins?: SortOrder
+    completed?: SortOrder
+    abandoned?: SortOrder
+    distractions?: SortOrder
+    startedAt?: SortOrder
+    endedAt?: SortOrder
+  }
+
+  export type FocusSessionAvgOrderByAggregateInput = {
+    durationMins?: SortOrder
+    actualMins?: SortOrder
+    distractions?: SortOrder
+  }
+
+  export type FocusSessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    goal?: SortOrder
+    durationMins?: SortOrder
+    actualMins?: SortOrder
+    completed?: SortOrder
+    abandoned?: SortOrder
+    distractions?: SortOrder
+    startedAt?: SortOrder
+    endedAt?: SortOrder
+  }
+
+  export type FocusSessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    goal?: SortOrder
+    durationMins?: SortOrder
+    actualMins?: SortOrder
+    completed?: SortOrder
+    abandoned?: SortOrder
+    distractions?: SortOrder
+    startedAt?: SortOrder
+    endedAt?: SortOrder
+  }
+
+  export type FocusSessionSumOrderByAggregateInput = {
+    durationMins?: SortOrder
+    actualMins?: SortOrder
+    distractions?: SortOrder
+  }
+
   export type UserCreateNestedOneWithoutPostsInput = {
     create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput
@@ -60709,6 +62258,13 @@ export namespace Prisma {
     connect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
   }
 
+  export type FocusSessionCreateNestedManyWithoutUserInput = {
+    create?: XOR<FocusSessionCreateWithoutUserInput, FocusSessionUncheckedCreateWithoutUserInput> | FocusSessionCreateWithoutUserInput[] | FocusSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FocusSessionCreateOrConnectWithoutUserInput | FocusSessionCreateOrConnectWithoutUserInput[]
+    createMany?: FocusSessionCreateManyUserInputEnvelope
+    connect?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -60951,6 +62507,13 @@ export namespace Prisma {
     connectOrCreate?: AnnotationCreateOrConnectWithoutUserInput | AnnotationCreateOrConnectWithoutUserInput[]
     createMany?: AnnotationCreateManyUserInputEnvelope
     connect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+  }
+
+  export type FocusSessionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FocusSessionCreateWithoutUserInput, FocusSessionUncheckedCreateWithoutUserInput> | FocusSessionCreateWithoutUserInput[] | FocusSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FocusSessionCreateOrConnectWithoutUserInput | FocusSessionCreateOrConnectWithoutUserInput[]
+    createMany?: FocusSessionCreateManyUserInputEnvelope
+    connect?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -61452,6 +63015,20 @@ export namespace Prisma {
     deleteMany?: AnnotationScalarWhereInput | AnnotationScalarWhereInput[]
   }
 
+  export type FocusSessionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FocusSessionCreateWithoutUserInput, FocusSessionUncheckedCreateWithoutUserInput> | FocusSessionCreateWithoutUserInput[] | FocusSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FocusSessionCreateOrConnectWithoutUserInput | FocusSessionCreateOrConnectWithoutUserInput[]
+    upsert?: FocusSessionUpsertWithWhereUniqueWithoutUserInput | FocusSessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FocusSessionCreateManyUserInputEnvelope
+    set?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
+    disconnect?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
+    delete?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
+    connect?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
+    update?: FocusSessionUpdateWithWhereUniqueWithoutUserInput | FocusSessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FocusSessionUpdateManyWithWhereWithoutUserInput | FocusSessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FocusSessionScalarWhereInput | FocusSessionScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -61936,6 +63513,20 @@ export namespace Prisma {
     update?: AnnotationUpdateWithWhereUniqueWithoutUserInput | AnnotationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AnnotationUpdateManyWithWhereWithoutUserInput | AnnotationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AnnotationScalarWhereInput | AnnotationScalarWhereInput[]
+  }
+
+  export type FocusSessionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FocusSessionCreateWithoutUserInput, FocusSessionUncheckedCreateWithoutUserInput> | FocusSessionCreateWithoutUserInput[] | FocusSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FocusSessionCreateOrConnectWithoutUserInput | FocusSessionCreateOrConnectWithoutUserInput[]
+    upsert?: FocusSessionUpsertWithWhereUniqueWithoutUserInput | FocusSessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FocusSessionCreateManyUserInputEnvelope
+    set?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
+    disconnect?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
+    delete?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
+    connect?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
+    update?: FocusSessionUpdateWithWhereUniqueWithoutUserInput | FocusSessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FocusSessionUpdateManyWithWhereWithoutUserInput | FocusSessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FocusSessionScalarWhereInput | FocusSessionScalarWhereInput[]
   }
 
   export type NoteCreatetagsInput = {
@@ -63649,6 +65240,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAnnotationsInput, UserUpdateWithoutAnnotationsInput>, UserUncheckedUpdateWithoutAnnotationsInput>
   }
 
+  export type UserCreateNestedOneWithoutFocusSessionsInput = {
+    create?: XOR<UserCreateWithoutFocusSessionsInput, UserUncheckedCreateWithoutFocusSessionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFocusSessionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutFocusSessionsNestedInput = {
+    create?: XOR<UserCreateWithoutFocusSessionsInput, UserUncheckedCreateWithoutFocusSessionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFocusSessionsInput
+    upsert?: UserUpsertWithoutFocusSessionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFocusSessionsInput, UserUpdateWithoutFocusSessionsInput>, UserUncheckedUpdateWithoutFocusSessionsInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -63984,6 +65589,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -64042,6 +65648,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -64116,6 +65723,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -64174,6 +65782,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -64232,6 +65841,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -64290,6 +65900,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -64364,6 +65975,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -64422,6 +66034,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -64480,6 +66093,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -64538,6 +66152,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -64612,6 +66227,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -64670,6 +66286,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -65834,6 +67451,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FocusSessionCreateWithoutUserInput = {
+    id?: string
+    goal?: string | null
+    durationMins: number
+    actualMins?: number | null
+    completed?: boolean
+    abandoned?: boolean
+    distractions?: number
+    startedAt?: Date | string
+    endedAt?: Date | string | null
+  }
+
+  export type FocusSessionUncheckedCreateWithoutUserInput = {
+    id?: string
+    goal?: string | null
+    durationMins: number
+    actualMins?: number | null
+    completed?: boolean
+    abandoned?: boolean
+    distractions?: number
+    startedAt?: Date | string
+    endedAt?: Date | string | null
+  }
+
+  export type FocusSessionCreateOrConnectWithoutUserInput = {
+    where: FocusSessionWhereUniqueInput
+    create: XOR<FocusSessionCreateWithoutUserInput, FocusSessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type FocusSessionCreateManyUserInputEnvelope = {
+    data: FocusSessionCreateManyUserInput | FocusSessionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -66899,6 +68550,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Annotation"> | Date | string
   }
 
+  export type FocusSessionUpsertWithWhereUniqueWithoutUserInput = {
+    where: FocusSessionWhereUniqueInput
+    update: XOR<FocusSessionUpdateWithoutUserInput, FocusSessionUncheckedUpdateWithoutUserInput>
+    create: XOR<FocusSessionCreateWithoutUserInput, FocusSessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type FocusSessionUpdateWithWhereUniqueWithoutUserInput = {
+    where: FocusSessionWhereUniqueInput
+    data: XOR<FocusSessionUpdateWithoutUserInput, FocusSessionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FocusSessionUpdateManyWithWhereWithoutUserInput = {
+    where: FocusSessionScalarWhereInput
+    data: XOR<FocusSessionUpdateManyMutationInput, FocusSessionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type FocusSessionScalarWhereInput = {
+    AND?: FocusSessionScalarWhereInput | FocusSessionScalarWhereInput[]
+    OR?: FocusSessionScalarWhereInput[]
+    NOT?: FocusSessionScalarWhereInput | FocusSessionScalarWhereInput[]
+    id?: StringFilter<"FocusSession"> | string
+    userId?: StringFilter<"FocusSession"> | string
+    goal?: StringNullableFilter<"FocusSession"> | string | null
+    durationMins?: IntFilter<"FocusSession"> | number
+    actualMins?: IntNullableFilter<"FocusSession"> | number | null
+    completed?: BoolFilter<"FocusSession"> | boolean
+    abandoned?: BoolFilter<"FocusSession"> | boolean
+    distractions?: IntFilter<"FocusSession"> | number
+    startedAt?: DateTimeFilter<"FocusSession"> | Date | string
+    endedAt?: DateTimeNullableFilter<"FocusSession"> | Date | string | null
+  }
+
   export type UserCreateWithoutNotesInput = {
     id?: string
     name?: string | null
@@ -66955,6 +68638,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotesInput = {
@@ -67013,6 +68697,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotesInput = {
@@ -67136,6 +68821,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotesInput = {
@@ -67194,6 +68880,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FolderUpsertWithoutNotesInput = {
@@ -67295,6 +68982,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFoldersInput = {
@@ -67353,6 +69041,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFoldersInput = {
@@ -67467,6 +69156,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFoldersInput = {
@@ -67525,6 +69215,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type NoteUpsertWithWhereUniqueWithoutFolderInput = {
@@ -67599,6 +69290,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCitationsInput = {
@@ -67657,6 +69349,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCitationsInput = {
@@ -67731,6 +69424,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCitationsInput = {
@@ -67789,6 +69483,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamPredictionsInput = {
@@ -67847,6 +69542,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamPredictionsInput = {
@@ -67905,6 +69601,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamPredictionsInput = {
@@ -67979,6 +69676,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamPredictionsInput = {
@@ -68037,6 +69735,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHostedBattlesInput = {
@@ -68095,6 +69794,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedBattlesInput = {
@@ -68153,6 +69853,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedBattlesInput = {
@@ -68216,6 +69917,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutJoinedBattlesInput = {
@@ -68274,6 +69976,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutJoinedBattlesInput = {
@@ -68427,6 +70130,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedBattlesInput = {
@@ -68485,6 +70189,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutJoinedBattlesInput = {
@@ -68554,6 +70259,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutJoinedBattlesInput = {
@@ -68612,6 +70318,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleQuestionUpsertWithWhereUniqueWithoutBattleInput = {
@@ -68907,6 +70614,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleParticipantsInput = {
@@ -68965,6 +70673,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleParticipantsInput = {
@@ -69098,6 +70807,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleParticipantsInput = {
@@ -69156,6 +70866,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleCreateWithoutResultInput = {
@@ -69267,6 +70978,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleResultsInput = {
@@ -69325,6 +71037,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleResultsInput = {
@@ -69458,6 +71171,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleResultsInput = {
@@ -69516,6 +71230,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreatedStudyGroupsInput = {
@@ -69574,6 +71289,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedStudyGroupsInput = {
@@ -69632,6 +71348,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedStudyGroupsInput = {
@@ -70027,6 +71744,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedStudyGroupsInput = {
@@ -70085,6 +71803,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
@@ -70401,6 +72120,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStudyGroupMembershipsInput = {
@@ -70459,6 +72179,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStudyGroupMembershipsInput = {
@@ -70592,6 +72313,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudyGroupMembershipsInput = {
@@ -70650,6 +72372,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutMessagesInput = {
@@ -70761,6 +72484,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupMessagesInput = {
@@ -70819,6 +72543,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupMessagesInput = {
@@ -70976,6 +72701,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupMessagesInput = {
@@ -71034,6 +72760,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupPinnedMessageUpsertWithWhereUniqueWithoutMessageInput = {
@@ -71308,6 +73035,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSharedGroupNotesInput = {
@@ -71366,6 +73094,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSharedGroupNotesInput = {
@@ -71564,6 +73293,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSharedGroupNotesInput = {
@@ -71622,6 +73352,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupSharedNoteCommentUpsertWithWhereUniqueWithoutSharedNoteInput = {
@@ -71719,6 +73450,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupNoteCommentsInput = {
@@ -71777,6 +73509,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupNoteCommentsInput = {
@@ -71880,6 +73613,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupNoteCommentsInput = {
@@ -71938,6 +73672,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutFlashcardsInput = {
@@ -72049,6 +73784,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedGroupFlashcardsInput = {
@@ -72107,6 +73843,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedGroupFlashcardsInput = {
@@ -72240,6 +73977,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedGroupFlashcardsInput = {
@@ -72298,6 +74036,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutQuizRoundsInput = {
@@ -72409,6 +74148,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizRoundsStartedInput = {
@@ -72467,6 +74207,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizRoundsStartedInput = {
@@ -72628,6 +74369,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizRoundsStartedInput = {
@@ -72686,6 +74428,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupQuizSubmissionUpsertWithWhereUniqueWithoutRoundInput = {
@@ -72789,6 +74532,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizSubmissionsInput = {
@@ -72847,6 +74591,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizSubmissionsInput = {
@@ -72956,6 +74701,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizSubmissionsInput = {
@@ -73014,6 +74760,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutScheduleItemsInput = {
@@ -73125,6 +74872,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupSchedulesCreatedInput = {
@@ -73183,6 +74931,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupSchedulesCreatedInput = {
@@ -73316,6 +75065,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupSchedulesCreatedInput = {
@@ -73374,6 +75124,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutResourcesInput = {
@@ -73485,6 +75236,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupResourcesSharedInput = {
@@ -73543,6 +75295,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupResourcesSharedInput = {
@@ -73676,6 +75429,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupResourcesSharedInput = {
@@ -73734,6 +75488,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutLeaderboardStatsInput = {
@@ -73845,6 +75600,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupStatsInput = {
@@ -73903,6 +75659,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupStatsInput = {
@@ -74036,6 +75793,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupStatsInput = {
@@ -74094,6 +75852,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPomodoroTimerInput = {
@@ -74205,6 +75964,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedPomodoroTimersInput = {
@@ -74263,6 +76023,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedPomodoroTimersInput = {
@@ -74396,6 +76157,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedPomodoroTimersInput = {
@@ -74454,6 +76216,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPinnedMessagesInput = {
@@ -74590,6 +76353,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPinnedGroupMessagesInput = {
@@ -74648,6 +76412,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPinnedGroupMessagesInput = {
@@ -74812,6 +76577,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPinnedGroupMessagesInput = {
@@ -74870,6 +76636,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptConnectionsInput = {
@@ -74928,6 +76695,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptConnectionsInput = {
@@ -74986,6 +76754,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptConnectionsInput = {
@@ -75060,6 +76829,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptConnectionsInput = {
@@ -75118,6 +76888,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutLearningStyleResultsInput = {
@@ -75176,6 +76947,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLearningStyleResultsInput = {
@@ -75234,6 +77006,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLearningStyleResultsInput = {
@@ -75308,6 +77081,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLearningStyleResultsInput = {
@@ -75366,6 +77140,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptWebsInput = {
@@ -75424,6 +77199,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptWebsInput = {
@@ -75482,6 +77258,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptWebsInput = {
@@ -75556,6 +77333,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptWebsInput = {
@@ -75614,6 +77392,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamsInput = {
@@ -75672,6 +77451,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamsInput = {
@@ -75730,6 +77510,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamsInput = {
@@ -75804,6 +77585,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamsInput = {
@@ -75862,6 +77644,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutScanHistoriesInput = {
@@ -75920,6 +77703,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutScanHistoriesInput = {
@@ -75978,6 +77762,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutScanHistoriesInput = {
@@ -76052,6 +77837,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScanHistoriesInput = {
@@ -76110,6 +77896,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutFlashcardDecksInput = {
@@ -76168,6 +77955,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlashcardDecksInput = {
@@ -76226,6 +78014,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlashcardDecksInput = {
@@ -76334,6 +78123,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlashcardDecksInput = {
@@ -76392,6 +78182,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FlashcardUpsertWithWhereUniqueWithoutDeckInput = {
@@ -76538,6 +78329,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNovaStatsInput = {
@@ -76596,6 +78388,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNovaStatsInput = {
@@ -76670,6 +78463,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNovaStatsInput = {
@@ -76728,6 +78522,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomMemberCreateWithoutRoomInput = {
@@ -76812,6 +78607,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedRoomsInput = {
@@ -76870,6 +78666,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedRoomsInput = {
@@ -76960,6 +78757,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedRoomsInput = {
@@ -77018,6 +78816,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyRoomCreateWithoutMembersInput = {
@@ -77107,6 +78906,7 @@ export namespace Prisma {
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoomMembershipsInput = {
@@ -77165,6 +78965,7 @@ export namespace Prisma {
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoomMembershipsInput = {
@@ -77276,6 +79077,7 @@ export namespace Prisma {
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomMembershipsInput = {
@@ -77334,6 +79136,7 @@ export namespace Prisma {
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPdfDocumentsInput = {
@@ -77392,6 +79195,7 @@ export namespace Prisma {
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPdfDocumentsInput = {
@@ -77450,6 +79254,7 @@ export namespace Prisma {
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPdfDocumentsInput = {
@@ -77560,6 +79365,7 @@ export namespace Prisma {
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPdfDocumentsInput = {
@@ -77618,6 +79424,7 @@ export namespace Prisma {
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AnnotationUpsertWithWhereUniqueWithoutDocInput = {
@@ -77721,6 +79528,7 @@ export namespace Prisma {
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAnnotationsInput = {
@@ -77779,6 +79587,7 @@ export namespace Prisma {
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAnnotationsInput = {
@@ -77888,6 +79697,7 @@ export namespace Prisma {
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAnnotationsInput = {
@@ -77946,6 +79756,259 @@ export namespace Prisma {
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutFocusSessionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutFocusSessionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutFocusSessionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFocusSessionsInput, UserUncheckedCreateWithoutFocusSessionsInput>
+  }
+
+  export type UserUpsertWithoutFocusSessionsInput = {
+    update: XOR<UserUpdateWithoutFocusSessionsInput, UserUncheckedUpdateWithoutFocusSessionsInput>
+    create: XOR<UserCreateWithoutFocusSessionsInput, UserUncheckedCreateWithoutFocusSessionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFocusSessionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFocusSessionsInput, UserUncheckedUpdateWithoutFocusSessionsInput>
+  }
+
+  export type UserUpdateWithoutFocusSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFocusSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -78315,6 +80378,18 @@ export namespace Prisma {
     rects: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type FocusSessionCreateManyUserInput = {
+    id?: string
+    goal?: string | null
+    durationMins: number
+    actualMins?: number | null
+    completed?: boolean
+    abandoned?: boolean
+    distractions?: number
+    startedAt?: Date | string
+    endedAt?: Date | string | null
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -79471,6 +81546,42 @@ export namespace Prisma {
     rects?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FocusSessionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMins?: IntFieldUpdateOperationsInput | number
+    actualMins?: NullableIntFieldUpdateOperationsInput | number | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    abandoned?: BoolFieldUpdateOperationsInput | boolean
+    distractions?: IntFieldUpdateOperationsInput | number
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type FocusSessionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMins?: IntFieldUpdateOperationsInput | number
+    actualMins?: NullableIntFieldUpdateOperationsInput | number | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    abandoned?: BoolFieldUpdateOperationsInput | boolean
+    distractions?: IntFieldUpdateOperationsInput | number
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type FocusSessionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMins?: IntFieldUpdateOperationsInput | number
+    actualMins?: NullableIntFieldUpdateOperationsInput | number | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    abandoned?: BoolFieldUpdateOperationsInput | boolean
+    distractions?: IntFieldUpdateOperationsInput | number
+    startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type GroupSharedNoteCreateManyNoteInput = {
