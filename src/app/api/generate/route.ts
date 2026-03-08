@@ -1,5 +1,6 @@
 import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
+import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -31,6 +32,7 @@ export async function POST(request: Request) {
       quizQuestionCount,
       quizDifficulty,
       quizType,
+      curriculumCode,
     } = body as {
       text: string;
       format: string;
@@ -38,7 +40,11 @@ export async function POST(request: Request) {
       quizQuestionCount?: number;
       quizDifficulty?: string;
       quizType?: string;
+      curriculumCode?: string;
     };
+
+    const curriculumContext = await getCurriculumContext(curriculumCode);
+    const curriculumPrompt = curriculumContextToPrompt(curriculumContext);
 
     const normalizedQuestionCount = [5, 10, 15, 20].includes(Number(quizQuestionCount))
       ? Number(quizQuestionCount)
@@ -94,9 +100,9 @@ export async function POST(request: Request) {
     let prompt = "";
 
     if (format === "summary") {
-      prompt = `Create a concise summary of the following content. Focus on the main ideas and key points. Write in clear, organized paragraphs. ${notesLengthInstruction}\n\n${text}`;
+      prompt = `Create a concise summary of the following content. Focus on the main ideas and key points. Write in clear, organized paragraphs. ${notesLengthInstruction}\n\n${curriculumPrompt}\n\n${text}`;
     } else if (format === "detailed") {
-      prompt = `Create detailed study notes from the following content. Include clear explanations, important concepts, and key details. Write in well-organized paragraphs with proper structure. ${notesLengthInstruction}\n\n${text}`;
+      prompt = `Create detailed study notes from the following content. Include clear explanations, important concepts, and key details. Write in well-organized paragraphs with proper structure. ${notesLengthInstruction}\n\n${curriculumPrompt}\n\n${text}`;
     } else if (format === "flashcards") {
       prompt = `Create flashcards from the following content. Format EXACTLY as shown below with one blank line between cards:
 
@@ -114,6 +120,8 @@ IMPORTANT:
 - Keep answers concise (1-3 sentences)
 
 Content to make flashcards from:
+${curriculumPrompt}
+
 ${text}`;
     } else if (format === "questions") {
       const calculationInstruction = `If the content is mathematical or scientific, generate actual calculation problems and equations that require working out, not just definition questions. Use proper math notation.`;
@@ -156,6 +164,8 @@ ${conciseMathAnswerRules}
 ${conciseNonMathAnswerRules}
 
 Now create the questions from this content:
+${curriculumPrompt}
+
 ${text}`;
       } else if (normalizedQuizType === "true-false") {
         prompt = `You are creating true/false practice questions for a student quiz interface.
@@ -179,6 +189,8 @@ ${conciseMathAnswerRules}
 ${conciseNonMathAnswerRules}
 
 Now create the questions from this content:
+${curriculumPrompt}
+
 ${text}`;
       } else if (normalizedQuizType === "calculation") {
         prompt = `You are creating calculation-focused practice questions.
@@ -209,6 +221,8 @@ ${conciseMathAnswerRules}
 ${conciseNonMathAnswerRules}
 
 Now create the questions from this content:
+${curriculumPrompt}
+
 ${text}`;
       } else {
   prompt = `You are creating practice questions for a student quiz interface. Follow this format EXACTLY:
@@ -233,6 +247,8 @@ ${conciseMathAnswerRules}
 ${conciseNonMathAnswerRules}
 
 Now create practice questions from this content:
+${curriculumPrompt}
+
 ${text}`;
   }
     }

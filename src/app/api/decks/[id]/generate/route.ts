@@ -2,12 +2,14 @@ import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { prisma } from "@/lib/prisma";
+import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 
 type GenerateBody = {
   topic?: string;
   subject?: string;
   count?: number;
   noteId?: string;
+  curriculumCode?: string;
 };
 
 type GeneratedCard = {
@@ -91,6 +93,8 @@ export async function POST(
     const subject = String(body.subject ?? deck.subject ?? "").trim();
     const count = Math.max(10, Math.min(50, Number(body.count ?? 20)));
     const topic = String(body.topic ?? "").trim();
+    const curriculumContext = await getCurriculumContext(body.curriculumCode);
+    const curriculumPrompt = curriculumContextToPrompt(curriculumContext);
 
     let sourceText = "";
 
@@ -119,8 +123,8 @@ export async function POST(
     }
 
     const prompt = body.noteId
-      ? `Generate ${count} flashcards for ${subject} from the following note content:\n${sourceText}\n\nReturn ONLY a JSON array, no markdown, no explanation:\n[{"front": "question", "back": "answer"}, ...]`
-      : `Generate ${count} flashcards about ${topic} for ${subject}.\nReturn ONLY a JSON array, no markdown, no explanation:\n[{"front": "question", "back": "answer"}, ...]`;
+      ? `Generate ${count} flashcards for ${subject} from the following note content:\n${curriculumPrompt}\n\n${sourceText}\n\nReturn ONLY a JSON array, no markdown, no explanation:\n[{"front": "question", "back": "answer"}, ...]`
+      : `Generate ${count} flashcards about ${topic} for ${subject}.\n${curriculumPrompt}\nReturn ONLY a JSON array, no markdown, no explanation:\n[{"front": "question", "back": "answer"}, ...]`;
 
     const completion = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",

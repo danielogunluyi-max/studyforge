@@ -562,6 +562,17 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        <div className="mb-6 rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-900/30 via-slate-900 to-indigo-900/30 p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-blue-200">Ontario Curriculum</p>
+              <p className="mt-1 text-lg font-semibold text-white">Plan study by official Grade 11 expectations</p>
+              <p className="mt-1 text-sm text-slate-300">Open course units, track completion, and generate targeted lessons.</p>
+            </div>
+            <Button href="/curriculum" size="sm">Open Curriculum Hub</Button>
+          </div>
+        </div>
+
         <div className="mb-8 rounded-2xl border border-slate-700 bg-[#0d142b] p-5">
           <h2 className="mb-4 text-[20px] font-semibold text-white">Add Upcoming Exam</h2>
           <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">

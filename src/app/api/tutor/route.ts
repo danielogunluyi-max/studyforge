@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { runGroqPrompt } from "~/server/groq";
+import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 
 type Subject = "Math" | "Science" | "English" | "History" | "Chemistry" | "Physics" | "General";
 
@@ -14,6 +15,7 @@ type TutorRequest = {
   messages?: ChatMessage[];
   loadedNote?: { id: string; title: string; content: string } | null;
   command?: "/quiz me" | "/explain" | "/example" | "/summary" | "flashcards";
+  curriculumCode?: string;
 };
 
 const SUBJECT_GUIDANCE: Record<Subject, string> = {
@@ -69,10 +71,11 @@ export async function POST(request: Request) {
       : "No note loaded.";
 
     const transcript = toTranscript(messages);
+    const curriculumContext = await getCurriculumContext(body.curriculumCode);
 
     const response = await runGroqPrompt({
       system: "You are Nova, Kyvex AI Tutor. Friendly, encouraging, concise, and Socratic. Never just dump answers; guide student thinking with steps and follow-up checks.",
-      user: `Subject mode: ${subject}.\nSubject behavior: ${SUBJECT_GUIDANCE[subject]}\n\n${noteContext}\n\nConversation:\n${transcript}\n\nLatest student message: ${latestUser}\n\nInstruction: ${commandInstruction(body.command)}`,
+      user: `Subject mode: ${subject}.\nSubject behavior: ${SUBJECT_GUIDANCE[subject]}\n${curriculumContextToPrompt(curriculumContext)}\n\n${noteContext}\n\nConversation:\n${transcript}\n\nLatest student message: ${latestUser}\n\nInstruction: ${commandInstruction(body.command)}`,
       temperature: 0.5,
       maxTokens: 1100,
     });

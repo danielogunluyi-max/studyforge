@@ -31,6 +31,11 @@ type Flashcard = {
   answer: string;
 };
 
+type CurriculumOption = {
+  code: string;
+  title: string;
+};
+
 function parseTags(input: string): string[] {
   const tags = input
     .split(",")
@@ -69,6 +74,8 @@ export default function Generator() {
   const [quizDifficulty, setQuizDifficulty] = useState("medium");
   const [quizType, setQuizType] = useState("open-ended");
   const [notesLength, setNotesLength] = useState("medium");
+  const [curriculumCode, setCurriculumCode] = useState("");
+  const [curriculumOptions, setCurriculumOptions] = useState<CurriculumOption[]>([]);
   const [detectedSubject, setDetectedSubject] = useState<string | null>(null);
   const [suggestedFormat, setSuggestedFormat] = useState<string | null>(null);
   const [learningStyle, setLearningStyle] = useState<string | null>(null);
@@ -101,6 +108,15 @@ export default function Generator() {
         });
     }
   }, [session]);
+
+  useEffect(() => {
+    void (async () => {
+      const response = await fetch("/api/curriculum?grade=11&limit=100");
+      if (!response.ok) return;
+      const data = (await response.json().catch(() => ({}))) as { courses?: CurriculumOption[] };
+      setCurriculumOptions(data.courses ?? []);
+    })();
+  }, []);
 
   useEffect(() => {
     const source = new URLSearchParams(window.location.search).get("source");
@@ -211,6 +227,7 @@ export default function Generator() {
           quizDifficulty,
           quizType,
           notesLength,
+          curriculumCode: curriculumCode || undefined,
         }),
       });
 
@@ -1145,6 +1162,16 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
                 />
               </div>
             )}
+          </div>
+
+          <div className="mt-4">
+            <label className="mb-2 block text-sm font-semibold text-white">Curriculum Course (optional)</label>
+            <select className="input" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
+              <option value="">None</option>
+              {curriculumOptions.map((course) => (
+                <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
+              ))}
+            </select>
           </div>
 
           {outputFormat === "questions" && (

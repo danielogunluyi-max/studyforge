@@ -176,6 +176,52 @@ exports.Prisma.UserScalarFieldEnum = {
   battleAchievements: 'battleAchievements'
 };
 
+exports.Prisma.OntarioCurriculumCourseScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  title: 'title',
+  grade: 'grade',
+  subject: 'subject',
+  destination: 'destination',
+  description: 'description',
+  keywords: 'keywords',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OntarioCurriculumUnitScalarFieldEnum = {
+  id: 'id',
+  courseId: 'courseId',
+  code: 'code',
+  title: 'title',
+  description: 'description',
+  weight: 'weight',
+  orderIndex: 'orderIndex',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OntarioCurriculumExpectationScalarFieldEnum = {
+  id: 'id',
+  unitId: 'unitId',
+  code: 'code',
+  title: 'title',
+  description: 'description',
+  strand: 'strand',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OntarioCurriculumProgressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  courseId: 'courseId',
+  completedUnits: 'completedUnits',
+  completedExpectations: 'completedExpectations',
+  confidence: 'confidence',
+  lastStudiedAt: 'lastStudiedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.VerificationTokenScalarFieldEnum = {
   identifier: 'identifier',
   token: 'token',
@@ -629,6 +675,10 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   User: 'User',
+  OntarioCurriculumCourse: 'OntarioCurriculumCourse',
+  OntarioCurriculumUnit: 'OntarioCurriculumUnit',
+  OntarioCurriculumExpectation: 'OntarioCurriculumExpectation',
+  OntarioCurriculumProgress: 'OntarioCurriculumProgress',
   VerificationToken: 'VerificationToken',
   Note: 'Note',
   Folder: 'Folder',

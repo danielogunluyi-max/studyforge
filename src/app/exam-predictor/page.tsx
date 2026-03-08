@@ -73,6 +73,11 @@ type StudyPlanDay = {
 
 type SubjectType = "Math" | "Science" | "English" | "History" | "Other";
 
+type CurriculumOption = {
+  code: string;
+  title: string;
+};
+
 const PRESET_KEY = "kyvex:exam-custom-presets";
 
 const testPresets = [
@@ -156,6 +161,8 @@ export default function ExamPredictorPage() {
   const [difficultyLevel, setDifficultyLevel] = useState("Exam-Level");
   const [subjectType, setSubjectType] = useState<SubjectType>("Other");
   const [curriculum, setCurriculum] = useState("Custom");
+  const [curriculumCode, setCurriculumCode] = useState("");
+  const [curriculumOptions, setCurriculumOptions] = useState<CurriculumOption[]>([]);
 
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
@@ -242,6 +249,15 @@ export default function ExamPredictorPage() {
     if (!success) return;
     showToast(success, "success");
   }, [success, showToast]);
+
+  useEffect(() => {
+    void (async () => {
+      const response = await fetch("/api/curriculum?grade=11&limit=100");
+      if (!response.ok) return;
+      const data = (await response.json().catch(() => ({}))) as { courses?: CurriculumOption[] };
+      setCurriculumOptions(data.courses ?? []);
+    })();
+  }, []);
 
   const extractFileText = async (file: File, target: "past" | "syllabus") => {
     const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
@@ -332,6 +348,7 @@ export default function ExamPredictorPage() {
           difficultyLevel,
           subjectType,
           curriculum,
+          curriculumCode: curriculumCode || undefined,
           testPreset,
           customSections,
           save: true,
@@ -768,6 +785,16 @@ export default function ExamPredictorPage() {
                       { value: "Custom", label: "Custom" },
                     ]}
                   />
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-sm font-semibold text-white">Ontario Course (Optional)</label>
+                  <select className="w-full input" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
+                    <option value="">None</option>
+                    {curriculumOptions.map((course) => (
+                      <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </section>

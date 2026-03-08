@@ -25,6 +25,11 @@ type Deck = {
   cards: Flashcard[];
 };
 
+type CurriculumOption = {
+  code: string;
+  title: string;
+};
+
 function shortText(input: string, max: number) {
   if (input.length <= max) return input;
   return `${input.slice(0, max)}...`;
@@ -44,6 +49,8 @@ export default function DeckEditorPage() {
 
   const [showGenerateSection, setShowGenerateSection] = useState(false);
   const [generateTopic, setGenerateTopic] = useState("");
+  const [curriculumCode, setCurriculumCode] = useState("");
+  const [curriculumOptions, setCurriculumOptions] = useState<CurriculumOption[]>([]);
   const [generateCount, setGenerateCount] = useState(20);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -85,6 +92,15 @@ export default function DeckEditorPage() {
     void fetchDeck();
   }, [deckId]);
 
+  useEffect(() => {
+    void (async () => {
+      const response = await fetch("/api/curriculum?grade=11&limit=100");
+      if (!response.ok) return;
+      const data = (await response.json().catch(() => ({}))) as { courses?: CurriculumOption[] };
+      setCurriculumOptions(data.courses ?? []);
+    })();
+  }, []);
+
   const saveTitle = async () => {
     if (!deck || !titleDraft.trim()) {
       setIsEditingTitle(false);
@@ -115,7 +131,12 @@ export default function DeckEditorPage() {
       const response = await fetch(`/api/decks/${deck.id}/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic: generateTopic.trim(), subject: deck.subject, count: generateCount }),
+        body: JSON.stringify({
+          topic: generateTopic.trim(),
+          subject: deck.subject,
+          count: generateCount,
+          curriculumCode: curriculumCode || undefined,
+        }),
       });
 
       const data = (await response.json().catch(() => ({}))) as { error?: string };
@@ -224,6 +245,12 @@ export default function DeckEditorPage() {
           {showGenerateSection && (
             <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
               <input className="input" placeholder="Topic for new cards" value={generateTopic} onChange={(event) => setGenerateTopic(event.target.value)} />
+              <select className="input" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
+                <option value="">Ontario course (optional)</option>
+                {curriculumOptions.map((course) => (
+                  <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
+                ))}
+              </select>
               <div>
                 <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 12 }}>Count: {generateCount}</p>
                 <input type="range" min={10} max={50} value={generateCount} onChange={(event) => setGenerateCount(Number(event.target.value))} style={{ width: "100%" }} />

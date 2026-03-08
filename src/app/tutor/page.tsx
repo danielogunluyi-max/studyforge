@@ -26,6 +26,11 @@ type LoadedNote = {
   content: string;
 } | null;
 
+type CurriculumOption = {
+  code: string;
+  title: string;
+};
+
 const SUBJECTS: Subject[] = ["Math", "Science", "English", "History", "Chemistry", "Physics", "General"];
 const COMMANDS = ["/quiz me", "/explain", "/example", "/summary"];
 const STORAGE_KEY = "kyvex-tutor-session";
@@ -51,6 +56,8 @@ export default function TutorPage() {
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const [notes, setNotes] = useState<NoteItem[]>([]);
+  const [curriculumCode, setCurriculumCode] = useState("");
+  const [curriculumOptions, setCurriculumOptions] = useState<CurriculumOption[]>([]);
   const [selectedNoteId, setSelectedNoteId] = useState("");
   const [loadedNote, setLoadedNote] = useState<LoadedNote>(null);
   const [savingId, setSavingId] = useState<string | null>(null);
@@ -107,6 +114,15 @@ export default function TutorPage() {
       if (!response.ok) return;
       const data = (await response.json()) as { notes?: NoteItem[] };
       setNotes(data.notes ?? []);
+    })();
+  }, []);
+
+  useEffect(() => {
+    void (async () => {
+      const response = await fetch("/api/curriculum?grade=11&limit=100");
+      if (!response.ok) return;
+      const data = (await response.json().catch(() => ({}))) as { courses?: CurriculumOption[] };
+      setCurriculumOptions(data.courses ?? []);
     })();
   }, []);
 
@@ -175,6 +191,7 @@ export default function TutorPage() {
           messages: nextMessages.map((message) => ({ role: message.role, content: message.content })),
           loadedNote,
           command,
+          curriculumCode: curriculumCode || undefined,
         }),
       });
 
@@ -234,6 +251,7 @@ export default function TutorPage() {
           messages: messages.map((message) => ({ role: message.role, content: message.content })),
           loadedNote,
           command: "flashcards",
+          curriculumCode: curriculumCode || undefined,
         }),
       });
 
@@ -309,6 +327,17 @@ export default function TutorPage() {
               <option value="">Load my note...</option>
               {notes.map((note) => (
                 <option key={note.id} value={note.id}>{note.title}</option>
+              ))}
+            </select>
+
+            <select
+              value={curriculumCode}
+              onChange={(event) => setCurriculumCode(event.target.value)}
+              className="rounded-lg border border-slate-600 bg-[#131b36] px-3 py-2 text-sm"
+            >
+              <option value="">Ontario course (optional)</option>
+              {curriculumOptions.map((course) => (
+                <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
               ))}
             </select>
 

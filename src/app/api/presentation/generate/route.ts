@@ -3,6 +3,7 @@ import { auth } from "~/server/auth";
 import { runGroqPrompt } from "~/server/groq";
 import type { PresentationData, SlideData } from "~/types/presentation";
 import { generatePresentationRequestSchema, presentationDataSchema } from "~/types/presentation.schema";
+import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 
 export const runtime = "nodejs";
 
@@ -13,6 +14,7 @@ type GenerateRequestBody = {
   style?: "academic" | "minimal" | "creative" | "professional";
   subject?: string;
   includeNotes?: boolean;
+  curriculumCode?: string;
 };
 
 const SUPPORTED_STYLES = new Set(["academic", "minimal", "creative", "professional"]);
@@ -119,6 +121,7 @@ export async function POST(req: Request) {
       style: rawBody.style && SUPPORTED_STYLES.has(rawBody.style) ? rawBody.style : "academic",
       subject: rawBody.subject?.trim() ?? "General Study Topic",
       includeNotes: rawBody.includeNotes !== false,
+      curriculumCode: rawBody.curriculumCode?.trim().toUpperCase() ?? "",
     };
 
     const parsedBody = generatePresentationRequestSchema.safeParse(body);
@@ -127,6 +130,8 @@ export async function POST(req: Request) {
     }
 
     const { input, inputType, slideCount, style, subject, includeNotes } = parsedBody.data;
+    const curriculumContext = await getCurriculumContext(rawBody.curriculumCode);
+    const curriculumPrompt = curriculumContextToPrompt(curriculumContext);
 
     const system = "You are a presentation expert who creates clear, well-structured slide decks for students. Create engaging presentations that teach concepts clearly. Always return valid JSON only - no markdown, no backticks, no explanation.";
 
@@ -135,6 +140,7 @@ Style: ${style}
 Input type: ${inputType}
 ${inputType === "notes" ? "Based on these notes:" : "Topic to cover:"}
 ${input}
+${curriculumPrompt}
 Return ONLY this exact JSON structure:
 {
 "title": "Presentation title",

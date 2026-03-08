@@ -24,6 +24,11 @@ type Difficulty = "easy" | "medium" | "hard";
 type QuizType = "multiple_choice" | "true_false" | "short_answer" | "mixed";
 type Confidence = "high" | "medium" | "low";
 
+type CurriculumOption = {
+  code: string;
+  title: string;
+};
+
 function formatClock(totalSeconds: number) {
   const safe = Math.max(0, Math.floor(totalSeconds));
   const mins = Math.floor(safe / 60);
@@ -60,6 +65,8 @@ export default function PhotoQuizPage() {
   const [textExpanded, setTextExpanded] = useState(false);
   const [confidence, setConfidence] = useState<Confidence>("high");
   const [subject, setSubject] = useState("");
+  const [curriculumCode, setCurriculumCode] = useState("");
+  const [curriculumOptions, setCurriculumOptions] = useState<CurriculumOption[]>([]);
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
   const [quizType, setQuizType] = useState<QuizType>("mixed");
   const [count, setCount] = useState(10);
@@ -90,6 +97,15 @@ export default function PhotoQuizPage() {
       router.push("/login?from=/photo-quiz");
     }
   }, [router, status]);
+
+  useEffect(() => {
+    void (async () => {
+      const response = await fetch("/api/curriculum?grade=11&limit=100");
+      if (!response.ok) return;
+      const payload = (await response.json().catch(() => ({}))) as { courses?: CurriculumOption[] };
+      setCurriculumOptions(payload.courses ?? []);
+    })();
+  }, []);
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 960);
@@ -251,6 +267,7 @@ export default function PhotoQuizPage() {
           difficulty,
           count,
           quizType,
+          curriculumCode: curriculumCode || undefined,
         }),
       });
 
@@ -395,6 +412,7 @@ export default function PhotoQuizPage() {
   const generateNew = () => {
     clearImage();
     setSubject("");
+    setCurriculumCode("");
     setDifficulty("medium");
     setQuizType("mixed");
     setCount(10);
@@ -562,6 +580,13 @@ export default function PhotoQuizPage() {
                     <option key={item} value={item} />
                   ))}
                 </datalist>
+
+                <select className="input" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
+                  <option value="">Ontario course (optional)</option>
+                  {curriculumOptions.map((course) => (
+                    <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
+                  ))}
+                </select>
 
                 <div>
                   <p className="text-label mb-2">Difficulty</p>

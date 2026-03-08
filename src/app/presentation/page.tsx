@@ -9,6 +9,11 @@ import type { PresentationData, SlideData, ThemeConfig } from "~/types/presentat
 type InputMode = "notes" | "topic";
 type ThemeId = "academic" | "minimal" | "creative" | "professional";
 
+type CurriculumOption = {
+  code: string;
+  title: string;
+};
+
 const THEMES: {
   id: ThemeId;
   label: string;
@@ -262,6 +267,8 @@ export default function PresentationPage() {
   const [topicInput, setTopicInput] = useState("");
   const [contextInput, setContextInput] = useState("");
   const [subject, setSubject] = useState("");
+  const [curriculumCode, setCurriculumCode] = useState("");
+  const [curriculumOptions, setCurriculumOptions] = useState<CurriculumOption[]>([]);
   const [slideCount, setSlideCount] = useState(10);
   const [theme, setTheme] = useState<ThemeId>("academic");
   const [includeNotes, setIncludeNotes] = useState(true);
@@ -281,6 +288,15 @@ export default function PresentationPage() {
     if (!error) return;
     showToast(error, "error");
   }, [error, showToast]);
+
+  useEffect(() => {
+    void (async () => {
+      const response = await fetch("/api/curriculum?grade=11&limit=100");
+      if (!response.ok) return;
+      const data = (await response.json().catch(() => ({}))) as { courses?: CurriculumOption[] };
+      setCurriculumOptions(data.courses ?? []);
+    })();
+  }, []);
 
   const wordCount = useMemo(() => {
     const trimmed = notesInput.trim();
@@ -327,6 +343,7 @@ export default function PresentationPage() {
           style: theme,
           subject: subject.trim() || "General Study Topic",
           includeNotes,
+          curriculumCode: curriculumCode || undefined,
         }),
       });
 
@@ -538,6 +555,13 @@ export default function PresentationPage() {
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
               />
+
+              <select className="input" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
+                <option value="">Ontario course (optional)</option>
+                {curriculumOptions.map((course) => (
+                  <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
+                ))}
+              </select>
 
               <div>
                 <div

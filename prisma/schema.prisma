@@ -110,6 +110,80 @@ model User {
     pdfDocuments PDFDocument[]
     annotations  Annotation[]
     focusSessions FocusSession[]
+    curriculumProgress OntarioCurriculumProgress[]
+}
+
+model OntarioCurriculumCourse {
+    id          String   @id @default(cuid())
+    code        String   @unique
+    title       String
+    grade       Int
+    subject     String
+    destination String
+    description String   @db.Text
+    keywords    String[] @default([])
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    units       OntarioCurriculumUnit[]
+    progress    OntarioCurriculumProgress[]
+
+    @@index([grade])
+    @@index([subject])
+    @@index([destination])
+}
+
+model OntarioCurriculumUnit {
+    id          String   @id @default(cuid())
+    courseId    String
+    code        String
+    title       String
+    description String   @db.Text
+    weight      Int      @default(0)
+    orderIndex  Int      @default(0)
+    createdAt   DateTime @default(now())
+
+    course       OntarioCurriculumCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+    expectations OntarioCurriculumExpectation[]
+
+    @@unique([courseId, code])
+    @@index([courseId])
+    @@index([orderIndex])
+}
+
+model OntarioCurriculumExpectation {
+    id          String   @id @default(cuid())
+    unitId      String
+    code        String
+    title       String
+    description String   @db.Text
+    strand      String
+    createdAt   DateTime @default(now())
+
+    unit OntarioCurriculumUnit @relation(fields: [unitId], references: [id], onDelete: Cascade)
+
+    @@unique([unitId, code])
+    @@index([unitId])
+    @@index([strand])
+}
+
+model OntarioCurriculumProgress {
+    id               String   @id @default(cuid())
+    userId           String
+    courseId         String
+    completedUnits   String[] @default([])
+    completedExpectations String[] @default([])
+    confidence       Int      @default(0)
+    lastStudiedAt    DateTime?
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+
+    user   User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    course OntarioCurriculumCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, courseId])
+    @@index([userId])
+    @@index([courseId])
 }
 
 model VerificationToken {

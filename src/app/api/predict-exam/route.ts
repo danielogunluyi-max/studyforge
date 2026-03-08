@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 
 type Confidence = "High" | "Medium" | "Low";
 
@@ -72,6 +73,7 @@ type PredictPayload = {
   difficultyLevel?: string;
   subjectType?: string;
   curriculum?: string;
+  curriculumCode?: string;
   testPreset?: string;
   customSections?: SectionConfig[];
   save?: boolean;
@@ -162,8 +164,10 @@ async function handlePredict(body: PredictPayload, userId: string) {
   const difficultyLevel = String(body.difficultyLevel ?? "Exam-Level").trim() || "Exam-Level";
   const subjectType = String(body.subjectType ?? "Other").trim() || "Other";
   const curriculum = String(body.curriculum ?? "").trim() || "Custom";
+  const curriculumCode = String(body.curriculumCode ?? "").trim();
   const testPreset = String(body.testPreset ?? "Mixed (Standard)").trim() || "Mixed (Standard)";
   const sections = normalizeSections(body.customSections);
+  const curriculumContext = await getCurriculumContext(curriculumCode);
 
   if (!pastExamText) {
     return NextResponse.json({ error: "Past exam content is required" }, { status: 400 });
@@ -186,6 +190,8 @@ ${pastExamText.slice(0, 30000)}
 
 Syllabus text:
 ${(syllabusText || "N/A").slice(0, 15000)}
+
+${curriculumContextToPrompt(curriculumContext)}
 
 Rules:
 - Respect section marks and question-type distribution.

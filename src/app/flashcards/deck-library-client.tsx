@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 type DeckSummary = {
@@ -16,6 +16,11 @@ type DeckSummary = {
 
 type NoteOption = {
   id: string;
+  title: string;
+};
+
+type CurriculumOption = {
+  code: string;
   title: string;
 };
 
@@ -56,6 +61,18 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
   const totalDecks = decks.length;
   const totalDue = useMemo(() => decks.reduce((sum, deck) => sum + deck.dueCards, 0), [decks]);
 
+  const [curriculumCode, setCurriculumCode] = useState("");
+  const [curriculumOptions, setCurriculumOptions] = useState<CurriculumOption[]>([]);
+
+  useEffect(() => {
+    void (async () => {
+      const response = await fetch("/api/curriculum?grade=11&limit=100");
+      if (!response.ok) return;
+      const data = (await response.json().catch(() => ({}))) as { courses?: CurriculumOption[] };
+      setCurriculumOptions(data.courses ?? []);
+    })();
+  }, []);
+
   const submitCreate = async () => {
     if (!title.trim() || !subject.trim()) {
       setError("Title and subject are required");
@@ -85,8 +102,8 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
 
       if (useAiGenerate) {
         const genBody = selectedNoteId
-          ? { noteId: selectedNoteId, subject, count }
-          : { topic, subject, count };
+          ? { noteId: selectedNoteId, subject, count, curriculumCode: curriculumCode || undefined }
+          : { topic, subject, count, curriculumCode: curriculumCode || undefined };
 
         const genRes = await fetch(`/api/decks/${createData.deck.id}/generate`, {
           method: "POST",
@@ -270,6 +287,13 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
                       ))}
                     </select>
                   </div>
+
+                  <select className="input" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)} style={{ marginTop: 8 }}>
+                    <option value="">Ontario course (optional)</option>
+                    {curriculumOptions.map((course) => (
+                      <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
+                    ))}
+                  </select>
                 </div>
               )}
 

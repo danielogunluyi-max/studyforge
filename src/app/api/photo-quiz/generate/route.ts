@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import type { QuizData } from "~/types/quiz";
 import { auth } from "~/server/auth";
+import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -15,6 +16,7 @@ type GenerateBody = {
   difficulty?: Difficulty;
   count?: number;
   quizType?: QuizType;
+  curriculumCode?: string;
 };
 
 function isDifficulty(value: unknown): value is Difficulty {
@@ -50,8 +52,9 @@ function buildPrompt(input: {
   subject: string;
   difficulty: Difficulty;
   extractedText: string;
+  curriculumPrompt: string;
 }) {
-  const header = `Subject: ${input.subject}\nDifficulty: ${input.difficulty}\nText:\n${input.extractedText}`;
+  const header = `Subject: ${input.subject}\nDifficulty: ${input.difficulty}\n${input.curriculumPrompt}\nText:\n${input.extractedText}`;
 
   if (input.quizType === "multiple_choice") {
     return `Generate ${input.count} multiple choice questions from this text.\n${header}\nReturn ONLY this JSON structure:\n{\n\"title\": \"Quiz title based on content\",\n\"questions\": [\n{\n\"id\": \"1\",\n\"question\": \"question text\",\n\"options\": [\"A. option1\", \"B. option2\", \"C. option3\", \"D. option4\"],\n\"correct\": \"A\",\n\"explanation\": \"why this answer is correct\"\n}\n]\n}`;
@@ -81,6 +84,8 @@ export async function POST(request: Request) {
     const difficulty = isDifficulty(body.difficulty) ? body.difficulty : "medium";
     const quizType = isQuizType(body.quizType) ? body.quizType : "mixed";
     const count = Number.isInteger(body.count) ? Number(body.count) : 10;
+    const curriculumContext = await getCurriculumContext(body.curriculumCode);
+    const curriculumPrompt = curriculumContextToPrompt(curriculumContext);
 
     if (!extractedText) {
       return NextResponse.json({ error: "extractedText is required" }, { status: 400 });
@@ -100,7 +105,7 @@ export async function POST(request: Request) {
         },
         {
           role: "user",
-          content: buildPrompt({ quizType, count, subject, difficulty, extractedText }),
+          content: buildPrompt({ quizType, count, subject, difficulty, extractedText, curriculumPrompt }),
         },
       ],
       temperature: 0.4,

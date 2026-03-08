@@ -34,6 +34,26 @@ export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model OntarioCurriculumCourse
+ * 
+ */
+export type OntarioCurriculumCourse = $Result.DefaultSelection<Prisma.$OntarioCurriculumCoursePayload>
+/**
+ * Model OntarioCurriculumUnit
+ * 
+ */
+export type OntarioCurriculumUnit = $Result.DefaultSelection<Prisma.$OntarioCurriculumUnitPayload>
+/**
+ * Model OntarioCurriculumExpectation
+ * 
+ */
+export type OntarioCurriculumExpectation = $Result.DefaultSelection<Prisma.$OntarioCurriculumExpectationPayload>
+/**
+ * Model OntarioCurriculumProgress
+ * 
+ */
+export type OntarioCurriculumProgress = $Result.DefaultSelection<Prisma.$OntarioCurriculumProgressPayload>
+/**
  * Model VerificationToken
  * 
  */
@@ -371,6 +391,46 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ontarioCurriculumCourse`: Exposes CRUD operations for the **OntarioCurriculumCourse** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OntarioCurriculumCourses
+    * const ontarioCurriculumCourses = await prisma.ontarioCurriculumCourse.findMany()
+    * ```
+    */
+  get ontarioCurriculumCourse(): Prisma.OntarioCurriculumCourseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ontarioCurriculumUnit`: Exposes CRUD operations for the **OntarioCurriculumUnit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OntarioCurriculumUnits
+    * const ontarioCurriculumUnits = await prisma.ontarioCurriculumUnit.findMany()
+    * ```
+    */
+  get ontarioCurriculumUnit(): Prisma.OntarioCurriculumUnitDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ontarioCurriculumExpectation`: Exposes CRUD operations for the **OntarioCurriculumExpectation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OntarioCurriculumExpectations
+    * const ontarioCurriculumExpectations = await prisma.ontarioCurriculumExpectation.findMany()
+    * ```
+    */
+  get ontarioCurriculumExpectation(): Prisma.OntarioCurriculumExpectationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ontarioCurriculumProgress`: Exposes CRUD operations for the **OntarioCurriculumProgress** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OntarioCurriculumProgresses
+    * const ontarioCurriculumProgresses = await prisma.ontarioCurriculumProgress.findMany()
+    * ```
+    */
+  get ontarioCurriculumProgress(): Prisma.OntarioCurriculumProgressDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.verificationToken`: Exposes CRUD operations for the **VerificationToken** model.
@@ -1176,6 +1236,10 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     User: 'User',
+    OntarioCurriculumCourse: 'OntarioCurriculumCourse',
+    OntarioCurriculumUnit: 'OntarioCurriculumUnit',
+    OntarioCurriculumExpectation: 'OntarioCurriculumExpectation',
+    OntarioCurriculumProgress: 'OntarioCurriculumProgress',
     VerificationToken: 'VerificationToken',
     Note: 'Note',
     Folder: 'Folder',
@@ -1230,7 +1294,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember" | "pDFDocument" | "annotation" | "focusSession"
+      modelProps: "post" | "account" | "session" | "user" | "ontarioCurriculumCourse" | "ontarioCurriculumUnit" | "ontarioCurriculumExpectation" | "ontarioCurriculumProgress" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember" | "pDFDocument" | "annotation" | "focusSession"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1527,6 +1591,302 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      OntarioCurriculumCourse: {
+        payload: Prisma.$OntarioCurriculumCoursePayload<ExtArgs>
+        fields: Prisma.OntarioCurriculumCourseFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OntarioCurriculumCourseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumCoursePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OntarioCurriculumCourseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumCoursePayload>
+          }
+          findFirst: {
+            args: Prisma.OntarioCurriculumCourseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumCoursePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OntarioCurriculumCourseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumCoursePayload>
+          }
+          findMany: {
+            args: Prisma.OntarioCurriculumCourseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumCoursePayload>[]
+          }
+          create: {
+            args: Prisma.OntarioCurriculumCourseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumCoursePayload>
+          }
+          createMany: {
+            args: Prisma.OntarioCurriculumCourseCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OntarioCurriculumCourseCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumCoursePayload>[]
+          }
+          delete: {
+            args: Prisma.OntarioCurriculumCourseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumCoursePayload>
+          }
+          update: {
+            args: Prisma.OntarioCurriculumCourseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumCoursePayload>
+          }
+          deleteMany: {
+            args: Prisma.OntarioCurriculumCourseDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OntarioCurriculumCourseUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OntarioCurriculumCourseUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumCoursePayload>[]
+          }
+          upsert: {
+            args: Prisma.OntarioCurriculumCourseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumCoursePayload>
+          }
+          aggregate: {
+            args: Prisma.OntarioCurriculumCourseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOntarioCurriculumCourse>
+          }
+          groupBy: {
+            args: Prisma.OntarioCurriculumCourseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OntarioCurriculumCourseGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OntarioCurriculumCourseCountArgs<ExtArgs>
+            result: $Utils.Optional<OntarioCurriculumCourseCountAggregateOutputType> | number
+          }
+        }
+      }
+      OntarioCurriculumUnit: {
+        payload: Prisma.$OntarioCurriculumUnitPayload<ExtArgs>
+        fields: Prisma.OntarioCurriculumUnitFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OntarioCurriculumUnitFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumUnitPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OntarioCurriculumUnitFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumUnitPayload>
+          }
+          findFirst: {
+            args: Prisma.OntarioCurriculumUnitFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumUnitPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OntarioCurriculumUnitFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumUnitPayload>
+          }
+          findMany: {
+            args: Prisma.OntarioCurriculumUnitFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumUnitPayload>[]
+          }
+          create: {
+            args: Prisma.OntarioCurriculumUnitCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumUnitPayload>
+          }
+          createMany: {
+            args: Prisma.OntarioCurriculumUnitCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OntarioCurriculumUnitCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumUnitPayload>[]
+          }
+          delete: {
+            args: Prisma.OntarioCurriculumUnitDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumUnitPayload>
+          }
+          update: {
+            args: Prisma.OntarioCurriculumUnitUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumUnitPayload>
+          }
+          deleteMany: {
+            args: Prisma.OntarioCurriculumUnitDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OntarioCurriculumUnitUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OntarioCurriculumUnitUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumUnitPayload>[]
+          }
+          upsert: {
+            args: Prisma.OntarioCurriculumUnitUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumUnitPayload>
+          }
+          aggregate: {
+            args: Prisma.OntarioCurriculumUnitAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOntarioCurriculumUnit>
+          }
+          groupBy: {
+            args: Prisma.OntarioCurriculumUnitGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OntarioCurriculumUnitGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OntarioCurriculumUnitCountArgs<ExtArgs>
+            result: $Utils.Optional<OntarioCurriculumUnitCountAggregateOutputType> | number
+          }
+        }
+      }
+      OntarioCurriculumExpectation: {
+        payload: Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>
+        fields: Prisma.OntarioCurriculumExpectationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OntarioCurriculumExpectationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumExpectationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OntarioCurriculumExpectationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumExpectationPayload>
+          }
+          findFirst: {
+            args: Prisma.OntarioCurriculumExpectationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumExpectationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OntarioCurriculumExpectationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumExpectationPayload>
+          }
+          findMany: {
+            args: Prisma.OntarioCurriculumExpectationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumExpectationPayload>[]
+          }
+          create: {
+            args: Prisma.OntarioCurriculumExpectationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumExpectationPayload>
+          }
+          createMany: {
+            args: Prisma.OntarioCurriculumExpectationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OntarioCurriculumExpectationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumExpectationPayload>[]
+          }
+          delete: {
+            args: Prisma.OntarioCurriculumExpectationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumExpectationPayload>
+          }
+          update: {
+            args: Prisma.OntarioCurriculumExpectationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumExpectationPayload>
+          }
+          deleteMany: {
+            args: Prisma.OntarioCurriculumExpectationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OntarioCurriculumExpectationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OntarioCurriculumExpectationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumExpectationPayload>[]
+          }
+          upsert: {
+            args: Prisma.OntarioCurriculumExpectationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumExpectationPayload>
+          }
+          aggregate: {
+            args: Prisma.OntarioCurriculumExpectationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOntarioCurriculumExpectation>
+          }
+          groupBy: {
+            args: Prisma.OntarioCurriculumExpectationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OntarioCurriculumExpectationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OntarioCurriculumExpectationCountArgs<ExtArgs>
+            result: $Utils.Optional<OntarioCurriculumExpectationCountAggregateOutputType> | number
+          }
+        }
+      }
+      OntarioCurriculumProgress: {
+        payload: Prisma.$OntarioCurriculumProgressPayload<ExtArgs>
+        fields: Prisma.OntarioCurriculumProgressFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OntarioCurriculumProgressFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumProgressPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OntarioCurriculumProgressFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumProgressPayload>
+          }
+          findFirst: {
+            args: Prisma.OntarioCurriculumProgressFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumProgressPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OntarioCurriculumProgressFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumProgressPayload>
+          }
+          findMany: {
+            args: Prisma.OntarioCurriculumProgressFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumProgressPayload>[]
+          }
+          create: {
+            args: Prisma.OntarioCurriculumProgressCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumProgressPayload>
+          }
+          createMany: {
+            args: Prisma.OntarioCurriculumProgressCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OntarioCurriculumProgressCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumProgressPayload>[]
+          }
+          delete: {
+            args: Prisma.OntarioCurriculumProgressDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumProgressPayload>
+          }
+          update: {
+            args: Prisma.OntarioCurriculumProgressUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumProgressPayload>
+          }
+          deleteMany: {
+            args: Prisma.OntarioCurriculumProgressDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OntarioCurriculumProgressUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OntarioCurriculumProgressUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumProgressPayload>[]
+          }
+          upsert: {
+            args: Prisma.OntarioCurriculumProgressUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OntarioCurriculumProgressPayload>
+          }
+          aggregate: {
+            args: Prisma.OntarioCurriculumProgressAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOntarioCurriculumProgress>
+          }
+          groupBy: {
+            args: Prisma.OntarioCurriculumProgressGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OntarioCurriculumProgressGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OntarioCurriculumProgressCountArgs<ExtArgs>
+            result: $Utils.Optional<OntarioCurriculumProgressCountAggregateOutputType> | number
           }
         }
       }
@@ -4294,6 +4654,10 @@ export namespace Prisma {
     account?: AccountOmit
     session?: SessionOmit
     user?: UserOmit
+    ontarioCurriculumCourse?: OntarioCurriculumCourseOmit
+    ontarioCurriculumUnit?: OntarioCurriculumUnitOmit
+    ontarioCurriculumExpectation?: OntarioCurriculumExpectationOmit
+    ontarioCurriculumProgress?: OntarioCurriculumProgressOmit
     verificationToken?: VerificationTokenOmit
     note?: NoteOmit
     folder?: FolderOmit
@@ -4445,6 +4809,7 @@ export namespace Prisma {
     pdfDocuments: number
     annotations: number
     focusSessions: number
+    curriculumProgress: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4483,6 +4848,7 @@ export namespace Prisma {
     pdfDocuments?: boolean | UserCountOutputTypeCountPdfDocumentsArgs
     annotations?: boolean | UserCountOutputTypeCountAnnotationsArgs
     focusSessions?: boolean | UserCountOutputTypeCountFocusSessionsArgs
+    curriculumProgress?: boolean | UserCountOutputTypeCountCurriculumProgressArgs
   }
 
   // Custom InputTypes
@@ -4739,6 +5105,84 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountFocusSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FocusSessionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCurriculumProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OntarioCurriculumProgressWhereInput
+  }
+
+
+  /**
+   * Count Type OntarioCurriculumCourseCountOutputType
+   */
+
+  export type OntarioCurriculumCourseCountOutputType = {
+    units: number
+    progress: number
+  }
+
+  export type OntarioCurriculumCourseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    units?: boolean | OntarioCurriculumCourseCountOutputTypeCountUnitsArgs
+    progress?: boolean | OntarioCurriculumCourseCountOutputTypeCountProgressArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * OntarioCurriculumCourseCountOutputType without action
+   */
+  export type OntarioCurriculumCourseCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourseCountOutputType
+     */
+    select?: OntarioCurriculumCourseCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * OntarioCurriculumCourseCountOutputType without action
+   */
+  export type OntarioCurriculumCourseCountOutputTypeCountUnitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OntarioCurriculumUnitWhereInput
+  }
+
+  /**
+   * OntarioCurriculumCourseCountOutputType without action
+   */
+  export type OntarioCurriculumCourseCountOutputTypeCountProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OntarioCurriculumProgressWhereInput
+  }
+
+
+  /**
+   * Count Type OntarioCurriculumUnitCountOutputType
+   */
+
+  export type OntarioCurriculumUnitCountOutputType = {
+    expectations: number
+  }
+
+  export type OntarioCurriculumUnitCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    expectations?: boolean | OntarioCurriculumUnitCountOutputTypeCountExpectationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * OntarioCurriculumUnitCountOutputType without action
+   */
+  export type OntarioCurriculumUnitCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnitCountOutputType
+     */
+    select?: OntarioCurriculumUnitCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * OntarioCurriculumUnitCountOutputType without action
+   */
+  export type OntarioCurriculumUnitCountOutputTypeCountExpectationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OntarioCurriculumExpectationWhereInput
   }
 
 
@@ -8853,6 +9297,7 @@ export namespace Prisma {
     pdfDocuments?: boolean | User$pdfDocumentsArgs<ExtArgs>
     annotations?: boolean | User$annotationsArgs<ExtArgs>
     focusSessions?: boolean | User$focusSessionsArgs<ExtArgs>
+    curriculumProgress?: boolean | User$curriculumProgressArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -8966,6 +9411,7 @@ export namespace Prisma {
     pdfDocuments?: boolean | User$pdfDocumentsArgs<ExtArgs>
     annotations?: boolean | User$annotationsArgs<ExtArgs>
     focusSessions?: boolean | User$focusSessionsArgs<ExtArgs>
+    curriculumProgress?: boolean | User$curriculumProgressArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -9010,6 +9456,7 @@ export namespace Prisma {
       pdfDocuments: Prisma.$PDFDocumentPayload<ExtArgs>[]
       annotations: Prisma.$AnnotationPayload<ExtArgs>[]
       focusSessions: Prisma.$FocusSessionPayload<ExtArgs>[]
+      curriculumProgress: Prisma.$OntarioCurriculumProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9463,6 +9910,7 @@ export namespace Prisma {
     pdfDocuments<T extends User$pdfDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, User$pdfDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     annotations<T extends User$annotationsArgs<ExtArgs> = {}>(args?: Subset<T, User$annotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     focusSessions<T extends User$focusSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$focusSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    curriculumProgress<T extends User$curriculumProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$curriculumProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10760,6 +11208,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.curriculumProgress
+   */
+  export type User$curriculumProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
+    where?: OntarioCurriculumProgressWhereInput
+    orderBy?: OntarioCurriculumProgressOrderByWithRelationInput | OntarioCurriculumProgressOrderByWithRelationInput[]
+    cursor?: OntarioCurriculumProgressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OntarioCurriculumProgressScalarFieldEnum | OntarioCurriculumProgressScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10775,6 +11247,4592 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model OntarioCurriculumCourse
+   */
+
+  export type AggregateOntarioCurriculumCourse = {
+    _count: OntarioCurriculumCourseCountAggregateOutputType | null
+    _avg: OntarioCurriculumCourseAvgAggregateOutputType | null
+    _sum: OntarioCurriculumCourseSumAggregateOutputType | null
+    _min: OntarioCurriculumCourseMinAggregateOutputType | null
+    _max: OntarioCurriculumCourseMaxAggregateOutputType | null
+  }
+
+  export type OntarioCurriculumCourseAvgAggregateOutputType = {
+    grade: number | null
+  }
+
+  export type OntarioCurriculumCourseSumAggregateOutputType = {
+    grade: number | null
+  }
+
+  export type OntarioCurriculumCourseMinAggregateOutputType = {
+    id: string | null
+    code: string | null
+    title: string | null
+    grade: number | null
+    subject: string | null
+    destination: string | null
+    description: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OntarioCurriculumCourseMaxAggregateOutputType = {
+    id: string | null
+    code: string | null
+    title: string | null
+    grade: number | null
+    subject: string | null
+    destination: string | null
+    description: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OntarioCurriculumCourseCountAggregateOutputType = {
+    id: number
+    code: number
+    title: number
+    grade: number
+    subject: number
+    destination: number
+    description: number
+    keywords: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OntarioCurriculumCourseAvgAggregateInputType = {
+    grade?: true
+  }
+
+  export type OntarioCurriculumCourseSumAggregateInputType = {
+    grade?: true
+  }
+
+  export type OntarioCurriculumCourseMinAggregateInputType = {
+    id?: true
+    code?: true
+    title?: true
+    grade?: true
+    subject?: true
+    destination?: true
+    description?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OntarioCurriculumCourseMaxAggregateInputType = {
+    id?: true
+    code?: true
+    title?: true
+    grade?: true
+    subject?: true
+    destination?: true
+    description?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OntarioCurriculumCourseCountAggregateInputType = {
+    id?: true
+    code?: true
+    title?: true
+    grade?: true
+    subject?: true
+    destination?: true
+    description?: true
+    keywords?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OntarioCurriculumCourseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OntarioCurriculumCourse to aggregate.
+     */
+    where?: OntarioCurriculumCourseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumCourses to fetch.
+     */
+    orderBy?: OntarioCurriculumCourseOrderByWithRelationInput | OntarioCurriculumCourseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OntarioCurriculumCourseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumCourses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumCourses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OntarioCurriculumCourses
+    **/
+    _count?: true | OntarioCurriculumCourseCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OntarioCurriculumCourseAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OntarioCurriculumCourseSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OntarioCurriculumCourseMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OntarioCurriculumCourseMaxAggregateInputType
+  }
+
+  export type GetOntarioCurriculumCourseAggregateType<T extends OntarioCurriculumCourseAggregateArgs> = {
+        [P in keyof T & keyof AggregateOntarioCurriculumCourse]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOntarioCurriculumCourse[P]>
+      : GetScalarType<T[P], AggregateOntarioCurriculumCourse[P]>
+  }
+
+
+
+
+  export type OntarioCurriculumCourseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OntarioCurriculumCourseWhereInput
+    orderBy?: OntarioCurriculumCourseOrderByWithAggregationInput | OntarioCurriculumCourseOrderByWithAggregationInput[]
+    by: OntarioCurriculumCourseScalarFieldEnum[] | OntarioCurriculumCourseScalarFieldEnum
+    having?: OntarioCurriculumCourseScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OntarioCurriculumCourseCountAggregateInputType | true
+    _avg?: OntarioCurriculumCourseAvgAggregateInputType
+    _sum?: OntarioCurriculumCourseSumAggregateInputType
+    _min?: OntarioCurriculumCourseMinAggregateInputType
+    _max?: OntarioCurriculumCourseMaxAggregateInputType
+  }
+
+  export type OntarioCurriculumCourseGroupByOutputType = {
+    id: string
+    code: string
+    title: string
+    grade: number
+    subject: string
+    destination: string
+    description: string
+    keywords: string[]
+    createdAt: Date
+    updatedAt: Date
+    _count: OntarioCurriculumCourseCountAggregateOutputType | null
+    _avg: OntarioCurriculumCourseAvgAggregateOutputType | null
+    _sum: OntarioCurriculumCourseSumAggregateOutputType | null
+    _min: OntarioCurriculumCourseMinAggregateOutputType | null
+    _max: OntarioCurriculumCourseMaxAggregateOutputType | null
+  }
+
+  type GetOntarioCurriculumCourseGroupByPayload<T extends OntarioCurriculumCourseGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OntarioCurriculumCourseGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OntarioCurriculumCourseGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OntarioCurriculumCourseGroupByOutputType[P]>
+            : GetScalarType<T[P], OntarioCurriculumCourseGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OntarioCurriculumCourseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    title?: boolean
+    grade?: boolean
+    subject?: boolean
+    destination?: boolean
+    description?: boolean
+    keywords?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    units?: boolean | OntarioCurriculumCourse$unitsArgs<ExtArgs>
+    progress?: boolean | OntarioCurriculumCourse$progressArgs<ExtArgs>
+    _count?: boolean | OntarioCurriculumCourseCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ontarioCurriculumCourse"]>
+
+  export type OntarioCurriculumCourseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    title?: boolean
+    grade?: boolean
+    subject?: boolean
+    destination?: boolean
+    description?: boolean
+    keywords?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["ontarioCurriculumCourse"]>
+
+  export type OntarioCurriculumCourseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    title?: boolean
+    grade?: boolean
+    subject?: boolean
+    destination?: boolean
+    description?: boolean
+    keywords?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["ontarioCurriculumCourse"]>
+
+  export type OntarioCurriculumCourseSelectScalar = {
+    id?: boolean
+    code?: boolean
+    title?: boolean
+    grade?: boolean
+    subject?: boolean
+    destination?: boolean
+    description?: boolean
+    keywords?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type OntarioCurriculumCourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "title" | "grade" | "subject" | "destination" | "description" | "keywords" | "createdAt" | "updatedAt", ExtArgs["result"]["ontarioCurriculumCourse"]>
+  export type OntarioCurriculumCourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    units?: boolean | OntarioCurriculumCourse$unitsArgs<ExtArgs>
+    progress?: boolean | OntarioCurriculumCourse$progressArgs<ExtArgs>
+    _count?: boolean | OntarioCurriculumCourseCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type OntarioCurriculumCourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type OntarioCurriculumCourseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $OntarioCurriculumCoursePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OntarioCurriculumCourse"
+    objects: {
+      units: Prisma.$OntarioCurriculumUnitPayload<ExtArgs>[]
+      progress: Prisma.$OntarioCurriculumProgressPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      code: string
+      title: string
+      grade: number
+      subject: string
+      destination: string
+      description: string
+      keywords: string[]
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["ontarioCurriculumCourse"]>
+    composites: {}
+  }
+
+  type OntarioCurriculumCourseGetPayload<S extends boolean | null | undefined | OntarioCurriculumCourseDefaultArgs> = $Result.GetResult<Prisma.$OntarioCurriculumCoursePayload, S>
+
+  type OntarioCurriculumCourseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OntarioCurriculumCourseFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OntarioCurriculumCourseCountAggregateInputType | true
+    }
+
+  export interface OntarioCurriculumCourseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OntarioCurriculumCourse'], meta: { name: 'OntarioCurriculumCourse' } }
+    /**
+     * Find zero or one OntarioCurriculumCourse that matches the filter.
+     * @param {OntarioCurriculumCourseFindUniqueArgs} args - Arguments to find a OntarioCurriculumCourse
+     * @example
+     * // Get one OntarioCurriculumCourse
+     * const ontarioCurriculumCourse = await prisma.ontarioCurriculumCourse.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OntarioCurriculumCourseFindUniqueArgs>(args: SelectSubset<T, OntarioCurriculumCourseFindUniqueArgs<ExtArgs>>): Prisma__OntarioCurriculumCourseClient<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OntarioCurriculumCourse that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OntarioCurriculumCourseFindUniqueOrThrowArgs} args - Arguments to find a OntarioCurriculumCourse
+     * @example
+     * // Get one OntarioCurriculumCourse
+     * const ontarioCurriculumCourse = await prisma.ontarioCurriculumCourse.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OntarioCurriculumCourseFindUniqueOrThrowArgs>(args: SelectSubset<T, OntarioCurriculumCourseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OntarioCurriculumCourseClient<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OntarioCurriculumCourse that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumCourseFindFirstArgs} args - Arguments to find a OntarioCurriculumCourse
+     * @example
+     * // Get one OntarioCurriculumCourse
+     * const ontarioCurriculumCourse = await prisma.ontarioCurriculumCourse.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OntarioCurriculumCourseFindFirstArgs>(args?: SelectSubset<T, OntarioCurriculumCourseFindFirstArgs<ExtArgs>>): Prisma__OntarioCurriculumCourseClient<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OntarioCurriculumCourse that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumCourseFindFirstOrThrowArgs} args - Arguments to find a OntarioCurriculumCourse
+     * @example
+     * // Get one OntarioCurriculumCourse
+     * const ontarioCurriculumCourse = await prisma.ontarioCurriculumCourse.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OntarioCurriculumCourseFindFirstOrThrowArgs>(args?: SelectSubset<T, OntarioCurriculumCourseFindFirstOrThrowArgs<ExtArgs>>): Prisma__OntarioCurriculumCourseClient<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OntarioCurriculumCourses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumCourseFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OntarioCurriculumCourses
+     * const ontarioCurriculumCourses = await prisma.ontarioCurriculumCourse.findMany()
+     * 
+     * // Get first 10 OntarioCurriculumCourses
+     * const ontarioCurriculumCourses = await prisma.ontarioCurriculumCourse.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ontarioCurriculumCourseWithIdOnly = await prisma.ontarioCurriculumCourse.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OntarioCurriculumCourseFindManyArgs>(args?: SelectSubset<T, OntarioCurriculumCourseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OntarioCurriculumCourse.
+     * @param {OntarioCurriculumCourseCreateArgs} args - Arguments to create a OntarioCurriculumCourse.
+     * @example
+     * // Create one OntarioCurriculumCourse
+     * const OntarioCurriculumCourse = await prisma.ontarioCurriculumCourse.create({
+     *   data: {
+     *     // ... data to create a OntarioCurriculumCourse
+     *   }
+     * })
+     * 
+     */
+    create<T extends OntarioCurriculumCourseCreateArgs>(args: SelectSubset<T, OntarioCurriculumCourseCreateArgs<ExtArgs>>): Prisma__OntarioCurriculumCourseClient<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OntarioCurriculumCourses.
+     * @param {OntarioCurriculumCourseCreateManyArgs} args - Arguments to create many OntarioCurriculumCourses.
+     * @example
+     * // Create many OntarioCurriculumCourses
+     * const ontarioCurriculumCourse = await prisma.ontarioCurriculumCourse.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OntarioCurriculumCourseCreateManyArgs>(args?: SelectSubset<T, OntarioCurriculumCourseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OntarioCurriculumCourses and returns the data saved in the database.
+     * @param {OntarioCurriculumCourseCreateManyAndReturnArgs} args - Arguments to create many OntarioCurriculumCourses.
+     * @example
+     * // Create many OntarioCurriculumCourses
+     * const ontarioCurriculumCourse = await prisma.ontarioCurriculumCourse.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OntarioCurriculumCourses and only return the `id`
+     * const ontarioCurriculumCourseWithIdOnly = await prisma.ontarioCurriculumCourse.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OntarioCurriculumCourseCreateManyAndReturnArgs>(args?: SelectSubset<T, OntarioCurriculumCourseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OntarioCurriculumCourse.
+     * @param {OntarioCurriculumCourseDeleteArgs} args - Arguments to delete one OntarioCurriculumCourse.
+     * @example
+     * // Delete one OntarioCurriculumCourse
+     * const OntarioCurriculumCourse = await prisma.ontarioCurriculumCourse.delete({
+     *   where: {
+     *     // ... filter to delete one OntarioCurriculumCourse
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OntarioCurriculumCourseDeleteArgs>(args: SelectSubset<T, OntarioCurriculumCourseDeleteArgs<ExtArgs>>): Prisma__OntarioCurriculumCourseClient<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OntarioCurriculumCourse.
+     * @param {OntarioCurriculumCourseUpdateArgs} args - Arguments to update one OntarioCurriculumCourse.
+     * @example
+     * // Update one OntarioCurriculumCourse
+     * const ontarioCurriculumCourse = await prisma.ontarioCurriculumCourse.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OntarioCurriculumCourseUpdateArgs>(args: SelectSubset<T, OntarioCurriculumCourseUpdateArgs<ExtArgs>>): Prisma__OntarioCurriculumCourseClient<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OntarioCurriculumCourses.
+     * @param {OntarioCurriculumCourseDeleteManyArgs} args - Arguments to filter OntarioCurriculumCourses to delete.
+     * @example
+     * // Delete a few OntarioCurriculumCourses
+     * const { count } = await prisma.ontarioCurriculumCourse.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OntarioCurriculumCourseDeleteManyArgs>(args?: SelectSubset<T, OntarioCurriculumCourseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OntarioCurriculumCourses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumCourseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OntarioCurriculumCourses
+     * const ontarioCurriculumCourse = await prisma.ontarioCurriculumCourse.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OntarioCurriculumCourseUpdateManyArgs>(args: SelectSubset<T, OntarioCurriculumCourseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OntarioCurriculumCourses and returns the data updated in the database.
+     * @param {OntarioCurriculumCourseUpdateManyAndReturnArgs} args - Arguments to update many OntarioCurriculumCourses.
+     * @example
+     * // Update many OntarioCurriculumCourses
+     * const ontarioCurriculumCourse = await prisma.ontarioCurriculumCourse.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OntarioCurriculumCourses and only return the `id`
+     * const ontarioCurriculumCourseWithIdOnly = await prisma.ontarioCurriculumCourse.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OntarioCurriculumCourseUpdateManyAndReturnArgs>(args: SelectSubset<T, OntarioCurriculumCourseUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OntarioCurriculumCourse.
+     * @param {OntarioCurriculumCourseUpsertArgs} args - Arguments to update or create a OntarioCurriculumCourse.
+     * @example
+     * // Update or create a OntarioCurriculumCourse
+     * const ontarioCurriculumCourse = await prisma.ontarioCurriculumCourse.upsert({
+     *   create: {
+     *     // ... data to create a OntarioCurriculumCourse
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OntarioCurriculumCourse we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OntarioCurriculumCourseUpsertArgs>(args: SelectSubset<T, OntarioCurriculumCourseUpsertArgs<ExtArgs>>): Prisma__OntarioCurriculumCourseClient<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OntarioCurriculumCourses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumCourseCountArgs} args - Arguments to filter OntarioCurriculumCourses to count.
+     * @example
+     * // Count the number of OntarioCurriculumCourses
+     * const count = await prisma.ontarioCurriculumCourse.count({
+     *   where: {
+     *     // ... the filter for the OntarioCurriculumCourses we want to count
+     *   }
+     * })
+    **/
+    count<T extends OntarioCurriculumCourseCountArgs>(
+      args?: Subset<T, OntarioCurriculumCourseCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OntarioCurriculumCourseCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OntarioCurriculumCourse.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumCourseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OntarioCurriculumCourseAggregateArgs>(args: Subset<T, OntarioCurriculumCourseAggregateArgs>): Prisma.PrismaPromise<GetOntarioCurriculumCourseAggregateType<T>>
+
+    /**
+     * Group by OntarioCurriculumCourse.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumCourseGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OntarioCurriculumCourseGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OntarioCurriculumCourseGroupByArgs['orderBy'] }
+        : { orderBy?: OntarioCurriculumCourseGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OntarioCurriculumCourseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOntarioCurriculumCourseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OntarioCurriculumCourse model
+   */
+  readonly fields: OntarioCurriculumCourseFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OntarioCurriculumCourse.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OntarioCurriculumCourseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    units<T extends OntarioCurriculumCourse$unitsArgs<ExtArgs> = {}>(args?: Subset<T, OntarioCurriculumCourse$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    progress<T extends OntarioCurriculumCourse$progressArgs<ExtArgs> = {}>(args?: Subset<T, OntarioCurriculumCourse$progressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OntarioCurriculumCourse model
+   */
+  interface OntarioCurriculumCourseFieldRefs {
+    readonly id: FieldRef<"OntarioCurriculumCourse", 'String'>
+    readonly code: FieldRef<"OntarioCurriculumCourse", 'String'>
+    readonly title: FieldRef<"OntarioCurriculumCourse", 'String'>
+    readonly grade: FieldRef<"OntarioCurriculumCourse", 'Int'>
+    readonly subject: FieldRef<"OntarioCurriculumCourse", 'String'>
+    readonly destination: FieldRef<"OntarioCurriculumCourse", 'String'>
+    readonly description: FieldRef<"OntarioCurriculumCourse", 'String'>
+    readonly keywords: FieldRef<"OntarioCurriculumCourse", 'String[]'>
+    readonly createdAt: FieldRef<"OntarioCurriculumCourse", 'DateTime'>
+    readonly updatedAt: FieldRef<"OntarioCurriculumCourse", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OntarioCurriculumCourse findUnique
+   */
+  export type OntarioCurriculumCourseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumCourseInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumCourse to fetch.
+     */
+    where: OntarioCurriculumCourseWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumCourse findUniqueOrThrow
+   */
+  export type OntarioCurriculumCourseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumCourseInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumCourse to fetch.
+     */
+    where: OntarioCurriculumCourseWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumCourse findFirst
+   */
+  export type OntarioCurriculumCourseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumCourseInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumCourse to fetch.
+     */
+    where?: OntarioCurriculumCourseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumCourses to fetch.
+     */
+    orderBy?: OntarioCurriculumCourseOrderByWithRelationInput | OntarioCurriculumCourseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OntarioCurriculumCourses.
+     */
+    cursor?: OntarioCurriculumCourseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumCourses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumCourses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OntarioCurriculumCourses.
+     */
+    distinct?: OntarioCurriculumCourseScalarFieldEnum | OntarioCurriculumCourseScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumCourse findFirstOrThrow
+   */
+  export type OntarioCurriculumCourseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumCourseInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumCourse to fetch.
+     */
+    where?: OntarioCurriculumCourseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumCourses to fetch.
+     */
+    orderBy?: OntarioCurriculumCourseOrderByWithRelationInput | OntarioCurriculumCourseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OntarioCurriculumCourses.
+     */
+    cursor?: OntarioCurriculumCourseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumCourses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumCourses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OntarioCurriculumCourses.
+     */
+    distinct?: OntarioCurriculumCourseScalarFieldEnum | OntarioCurriculumCourseScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumCourse findMany
+   */
+  export type OntarioCurriculumCourseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumCourseInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumCourses to fetch.
+     */
+    where?: OntarioCurriculumCourseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumCourses to fetch.
+     */
+    orderBy?: OntarioCurriculumCourseOrderByWithRelationInput | OntarioCurriculumCourseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OntarioCurriculumCourses.
+     */
+    cursor?: OntarioCurriculumCourseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumCourses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumCourses.
+     */
+    skip?: number
+    distinct?: OntarioCurriculumCourseScalarFieldEnum | OntarioCurriculumCourseScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumCourse create
+   */
+  export type OntarioCurriculumCourseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumCourseInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OntarioCurriculumCourse.
+     */
+    data: XOR<OntarioCurriculumCourseCreateInput, OntarioCurriculumCourseUncheckedCreateInput>
+  }
+
+  /**
+   * OntarioCurriculumCourse createMany
+   */
+  export type OntarioCurriculumCourseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OntarioCurriculumCourses.
+     */
+    data: OntarioCurriculumCourseCreateManyInput | OntarioCurriculumCourseCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OntarioCurriculumCourse createManyAndReturn
+   */
+  export type OntarioCurriculumCourseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * The data used to create many OntarioCurriculumCourses.
+     */
+    data: OntarioCurriculumCourseCreateManyInput | OntarioCurriculumCourseCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OntarioCurriculumCourse update
+   */
+  export type OntarioCurriculumCourseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumCourseInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OntarioCurriculumCourse.
+     */
+    data: XOR<OntarioCurriculumCourseUpdateInput, OntarioCurriculumCourseUncheckedUpdateInput>
+    /**
+     * Choose, which OntarioCurriculumCourse to update.
+     */
+    where: OntarioCurriculumCourseWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumCourse updateMany
+   */
+  export type OntarioCurriculumCourseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OntarioCurriculumCourses.
+     */
+    data: XOR<OntarioCurriculumCourseUpdateManyMutationInput, OntarioCurriculumCourseUncheckedUpdateManyInput>
+    /**
+     * Filter which OntarioCurriculumCourses to update
+     */
+    where?: OntarioCurriculumCourseWhereInput
+    /**
+     * Limit how many OntarioCurriculumCourses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OntarioCurriculumCourse updateManyAndReturn
+   */
+  export type OntarioCurriculumCourseUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * The data used to update OntarioCurriculumCourses.
+     */
+    data: XOR<OntarioCurriculumCourseUpdateManyMutationInput, OntarioCurriculumCourseUncheckedUpdateManyInput>
+    /**
+     * Filter which OntarioCurriculumCourses to update
+     */
+    where?: OntarioCurriculumCourseWhereInput
+    /**
+     * Limit how many OntarioCurriculumCourses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OntarioCurriculumCourse upsert
+   */
+  export type OntarioCurriculumCourseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumCourseInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OntarioCurriculumCourse to update in case it exists.
+     */
+    where: OntarioCurriculumCourseWhereUniqueInput
+    /**
+     * In case the OntarioCurriculumCourse found by the `where` argument doesn't exist, create a new OntarioCurriculumCourse with this data.
+     */
+    create: XOR<OntarioCurriculumCourseCreateInput, OntarioCurriculumCourseUncheckedCreateInput>
+    /**
+     * In case the OntarioCurriculumCourse was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OntarioCurriculumCourseUpdateInput, OntarioCurriculumCourseUncheckedUpdateInput>
+  }
+
+  /**
+   * OntarioCurriculumCourse delete
+   */
+  export type OntarioCurriculumCourseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumCourseInclude<ExtArgs> | null
+    /**
+     * Filter which OntarioCurriculumCourse to delete.
+     */
+    where: OntarioCurriculumCourseWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumCourse deleteMany
+   */
+  export type OntarioCurriculumCourseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OntarioCurriculumCourses to delete
+     */
+    where?: OntarioCurriculumCourseWhereInput
+    /**
+     * Limit how many OntarioCurriculumCourses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OntarioCurriculumCourse.units
+   */
+  export type OntarioCurriculumCourse$unitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitInclude<ExtArgs> | null
+    where?: OntarioCurriculumUnitWhereInput
+    orderBy?: OntarioCurriculumUnitOrderByWithRelationInput | OntarioCurriculumUnitOrderByWithRelationInput[]
+    cursor?: OntarioCurriculumUnitWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OntarioCurriculumUnitScalarFieldEnum | OntarioCurriculumUnitScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumCourse.progress
+   */
+  export type OntarioCurriculumCourse$progressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
+    where?: OntarioCurriculumProgressWhereInput
+    orderBy?: OntarioCurriculumProgressOrderByWithRelationInput | OntarioCurriculumProgressOrderByWithRelationInput[]
+    cursor?: OntarioCurriculumProgressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OntarioCurriculumProgressScalarFieldEnum | OntarioCurriculumProgressScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumCourse without action
+   */
+  export type OntarioCurriculumCourseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumCourse
+     */
+    select?: OntarioCurriculumCourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumCourse
+     */
+    omit?: OntarioCurriculumCourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumCourseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model OntarioCurriculumUnit
+   */
+
+  export type AggregateOntarioCurriculumUnit = {
+    _count: OntarioCurriculumUnitCountAggregateOutputType | null
+    _avg: OntarioCurriculumUnitAvgAggregateOutputType | null
+    _sum: OntarioCurriculumUnitSumAggregateOutputType | null
+    _min: OntarioCurriculumUnitMinAggregateOutputType | null
+    _max: OntarioCurriculumUnitMaxAggregateOutputType | null
+  }
+
+  export type OntarioCurriculumUnitAvgAggregateOutputType = {
+    weight: number | null
+    orderIndex: number | null
+  }
+
+  export type OntarioCurriculumUnitSumAggregateOutputType = {
+    weight: number | null
+    orderIndex: number | null
+  }
+
+  export type OntarioCurriculumUnitMinAggregateOutputType = {
+    id: string | null
+    courseId: string | null
+    code: string | null
+    title: string | null
+    description: string | null
+    weight: number | null
+    orderIndex: number | null
+    createdAt: Date | null
+  }
+
+  export type OntarioCurriculumUnitMaxAggregateOutputType = {
+    id: string | null
+    courseId: string | null
+    code: string | null
+    title: string | null
+    description: string | null
+    weight: number | null
+    orderIndex: number | null
+    createdAt: Date | null
+  }
+
+  export type OntarioCurriculumUnitCountAggregateOutputType = {
+    id: number
+    courseId: number
+    code: number
+    title: number
+    description: number
+    weight: number
+    orderIndex: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type OntarioCurriculumUnitAvgAggregateInputType = {
+    weight?: true
+    orderIndex?: true
+  }
+
+  export type OntarioCurriculumUnitSumAggregateInputType = {
+    weight?: true
+    orderIndex?: true
+  }
+
+  export type OntarioCurriculumUnitMinAggregateInputType = {
+    id?: true
+    courseId?: true
+    code?: true
+    title?: true
+    description?: true
+    weight?: true
+    orderIndex?: true
+    createdAt?: true
+  }
+
+  export type OntarioCurriculumUnitMaxAggregateInputType = {
+    id?: true
+    courseId?: true
+    code?: true
+    title?: true
+    description?: true
+    weight?: true
+    orderIndex?: true
+    createdAt?: true
+  }
+
+  export type OntarioCurriculumUnitCountAggregateInputType = {
+    id?: true
+    courseId?: true
+    code?: true
+    title?: true
+    description?: true
+    weight?: true
+    orderIndex?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type OntarioCurriculumUnitAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OntarioCurriculumUnit to aggregate.
+     */
+    where?: OntarioCurriculumUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumUnits to fetch.
+     */
+    orderBy?: OntarioCurriculumUnitOrderByWithRelationInput | OntarioCurriculumUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OntarioCurriculumUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumUnits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OntarioCurriculumUnits
+    **/
+    _count?: true | OntarioCurriculumUnitCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OntarioCurriculumUnitAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OntarioCurriculumUnitSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OntarioCurriculumUnitMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OntarioCurriculumUnitMaxAggregateInputType
+  }
+
+  export type GetOntarioCurriculumUnitAggregateType<T extends OntarioCurriculumUnitAggregateArgs> = {
+        [P in keyof T & keyof AggregateOntarioCurriculumUnit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOntarioCurriculumUnit[P]>
+      : GetScalarType<T[P], AggregateOntarioCurriculumUnit[P]>
+  }
+
+
+
+
+  export type OntarioCurriculumUnitGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OntarioCurriculumUnitWhereInput
+    orderBy?: OntarioCurriculumUnitOrderByWithAggregationInput | OntarioCurriculumUnitOrderByWithAggregationInput[]
+    by: OntarioCurriculumUnitScalarFieldEnum[] | OntarioCurriculumUnitScalarFieldEnum
+    having?: OntarioCurriculumUnitScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OntarioCurriculumUnitCountAggregateInputType | true
+    _avg?: OntarioCurriculumUnitAvgAggregateInputType
+    _sum?: OntarioCurriculumUnitSumAggregateInputType
+    _min?: OntarioCurriculumUnitMinAggregateInputType
+    _max?: OntarioCurriculumUnitMaxAggregateInputType
+  }
+
+  export type OntarioCurriculumUnitGroupByOutputType = {
+    id: string
+    courseId: string
+    code: string
+    title: string
+    description: string
+    weight: number
+    orderIndex: number
+    createdAt: Date
+    _count: OntarioCurriculumUnitCountAggregateOutputType | null
+    _avg: OntarioCurriculumUnitAvgAggregateOutputType | null
+    _sum: OntarioCurriculumUnitSumAggregateOutputType | null
+    _min: OntarioCurriculumUnitMinAggregateOutputType | null
+    _max: OntarioCurriculumUnitMaxAggregateOutputType | null
+  }
+
+  type GetOntarioCurriculumUnitGroupByPayload<T extends OntarioCurriculumUnitGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OntarioCurriculumUnitGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OntarioCurriculumUnitGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OntarioCurriculumUnitGroupByOutputType[P]>
+            : GetScalarType<T[P], OntarioCurriculumUnitGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OntarioCurriculumUnitSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    courseId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    weight?: boolean
+    orderIndex?: boolean
+    createdAt?: boolean
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+    expectations?: boolean | OntarioCurriculumUnit$expectationsArgs<ExtArgs>
+    _count?: boolean | OntarioCurriculumUnitCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ontarioCurriculumUnit"]>
+
+  export type OntarioCurriculumUnitSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    courseId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    weight?: boolean
+    orderIndex?: boolean
+    createdAt?: boolean
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ontarioCurriculumUnit"]>
+
+  export type OntarioCurriculumUnitSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    courseId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    weight?: boolean
+    orderIndex?: boolean
+    createdAt?: boolean
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ontarioCurriculumUnit"]>
+
+  export type OntarioCurriculumUnitSelectScalar = {
+    id?: boolean
+    courseId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    weight?: boolean
+    orderIndex?: boolean
+    createdAt?: boolean
+  }
+
+  export type OntarioCurriculumUnitOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courseId" | "code" | "title" | "description" | "weight" | "orderIndex" | "createdAt", ExtArgs["result"]["ontarioCurriculumUnit"]>
+  export type OntarioCurriculumUnitInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+    expectations?: boolean | OntarioCurriculumUnit$expectationsArgs<ExtArgs>
+    _count?: boolean | OntarioCurriculumUnitCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type OntarioCurriculumUnitIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+  }
+  export type OntarioCurriculumUnitIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+  }
+
+  export type $OntarioCurriculumUnitPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OntarioCurriculumUnit"
+    objects: {
+      course: Prisma.$OntarioCurriculumCoursePayload<ExtArgs>
+      expectations: Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      courseId: string
+      code: string
+      title: string
+      description: string
+      weight: number
+      orderIndex: number
+      createdAt: Date
+    }, ExtArgs["result"]["ontarioCurriculumUnit"]>
+    composites: {}
+  }
+
+  type OntarioCurriculumUnitGetPayload<S extends boolean | null | undefined | OntarioCurriculumUnitDefaultArgs> = $Result.GetResult<Prisma.$OntarioCurriculumUnitPayload, S>
+
+  type OntarioCurriculumUnitCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OntarioCurriculumUnitFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OntarioCurriculumUnitCountAggregateInputType | true
+    }
+
+  export interface OntarioCurriculumUnitDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OntarioCurriculumUnit'], meta: { name: 'OntarioCurriculumUnit' } }
+    /**
+     * Find zero or one OntarioCurriculumUnit that matches the filter.
+     * @param {OntarioCurriculumUnitFindUniqueArgs} args - Arguments to find a OntarioCurriculumUnit
+     * @example
+     * // Get one OntarioCurriculumUnit
+     * const ontarioCurriculumUnit = await prisma.ontarioCurriculumUnit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OntarioCurriculumUnitFindUniqueArgs>(args: SelectSubset<T, OntarioCurriculumUnitFindUniqueArgs<ExtArgs>>): Prisma__OntarioCurriculumUnitClient<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OntarioCurriculumUnit that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OntarioCurriculumUnitFindUniqueOrThrowArgs} args - Arguments to find a OntarioCurriculumUnit
+     * @example
+     * // Get one OntarioCurriculumUnit
+     * const ontarioCurriculumUnit = await prisma.ontarioCurriculumUnit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OntarioCurriculumUnitFindUniqueOrThrowArgs>(args: SelectSubset<T, OntarioCurriculumUnitFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OntarioCurriculumUnitClient<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OntarioCurriculumUnit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumUnitFindFirstArgs} args - Arguments to find a OntarioCurriculumUnit
+     * @example
+     * // Get one OntarioCurriculumUnit
+     * const ontarioCurriculumUnit = await prisma.ontarioCurriculumUnit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OntarioCurriculumUnitFindFirstArgs>(args?: SelectSubset<T, OntarioCurriculumUnitFindFirstArgs<ExtArgs>>): Prisma__OntarioCurriculumUnitClient<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OntarioCurriculumUnit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumUnitFindFirstOrThrowArgs} args - Arguments to find a OntarioCurriculumUnit
+     * @example
+     * // Get one OntarioCurriculumUnit
+     * const ontarioCurriculumUnit = await prisma.ontarioCurriculumUnit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OntarioCurriculumUnitFindFirstOrThrowArgs>(args?: SelectSubset<T, OntarioCurriculumUnitFindFirstOrThrowArgs<ExtArgs>>): Prisma__OntarioCurriculumUnitClient<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OntarioCurriculumUnits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumUnitFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OntarioCurriculumUnits
+     * const ontarioCurriculumUnits = await prisma.ontarioCurriculumUnit.findMany()
+     * 
+     * // Get first 10 OntarioCurriculumUnits
+     * const ontarioCurriculumUnits = await prisma.ontarioCurriculumUnit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ontarioCurriculumUnitWithIdOnly = await prisma.ontarioCurriculumUnit.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OntarioCurriculumUnitFindManyArgs>(args?: SelectSubset<T, OntarioCurriculumUnitFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OntarioCurriculumUnit.
+     * @param {OntarioCurriculumUnitCreateArgs} args - Arguments to create a OntarioCurriculumUnit.
+     * @example
+     * // Create one OntarioCurriculumUnit
+     * const OntarioCurriculumUnit = await prisma.ontarioCurriculumUnit.create({
+     *   data: {
+     *     // ... data to create a OntarioCurriculumUnit
+     *   }
+     * })
+     * 
+     */
+    create<T extends OntarioCurriculumUnitCreateArgs>(args: SelectSubset<T, OntarioCurriculumUnitCreateArgs<ExtArgs>>): Prisma__OntarioCurriculumUnitClient<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OntarioCurriculumUnits.
+     * @param {OntarioCurriculumUnitCreateManyArgs} args - Arguments to create many OntarioCurriculumUnits.
+     * @example
+     * // Create many OntarioCurriculumUnits
+     * const ontarioCurriculumUnit = await prisma.ontarioCurriculumUnit.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OntarioCurriculumUnitCreateManyArgs>(args?: SelectSubset<T, OntarioCurriculumUnitCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OntarioCurriculumUnits and returns the data saved in the database.
+     * @param {OntarioCurriculumUnitCreateManyAndReturnArgs} args - Arguments to create many OntarioCurriculumUnits.
+     * @example
+     * // Create many OntarioCurriculumUnits
+     * const ontarioCurriculumUnit = await prisma.ontarioCurriculumUnit.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OntarioCurriculumUnits and only return the `id`
+     * const ontarioCurriculumUnitWithIdOnly = await prisma.ontarioCurriculumUnit.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OntarioCurriculumUnitCreateManyAndReturnArgs>(args?: SelectSubset<T, OntarioCurriculumUnitCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OntarioCurriculumUnit.
+     * @param {OntarioCurriculumUnitDeleteArgs} args - Arguments to delete one OntarioCurriculumUnit.
+     * @example
+     * // Delete one OntarioCurriculumUnit
+     * const OntarioCurriculumUnit = await prisma.ontarioCurriculumUnit.delete({
+     *   where: {
+     *     // ... filter to delete one OntarioCurriculumUnit
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OntarioCurriculumUnitDeleteArgs>(args: SelectSubset<T, OntarioCurriculumUnitDeleteArgs<ExtArgs>>): Prisma__OntarioCurriculumUnitClient<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OntarioCurriculumUnit.
+     * @param {OntarioCurriculumUnitUpdateArgs} args - Arguments to update one OntarioCurriculumUnit.
+     * @example
+     * // Update one OntarioCurriculumUnit
+     * const ontarioCurriculumUnit = await prisma.ontarioCurriculumUnit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OntarioCurriculumUnitUpdateArgs>(args: SelectSubset<T, OntarioCurriculumUnitUpdateArgs<ExtArgs>>): Prisma__OntarioCurriculumUnitClient<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OntarioCurriculumUnits.
+     * @param {OntarioCurriculumUnitDeleteManyArgs} args - Arguments to filter OntarioCurriculumUnits to delete.
+     * @example
+     * // Delete a few OntarioCurriculumUnits
+     * const { count } = await prisma.ontarioCurriculumUnit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OntarioCurriculumUnitDeleteManyArgs>(args?: SelectSubset<T, OntarioCurriculumUnitDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OntarioCurriculumUnits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumUnitUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OntarioCurriculumUnits
+     * const ontarioCurriculumUnit = await prisma.ontarioCurriculumUnit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OntarioCurriculumUnitUpdateManyArgs>(args: SelectSubset<T, OntarioCurriculumUnitUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OntarioCurriculumUnits and returns the data updated in the database.
+     * @param {OntarioCurriculumUnitUpdateManyAndReturnArgs} args - Arguments to update many OntarioCurriculumUnits.
+     * @example
+     * // Update many OntarioCurriculumUnits
+     * const ontarioCurriculumUnit = await prisma.ontarioCurriculumUnit.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OntarioCurriculumUnits and only return the `id`
+     * const ontarioCurriculumUnitWithIdOnly = await prisma.ontarioCurriculumUnit.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OntarioCurriculumUnitUpdateManyAndReturnArgs>(args: SelectSubset<T, OntarioCurriculumUnitUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OntarioCurriculumUnit.
+     * @param {OntarioCurriculumUnitUpsertArgs} args - Arguments to update or create a OntarioCurriculumUnit.
+     * @example
+     * // Update or create a OntarioCurriculumUnit
+     * const ontarioCurriculumUnit = await prisma.ontarioCurriculumUnit.upsert({
+     *   create: {
+     *     // ... data to create a OntarioCurriculumUnit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OntarioCurriculumUnit we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OntarioCurriculumUnitUpsertArgs>(args: SelectSubset<T, OntarioCurriculumUnitUpsertArgs<ExtArgs>>): Prisma__OntarioCurriculumUnitClient<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OntarioCurriculumUnits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumUnitCountArgs} args - Arguments to filter OntarioCurriculumUnits to count.
+     * @example
+     * // Count the number of OntarioCurriculumUnits
+     * const count = await prisma.ontarioCurriculumUnit.count({
+     *   where: {
+     *     // ... the filter for the OntarioCurriculumUnits we want to count
+     *   }
+     * })
+    **/
+    count<T extends OntarioCurriculumUnitCountArgs>(
+      args?: Subset<T, OntarioCurriculumUnitCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OntarioCurriculumUnitCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OntarioCurriculumUnit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumUnitAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OntarioCurriculumUnitAggregateArgs>(args: Subset<T, OntarioCurriculumUnitAggregateArgs>): Prisma.PrismaPromise<GetOntarioCurriculumUnitAggregateType<T>>
+
+    /**
+     * Group by OntarioCurriculumUnit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumUnitGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OntarioCurriculumUnitGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OntarioCurriculumUnitGroupByArgs['orderBy'] }
+        : { orderBy?: OntarioCurriculumUnitGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OntarioCurriculumUnitGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOntarioCurriculumUnitGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OntarioCurriculumUnit model
+   */
+  readonly fields: OntarioCurriculumUnitFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OntarioCurriculumUnit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OntarioCurriculumUnitClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    course<T extends OntarioCurriculumCourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OntarioCurriculumCourseDefaultArgs<ExtArgs>>): Prisma__OntarioCurriculumCourseClient<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    expectations<T extends OntarioCurriculumUnit$expectationsArgs<ExtArgs> = {}>(args?: Subset<T, OntarioCurriculumUnit$expectationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OntarioCurriculumUnit model
+   */
+  interface OntarioCurriculumUnitFieldRefs {
+    readonly id: FieldRef<"OntarioCurriculumUnit", 'String'>
+    readonly courseId: FieldRef<"OntarioCurriculumUnit", 'String'>
+    readonly code: FieldRef<"OntarioCurriculumUnit", 'String'>
+    readonly title: FieldRef<"OntarioCurriculumUnit", 'String'>
+    readonly description: FieldRef<"OntarioCurriculumUnit", 'String'>
+    readonly weight: FieldRef<"OntarioCurriculumUnit", 'Int'>
+    readonly orderIndex: FieldRef<"OntarioCurriculumUnit", 'Int'>
+    readonly createdAt: FieldRef<"OntarioCurriculumUnit", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OntarioCurriculumUnit findUnique
+   */
+  export type OntarioCurriculumUnitFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumUnit to fetch.
+     */
+    where: OntarioCurriculumUnitWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumUnit findUniqueOrThrow
+   */
+  export type OntarioCurriculumUnitFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumUnit to fetch.
+     */
+    where: OntarioCurriculumUnitWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumUnit findFirst
+   */
+  export type OntarioCurriculumUnitFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumUnit to fetch.
+     */
+    where?: OntarioCurriculumUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumUnits to fetch.
+     */
+    orderBy?: OntarioCurriculumUnitOrderByWithRelationInput | OntarioCurriculumUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OntarioCurriculumUnits.
+     */
+    cursor?: OntarioCurriculumUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumUnits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OntarioCurriculumUnits.
+     */
+    distinct?: OntarioCurriculumUnitScalarFieldEnum | OntarioCurriculumUnitScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumUnit findFirstOrThrow
+   */
+  export type OntarioCurriculumUnitFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumUnit to fetch.
+     */
+    where?: OntarioCurriculumUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumUnits to fetch.
+     */
+    orderBy?: OntarioCurriculumUnitOrderByWithRelationInput | OntarioCurriculumUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OntarioCurriculumUnits.
+     */
+    cursor?: OntarioCurriculumUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumUnits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OntarioCurriculumUnits.
+     */
+    distinct?: OntarioCurriculumUnitScalarFieldEnum | OntarioCurriculumUnitScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumUnit findMany
+   */
+  export type OntarioCurriculumUnitFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumUnits to fetch.
+     */
+    where?: OntarioCurriculumUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumUnits to fetch.
+     */
+    orderBy?: OntarioCurriculumUnitOrderByWithRelationInput | OntarioCurriculumUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OntarioCurriculumUnits.
+     */
+    cursor?: OntarioCurriculumUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumUnits.
+     */
+    skip?: number
+    distinct?: OntarioCurriculumUnitScalarFieldEnum | OntarioCurriculumUnitScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumUnit create
+   */
+  export type OntarioCurriculumUnitCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OntarioCurriculumUnit.
+     */
+    data: XOR<OntarioCurriculumUnitCreateInput, OntarioCurriculumUnitUncheckedCreateInput>
+  }
+
+  /**
+   * OntarioCurriculumUnit createMany
+   */
+  export type OntarioCurriculumUnitCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OntarioCurriculumUnits.
+     */
+    data: OntarioCurriculumUnitCreateManyInput | OntarioCurriculumUnitCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OntarioCurriculumUnit createManyAndReturn
+   */
+  export type OntarioCurriculumUnitCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * The data used to create many OntarioCurriculumUnits.
+     */
+    data: OntarioCurriculumUnitCreateManyInput | OntarioCurriculumUnitCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OntarioCurriculumUnit update
+   */
+  export type OntarioCurriculumUnitUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OntarioCurriculumUnit.
+     */
+    data: XOR<OntarioCurriculumUnitUpdateInput, OntarioCurriculumUnitUncheckedUpdateInput>
+    /**
+     * Choose, which OntarioCurriculumUnit to update.
+     */
+    where: OntarioCurriculumUnitWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumUnit updateMany
+   */
+  export type OntarioCurriculumUnitUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OntarioCurriculumUnits.
+     */
+    data: XOR<OntarioCurriculumUnitUpdateManyMutationInput, OntarioCurriculumUnitUncheckedUpdateManyInput>
+    /**
+     * Filter which OntarioCurriculumUnits to update
+     */
+    where?: OntarioCurriculumUnitWhereInput
+    /**
+     * Limit how many OntarioCurriculumUnits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OntarioCurriculumUnit updateManyAndReturn
+   */
+  export type OntarioCurriculumUnitUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * The data used to update OntarioCurriculumUnits.
+     */
+    data: XOR<OntarioCurriculumUnitUpdateManyMutationInput, OntarioCurriculumUnitUncheckedUpdateManyInput>
+    /**
+     * Filter which OntarioCurriculumUnits to update
+     */
+    where?: OntarioCurriculumUnitWhereInput
+    /**
+     * Limit how many OntarioCurriculumUnits to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OntarioCurriculumUnit upsert
+   */
+  export type OntarioCurriculumUnitUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OntarioCurriculumUnit to update in case it exists.
+     */
+    where: OntarioCurriculumUnitWhereUniqueInput
+    /**
+     * In case the OntarioCurriculumUnit found by the `where` argument doesn't exist, create a new OntarioCurriculumUnit with this data.
+     */
+    create: XOR<OntarioCurriculumUnitCreateInput, OntarioCurriculumUnitUncheckedCreateInput>
+    /**
+     * In case the OntarioCurriculumUnit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OntarioCurriculumUnitUpdateInput, OntarioCurriculumUnitUncheckedUpdateInput>
+  }
+
+  /**
+   * OntarioCurriculumUnit delete
+   */
+  export type OntarioCurriculumUnitDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitInclude<ExtArgs> | null
+    /**
+     * Filter which OntarioCurriculumUnit to delete.
+     */
+    where: OntarioCurriculumUnitWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumUnit deleteMany
+   */
+  export type OntarioCurriculumUnitDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OntarioCurriculumUnits to delete
+     */
+    where?: OntarioCurriculumUnitWhereInput
+    /**
+     * Limit how many OntarioCurriculumUnits to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OntarioCurriculumUnit.expectations
+   */
+  export type OntarioCurriculumUnit$expectationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationInclude<ExtArgs> | null
+    where?: OntarioCurriculumExpectationWhereInput
+    orderBy?: OntarioCurriculumExpectationOrderByWithRelationInput | OntarioCurriculumExpectationOrderByWithRelationInput[]
+    cursor?: OntarioCurriculumExpectationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OntarioCurriculumExpectationScalarFieldEnum | OntarioCurriculumExpectationScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumUnit without action
+   */
+  export type OntarioCurriculumUnitDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumUnit
+     */
+    select?: OntarioCurriculumUnitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumUnit
+     */
+    omit?: OntarioCurriculumUnitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumUnitInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model OntarioCurriculumExpectation
+   */
+
+  export type AggregateOntarioCurriculumExpectation = {
+    _count: OntarioCurriculumExpectationCountAggregateOutputType | null
+    _min: OntarioCurriculumExpectationMinAggregateOutputType | null
+    _max: OntarioCurriculumExpectationMaxAggregateOutputType | null
+  }
+
+  export type OntarioCurriculumExpectationMinAggregateOutputType = {
+    id: string | null
+    unitId: string | null
+    code: string | null
+    title: string | null
+    description: string | null
+    strand: string | null
+    createdAt: Date | null
+  }
+
+  export type OntarioCurriculumExpectationMaxAggregateOutputType = {
+    id: string | null
+    unitId: string | null
+    code: string | null
+    title: string | null
+    description: string | null
+    strand: string | null
+    createdAt: Date | null
+  }
+
+  export type OntarioCurriculumExpectationCountAggregateOutputType = {
+    id: number
+    unitId: number
+    code: number
+    title: number
+    description: number
+    strand: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type OntarioCurriculumExpectationMinAggregateInputType = {
+    id?: true
+    unitId?: true
+    code?: true
+    title?: true
+    description?: true
+    strand?: true
+    createdAt?: true
+  }
+
+  export type OntarioCurriculumExpectationMaxAggregateInputType = {
+    id?: true
+    unitId?: true
+    code?: true
+    title?: true
+    description?: true
+    strand?: true
+    createdAt?: true
+  }
+
+  export type OntarioCurriculumExpectationCountAggregateInputType = {
+    id?: true
+    unitId?: true
+    code?: true
+    title?: true
+    description?: true
+    strand?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type OntarioCurriculumExpectationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OntarioCurriculumExpectation to aggregate.
+     */
+    where?: OntarioCurriculumExpectationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumExpectations to fetch.
+     */
+    orderBy?: OntarioCurriculumExpectationOrderByWithRelationInput | OntarioCurriculumExpectationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OntarioCurriculumExpectationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumExpectations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumExpectations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OntarioCurriculumExpectations
+    **/
+    _count?: true | OntarioCurriculumExpectationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OntarioCurriculumExpectationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OntarioCurriculumExpectationMaxAggregateInputType
+  }
+
+  export type GetOntarioCurriculumExpectationAggregateType<T extends OntarioCurriculumExpectationAggregateArgs> = {
+        [P in keyof T & keyof AggregateOntarioCurriculumExpectation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOntarioCurriculumExpectation[P]>
+      : GetScalarType<T[P], AggregateOntarioCurriculumExpectation[P]>
+  }
+
+
+
+
+  export type OntarioCurriculumExpectationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OntarioCurriculumExpectationWhereInput
+    orderBy?: OntarioCurriculumExpectationOrderByWithAggregationInput | OntarioCurriculumExpectationOrderByWithAggregationInput[]
+    by: OntarioCurriculumExpectationScalarFieldEnum[] | OntarioCurriculumExpectationScalarFieldEnum
+    having?: OntarioCurriculumExpectationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OntarioCurriculumExpectationCountAggregateInputType | true
+    _min?: OntarioCurriculumExpectationMinAggregateInputType
+    _max?: OntarioCurriculumExpectationMaxAggregateInputType
+  }
+
+  export type OntarioCurriculumExpectationGroupByOutputType = {
+    id: string
+    unitId: string
+    code: string
+    title: string
+    description: string
+    strand: string
+    createdAt: Date
+    _count: OntarioCurriculumExpectationCountAggregateOutputType | null
+    _min: OntarioCurriculumExpectationMinAggregateOutputType | null
+    _max: OntarioCurriculumExpectationMaxAggregateOutputType | null
+  }
+
+  type GetOntarioCurriculumExpectationGroupByPayload<T extends OntarioCurriculumExpectationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OntarioCurriculumExpectationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OntarioCurriculumExpectationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OntarioCurriculumExpectationGroupByOutputType[P]>
+            : GetScalarType<T[P], OntarioCurriculumExpectationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OntarioCurriculumExpectationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    unitId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    strand?: boolean
+    createdAt?: boolean
+    unit?: boolean | OntarioCurriculumUnitDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ontarioCurriculumExpectation"]>
+
+  export type OntarioCurriculumExpectationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    unitId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    strand?: boolean
+    createdAt?: boolean
+    unit?: boolean | OntarioCurriculumUnitDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ontarioCurriculumExpectation"]>
+
+  export type OntarioCurriculumExpectationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    unitId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    strand?: boolean
+    createdAt?: boolean
+    unit?: boolean | OntarioCurriculumUnitDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ontarioCurriculumExpectation"]>
+
+  export type OntarioCurriculumExpectationSelectScalar = {
+    id?: boolean
+    unitId?: boolean
+    code?: boolean
+    title?: boolean
+    description?: boolean
+    strand?: boolean
+    createdAt?: boolean
+  }
+
+  export type OntarioCurriculumExpectationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "unitId" | "code" | "title" | "description" | "strand" | "createdAt", ExtArgs["result"]["ontarioCurriculumExpectation"]>
+  export type OntarioCurriculumExpectationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    unit?: boolean | OntarioCurriculumUnitDefaultArgs<ExtArgs>
+  }
+  export type OntarioCurriculumExpectationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    unit?: boolean | OntarioCurriculumUnitDefaultArgs<ExtArgs>
+  }
+  export type OntarioCurriculumExpectationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    unit?: boolean | OntarioCurriculumUnitDefaultArgs<ExtArgs>
+  }
+
+  export type $OntarioCurriculumExpectationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OntarioCurriculumExpectation"
+    objects: {
+      unit: Prisma.$OntarioCurriculumUnitPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      unitId: string
+      code: string
+      title: string
+      description: string
+      strand: string
+      createdAt: Date
+    }, ExtArgs["result"]["ontarioCurriculumExpectation"]>
+    composites: {}
+  }
+
+  type OntarioCurriculumExpectationGetPayload<S extends boolean | null | undefined | OntarioCurriculumExpectationDefaultArgs> = $Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload, S>
+
+  type OntarioCurriculumExpectationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OntarioCurriculumExpectationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OntarioCurriculumExpectationCountAggregateInputType | true
+    }
+
+  export interface OntarioCurriculumExpectationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OntarioCurriculumExpectation'], meta: { name: 'OntarioCurriculumExpectation' } }
+    /**
+     * Find zero or one OntarioCurriculumExpectation that matches the filter.
+     * @param {OntarioCurriculumExpectationFindUniqueArgs} args - Arguments to find a OntarioCurriculumExpectation
+     * @example
+     * // Get one OntarioCurriculumExpectation
+     * const ontarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OntarioCurriculumExpectationFindUniqueArgs>(args: SelectSubset<T, OntarioCurriculumExpectationFindUniqueArgs<ExtArgs>>): Prisma__OntarioCurriculumExpectationClient<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OntarioCurriculumExpectation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OntarioCurriculumExpectationFindUniqueOrThrowArgs} args - Arguments to find a OntarioCurriculumExpectation
+     * @example
+     * // Get one OntarioCurriculumExpectation
+     * const ontarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OntarioCurriculumExpectationFindUniqueOrThrowArgs>(args: SelectSubset<T, OntarioCurriculumExpectationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OntarioCurriculumExpectationClient<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OntarioCurriculumExpectation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumExpectationFindFirstArgs} args - Arguments to find a OntarioCurriculumExpectation
+     * @example
+     * // Get one OntarioCurriculumExpectation
+     * const ontarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OntarioCurriculumExpectationFindFirstArgs>(args?: SelectSubset<T, OntarioCurriculumExpectationFindFirstArgs<ExtArgs>>): Prisma__OntarioCurriculumExpectationClient<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OntarioCurriculumExpectation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumExpectationFindFirstOrThrowArgs} args - Arguments to find a OntarioCurriculumExpectation
+     * @example
+     * // Get one OntarioCurriculumExpectation
+     * const ontarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OntarioCurriculumExpectationFindFirstOrThrowArgs>(args?: SelectSubset<T, OntarioCurriculumExpectationFindFirstOrThrowArgs<ExtArgs>>): Prisma__OntarioCurriculumExpectationClient<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OntarioCurriculumExpectations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumExpectationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OntarioCurriculumExpectations
+     * const ontarioCurriculumExpectations = await prisma.ontarioCurriculumExpectation.findMany()
+     * 
+     * // Get first 10 OntarioCurriculumExpectations
+     * const ontarioCurriculumExpectations = await prisma.ontarioCurriculumExpectation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ontarioCurriculumExpectationWithIdOnly = await prisma.ontarioCurriculumExpectation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OntarioCurriculumExpectationFindManyArgs>(args?: SelectSubset<T, OntarioCurriculumExpectationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OntarioCurriculumExpectation.
+     * @param {OntarioCurriculumExpectationCreateArgs} args - Arguments to create a OntarioCurriculumExpectation.
+     * @example
+     * // Create one OntarioCurriculumExpectation
+     * const OntarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.create({
+     *   data: {
+     *     // ... data to create a OntarioCurriculumExpectation
+     *   }
+     * })
+     * 
+     */
+    create<T extends OntarioCurriculumExpectationCreateArgs>(args: SelectSubset<T, OntarioCurriculumExpectationCreateArgs<ExtArgs>>): Prisma__OntarioCurriculumExpectationClient<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OntarioCurriculumExpectations.
+     * @param {OntarioCurriculumExpectationCreateManyArgs} args - Arguments to create many OntarioCurriculumExpectations.
+     * @example
+     * // Create many OntarioCurriculumExpectations
+     * const ontarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OntarioCurriculumExpectationCreateManyArgs>(args?: SelectSubset<T, OntarioCurriculumExpectationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OntarioCurriculumExpectations and returns the data saved in the database.
+     * @param {OntarioCurriculumExpectationCreateManyAndReturnArgs} args - Arguments to create many OntarioCurriculumExpectations.
+     * @example
+     * // Create many OntarioCurriculumExpectations
+     * const ontarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OntarioCurriculumExpectations and only return the `id`
+     * const ontarioCurriculumExpectationWithIdOnly = await prisma.ontarioCurriculumExpectation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OntarioCurriculumExpectationCreateManyAndReturnArgs>(args?: SelectSubset<T, OntarioCurriculumExpectationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OntarioCurriculumExpectation.
+     * @param {OntarioCurriculumExpectationDeleteArgs} args - Arguments to delete one OntarioCurriculumExpectation.
+     * @example
+     * // Delete one OntarioCurriculumExpectation
+     * const OntarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.delete({
+     *   where: {
+     *     // ... filter to delete one OntarioCurriculumExpectation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OntarioCurriculumExpectationDeleteArgs>(args: SelectSubset<T, OntarioCurriculumExpectationDeleteArgs<ExtArgs>>): Prisma__OntarioCurriculumExpectationClient<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OntarioCurriculumExpectation.
+     * @param {OntarioCurriculumExpectationUpdateArgs} args - Arguments to update one OntarioCurriculumExpectation.
+     * @example
+     * // Update one OntarioCurriculumExpectation
+     * const ontarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OntarioCurriculumExpectationUpdateArgs>(args: SelectSubset<T, OntarioCurriculumExpectationUpdateArgs<ExtArgs>>): Prisma__OntarioCurriculumExpectationClient<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OntarioCurriculumExpectations.
+     * @param {OntarioCurriculumExpectationDeleteManyArgs} args - Arguments to filter OntarioCurriculumExpectations to delete.
+     * @example
+     * // Delete a few OntarioCurriculumExpectations
+     * const { count } = await prisma.ontarioCurriculumExpectation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OntarioCurriculumExpectationDeleteManyArgs>(args?: SelectSubset<T, OntarioCurriculumExpectationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OntarioCurriculumExpectations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumExpectationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OntarioCurriculumExpectations
+     * const ontarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OntarioCurriculumExpectationUpdateManyArgs>(args: SelectSubset<T, OntarioCurriculumExpectationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OntarioCurriculumExpectations and returns the data updated in the database.
+     * @param {OntarioCurriculumExpectationUpdateManyAndReturnArgs} args - Arguments to update many OntarioCurriculumExpectations.
+     * @example
+     * // Update many OntarioCurriculumExpectations
+     * const ontarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OntarioCurriculumExpectations and only return the `id`
+     * const ontarioCurriculumExpectationWithIdOnly = await prisma.ontarioCurriculumExpectation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OntarioCurriculumExpectationUpdateManyAndReturnArgs>(args: SelectSubset<T, OntarioCurriculumExpectationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OntarioCurriculumExpectation.
+     * @param {OntarioCurriculumExpectationUpsertArgs} args - Arguments to update or create a OntarioCurriculumExpectation.
+     * @example
+     * // Update or create a OntarioCurriculumExpectation
+     * const ontarioCurriculumExpectation = await prisma.ontarioCurriculumExpectation.upsert({
+     *   create: {
+     *     // ... data to create a OntarioCurriculumExpectation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OntarioCurriculumExpectation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OntarioCurriculumExpectationUpsertArgs>(args: SelectSubset<T, OntarioCurriculumExpectationUpsertArgs<ExtArgs>>): Prisma__OntarioCurriculumExpectationClient<$Result.GetResult<Prisma.$OntarioCurriculumExpectationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OntarioCurriculumExpectations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumExpectationCountArgs} args - Arguments to filter OntarioCurriculumExpectations to count.
+     * @example
+     * // Count the number of OntarioCurriculumExpectations
+     * const count = await prisma.ontarioCurriculumExpectation.count({
+     *   where: {
+     *     // ... the filter for the OntarioCurriculumExpectations we want to count
+     *   }
+     * })
+    **/
+    count<T extends OntarioCurriculumExpectationCountArgs>(
+      args?: Subset<T, OntarioCurriculumExpectationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OntarioCurriculumExpectationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OntarioCurriculumExpectation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumExpectationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OntarioCurriculumExpectationAggregateArgs>(args: Subset<T, OntarioCurriculumExpectationAggregateArgs>): Prisma.PrismaPromise<GetOntarioCurriculumExpectationAggregateType<T>>
+
+    /**
+     * Group by OntarioCurriculumExpectation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumExpectationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OntarioCurriculumExpectationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OntarioCurriculumExpectationGroupByArgs['orderBy'] }
+        : { orderBy?: OntarioCurriculumExpectationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OntarioCurriculumExpectationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOntarioCurriculumExpectationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OntarioCurriculumExpectation model
+   */
+  readonly fields: OntarioCurriculumExpectationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OntarioCurriculumExpectation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OntarioCurriculumExpectationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    unit<T extends OntarioCurriculumUnitDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OntarioCurriculumUnitDefaultArgs<ExtArgs>>): Prisma__OntarioCurriculumUnitClient<$Result.GetResult<Prisma.$OntarioCurriculumUnitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OntarioCurriculumExpectation model
+   */
+  interface OntarioCurriculumExpectationFieldRefs {
+    readonly id: FieldRef<"OntarioCurriculumExpectation", 'String'>
+    readonly unitId: FieldRef<"OntarioCurriculumExpectation", 'String'>
+    readonly code: FieldRef<"OntarioCurriculumExpectation", 'String'>
+    readonly title: FieldRef<"OntarioCurriculumExpectation", 'String'>
+    readonly description: FieldRef<"OntarioCurriculumExpectation", 'String'>
+    readonly strand: FieldRef<"OntarioCurriculumExpectation", 'String'>
+    readonly createdAt: FieldRef<"OntarioCurriculumExpectation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OntarioCurriculumExpectation findUnique
+   */
+  export type OntarioCurriculumExpectationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumExpectation to fetch.
+     */
+    where: OntarioCurriculumExpectationWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumExpectation findUniqueOrThrow
+   */
+  export type OntarioCurriculumExpectationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumExpectation to fetch.
+     */
+    where: OntarioCurriculumExpectationWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumExpectation findFirst
+   */
+  export type OntarioCurriculumExpectationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumExpectation to fetch.
+     */
+    where?: OntarioCurriculumExpectationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumExpectations to fetch.
+     */
+    orderBy?: OntarioCurriculumExpectationOrderByWithRelationInput | OntarioCurriculumExpectationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OntarioCurriculumExpectations.
+     */
+    cursor?: OntarioCurriculumExpectationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumExpectations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumExpectations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OntarioCurriculumExpectations.
+     */
+    distinct?: OntarioCurriculumExpectationScalarFieldEnum | OntarioCurriculumExpectationScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumExpectation findFirstOrThrow
+   */
+  export type OntarioCurriculumExpectationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumExpectation to fetch.
+     */
+    where?: OntarioCurriculumExpectationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumExpectations to fetch.
+     */
+    orderBy?: OntarioCurriculumExpectationOrderByWithRelationInput | OntarioCurriculumExpectationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OntarioCurriculumExpectations.
+     */
+    cursor?: OntarioCurriculumExpectationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumExpectations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumExpectations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OntarioCurriculumExpectations.
+     */
+    distinct?: OntarioCurriculumExpectationScalarFieldEnum | OntarioCurriculumExpectationScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumExpectation findMany
+   */
+  export type OntarioCurriculumExpectationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumExpectations to fetch.
+     */
+    where?: OntarioCurriculumExpectationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumExpectations to fetch.
+     */
+    orderBy?: OntarioCurriculumExpectationOrderByWithRelationInput | OntarioCurriculumExpectationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OntarioCurriculumExpectations.
+     */
+    cursor?: OntarioCurriculumExpectationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumExpectations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumExpectations.
+     */
+    skip?: number
+    distinct?: OntarioCurriculumExpectationScalarFieldEnum | OntarioCurriculumExpectationScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumExpectation create
+   */
+  export type OntarioCurriculumExpectationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OntarioCurriculumExpectation.
+     */
+    data: XOR<OntarioCurriculumExpectationCreateInput, OntarioCurriculumExpectationUncheckedCreateInput>
+  }
+
+  /**
+   * OntarioCurriculumExpectation createMany
+   */
+  export type OntarioCurriculumExpectationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OntarioCurriculumExpectations.
+     */
+    data: OntarioCurriculumExpectationCreateManyInput | OntarioCurriculumExpectationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OntarioCurriculumExpectation createManyAndReturn
+   */
+  export type OntarioCurriculumExpectationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * The data used to create many OntarioCurriculumExpectations.
+     */
+    data: OntarioCurriculumExpectationCreateManyInput | OntarioCurriculumExpectationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OntarioCurriculumExpectation update
+   */
+  export type OntarioCurriculumExpectationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OntarioCurriculumExpectation.
+     */
+    data: XOR<OntarioCurriculumExpectationUpdateInput, OntarioCurriculumExpectationUncheckedUpdateInput>
+    /**
+     * Choose, which OntarioCurriculumExpectation to update.
+     */
+    where: OntarioCurriculumExpectationWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumExpectation updateMany
+   */
+  export type OntarioCurriculumExpectationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OntarioCurriculumExpectations.
+     */
+    data: XOR<OntarioCurriculumExpectationUpdateManyMutationInput, OntarioCurriculumExpectationUncheckedUpdateManyInput>
+    /**
+     * Filter which OntarioCurriculumExpectations to update
+     */
+    where?: OntarioCurriculumExpectationWhereInput
+    /**
+     * Limit how many OntarioCurriculumExpectations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OntarioCurriculumExpectation updateManyAndReturn
+   */
+  export type OntarioCurriculumExpectationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * The data used to update OntarioCurriculumExpectations.
+     */
+    data: XOR<OntarioCurriculumExpectationUpdateManyMutationInput, OntarioCurriculumExpectationUncheckedUpdateManyInput>
+    /**
+     * Filter which OntarioCurriculumExpectations to update
+     */
+    where?: OntarioCurriculumExpectationWhereInput
+    /**
+     * Limit how many OntarioCurriculumExpectations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OntarioCurriculumExpectation upsert
+   */
+  export type OntarioCurriculumExpectationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OntarioCurriculumExpectation to update in case it exists.
+     */
+    where: OntarioCurriculumExpectationWhereUniqueInput
+    /**
+     * In case the OntarioCurriculumExpectation found by the `where` argument doesn't exist, create a new OntarioCurriculumExpectation with this data.
+     */
+    create: XOR<OntarioCurriculumExpectationCreateInput, OntarioCurriculumExpectationUncheckedCreateInput>
+    /**
+     * In case the OntarioCurriculumExpectation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OntarioCurriculumExpectationUpdateInput, OntarioCurriculumExpectationUncheckedUpdateInput>
+  }
+
+  /**
+   * OntarioCurriculumExpectation delete
+   */
+  export type OntarioCurriculumExpectationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationInclude<ExtArgs> | null
+    /**
+     * Filter which OntarioCurriculumExpectation to delete.
+     */
+    where: OntarioCurriculumExpectationWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumExpectation deleteMany
+   */
+  export type OntarioCurriculumExpectationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OntarioCurriculumExpectations to delete
+     */
+    where?: OntarioCurriculumExpectationWhereInput
+    /**
+     * Limit how many OntarioCurriculumExpectations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OntarioCurriculumExpectation without action
+   */
+  export type OntarioCurriculumExpectationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumExpectation
+     */
+    select?: OntarioCurriculumExpectationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumExpectation
+     */
+    omit?: OntarioCurriculumExpectationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumExpectationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model OntarioCurriculumProgress
+   */
+
+  export type AggregateOntarioCurriculumProgress = {
+    _count: OntarioCurriculumProgressCountAggregateOutputType | null
+    _avg: OntarioCurriculumProgressAvgAggregateOutputType | null
+    _sum: OntarioCurriculumProgressSumAggregateOutputType | null
+    _min: OntarioCurriculumProgressMinAggregateOutputType | null
+    _max: OntarioCurriculumProgressMaxAggregateOutputType | null
+  }
+
+  export type OntarioCurriculumProgressAvgAggregateOutputType = {
+    confidence: number | null
+  }
+
+  export type OntarioCurriculumProgressSumAggregateOutputType = {
+    confidence: number | null
+  }
+
+  export type OntarioCurriculumProgressMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    courseId: string | null
+    confidence: number | null
+    lastStudiedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OntarioCurriculumProgressMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    courseId: string | null
+    confidence: number | null
+    lastStudiedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OntarioCurriculumProgressCountAggregateOutputType = {
+    id: number
+    userId: number
+    courseId: number
+    completedUnits: number
+    completedExpectations: number
+    confidence: number
+    lastStudiedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OntarioCurriculumProgressAvgAggregateInputType = {
+    confidence?: true
+  }
+
+  export type OntarioCurriculumProgressSumAggregateInputType = {
+    confidence?: true
+  }
+
+  export type OntarioCurriculumProgressMinAggregateInputType = {
+    id?: true
+    userId?: true
+    courseId?: true
+    confidence?: true
+    lastStudiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OntarioCurriculumProgressMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    courseId?: true
+    confidence?: true
+    lastStudiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OntarioCurriculumProgressCountAggregateInputType = {
+    id?: true
+    userId?: true
+    courseId?: true
+    completedUnits?: true
+    completedExpectations?: true
+    confidence?: true
+    lastStudiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OntarioCurriculumProgressAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OntarioCurriculumProgress to aggregate.
+     */
+    where?: OntarioCurriculumProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumProgresses to fetch.
+     */
+    orderBy?: OntarioCurriculumProgressOrderByWithRelationInput | OntarioCurriculumProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OntarioCurriculumProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OntarioCurriculumProgresses
+    **/
+    _count?: true | OntarioCurriculumProgressCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OntarioCurriculumProgressAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OntarioCurriculumProgressSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OntarioCurriculumProgressMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OntarioCurriculumProgressMaxAggregateInputType
+  }
+
+  export type GetOntarioCurriculumProgressAggregateType<T extends OntarioCurriculumProgressAggregateArgs> = {
+        [P in keyof T & keyof AggregateOntarioCurriculumProgress]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOntarioCurriculumProgress[P]>
+      : GetScalarType<T[P], AggregateOntarioCurriculumProgress[P]>
+  }
+
+
+
+
+  export type OntarioCurriculumProgressGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OntarioCurriculumProgressWhereInput
+    orderBy?: OntarioCurriculumProgressOrderByWithAggregationInput | OntarioCurriculumProgressOrderByWithAggregationInput[]
+    by: OntarioCurriculumProgressScalarFieldEnum[] | OntarioCurriculumProgressScalarFieldEnum
+    having?: OntarioCurriculumProgressScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OntarioCurriculumProgressCountAggregateInputType | true
+    _avg?: OntarioCurriculumProgressAvgAggregateInputType
+    _sum?: OntarioCurriculumProgressSumAggregateInputType
+    _min?: OntarioCurriculumProgressMinAggregateInputType
+    _max?: OntarioCurriculumProgressMaxAggregateInputType
+  }
+
+  export type OntarioCurriculumProgressGroupByOutputType = {
+    id: string
+    userId: string
+    courseId: string
+    completedUnits: string[]
+    completedExpectations: string[]
+    confidence: number
+    lastStudiedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: OntarioCurriculumProgressCountAggregateOutputType | null
+    _avg: OntarioCurriculumProgressAvgAggregateOutputType | null
+    _sum: OntarioCurriculumProgressSumAggregateOutputType | null
+    _min: OntarioCurriculumProgressMinAggregateOutputType | null
+    _max: OntarioCurriculumProgressMaxAggregateOutputType | null
+  }
+
+  type GetOntarioCurriculumProgressGroupByPayload<T extends OntarioCurriculumProgressGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OntarioCurriculumProgressGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OntarioCurriculumProgressGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OntarioCurriculumProgressGroupByOutputType[P]>
+            : GetScalarType<T[P], OntarioCurriculumProgressGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OntarioCurriculumProgressSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    courseId?: boolean
+    completedUnits?: boolean
+    completedExpectations?: boolean
+    confidence?: boolean
+    lastStudiedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ontarioCurriculumProgress"]>
+
+  export type OntarioCurriculumProgressSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    courseId?: boolean
+    completedUnits?: boolean
+    completedExpectations?: boolean
+    confidence?: boolean
+    lastStudiedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ontarioCurriculumProgress"]>
+
+  export type OntarioCurriculumProgressSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    courseId?: boolean
+    completedUnits?: boolean
+    completedExpectations?: boolean
+    confidence?: boolean
+    lastStudiedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ontarioCurriculumProgress"]>
+
+  export type OntarioCurriculumProgressSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    courseId?: boolean
+    completedUnits?: boolean
+    completedExpectations?: boolean
+    confidence?: boolean
+    lastStudiedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type OntarioCurriculumProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "courseId" | "completedUnits" | "completedExpectations" | "confidence" | "lastStudiedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["ontarioCurriculumProgress"]>
+  export type OntarioCurriculumProgressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+  }
+  export type OntarioCurriculumProgressIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+  }
+  export type OntarioCurriculumProgressIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    course?: boolean | OntarioCurriculumCourseDefaultArgs<ExtArgs>
+  }
+
+  export type $OntarioCurriculumProgressPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OntarioCurriculumProgress"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      course: Prisma.$OntarioCurriculumCoursePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      courseId: string
+      completedUnits: string[]
+      completedExpectations: string[]
+      confidence: number
+      lastStudiedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["ontarioCurriculumProgress"]>
+    composites: {}
+  }
+
+  type OntarioCurriculumProgressGetPayload<S extends boolean | null | undefined | OntarioCurriculumProgressDefaultArgs> = $Result.GetResult<Prisma.$OntarioCurriculumProgressPayload, S>
+
+  type OntarioCurriculumProgressCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OntarioCurriculumProgressFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OntarioCurriculumProgressCountAggregateInputType | true
+    }
+
+  export interface OntarioCurriculumProgressDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OntarioCurriculumProgress'], meta: { name: 'OntarioCurriculumProgress' } }
+    /**
+     * Find zero or one OntarioCurriculumProgress that matches the filter.
+     * @param {OntarioCurriculumProgressFindUniqueArgs} args - Arguments to find a OntarioCurriculumProgress
+     * @example
+     * // Get one OntarioCurriculumProgress
+     * const ontarioCurriculumProgress = await prisma.ontarioCurriculumProgress.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OntarioCurriculumProgressFindUniqueArgs>(args: SelectSubset<T, OntarioCurriculumProgressFindUniqueArgs<ExtArgs>>): Prisma__OntarioCurriculumProgressClient<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OntarioCurriculumProgress that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OntarioCurriculumProgressFindUniqueOrThrowArgs} args - Arguments to find a OntarioCurriculumProgress
+     * @example
+     * // Get one OntarioCurriculumProgress
+     * const ontarioCurriculumProgress = await prisma.ontarioCurriculumProgress.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OntarioCurriculumProgressFindUniqueOrThrowArgs>(args: SelectSubset<T, OntarioCurriculumProgressFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OntarioCurriculumProgressClient<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OntarioCurriculumProgress that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumProgressFindFirstArgs} args - Arguments to find a OntarioCurriculumProgress
+     * @example
+     * // Get one OntarioCurriculumProgress
+     * const ontarioCurriculumProgress = await prisma.ontarioCurriculumProgress.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OntarioCurriculumProgressFindFirstArgs>(args?: SelectSubset<T, OntarioCurriculumProgressFindFirstArgs<ExtArgs>>): Prisma__OntarioCurriculumProgressClient<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OntarioCurriculumProgress that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumProgressFindFirstOrThrowArgs} args - Arguments to find a OntarioCurriculumProgress
+     * @example
+     * // Get one OntarioCurriculumProgress
+     * const ontarioCurriculumProgress = await prisma.ontarioCurriculumProgress.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OntarioCurriculumProgressFindFirstOrThrowArgs>(args?: SelectSubset<T, OntarioCurriculumProgressFindFirstOrThrowArgs<ExtArgs>>): Prisma__OntarioCurriculumProgressClient<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OntarioCurriculumProgresses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumProgressFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OntarioCurriculumProgresses
+     * const ontarioCurriculumProgresses = await prisma.ontarioCurriculumProgress.findMany()
+     * 
+     * // Get first 10 OntarioCurriculumProgresses
+     * const ontarioCurriculumProgresses = await prisma.ontarioCurriculumProgress.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ontarioCurriculumProgressWithIdOnly = await prisma.ontarioCurriculumProgress.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OntarioCurriculumProgressFindManyArgs>(args?: SelectSubset<T, OntarioCurriculumProgressFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OntarioCurriculumProgress.
+     * @param {OntarioCurriculumProgressCreateArgs} args - Arguments to create a OntarioCurriculumProgress.
+     * @example
+     * // Create one OntarioCurriculumProgress
+     * const OntarioCurriculumProgress = await prisma.ontarioCurriculumProgress.create({
+     *   data: {
+     *     // ... data to create a OntarioCurriculumProgress
+     *   }
+     * })
+     * 
+     */
+    create<T extends OntarioCurriculumProgressCreateArgs>(args: SelectSubset<T, OntarioCurriculumProgressCreateArgs<ExtArgs>>): Prisma__OntarioCurriculumProgressClient<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OntarioCurriculumProgresses.
+     * @param {OntarioCurriculumProgressCreateManyArgs} args - Arguments to create many OntarioCurriculumProgresses.
+     * @example
+     * // Create many OntarioCurriculumProgresses
+     * const ontarioCurriculumProgress = await prisma.ontarioCurriculumProgress.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OntarioCurriculumProgressCreateManyArgs>(args?: SelectSubset<T, OntarioCurriculumProgressCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OntarioCurriculumProgresses and returns the data saved in the database.
+     * @param {OntarioCurriculumProgressCreateManyAndReturnArgs} args - Arguments to create many OntarioCurriculumProgresses.
+     * @example
+     * // Create many OntarioCurriculumProgresses
+     * const ontarioCurriculumProgress = await prisma.ontarioCurriculumProgress.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OntarioCurriculumProgresses and only return the `id`
+     * const ontarioCurriculumProgressWithIdOnly = await prisma.ontarioCurriculumProgress.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OntarioCurriculumProgressCreateManyAndReturnArgs>(args?: SelectSubset<T, OntarioCurriculumProgressCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OntarioCurriculumProgress.
+     * @param {OntarioCurriculumProgressDeleteArgs} args - Arguments to delete one OntarioCurriculumProgress.
+     * @example
+     * // Delete one OntarioCurriculumProgress
+     * const OntarioCurriculumProgress = await prisma.ontarioCurriculumProgress.delete({
+     *   where: {
+     *     // ... filter to delete one OntarioCurriculumProgress
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OntarioCurriculumProgressDeleteArgs>(args: SelectSubset<T, OntarioCurriculumProgressDeleteArgs<ExtArgs>>): Prisma__OntarioCurriculumProgressClient<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OntarioCurriculumProgress.
+     * @param {OntarioCurriculumProgressUpdateArgs} args - Arguments to update one OntarioCurriculumProgress.
+     * @example
+     * // Update one OntarioCurriculumProgress
+     * const ontarioCurriculumProgress = await prisma.ontarioCurriculumProgress.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OntarioCurriculumProgressUpdateArgs>(args: SelectSubset<T, OntarioCurriculumProgressUpdateArgs<ExtArgs>>): Prisma__OntarioCurriculumProgressClient<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OntarioCurriculumProgresses.
+     * @param {OntarioCurriculumProgressDeleteManyArgs} args - Arguments to filter OntarioCurriculumProgresses to delete.
+     * @example
+     * // Delete a few OntarioCurriculumProgresses
+     * const { count } = await prisma.ontarioCurriculumProgress.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OntarioCurriculumProgressDeleteManyArgs>(args?: SelectSubset<T, OntarioCurriculumProgressDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OntarioCurriculumProgresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumProgressUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OntarioCurriculumProgresses
+     * const ontarioCurriculumProgress = await prisma.ontarioCurriculumProgress.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OntarioCurriculumProgressUpdateManyArgs>(args: SelectSubset<T, OntarioCurriculumProgressUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OntarioCurriculumProgresses and returns the data updated in the database.
+     * @param {OntarioCurriculumProgressUpdateManyAndReturnArgs} args - Arguments to update many OntarioCurriculumProgresses.
+     * @example
+     * // Update many OntarioCurriculumProgresses
+     * const ontarioCurriculumProgress = await prisma.ontarioCurriculumProgress.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OntarioCurriculumProgresses and only return the `id`
+     * const ontarioCurriculumProgressWithIdOnly = await prisma.ontarioCurriculumProgress.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OntarioCurriculumProgressUpdateManyAndReturnArgs>(args: SelectSubset<T, OntarioCurriculumProgressUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OntarioCurriculumProgress.
+     * @param {OntarioCurriculumProgressUpsertArgs} args - Arguments to update or create a OntarioCurriculumProgress.
+     * @example
+     * // Update or create a OntarioCurriculumProgress
+     * const ontarioCurriculumProgress = await prisma.ontarioCurriculumProgress.upsert({
+     *   create: {
+     *     // ... data to create a OntarioCurriculumProgress
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OntarioCurriculumProgress we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OntarioCurriculumProgressUpsertArgs>(args: SelectSubset<T, OntarioCurriculumProgressUpsertArgs<ExtArgs>>): Prisma__OntarioCurriculumProgressClient<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OntarioCurriculumProgresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumProgressCountArgs} args - Arguments to filter OntarioCurriculumProgresses to count.
+     * @example
+     * // Count the number of OntarioCurriculumProgresses
+     * const count = await prisma.ontarioCurriculumProgress.count({
+     *   where: {
+     *     // ... the filter for the OntarioCurriculumProgresses we want to count
+     *   }
+     * })
+    **/
+    count<T extends OntarioCurriculumProgressCountArgs>(
+      args?: Subset<T, OntarioCurriculumProgressCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OntarioCurriculumProgressCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OntarioCurriculumProgress.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumProgressAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OntarioCurriculumProgressAggregateArgs>(args: Subset<T, OntarioCurriculumProgressAggregateArgs>): Prisma.PrismaPromise<GetOntarioCurriculumProgressAggregateType<T>>
+
+    /**
+     * Group by OntarioCurriculumProgress.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OntarioCurriculumProgressGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OntarioCurriculumProgressGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OntarioCurriculumProgressGroupByArgs['orderBy'] }
+        : { orderBy?: OntarioCurriculumProgressGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OntarioCurriculumProgressGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOntarioCurriculumProgressGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OntarioCurriculumProgress model
+   */
+  readonly fields: OntarioCurriculumProgressFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OntarioCurriculumProgress.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OntarioCurriculumProgressClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    course<T extends OntarioCurriculumCourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OntarioCurriculumCourseDefaultArgs<ExtArgs>>): Prisma__OntarioCurriculumCourseClient<$Result.GetResult<Prisma.$OntarioCurriculumCoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OntarioCurriculumProgress model
+   */
+  interface OntarioCurriculumProgressFieldRefs {
+    readonly id: FieldRef<"OntarioCurriculumProgress", 'String'>
+    readonly userId: FieldRef<"OntarioCurriculumProgress", 'String'>
+    readonly courseId: FieldRef<"OntarioCurriculumProgress", 'String'>
+    readonly completedUnits: FieldRef<"OntarioCurriculumProgress", 'String[]'>
+    readonly completedExpectations: FieldRef<"OntarioCurriculumProgress", 'String[]'>
+    readonly confidence: FieldRef<"OntarioCurriculumProgress", 'Int'>
+    readonly lastStudiedAt: FieldRef<"OntarioCurriculumProgress", 'DateTime'>
+    readonly createdAt: FieldRef<"OntarioCurriculumProgress", 'DateTime'>
+    readonly updatedAt: FieldRef<"OntarioCurriculumProgress", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OntarioCurriculumProgress findUnique
+   */
+  export type OntarioCurriculumProgressFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumProgress to fetch.
+     */
+    where: OntarioCurriculumProgressWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumProgress findUniqueOrThrow
+   */
+  export type OntarioCurriculumProgressFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumProgress to fetch.
+     */
+    where: OntarioCurriculumProgressWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumProgress findFirst
+   */
+  export type OntarioCurriculumProgressFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumProgress to fetch.
+     */
+    where?: OntarioCurriculumProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumProgresses to fetch.
+     */
+    orderBy?: OntarioCurriculumProgressOrderByWithRelationInput | OntarioCurriculumProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OntarioCurriculumProgresses.
+     */
+    cursor?: OntarioCurriculumProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OntarioCurriculumProgresses.
+     */
+    distinct?: OntarioCurriculumProgressScalarFieldEnum | OntarioCurriculumProgressScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumProgress findFirstOrThrow
+   */
+  export type OntarioCurriculumProgressFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumProgress to fetch.
+     */
+    where?: OntarioCurriculumProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumProgresses to fetch.
+     */
+    orderBy?: OntarioCurriculumProgressOrderByWithRelationInput | OntarioCurriculumProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OntarioCurriculumProgresses.
+     */
+    cursor?: OntarioCurriculumProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OntarioCurriculumProgresses.
+     */
+    distinct?: OntarioCurriculumProgressScalarFieldEnum | OntarioCurriculumProgressScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumProgress findMany
+   */
+  export type OntarioCurriculumProgressFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which OntarioCurriculumProgresses to fetch.
+     */
+    where?: OntarioCurriculumProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OntarioCurriculumProgresses to fetch.
+     */
+    orderBy?: OntarioCurriculumProgressOrderByWithRelationInput | OntarioCurriculumProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OntarioCurriculumProgresses.
+     */
+    cursor?: OntarioCurriculumProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OntarioCurriculumProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OntarioCurriculumProgresses.
+     */
+    skip?: number
+    distinct?: OntarioCurriculumProgressScalarFieldEnum | OntarioCurriculumProgressScalarFieldEnum[]
+  }
+
+  /**
+   * OntarioCurriculumProgress create
+   */
+  export type OntarioCurriculumProgressCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OntarioCurriculumProgress.
+     */
+    data: XOR<OntarioCurriculumProgressCreateInput, OntarioCurriculumProgressUncheckedCreateInput>
+  }
+
+  /**
+   * OntarioCurriculumProgress createMany
+   */
+  export type OntarioCurriculumProgressCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OntarioCurriculumProgresses.
+     */
+    data: OntarioCurriculumProgressCreateManyInput | OntarioCurriculumProgressCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OntarioCurriculumProgress createManyAndReturn
+   */
+  export type OntarioCurriculumProgressCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * The data used to create many OntarioCurriculumProgresses.
+     */
+    data: OntarioCurriculumProgressCreateManyInput | OntarioCurriculumProgressCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OntarioCurriculumProgress update
+   */
+  export type OntarioCurriculumProgressUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OntarioCurriculumProgress.
+     */
+    data: XOR<OntarioCurriculumProgressUpdateInput, OntarioCurriculumProgressUncheckedUpdateInput>
+    /**
+     * Choose, which OntarioCurriculumProgress to update.
+     */
+    where: OntarioCurriculumProgressWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumProgress updateMany
+   */
+  export type OntarioCurriculumProgressUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OntarioCurriculumProgresses.
+     */
+    data: XOR<OntarioCurriculumProgressUpdateManyMutationInput, OntarioCurriculumProgressUncheckedUpdateManyInput>
+    /**
+     * Filter which OntarioCurriculumProgresses to update
+     */
+    where?: OntarioCurriculumProgressWhereInput
+    /**
+     * Limit how many OntarioCurriculumProgresses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OntarioCurriculumProgress updateManyAndReturn
+   */
+  export type OntarioCurriculumProgressUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * The data used to update OntarioCurriculumProgresses.
+     */
+    data: XOR<OntarioCurriculumProgressUpdateManyMutationInput, OntarioCurriculumProgressUncheckedUpdateManyInput>
+    /**
+     * Filter which OntarioCurriculumProgresses to update
+     */
+    where?: OntarioCurriculumProgressWhereInput
+    /**
+     * Limit how many OntarioCurriculumProgresses to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OntarioCurriculumProgress upsert
+   */
+  export type OntarioCurriculumProgressUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OntarioCurriculumProgress to update in case it exists.
+     */
+    where: OntarioCurriculumProgressWhereUniqueInput
+    /**
+     * In case the OntarioCurriculumProgress found by the `where` argument doesn't exist, create a new OntarioCurriculumProgress with this data.
+     */
+    create: XOR<OntarioCurriculumProgressCreateInput, OntarioCurriculumProgressUncheckedCreateInput>
+    /**
+     * In case the OntarioCurriculumProgress was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OntarioCurriculumProgressUpdateInput, OntarioCurriculumProgressUncheckedUpdateInput>
+  }
+
+  /**
+   * OntarioCurriculumProgress delete
+   */
+  export type OntarioCurriculumProgressDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
+    /**
+     * Filter which OntarioCurriculumProgress to delete.
+     */
+    where: OntarioCurriculumProgressWhereUniqueInput
+  }
+
+  /**
+   * OntarioCurriculumProgress deleteMany
+   */
+  export type OntarioCurriculumProgressDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OntarioCurriculumProgresses to delete
+     */
+    where?: OntarioCurriculumProgressWhereInput
+    /**
+     * Limit how many OntarioCurriculumProgresses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OntarioCurriculumProgress without action
+   */
+  export type OntarioCurriculumProgressDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OntarioCurriculumProgress
+     */
+    select?: OntarioCurriculumProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OntarioCurriculumProgress
+     */
+    omit?: OntarioCurriculumProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OntarioCurriculumProgressInclude<ExtArgs> | null
   }
 
 
@@ -52113,6 +57171,64 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const OntarioCurriculumCourseScalarFieldEnum: {
+    id: 'id',
+    code: 'code',
+    title: 'title',
+    grade: 'grade',
+    subject: 'subject',
+    destination: 'destination',
+    description: 'description',
+    keywords: 'keywords',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OntarioCurriculumCourseScalarFieldEnum = (typeof OntarioCurriculumCourseScalarFieldEnum)[keyof typeof OntarioCurriculumCourseScalarFieldEnum]
+
+
+  export const OntarioCurriculumUnitScalarFieldEnum: {
+    id: 'id',
+    courseId: 'courseId',
+    code: 'code',
+    title: 'title',
+    description: 'description',
+    weight: 'weight',
+    orderIndex: 'orderIndex',
+    createdAt: 'createdAt'
+  };
+
+  export type OntarioCurriculumUnitScalarFieldEnum = (typeof OntarioCurriculumUnitScalarFieldEnum)[keyof typeof OntarioCurriculumUnitScalarFieldEnum]
+
+
+  export const OntarioCurriculumExpectationScalarFieldEnum: {
+    id: 'id',
+    unitId: 'unitId',
+    code: 'code',
+    title: 'title',
+    description: 'description',
+    strand: 'strand',
+    createdAt: 'createdAt'
+  };
+
+  export type OntarioCurriculumExpectationScalarFieldEnum = (typeof OntarioCurriculumExpectationScalarFieldEnum)[keyof typeof OntarioCurriculumExpectationScalarFieldEnum]
+
+
+  export const OntarioCurriculumProgressScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    courseId: 'courseId',
+    completedUnits: 'completedUnits',
+    completedExpectations: 'completedExpectations',
+    confidence: 'confidence',
+    lastStudiedAt: 'lastStudiedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OntarioCurriculumProgressScalarFieldEnum = (typeof OntarioCurriculumProgressScalarFieldEnum)[keyof typeof OntarioCurriculumProgressScalarFieldEnum]
+
+
   export const VerificationTokenScalarFieldEnum: {
     identifier: 'identifier',
     token: 'token',
@@ -53037,6 +58153,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentListRelationFilter
     annotations?: AnnotationListRelationFilter
     focusSessions?: FocusSessionListRelationFilter
+    curriculumProgress?: OntarioCurriculumProgressListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -53097,6 +58214,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentOrderByRelationAggregateInput
     annotations?: AnnotationOrderByRelationAggregateInput
     focusSessions?: FocusSessionOrderByRelationAggregateInput
+    curriculumProgress?: OntarioCurriculumProgressOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -53160,6 +58278,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentListRelationFilter
     annotations?: AnnotationListRelationFilter
     focusSessions?: FocusSessionListRelationFilter
+    curriculumProgress?: OntarioCurriculumProgressListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -53216,6 +58335,314 @@ export namespace Prisma {
     battleWinStreak?: IntWithAggregatesFilter<"User"> | number
     soloSessionsCompleted?: IntWithAggregatesFilter<"User"> | number
     battleAchievements?: StringNullableListFilter<"User">
+  }
+
+  export type OntarioCurriculumCourseWhereInput = {
+    AND?: OntarioCurriculumCourseWhereInput | OntarioCurriculumCourseWhereInput[]
+    OR?: OntarioCurriculumCourseWhereInput[]
+    NOT?: OntarioCurriculumCourseWhereInput | OntarioCurriculumCourseWhereInput[]
+    id?: StringFilter<"OntarioCurriculumCourse"> | string
+    code?: StringFilter<"OntarioCurriculumCourse"> | string
+    title?: StringFilter<"OntarioCurriculumCourse"> | string
+    grade?: IntFilter<"OntarioCurriculumCourse"> | number
+    subject?: StringFilter<"OntarioCurriculumCourse"> | string
+    destination?: StringFilter<"OntarioCurriculumCourse"> | string
+    description?: StringFilter<"OntarioCurriculumCourse"> | string
+    keywords?: StringNullableListFilter<"OntarioCurriculumCourse">
+    createdAt?: DateTimeFilter<"OntarioCurriculumCourse"> | Date | string
+    updatedAt?: DateTimeFilter<"OntarioCurriculumCourse"> | Date | string
+    units?: OntarioCurriculumUnitListRelationFilter
+    progress?: OntarioCurriculumProgressListRelationFilter
+  }
+
+  export type OntarioCurriculumCourseOrderByWithRelationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    grade?: SortOrder
+    subject?: SortOrder
+    destination?: SortOrder
+    description?: SortOrder
+    keywords?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    units?: OntarioCurriculumUnitOrderByRelationAggregateInput
+    progress?: OntarioCurriculumProgressOrderByRelationAggregateInput
+  }
+
+  export type OntarioCurriculumCourseWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    code?: string
+    AND?: OntarioCurriculumCourseWhereInput | OntarioCurriculumCourseWhereInput[]
+    OR?: OntarioCurriculumCourseWhereInput[]
+    NOT?: OntarioCurriculumCourseWhereInput | OntarioCurriculumCourseWhereInput[]
+    title?: StringFilter<"OntarioCurriculumCourse"> | string
+    grade?: IntFilter<"OntarioCurriculumCourse"> | number
+    subject?: StringFilter<"OntarioCurriculumCourse"> | string
+    destination?: StringFilter<"OntarioCurriculumCourse"> | string
+    description?: StringFilter<"OntarioCurriculumCourse"> | string
+    keywords?: StringNullableListFilter<"OntarioCurriculumCourse">
+    createdAt?: DateTimeFilter<"OntarioCurriculumCourse"> | Date | string
+    updatedAt?: DateTimeFilter<"OntarioCurriculumCourse"> | Date | string
+    units?: OntarioCurriculumUnitListRelationFilter
+    progress?: OntarioCurriculumProgressListRelationFilter
+  }, "id" | "code">
+
+  export type OntarioCurriculumCourseOrderByWithAggregationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    grade?: SortOrder
+    subject?: SortOrder
+    destination?: SortOrder
+    description?: SortOrder
+    keywords?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OntarioCurriculumCourseCountOrderByAggregateInput
+    _avg?: OntarioCurriculumCourseAvgOrderByAggregateInput
+    _max?: OntarioCurriculumCourseMaxOrderByAggregateInput
+    _min?: OntarioCurriculumCourseMinOrderByAggregateInput
+    _sum?: OntarioCurriculumCourseSumOrderByAggregateInput
+  }
+
+  export type OntarioCurriculumCourseScalarWhereWithAggregatesInput = {
+    AND?: OntarioCurriculumCourseScalarWhereWithAggregatesInput | OntarioCurriculumCourseScalarWhereWithAggregatesInput[]
+    OR?: OntarioCurriculumCourseScalarWhereWithAggregatesInput[]
+    NOT?: OntarioCurriculumCourseScalarWhereWithAggregatesInput | OntarioCurriculumCourseScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
+    code?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
+    title?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
+    grade?: IntWithAggregatesFilter<"OntarioCurriculumCourse"> | number
+    subject?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
+    destination?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
+    description?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
+    keywords?: StringNullableListFilter<"OntarioCurriculumCourse">
+    createdAt?: DateTimeWithAggregatesFilter<"OntarioCurriculumCourse"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"OntarioCurriculumCourse"> | Date | string
+  }
+
+  export type OntarioCurriculumUnitWhereInput = {
+    AND?: OntarioCurriculumUnitWhereInput | OntarioCurriculumUnitWhereInput[]
+    OR?: OntarioCurriculumUnitWhereInput[]
+    NOT?: OntarioCurriculumUnitWhereInput | OntarioCurriculumUnitWhereInput[]
+    id?: StringFilter<"OntarioCurriculumUnit"> | string
+    courseId?: StringFilter<"OntarioCurriculumUnit"> | string
+    code?: StringFilter<"OntarioCurriculumUnit"> | string
+    title?: StringFilter<"OntarioCurriculumUnit"> | string
+    description?: StringFilter<"OntarioCurriculumUnit"> | string
+    weight?: IntFilter<"OntarioCurriculumUnit"> | number
+    orderIndex?: IntFilter<"OntarioCurriculumUnit"> | number
+    createdAt?: DateTimeFilter<"OntarioCurriculumUnit"> | Date | string
+    course?: XOR<OntarioCurriculumCourseScalarRelationFilter, OntarioCurriculumCourseWhereInput>
+    expectations?: OntarioCurriculumExpectationListRelationFilter
+  }
+
+  export type OntarioCurriculumUnitOrderByWithRelationInput = {
+    id?: SortOrder
+    courseId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    weight?: SortOrder
+    orderIndex?: SortOrder
+    createdAt?: SortOrder
+    course?: OntarioCurriculumCourseOrderByWithRelationInput
+    expectations?: OntarioCurriculumExpectationOrderByRelationAggregateInput
+  }
+
+  export type OntarioCurriculumUnitWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    courseId_code?: OntarioCurriculumUnitCourseIdCodeCompoundUniqueInput
+    AND?: OntarioCurriculumUnitWhereInput | OntarioCurriculumUnitWhereInput[]
+    OR?: OntarioCurriculumUnitWhereInput[]
+    NOT?: OntarioCurriculumUnitWhereInput | OntarioCurriculumUnitWhereInput[]
+    courseId?: StringFilter<"OntarioCurriculumUnit"> | string
+    code?: StringFilter<"OntarioCurriculumUnit"> | string
+    title?: StringFilter<"OntarioCurriculumUnit"> | string
+    description?: StringFilter<"OntarioCurriculumUnit"> | string
+    weight?: IntFilter<"OntarioCurriculumUnit"> | number
+    orderIndex?: IntFilter<"OntarioCurriculumUnit"> | number
+    createdAt?: DateTimeFilter<"OntarioCurriculumUnit"> | Date | string
+    course?: XOR<OntarioCurriculumCourseScalarRelationFilter, OntarioCurriculumCourseWhereInput>
+    expectations?: OntarioCurriculumExpectationListRelationFilter
+  }, "id" | "courseId_code">
+
+  export type OntarioCurriculumUnitOrderByWithAggregationInput = {
+    id?: SortOrder
+    courseId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    weight?: SortOrder
+    orderIndex?: SortOrder
+    createdAt?: SortOrder
+    _count?: OntarioCurriculumUnitCountOrderByAggregateInput
+    _avg?: OntarioCurriculumUnitAvgOrderByAggregateInput
+    _max?: OntarioCurriculumUnitMaxOrderByAggregateInput
+    _min?: OntarioCurriculumUnitMinOrderByAggregateInput
+    _sum?: OntarioCurriculumUnitSumOrderByAggregateInput
+  }
+
+  export type OntarioCurriculumUnitScalarWhereWithAggregatesInput = {
+    AND?: OntarioCurriculumUnitScalarWhereWithAggregatesInput | OntarioCurriculumUnitScalarWhereWithAggregatesInput[]
+    OR?: OntarioCurriculumUnitScalarWhereWithAggregatesInput[]
+    NOT?: OntarioCurriculumUnitScalarWhereWithAggregatesInput | OntarioCurriculumUnitScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OntarioCurriculumUnit"> | string
+    courseId?: StringWithAggregatesFilter<"OntarioCurriculumUnit"> | string
+    code?: StringWithAggregatesFilter<"OntarioCurriculumUnit"> | string
+    title?: StringWithAggregatesFilter<"OntarioCurriculumUnit"> | string
+    description?: StringWithAggregatesFilter<"OntarioCurriculumUnit"> | string
+    weight?: IntWithAggregatesFilter<"OntarioCurriculumUnit"> | number
+    orderIndex?: IntWithAggregatesFilter<"OntarioCurriculumUnit"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"OntarioCurriculumUnit"> | Date | string
+  }
+
+  export type OntarioCurriculumExpectationWhereInput = {
+    AND?: OntarioCurriculumExpectationWhereInput | OntarioCurriculumExpectationWhereInput[]
+    OR?: OntarioCurriculumExpectationWhereInput[]
+    NOT?: OntarioCurriculumExpectationWhereInput | OntarioCurriculumExpectationWhereInput[]
+    id?: StringFilter<"OntarioCurriculumExpectation"> | string
+    unitId?: StringFilter<"OntarioCurriculumExpectation"> | string
+    code?: StringFilter<"OntarioCurriculumExpectation"> | string
+    title?: StringFilter<"OntarioCurriculumExpectation"> | string
+    description?: StringFilter<"OntarioCurriculumExpectation"> | string
+    strand?: StringFilter<"OntarioCurriculumExpectation"> | string
+    createdAt?: DateTimeFilter<"OntarioCurriculumExpectation"> | Date | string
+    unit?: XOR<OntarioCurriculumUnitScalarRelationFilter, OntarioCurriculumUnitWhereInput>
+  }
+
+  export type OntarioCurriculumExpectationOrderByWithRelationInput = {
+    id?: SortOrder
+    unitId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    strand?: SortOrder
+    createdAt?: SortOrder
+    unit?: OntarioCurriculumUnitOrderByWithRelationInput
+  }
+
+  export type OntarioCurriculumExpectationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    unitId_code?: OntarioCurriculumExpectationUnitIdCodeCompoundUniqueInput
+    AND?: OntarioCurriculumExpectationWhereInput | OntarioCurriculumExpectationWhereInput[]
+    OR?: OntarioCurriculumExpectationWhereInput[]
+    NOT?: OntarioCurriculumExpectationWhereInput | OntarioCurriculumExpectationWhereInput[]
+    unitId?: StringFilter<"OntarioCurriculumExpectation"> | string
+    code?: StringFilter<"OntarioCurriculumExpectation"> | string
+    title?: StringFilter<"OntarioCurriculumExpectation"> | string
+    description?: StringFilter<"OntarioCurriculumExpectation"> | string
+    strand?: StringFilter<"OntarioCurriculumExpectation"> | string
+    createdAt?: DateTimeFilter<"OntarioCurriculumExpectation"> | Date | string
+    unit?: XOR<OntarioCurriculumUnitScalarRelationFilter, OntarioCurriculumUnitWhereInput>
+  }, "id" | "unitId_code">
+
+  export type OntarioCurriculumExpectationOrderByWithAggregationInput = {
+    id?: SortOrder
+    unitId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    strand?: SortOrder
+    createdAt?: SortOrder
+    _count?: OntarioCurriculumExpectationCountOrderByAggregateInput
+    _max?: OntarioCurriculumExpectationMaxOrderByAggregateInput
+    _min?: OntarioCurriculumExpectationMinOrderByAggregateInput
+  }
+
+  export type OntarioCurriculumExpectationScalarWhereWithAggregatesInput = {
+    AND?: OntarioCurriculumExpectationScalarWhereWithAggregatesInput | OntarioCurriculumExpectationScalarWhereWithAggregatesInput[]
+    OR?: OntarioCurriculumExpectationScalarWhereWithAggregatesInput[]
+    NOT?: OntarioCurriculumExpectationScalarWhereWithAggregatesInput | OntarioCurriculumExpectationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OntarioCurriculumExpectation"> | string
+    unitId?: StringWithAggregatesFilter<"OntarioCurriculumExpectation"> | string
+    code?: StringWithAggregatesFilter<"OntarioCurriculumExpectation"> | string
+    title?: StringWithAggregatesFilter<"OntarioCurriculumExpectation"> | string
+    description?: StringWithAggregatesFilter<"OntarioCurriculumExpectation"> | string
+    strand?: StringWithAggregatesFilter<"OntarioCurriculumExpectation"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"OntarioCurriculumExpectation"> | Date | string
+  }
+
+  export type OntarioCurriculumProgressWhereInput = {
+    AND?: OntarioCurriculumProgressWhereInput | OntarioCurriculumProgressWhereInput[]
+    OR?: OntarioCurriculumProgressWhereInput[]
+    NOT?: OntarioCurriculumProgressWhereInput | OntarioCurriculumProgressWhereInput[]
+    id?: StringFilter<"OntarioCurriculumProgress"> | string
+    userId?: StringFilter<"OntarioCurriculumProgress"> | string
+    courseId?: StringFilter<"OntarioCurriculumProgress"> | string
+    completedUnits?: StringNullableListFilter<"OntarioCurriculumProgress">
+    completedExpectations?: StringNullableListFilter<"OntarioCurriculumProgress">
+    confidence?: IntFilter<"OntarioCurriculumProgress"> | number
+    lastStudiedAt?: DateTimeNullableFilter<"OntarioCurriculumProgress"> | Date | string | null
+    createdAt?: DateTimeFilter<"OntarioCurriculumProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"OntarioCurriculumProgress"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    course?: XOR<OntarioCurriculumCourseScalarRelationFilter, OntarioCurriculumCourseWhereInput>
+  }
+
+  export type OntarioCurriculumProgressOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    courseId?: SortOrder
+    completedUnits?: SortOrder
+    completedExpectations?: SortOrder
+    confidence?: SortOrder
+    lastStudiedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    course?: OntarioCurriculumCourseOrderByWithRelationInput
+  }
+
+  export type OntarioCurriculumProgressWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_courseId?: OntarioCurriculumProgressUserIdCourseIdCompoundUniqueInput
+    AND?: OntarioCurriculumProgressWhereInput | OntarioCurriculumProgressWhereInput[]
+    OR?: OntarioCurriculumProgressWhereInput[]
+    NOT?: OntarioCurriculumProgressWhereInput | OntarioCurriculumProgressWhereInput[]
+    userId?: StringFilter<"OntarioCurriculumProgress"> | string
+    courseId?: StringFilter<"OntarioCurriculumProgress"> | string
+    completedUnits?: StringNullableListFilter<"OntarioCurriculumProgress">
+    completedExpectations?: StringNullableListFilter<"OntarioCurriculumProgress">
+    confidence?: IntFilter<"OntarioCurriculumProgress"> | number
+    lastStudiedAt?: DateTimeNullableFilter<"OntarioCurriculumProgress"> | Date | string | null
+    createdAt?: DateTimeFilter<"OntarioCurriculumProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"OntarioCurriculumProgress"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    course?: XOR<OntarioCurriculumCourseScalarRelationFilter, OntarioCurriculumCourseWhereInput>
+  }, "id" | "userId_courseId">
+
+  export type OntarioCurriculumProgressOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    courseId?: SortOrder
+    completedUnits?: SortOrder
+    completedExpectations?: SortOrder
+    confidence?: SortOrder
+    lastStudiedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OntarioCurriculumProgressCountOrderByAggregateInput
+    _avg?: OntarioCurriculumProgressAvgOrderByAggregateInput
+    _max?: OntarioCurriculumProgressMaxOrderByAggregateInput
+    _min?: OntarioCurriculumProgressMinOrderByAggregateInput
+    _sum?: OntarioCurriculumProgressSumOrderByAggregateInput
+  }
+
+  export type OntarioCurriculumProgressScalarWhereWithAggregatesInput = {
+    AND?: OntarioCurriculumProgressScalarWhereWithAggregatesInput | OntarioCurriculumProgressScalarWhereWithAggregatesInput[]
+    OR?: OntarioCurriculumProgressScalarWhereWithAggregatesInput[]
+    NOT?: OntarioCurriculumProgressScalarWhereWithAggregatesInput | OntarioCurriculumProgressScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OntarioCurriculumProgress"> | string
+    userId?: StringWithAggregatesFilter<"OntarioCurriculumProgress"> | string
+    courseId?: StringWithAggregatesFilter<"OntarioCurriculumProgress"> | string
+    completedUnits?: StringNullableListFilter<"OntarioCurriculumProgress">
+    completedExpectations?: StringNullableListFilter<"OntarioCurriculumProgress">
+    confidence?: IntWithAggregatesFilter<"OntarioCurriculumProgress"> | number
+    lastStudiedAt?: DateTimeNullableWithAggregatesFilter<"OntarioCurriculumProgress"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"OntarioCurriculumProgress"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"OntarioCurriculumProgress"> | Date | string
   }
 
   export type VerificationTokenWhereInput = {
@@ -56280,6 +61707,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -56340,6 +61768,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -56400,6 +61829,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -56460,6 +61890,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -56532,6 +61963,336 @@ export namespace Prisma {
     battleWinStreak?: IntFieldUpdateOperationsInput | number
     soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
     battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+  }
+
+  export type OntarioCurriculumCourseCreateInput = {
+    id?: string
+    code: string
+    title: string
+    grade: number
+    subject: string
+    destination: string
+    description: string
+    keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    units?: OntarioCurriculumUnitCreateNestedManyWithoutCourseInput
+    progress?: OntarioCurriculumProgressCreateNestedManyWithoutCourseInput
+  }
+
+  export type OntarioCurriculumCourseUncheckedCreateInput = {
+    id?: string
+    code: string
+    title: string
+    grade: number
+    subject: string
+    destination: string
+    description: string
+    keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    units?: OntarioCurriculumUnitUncheckedCreateNestedManyWithoutCourseInput
+    progress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type OntarioCurriculumCourseUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    grade?: IntFieldUpdateOperationsInput | number
+    subject?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    units?: OntarioCurriculumUnitUpdateManyWithoutCourseNestedInput
+    progress?: OntarioCurriculumProgressUpdateManyWithoutCourseNestedInput
+  }
+
+  export type OntarioCurriculumCourseUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    grade?: IntFieldUpdateOperationsInput | number
+    subject?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    units?: OntarioCurriculumUnitUncheckedUpdateManyWithoutCourseNestedInput
+    progress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type OntarioCurriculumCourseCreateManyInput = {
+    id?: string
+    code: string
+    title: string
+    grade: number
+    subject: string
+    destination: string
+    description: string
+    keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OntarioCurriculumCourseUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    grade?: IntFieldUpdateOperationsInput | number
+    subject?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumCourseUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    grade?: IntFieldUpdateOperationsInput | number
+    subject?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumUnitCreateInput = {
+    id?: string
+    code: string
+    title: string
+    description: string
+    weight?: number
+    orderIndex?: number
+    createdAt?: Date | string
+    course: OntarioCurriculumCourseCreateNestedOneWithoutUnitsInput
+    expectations?: OntarioCurriculumExpectationCreateNestedManyWithoutUnitInput
+  }
+
+  export type OntarioCurriculumUnitUncheckedCreateInput = {
+    id?: string
+    courseId: string
+    code: string
+    title: string
+    description: string
+    weight?: number
+    orderIndex?: number
+    createdAt?: Date | string
+    expectations?: OntarioCurriculumExpectationUncheckedCreateNestedManyWithoutUnitInput
+  }
+
+  export type OntarioCurriculumUnitUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    weight?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: OntarioCurriculumCourseUpdateOneRequiredWithoutUnitsNestedInput
+    expectations?: OntarioCurriculumExpectationUpdateManyWithoutUnitNestedInput
+  }
+
+  export type OntarioCurriculumUnitUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    weight?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expectations?: OntarioCurriculumExpectationUncheckedUpdateManyWithoutUnitNestedInput
+  }
+
+  export type OntarioCurriculumUnitCreateManyInput = {
+    id?: string
+    courseId: string
+    code: string
+    title: string
+    description: string
+    weight?: number
+    orderIndex?: number
+    createdAt?: Date | string
+  }
+
+  export type OntarioCurriculumUnitUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    weight?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumUnitUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    weight?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumExpectationCreateInput = {
+    id?: string
+    code: string
+    title: string
+    description: string
+    strand: string
+    createdAt?: Date | string
+    unit: OntarioCurriculumUnitCreateNestedOneWithoutExpectationsInput
+  }
+
+  export type OntarioCurriculumExpectationUncheckedCreateInput = {
+    id?: string
+    unitId: string
+    code: string
+    title: string
+    description: string
+    strand: string
+    createdAt?: Date | string
+  }
+
+  export type OntarioCurriculumExpectationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    strand?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unit?: OntarioCurriculumUnitUpdateOneRequiredWithoutExpectationsNestedInput
+  }
+
+  export type OntarioCurriculumExpectationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    strand?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumExpectationCreateManyInput = {
+    id?: string
+    unitId: string
+    code: string
+    title: string
+    description: string
+    strand: string
+    createdAt?: Date | string
+  }
+
+  export type OntarioCurriculumExpectationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    strand?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumExpectationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    strand?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumProgressCreateInput = {
+    id?: string
+    completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressCreatecompletedExpectationsInput | string[]
+    confidence?: number
+    lastStudiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCurriculumProgressInput
+    course: OntarioCurriculumCourseCreateNestedOneWithoutProgressInput
+  }
+
+  export type OntarioCurriculumProgressUncheckedCreateInput = {
+    id?: string
+    userId: string
+    courseId: string
+    completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressCreatecompletedExpectationsInput | string[]
+    confidence?: number
+    lastStudiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OntarioCurriculumProgressUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedUnits?: OntarioCurriculumProgressUpdatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressUpdatecompletedExpectationsInput | string[]
+    confidence?: IntFieldUpdateOperationsInput | number
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCurriculumProgressNestedInput
+    course?: OntarioCurriculumCourseUpdateOneRequiredWithoutProgressNestedInput
+  }
+
+  export type OntarioCurriculumProgressUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    completedUnits?: OntarioCurriculumProgressUpdatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressUpdatecompletedExpectationsInput | string[]
+    confidence?: IntFieldUpdateOperationsInput | number
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumProgressCreateManyInput = {
+    id?: string
+    userId: string
+    courseId: string
+    completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressCreatecompletedExpectationsInput | string[]
+    confidence?: number
+    lastStudiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OntarioCurriculumProgressUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedUnits?: OntarioCurriculumProgressUpdatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressUpdatecompletedExpectationsInput | string[]
+    confidence?: IntFieldUpdateOperationsInput | number
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumProgressUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    completedUnits?: OntarioCurriculumProgressUpdatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressUpdatecompletedExpectationsInput | string[]
+    confidence?: IntFieldUpdateOperationsInput | number
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VerificationTokenCreateInput = {
@@ -59990,6 +65751,12 @@ export namespace Prisma {
     none?: FocusSessionWhereInput
   }
 
+  export type OntarioCurriculumProgressListRelationFilter = {
+    every?: OntarioCurriculumProgressWhereInput
+    some?: OntarioCurriculumProgressWhereInput
+    none?: OntarioCurriculumProgressWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -60126,6 +65893,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type OntarioCurriculumProgressOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -60230,6 +66001,209 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type OntarioCurriculumUnitListRelationFilter = {
+    every?: OntarioCurriculumUnitWhereInput
+    some?: OntarioCurriculumUnitWhereInput
+    none?: OntarioCurriculumUnitWhereInput
+  }
+
+  export type OntarioCurriculumUnitOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OntarioCurriculumCourseCountOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    grade?: SortOrder
+    subject?: SortOrder
+    destination?: SortOrder
+    description?: SortOrder
+    keywords?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OntarioCurriculumCourseAvgOrderByAggregateInput = {
+    grade?: SortOrder
+  }
+
+  export type OntarioCurriculumCourseMaxOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    grade?: SortOrder
+    subject?: SortOrder
+    destination?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OntarioCurriculumCourseMinOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    grade?: SortOrder
+    subject?: SortOrder
+    destination?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OntarioCurriculumCourseSumOrderByAggregateInput = {
+    grade?: SortOrder
+  }
+
+  export type OntarioCurriculumCourseScalarRelationFilter = {
+    is?: OntarioCurriculumCourseWhereInput
+    isNot?: OntarioCurriculumCourseWhereInput
+  }
+
+  export type OntarioCurriculumExpectationListRelationFilter = {
+    every?: OntarioCurriculumExpectationWhereInput
+    some?: OntarioCurriculumExpectationWhereInput
+    none?: OntarioCurriculumExpectationWhereInput
+  }
+
+  export type OntarioCurriculumExpectationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OntarioCurriculumUnitCourseIdCodeCompoundUniqueInput = {
+    courseId: string
+    code: string
+  }
+
+  export type OntarioCurriculumUnitCountOrderByAggregateInput = {
+    id?: SortOrder
+    courseId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    weight?: SortOrder
+    orderIndex?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OntarioCurriculumUnitAvgOrderByAggregateInput = {
+    weight?: SortOrder
+    orderIndex?: SortOrder
+  }
+
+  export type OntarioCurriculumUnitMaxOrderByAggregateInput = {
+    id?: SortOrder
+    courseId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    weight?: SortOrder
+    orderIndex?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OntarioCurriculumUnitMinOrderByAggregateInput = {
+    id?: SortOrder
+    courseId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    weight?: SortOrder
+    orderIndex?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OntarioCurriculumUnitSumOrderByAggregateInput = {
+    weight?: SortOrder
+    orderIndex?: SortOrder
+  }
+
+  export type OntarioCurriculumUnitScalarRelationFilter = {
+    is?: OntarioCurriculumUnitWhereInput
+    isNot?: OntarioCurriculumUnitWhereInput
+  }
+
+  export type OntarioCurriculumExpectationUnitIdCodeCompoundUniqueInput = {
+    unitId: string
+    code: string
+  }
+
+  export type OntarioCurriculumExpectationCountOrderByAggregateInput = {
+    id?: SortOrder
+    unitId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    strand?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OntarioCurriculumExpectationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    unitId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    strand?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OntarioCurriculumExpectationMinOrderByAggregateInput = {
+    id?: SortOrder
+    unitId?: SortOrder
+    code?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    strand?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OntarioCurriculumProgressUserIdCourseIdCompoundUniqueInput = {
+    userId: string
+    courseId: string
+  }
+
+  export type OntarioCurriculumProgressCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    courseId?: SortOrder
+    completedUnits?: SortOrder
+    completedExpectations?: SortOrder
+    confidence?: SortOrder
+    lastStudiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OntarioCurriculumProgressAvgOrderByAggregateInput = {
+    confidence?: SortOrder
+  }
+
+  export type OntarioCurriculumProgressMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    courseId?: SortOrder
+    confidence?: SortOrder
+    lastStudiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OntarioCurriculumProgressMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    courseId?: SortOrder
+    confidence?: SortOrder
+    lastStudiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OntarioCurriculumProgressSumOrderByAggregateInput = {
+    confidence?: SortOrder
   }
 
   export type VerificationTokenIdentifierTokenCompoundUniqueInput = {
@@ -62265,6 +68239,13 @@ export namespace Prisma {
     connect?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
   }
 
+  export type OntarioCurriculumProgressCreateNestedManyWithoutUserInput = {
+    create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
+    createMany?: OntarioCurriculumProgressCreateManyUserInputEnvelope
+    connect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -62514,6 +68495,13 @@ export namespace Prisma {
     connectOrCreate?: FocusSessionCreateOrConnectWithoutUserInput | FocusSessionCreateOrConnectWithoutUserInput[]
     createMany?: FocusSessionCreateManyUserInputEnvelope
     connect?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
+  }
+
+  export type OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
+    createMany?: OntarioCurriculumProgressCreateManyUserInputEnvelope
+    connect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -63029,6 +69017,20 @@ export namespace Prisma {
     deleteMany?: FocusSessionScalarWhereInput | FocusSessionScalarWhereInput[]
   }
 
+  export type OntarioCurriculumProgressUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
+    upsert?: OntarioCurriculumProgressUpsertWithWhereUniqueWithoutUserInput | OntarioCurriculumProgressUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OntarioCurriculumProgressCreateManyUserInputEnvelope
+    set?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    disconnect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    delete?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    connect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    update?: OntarioCurriculumProgressUpdateWithWhereUniqueWithoutUserInput | OntarioCurriculumProgressUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OntarioCurriculumProgressUpdateManyWithWhereWithoutUserInput | OntarioCurriculumProgressUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OntarioCurriculumProgressScalarWhereInput | OntarioCurriculumProgressScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -63527,6 +69529,229 @@ export namespace Prisma {
     update?: FocusSessionUpdateWithWhereUniqueWithoutUserInput | FocusSessionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: FocusSessionUpdateManyWithWhereWithoutUserInput | FocusSessionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: FocusSessionScalarWhereInput | FocusSessionScalarWhereInput[]
+  }
+
+  export type OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
+    upsert?: OntarioCurriculumProgressUpsertWithWhereUniqueWithoutUserInput | OntarioCurriculumProgressUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OntarioCurriculumProgressCreateManyUserInputEnvelope
+    set?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    disconnect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    delete?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    connect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    update?: OntarioCurriculumProgressUpdateWithWhereUniqueWithoutUserInput | OntarioCurriculumProgressUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OntarioCurriculumProgressUpdateManyWithWhereWithoutUserInput | OntarioCurriculumProgressUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OntarioCurriculumProgressScalarWhereInput | OntarioCurriculumProgressScalarWhereInput[]
+  }
+
+  export type OntarioCurriculumCourseCreatekeywordsInput = {
+    set: string[]
+  }
+
+  export type OntarioCurriculumUnitCreateNestedManyWithoutCourseInput = {
+    create?: XOR<OntarioCurriculumUnitCreateWithoutCourseInput, OntarioCurriculumUnitUncheckedCreateWithoutCourseInput> | OntarioCurriculumUnitCreateWithoutCourseInput[] | OntarioCurriculumUnitUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: OntarioCurriculumUnitCreateOrConnectWithoutCourseInput | OntarioCurriculumUnitCreateOrConnectWithoutCourseInput[]
+    createMany?: OntarioCurriculumUnitCreateManyCourseInputEnvelope
+    connect?: OntarioCurriculumUnitWhereUniqueInput | OntarioCurriculumUnitWhereUniqueInput[]
+  }
+
+  export type OntarioCurriculumProgressCreateNestedManyWithoutCourseInput = {
+    create?: XOR<OntarioCurriculumProgressCreateWithoutCourseInput, OntarioCurriculumProgressUncheckedCreateWithoutCourseInput> | OntarioCurriculumProgressCreateWithoutCourseInput[] | OntarioCurriculumProgressUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutCourseInput | OntarioCurriculumProgressCreateOrConnectWithoutCourseInput[]
+    createMany?: OntarioCurriculumProgressCreateManyCourseInputEnvelope
+    connect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+  }
+
+  export type OntarioCurriculumUnitUncheckedCreateNestedManyWithoutCourseInput = {
+    create?: XOR<OntarioCurriculumUnitCreateWithoutCourseInput, OntarioCurriculumUnitUncheckedCreateWithoutCourseInput> | OntarioCurriculumUnitCreateWithoutCourseInput[] | OntarioCurriculumUnitUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: OntarioCurriculumUnitCreateOrConnectWithoutCourseInput | OntarioCurriculumUnitCreateOrConnectWithoutCourseInput[]
+    createMany?: OntarioCurriculumUnitCreateManyCourseInputEnvelope
+    connect?: OntarioCurriculumUnitWhereUniqueInput | OntarioCurriculumUnitWhereUniqueInput[]
+  }
+
+  export type OntarioCurriculumProgressUncheckedCreateNestedManyWithoutCourseInput = {
+    create?: XOR<OntarioCurriculumProgressCreateWithoutCourseInput, OntarioCurriculumProgressUncheckedCreateWithoutCourseInput> | OntarioCurriculumProgressCreateWithoutCourseInput[] | OntarioCurriculumProgressUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutCourseInput | OntarioCurriculumProgressCreateOrConnectWithoutCourseInput[]
+    createMany?: OntarioCurriculumProgressCreateManyCourseInputEnvelope
+    connect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+  }
+
+  export type OntarioCurriculumCourseUpdatekeywordsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type OntarioCurriculumUnitUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<OntarioCurriculumUnitCreateWithoutCourseInput, OntarioCurriculumUnitUncheckedCreateWithoutCourseInput> | OntarioCurriculumUnitCreateWithoutCourseInput[] | OntarioCurriculumUnitUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: OntarioCurriculumUnitCreateOrConnectWithoutCourseInput | OntarioCurriculumUnitCreateOrConnectWithoutCourseInput[]
+    upsert?: OntarioCurriculumUnitUpsertWithWhereUniqueWithoutCourseInput | OntarioCurriculumUnitUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: OntarioCurriculumUnitCreateManyCourseInputEnvelope
+    set?: OntarioCurriculumUnitWhereUniqueInput | OntarioCurriculumUnitWhereUniqueInput[]
+    disconnect?: OntarioCurriculumUnitWhereUniqueInput | OntarioCurriculumUnitWhereUniqueInput[]
+    delete?: OntarioCurriculumUnitWhereUniqueInput | OntarioCurriculumUnitWhereUniqueInput[]
+    connect?: OntarioCurriculumUnitWhereUniqueInput | OntarioCurriculumUnitWhereUniqueInput[]
+    update?: OntarioCurriculumUnitUpdateWithWhereUniqueWithoutCourseInput | OntarioCurriculumUnitUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: OntarioCurriculumUnitUpdateManyWithWhereWithoutCourseInput | OntarioCurriculumUnitUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: OntarioCurriculumUnitScalarWhereInput | OntarioCurriculumUnitScalarWhereInput[]
+  }
+
+  export type OntarioCurriculumProgressUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<OntarioCurriculumProgressCreateWithoutCourseInput, OntarioCurriculumProgressUncheckedCreateWithoutCourseInput> | OntarioCurriculumProgressCreateWithoutCourseInput[] | OntarioCurriculumProgressUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutCourseInput | OntarioCurriculumProgressCreateOrConnectWithoutCourseInput[]
+    upsert?: OntarioCurriculumProgressUpsertWithWhereUniqueWithoutCourseInput | OntarioCurriculumProgressUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: OntarioCurriculumProgressCreateManyCourseInputEnvelope
+    set?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    disconnect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    delete?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    connect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    update?: OntarioCurriculumProgressUpdateWithWhereUniqueWithoutCourseInput | OntarioCurriculumProgressUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: OntarioCurriculumProgressUpdateManyWithWhereWithoutCourseInput | OntarioCurriculumProgressUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: OntarioCurriculumProgressScalarWhereInput | OntarioCurriculumProgressScalarWhereInput[]
+  }
+
+  export type OntarioCurriculumUnitUncheckedUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<OntarioCurriculumUnitCreateWithoutCourseInput, OntarioCurriculumUnitUncheckedCreateWithoutCourseInput> | OntarioCurriculumUnitCreateWithoutCourseInput[] | OntarioCurriculumUnitUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: OntarioCurriculumUnitCreateOrConnectWithoutCourseInput | OntarioCurriculumUnitCreateOrConnectWithoutCourseInput[]
+    upsert?: OntarioCurriculumUnitUpsertWithWhereUniqueWithoutCourseInput | OntarioCurriculumUnitUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: OntarioCurriculumUnitCreateManyCourseInputEnvelope
+    set?: OntarioCurriculumUnitWhereUniqueInput | OntarioCurriculumUnitWhereUniqueInput[]
+    disconnect?: OntarioCurriculumUnitWhereUniqueInput | OntarioCurriculumUnitWhereUniqueInput[]
+    delete?: OntarioCurriculumUnitWhereUniqueInput | OntarioCurriculumUnitWhereUniqueInput[]
+    connect?: OntarioCurriculumUnitWhereUniqueInput | OntarioCurriculumUnitWhereUniqueInput[]
+    update?: OntarioCurriculumUnitUpdateWithWhereUniqueWithoutCourseInput | OntarioCurriculumUnitUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: OntarioCurriculumUnitUpdateManyWithWhereWithoutCourseInput | OntarioCurriculumUnitUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: OntarioCurriculumUnitScalarWhereInput | OntarioCurriculumUnitScalarWhereInput[]
+  }
+
+  export type OntarioCurriculumProgressUncheckedUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<OntarioCurriculumProgressCreateWithoutCourseInput, OntarioCurriculumProgressUncheckedCreateWithoutCourseInput> | OntarioCurriculumProgressCreateWithoutCourseInput[] | OntarioCurriculumProgressUncheckedCreateWithoutCourseInput[]
+    connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutCourseInput | OntarioCurriculumProgressCreateOrConnectWithoutCourseInput[]
+    upsert?: OntarioCurriculumProgressUpsertWithWhereUniqueWithoutCourseInput | OntarioCurriculumProgressUpsertWithWhereUniqueWithoutCourseInput[]
+    createMany?: OntarioCurriculumProgressCreateManyCourseInputEnvelope
+    set?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    disconnect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    delete?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    connect?: OntarioCurriculumProgressWhereUniqueInput | OntarioCurriculumProgressWhereUniqueInput[]
+    update?: OntarioCurriculumProgressUpdateWithWhereUniqueWithoutCourseInput | OntarioCurriculumProgressUpdateWithWhereUniqueWithoutCourseInput[]
+    updateMany?: OntarioCurriculumProgressUpdateManyWithWhereWithoutCourseInput | OntarioCurriculumProgressUpdateManyWithWhereWithoutCourseInput[]
+    deleteMany?: OntarioCurriculumProgressScalarWhereInput | OntarioCurriculumProgressScalarWhereInput[]
+  }
+
+  export type OntarioCurriculumCourseCreateNestedOneWithoutUnitsInput = {
+    create?: XOR<OntarioCurriculumCourseCreateWithoutUnitsInput, OntarioCurriculumCourseUncheckedCreateWithoutUnitsInput>
+    connectOrCreate?: OntarioCurriculumCourseCreateOrConnectWithoutUnitsInput
+    connect?: OntarioCurriculumCourseWhereUniqueInput
+  }
+
+  export type OntarioCurriculumExpectationCreateNestedManyWithoutUnitInput = {
+    create?: XOR<OntarioCurriculumExpectationCreateWithoutUnitInput, OntarioCurriculumExpectationUncheckedCreateWithoutUnitInput> | OntarioCurriculumExpectationCreateWithoutUnitInput[] | OntarioCurriculumExpectationUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: OntarioCurriculumExpectationCreateOrConnectWithoutUnitInput | OntarioCurriculumExpectationCreateOrConnectWithoutUnitInput[]
+    createMany?: OntarioCurriculumExpectationCreateManyUnitInputEnvelope
+    connect?: OntarioCurriculumExpectationWhereUniqueInput | OntarioCurriculumExpectationWhereUniqueInput[]
+  }
+
+  export type OntarioCurriculumExpectationUncheckedCreateNestedManyWithoutUnitInput = {
+    create?: XOR<OntarioCurriculumExpectationCreateWithoutUnitInput, OntarioCurriculumExpectationUncheckedCreateWithoutUnitInput> | OntarioCurriculumExpectationCreateWithoutUnitInput[] | OntarioCurriculumExpectationUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: OntarioCurriculumExpectationCreateOrConnectWithoutUnitInput | OntarioCurriculumExpectationCreateOrConnectWithoutUnitInput[]
+    createMany?: OntarioCurriculumExpectationCreateManyUnitInputEnvelope
+    connect?: OntarioCurriculumExpectationWhereUniqueInput | OntarioCurriculumExpectationWhereUniqueInput[]
+  }
+
+  export type OntarioCurriculumCourseUpdateOneRequiredWithoutUnitsNestedInput = {
+    create?: XOR<OntarioCurriculumCourseCreateWithoutUnitsInput, OntarioCurriculumCourseUncheckedCreateWithoutUnitsInput>
+    connectOrCreate?: OntarioCurriculumCourseCreateOrConnectWithoutUnitsInput
+    upsert?: OntarioCurriculumCourseUpsertWithoutUnitsInput
+    connect?: OntarioCurriculumCourseWhereUniqueInput
+    update?: XOR<XOR<OntarioCurriculumCourseUpdateToOneWithWhereWithoutUnitsInput, OntarioCurriculumCourseUpdateWithoutUnitsInput>, OntarioCurriculumCourseUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type OntarioCurriculumExpectationUpdateManyWithoutUnitNestedInput = {
+    create?: XOR<OntarioCurriculumExpectationCreateWithoutUnitInput, OntarioCurriculumExpectationUncheckedCreateWithoutUnitInput> | OntarioCurriculumExpectationCreateWithoutUnitInput[] | OntarioCurriculumExpectationUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: OntarioCurriculumExpectationCreateOrConnectWithoutUnitInput | OntarioCurriculumExpectationCreateOrConnectWithoutUnitInput[]
+    upsert?: OntarioCurriculumExpectationUpsertWithWhereUniqueWithoutUnitInput | OntarioCurriculumExpectationUpsertWithWhereUniqueWithoutUnitInput[]
+    createMany?: OntarioCurriculumExpectationCreateManyUnitInputEnvelope
+    set?: OntarioCurriculumExpectationWhereUniqueInput | OntarioCurriculumExpectationWhereUniqueInput[]
+    disconnect?: OntarioCurriculumExpectationWhereUniqueInput | OntarioCurriculumExpectationWhereUniqueInput[]
+    delete?: OntarioCurriculumExpectationWhereUniqueInput | OntarioCurriculumExpectationWhereUniqueInput[]
+    connect?: OntarioCurriculumExpectationWhereUniqueInput | OntarioCurriculumExpectationWhereUniqueInput[]
+    update?: OntarioCurriculumExpectationUpdateWithWhereUniqueWithoutUnitInput | OntarioCurriculumExpectationUpdateWithWhereUniqueWithoutUnitInput[]
+    updateMany?: OntarioCurriculumExpectationUpdateManyWithWhereWithoutUnitInput | OntarioCurriculumExpectationUpdateManyWithWhereWithoutUnitInput[]
+    deleteMany?: OntarioCurriculumExpectationScalarWhereInput | OntarioCurriculumExpectationScalarWhereInput[]
+  }
+
+  export type OntarioCurriculumExpectationUncheckedUpdateManyWithoutUnitNestedInput = {
+    create?: XOR<OntarioCurriculumExpectationCreateWithoutUnitInput, OntarioCurriculumExpectationUncheckedCreateWithoutUnitInput> | OntarioCurriculumExpectationCreateWithoutUnitInput[] | OntarioCurriculumExpectationUncheckedCreateWithoutUnitInput[]
+    connectOrCreate?: OntarioCurriculumExpectationCreateOrConnectWithoutUnitInput | OntarioCurriculumExpectationCreateOrConnectWithoutUnitInput[]
+    upsert?: OntarioCurriculumExpectationUpsertWithWhereUniqueWithoutUnitInput | OntarioCurriculumExpectationUpsertWithWhereUniqueWithoutUnitInput[]
+    createMany?: OntarioCurriculumExpectationCreateManyUnitInputEnvelope
+    set?: OntarioCurriculumExpectationWhereUniqueInput | OntarioCurriculumExpectationWhereUniqueInput[]
+    disconnect?: OntarioCurriculumExpectationWhereUniqueInput | OntarioCurriculumExpectationWhereUniqueInput[]
+    delete?: OntarioCurriculumExpectationWhereUniqueInput | OntarioCurriculumExpectationWhereUniqueInput[]
+    connect?: OntarioCurriculumExpectationWhereUniqueInput | OntarioCurriculumExpectationWhereUniqueInput[]
+    update?: OntarioCurriculumExpectationUpdateWithWhereUniqueWithoutUnitInput | OntarioCurriculumExpectationUpdateWithWhereUniqueWithoutUnitInput[]
+    updateMany?: OntarioCurriculumExpectationUpdateManyWithWhereWithoutUnitInput | OntarioCurriculumExpectationUpdateManyWithWhereWithoutUnitInput[]
+    deleteMany?: OntarioCurriculumExpectationScalarWhereInput | OntarioCurriculumExpectationScalarWhereInput[]
+  }
+
+  export type OntarioCurriculumUnitCreateNestedOneWithoutExpectationsInput = {
+    create?: XOR<OntarioCurriculumUnitCreateWithoutExpectationsInput, OntarioCurriculumUnitUncheckedCreateWithoutExpectationsInput>
+    connectOrCreate?: OntarioCurriculumUnitCreateOrConnectWithoutExpectationsInput
+    connect?: OntarioCurriculumUnitWhereUniqueInput
+  }
+
+  export type OntarioCurriculumUnitUpdateOneRequiredWithoutExpectationsNestedInput = {
+    create?: XOR<OntarioCurriculumUnitCreateWithoutExpectationsInput, OntarioCurriculumUnitUncheckedCreateWithoutExpectationsInput>
+    connectOrCreate?: OntarioCurriculumUnitCreateOrConnectWithoutExpectationsInput
+    upsert?: OntarioCurriculumUnitUpsertWithoutExpectationsInput
+    connect?: OntarioCurriculumUnitWhereUniqueInput
+    update?: XOR<XOR<OntarioCurriculumUnitUpdateToOneWithWhereWithoutExpectationsInput, OntarioCurriculumUnitUpdateWithoutExpectationsInput>, OntarioCurriculumUnitUncheckedUpdateWithoutExpectationsInput>
+  }
+
+  export type OntarioCurriculumProgressCreatecompletedUnitsInput = {
+    set: string[]
+  }
+
+  export type OntarioCurriculumProgressCreatecompletedExpectationsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutCurriculumProgressInput = {
+    create?: XOR<UserCreateWithoutCurriculumProgressInput, UserUncheckedCreateWithoutCurriculumProgressInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCurriculumProgressInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type OntarioCurriculumCourseCreateNestedOneWithoutProgressInput = {
+    create?: XOR<OntarioCurriculumCourseCreateWithoutProgressInput, OntarioCurriculumCourseUncheckedCreateWithoutProgressInput>
+    connectOrCreate?: OntarioCurriculumCourseCreateOrConnectWithoutProgressInput
+    connect?: OntarioCurriculumCourseWhereUniqueInput
+  }
+
+  export type OntarioCurriculumProgressUpdatecompletedUnitsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type OntarioCurriculumProgressUpdatecompletedExpectationsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutCurriculumProgressNestedInput = {
+    create?: XOR<UserCreateWithoutCurriculumProgressInput, UserUncheckedCreateWithoutCurriculumProgressInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCurriculumProgressInput
+    upsert?: UserUpsertWithoutCurriculumProgressInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCurriculumProgressInput, UserUpdateWithoutCurriculumProgressInput>, UserUncheckedUpdateWithoutCurriculumProgressInput>
+  }
+
+  export type OntarioCurriculumCourseUpdateOneRequiredWithoutProgressNestedInput = {
+    create?: XOR<OntarioCurriculumCourseCreateWithoutProgressInput, OntarioCurriculumCourseUncheckedCreateWithoutProgressInput>
+    connectOrCreate?: OntarioCurriculumCourseCreateOrConnectWithoutProgressInput
+    upsert?: OntarioCurriculumCourseUpsertWithoutProgressInput
+    connect?: OntarioCurriculumCourseWhereUniqueInput
+    update?: XOR<XOR<OntarioCurriculumCourseUpdateToOneWithWhereWithoutProgressInput, OntarioCurriculumCourseUpdateWithoutProgressInput>, OntarioCurriculumCourseUncheckedUpdateWithoutProgressInput>
   }
 
   export type NoteCreatetagsInput = {
@@ -65590,6 +71815,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -65649,6 +71875,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -65724,6 +71951,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -65783,6 +72011,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -65842,6 +72071,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -65901,6 +72131,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -65976,6 +72207,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -66035,6 +72267,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -66094,6 +72327,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -66153,6 +72387,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -66228,6 +72463,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -66287,6 +72523,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -67485,6 +73722,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OntarioCurriculumProgressCreateWithoutUserInput = {
+    id?: string
+    completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressCreatecompletedExpectationsInput | string[]
+    confidence?: number
+    lastStudiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: OntarioCurriculumCourseCreateNestedOneWithoutProgressInput
+  }
+
+  export type OntarioCurriculumProgressUncheckedCreateWithoutUserInput = {
+    id?: string
+    courseId: string
+    completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressCreatecompletedExpectationsInput | string[]
+    confidence?: number
+    lastStudiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OntarioCurriculumProgressCreateOrConnectWithoutUserInput = {
+    where: OntarioCurriculumProgressWhereUniqueInput
+    create: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput>
+  }
+
+  export type OntarioCurriculumProgressCreateManyUserInputEnvelope = {
+    data: OntarioCurriculumProgressCreateManyUserInput | OntarioCurriculumProgressCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -68582,6 +74851,664 @@ export namespace Prisma {
     endedAt?: DateTimeNullableFilter<"FocusSession"> | Date | string | null
   }
 
+  export type OntarioCurriculumProgressUpsertWithWhereUniqueWithoutUserInput = {
+    where: OntarioCurriculumProgressWhereUniqueInput
+    update: XOR<OntarioCurriculumProgressUpdateWithoutUserInput, OntarioCurriculumProgressUncheckedUpdateWithoutUserInput>
+    create: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput>
+  }
+
+  export type OntarioCurriculumProgressUpdateWithWhereUniqueWithoutUserInput = {
+    where: OntarioCurriculumProgressWhereUniqueInput
+    data: XOR<OntarioCurriculumProgressUpdateWithoutUserInput, OntarioCurriculumProgressUncheckedUpdateWithoutUserInput>
+  }
+
+  export type OntarioCurriculumProgressUpdateManyWithWhereWithoutUserInput = {
+    where: OntarioCurriculumProgressScalarWhereInput
+    data: XOR<OntarioCurriculumProgressUpdateManyMutationInput, OntarioCurriculumProgressUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type OntarioCurriculumProgressScalarWhereInput = {
+    AND?: OntarioCurriculumProgressScalarWhereInput | OntarioCurriculumProgressScalarWhereInput[]
+    OR?: OntarioCurriculumProgressScalarWhereInput[]
+    NOT?: OntarioCurriculumProgressScalarWhereInput | OntarioCurriculumProgressScalarWhereInput[]
+    id?: StringFilter<"OntarioCurriculumProgress"> | string
+    userId?: StringFilter<"OntarioCurriculumProgress"> | string
+    courseId?: StringFilter<"OntarioCurriculumProgress"> | string
+    completedUnits?: StringNullableListFilter<"OntarioCurriculumProgress">
+    completedExpectations?: StringNullableListFilter<"OntarioCurriculumProgress">
+    confidence?: IntFilter<"OntarioCurriculumProgress"> | number
+    lastStudiedAt?: DateTimeNullableFilter<"OntarioCurriculumProgress"> | Date | string | null
+    createdAt?: DateTimeFilter<"OntarioCurriculumProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"OntarioCurriculumProgress"> | Date | string
+  }
+
+  export type OntarioCurriculumUnitCreateWithoutCourseInput = {
+    id?: string
+    code: string
+    title: string
+    description: string
+    weight?: number
+    orderIndex?: number
+    createdAt?: Date | string
+    expectations?: OntarioCurriculumExpectationCreateNestedManyWithoutUnitInput
+  }
+
+  export type OntarioCurriculumUnitUncheckedCreateWithoutCourseInput = {
+    id?: string
+    code: string
+    title: string
+    description: string
+    weight?: number
+    orderIndex?: number
+    createdAt?: Date | string
+    expectations?: OntarioCurriculumExpectationUncheckedCreateNestedManyWithoutUnitInput
+  }
+
+  export type OntarioCurriculumUnitCreateOrConnectWithoutCourseInput = {
+    where: OntarioCurriculumUnitWhereUniqueInput
+    create: XOR<OntarioCurriculumUnitCreateWithoutCourseInput, OntarioCurriculumUnitUncheckedCreateWithoutCourseInput>
+  }
+
+  export type OntarioCurriculumUnitCreateManyCourseInputEnvelope = {
+    data: OntarioCurriculumUnitCreateManyCourseInput | OntarioCurriculumUnitCreateManyCourseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OntarioCurriculumProgressCreateWithoutCourseInput = {
+    id?: string
+    completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressCreatecompletedExpectationsInput | string[]
+    confidence?: number
+    lastStudiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCurriculumProgressInput
+  }
+
+  export type OntarioCurriculumProgressUncheckedCreateWithoutCourseInput = {
+    id?: string
+    userId: string
+    completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressCreatecompletedExpectationsInput | string[]
+    confidence?: number
+    lastStudiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OntarioCurriculumProgressCreateOrConnectWithoutCourseInput = {
+    where: OntarioCurriculumProgressWhereUniqueInput
+    create: XOR<OntarioCurriculumProgressCreateWithoutCourseInput, OntarioCurriculumProgressUncheckedCreateWithoutCourseInput>
+  }
+
+  export type OntarioCurriculumProgressCreateManyCourseInputEnvelope = {
+    data: OntarioCurriculumProgressCreateManyCourseInput | OntarioCurriculumProgressCreateManyCourseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OntarioCurriculumUnitUpsertWithWhereUniqueWithoutCourseInput = {
+    where: OntarioCurriculumUnitWhereUniqueInput
+    update: XOR<OntarioCurriculumUnitUpdateWithoutCourseInput, OntarioCurriculumUnitUncheckedUpdateWithoutCourseInput>
+    create: XOR<OntarioCurriculumUnitCreateWithoutCourseInput, OntarioCurriculumUnitUncheckedCreateWithoutCourseInput>
+  }
+
+  export type OntarioCurriculumUnitUpdateWithWhereUniqueWithoutCourseInput = {
+    where: OntarioCurriculumUnitWhereUniqueInput
+    data: XOR<OntarioCurriculumUnitUpdateWithoutCourseInput, OntarioCurriculumUnitUncheckedUpdateWithoutCourseInput>
+  }
+
+  export type OntarioCurriculumUnitUpdateManyWithWhereWithoutCourseInput = {
+    where: OntarioCurriculumUnitScalarWhereInput
+    data: XOR<OntarioCurriculumUnitUpdateManyMutationInput, OntarioCurriculumUnitUncheckedUpdateManyWithoutCourseInput>
+  }
+
+  export type OntarioCurriculumUnitScalarWhereInput = {
+    AND?: OntarioCurriculumUnitScalarWhereInput | OntarioCurriculumUnitScalarWhereInput[]
+    OR?: OntarioCurriculumUnitScalarWhereInput[]
+    NOT?: OntarioCurriculumUnitScalarWhereInput | OntarioCurriculumUnitScalarWhereInput[]
+    id?: StringFilter<"OntarioCurriculumUnit"> | string
+    courseId?: StringFilter<"OntarioCurriculumUnit"> | string
+    code?: StringFilter<"OntarioCurriculumUnit"> | string
+    title?: StringFilter<"OntarioCurriculumUnit"> | string
+    description?: StringFilter<"OntarioCurriculumUnit"> | string
+    weight?: IntFilter<"OntarioCurriculumUnit"> | number
+    orderIndex?: IntFilter<"OntarioCurriculumUnit"> | number
+    createdAt?: DateTimeFilter<"OntarioCurriculumUnit"> | Date | string
+  }
+
+  export type OntarioCurriculumProgressUpsertWithWhereUniqueWithoutCourseInput = {
+    where: OntarioCurriculumProgressWhereUniqueInput
+    update: XOR<OntarioCurriculumProgressUpdateWithoutCourseInput, OntarioCurriculumProgressUncheckedUpdateWithoutCourseInput>
+    create: XOR<OntarioCurriculumProgressCreateWithoutCourseInput, OntarioCurriculumProgressUncheckedCreateWithoutCourseInput>
+  }
+
+  export type OntarioCurriculumProgressUpdateWithWhereUniqueWithoutCourseInput = {
+    where: OntarioCurriculumProgressWhereUniqueInput
+    data: XOR<OntarioCurriculumProgressUpdateWithoutCourseInput, OntarioCurriculumProgressUncheckedUpdateWithoutCourseInput>
+  }
+
+  export type OntarioCurriculumProgressUpdateManyWithWhereWithoutCourseInput = {
+    where: OntarioCurriculumProgressScalarWhereInput
+    data: XOR<OntarioCurriculumProgressUpdateManyMutationInput, OntarioCurriculumProgressUncheckedUpdateManyWithoutCourseInput>
+  }
+
+  export type OntarioCurriculumCourseCreateWithoutUnitsInput = {
+    id?: string
+    code: string
+    title: string
+    grade: number
+    subject: string
+    destination: string
+    description: string
+    keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    progress?: OntarioCurriculumProgressCreateNestedManyWithoutCourseInput
+  }
+
+  export type OntarioCurriculumCourseUncheckedCreateWithoutUnitsInput = {
+    id?: string
+    code: string
+    title: string
+    grade: number
+    subject: string
+    destination: string
+    description: string
+    keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    progress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type OntarioCurriculumCourseCreateOrConnectWithoutUnitsInput = {
+    where: OntarioCurriculumCourseWhereUniqueInput
+    create: XOR<OntarioCurriculumCourseCreateWithoutUnitsInput, OntarioCurriculumCourseUncheckedCreateWithoutUnitsInput>
+  }
+
+  export type OntarioCurriculumExpectationCreateWithoutUnitInput = {
+    id?: string
+    code: string
+    title: string
+    description: string
+    strand: string
+    createdAt?: Date | string
+  }
+
+  export type OntarioCurriculumExpectationUncheckedCreateWithoutUnitInput = {
+    id?: string
+    code: string
+    title: string
+    description: string
+    strand: string
+    createdAt?: Date | string
+  }
+
+  export type OntarioCurriculumExpectationCreateOrConnectWithoutUnitInput = {
+    where: OntarioCurriculumExpectationWhereUniqueInput
+    create: XOR<OntarioCurriculumExpectationCreateWithoutUnitInput, OntarioCurriculumExpectationUncheckedCreateWithoutUnitInput>
+  }
+
+  export type OntarioCurriculumExpectationCreateManyUnitInputEnvelope = {
+    data: OntarioCurriculumExpectationCreateManyUnitInput | OntarioCurriculumExpectationCreateManyUnitInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OntarioCurriculumCourseUpsertWithoutUnitsInput = {
+    update: XOR<OntarioCurriculumCourseUpdateWithoutUnitsInput, OntarioCurriculumCourseUncheckedUpdateWithoutUnitsInput>
+    create: XOR<OntarioCurriculumCourseCreateWithoutUnitsInput, OntarioCurriculumCourseUncheckedCreateWithoutUnitsInput>
+    where?: OntarioCurriculumCourseWhereInput
+  }
+
+  export type OntarioCurriculumCourseUpdateToOneWithWhereWithoutUnitsInput = {
+    where?: OntarioCurriculumCourseWhereInput
+    data: XOR<OntarioCurriculumCourseUpdateWithoutUnitsInput, OntarioCurriculumCourseUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type OntarioCurriculumCourseUpdateWithoutUnitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    grade?: IntFieldUpdateOperationsInput | number
+    subject?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progress?: OntarioCurriculumProgressUpdateManyWithoutCourseNestedInput
+  }
+
+  export type OntarioCurriculumCourseUncheckedUpdateWithoutUnitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    grade?: IntFieldUpdateOperationsInput | number
+    subject?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type OntarioCurriculumExpectationUpsertWithWhereUniqueWithoutUnitInput = {
+    where: OntarioCurriculumExpectationWhereUniqueInput
+    update: XOR<OntarioCurriculumExpectationUpdateWithoutUnitInput, OntarioCurriculumExpectationUncheckedUpdateWithoutUnitInput>
+    create: XOR<OntarioCurriculumExpectationCreateWithoutUnitInput, OntarioCurriculumExpectationUncheckedCreateWithoutUnitInput>
+  }
+
+  export type OntarioCurriculumExpectationUpdateWithWhereUniqueWithoutUnitInput = {
+    where: OntarioCurriculumExpectationWhereUniqueInput
+    data: XOR<OntarioCurriculumExpectationUpdateWithoutUnitInput, OntarioCurriculumExpectationUncheckedUpdateWithoutUnitInput>
+  }
+
+  export type OntarioCurriculumExpectationUpdateManyWithWhereWithoutUnitInput = {
+    where: OntarioCurriculumExpectationScalarWhereInput
+    data: XOR<OntarioCurriculumExpectationUpdateManyMutationInput, OntarioCurriculumExpectationUncheckedUpdateManyWithoutUnitInput>
+  }
+
+  export type OntarioCurriculumExpectationScalarWhereInput = {
+    AND?: OntarioCurriculumExpectationScalarWhereInput | OntarioCurriculumExpectationScalarWhereInput[]
+    OR?: OntarioCurriculumExpectationScalarWhereInput[]
+    NOT?: OntarioCurriculumExpectationScalarWhereInput | OntarioCurriculumExpectationScalarWhereInput[]
+    id?: StringFilter<"OntarioCurriculumExpectation"> | string
+    unitId?: StringFilter<"OntarioCurriculumExpectation"> | string
+    code?: StringFilter<"OntarioCurriculumExpectation"> | string
+    title?: StringFilter<"OntarioCurriculumExpectation"> | string
+    description?: StringFilter<"OntarioCurriculumExpectation"> | string
+    strand?: StringFilter<"OntarioCurriculumExpectation"> | string
+    createdAt?: DateTimeFilter<"OntarioCurriculumExpectation"> | Date | string
+  }
+
+  export type OntarioCurriculumUnitCreateWithoutExpectationsInput = {
+    id?: string
+    code: string
+    title: string
+    description: string
+    weight?: number
+    orderIndex?: number
+    createdAt?: Date | string
+    course: OntarioCurriculumCourseCreateNestedOneWithoutUnitsInput
+  }
+
+  export type OntarioCurriculumUnitUncheckedCreateWithoutExpectationsInput = {
+    id?: string
+    courseId: string
+    code: string
+    title: string
+    description: string
+    weight?: number
+    orderIndex?: number
+    createdAt?: Date | string
+  }
+
+  export type OntarioCurriculumUnitCreateOrConnectWithoutExpectationsInput = {
+    where: OntarioCurriculumUnitWhereUniqueInput
+    create: XOR<OntarioCurriculumUnitCreateWithoutExpectationsInput, OntarioCurriculumUnitUncheckedCreateWithoutExpectationsInput>
+  }
+
+  export type OntarioCurriculumUnitUpsertWithoutExpectationsInput = {
+    update: XOR<OntarioCurriculumUnitUpdateWithoutExpectationsInput, OntarioCurriculumUnitUncheckedUpdateWithoutExpectationsInput>
+    create: XOR<OntarioCurriculumUnitCreateWithoutExpectationsInput, OntarioCurriculumUnitUncheckedCreateWithoutExpectationsInput>
+    where?: OntarioCurriculumUnitWhereInput
+  }
+
+  export type OntarioCurriculumUnitUpdateToOneWithWhereWithoutExpectationsInput = {
+    where?: OntarioCurriculumUnitWhereInput
+    data: XOR<OntarioCurriculumUnitUpdateWithoutExpectationsInput, OntarioCurriculumUnitUncheckedUpdateWithoutExpectationsInput>
+  }
+
+  export type OntarioCurriculumUnitUpdateWithoutExpectationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    weight?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: OntarioCurriculumCourseUpdateOneRequiredWithoutUnitsNestedInput
+  }
+
+  export type OntarioCurriculumUnitUncheckedUpdateWithoutExpectationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    weight?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateWithoutCurriculumProgressInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCurriculumProgressInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCurriculumProgressInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCurriculumProgressInput, UserUncheckedCreateWithoutCurriculumProgressInput>
+  }
+
+  export type OntarioCurriculumCourseCreateWithoutProgressInput = {
+    id?: string
+    code: string
+    title: string
+    grade: number
+    subject: string
+    destination: string
+    description: string
+    keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    units?: OntarioCurriculumUnitCreateNestedManyWithoutCourseInput
+  }
+
+  export type OntarioCurriculumCourseUncheckedCreateWithoutProgressInput = {
+    id?: string
+    code: string
+    title: string
+    grade: number
+    subject: string
+    destination: string
+    description: string
+    keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    units?: OntarioCurriculumUnitUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type OntarioCurriculumCourseCreateOrConnectWithoutProgressInput = {
+    where: OntarioCurriculumCourseWhereUniqueInput
+    create: XOR<OntarioCurriculumCourseCreateWithoutProgressInput, OntarioCurriculumCourseUncheckedCreateWithoutProgressInput>
+  }
+
+  export type UserUpsertWithoutCurriculumProgressInput = {
+    update: XOR<UserUpdateWithoutCurriculumProgressInput, UserUncheckedUpdateWithoutCurriculumProgressInput>
+    create: XOR<UserCreateWithoutCurriculumProgressInput, UserUncheckedCreateWithoutCurriculumProgressInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCurriculumProgressInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCurriculumProgressInput, UserUncheckedUpdateWithoutCurriculumProgressInput>
+  }
+
+  export type UserUpdateWithoutCurriculumProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCurriculumProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type OntarioCurriculumCourseUpsertWithoutProgressInput = {
+    update: XOR<OntarioCurriculumCourseUpdateWithoutProgressInput, OntarioCurriculumCourseUncheckedUpdateWithoutProgressInput>
+    create: XOR<OntarioCurriculumCourseCreateWithoutProgressInput, OntarioCurriculumCourseUncheckedCreateWithoutProgressInput>
+    where?: OntarioCurriculumCourseWhereInput
+  }
+
+  export type OntarioCurriculumCourseUpdateToOneWithWhereWithoutProgressInput = {
+    where?: OntarioCurriculumCourseWhereInput
+    data: XOR<OntarioCurriculumCourseUpdateWithoutProgressInput, OntarioCurriculumCourseUncheckedUpdateWithoutProgressInput>
+  }
+
+  export type OntarioCurriculumCourseUpdateWithoutProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    grade?: IntFieldUpdateOperationsInput | number
+    subject?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    units?: OntarioCurriculumUnitUpdateManyWithoutCourseNestedInput
+  }
+
+  export type OntarioCurriculumCourseUncheckedUpdateWithoutProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    grade?: IntFieldUpdateOperationsInput | number
+    subject?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    units?: OntarioCurriculumUnitUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
   export type UserCreateWithoutNotesInput = {
     id?: string
     name?: string | null
@@ -68639,6 +75566,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotesInput = {
@@ -68698,6 +75626,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotesInput = {
@@ -68822,6 +75751,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotesInput = {
@@ -68881,6 +75811,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FolderUpsertWithoutNotesInput = {
@@ -68983,6 +75914,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFoldersInput = {
@@ -69042,6 +75974,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFoldersInput = {
@@ -69157,6 +76090,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFoldersInput = {
@@ -69216,6 +76150,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type NoteUpsertWithWhereUniqueWithoutFolderInput = {
@@ -69291,6 +76226,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCitationsInput = {
@@ -69350,6 +76286,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCitationsInput = {
@@ -69425,6 +76362,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCitationsInput = {
@@ -69484,6 +76422,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamPredictionsInput = {
@@ -69543,6 +76482,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamPredictionsInput = {
@@ -69602,6 +76542,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamPredictionsInput = {
@@ -69677,6 +76618,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamPredictionsInput = {
@@ -69736,6 +76678,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHostedBattlesInput = {
@@ -69795,6 +76738,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedBattlesInput = {
@@ -69854,6 +76798,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedBattlesInput = {
@@ -69918,6 +76863,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutJoinedBattlesInput = {
@@ -69977,6 +76923,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutJoinedBattlesInput = {
@@ -70131,6 +77078,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedBattlesInput = {
@@ -70190,6 +77138,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutJoinedBattlesInput = {
@@ -70260,6 +77209,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutJoinedBattlesInput = {
@@ -70319,6 +77269,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleQuestionUpsertWithWhereUniqueWithoutBattleInput = {
@@ -70615,6 +77566,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleParticipantsInput = {
@@ -70674,6 +77626,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleParticipantsInput = {
@@ -70808,6 +77761,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleParticipantsInput = {
@@ -70867,6 +77821,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleCreateWithoutResultInput = {
@@ -70979,6 +77934,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleResultsInput = {
@@ -71038,6 +77994,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleResultsInput = {
@@ -71172,6 +78129,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleResultsInput = {
@@ -71231,6 +78189,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreatedStudyGroupsInput = {
@@ -71290,6 +78249,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedStudyGroupsInput = {
@@ -71349,6 +78309,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedStudyGroupsInput = {
@@ -71745,6 +78706,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedStudyGroupsInput = {
@@ -71804,6 +78766,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
@@ -72121,6 +79084,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStudyGroupMembershipsInput = {
@@ -72180,6 +79144,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStudyGroupMembershipsInput = {
@@ -72314,6 +79279,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudyGroupMembershipsInput = {
@@ -72373,6 +79339,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutMessagesInput = {
@@ -72485,6 +79452,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupMessagesInput = {
@@ -72544,6 +79512,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupMessagesInput = {
@@ -72702,6 +79671,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupMessagesInput = {
@@ -72761,6 +79731,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupPinnedMessageUpsertWithWhereUniqueWithoutMessageInput = {
@@ -73036,6 +80007,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSharedGroupNotesInput = {
@@ -73095,6 +80067,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSharedGroupNotesInput = {
@@ -73294,6 +80267,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSharedGroupNotesInput = {
@@ -73353,6 +80327,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupSharedNoteCommentUpsertWithWhereUniqueWithoutSharedNoteInput = {
@@ -73451,6 +80426,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupNoteCommentsInput = {
@@ -73510,6 +80486,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupNoteCommentsInput = {
@@ -73614,6 +80591,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupNoteCommentsInput = {
@@ -73673,6 +80651,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutFlashcardsInput = {
@@ -73785,6 +80764,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedGroupFlashcardsInput = {
@@ -73844,6 +80824,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedGroupFlashcardsInput = {
@@ -73978,6 +80959,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedGroupFlashcardsInput = {
@@ -74037,6 +81019,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutQuizRoundsInput = {
@@ -74149,6 +81132,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizRoundsStartedInput = {
@@ -74208,6 +81192,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizRoundsStartedInput = {
@@ -74370,6 +81355,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizRoundsStartedInput = {
@@ -74429,6 +81415,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupQuizSubmissionUpsertWithWhereUniqueWithoutRoundInput = {
@@ -74533,6 +81520,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizSubmissionsInput = {
@@ -74592,6 +81580,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizSubmissionsInput = {
@@ -74702,6 +81691,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizSubmissionsInput = {
@@ -74761,6 +81751,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutScheduleItemsInput = {
@@ -74873,6 +81864,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupSchedulesCreatedInput = {
@@ -74932,6 +81924,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupSchedulesCreatedInput = {
@@ -75066,6 +82059,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupSchedulesCreatedInput = {
@@ -75125,6 +82119,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutResourcesInput = {
@@ -75237,6 +82232,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupResourcesSharedInput = {
@@ -75296,6 +82292,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupResourcesSharedInput = {
@@ -75430,6 +82427,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupResourcesSharedInput = {
@@ -75489,6 +82487,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutLeaderboardStatsInput = {
@@ -75601,6 +82600,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupStatsInput = {
@@ -75660,6 +82660,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupStatsInput = {
@@ -75794,6 +82795,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupStatsInput = {
@@ -75853,6 +82855,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPomodoroTimerInput = {
@@ -75965,6 +82968,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedPomodoroTimersInput = {
@@ -76024,6 +83028,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedPomodoroTimersInput = {
@@ -76158,6 +83163,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedPomodoroTimersInput = {
@@ -76217,6 +83223,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPinnedMessagesInput = {
@@ -76354,6 +83361,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPinnedGroupMessagesInput = {
@@ -76413,6 +83421,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPinnedGroupMessagesInput = {
@@ -76578,6 +83587,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPinnedGroupMessagesInput = {
@@ -76637,6 +83647,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptConnectionsInput = {
@@ -76696,6 +83707,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptConnectionsInput = {
@@ -76755,6 +83767,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptConnectionsInput = {
@@ -76830,6 +83843,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptConnectionsInput = {
@@ -76889,6 +83903,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutLearningStyleResultsInput = {
@@ -76948,6 +83963,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLearningStyleResultsInput = {
@@ -77007,6 +84023,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLearningStyleResultsInput = {
@@ -77082,6 +84099,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLearningStyleResultsInput = {
@@ -77141,6 +84159,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptWebsInput = {
@@ -77200,6 +84219,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptWebsInput = {
@@ -77259,6 +84279,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptWebsInput = {
@@ -77334,6 +84355,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptWebsInput = {
@@ -77393,6 +84415,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamsInput = {
@@ -77452,6 +84475,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamsInput = {
@@ -77511,6 +84535,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamsInput = {
@@ -77586,6 +84611,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamsInput = {
@@ -77645,6 +84671,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutScanHistoriesInput = {
@@ -77704,6 +84731,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutScanHistoriesInput = {
@@ -77763,6 +84791,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutScanHistoriesInput = {
@@ -77838,6 +84867,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScanHistoriesInput = {
@@ -77897,6 +84927,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutFlashcardDecksInput = {
@@ -77956,6 +84987,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlashcardDecksInput = {
@@ -78015,6 +85047,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlashcardDecksInput = {
@@ -78124,6 +85157,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlashcardDecksInput = {
@@ -78183,6 +85217,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FlashcardUpsertWithWhereUniqueWithoutDeckInput = {
@@ -78330,6 +85365,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNovaStatsInput = {
@@ -78389,6 +85425,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNovaStatsInput = {
@@ -78464,6 +85501,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNovaStatsInput = {
@@ -78523,6 +85561,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomMemberCreateWithoutRoomInput = {
@@ -78608,6 +85647,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedRoomsInput = {
@@ -78667,6 +85707,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedRoomsInput = {
@@ -78758,6 +85799,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedRoomsInput = {
@@ -78817,6 +85859,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyRoomCreateWithoutMembersInput = {
@@ -78907,6 +85950,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoomMembershipsInput = {
@@ -78966,6 +86010,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoomMembershipsInput = {
@@ -79078,6 +86123,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomMembershipsInput = {
@@ -79137,6 +86183,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPdfDocumentsInput = {
@@ -79196,6 +86243,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPdfDocumentsInput = {
@@ -79255,6 +86303,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPdfDocumentsInput = {
@@ -79366,6 +86415,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPdfDocumentsInput = {
@@ -79425,6 +86475,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AnnotationUpsertWithWhereUniqueWithoutDocInput = {
@@ -79529,6 +86580,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAnnotationsInput = {
@@ -79588,6 +86640,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAnnotationsInput = {
@@ -79698,6 +86751,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAnnotationsInput = {
@@ -79757,6 +86811,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutFocusSessionsInput = {
@@ -79816,6 +86871,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFocusSessionsInput = {
@@ -79875,6 +86931,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFocusSessionsInput = {
@@ -79950,6 +87007,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFocusSessionsInput = {
@@ -80009,6 +87067,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -80390,6 +87449,17 @@ export namespace Prisma {
     distractions?: number
     startedAt?: Date | string
     endedAt?: Date | string | null
+  }
+
+  export type OntarioCurriculumProgressCreateManyUserInput = {
+    id?: string
+    courseId: string
+    completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressCreatecompletedExpectationsInput | string[]
+    confidence?: number
+    lastStudiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -81582,6 +88652,161 @@ export namespace Prisma {
     distractions?: IntFieldUpdateOperationsInput | number
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type OntarioCurriculumProgressUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedUnits?: OntarioCurriculumProgressUpdatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressUpdatecompletedExpectationsInput | string[]
+    confidence?: IntFieldUpdateOperationsInput | number
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: OntarioCurriculumCourseUpdateOneRequiredWithoutProgressNestedInput
+  }
+
+  export type OntarioCurriculumProgressUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    completedUnits?: OntarioCurriculumProgressUpdatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressUpdatecompletedExpectationsInput | string[]
+    confidence?: IntFieldUpdateOperationsInput | number
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumProgressUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    completedUnits?: OntarioCurriculumProgressUpdatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressUpdatecompletedExpectationsInput | string[]
+    confidence?: IntFieldUpdateOperationsInput | number
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumUnitCreateManyCourseInput = {
+    id?: string
+    code: string
+    title: string
+    description: string
+    weight?: number
+    orderIndex?: number
+    createdAt?: Date | string
+  }
+
+  export type OntarioCurriculumProgressCreateManyCourseInput = {
+    id?: string
+    userId: string
+    completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressCreatecompletedExpectationsInput | string[]
+    confidence?: number
+    lastStudiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OntarioCurriculumUnitUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    weight?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expectations?: OntarioCurriculumExpectationUpdateManyWithoutUnitNestedInput
+  }
+
+  export type OntarioCurriculumUnitUncheckedUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    weight?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expectations?: OntarioCurriculumExpectationUncheckedUpdateManyWithoutUnitNestedInput
+  }
+
+  export type OntarioCurriculumUnitUncheckedUpdateManyWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    weight?: IntFieldUpdateOperationsInput | number
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumProgressUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedUnits?: OntarioCurriculumProgressUpdatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressUpdatecompletedExpectationsInput | string[]
+    confidence?: IntFieldUpdateOperationsInput | number
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCurriculumProgressNestedInput
+  }
+
+  export type OntarioCurriculumProgressUncheckedUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    completedUnits?: OntarioCurriculumProgressUpdatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressUpdatecompletedExpectationsInput | string[]
+    confidence?: IntFieldUpdateOperationsInput | number
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumProgressUncheckedUpdateManyWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    completedUnits?: OntarioCurriculumProgressUpdatecompletedUnitsInput | string[]
+    completedExpectations?: OntarioCurriculumProgressUpdatecompletedExpectationsInput | string[]
+    confidence?: IntFieldUpdateOperationsInput | number
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumExpectationCreateManyUnitInput = {
+    id?: string
+    code: string
+    title: string
+    description: string
+    strand: string
+    createdAt?: Date | string
+  }
+
+  export type OntarioCurriculumExpectationUpdateWithoutUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    strand?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumExpectationUncheckedUpdateWithoutUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    strand?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OntarioCurriculumExpectationUncheckedUpdateManyWithoutUnitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    strand?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GroupSharedNoteCreateManyNoteInput = {
