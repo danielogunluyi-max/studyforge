@@ -39,6 +39,7 @@
     "pdf-lib": "^1.17.1",
     "pdf2json": "^4.0.2",
     "pdfjs-dist": "^5.5.207",
+    "pptxgenjs": "^4.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "server-only": "^0.0.1",
@@ -68,4 +69,3 @@
   },
   "packageManager": "npm@11.6.2"
 }
-
