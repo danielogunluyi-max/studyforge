@@ -554,6 +554,32 @@ exports.Prisma.RoomMemberScalarFieldEnum = {
   status: 'status'
 };
 
+exports.Prisma.PDFDocumentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  fileName: 'fileName',
+  fileSize: 'fileSize',
+  pageCount: 'pageCount',
+  blobUrl: 'blobUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AnnotationScalarFieldEnum = {
+  id: 'id',
+  docId: 'docId',
+  userId: 'userId',
+  page: 'page',
+  type: 'type',
+  color: 'color',
+  text: 'text',
+  note: 'note',
+  rects: 'rects',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -622,7 +648,9 @@ exports.Prisma.ModelName = {
   Flashcard: 'Flashcard',
   NovaStats: 'NovaStats',
   StudyRoom: 'StudyRoom',
-  RoomMember: 'RoomMember'
+  RoomMember: 'RoomMember',
+  PDFDocument: 'PDFDocument',
+  Annotation: 'Annotation'
 };
 
 /**

@@ -198,6 +198,16 @@ export type StudyRoom = $Result.DefaultSelection<Prisma.$StudyRoomPayload>
  * 
  */
 export type RoomMember = $Result.DefaultSelection<Prisma.$RoomMemberPayload>
+/**
+ * Model PDFDocument
+ * 
+ */
+export type PDFDocument = $Result.DefaultSelection<Prisma.$PDFDocumentPayload>
+/**
+ * Model Annotation
+ * 
+ */
+export type Annotation = $Result.DefaultSelection<Prisma.$AnnotationPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -686,6 +696,26 @@ export class PrismaClient<
     * ```
     */
   get roomMember(): Prisma.RoomMemberDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.pDFDocument`: Exposes CRUD operations for the **PDFDocument** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PDFDocuments
+    * const pDFDocuments = await prisma.pDFDocument.findMany()
+    * ```
+    */
+  get pDFDocument(): Prisma.PDFDocumentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.annotation`: Exposes CRUD operations for the **Annotation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Annotations
+    * const annotations = await prisma.annotation.findMany()
+    * ```
+    */
+  get annotation(): Prisma.AnnotationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1163,7 +1193,9 @@ export namespace Prisma {
     Flashcard: 'Flashcard',
     NovaStats: 'NovaStats',
     StudyRoom: 'StudyRoom',
-    RoomMember: 'RoomMember'
+    RoomMember: 'RoomMember',
+    PDFDocument: 'PDFDocument',
+    Annotation: 'Annotation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1182,7 +1214,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember"
+      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember" | "pDFDocument" | "annotation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3924,6 +3956,154 @@ export namespace Prisma {
           }
         }
       }
+      PDFDocument: {
+        payload: Prisma.$PDFDocumentPayload<ExtArgs>
+        fields: Prisma.PDFDocumentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PDFDocumentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PDFDocumentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PDFDocumentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PDFDocumentPayload>
+          }
+          findFirst: {
+            args: Prisma.PDFDocumentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PDFDocumentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PDFDocumentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PDFDocumentPayload>
+          }
+          findMany: {
+            args: Prisma.PDFDocumentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PDFDocumentPayload>[]
+          }
+          create: {
+            args: Prisma.PDFDocumentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PDFDocumentPayload>
+          }
+          createMany: {
+            args: Prisma.PDFDocumentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PDFDocumentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PDFDocumentPayload>[]
+          }
+          delete: {
+            args: Prisma.PDFDocumentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PDFDocumentPayload>
+          }
+          update: {
+            args: Prisma.PDFDocumentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PDFDocumentPayload>
+          }
+          deleteMany: {
+            args: Prisma.PDFDocumentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PDFDocumentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PDFDocumentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PDFDocumentPayload>[]
+          }
+          upsert: {
+            args: Prisma.PDFDocumentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PDFDocumentPayload>
+          }
+          aggregate: {
+            args: Prisma.PDFDocumentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePDFDocument>
+          }
+          groupBy: {
+            args: Prisma.PDFDocumentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PDFDocumentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PDFDocumentCountArgs<ExtArgs>
+            result: $Utils.Optional<PDFDocumentCountAggregateOutputType> | number
+          }
+        }
+      }
+      Annotation: {
+        payload: Prisma.$AnnotationPayload<ExtArgs>
+        fields: Prisma.AnnotationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AnnotationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnotationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AnnotationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnotationPayload>
+          }
+          findFirst: {
+            args: Prisma.AnnotationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnotationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AnnotationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnotationPayload>
+          }
+          findMany: {
+            args: Prisma.AnnotationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnotationPayload>[]
+          }
+          create: {
+            args: Prisma.AnnotationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnotationPayload>
+          }
+          createMany: {
+            args: Prisma.AnnotationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AnnotationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnotationPayload>[]
+          }
+          delete: {
+            args: Prisma.AnnotationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnotationPayload>
+          }
+          update: {
+            args: Prisma.AnnotationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnotationPayload>
+          }
+          deleteMany: {
+            args: Prisma.AnnotationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AnnotationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AnnotationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnotationPayload>[]
+          }
+          upsert: {
+            args: Prisma.AnnotationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnotationPayload>
+          }
+          aggregate: {
+            args: Prisma.AnnotationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAnnotation>
+          }
+          groupBy: {
+            args: Prisma.AnnotationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AnnotationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AnnotationCountArgs<ExtArgs>
+            result: $Utils.Optional<AnnotationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4057,6 +4237,8 @@ export namespace Prisma {
     novaStats?: NovaStatsOmit
     studyRoom?: StudyRoomOmit
     roomMember?: RoomMemberOmit
+    pDFDocument?: PDFDocumentOmit
+    annotation?: AnnotationOmit
   }
 
   /* Types for Logging */
@@ -4169,6 +4351,8 @@ export namespace Prisma {
     flashcardDecks: number
     hostedRooms: number
     roomMemberships: number
+    pdfDocuments: number
+    annotations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4204,6 +4388,8 @@ export namespace Prisma {
     flashcardDecks?: boolean | UserCountOutputTypeCountFlashcardDecksArgs
     hostedRooms?: boolean | UserCountOutputTypeCountHostedRoomsArgs
     roomMemberships?: boolean | UserCountOutputTypeCountRoomMembershipsArgs
+    pdfDocuments?: boolean | UserCountOutputTypeCountPdfDocumentsArgs
+    annotations?: boolean | UserCountOutputTypeCountAnnotationsArgs
   }
 
   // Custom InputTypes
@@ -4439,6 +4625,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountRoomMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RoomMemberWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPdfDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PDFDocumentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAnnotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnnotationWhereInput
   }
 
 
@@ -4808,6 +5008,37 @@ export namespace Prisma {
    */
   export type StudyRoomCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RoomMemberWhereInput
+  }
+
+
+  /**
+   * Count Type PDFDocumentCountOutputType
+   */
+
+  export type PDFDocumentCountOutputType = {
+    annotations: number
+  }
+
+  export type PDFDocumentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    annotations?: boolean | PDFDocumentCountOutputTypeCountAnnotationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PDFDocumentCountOutputType without action
+   */
+  export type PDFDocumentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocumentCountOutputType
+     */
+    select?: PDFDocumentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PDFDocumentCountOutputType without action
+   */
+  export type PDFDocumentCountOutputTypeCountAnnotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnnotationWhereInput
   }
 
 
@@ -8519,6 +8750,8 @@ export namespace Prisma {
     novaStats?: boolean | User$novaStatsArgs<ExtArgs>
     hostedRooms?: boolean | User$hostedRoomsArgs<ExtArgs>
     roomMemberships?: boolean | User$roomMembershipsArgs<ExtArgs>
+    pdfDocuments?: boolean | User$pdfDocumentsArgs<ExtArgs>
+    annotations?: boolean | User$annotationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -8629,6 +8862,8 @@ export namespace Prisma {
     novaStats?: boolean | User$novaStatsArgs<ExtArgs>
     hostedRooms?: boolean | User$hostedRoomsArgs<ExtArgs>
     roomMemberships?: boolean | User$roomMembershipsArgs<ExtArgs>
+    pdfDocuments?: boolean | User$pdfDocumentsArgs<ExtArgs>
+    annotations?: boolean | User$annotationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8670,6 +8905,8 @@ export namespace Prisma {
       novaStats: Prisma.$NovaStatsPayload<ExtArgs> | null
       hostedRooms: Prisma.$StudyRoomPayload<ExtArgs>[]
       roomMemberships: Prisma.$RoomMemberPayload<ExtArgs>[]
+      pdfDocuments: Prisma.$PDFDocumentPayload<ExtArgs>[]
+      annotations: Prisma.$AnnotationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9120,6 +9357,8 @@ export namespace Prisma {
     novaStats<T extends User$novaStatsArgs<ExtArgs> = {}>(args?: Subset<T, User$novaStatsArgs<ExtArgs>>): Prisma__NovaStatsClient<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     hostedRooms<T extends User$hostedRoomsArgs<ExtArgs> = {}>(args?: Subset<T, User$hostedRoomsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     roomMemberships<T extends User$roomMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$roomMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pdfDocuments<T extends User$pdfDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, User$pdfDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    annotations<T extends User$annotationsArgs<ExtArgs> = {}>(args?: Subset<T, User$annotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10342,6 +10581,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RoomMemberScalarFieldEnum | RoomMemberScalarFieldEnum[]
+  }
+
+  /**
+   * User.pdfDocuments
+   */
+  export type User$pdfDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentInclude<ExtArgs> | null
+    where?: PDFDocumentWhereInput
+    orderBy?: PDFDocumentOrderByWithRelationInput | PDFDocumentOrderByWithRelationInput[]
+    cursor?: PDFDocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PDFDocumentScalarFieldEnum | PDFDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * User.annotations
+   */
+  export type User$annotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+    where?: AnnotationWhereInput
+    orderBy?: AnnotationOrderByWithRelationInput | AnnotationOrderByWithRelationInput[]
+    cursor?: AnnotationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnnotationScalarFieldEnum | AnnotationScalarFieldEnum[]
   }
 
   /**
@@ -48101,6 +48388,2358 @@ export namespace Prisma {
 
 
   /**
+   * Model PDFDocument
+   */
+
+  export type AggregatePDFDocument = {
+    _count: PDFDocumentCountAggregateOutputType | null
+    _avg: PDFDocumentAvgAggregateOutputType | null
+    _sum: PDFDocumentSumAggregateOutputType | null
+    _min: PDFDocumentMinAggregateOutputType | null
+    _max: PDFDocumentMaxAggregateOutputType | null
+  }
+
+  export type PDFDocumentAvgAggregateOutputType = {
+    fileSize: number | null
+    pageCount: number | null
+  }
+
+  export type PDFDocumentSumAggregateOutputType = {
+    fileSize: number | null
+    pageCount: number | null
+  }
+
+  export type PDFDocumentMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    title: string | null
+    fileName: string | null
+    fileSize: number | null
+    pageCount: number | null
+    blobUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PDFDocumentMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    title: string | null
+    fileName: string | null
+    fileSize: number | null
+    pageCount: number | null
+    blobUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PDFDocumentCountAggregateOutputType = {
+    id: number
+    userId: number
+    title: number
+    fileName: number
+    fileSize: number
+    pageCount: number
+    blobUrl: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PDFDocumentAvgAggregateInputType = {
+    fileSize?: true
+    pageCount?: true
+  }
+
+  export type PDFDocumentSumAggregateInputType = {
+    fileSize?: true
+    pageCount?: true
+  }
+
+  export type PDFDocumentMinAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    fileName?: true
+    fileSize?: true
+    pageCount?: true
+    blobUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PDFDocumentMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    fileName?: true
+    fileSize?: true
+    pageCount?: true
+    blobUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PDFDocumentCountAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    fileName?: true
+    fileSize?: true
+    pageCount?: true
+    blobUrl?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PDFDocumentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PDFDocument to aggregate.
+     */
+    where?: PDFDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PDFDocuments to fetch.
+     */
+    orderBy?: PDFDocumentOrderByWithRelationInput | PDFDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PDFDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PDFDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PDFDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PDFDocuments
+    **/
+    _count?: true | PDFDocumentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PDFDocumentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PDFDocumentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PDFDocumentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PDFDocumentMaxAggregateInputType
+  }
+
+  export type GetPDFDocumentAggregateType<T extends PDFDocumentAggregateArgs> = {
+        [P in keyof T & keyof AggregatePDFDocument]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePDFDocument[P]>
+      : GetScalarType<T[P], AggregatePDFDocument[P]>
+  }
+
+
+
+
+  export type PDFDocumentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PDFDocumentWhereInput
+    orderBy?: PDFDocumentOrderByWithAggregationInput | PDFDocumentOrderByWithAggregationInput[]
+    by: PDFDocumentScalarFieldEnum[] | PDFDocumentScalarFieldEnum
+    having?: PDFDocumentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PDFDocumentCountAggregateInputType | true
+    _avg?: PDFDocumentAvgAggregateInputType
+    _sum?: PDFDocumentSumAggregateInputType
+    _min?: PDFDocumentMinAggregateInputType
+    _max?: PDFDocumentMaxAggregateInputType
+  }
+
+  export type PDFDocumentGroupByOutputType = {
+    id: string
+    userId: string
+    title: string
+    fileName: string
+    fileSize: number
+    pageCount: number
+    blobUrl: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PDFDocumentCountAggregateOutputType | null
+    _avg: PDFDocumentAvgAggregateOutputType | null
+    _sum: PDFDocumentSumAggregateOutputType | null
+    _min: PDFDocumentMinAggregateOutputType | null
+    _max: PDFDocumentMaxAggregateOutputType | null
+  }
+
+  type GetPDFDocumentGroupByPayload<T extends PDFDocumentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PDFDocumentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PDFDocumentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PDFDocumentGroupByOutputType[P]>
+            : GetScalarType<T[P], PDFDocumentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PDFDocumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    pageCount?: boolean
+    blobUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    annotations?: boolean | PDFDocument$annotationsArgs<ExtArgs>
+    _count?: boolean | PDFDocumentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pDFDocument"]>
+
+  export type PDFDocumentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    pageCount?: boolean
+    blobUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pDFDocument"]>
+
+  export type PDFDocumentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    pageCount?: boolean
+    blobUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pDFDocument"]>
+
+  export type PDFDocumentSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    pageCount?: boolean
+    blobUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PDFDocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "fileName" | "fileSize" | "pageCount" | "blobUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["pDFDocument"]>
+  export type PDFDocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    annotations?: boolean | PDFDocument$annotationsArgs<ExtArgs>
+    _count?: boolean | PDFDocumentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PDFDocumentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PDFDocumentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PDFDocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PDFDocument"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      annotations: Prisma.$AnnotationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      title: string
+      fileName: string
+      fileSize: number
+      pageCount: number
+      blobUrl: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["pDFDocument"]>
+    composites: {}
+  }
+
+  type PDFDocumentGetPayload<S extends boolean | null | undefined | PDFDocumentDefaultArgs> = $Result.GetResult<Prisma.$PDFDocumentPayload, S>
+
+  type PDFDocumentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PDFDocumentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PDFDocumentCountAggregateInputType | true
+    }
+
+  export interface PDFDocumentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PDFDocument'], meta: { name: 'PDFDocument' } }
+    /**
+     * Find zero or one PDFDocument that matches the filter.
+     * @param {PDFDocumentFindUniqueArgs} args - Arguments to find a PDFDocument
+     * @example
+     * // Get one PDFDocument
+     * const pDFDocument = await prisma.pDFDocument.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PDFDocumentFindUniqueArgs>(args: SelectSubset<T, PDFDocumentFindUniqueArgs<ExtArgs>>): Prisma__PDFDocumentClient<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PDFDocument that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PDFDocumentFindUniqueOrThrowArgs} args - Arguments to find a PDFDocument
+     * @example
+     * // Get one PDFDocument
+     * const pDFDocument = await prisma.pDFDocument.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PDFDocumentFindUniqueOrThrowArgs>(args: SelectSubset<T, PDFDocumentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PDFDocumentClient<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PDFDocument that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PDFDocumentFindFirstArgs} args - Arguments to find a PDFDocument
+     * @example
+     * // Get one PDFDocument
+     * const pDFDocument = await prisma.pDFDocument.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PDFDocumentFindFirstArgs>(args?: SelectSubset<T, PDFDocumentFindFirstArgs<ExtArgs>>): Prisma__PDFDocumentClient<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PDFDocument that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PDFDocumentFindFirstOrThrowArgs} args - Arguments to find a PDFDocument
+     * @example
+     * // Get one PDFDocument
+     * const pDFDocument = await prisma.pDFDocument.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PDFDocumentFindFirstOrThrowArgs>(args?: SelectSubset<T, PDFDocumentFindFirstOrThrowArgs<ExtArgs>>): Prisma__PDFDocumentClient<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PDFDocuments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PDFDocumentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PDFDocuments
+     * const pDFDocuments = await prisma.pDFDocument.findMany()
+     * 
+     * // Get first 10 PDFDocuments
+     * const pDFDocuments = await prisma.pDFDocument.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pDFDocumentWithIdOnly = await prisma.pDFDocument.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PDFDocumentFindManyArgs>(args?: SelectSubset<T, PDFDocumentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PDFDocument.
+     * @param {PDFDocumentCreateArgs} args - Arguments to create a PDFDocument.
+     * @example
+     * // Create one PDFDocument
+     * const PDFDocument = await prisma.pDFDocument.create({
+     *   data: {
+     *     // ... data to create a PDFDocument
+     *   }
+     * })
+     * 
+     */
+    create<T extends PDFDocumentCreateArgs>(args: SelectSubset<T, PDFDocumentCreateArgs<ExtArgs>>): Prisma__PDFDocumentClient<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PDFDocuments.
+     * @param {PDFDocumentCreateManyArgs} args - Arguments to create many PDFDocuments.
+     * @example
+     * // Create many PDFDocuments
+     * const pDFDocument = await prisma.pDFDocument.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PDFDocumentCreateManyArgs>(args?: SelectSubset<T, PDFDocumentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PDFDocuments and returns the data saved in the database.
+     * @param {PDFDocumentCreateManyAndReturnArgs} args - Arguments to create many PDFDocuments.
+     * @example
+     * // Create many PDFDocuments
+     * const pDFDocument = await prisma.pDFDocument.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PDFDocuments and only return the `id`
+     * const pDFDocumentWithIdOnly = await prisma.pDFDocument.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PDFDocumentCreateManyAndReturnArgs>(args?: SelectSubset<T, PDFDocumentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PDFDocument.
+     * @param {PDFDocumentDeleteArgs} args - Arguments to delete one PDFDocument.
+     * @example
+     * // Delete one PDFDocument
+     * const PDFDocument = await prisma.pDFDocument.delete({
+     *   where: {
+     *     // ... filter to delete one PDFDocument
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PDFDocumentDeleteArgs>(args: SelectSubset<T, PDFDocumentDeleteArgs<ExtArgs>>): Prisma__PDFDocumentClient<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PDFDocument.
+     * @param {PDFDocumentUpdateArgs} args - Arguments to update one PDFDocument.
+     * @example
+     * // Update one PDFDocument
+     * const pDFDocument = await prisma.pDFDocument.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PDFDocumentUpdateArgs>(args: SelectSubset<T, PDFDocumentUpdateArgs<ExtArgs>>): Prisma__PDFDocumentClient<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PDFDocuments.
+     * @param {PDFDocumentDeleteManyArgs} args - Arguments to filter PDFDocuments to delete.
+     * @example
+     * // Delete a few PDFDocuments
+     * const { count } = await prisma.pDFDocument.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PDFDocumentDeleteManyArgs>(args?: SelectSubset<T, PDFDocumentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PDFDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PDFDocumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PDFDocuments
+     * const pDFDocument = await prisma.pDFDocument.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PDFDocumentUpdateManyArgs>(args: SelectSubset<T, PDFDocumentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PDFDocuments and returns the data updated in the database.
+     * @param {PDFDocumentUpdateManyAndReturnArgs} args - Arguments to update many PDFDocuments.
+     * @example
+     * // Update many PDFDocuments
+     * const pDFDocument = await prisma.pDFDocument.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PDFDocuments and only return the `id`
+     * const pDFDocumentWithIdOnly = await prisma.pDFDocument.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PDFDocumentUpdateManyAndReturnArgs>(args: SelectSubset<T, PDFDocumentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PDFDocument.
+     * @param {PDFDocumentUpsertArgs} args - Arguments to update or create a PDFDocument.
+     * @example
+     * // Update or create a PDFDocument
+     * const pDFDocument = await prisma.pDFDocument.upsert({
+     *   create: {
+     *     // ... data to create a PDFDocument
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PDFDocument we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PDFDocumentUpsertArgs>(args: SelectSubset<T, PDFDocumentUpsertArgs<ExtArgs>>): Prisma__PDFDocumentClient<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PDFDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PDFDocumentCountArgs} args - Arguments to filter PDFDocuments to count.
+     * @example
+     * // Count the number of PDFDocuments
+     * const count = await prisma.pDFDocument.count({
+     *   where: {
+     *     // ... the filter for the PDFDocuments we want to count
+     *   }
+     * })
+    **/
+    count<T extends PDFDocumentCountArgs>(
+      args?: Subset<T, PDFDocumentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PDFDocumentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PDFDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PDFDocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PDFDocumentAggregateArgs>(args: Subset<T, PDFDocumentAggregateArgs>): Prisma.PrismaPromise<GetPDFDocumentAggregateType<T>>
+
+    /**
+     * Group by PDFDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PDFDocumentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PDFDocumentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PDFDocumentGroupByArgs['orderBy'] }
+        : { orderBy?: PDFDocumentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PDFDocumentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPDFDocumentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PDFDocument model
+   */
+  readonly fields: PDFDocumentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PDFDocument.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PDFDocumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    annotations<T extends PDFDocument$annotationsArgs<ExtArgs> = {}>(args?: Subset<T, PDFDocument$annotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PDFDocument model
+   */
+  interface PDFDocumentFieldRefs {
+    readonly id: FieldRef<"PDFDocument", 'String'>
+    readonly userId: FieldRef<"PDFDocument", 'String'>
+    readonly title: FieldRef<"PDFDocument", 'String'>
+    readonly fileName: FieldRef<"PDFDocument", 'String'>
+    readonly fileSize: FieldRef<"PDFDocument", 'Int'>
+    readonly pageCount: FieldRef<"PDFDocument", 'Int'>
+    readonly blobUrl: FieldRef<"PDFDocument", 'String'>
+    readonly createdAt: FieldRef<"PDFDocument", 'DateTime'>
+    readonly updatedAt: FieldRef<"PDFDocument", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PDFDocument findUnique
+   */
+  export type PDFDocumentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which PDFDocument to fetch.
+     */
+    where: PDFDocumentWhereUniqueInput
+  }
+
+  /**
+   * PDFDocument findUniqueOrThrow
+   */
+  export type PDFDocumentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which PDFDocument to fetch.
+     */
+    where: PDFDocumentWhereUniqueInput
+  }
+
+  /**
+   * PDFDocument findFirst
+   */
+  export type PDFDocumentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which PDFDocument to fetch.
+     */
+    where?: PDFDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PDFDocuments to fetch.
+     */
+    orderBy?: PDFDocumentOrderByWithRelationInput | PDFDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PDFDocuments.
+     */
+    cursor?: PDFDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PDFDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PDFDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PDFDocuments.
+     */
+    distinct?: PDFDocumentScalarFieldEnum | PDFDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * PDFDocument findFirstOrThrow
+   */
+  export type PDFDocumentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which PDFDocument to fetch.
+     */
+    where?: PDFDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PDFDocuments to fetch.
+     */
+    orderBy?: PDFDocumentOrderByWithRelationInput | PDFDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PDFDocuments.
+     */
+    cursor?: PDFDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PDFDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PDFDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PDFDocuments.
+     */
+    distinct?: PDFDocumentScalarFieldEnum | PDFDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * PDFDocument findMany
+   */
+  export type PDFDocumentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which PDFDocuments to fetch.
+     */
+    where?: PDFDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PDFDocuments to fetch.
+     */
+    orderBy?: PDFDocumentOrderByWithRelationInput | PDFDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PDFDocuments.
+     */
+    cursor?: PDFDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PDFDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PDFDocuments.
+     */
+    skip?: number
+    distinct?: PDFDocumentScalarFieldEnum | PDFDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * PDFDocument create
+   */
+  export type PDFDocumentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PDFDocument.
+     */
+    data: XOR<PDFDocumentCreateInput, PDFDocumentUncheckedCreateInput>
+  }
+
+  /**
+   * PDFDocument createMany
+   */
+  export type PDFDocumentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PDFDocuments.
+     */
+    data: PDFDocumentCreateManyInput | PDFDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PDFDocument createManyAndReturn
+   */
+  export type PDFDocumentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * The data used to create many PDFDocuments.
+     */
+    data: PDFDocumentCreateManyInput | PDFDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PDFDocument update
+   */
+  export type PDFDocumentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PDFDocument.
+     */
+    data: XOR<PDFDocumentUpdateInput, PDFDocumentUncheckedUpdateInput>
+    /**
+     * Choose, which PDFDocument to update.
+     */
+    where: PDFDocumentWhereUniqueInput
+  }
+
+  /**
+   * PDFDocument updateMany
+   */
+  export type PDFDocumentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PDFDocuments.
+     */
+    data: XOR<PDFDocumentUpdateManyMutationInput, PDFDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which PDFDocuments to update
+     */
+    where?: PDFDocumentWhereInput
+    /**
+     * Limit how many PDFDocuments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PDFDocument updateManyAndReturn
+   */
+  export type PDFDocumentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * The data used to update PDFDocuments.
+     */
+    data: XOR<PDFDocumentUpdateManyMutationInput, PDFDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which PDFDocuments to update
+     */
+    where?: PDFDocumentWhereInput
+    /**
+     * Limit how many PDFDocuments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PDFDocument upsert
+   */
+  export type PDFDocumentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PDFDocument to update in case it exists.
+     */
+    where: PDFDocumentWhereUniqueInput
+    /**
+     * In case the PDFDocument found by the `where` argument doesn't exist, create a new PDFDocument with this data.
+     */
+    create: XOR<PDFDocumentCreateInput, PDFDocumentUncheckedCreateInput>
+    /**
+     * In case the PDFDocument was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PDFDocumentUpdateInput, PDFDocumentUncheckedUpdateInput>
+  }
+
+  /**
+   * PDFDocument delete
+   */
+  export type PDFDocumentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentInclude<ExtArgs> | null
+    /**
+     * Filter which PDFDocument to delete.
+     */
+    where: PDFDocumentWhereUniqueInput
+  }
+
+  /**
+   * PDFDocument deleteMany
+   */
+  export type PDFDocumentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PDFDocuments to delete
+     */
+    where?: PDFDocumentWhereInput
+    /**
+     * Limit how many PDFDocuments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PDFDocument.annotations
+   */
+  export type PDFDocument$annotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+    where?: AnnotationWhereInput
+    orderBy?: AnnotationOrderByWithRelationInput | AnnotationOrderByWithRelationInput[]
+    cursor?: AnnotationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnnotationScalarFieldEnum | AnnotationScalarFieldEnum[]
+  }
+
+  /**
+   * PDFDocument without action
+   */
+  export type PDFDocumentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PDFDocument
+     */
+    select?: PDFDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PDFDocument
+     */
+    omit?: PDFDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PDFDocumentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Annotation
+   */
+
+  export type AggregateAnnotation = {
+    _count: AnnotationCountAggregateOutputType | null
+    _avg: AnnotationAvgAggregateOutputType | null
+    _sum: AnnotationSumAggregateOutputType | null
+    _min: AnnotationMinAggregateOutputType | null
+    _max: AnnotationMaxAggregateOutputType | null
+  }
+
+  export type AnnotationAvgAggregateOutputType = {
+    page: number | null
+  }
+
+  export type AnnotationSumAggregateOutputType = {
+    page: number | null
+  }
+
+  export type AnnotationMinAggregateOutputType = {
+    id: string | null
+    docId: string | null
+    userId: string | null
+    page: number | null
+    type: string | null
+    color: string | null
+    text: string | null
+    note: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AnnotationMaxAggregateOutputType = {
+    id: string | null
+    docId: string | null
+    userId: string | null
+    page: number | null
+    type: string | null
+    color: string | null
+    text: string | null
+    note: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AnnotationCountAggregateOutputType = {
+    id: number
+    docId: number
+    userId: number
+    page: number
+    type: number
+    color: number
+    text: number
+    note: number
+    rects: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AnnotationAvgAggregateInputType = {
+    page?: true
+  }
+
+  export type AnnotationSumAggregateInputType = {
+    page?: true
+  }
+
+  export type AnnotationMinAggregateInputType = {
+    id?: true
+    docId?: true
+    userId?: true
+    page?: true
+    type?: true
+    color?: true
+    text?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AnnotationMaxAggregateInputType = {
+    id?: true
+    docId?: true
+    userId?: true
+    page?: true
+    type?: true
+    color?: true
+    text?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AnnotationCountAggregateInputType = {
+    id?: true
+    docId?: true
+    userId?: true
+    page?: true
+    type?: true
+    color?: true
+    text?: true
+    note?: true
+    rects?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AnnotationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Annotation to aggregate.
+     */
+    where?: AnnotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Annotations to fetch.
+     */
+    orderBy?: AnnotationOrderByWithRelationInput | AnnotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AnnotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Annotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Annotations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Annotations
+    **/
+    _count?: true | AnnotationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AnnotationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AnnotationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AnnotationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AnnotationMaxAggregateInputType
+  }
+
+  export type GetAnnotationAggregateType<T extends AnnotationAggregateArgs> = {
+        [P in keyof T & keyof AggregateAnnotation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAnnotation[P]>
+      : GetScalarType<T[P], AggregateAnnotation[P]>
+  }
+
+
+
+
+  export type AnnotationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnnotationWhereInput
+    orderBy?: AnnotationOrderByWithAggregationInput | AnnotationOrderByWithAggregationInput[]
+    by: AnnotationScalarFieldEnum[] | AnnotationScalarFieldEnum
+    having?: AnnotationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AnnotationCountAggregateInputType | true
+    _avg?: AnnotationAvgAggregateInputType
+    _sum?: AnnotationSumAggregateInputType
+    _min?: AnnotationMinAggregateInputType
+    _max?: AnnotationMaxAggregateInputType
+  }
+
+  export type AnnotationGroupByOutputType = {
+    id: string
+    docId: string
+    userId: string
+    page: number
+    type: string
+    color: string
+    text: string | null
+    note: string | null
+    rects: JsonValue
+    createdAt: Date
+    updatedAt: Date
+    _count: AnnotationCountAggregateOutputType | null
+    _avg: AnnotationAvgAggregateOutputType | null
+    _sum: AnnotationSumAggregateOutputType | null
+    _min: AnnotationMinAggregateOutputType | null
+    _max: AnnotationMaxAggregateOutputType | null
+  }
+
+  type GetAnnotationGroupByPayload<T extends AnnotationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AnnotationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AnnotationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AnnotationGroupByOutputType[P]>
+            : GetScalarType<T[P], AnnotationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AnnotationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    docId?: boolean
+    userId?: boolean
+    page?: boolean
+    type?: boolean
+    color?: boolean
+    text?: boolean
+    note?: boolean
+    rects?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    doc?: boolean | PDFDocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["annotation"]>
+
+  export type AnnotationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    docId?: boolean
+    userId?: boolean
+    page?: boolean
+    type?: boolean
+    color?: boolean
+    text?: boolean
+    note?: boolean
+    rects?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    doc?: boolean | PDFDocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["annotation"]>
+
+  export type AnnotationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    docId?: boolean
+    userId?: boolean
+    page?: boolean
+    type?: boolean
+    color?: boolean
+    text?: boolean
+    note?: boolean
+    rects?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    doc?: boolean | PDFDocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["annotation"]>
+
+  export type AnnotationSelectScalar = {
+    id?: boolean
+    docId?: boolean
+    userId?: boolean
+    page?: boolean
+    type?: boolean
+    color?: boolean
+    text?: boolean
+    note?: boolean
+    rects?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AnnotationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "docId" | "userId" | "page" | "type" | "color" | "text" | "note" | "rects" | "createdAt" | "updatedAt", ExtArgs["result"]["annotation"]>
+  export type AnnotationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    doc?: boolean | PDFDocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AnnotationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    doc?: boolean | PDFDocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AnnotationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    doc?: boolean | PDFDocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AnnotationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Annotation"
+    objects: {
+      doc: Prisma.$PDFDocumentPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      docId: string
+      userId: string
+      page: number
+      type: string
+      color: string
+      text: string | null
+      note: string | null
+      rects: Prisma.JsonValue
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["annotation"]>
+    composites: {}
+  }
+
+  type AnnotationGetPayload<S extends boolean | null | undefined | AnnotationDefaultArgs> = $Result.GetResult<Prisma.$AnnotationPayload, S>
+
+  type AnnotationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AnnotationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AnnotationCountAggregateInputType | true
+    }
+
+  export interface AnnotationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Annotation'], meta: { name: 'Annotation' } }
+    /**
+     * Find zero or one Annotation that matches the filter.
+     * @param {AnnotationFindUniqueArgs} args - Arguments to find a Annotation
+     * @example
+     * // Get one Annotation
+     * const annotation = await prisma.annotation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AnnotationFindUniqueArgs>(args: SelectSubset<T, AnnotationFindUniqueArgs<ExtArgs>>): Prisma__AnnotationClient<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Annotation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AnnotationFindUniqueOrThrowArgs} args - Arguments to find a Annotation
+     * @example
+     * // Get one Annotation
+     * const annotation = await prisma.annotation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AnnotationFindUniqueOrThrowArgs>(args: SelectSubset<T, AnnotationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AnnotationClient<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Annotation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnotationFindFirstArgs} args - Arguments to find a Annotation
+     * @example
+     * // Get one Annotation
+     * const annotation = await prisma.annotation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AnnotationFindFirstArgs>(args?: SelectSubset<T, AnnotationFindFirstArgs<ExtArgs>>): Prisma__AnnotationClient<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Annotation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnotationFindFirstOrThrowArgs} args - Arguments to find a Annotation
+     * @example
+     * // Get one Annotation
+     * const annotation = await prisma.annotation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AnnotationFindFirstOrThrowArgs>(args?: SelectSubset<T, AnnotationFindFirstOrThrowArgs<ExtArgs>>): Prisma__AnnotationClient<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Annotations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnotationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Annotations
+     * const annotations = await prisma.annotation.findMany()
+     * 
+     * // Get first 10 Annotations
+     * const annotations = await prisma.annotation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const annotationWithIdOnly = await prisma.annotation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AnnotationFindManyArgs>(args?: SelectSubset<T, AnnotationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Annotation.
+     * @param {AnnotationCreateArgs} args - Arguments to create a Annotation.
+     * @example
+     * // Create one Annotation
+     * const Annotation = await prisma.annotation.create({
+     *   data: {
+     *     // ... data to create a Annotation
+     *   }
+     * })
+     * 
+     */
+    create<T extends AnnotationCreateArgs>(args: SelectSubset<T, AnnotationCreateArgs<ExtArgs>>): Prisma__AnnotationClient<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Annotations.
+     * @param {AnnotationCreateManyArgs} args - Arguments to create many Annotations.
+     * @example
+     * // Create many Annotations
+     * const annotation = await prisma.annotation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AnnotationCreateManyArgs>(args?: SelectSubset<T, AnnotationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Annotations and returns the data saved in the database.
+     * @param {AnnotationCreateManyAndReturnArgs} args - Arguments to create many Annotations.
+     * @example
+     * // Create many Annotations
+     * const annotation = await prisma.annotation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Annotations and only return the `id`
+     * const annotationWithIdOnly = await prisma.annotation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AnnotationCreateManyAndReturnArgs>(args?: SelectSubset<T, AnnotationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Annotation.
+     * @param {AnnotationDeleteArgs} args - Arguments to delete one Annotation.
+     * @example
+     * // Delete one Annotation
+     * const Annotation = await prisma.annotation.delete({
+     *   where: {
+     *     // ... filter to delete one Annotation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AnnotationDeleteArgs>(args: SelectSubset<T, AnnotationDeleteArgs<ExtArgs>>): Prisma__AnnotationClient<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Annotation.
+     * @param {AnnotationUpdateArgs} args - Arguments to update one Annotation.
+     * @example
+     * // Update one Annotation
+     * const annotation = await prisma.annotation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AnnotationUpdateArgs>(args: SelectSubset<T, AnnotationUpdateArgs<ExtArgs>>): Prisma__AnnotationClient<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Annotations.
+     * @param {AnnotationDeleteManyArgs} args - Arguments to filter Annotations to delete.
+     * @example
+     * // Delete a few Annotations
+     * const { count } = await prisma.annotation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AnnotationDeleteManyArgs>(args?: SelectSubset<T, AnnotationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Annotations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnotationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Annotations
+     * const annotation = await prisma.annotation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AnnotationUpdateManyArgs>(args: SelectSubset<T, AnnotationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Annotations and returns the data updated in the database.
+     * @param {AnnotationUpdateManyAndReturnArgs} args - Arguments to update many Annotations.
+     * @example
+     * // Update many Annotations
+     * const annotation = await prisma.annotation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Annotations and only return the `id`
+     * const annotationWithIdOnly = await prisma.annotation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AnnotationUpdateManyAndReturnArgs>(args: SelectSubset<T, AnnotationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Annotation.
+     * @param {AnnotationUpsertArgs} args - Arguments to update or create a Annotation.
+     * @example
+     * // Update or create a Annotation
+     * const annotation = await prisma.annotation.upsert({
+     *   create: {
+     *     // ... data to create a Annotation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Annotation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AnnotationUpsertArgs>(args: SelectSubset<T, AnnotationUpsertArgs<ExtArgs>>): Prisma__AnnotationClient<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Annotations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnotationCountArgs} args - Arguments to filter Annotations to count.
+     * @example
+     * // Count the number of Annotations
+     * const count = await prisma.annotation.count({
+     *   where: {
+     *     // ... the filter for the Annotations we want to count
+     *   }
+     * })
+    **/
+    count<T extends AnnotationCountArgs>(
+      args?: Subset<T, AnnotationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AnnotationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Annotation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnotationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AnnotationAggregateArgs>(args: Subset<T, AnnotationAggregateArgs>): Prisma.PrismaPromise<GetAnnotationAggregateType<T>>
+
+    /**
+     * Group by Annotation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnotationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AnnotationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AnnotationGroupByArgs['orderBy'] }
+        : { orderBy?: AnnotationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AnnotationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAnnotationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Annotation model
+   */
+  readonly fields: AnnotationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Annotation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AnnotationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    doc<T extends PDFDocumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PDFDocumentDefaultArgs<ExtArgs>>): Prisma__PDFDocumentClient<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Annotation model
+   */
+  interface AnnotationFieldRefs {
+    readonly id: FieldRef<"Annotation", 'String'>
+    readonly docId: FieldRef<"Annotation", 'String'>
+    readonly userId: FieldRef<"Annotation", 'String'>
+    readonly page: FieldRef<"Annotation", 'Int'>
+    readonly type: FieldRef<"Annotation", 'String'>
+    readonly color: FieldRef<"Annotation", 'String'>
+    readonly text: FieldRef<"Annotation", 'String'>
+    readonly note: FieldRef<"Annotation", 'String'>
+    readonly rects: FieldRef<"Annotation", 'Json'>
+    readonly createdAt: FieldRef<"Annotation", 'DateTime'>
+    readonly updatedAt: FieldRef<"Annotation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Annotation findUnique
+   */
+  export type AnnotationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+    /**
+     * Filter, which Annotation to fetch.
+     */
+    where: AnnotationWhereUniqueInput
+  }
+
+  /**
+   * Annotation findUniqueOrThrow
+   */
+  export type AnnotationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+    /**
+     * Filter, which Annotation to fetch.
+     */
+    where: AnnotationWhereUniqueInput
+  }
+
+  /**
+   * Annotation findFirst
+   */
+  export type AnnotationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+    /**
+     * Filter, which Annotation to fetch.
+     */
+    where?: AnnotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Annotations to fetch.
+     */
+    orderBy?: AnnotationOrderByWithRelationInput | AnnotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Annotations.
+     */
+    cursor?: AnnotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Annotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Annotations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Annotations.
+     */
+    distinct?: AnnotationScalarFieldEnum | AnnotationScalarFieldEnum[]
+  }
+
+  /**
+   * Annotation findFirstOrThrow
+   */
+  export type AnnotationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+    /**
+     * Filter, which Annotation to fetch.
+     */
+    where?: AnnotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Annotations to fetch.
+     */
+    orderBy?: AnnotationOrderByWithRelationInput | AnnotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Annotations.
+     */
+    cursor?: AnnotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Annotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Annotations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Annotations.
+     */
+    distinct?: AnnotationScalarFieldEnum | AnnotationScalarFieldEnum[]
+  }
+
+  /**
+   * Annotation findMany
+   */
+  export type AnnotationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+    /**
+     * Filter, which Annotations to fetch.
+     */
+    where?: AnnotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Annotations to fetch.
+     */
+    orderBy?: AnnotationOrderByWithRelationInput | AnnotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Annotations.
+     */
+    cursor?: AnnotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Annotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Annotations.
+     */
+    skip?: number
+    distinct?: AnnotationScalarFieldEnum | AnnotationScalarFieldEnum[]
+  }
+
+  /**
+   * Annotation create
+   */
+  export type AnnotationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Annotation.
+     */
+    data: XOR<AnnotationCreateInput, AnnotationUncheckedCreateInput>
+  }
+
+  /**
+   * Annotation createMany
+   */
+  export type AnnotationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Annotations.
+     */
+    data: AnnotationCreateManyInput | AnnotationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Annotation createManyAndReturn
+   */
+  export type AnnotationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Annotations.
+     */
+    data: AnnotationCreateManyInput | AnnotationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Annotation update
+   */
+  export type AnnotationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Annotation.
+     */
+    data: XOR<AnnotationUpdateInput, AnnotationUncheckedUpdateInput>
+    /**
+     * Choose, which Annotation to update.
+     */
+    where: AnnotationWhereUniqueInput
+  }
+
+  /**
+   * Annotation updateMany
+   */
+  export type AnnotationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Annotations.
+     */
+    data: XOR<AnnotationUpdateManyMutationInput, AnnotationUncheckedUpdateManyInput>
+    /**
+     * Filter which Annotations to update
+     */
+    where?: AnnotationWhereInput
+    /**
+     * Limit how many Annotations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Annotation updateManyAndReturn
+   */
+  export type AnnotationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * The data used to update Annotations.
+     */
+    data: XOR<AnnotationUpdateManyMutationInput, AnnotationUncheckedUpdateManyInput>
+    /**
+     * Filter which Annotations to update
+     */
+    where?: AnnotationWhereInput
+    /**
+     * Limit how many Annotations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Annotation upsert
+   */
+  export type AnnotationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Annotation to update in case it exists.
+     */
+    where: AnnotationWhereUniqueInput
+    /**
+     * In case the Annotation found by the `where` argument doesn't exist, create a new Annotation with this data.
+     */
+    create: XOR<AnnotationCreateInput, AnnotationUncheckedCreateInput>
+    /**
+     * In case the Annotation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AnnotationUpdateInput, AnnotationUncheckedUpdateInput>
+  }
+
+  /**
+   * Annotation delete
+   */
+  export type AnnotationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+    /**
+     * Filter which Annotation to delete.
+     */
+    where: AnnotationWhereUniqueInput
+  }
+
+  /**
+   * Annotation deleteMany
+   */
+  export type AnnotationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Annotations to delete
+     */
+    where?: AnnotationWhereInput
+    /**
+     * Limit how many Annotations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Annotation without action
+   */
+  export type AnnotationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Annotation
+     */
+    select?: AnnotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Annotation
+     */
+    omit?: AnnotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnotationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -48658,6 +51297,38 @@ export namespace Prisma {
   export type RoomMemberScalarFieldEnum = (typeof RoomMemberScalarFieldEnum)[keyof typeof RoomMemberScalarFieldEnum]
 
 
+  export const PDFDocumentScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    title: 'title',
+    fileName: 'fileName',
+    fileSize: 'fileSize',
+    pageCount: 'pageCount',
+    blobUrl: 'blobUrl',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PDFDocumentScalarFieldEnum = (typeof PDFDocumentScalarFieldEnum)[keyof typeof PDFDocumentScalarFieldEnum]
+
+
+  export const AnnotationScalarFieldEnum: {
+    id: 'id',
+    docId: 'docId',
+    userId: 'userId',
+    page: 'page',
+    type: 'type',
+    color: 'color',
+    text: 'text',
+    note: 'note',
+    rects: 'rects',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AnnotationScalarFieldEnum = (typeof AnnotationScalarFieldEnum)[keyof typeof AnnotationScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -49054,6 +51725,8 @@ export namespace Prisma {
     novaStats?: XOR<NovaStatsNullableScalarRelationFilter, NovaStatsWhereInput> | null
     hostedRooms?: StudyRoomListRelationFilter
     roomMemberships?: RoomMemberListRelationFilter
+    pdfDocuments?: PDFDocumentListRelationFilter
+    annotations?: AnnotationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -49111,6 +51784,8 @@ export namespace Prisma {
     novaStats?: NovaStatsOrderByWithRelationInput
     hostedRooms?: StudyRoomOrderByRelationAggregateInput
     roomMemberships?: RoomMemberOrderByRelationAggregateInput
+    pdfDocuments?: PDFDocumentOrderByRelationAggregateInput
+    annotations?: AnnotationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -49171,6 +51846,8 @@ export namespace Prisma {
     novaStats?: XOR<NovaStatsNullableScalarRelationFilter, NovaStatsWhereInput> | null
     hostedRooms?: StudyRoomListRelationFilter
     roomMemberships?: RoomMemberListRelationFilter
+    pdfDocuments?: PDFDocumentListRelationFilter
+    annotations?: AnnotationListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -51770,6 +54447,176 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"RoomMember"> | string
   }
 
+  export type PDFDocumentWhereInput = {
+    AND?: PDFDocumentWhereInput | PDFDocumentWhereInput[]
+    OR?: PDFDocumentWhereInput[]
+    NOT?: PDFDocumentWhereInput | PDFDocumentWhereInput[]
+    id?: StringFilter<"PDFDocument"> | string
+    userId?: StringFilter<"PDFDocument"> | string
+    title?: StringFilter<"PDFDocument"> | string
+    fileName?: StringFilter<"PDFDocument"> | string
+    fileSize?: IntFilter<"PDFDocument"> | number
+    pageCount?: IntFilter<"PDFDocument"> | number
+    blobUrl?: StringNullableFilter<"PDFDocument"> | string | null
+    createdAt?: DateTimeFilter<"PDFDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"PDFDocument"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    annotations?: AnnotationListRelationFilter
+  }
+
+  export type PDFDocumentOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    pageCount?: SortOrder
+    blobUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    annotations?: AnnotationOrderByRelationAggregateInput
+  }
+
+  export type PDFDocumentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PDFDocumentWhereInput | PDFDocumentWhereInput[]
+    OR?: PDFDocumentWhereInput[]
+    NOT?: PDFDocumentWhereInput | PDFDocumentWhereInput[]
+    userId?: StringFilter<"PDFDocument"> | string
+    title?: StringFilter<"PDFDocument"> | string
+    fileName?: StringFilter<"PDFDocument"> | string
+    fileSize?: IntFilter<"PDFDocument"> | number
+    pageCount?: IntFilter<"PDFDocument"> | number
+    blobUrl?: StringNullableFilter<"PDFDocument"> | string | null
+    createdAt?: DateTimeFilter<"PDFDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"PDFDocument"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    annotations?: AnnotationListRelationFilter
+  }, "id">
+
+  export type PDFDocumentOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    pageCount?: SortOrder
+    blobUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PDFDocumentCountOrderByAggregateInput
+    _avg?: PDFDocumentAvgOrderByAggregateInput
+    _max?: PDFDocumentMaxOrderByAggregateInput
+    _min?: PDFDocumentMinOrderByAggregateInput
+    _sum?: PDFDocumentSumOrderByAggregateInput
+  }
+
+  export type PDFDocumentScalarWhereWithAggregatesInput = {
+    AND?: PDFDocumentScalarWhereWithAggregatesInput | PDFDocumentScalarWhereWithAggregatesInput[]
+    OR?: PDFDocumentScalarWhereWithAggregatesInput[]
+    NOT?: PDFDocumentScalarWhereWithAggregatesInput | PDFDocumentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PDFDocument"> | string
+    userId?: StringWithAggregatesFilter<"PDFDocument"> | string
+    title?: StringWithAggregatesFilter<"PDFDocument"> | string
+    fileName?: StringWithAggregatesFilter<"PDFDocument"> | string
+    fileSize?: IntWithAggregatesFilter<"PDFDocument"> | number
+    pageCount?: IntWithAggregatesFilter<"PDFDocument"> | number
+    blobUrl?: StringNullableWithAggregatesFilter<"PDFDocument"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PDFDocument"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PDFDocument"> | Date | string
+  }
+
+  export type AnnotationWhereInput = {
+    AND?: AnnotationWhereInput | AnnotationWhereInput[]
+    OR?: AnnotationWhereInput[]
+    NOT?: AnnotationWhereInput | AnnotationWhereInput[]
+    id?: StringFilter<"Annotation"> | string
+    docId?: StringFilter<"Annotation"> | string
+    userId?: StringFilter<"Annotation"> | string
+    page?: IntFilter<"Annotation"> | number
+    type?: StringFilter<"Annotation"> | string
+    color?: StringFilter<"Annotation"> | string
+    text?: StringNullableFilter<"Annotation"> | string | null
+    note?: StringNullableFilter<"Annotation"> | string | null
+    rects?: JsonFilter<"Annotation">
+    createdAt?: DateTimeFilter<"Annotation"> | Date | string
+    updatedAt?: DateTimeFilter<"Annotation"> | Date | string
+    doc?: XOR<PDFDocumentScalarRelationFilter, PDFDocumentWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type AnnotationOrderByWithRelationInput = {
+    id?: SortOrder
+    docId?: SortOrder
+    userId?: SortOrder
+    page?: SortOrder
+    type?: SortOrder
+    color?: SortOrder
+    text?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    rects?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    doc?: PDFDocumentOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AnnotationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AnnotationWhereInput | AnnotationWhereInput[]
+    OR?: AnnotationWhereInput[]
+    NOT?: AnnotationWhereInput | AnnotationWhereInput[]
+    docId?: StringFilter<"Annotation"> | string
+    userId?: StringFilter<"Annotation"> | string
+    page?: IntFilter<"Annotation"> | number
+    type?: StringFilter<"Annotation"> | string
+    color?: StringFilter<"Annotation"> | string
+    text?: StringNullableFilter<"Annotation"> | string | null
+    note?: StringNullableFilter<"Annotation"> | string | null
+    rects?: JsonFilter<"Annotation">
+    createdAt?: DateTimeFilter<"Annotation"> | Date | string
+    updatedAt?: DateTimeFilter<"Annotation"> | Date | string
+    doc?: XOR<PDFDocumentScalarRelationFilter, PDFDocumentWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AnnotationOrderByWithAggregationInput = {
+    id?: SortOrder
+    docId?: SortOrder
+    userId?: SortOrder
+    page?: SortOrder
+    type?: SortOrder
+    color?: SortOrder
+    text?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    rects?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AnnotationCountOrderByAggregateInput
+    _avg?: AnnotationAvgOrderByAggregateInput
+    _max?: AnnotationMaxOrderByAggregateInput
+    _min?: AnnotationMinOrderByAggregateInput
+    _sum?: AnnotationSumOrderByAggregateInput
+  }
+
+  export type AnnotationScalarWhereWithAggregatesInput = {
+    AND?: AnnotationScalarWhereWithAggregatesInput | AnnotationScalarWhereWithAggregatesInput[]
+    OR?: AnnotationScalarWhereWithAggregatesInput[]
+    NOT?: AnnotationScalarWhereWithAggregatesInput | AnnotationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Annotation"> | string
+    docId?: StringWithAggregatesFilter<"Annotation"> | string
+    userId?: StringWithAggregatesFilter<"Annotation"> | string
+    page?: IntWithAggregatesFilter<"Annotation"> | number
+    type?: StringWithAggregatesFilter<"Annotation"> | string
+    color?: StringWithAggregatesFilter<"Annotation"> | string
+    text?: StringNullableWithAggregatesFilter<"Annotation"> | string | null
+    note?: StringNullableWithAggregatesFilter<"Annotation"> | string | null
+    rects?: JsonWithAggregatesFilter<"Annotation">
+    createdAt?: DateTimeWithAggregatesFilter<"Annotation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Annotation"> | Date | string
+  }
+
   export type PostCreateInput = {
     name: string
     createdAt?: Date | string
@@ -52036,6 +54883,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -52093,6 +54942,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -52150,6 +55001,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -52207,6 +55060,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -54960,6 +57815,189 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
   }
 
+  export type PDFDocumentCreateInput = {
+    id?: string
+    title: string
+    fileName: string
+    fileSize: number
+    pageCount: number
+    blobUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPdfDocumentsInput
+    annotations?: AnnotationCreateNestedManyWithoutDocInput
+  }
+
+  export type PDFDocumentUncheckedCreateInput = {
+    id?: string
+    userId: string
+    title: string
+    fileName: string
+    fileSize: number
+    pageCount: number
+    blobUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutDocInput
+  }
+
+  export type PDFDocumentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    pageCount?: IntFieldUpdateOperationsInput | number
+    blobUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPdfDocumentsNestedInput
+    annotations?: AnnotationUpdateManyWithoutDocNestedInput
+  }
+
+  export type PDFDocumentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    pageCount?: IntFieldUpdateOperationsInput | number
+    blobUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    annotations?: AnnotationUncheckedUpdateManyWithoutDocNestedInput
+  }
+
+  export type PDFDocumentCreateManyInput = {
+    id?: string
+    userId: string
+    title: string
+    fileName: string
+    fileSize: number
+    pageCount: number
+    blobUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PDFDocumentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    pageCount?: IntFieldUpdateOperationsInput | number
+    blobUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PDFDocumentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    pageCount?: IntFieldUpdateOperationsInput | number
+    blobUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnnotationCreateInput = {
+    id?: string
+    page: number
+    type: string
+    color: string
+    text?: string | null
+    note?: string | null
+    rects: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    doc: PDFDocumentCreateNestedOneWithoutAnnotationsInput
+    user: UserCreateNestedOneWithoutAnnotationsInput
+  }
+
+  export type AnnotationUncheckedCreateInput = {
+    id?: string
+    docId: string
+    userId: string
+    page: number
+    type: string
+    color: string
+    text?: string | null
+    note?: string | null
+    rects: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnnotationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    page?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    rects?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    doc?: PDFDocumentUpdateOneRequiredWithoutAnnotationsNestedInput
+    user?: UserUpdateOneRequiredWithoutAnnotationsNestedInput
+  }
+
+  export type AnnotationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    docId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    page?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    rects?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnnotationCreateManyInput = {
+    id?: string
+    docId: string
+    userId: string
+    page: number
+    type: string
+    color: string
+    text?: string | null
+    note?: string | null
+    rects: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnnotationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    page?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    rects?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnnotationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    docId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    page?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    rects?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -55446,6 +58484,18 @@ export namespace Prisma {
     none?: RoomMemberWhereInput
   }
 
+  export type PDFDocumentListRelationFilter = {
+    every?: PDFDocumentWhereInput
+    some?: PDFDocumentWhereInput
+    none?: PDFDocumentWhereInput
+  }
+
+  export type AnnotationListRelationFilter = {
+    every?: AnnotationWhereInput
+    some?: AnnotationWhereInput
+    none?: AnnotationWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -55567,6 +58617,14 @@ export namespace Prisma {
   }
 
   export type RoomMemberOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PDFDocumentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AnnotationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -57234,6 +60292,105 @@ export namespace Prisma {
     status?: SortOrder
   }
 
+  export type PDFDocumentCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    pageCount?: SortOrder
+    blobUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PDFDocumentAvgOrderByAggregateInput = {
+    fileSize?: SortOrder
+    pageCount?: SortOrder
+  }
+
+  export type PDFDocumentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    pageCount?: SortOrder
+    blobUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PDFDocumentMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    pageCount?: SortOrder
+    blobUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PDFDocumentSumOrderByAggregateInput = {
+    fileSize?: SortOrder
+    pageCount?: SortOrder
+  }
+
+  export type PDFDocumentScalarRelationFilter = {
+    is?: PDFDocumentWhereInput
+    isNot?: PDFDocumentWhereInput
+  }
+
+  export type AnnotationCountOrderByAggregateInput = {
+    id?: SortOrder
+    docId?: SortOrder
+    userId?: SortOrder
+    page?: SortOrder
+    type?: SortOrder
+    color?: SortOrder
+    text?: SortOrder
+    note?: SortOrder
+    rects?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnnotationAvgOrderByAggregateInput = {
+    page?: SortOrder
+  }
+
+  export type AnnotationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    docId?: SortOrder
+    userId?: SortOrder
+    page?: SortOrder
+    type?: SortOrder
+    color?: SortOrder
+    text?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnnotationMinOrderByAggregateInput = {
+    id?: SortOrder
+    docId?: SortOrder
+    userId?: SortOrder
+    page?: SortOrder
+    type?: SortOrder
+    color?: SortOrder
+    text?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnnotationSumOrderByAggregateInput = {
+    page?: SortOrder
+  }
+
   export type UserCreateNestedOneWithoutPostsInput = {
     create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput
@@ -57538,6 +60695,20 @@ export namespace Prisma {
     connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
   }
 
+  export type PDFDocumentCreateNestedManyWithoutUserInput = {
+    create?: XOR<PDFDocumentCreateWithoutUserInput, PDFDocumentUncheckedCreateWithoutUserInput> | PDFDocumentCreateWithoutUserInput[] | PDFDocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PDFDocumentCreateOrConnectWithoutUserInput | PDFDocumentCreateOrConnectWithoutUserInput[]
+    createMany?: PDFDocumentCreateManyUserInputEnvelope
+    connect?: PDFDocumentWhereUniqueInput | PDFDocumentWhereUniqueInput[]
+  }
+
+  export type AnnotationCreateNestedManyWithoutUserInput = {
+    create?: XOR<AnnotationCreateWithoutUserInput, AnnotationUncheckedCreateWithoutUserInput> | AnnotationCreateWithoutUserInput[] | AnnotationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AnnotationCreateOrConnectWithoutUserInput | AnnotationCreateOrConnectWithoutUserInput[]
+    createMany?: AnnotationCreateManyUserInputEnvelope
+    connect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -57766,6 +60937,20 @@ export namespace Prisma {
     connectOrCreate?: RoomMemberCreateOrConnectWithoutUserInput | RoomMemberCreateOrConnectWithoutUserInput[]
     createMany?: RoomMemberCreateManyUserInputEnvelope
     connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+  }
+
+  export type PDFDocumentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PDFDocumentCreateWithoutUserInput, PDFDocumentUncheckedCreateWithoutUserInput> | PDFDocumentCreateWithoutUserInput[] | PDFDocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PDFDocumentCreateOrConnectWithoutUserInput | PDFDocumentCreateOrConnectWithoutUserInput[]
+    createMany?: PDFDocumentCreateManyUserInputEnvelope
+    connect?: PDFDocumentWhereUniqueInput | PDFDocumentWhereUniqueInput[]
+  }
+
+  export type AnnotationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AnnotationCreateWithoutUserInput, AnnotationUncheckedCreateWithoutUserInput> | AnnotationCreateWithoutUserInput[] | AnnotationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AnnotationCreateOrConnectWithoutUserInput | AnnotationCreateOrConnectWithoutUserInput[]
+    createMany?: AnnotationCreateManyUserInputEnvelope
+    connect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -58239,6 +61424,34 @@ export namespace Prisma {
     deleteMany?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
   }
 
+  export type PDFDocumentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PDFDocumentCreateWithoutUserInput, PDFDocumentUncheckedCreateWithoutUserInput> | PDFDocumentCreateWithoutUserInput[] | PDFDocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PDFDocumentCreateOrConnectWithoutUserInput | PDFDocumentCreateOrConnectWithoutUserInput[]
+    upsert?: PDFDocumentUpsertWithWhereUniqueWithoutUserInput | PDFDocumentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PDFDocumentCreateManyUserInputEnvelope
+    set?: PDFDocumentWhereUniqueInput | PDFDocumentWhereUniqueInput[]
+    disconnect?: PDFDocumentWhereUniqueInput | PDFDocumentWhereUniqueInput[]
+    delete?: PDFDocumentWhereUniqueInput | PDFDocumentWhereUniqueInput[]
+    connect?: PDFDocumentWhereUniqueInput | PDFDocumentWhereUniqueInput[]
+    update?: PDFDocumentUpdateWithWhereUniqueWithoutUserInput | PDFDocumentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PDFDocumentUpdateManyWithWhereWithoutUserInput | PDFDocumentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PDFDocumentScalarWhereInput | PDFDocumentScalarWhereInput[]
+  }
+
+  export type AnnotationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AnnotationCreateWithoutUserInput, AnnotationUncheckedCreateWithoutUserInput> | AnnotationCreateWithoutUserInput[] | AnnotationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AnnotationCreateOrConnectWithoutUserInput | AnnotationCreateOrConnectWithoutUserInput[]
+    upsert?: AnnotationUpsertWithWhereUniqueWithoutUserInput | AnnotationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AnnotationCreateManyUserInputEnvelope
+    set?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    disconnect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    delete?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    connect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    update?: AnnotationUpdateWithWhereUniqueWithoutUserInput | AnnotationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AnnotationUpdateManyWithWhereWithoutUserInput | AnnotationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AnnotationScalarWhereInput | AnnotationScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -58695,6 +61908,34 @@ export namespace Prisma {
     update?: RoomMemberUpdateWithWhereUniqueWithoutUserInput | RoomMemberUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: RoomMemberUpdateManyWithWhereWithoutUserInput | RoomMemberUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+  }
+
+  export type PDFDocumentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PDFDocumentCreateWithoutUserInput, PDFDocumentUncheckedCreateWithoutUserInput> | PDFDocumentCreateWithoutUserInput[] | PDFDocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PDFDocumentCreateOrConnectWithoutUserInput | PDFDocumentCreateOrConnectWithoutUserInput[]
+    upsert?: PDFDocumentUpsertWithWhereUniqueWithoutUserInput | PDFDocumentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PDFDocumentCreateManyUserInputEnvelope
+    set?: PDFDocumentWhereUniqueInput | PDFDocumentWhereUniqueInput[]
+    disconnect?: PDFDocumentWhereUniqueInput | PDFDocumentWhereUniqueInput[]
+    delete?: PDFDocumentWhereUniqueInput | PDFDocumentWhereUniqueInput[]
+    connect?: PDFDocumentWhereUniqueInput | PDFDocumentWhereUniqueInput[]
+    update?: PDFDocumentUpdateWithWhereUniqueWithoutUserInput | PDFDocumentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PDFDocumentUpdateManyWithWhereWithoutUserInput | PDFDocumentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PDFDocumentScalarWhereInput | PDFDocumentScalarWhereInput[]
+  }
+
+  export type AnnotationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AnnotationCreateWithoutUserInput, AnnotationUncheckedCreateWithoutUserInput> | AnnotationCreateWithoutUserInput[] | AnnotationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AnnotationCreateOrConnectWithoutUserInput | AnnotationCreateOrConnectWithoutUserInput[]
+    upsert?: AnnotationUpsertWithWhereUniqueWithoutUserInput | AnnotationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AnnotationCreateManyUserInputEnvelope
+    set?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    disconnect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    delete?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    connect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    update?: AnnotationUpdateWithWhereUniqueWithoutUserInput | AnnotationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AnnotationUpdateManyWithWhereWithoutUserInput | AnnotationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AnnotationScalarWhereInput | AnnotationScalarWhereInput[]
   }
 
   export type NoteCreatetagsInput = {
@@ -60324,6 +63565,90 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRoomMembershipsInput, UserUpdateWithoutRoomMembershipsInput>, UserUncheckedUpdateWithoutRoomMembershipsInput>
   }
 
+  export type UserCreateNestedOneWithoutPdfDocumentsInput = {
+    create?: XOR<UserCreateWithoutPdfDocumentsInput, UserUncheckedCreateWithoutPdfDocumentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPdfDocumentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AnnotationCreateNestedManyWithoutDocInput = {
+    create?: XOR<AnnotationCreateWithoutDocInput, AnnotationUncheckedCreateWithoutDocInput> | AnnotationCreateWithoutDocInput[] | AnnotationUncheckedCreateWithoutDocInput[]
+    connectOrCreate?: AnnotationCreateOrConnectWithoutDocInput | AnnotationCreateOrConnectWithoutDocInput[]
+    createMany?: AnnotationCreateManyDocInputEnvelope
+    connect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+  }
+
+  export type AnnotationUncheckedCreateNestedManyWithoutDocInput = {
+    create?: XOR<AnnotationCreateWithoutDocInput, AnnotationUncheckedCreateWithoutDocInput> | AnnotationCreateWithoutDocInput[] | AnnotationUncheckedCreateWithoutDocInput[]
+    connectOrCreate?: AnnotationCreateOrConnectWithoutDocInput | AnnotationCreateOrConnectWithoutDocInput[]
+    createMany?: AnnotationCreateManyDocInputEnvelope
+    connect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutPdfDocumentsNestedInput = {
+    create?: XOR<UserCreateWithoutPdfDocumentsInput, UserUncheckedCreateWithoutPdfDocumentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPdfDocumentsInput
+    upsert?: UserUpsertWithoutPdfDocumentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPdfDocumentsInput, UserUpdateWithoutPdfDocumentsInput>, UserUncheckedUpdateWithoutPdfDocumentsInput>
+  }
+
+  export type AnnotationUpdateManyWithoutDocNestedInput = {
+    create?: XOR<AnnotationCreateWithoutDocInput, AnnotationUncheckedCreateWithoutDocInput> | AnnotationCreateWithoutDocInput[] | AnnotationUncheckedCreateWithoutDocInput[]
+    connectOrCreate?: AnnotationCreateOrConnectWithoutDocInput | AnnotationCreateOrConnectWithoutDocInput[]
+    upsert?: AnnotationUpsertWithWhereUniqueWithoutDocInput | AnnotationUpsertWithWhereUniqueWithoutDocInput[]
+    createMany?: AnnotationCreateManyDocInputEnvelope
+    set?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    disconnect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    delete?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    connect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    update?: AnnotationUpdateWithWhereUniqueWithoutDocInput | AnnotationUpdateWithWhereUniqueWithoutDocInput[]
+    updateMany?: AnnotationUpdateManyWithWhereWithoutDocInput | AnnotationUpdateManyWithWhereWithoutDocInput[]
+    deleteMany?: AnnotationScalarWhereInput | AnnotationScalarWhereInput[]
+  }
+
+  export type AnnotationUncheckedUpdateManyWithoutDocNestedInput = {
+    create?: XOR<AnnotationCreateWithoutDocInput, AnnotationUncheckedCreateWithoutDocInput> | AnnotationCreateWithoutDocInput[] | AnnotationUncheckedCreateWithoutDocInput[]
+    connectOrCreate?: AnnotationCreateOrConnectWithoutDocInput | AnnotationCreateOrConnectWithoutDocInput[]
+    upsert?: AnnotationUpsertWithWhereUniqueWithoutDocInput | AnnotationUpsertWithWhereUniqueWithoutDocInput[]
+    createMany?: AnnotationCreateManyDocInputEnvelope
+    set?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    disconnect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    delete?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    connect?: AnnotationWhereUniqueInput | AnnotationWhereUniqueInput[]
+    update?: AnnotationUpdateWithWhereUniqueWithoutDocInput | AnnotationUpdateWithWhereUniqueWithoutDocInput[]
+    updateMany?: AnnotationUpdateManyWithWhereWithoutDocInput | AnnotationUpdateManyWithWhereWithoutDocInput[]
+    deleteMany?: AnnotationScalarWhereInput | AnnotationScalarWhereInput[]
+  }
+
+  export type PDFDocumentCreateNestedOneWithoutAnnotationsInput = {
+    create?: XOR<PDFDocumentCreateWithoutAnnotationsInput, PDFDocumentUncheckedCreateWithoutAnnotationsInput>
+    connectOrCreate?: PDFDocumentCreateOrConnectWithoutAnnotationsInput
+    connect?: PDFDocumentWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAnnotationsInput = {
+    create?: XOR<UserCreateWithoutAnnotationsInput, UserUncheckedCreateWithoutAnnotationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAnnotationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PDFDocumentUpdateOneRequiredWithoutAnnotationsNestedInput = {
+    create?: XOR<PDFDocumentCreateWithoutAnnotationsInput, PDFDocumentUncheckedCreateWithoutAnnotationsInput>
+    connectOrCreate?: PDFDocumentCreateOrConnectWithoutAnnotationsInput
+    upsert?: PDFDocumentUpsertWithoutAnnotationsInput
+    connect?: PDFDocumentWhereUniqueInput
+    update?: XOR<XOR<PDFDocumentUpdateToOneWithWhereWithoutAnnotationsInput, PDFDocumentUpdateWithoutAnnotationsInput>, PDFDocumentUncheckedUpdateWithoutAnnotationsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutAnnotationsNestedInput = {
+    create?: XOR<UserCreateWithoutAnnotationsInput, UserUncheckedCreateWithoutAnnotationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAnnotationsInput
+    upsert?: UserUpsertWithoutAnnotationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAnnotationsInput, UserUpdateWithoutAnnotationsInput>, UserUncheckedUpdateWithoutAnnotationsInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -60657,6 +63982,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -60713,6 +64040,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -60785,6 +64114,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -60841,6 +64172,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -60897,6 +64230,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -60953,6 +64288,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -61025,6 +64362,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -61081,6 +64420,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -61137,6 +64478,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -61193,6 +64536,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -61265,6 +64610,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -61321,6 +64668,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -62415,6 +65764,76 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PDFDocumentCreateWithoutUserInput = {
+    id?: string
+    title: string
+    fileName: string
+    fileSize: number
+    pageCount: number
+    blobUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    annotations?: AnnotationCreateNestedManyWithoutDocInput
+  }
+
+  export type PDFDocumentUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    fileName: string
+    fileSize: number
+    pageCount: number
+    blobUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutDocInput
+  }
+
+  export type PDFDocumentCreateOrConnectWithoutUserInput = {
+    where: PDFDocumentWhereUniqueInput
+    create: XOR<PDFDocumentCreateWithoutUserInput, PDFDocumentUncheckedCreateWithoutUserInput>
+  }
+
+  export type PDFDocumentCreateManyUserInputEnvelope = {
+    data: PDFDocumentCreateManyUserInput | PDFDocumentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AnnotationCreateWithoutUserInput = {
+    id?: string
+    page: number
+    type: string
+    color: string
+    text?: string | null
+    note?: string | null
+    rects: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    doc: PDFDocumentCreateNestedOneWithoutAnnotationsInput
+  }
+
+  export type AnnotationUncheckedCreateWithoutUserInput = {
+    id?: string
+    docId: string
+    page: number
+    type: string
+    color: string
+    text?: string | null
+    note?: string | null
+    rects: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnnotationCreateOrConnectWithoutUserInput = {
+    where: AnnotationWhereUniqueInput
+    create: XOR<AnnotationCreateWithoutUserInput, AnnotationUncheckedCreateWithoutUserInput>
+  }
+
+  export type AnnotationCreateManyUserInputEnvelope = {
+    data: AnnotationCreateManyUserInput | AnnotationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -63416,6 +66835,70 @@ export namespace Prisma {
     status?: StringFilter<"RoomMember"> | string
   }
 
+  export type PDFDocumentUpsertWithWhereUniqueWithoutUserInput = {
+    where: PDFDocumentWhereUniqueInput
+    update: XOR<PDFDocumentUpdateWithoutUserInput, PDFDocumentUncheckedUpdateWithoutUserInput>
+    create: XOR<PDFDocumentCreateWithoutUserInput, PDFDocumentUncheckedCreateWithoutUserInput>
+  }
+
+  export type PDFDocumentUpdateWithWhereUniqueWithoutUserInput = {
+    where: PDFDocumentWhereUniqueInput
+    data: XOR<PDFDocumentUpdateWithoutUserInput, PDFDocumentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PDFDocumentUpdateManyWithWhereWithoutUserInput = {
+    where: PDFDocumentScalarWhereInput
+    data: XOR<PDFDocumentUpdateManyMutationInput, PDFDocumentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PDFDocumentScalarWhereInput = {
+    AND?: PDFDocumentScalarWhereInput | PDFDocumentScalarWhereInput[]
+    OR?: PDFDocumentScalarWhereInput[]
+    NOT?: PDFDocumentScalarWhereInput | PDFDocumentScalarWhereInput[]
+    id?: StringFilter<"PDFDocument"> | string
+    userId?: StringFilter<"PDFDocument"> | string
+    title?: StringFilter<"PDFDocument"> | string
+    fileName?: StringFilter<"PDFDocument"> | string
+    fileSize?: IntFilter<"PDFDocument"> | number
+    pageCount?: IntFilter<"PDFDocument"> | number
+    blobUrl?: StringNullableFilter<"PDFDocument"> | string | null
+    createdAt?: DateTimeFilter<"PDFDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"PDFDocument"> | Date | string
+  }
+
+  export type AnnotationUpsertWithWhereUniqueWithoutUserInput = {
+    where: AnnotationWhereUniqueInput
+    update: XOR<AnnotationUpdateWithoutUserInput, AnnotationUncheckedUpdateWithoutUserInput>
+    create: XOR<AnnotationCreateWithoutUserInput, AnnotationUncheckedCreateWithoutUserInput>
+  }
+
+  export type AnnotationUpdateWithWhereUniqueWithoutUserInput = {
+    where: AnnotationWhereUniqueInput
+    data: XOR<AnnotationUpdateWithoutUserInput, AnnotationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AnnotationUpdateManyWithWhereWithoutUserInput = {
+    where: AnnotationScalarWhereInput
+    data: XOR<AnnotationUpdateManyMutationInput, AnnotationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AnnotationScalarWhereInput = {
+    AND?: AnnotationScalarWhereInput | AnnotationScalarWhereInput[]
+    OR?: AnnotationScalarWhereInput[]
+    NOT?: AnnotationScalarWhereInput | AnnotationScalarWhereInput[]
+    id?: StringFilter<"Annotation"> | string
+    docId?: StringFilter<"Annotation"> | string
+    userId?: StringFilter<"Annotation"> | string
+    page?: IntFilter<"Annotation"> | number
+    type?: StringFilter<"Annotation"> | string
+    color?: StringFilter<"Annotation"> | string
+    text?: StringNullableFilter<"Annotation"> | string | null
+    note?: StringNullableFilter<"Annotation"> | string | null
+    rects?: JsonFilter<"Annotation">
+    createdAt?: DateTimeFilter<"Annotation"> | Date | string
+    updatedAt?: DateTimeFilter<"Annotation"> | Date | string
+  }
+
   export type UserCreateWithoutNotesInput = {
     id?: string
     name?: string | null
@@ -63470,6 +66953,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotesInput = {
@@ -63526,6 +67011,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotesInput = {
@@ -63647,6 +67134,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotesInput = {
@@ -63703,6 +67192,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FolderUpsertWithoutNotesInput = {
@@ -63802,6 +67293,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFoldersInput = {
@@ -63858,6 +67351,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFoldersInput = {
@@ -63970,6 +67465,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFoldersInput = {
@@ -64026,6 +67523,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type NoteUpsertWithWhereUniqueWithoutFolderInput = {
@@ -64098,6 +67597,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCitationsInput = {
@@ -64154,6 +67655,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCitationsInput = {
@@ -64226,6 +67729,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCitationsInput = {
@@ -64282,6 +67787,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamPredictionsInput = {
@@ -64338,6 +67845,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamPredictionsInput = {
@@ -64394,6 +67903,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamPredictionsInput = {
@@ -64466,6 +67977,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamPredictionsInput = {
@@ -64522,6 +68035,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHostedBattlesInput = {
@@ -64578,6 +68093,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedBattlesInput = {
@@ -64634,6 +68151,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedBattlesInput = {
@@ -64695,6 +68214,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutJoinedBattlesInput = {
@@ -64751,6 +68272,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutJoinedBattlesInput = {
@@ -64902,6 +68425,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedBattlesInput = {
@@ -64958,6 +68483,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutJoinedBattlesInput = {
@@ -65025,6 +68552,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutJoinedBattlesInput = {
@@ -65081,6 +68610,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleQuestionUpsertWithWhereUniqueWithoutBattleInput = {
@@ -65374,6 +68905,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleParticipantsInput = {
@@ -65430,6 +68963,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleParticipantsInput = {
@@ -65561,6 +69096,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleParticipantsInput = {
@@ -65617,6 +69154,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleCreateWithoutResultInput = {
@@ -65726,6 +69265,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleResultsInput = {
@@ -65782,6 +69323,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleResultsInput = {
@@ -65913,6 +69456,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleResultsInput = {
@@ -65969,6 +69514,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreatedStudyGroupsInput = {
@@ -66025,6 +69572,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedStudyGroupsInput = {
@@ -66081,6 +69630,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedStudyGroupsInput = {
@@ -66474,6 +70025,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedStudyGroupsInput = {
@@ -66530,6 +70083,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
@@ -66844,6 +70399,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStudyGroupMembershipsInput = {
@@ -66900,6 +70457,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStudyGroupMembershipsInput = {
@@ -67031,6 +70590,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudyGroupMembershipsInput = {
@@ -67087,6 +70648,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutMessagesInput = {
@@ -67196,6 +70759,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupMessagesInput = {
@@ -67252,6 +70817,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupMessagesInput = {
@@ -67407,6 +70974,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupMessagesInput = {
@@ -67463,6 +71032,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupPinnedMessageUpsertWithWhereUniqueWithoutMessageInput = {
@@ -67735,6 +71306,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSharedGroupNotesInput = {
@@ -67791,6 +71364,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSharedGroupNotesInput = {
@@ -67987,6 +71562,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSharedGroupNotesInput = {
@@ -68043,6 +71620,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupSharedNoteCommentUpsertWithWhereUniqueWithoutSharedNoteInput = {
@@ -68138,6 +71717,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupNoteCommentsInput = {
@@ -68194,6 +71775,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupNoteCommentsInput = {
@@ -68295,6 +71878,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupNoteCommentsInput = {
@@ -68351,6 +71936,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutFlashcardsInput = {
@@ -68460,6 +72047,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedGroupFlashcardsInput = {
@@ -68516,6 +72105,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedGroupFlashcardsInput = {
@@ -68647,6 +72238,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedGroupFlashcardsInput = {
@@ -68703,6 +72296,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutQuizRoundsInput = {
@@ -68812,6 +72407,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizRoundsStartedInput = {
@@ -68868,6 +72465,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizRoundsStartedInput = {
@@ -69027,6 +72626,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizRoundsStartedInput = {
@@ -69083,6 +72684,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupQuizSubmissionUpsertWithWhereUniqueWithoutRoundInput = {
@@ -69184,6 +72787,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizSubmissionsInput = {
@@ -69240,6 +72845,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizSubmissionsInput = {
@@ -69347,6 +72954,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizSubmissionsInput = {
@@ -69403,6 +73012,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutScheduleItemsInput = {
@@ -69512,6 +73123,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupSchedulesCreatedInput = {
@@ -69568,6 +73181,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupSchedulesCreatedInput = {
@@ -69699,6 +73314,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupSchedulesCreatedInput = {
@@ -69755,6 +73372,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutResourcesInput = {
@@ -69864,6 +73483,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupResourcesSharedInput = {
@@ -69920,6 +73541,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupResourcesSharedInput = {
@@ -70051,6 +73674,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupResourcesSharedInput = {
@@ -70107,6 +73732,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutLeaderboardStatsInput = {
@@ -70216,6 +73843,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupStatsInput = {
@@ -70272,6 +73901,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupStatsInput = {
@@ -70403,6 +74034,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupStatsInput = {
@@ -70459,6 +74092,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPomodoroTimerInput = {
@@ -70568,6 +74203,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedPomodoroTimersInput = {
@@ -70624,6 +74261,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedPomodoroTimersInput = {
@@ -70755,6 +74394,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedPomodoroTimersInput = {
@@ -70811,6 +74452,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPinnedMessagesInput = {
@@ -70945,6 +74588,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPinnedGroupMessagesInput = {
@@ -71001,6 +74646,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPinnedGroupMessagesInput = {
@@ -71163,6 +74810,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPinnedGroupMessagesInput = {
@@ -71219,6 +74868,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptConnectionsInput = {
@@ -71275,6 +74926,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptConnectionsInput = {
@@ -71331,6 +74984,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptConnectionsInput = {
@@ -71403,6 +75058,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptConnectionsInput = {
@@ -71459,6 +75116,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutLearningStyleResultsInput = {
@@ -71515,6 +75174,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLearningStyleResultsInput = {
@@ -71571,6 +75232,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLearningStyleResultsInput = {
@@ -71643,6 +75306,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLearningStyleResultsInput = {
@@ -71699,6 +75364,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptWebsInput = {
@@ -71755,6 +75422,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptWebsInput = {
@@ -71811,6 +75480,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptWebsInput = {
@@ -71883,6 +75554,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptWebsInput = {
@@ -71939,6 +75612,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamsInput = {
@@ -71995,6 +75670,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamsInput = {
@@ -72051,6 +75728,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamsInput = {
@@ -72123,6 +75802,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamsInput = {
@@ -72179,6 +75860,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutScanHistoriesInput = {
@@ -72235,6 +75918,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutScanHistoriesInput = {
@@ -72291,6 +75976,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutScanHistoriesInput = {
@@ -72363,6 +76050,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScanHistoriesInput = {
@@ -72419,6 +76108,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutFlashcardDecksInput = {
@@ -72475,6 +76166,8 @@ export namespace Prisma {
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlashcardDecksInput = {
@@ -72531,6 +76224,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlashcardDecksInput = {
@@ -72637,6 +76332,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlashcardDecksInput = {
@@ -72693,6 +76390,8 @@ export namespace Prisma {
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FlashcardUpsertWithWhereUniqueWithoutDeckInput = {
@@ -72837,6 +76536,8 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNovaStatsInput = {
@@ -72893,6 +76594,8 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNovaStatsInput = {
@@ -72965,6 +76668,8 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNovaStatsInput = {
@@ -73021,6 +76726,8 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoomMemberCreateWithoutRoomInput = {
@@ -73103,6 +76810,8 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedRoomsInput = {
@@ -73159,6 +76868,8 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedRoomsInput = {
@@ -73247,6 +76958,8 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedRoomsInput = {
@@ -73303,6 +77016,8 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyRoomCreateWithoutMembersInput = {
@@ -73390,6 +77105,8 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoomMembershipsInput = {
@@ -73446,6 +77163,8 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
     hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoomMembershipsInput = {
@@ -73555,6 +77274,8 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomMembershipsInput = {
@@ -73611,6 +77332,620 @@ export namespace Prisma {
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
     hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPdfDocumentsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPdfDocumentsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPdfDocumentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPdfDocumentsInput, UserUncheckedCreateWithoutPdfDocumentsInput>
+  }
+
+  export type AnnotationCreateWithoutDocInput = {
+    id?: string
+    page: number
+    type: string
+    color: string
+    text?: string | null
+    note?: string | null
+    rects: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAnnotationsInput
+  }
+
+  export type AnnotationUncheckedCreateWithoutDocInput = {
+    id?: string
+    userId: string
+    page: number
+    type: string
+    color: string
+    text?: string | null
+    note?: string | null
+    rects: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnnotationCreateOrConnectWithoutDocInput = {
+    where: AnnotationWhereUniqueInput
+    create: XOR<AnnotationCreateWithoutDocInput, AnnotationUncheckedCreateWithoutDocInput>
+  }
+
+  export type AnnotationCreateManyDocInputEnvelope = {
+    data: AnnotationCreateManyDocInput | AnnotationCreateManyDocInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutPdfDocumentsInput = {
+    update: XOR<UserUpdateWithoutPdfDocumentsInput, UserUncheckedUpdateWithoutPdfDocumentsInput>
+    create: XOR<UserCreateWithoutPdfDocumentsInput, UserUncheckedCreateWithoutPdfDocumentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPdfDocumentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPdfDocumentsInput, UserUncheckedUpdateWithoutPdfDocumentsInput>
+  }
+
+  export type UserUpdateWithoutPdfDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPdfDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AnnotationUpsertWithWhereUniqueWithoutDocInput = {
+    where: AnnotationWhereUniqueInput
+    update: XOR<AnnotationUpdateWithoutDocInput, AnnotationUncheckedUpdateWithoutDocInput>
+    create: XOR<AnnotationCreateWithoutDocInput, AnnotationUncheckedCreateWithoutDocInput>
+  }
+
+  export type AnnotationUpdateWithWhereUniqueWithoutDocInput = {
+    where: AnnotationWhereUniqueInput
+    data: XOR<AnnotationUpdateWithoutDocInput, AnnotationUncheckedUpdateWithoutDocInput>
+  }
+
+  export type AnnotationUpdateManyWithWhereWithoutDocInput = {
+    where: AnnotationScalarWhereInput
+    data: XOR<AnnotationUpdateManyMutationInput, AnnotationUncheckedUpdateManyWithoutDocInput>
+  }
+
+  export type PDFDocumentCreateWithoutAnnotationsInput = {
+    id?: string
+    title: string
+    fileName: string
+    fileSize: number
+    pageCount: number
+    blobUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPdfDocumentsInput
+  }
+
+  export type PDFDocumentUncheckedCreateWithoutAnnotationsInput = {
+    id?: string
+    userId: string
+    title: string
+    fileName: string
+    fileSize: number
+    pageCount: number
+    blobUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PDFDocumentCreateOrConnectWithoutAnnotationsInput = {
+    where: PDFDocumentWhereUniqueInput
+    create: XOR<PDFDocumentCreateWithoutAnnotationsInput, PDFDocumentUncheckedCreateWithoutAnnotationsInput>
+  }
+
+  export type UserCreateWithoutAnnotationsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAnnotationsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAnnotationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAnnotationsInput, UserUncheckedCreateWithoutAnnotationsInput>
+  }
+
+  export type PDFDocumentUpsertWithoutAnnotationsInput = {
+    update: XOR<PDFDocumentUpdateWithoutAnnotationsInput, PDFDocumentUncheckedUpdateWithoutAnnotationsInput>
+    create: XOR<PDFDocumentCreateWithoutAnnotationsInput, PDFDocumentUncheckedCreateWithoutAnnotationsInput>
+    where?: PDFDocumentWhereInput
+  }
+
+  export type PDFDocumentUpdateToOneWithWhereWithoutAnnotationsInput = {
+    where?: PDFDocumentWhereInput
+    data: XOR<PDFDocumentUpdateWithoutAnnotationsInput, PDFDocumentUncheckedUpdateWithoutAnnotationsInput>
+  }
+
+  export type PDFDocumentUpdateWithoutAnnotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    pageCount?: IntFieldUpdateOperationsInput | number
+    blobUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPdfDocumentsNestedInput
+  }
+
+  export type PDFDocumentUncheckedUpdateWithoutAnnotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    pageCount?: IntFieldUpdateOperationsInput | number
+    blobUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutAnnotationsInput = {
+    update: XOR<UserUpdateWithoutAnnotationsInput, UserUncheckedUpdateWithoutAnnotationsInput>
+    create: XOR<UserCreateWithoutAnnotationsInput, UserUncheckedCreateWithoutAnnotationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAnnotationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAnnotationsInput, UserUncheckedUpdateWithoutAnnotationsInput>
+  }
+
+  export type UserUpdateWithoutAnnotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAnnotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -73956,6 +78291,30 @@ export namespace Prisma {
     joinedAt?: Date | string
     lastSeen?: Date | string
     status?: string
+  }
+
+  export type PDFDocumentCreateManyUserInput = {
+    id?: string
+    title: string
+    fileName: string
+    fileSize: number
+    pageCount: number
+    blobUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnnotationCreateManyUserInput = {
+    id?: string
+    docId: string
+    page: number
+    type: string
+    color: string
+    text?: string | null
+    note?: string | null
+    rects: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -75040,6 +79399,80 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
   }
 
+  export type PDFDocumentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    pageCount?: IntFieldUpdateOperationsInput | number
+    blobUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    annotations?: AnnotationUpdateManyWithoutDocNestedInput
+  }
+
+  export type PDFDocumentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    pageCount?: IntFieldUpdateOperationsInput | number
+    blobUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    annotations?: AnnotationUncheckedUpdateManyWithoutDocNestedInput
+  }
+
+  export type PDFDocumentUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    pageCount?: IntFieldUpdateOperationsInput | number
+    blobUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnnotationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    page?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    rects?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    doc?: PDFDocumentUpdateOneRequiredWithoutAnnotationsNestedInput
+  }
+
+  export type AnnotationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    docId?: StringFieldUpdateOperationsInput | string
+    page?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    rects?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnnotationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    docId?: StringFieldUpdateOperationsInput | string
+    page?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    rects?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type GroupSharedNoteCreateManyNoteInput = {
     id?: string
     groupId: string
@@ -75760,6 +80193,58 @@ export namespace Prisma {
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AnnotationCreateManyDocInput = {
+    id?: string
+    userId: string
+    page: number
+    type: string
+    color: string
+    text?: string | null
+    note?: string | null
+    rects: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnnotationUpdateWithoutDocInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    page?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    rects?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAnnotationsNestedInput
+  }
+
+  export type AnnotationUncheckedUpdateWithoutDocInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    page?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    rects?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnnotationUncheckedUpdateManyWithoutDocInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    page?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    rects?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -107,6 +107,8 @@ model User {
     novaStats NovaStats?
     hostedRooms StudyRoom[] @relation("RoomHost")
     roomMemberships RoomMember[]
+    pdfDocuments PDFDocument[]
+    annotations  Annotation[]
 }
 
 model VerificationToken {
@@ -688,4 +690,41 @@ model RoomMember {
     @@index([roomId])
     @@index([userId])
     @@index([lastSeen])
+}
+
+model PDFDocument {
+    id          String       @id @default(cuid())
+    userId      String
+    title       String
+    fileName    String
+    fileSize    Int
+    pageCount   Int
+    blobUrl     String?
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+    user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    annotations Annotation[]
+
+    @@index([userId])
+    @@index([updatedAt])
+}
+
+model Annotation {
+    id        String      @id @default(cuid())
+    docId     String
+    userId    String
+    page      Int
+    type      String
+    color     String
+    text      String?
+    note      String?
+    rects     Json
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+    doc       PDFDocument @relation(fields: [docId], references: [id], onDelete: Cascade)
+    user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([docId])
+    @@index([userId])
+    @@index([page])
 }
