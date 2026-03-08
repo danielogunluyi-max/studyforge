@@ -6,7 +6,7 @@ import { authConfig } from "./config";
 // Ensure required env vars exist to avoid NextAuth constructing invalid URLs
 if (!process.env.NEXTAUTH_URL) {
 	// Prefer public app URL if available, otherwise fallback to known production hostname
-	process.env.NEXTAUTH_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://studyforgeapp.vercel.app";
+	process.env.NEXTAUTH_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://kyvex.vercel.app";
 }
 
 if (!process.env.NEXTAUTH_SECRET && process.env.AUTH_SECRET) {
@@ -34,3 +34,4 @@ try {
 const auth = cache(uncachedAuth);
 
 export { auth, handlers, signIn, signOut };
+

@@ -64,7 +64,7 @@ export async function GET(
     return NextResponse.json({
       messages: messages.map((msg) => ({
         ...msg,
-        senderName: msg.isAI ? "StudyForge AI" : msg.user?.name || msg.user?.email || "Member",
+        senderName: msg.isAI ? "Kyvex AI" : msg.user?.name || msg.user?.email || "Member",
       })),
     });
   } catch (error) {
@@ -137,12 +137,12 @@ export async function POST(
         temperature: 0.5,
         maxTokens: 220,
       });
-      await sendAiMessage(id, `StudyForge AI Quiz:\n${quizPrompt.trim()}`);
+      await sendAiMessage(id, `Kyvex AI Quiz:\n${quizPrompt.trim()}`);
     }
 
     if (lowered.includes("@ai") || lowered.includes("?")) {
       const aiReply = await runGroqPrompt({
-        system: "You are StudyForge AI moderator. Be concise and helpful.",
+        system: "You are Kyvex AI moderator. Be concise and helpful.",
         user: `Group topic: ${topic}\nUser message: ${message}\nProvide a concise helpful response.`,
         temperature: 0.4,
         maxTokens: 320,
@@ -160,10 +160,10 @@ export async function POST(
       });
       const transcript = recent
         .reverse()
-        .map((item) => `${item.isAI ? "StudyForge AI" : item.user?.name || item.user?.email || "Member"}: ${item.message}`)
+        .map((item) => `${item.isAI ? "Kyvex AI" : item.user?.name || item.user?.email || "Member"}: ${item.message}`)
         .join("\n");
       const aiTip = await runGroqPrompt({
-        system: "You are StudyForge AI moderator. Summarize progress and add one actionable tip.",
+        system: "You are Kyvex AI moderator. Summarize progress and add one actionable tip.",
         user: `Topic: ${topic}\nRecent chat:\n${transcript}`,
         temperature: 0.4,
         maxTokens: 180,

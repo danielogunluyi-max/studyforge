@@ -118,11 +118,11 @@ function LoginContent() {
           <Link href="/" className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/StudyForge-logo.png"
-              alt="StudyForge"
+              src="/Kyvex-logo.png"
+              alt="Kyvex"
               className="h-8 w-8"
             />
-            <span className="text-xl font-semibold text-gray-900">StudyForge</span>
+            <span className="text-xl font-semibold text-gray-900">Kyvex</span>
           </Link>
           <Link
             href="/signup"
@@ -137,10 +137,10 @@ function LoginContent() {
         <div className="w-full max-w-md">
           <div className="mb-8 text-center">
             <h1 className="mb-2 text-3xl font-bold text-gray-900">
-              Log in
+              Welcome back to Kyvex 👋
             </h1>
             <p className="text-gray-600">
-              Continue studying with StudyForge
+              Your AI study platform is ready.
             </p>
           </div>
 
@@ -195,7 +195,7 @@ function LoginContent() {
                 fullWidth
                 size="lg"
               >
-                {isLoading ? "Logging in..." : "Log in"}
+                {isLoading ? "Signing in..." : "Sign in to Kyvex"}
               </Button>
             </form>
           </div>
@@ -235,3 +235,4 @@ function LoginSkeleton() {
     </main>
   );
 }
+

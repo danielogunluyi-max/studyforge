@@ -47,7 +47,7 @@ export function ExamWidget() {
 
   const BASE_RIGHT = 16;
   const BASE_BOTTOM = 16;
-  const SESSION_KEY = "studyforge:exam-widget-offset";
+  const SESSION_KEY = "kyvex:exam-widget-offset";
 
   const clampOffset = (nextX: number, nextY: number) => {
     const width = widgetRef.current?.offsetWidth ?? 320;
@@ -376,3 +376,4 @@ export function ExamWidget() {
     </div>
   );
 }
+

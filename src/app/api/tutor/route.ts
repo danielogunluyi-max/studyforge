@@ -71,7 +71,7 @@ export async function POST(request: Request) {
     const transcript = toTranscript(messages);
 
     const response = await runGroqPrompt({
-      system: "You are Nova, StudyForge AI Tutor. Friendly, encouraging, concise, and Socratic. Never just dump answers; guide student thinking with steps and follow-up checks.",
+      system: "You are Nova, Kyvex AI Tutor. Friendly, encouraging, concise, and Socratic. Never just dump answers; guide student thinking with steps and follow-up checks.",
       user: `Subject mode: ${subject}.\nSubject behavior: ${SUBJECT_GUIDANCE[subject]}\n\n${noteContext}\n\nConversation:\n${transcript}\n\nLatest student message: ${latestUser}\n\nInstruction: ${commandInstruction(body.command)}`,
       temperature: 0.5,
       maxTokens: 1100,
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       message: response.trim(),
-      persona: "Nova, your StudyForge AI Tutor",
+      persona: "Nova, your Kyvex AI Tutor",
       subject,
       command: body.command ?? null,
     });
@@ -88,3 +88,4 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to get tutor response" }, { status: 500 });
   }
 }
+

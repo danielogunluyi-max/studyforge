@@ -10,8 +10,8 @@ import { preprocessHandwritingImage } from "~/lib/imagePreprocessor";
 import { trackNovaEvent } from "@/lib/novaClient";
 
 const MAX_FILE_BYTES = 15 * 1024 * 1024;
-const PREFILL_STORAGE_KEY = "studyforge:prefillText";
-const PREFILL_FORMAT_KEY = "studyforge:prefillFormat";
+const PREFILL_STORAGE_KEY = "kyvex:prefillText";
+const PREFILL_FORMAT_KEY = "kyvex:prefillFormat";
 
 const SUBJECT_OPTIONS = [
   "Math",
@@ -84,7 +84,7 @@ export default function ScanPage() {
   }, [status, router]);
 
   useEffect(() => {
-    const raw = localStorage.getItem("studyforge:scanSavedHistoryIds") ?? "[]";
+    const raw = localStorage.getItem("kyvex:scanSavedHistoryIds") ?? "[]";
     try {
       const parsed = JSON.parse(raw) as string[];
       setSavedHistoryIds(new Set(parsed.filter(Boolean)));
@@ -132,7 +132,7 @@ export default function ScanPage() {
     setSavedHistoryIds((prev) => {
       const next = new Set(prev);
       next.add(id);
-      localStorage.setItem("studyforge:scanSavedHistoryIds", JSON.stringify(Array.from(next)));
+      localStorage.setItem("kyvex:scanSavedHistoryIds", JSON.stringify(Array.from(next)));
       return next;
     });
   };
@@ -473,4 +473,5 @@ export default function ScanPage() {
     </main>
   );
 }
+
 

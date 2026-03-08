@@ -31,7 +31,7 @@ export async function GET(
         topic: web.topic,
         webData: web.webData,
         updatedAt: web.updatedAt,
-        ownerName: web.user.name ?? "StudyForge User",
+        ownerName: web.user.name ?? "Kyvex User",
       },
     });
   } catch (error) {

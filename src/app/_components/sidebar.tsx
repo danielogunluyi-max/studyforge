@@ -176,8 +176,8 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
     </div>
   );
 
-  const userName = session?.user?.name ?? "StudyForge User";
-  const userEmail = session?.user?.email ?? "student@studyforge.app";
+  const userName = session?.user?.name ?? "Kyvex User";
+  const userEmail = session?.user?.email ?? "student@kyvex.app";
   const initials = getInitials(session?.user?.name, session?.user?.email);
 
   return (
@@ -191,12 +191,42 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       <aside
         className={`sidebar-shell fixed inset-y-0 left-0 z-50 w-[244px] shrink-0 transition-transform duration-200 md:static md:w-[228px] md:translate-x-0 ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
-        <div className="sidebar-logo h-12 px-3">
-          <Link href="/dashboard" onClick={onCloseMobile} className="inline-flex min-h-11 items-center gap-2 text-white">
-            <img src="/StudyForge-logo.png" alt="StudyForge" className="h-6 w-6" />
-            <span className="text-sm font-semibold">StudyForge</span>
-          </Link>
-        </div>
+        <Link href="/dashboard" onClick={onCloseMobile} className="block">
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '8px',
+            padding: '0 16px',
+            height: '48px',
+            borderBottom: '1px solid var(--border-default)'
+          }}>
+            {/* Logo mark — K in a rounded square */}
+            <div style={{
+              width: 28,
+              height: 28,
+              borderRadius: '7px',
+              background: 'linear-gradient(135deg, var(--accent-blue), var(--accent-purple))',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '14px',
+              fontWeight: 800,
+              color: 'white',
+              flexShrink: 0,
+              letterSpacing: '-0.02em'
+            }}>
+              K
+            </div>
+            <span style={{
+              fontSize: '16px',
+              fontWeight: 700,
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.02em'
+            }}>
+              Kyvex
+            </span>
+          </div>
+        </Link>
 
         <div className="flex-1 overflow-y-auto px-2.5 py-3">
           <nav className="space-y-5">
@@ -238,3 +268,4 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
     </>
   );
 }
+

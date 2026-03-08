@@ -127,7 +127,7 @@ export async function GET() {
     return new NextResponse(blob, {
       headers: {
         "Content-Type": "application/json",
-        "Content-Disposition": `attachment; filename="studyforge-export-${new Date().toISOString().split('T')[0]}.json"`,
+        "Content-Disposition": `attachment; filename="kyvex-export-${new Date().toISOString().split('T')[0]}.json"`,
       },
     });
   } catch (error) {
@@ -138,3 +138,4 @@ export async function GET() {
     );
   }
 }
+

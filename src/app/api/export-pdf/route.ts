@@ -75,7 +75,7 @@ export async function POST(request: Request) {
     let y = pageHeight - margin;
 
     const drawHeader = () => {
-      page.drawText("StudyForge", {
+      page.drawText("Kyvex", {
         x: margin,
         y,
         size: 16,
@@ -146,7 +146,7 @@ export async function POST(request: Request) {
     });
 
     const bytes = await pdfDoc.save();
-    const filename = sanitizeFilename(note.title || "studyforge-note") || "studyforge-note";
+    const filename = sanitizeFilename(note.title || "kyvex-note") || "kyvex-note";
 
     return new NextResponse(Buffer.from(bytes), {
       status: 200,
@@ -160,3 +160,4 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to export PDF" }, { status: 500 });
   }
 }
+

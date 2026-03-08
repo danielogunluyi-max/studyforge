@@ -28,7 +28,7 @@ type LoadedNote = {
 
 const SUBJECTS: Subject[] = ["Math", "Science", "English", "History", "Chemistry", "Physics", "General"];
 const COMMANDS = ["/quiz me", "/explain", "/example", "/summary"];
-const STORAGE_KEY = "studyforge-tutor-session";
+const STORAGE_KEY = "kyvex-tutor-session";
 
 function makeId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -44,7 +44,7 @@ export default function TutorPage() {
     {
       id: makeId(),
       role: "assistant",
-      content: "Hi! I’m Nova, your StudyForge AI Tutor ✨ Tell me what topic you want to learn, and we’ll break it down together step by step.",
+      content: "Hi! I'm Nova, your AI study companion on Kyvex. Ask me anything — I can explain concepts, quiz you, summarize your notes, and more. What are we studying today? 🌟",
       createdAt: new Date().toISOString(),
     },
   ]);
@@ -440,4 +440,5 @@ export default function TutorPage() {
     </main>
   );
 }
+
 

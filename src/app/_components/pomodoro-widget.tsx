@@ -25,8 +25,8 @@ type SavedPosition = {
 
 const BASE_LEFT = 16;
 const BASE_BOTTOM = 16;
-const POSITION_KEY = "studyforge:pomodoro-widget-position";
-const STATE_KEY = "studyforge:pomodoro-widget-state";
+const POSITION_KEY = "kyvex:pomodoro-widget-position";
+const STATE_KEY = "kyvex:pomodoro-widget-state";
 const DEFAULT_WORK_MIN = 25;
 const DEFAULT_BREAK_MIN = 5;
 const LONG_BREAK_MIN = 15;
@@ -687,3 +687,4 @@ export function PomodoroWidget() {
     </div>
   );
 }
+

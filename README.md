@@ -1,29 +1,31 @@
-# Create T3 App
+# Kyvex
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+AI-powered study platform for students. Built with Next.js 14,
+TypeScript, Prisma, PostgreSQL, and GROQ API.
 
-## What's next? How do I make an app with this?
+## Features
+- AI note generator
+- Spaced repetition flashcards
+- Audio to notes (Whisper AI)
+- Exam results tracking (Ontario curriculum)
+- Nova AI tutor
+- Study Battle Arena
+- Virtual study rooms
+- Photo to quiz
+- PDF annotator
+- Focus mode
+- Ambient sounds
+- Pomodoro timer
+- Nova study companion
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Tech Stack
+- Next.js 14 App Router
+- TypeScript
+- PostgreSQL + Prisma
+- GROQ API (llama-3.3-70b-versatile)
+- NextAuth.js
+- Vercel deployment
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
-
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## Domain
+Current: kyvex.vercel.app
+Future: Purchase kyvex.app or kyvex.co when ready to go public

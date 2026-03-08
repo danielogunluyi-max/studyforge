@@ -471,8 +471,8 @@ export default function DashboardPage() {
         setScanConfidence(data.confidence);
       }
 
-      sessionStorage.setItem("studyforge:prefillText", text);
-      sessionStorage.setItem("studyforge:prefillFormat", "summary");
+      sessionStorage.setItem("kyvex:prefillText", text);
+      sessionStorage.setItem("kyvex:prefillFormat", "summary");
       showToast("Handwritten notes ready in generator", "success");
       router.push("/generator?source=dashboard-scan");
     } catch {
@@ -839,4 +839,5 @@ export default function DashboardPage() {
     </main>
   );
 }
+
 

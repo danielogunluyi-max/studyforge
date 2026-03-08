@@ -146,11 +146,11 @@ export default function SignUp() {
         <div className="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
           <Link href="/" className="flex items-center gap-3">
             <img
-              src="/StudyForge-logo.png"
-              alt="StudyForge"
+              src="/Kyvex-logo.png"
+              alt="Kyvex"
               className="h-8 w-8"
             />
-            <span className="text-xl font-semibold text-gray-900">StudyForge</span>
+            <span className="text-xl font-semibold text-gray-900">Kyvex</span>
           </Link>
           <Link
             href="/login"
@@ -166,10 +166,10 @@ export default function SignUp() {
         <div className="w-full max-w-md">
           <div className="mb-8 text-center">
             <h1 className="mb-2 text-3xl font-bold text-gray-900">
-              Create your account
+              Join Kyvex for free 🚀
             </h1>
             <p className="text-gray-600">
-              Start studying smarter with StudyForge
+              The AI study platform built for students.
             </p>
           </div>
 
@@ -259,7 +259,7 @@ export default function SignUp() {
                 fullWidth
                 size="lg"
               >
-                {isLoading ? "Creating account..." : "Sign up"}
+                {isLoading ? "Creating account..." : "Create Kyvex account"}
               </Button>
             </form>
           </div>
@@ -272,3 +272,4 @@ export default function SignUp() {
     </main>
   );
 }
+

@@ -11,8 +11,8 @@ import { SkeletonList } from "~/app/_components/skeleton";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 
-const PREFILL_STORAGE_KEY = "studyforge:prefillText";
-const PREFILL_FORMAT_KEY = "studyforge:prefillFormat";
+const PREFILL_STORAGE_KEY = "kyvex:prefillText";
+const PREFILL_FORMAT_KEY = "kyvex:prefillFormat";
 
 type Note = {
   id: string;
@@ -286,7 +286,7 @@ export default function MyNotes() {
       const url = URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "studyforge-note.pdf";
+      anchor.download = "kyvex-note.pdf";
       anchor.click();
       URL.revokeObjectURL(url);
     } catch (exportError) {
@@ -466,7 +466,7 @@ export default function MyNotes() {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = "studyforge-notes.txt";
+    anchor.download = "kyvex-notes.txt";
     anchor.click();
     URL.revokeObjectURL(url);
   };
@@ -1219,4 +1219,5 @@ export default function MyNotes() {
     </main>
   );
 }
+
 

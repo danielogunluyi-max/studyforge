@@ -483,7 +483,7 @@ export default function StudyGroupInteriorPage() {
                           <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full font-semibold ${message.isAI ? "bg-blue-600 text-white" : "badge badge-neutral"}`}>
                             {message.isAI ? "AI" : initials(message.user?.name, message.user?.email)}
                           </span>
-                          <span className="font-semibold">{message.isAI ? "StudyForge AI" : message.senderName || message.user?.name || message.user?.email || "Member"}</span>
+                          <span className="font-semibold">{message.isAI ? "Kyvex AI" : message.senderName || message.user?.name || message.user?.email || "Member"}</span>
                           <span>{new Date(message.timestamp).toLocaleTimeString()}</span>
                         </div>
                         <p className="break-words text-sm text-gray-800">{message.message}</p>

@@ -34,7 +34,7 @@ export default async function SharedLearningStylePage({
   return (
     <main className={`min-h-screen bg-gradient-to-br ${meta.tint} px-4 py-10`}>
       <div className="mx-auto max-w-2xl rounded-3xl border border-white/60 bg-white/80 p-8 shadow-xl backdrop-blur">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">StudyForge Learning Style</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">Kyvex Learning Style</p>
         <h1 className="mt-2 text-3xl font-bold text-gray-900">{data.user.name}</h1>
         <p className="mt-2 text-xl text-gray-800">{meta.emoji} {meta.title}</p>
 

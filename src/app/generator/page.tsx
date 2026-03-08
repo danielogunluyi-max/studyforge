@@ -12,8 +12,8 @@ import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
 import { trackNovaEvent } from "@/lib/novaClient";
 
-const PREFILL_STORAGE_KEY = "studyforge:prefillText";
-const PREFILL_FORMAT_KEY = "studyforge:prefillFormat";
+const PREFILL_STORAGE_KEY = "kyvex:prefillText";
+const PREFILL_FORMAT_KEY = "kyvex:prefillFormat";
 const TAG_SUGGESTIONS = [
   "Math",
   "Biology",
@@ -428,7 +428,7 @@ export default function Generator() {
         {
           children: [
             new Paragraph({
-              text: "StudyForge Notes",
+              text: "Kyvex Notes",
               heading: HeadingLevel.HEADING_1,
             }),
             ...paragraphs,
@@ -441,7 +441,7 @@ export default function Generator() {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = "studyforge-notes.docx";
+    anchor.download = "kyvex-notes.docx";
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();
@@ -1300,3 +1300,4 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
     </main>
   );
 }
+

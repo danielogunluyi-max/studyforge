@@ -22,7 +22,7 @@ type AppearancePayload = {
   compactMode: boolean;
 };
 
-const APPEARANCE_STORAGE_KEY = "studyforge:appearance";
+const APPEARANCE_STORAGE_KEY = "kyvex:appearance";
 
 interface UserSettings {
   name: string;
@@ -65,7 +65,7 @@ function syncAppearance(next: UserSettings) {
   };
 
   window.localStorage.setItem(APPEARANCE_STORAGE_KEY, JSON.stringify(payload));
-  window.dispatchEvent(new CustomEvent("studyforge:appearance-updated", { detail: payload }));
+  window.dispatchEvent(new CustomEvent("kyvex:appearance-updated", { detail: payload }));
 }
 
 export default function SettingsPage() {
@@ -224,7 +224,7 @@ export default function SettingsPage() {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `studyforge-data-${new Date().toISOString().split('T')[0]}.json`;
+        a.download = `kyvex-data-${new Date().toISOString().split('T')[0]}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -243,7 +243,7 @@ export default function SettingsPage() {
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="mb-8">
           <h1 className="mb-2 text-4xl font-bold text-gray-900">Settings</h1>
-          <p className="text-lg text-gray-600">Customize your StudyForge experience</p>
+          <p className="text-lg text-gray-600">Customize your Kyvex experience</p>
         </div>
 
         <div className="space-y-6">
@@ -521,4 +521,5 @@ export default function SettingsPage() {
     </main>
   );
 }
+
 

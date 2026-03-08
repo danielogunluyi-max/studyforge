@@ -92,7 +92,7 @@ const featureCards = [
 
 const testimonials = [
   {
-    quote: "StudyForge helped me go from a C to an A in Biology.",
+    quote: "Kyvex helped me go from a C to an A in Biology.",
     author: "Sarah",
     meta: "Grade 11",
     subject: "Biology",
@@ -300,9 +300,7 @@ export default function Home() {
             </div>
 
             <h1 className="text-5xl font-bold text-white leading-tight">
-              Study smarter with<br />
-              AI-powered tools<br />
-              built for real exams
+              Study smarter with Kyvex
             </h1>
 
             <p className="text-lg text-gray-300 mt-4">
@@ -310,12 +308,12 @@ export default function Home() {
             </p>
 
             <p className="mt-4 max-w-xl text-sm text-slate-300 sm:text-base">
-              Turn lecture material into study formats that actually help you retain and perform under pressure.
+              The AI-powered study platform built for students. Notes, flashcards, quizzes, and more — all in one place.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link href="/generator" className="rounded-xl bg-blue-600 px-6 py-3 text-center text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-900/40">
-                Paste Text →
+                Get started free →
               </Link>
               <Link href="/upload" className="rounded-xl border border-white/40 bg-white/10 px-6 py-3 text-center text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/20">
                 Upload File →
@@ -361,7 +359,7 @@ export default function Home() {
             <div key={item.label} className="stagger-card reveal-on-scroll rounded-xl border border-gray-200 bg-gray-50 p-4 text-center shadow-sm" data-reveal="true">
               <div className="mx-auto w-fit text-blue-600"><Icon name={item.icon} size={24} /></div>
               <p className="mt-2 text-2xl font-extrabold text-gray-900 sm:text-3xl">
-                {statValues[index].toLocaleString()}
+                {(statValues[index] ?? 0).toLocaleString()}
                 {item.suffix}
               </p>
               <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-gray-500">{item.label}</p>
@@ -381,7 +379,7 @@ export default function Home() {
               icon: "doc" as IconName,
               title: "Step 1",
               number: "01",
-              desc: "Paste your lecture notes, textbook paragraphs, or upload a PDF or image. StudyForge extracts and reads your content instantly.",
+              desc: "Paste your lecture notes, textbook paragraphs, or upload a PDF or image. Kyvex extracts and reads your content instantly.",
               accent: "border-blue-500",
               numberColor: "text-blue-600",
             },
@@ -417,7 +415,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="reveal-on-scroll mb-12 text-center" data-reveal="true">
             <h2 className="text-3xl font-bold text-white sm:text-4xl">Unique features built for modern students</h2>
-            <p className="mt-3 text-slate-300">Explore tools that make StudyForge feel like a complete exam-prep operating system.</p>
+            <p className="mt-3 text-slate-300">Explore tools that make Kyvex feel like a complete exam-prep operating system.</p>
           </div>
 
           <div className="stagger-grid grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -441,7 +439,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="reveal-on-scroll mb-12 text-center" data-reveal="true">
             <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">Students are seeing real results</h2>
-            <p className="mt-3 text-gray-600">Social proof from learners using StudyForge every week.</p>
+            <p className="mt-3 text-gray-600">Social proof from learners using Kyvex every week.</p>
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">
@@ -498,7 +496,7 @@ export default function Home() {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 py-20 text-center sm:px-6">
           <h2 className="text-3xl font-bold text-white sm:text-4xl">Ready to study smarter?</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-slate-200">Join students using StudyForge to convert notes into focused prep, stronger confidence, and better results.</p>
+          <p className="mx-auto mt-3 max-w-2xl text-slate-200">Join students using Kyvex to convert notes into focused prep, stronger confidence, and better results.</p>
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
             <Link href="/generator" className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg">
               Start with Generator
@@ -514,11 +512,11 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:grid-cols-3 sm:px-6">
           <div>
             <div className="flex items-center gap-2">
-              <img src="/StudyForge-logo.png" alt="StudyForge" className="h-8 w-8" />
-              <p className="text-lg font-bold text-white">StudyForge</p>
+              <img src="/Kyvex-logo.png" alt="Kyvex" className="h-8 w-8" />
+              <p className="text-lg font-bold text-white">Kyvex</p>
             </div>
             <p className="mt-3 text-sm text-slate-300">AI study tools that help you learn faster and perform better.</p>
-            <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Built by students, for students</p>
+            <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Built for students, by a student. 🚀</p>
           </div>
 
           <div>
@@ -551,7 +549,7 @@ export default function Home() {
                 </svg>
               </a>
             </div>
-            <p className="mt-4 text-xs text-slate-400">© 2026 StudyForge</p>
+            <p className="mt-4 text-xs text-slate-400">© 2026 Kyvex. All rights reserved.</p>
           </div>
         </div>
       </footer>
@@ -621,3 +619,4 @@ export default function Home() {
     </main>
   );
 }
+

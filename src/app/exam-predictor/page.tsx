@@ -73,7 +73,7 @@ type StudyPlanDay = {
 
 type SubjectType = "Math" | "Science" | "English" | "History" | "Other";
 
-const PRESET_KEY = "studyforge:exam-custom-presets";
+const PRESET_KEY = "kyvex:exam-custom-presets";
 
 const testPresets = [
   "Multiple Choice Only",
@@ -483,7 +483,7 @@ export default function ExamPredictorPage() {
 
   const exportPredictedExam = () => {
     const lines: string[] = [];
-    lines.push(`StudyForge Predicted ${examType}`);
+    lines.push(`Kyvex Predicted ${examType}`);
     lines.push(`Generated: ${new Date().toLocaleString()}`);
     lines.push(`Total Marks: ${totalMarks}`);
     lines.push("");
@@ -498,7 +498,7 @@ export default function ExamPredictorPage() {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `studyforge-${examType.toLowerCase()}-predicted-exam.txt`;
+    anchor.download = `kyvex-${examType.toLowerCase()}-predicted-exam.txt`;
     anchor.click();
     URL.revokeObjectURL(url);
   };
@@ -994,4 +994,5 @@ export default function ExamPredictorPage() {
     </main>
   );
 }
+
 

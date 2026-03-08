@@ -82,7 +82,7 @@ export async function GET() {
     };
 
     return NextResponse.json({
-      user: { id: user?.id ?? session.user.id, name: user?.name ?? "StudyForge Learner" },
+      user: { id: user?.id ?? session.user.id, name: user?.name ?? "Kyvex Learner" },
       history,
       latest,
       dominantChanged,
@@ -149,3 +149,4 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to save learning style result" }, { status: 500 });
   }
 }
+

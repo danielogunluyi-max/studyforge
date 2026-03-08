@@ -72,7 +72,7 @@ export async function POST(request: Request) {
       response = await fetch(normalizedUrl, {
         method: "GET",
         headers: {
-          "User-Agent": "StudyForgeCitationBot/1.0 (+https://studyforge.app)",
+          "User-Agent": "KyvexCitationBot/1.0 (+https://kyvex.app)",
           Accept: "text/html,application/xhtml+xml",
         },
         signal: controller.signal,
@@ -119,3 +119,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

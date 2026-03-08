@@ -14,7 +14,7 @@ type AppearancePayload = {
   compactMode: boolean;
 };
 
-const STORAGE_KEY = "studyforge:appearance";
+const STORAGE_KEY = "kyvex:appearance";
 
 const ACCENT_HEX: Record<AccentColor, { 500: string; 600: string; 700: string; 100: string; 50: string }> = {
   blue: { 500: "#3b82f6", 600: "#2563eb", 700: "#1d4ed8", 100: "#dbeafe", 50: "#eff6ff" },
@@ -95,9 +95,9 @@ export function AppearanceSync() {
       applyAppearance(payload);
     };
 
-    window.addEventListener("studyforge:appearance-updated", onAppearanceUpdated as EventListener);
+    window.addEventListener("kyvex:appearance-updated", onAppearanceUpdated as EventListener);
     return () => {
-      window.removeEventListener("studyforge:appearance-updated", onAppearanceUpdated as EventListener);
+      window.removeEventListener("kyvex:appearance-updated", onAppearanceUpdated as EventListener);
     };
   }, []);
 
@@ -155,3 +155,4 @@ export function AppearanceSync() {
 
   return null;
 }
+

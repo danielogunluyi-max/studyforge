@@ -43,7 +43,7 @@ export async function GET(
         };
 
     return NextResponse.json({
-      user: { id: user.id, name: user.name ?? "StudyForge Learner" },
+      user: { id: user.id, name: user.name ?? "Kyvex Learner" },
       style,
       breakdown,
       topTrait: style,

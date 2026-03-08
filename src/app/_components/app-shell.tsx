@@ -11,7 +11,7 @@ import { Topbar } from "~/app/_components/topbar";
 function titleFromPath(pathname: string) {
   const path = pathname.split("?")[0] ?? "";
 
-  if (path === "/") return "StudyForge";
+  if (path === "/") return "Kyvex";
   if (path.startsWith("/dashboard")) return "Dashboard";
   if (path.startsWith("/generator")) return "Generator";
   if (path.startsWith("/upload")) return "Upload File";
@@ -30,7 +30,7 @@ function titleFromPath(pathname: string) {
   if (path.startsWith("/login")) return "Login";
   if (path.startsWith("/signup")) return "Sign Up";
 
-  const lastSegment = path.split("/").filter(Boolean).at(-1) ?? "StudyForge";
+  const lastSegment = path.split("/").filter(Boolean).at(-1) ?? "Kyvex";
   return lastSegment
     .split("-")
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
@@ -62,3 +62,4 @@ export function AppShell({ children }: { children: ReactNode }) {
     </div>
   );
 }
+

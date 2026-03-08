@@ -67,7 +67,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ subject: "", suggestedFormat: "" });
     }
 
-    const prompt = `Detect the most likely school subject from this text snippet and suggest the best StudyForge output format.
+    const prompt = `Detect the most likely school subject from this text snippet and suggest the best Kyvex output format.
 
 Text snippet:
 ${sample}
@@ -103,3 +103,4 @@ Return JSON only:
     return NextResponse.json({ subject: "", suggestedFormat: "" }, { status: 200 });
   }
 }
+

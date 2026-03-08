@@ -422,7 +422,7 @@ export default function LearningStyleQuizPage() {
   const [userId, setUserId] = useState<string>("");
   const [showShareCard, setShowShareCard] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [displayName, setDisplayName] = useState("StudyForge Learner");
+  const [displayName, setDisplayName] = useState("Kyvex Learner");
 
   const scores = useMemo(() => {
     const initial: Record<Style, number> = {
@@ -607,7 +607,7 @@ export default function LearningStyleQuizPage() {
 
     context.fillStyle = "#93C5FD";
     context.font = "bold 24px Inter, system-ui, sans-serif";
-    context.fillText("StudyForge", 84, 550);
+    context.fillText("Kyvex", 84, 550);
 
     const link = document.createElement("a");
     link.href = canvas.toDataURL("image/png");
@@ -771,7 +771,7 @@ export default function LearningStyleQuizPage() {
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">StudyForge Features</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Kyvex Features</p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     {resultTheme.bestFeatures.map((feature) => (
                       <Button key={`${feature.href}-tool`} href={feature.href} size="sm" variant="secondary">{feature.label}</Button>
@@ -855,7 +855,7 @@ export default function LearningStyleQuizPage() {
 
             <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6">
               <h3 className="text-xl font-bold text-white">How You Compare</h3>
-              <p className="mt-1 text-sm text-gray-400">{comparison.percentages[result]}% of StudyForge users are {STYLE_LABEL[result]} learners.</p>
+              <p className="mt-1 text-sm text-gray-400">{comparison.percentages[result]}% of Kyvex users are {STYLE_LABEL[result]} learners.</p>
               <div className="mt-4 grid gap-4 lg:grid-cols-[180px_1fr]">
                 <div className="relative mx-auto h-36 w-36">
                   <svg viewBox="0 0 120 120" className="h-36 w-36 -rotate-90">
@@ -924,4 +924,5 @@ export default function LearningStyleQuizPage() {
     </main>
   );
 }
+
 

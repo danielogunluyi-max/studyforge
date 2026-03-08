@@ -102,11 +102,11 @@ export function AppNav() {
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 sm:gap-3">
           <img
-            src="/StudyForge-logo.png"
-            alt="StudyForge"
+            src="/Kyvex-logo.png"
+            alt="Kyvex"
             className="h-7 w-7 sm:h-8 sm:w-8"
           />
-          <span className="text-lg sm:text-xl font-semibold text-gray-900">StudyForge</span>
+          <span className="text-lg sm:text-xl font-semibold text-gray-900">Kyvex</span>
         </Link>
         
         {/* Desktop Navigation */}
@@ -300,3 +300,4 @@ export function AppNav() {
     </nav>
   );
 }
+

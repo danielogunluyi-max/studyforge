@@ -12,8 +12,8 @@ import { preprocessHandwritingImage } from "~/lib/imagePreprocessor";
 
 const MAX_PDF_BYTES = 10 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-const PREFILL_STORAGE_KEY = "studyforge:prefillText";
-const PREFILL_FORMAT_KEY = "studyforge:prefillFormat";
+const PREFILL_STORAGE_KEY = "kyvex:prefillText";
+const PREFILL_FORMAT_KEY = "kyvex:prefillFormat";
 
 const OCR_LANGUAGE_LABELS: Record<string, string> = {
   eng: "English",
@@ -651,4 +651,5 @@ export default function UploadPage() {
     </main>
   );
 }
+
 
