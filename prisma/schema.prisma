@@ -105,6 +105,8 @@ model User {
     conceptWebs ConceptWeb[]
     flashcardDecks FlashcardDeck[]
     novaStats NovaStats?
+    hostedRooms StudyRoom[] @relation("RoomHost")
+    roomMemberships RoomMember[]
 }
 
 model VerificationToken {
@@ -652,4 +654,38 @@ model NovaStats {
     createdAt         DateTime @default(now())
     updatedAt         DateTime @updatedAt
     user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model StudyRoom {
+    id            String      @id @default(cuid())
+    name          String
+    subject       String
+    description   String?
+    hostId        String
+    isPublic      Boolean     @default(true)
+    maxMembers    Int         @default(10)
+    pomodoroState Json?
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
+    members       RoomMember[]
+    host          User        @relation("RoomHost", fields: [hostId], references: [id])
+
+    @@index([hostId])
+    @@index([createdAt])
+}
+
+model RoomMember {
+    id       String    @id @default(cuid())
+    roomId   String
+    userId   String
+    joinedAt DateTime  @default(now())
+    lastSeen DateTime  @default(now())
+    status   String    @default("studying")
+    room     StudyRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+    user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([roomId, userId])
+    @@index([roomId])
+    @@index([userId])
+    @@index([lastSeen])
 }

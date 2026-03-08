@@ -532,6 +532,28 @@ exports.Prisma.NovaStatsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.StudyRoomScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  subject: 'subject',
+  description: 'description',
+  hostId: 'hostId',
+  isPublic: 'isPublic',
+  maxMembers: 'maxMembers',
+  pomodoroState: 'pomodoroState',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RoomMemberScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  userId: 'userId',
+  joinedAt: 'joinedAt',
+  lastSeen: 'lastSeen',
+  status: 'status'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -598,7 +620,9 @@ exports.Prisma.ModelName = {
   ScanHistory: 'ScanHistory',
   FlashcardDeck: 'FlashcardDeck',
   Flashcard: 'Flashcard',
-  NovaStats: 'NovaStats'
+  NovaStats: 'NovaStats',
+  StudyRoom: 'StudyRoom',
+  RoomMember: 'RoomMember'
 };
 
 /**

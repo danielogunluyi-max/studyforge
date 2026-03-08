@@ -188,6 +188,16 @@ export type Flashcard = $Result.DefaultSelection<Prisma.$FlashcardPayload>
  * 
  */
 export type NovaStats = $Result.DefaultSelection<Prisma.$NovaStatsPayload>
+/**
+ * Model StudyRoom
+ * 
+ */
+export type StudyRoom = $Result.DefaultSelection<Prisma.$StudyRoomPayload>
+/**
+ * Model RoomMember
+ * 
+ */
+export type RoomMember = $Result.DefaultSelection<Prisma.$RoomMemberPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -656,6 +666,26 @@ export class PrismaClient<
     * ```
     */
   get novaStats(): Prisma.NovaStatsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.studyRoom`: Exposes CRUD operations for the **StudyRoom** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StudyRooms
+    * const studyRooms = await prisma.studyRoom.findMany()
+    * ```
+    */
+  get studyRoom(): Prisma.StudyRoomDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.roomMember`: Exposes CRUD operations for the **RoomMember** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RoomMembers
+    * const roomMembers = await prisma.roomMember.findMany()
+    * ```
+    */
+  get roomMember(): Prisma.RoomMemberDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1131,7 +1161,9 @@ export namespace Prisma {
     ScanHistory: 'ScanHistory',
     FlashcardDeck: 'FlashcardDeck',
     Flashcard: 'Flashcard',
-    NovaStats: 'NovaStats'
+    NovaStats: 'NovaStats',
+    StudyRoom: 'StudyRoom',
+    RoomMember: 'RoomMember'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1150,7 +1182,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats"
+      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3744,6 +3776,154 @@ export namespace Prisma {
           }
         }
       }
+      StudyRoom: {
+        payload: Prisma.$StudyRoomPayload<ExtArgs>
+        fields: Prisma.StudyRoomFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StudyRoomFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyRoomPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StudyRoomFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyRoomPayload>
+          }
+          findFirst: {
+            args: Prisma.StudyRoomFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyRoomPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StudyRoomFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyRoomPayload>
+          }
+          findMany: {
+            args: Prisma.StudyRoomFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyRoomPayload>[]
+          }
+          create: {
+            args: Prisma.StudyRoomCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyRoomPayload>
+          }
+          createMany: {
+            args: Prisma.StudyRoomCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StudyRoomCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyRoomPayload>[]
+          }
+          delete: {
+            args: Prisma.StudyRoomDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyRoomPayload>
+          }
+          update: {
+            args: Prisma.StudyRoomUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyRoomPayload>
+          }
+          deleteMany: {
+            args: Prisma.StudyRoomDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StudyRoomUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StudyRoomUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyRoomPayload>[]
+          }
+          upsert: {
+            args: Prisma.StudyRoomUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyRoomPayload>
+          }
+          aggregate: {
+            args: Prisma.StudyRoomAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStudyRoom>
+          }
+          groupBy: {
+            args: Prisma.StudyRoomGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StudyRoomGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StudyRoomCountArgs<ExtArgs>
+            result: $Utils.Optional<StudyRoomCountAggregateOutputType> | number
+          }
+        }
+      }
+      RoomMember: {
+        payload: Prisma.$RoomMemberPayload<ExtArgs>
+        fields: Prisma.RoomMemberFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RoomMemberFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RoomMemberFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          findFirst: {
+            args: Prisma.RoomMemberFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RoomMemberFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          findMany: {
+            args: Prisma.RoomMemberFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>[]
+          }
+          create: {
+            args: Prisma.RoomMemberCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          createMany: {
+            args: Prisma.RoomMemberCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RoomMemberCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>[]
+          }
+          delete: {
+            args: Prisma.RoomMemberDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          update: {
+            args: Prisma.RoomMemberUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          deleteMany: {
+            args: Prisma.RoomMemberDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RoomMemberUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RoomMemberUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>[]
+          }
+          upsert: {
+            args: Prisma.RoomMemberUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          aggregate: {
+            args: Prisma.RoomMemberAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRoomMember>
+          }
+          groupBy: {
+            args: Prisma.RoomMemberGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RoomMemberGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RoomMemberCountArgs<ExtArgs>
+            result: $Utils.Optional<RoomMemberCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3875,6 +4055,8 @@ export namespace Prisma {
     flashcardDeck?: FlashcardDeckOmit
     flashcard?: FlashcardOmit
     novaStats?: NovaStatsOmit
+    studyRoom?: StudyRoomOmit
+    roomMember?: RoomMemberOmit
   }
 
   /* Types for Logging */
@@ -3985,6 +4167,8 @@ export namespace Prisma {
     learningStyleResults: number
     conceptWebs: number
     flashcardDecks: number
+    hostedRooms: number
+    roomMemberships: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4018,6 +4202,8 @@ export namespace Prisma {
     learningStyleResults?: boolean | UserCountOutputTypeCountLearningStyleResultsArgs
     conceptWebs?: boolean | UserCountOutputTypeCountConceptWebsArgs
     flashcardDecks?: boolean | UserCountOutputTypeCountFlashcardDecksArgs
+    hostedRooms?: boolean | UserCountOutputTypeCountHostedRoomsArgs
+    roomMemberships?: boolean | UserCountOutputTypeCountRoomMembershipsArgs
   }
 
   // Custom InputTypes
@@ -4239,6 +4425,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountFlashcardDecksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FlashcardDeckWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountHostedRoomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyRoomWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRoomMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomMemberWhereInput
   }
 
 
@@ -4577,6 +4777,37 @@ export namespace Prisma {
    */
   export type FlashcardDeckCountOutputTypeCountCardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FlashcardWhereInput
+  }
+
+
+  /**
+   * Count Type StudyRoomCountOutputType
+   */
+
+  export type StudyRoomCountOutputType = {
+    members: number
+  }
+
+  export type StudyRoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | StudyRoomCountOutputTypeCountMembersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * StudyRoomCountOutputType without action
+   */
+  export type StudyRoomCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoomCountOutputType
+     */
+    select?: StudyRoomCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * StudyRoomCountOutputType without action
+   */
+  export type StudyRoomCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomMemberWhereInput
   }
 
 
@@ -8286,6 +8517,8 @@ export namespace Prisma {
     conceptWebs?: boolean | User$conceptWebsArgs<ExtArgs>
     flashcardDecks?: boolean | User$flashcardDecksArgs<ExtArgs>
     novaStats?: boolean | User$novaStatsArgs<ExtArgs>
+    hostedRooms?: boolean | User$hostedRoomsArgs<ExtArgs>
+    roomMemberships?: boolean | User$roomMembershipsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -8394,6 +8627,8 @@ export namespace Prisma {
     conceptWebs?: boolean | User$conceptWebsArgs<ExtArgs>
     flashcardDecks?: boolean | User$flashcardDecksArgs<ExtArgs>
     novaStats?: boolean | User$novaStatsArgs<ExtArgs>
+    hostedRooms?: boolean | User$hostedRoomsArgs<ExtArgs>
+    roomMemberships?: boolean | User$roomMembershipsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8433,6 +8668,8 @@ export namespace Prisma {
       conceptWebs: Prisma.$ConceptWebPayload<ExtArgs>[]
       flashcardDecks: Prisma.$FlashcardDeckPayload<ExtArgs>[]
       novaStats: Prisma.$NovaStatsPayload<ExtArgs> | null
+      hostedRooms: Prisma.$StudyRoomPayload<ExtArgs>[]
+      roomMemberships: Prisma.$RoomMemberPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8881,6 +9118,8 @@ export namespace Prisma {
     conceptWebs<T extends User$conceptWebsArgs<ExtArgs> = {}>(args?: Subset<T, User$conceptWebsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flashcardDecks<T extends User$flashcardDecksArgs<ExtArgs> = {}>(args?: Subset<T, User$flashcardDecksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlashcardDeckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     novaStats<T extends User$novaStatsArgs<ExtArgs> = {}>(args?: Subset<T, User$novaStatsArgs<ExtArgs>>): Prisma__NovaStatsClient<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    hostedRooms<T extends User$hostedRoomsArgs<ExtArgs> = {}>(args?: Subset<T, User$hostedRoomsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    roomMemberships<T extends User$roomMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$roomMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10055,6 +10294,54 @@ export namespace Prisma {
      */
     include?: NovaStatsInclude<ExtArgs> | null
     where?: NovaStatsWhereInput
+  }
+
+  /**
+   * User.hostedRooms
+   */
+  export type User$hostedRoomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomInclude<ExtArgs> | null
+    where?: StudyRoomWhereInput
+    orderBy?: StudyRoomOrderByWithRelationInput | StudyRoomOrderByWithRelationInput[]
+    cursor?: StudyRoomWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StudyRoomScalarFieldEnum | StudyRoomScalarFieldEnum[]
+  }
+
+  /**
+   * User.roomMemberships
+   */
+  export type User$roomMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    where?: RoomMemberWhereInput
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    cursor?: RoomMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoomMemberScalarFieldEnum | RoomMemberScalarFieldEnum[]
   }
 
   /**
@@ -45552,6 +45839,2268 @@ export namespace Prisma {
 
 
   /**
+   * Model StudyRoom
+   */
+
+  export type AggregateStudyRoom = {
+    _count: StudyRoomCountAggregateOutputType | null
+    _avg: StudyRoomAvgAggregateOutputType | null
+    _sum: StudyRoomSumAggregateOutputType | null
+    _min: StudyRoomMinAggregateOutputType | null
+    _max: StudyRoomMaxAggregateOutputType | null
+  }
+
+  export type StudyRoomAvgAggregateOutputType = {
+    maxMembers: number | null
+  }
+
+  export type StudyRoomSumAggregateOutputType = {
+    maxMembers: number | null
+  }
+
+  export type StudyRoomMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    subject: string | null
+    description: string | null
+    hostId: string | null
+    isPublic: boolean | null
+    maxMembers: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StudyRoomMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    subject: string | null
+    description: string | null
+    hostId: string | null
+    isPublic: boolean | null
+    maxMembers: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StudyRoomCountAggregateOutputType = {
+    id: number
+    name: number
+    subject: number
+    description: number
+    hostId: number
+    isPublic: number
+    maxMembers: number
+    pomodoroState: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StudyRoomAvgAggregateInputType = {
+    maxMembers?: true
+  }
+
+  export type StudyRoomSumAggregateInputType = {
+    maxMembers?: true
+  }
+
+  export type StudyRoomMinAggregateInputType = {
+    id?: true
+    name?: true
+    subject?: true
+    description?: true
+    hostId?: true
+    isPublic?: true
+    maxMembers?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StudyRoomMaxAggregateInputType = {
+    id?: true
+    name?: true
+    subject?: true
+    description?: true
+    hostId?: true
+    isPublic?: true
+    maxMembers?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StudyRoomCountAggregateInputType = {
+    id?: true
+    name?: true
+    subject?: true
+    description?: true
+    hostId?: true
+    isPublic?: true
+    maxMembers?: true
+    pomodoroState?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StudyRoomAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyRoom to aggregate.
+     */
+    where?: StudyRoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyRooms to fetch.
+     */
+    orderBy?: StudyRoomOrderByWithRelationInput | StudyRoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StudyRoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyRooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyRooms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StudyRooms
+    **/
+    _count?: true | StudyRoomCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StudyRoomAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StudyRoomSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StudyRoomMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StudyRoomMaxAggregateInputType
+  }
+
+  export type GetStudyRoomAggregateType<T extends StudyRoomAggregateArgs> = {
+        [P in keyof T & keyof AggregateStudyRoom]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStudyRoom[P]>
+      : GetScalarType<T[P], AggregateStudyRoom[P]>
+  }
+
+
+
+
+  export type StudyRoomGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyRoomWhereInput
+    orderBy?: StudyRoomOrderByWithAggregationInput | StudyRoomOrderByWithAggregationInput[]
+    by: StudyRoomScalarFieldEnum[] | StudyRoomScalarFieldEnum
+    having?: StudyRoomScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StudyRoomCountAggregateInputType | true
+    _avg?: StudyRoomAvgAggregateInputType
+    _sum?: StudyRoomSumAggregateInputType
+    _min?: StudyRoomMinAggregateInputType
+    _max?: StudyRoomMaxAggregateInputType
+  }
+
+  export type StudyRoomGroupByOutputType = {
+    id: string
+    name: string
+    subject: string
+    description: string | null
+    hostId: string
+    isPublic: boolean
+    maxMembers: number
+    pomodoroState: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
+    _count: StudyRoomCountAggregateOutputType | null
+    _avg: StudyRoomAvgAggregateOutputType | null
+    _sum: StudyRoomSumAggregateOutputType | null
+    _min: StudyRoomMinAggregateOutputType | null
+    _max: StudyRoomMaxAggregateOutputType | null
+  }
+
+  type GetStudyRoomGroupByPayload<T extends StudyRoomGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StudyRoomGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StudyRoomGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StudyRoomGroupByOutputType[P]>
+            : GetScalarType<T[P], StudyRoomGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StudyRoomSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    subject?: boolean
+    description?: boolean
+    hostId?: boolean
+    isPublic?: boolean
+    maxMembers?: boolean
+    pomodoroState?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    members?: boolean | StudyRoom$membersArgs<ExtArgs>
+    host?: boolean | UserDefaultArgs<ExtArgs>
+    _count?: boolean | StudyRoomCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyRoom"]>
+
+  export type StudyRoomSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    subject?: boolean
+    description?: boolean
+    hostId?: boolean
+    isPublic?: boolean
+    maxMembers?: boolean
+    pomodoroState?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    host?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyRoom"]>
+
+  export type StudyRoomSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    subject?: boolean
+    description?: boolean
+    hostId?: boolean
+    isPublic?: boolean
+    maxMembers?: boolean
+    pomodoroState?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    host?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyRoom"]>
+
+  export type StudyRoomSelectScalar = {
+    id?: boolean
+    name?: boolean
+    subject?: boolean
+    description?: boolean
+    hostId?: boolean
+    isPublic?: boolean
+    maxMembers?: boolean
+    pomodoroState?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type StudyRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subject" | "description" | "hostId" | "isPublic" | "maxMembers" | "pomodoroState" | "createdAt" | "updatedAt", ExtArgs["result"]["studyRoom"]>
+  export type StudyRoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | StudyRoom$membersArgs<ExtArgs>
+    host?: boolean | UserDefaultArgs<ExtArgs>
+    _count?: boolean | StudyRoomCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type StudyRoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    host?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type StudyRoomIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    host?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $StudyRoomPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StudyRoom"
+    objects: {
+      members: Prisma.$RoomMemberPayload<ExtArgs>[]
+      host: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      subject: string
+      description: string | null
+      hostId: string
+      isPublic: boolean
+      maxMembers: number
+      pomodoroState: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["studyRoom"]>
+    composites: {}
+  }
+
+  type StudyRoomGetPayload<S extends boolean | null | undefined | StudyRoomDefaultArgs> = $Result.GetResult<Prisma.$StudyRoomPayload, S>
+
+  type StudyRoomCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StudyRoomFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StudyRoomCountAggregateInputType | true
+    }
+
+  export interface StudyRoomDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StudyRoom'], meta: { name: 'StudyRoom' } }
+    /**
+     * Find zero or one StudyRoom that matches the filter.
+     * @param {StudyRoomFindUniqueArgs} args - Arguments to find a StudyRoom
+     * @example
+     * // Get one StudyRoom
+     * const studyRoom = await prisma.studyRoom.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StudyRoomFindUniqueArgs>(args: SelectSubset<T, StudyRoomFindUniqueArgs<ExtArgs>>): Prisma__StudyRoomClient<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StudyRoom that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StudyRoomFindUniqueOrThrowArgs} args - Arguments to find a StudyRoom
+     * @example
+     * // Get one StudyRoom
+     * const studyRoom = await prisma.studyRoom.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StudyRoomFindUniqueOrThrowArgs>(args: SelectSubset<T, StudyRoomFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StudyRoomClient<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyRoom that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyRoomFindFirstArgs} args - Arguments to find a StudyRoom
+     * @example
+     * // Get one StudyRoom
+     * const studyRoom = await prisma.studyRoom.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StudyRoomFindFirstArgs>(args?: SelectSubset<T, StudyRoomFindFirstArgs<ExtArgs>>): Prisma__StudyRoomClient<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyRoom that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyRoomFindFirstOrThrowArgs} args - Arguments to find a StudyRoom
+     * @example
+     * // Get one StudyRoom
+     * const studyRoom = await prisma.studyRoom.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StudyRoomFindFirstOrThrowArgs>(args?: SelectSubset<T, StudyRoomFindFirstOrThrowArgs<ExtArgs>>): Prisma__StudyRoomClient<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StudyRooms that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyRoomFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StudyRooms
+     * const studyRooms = await prisma.studyRoom.findMany()
+     * 
+     * // Get first 10 StudyRooms
+     * const studyRooms = await prisma.studyRoom.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const studyRoomWithIdOnly = await prisma.studyRoom.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StudyRoomFindManyArgs>(args?: SelectSubset<T, StudyRoomFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StudyRoom.
+     * @param {StudyRoomCreateArgs} args - Arguments to create a StudyRoom.
+     * @example
+     * // Create one StudyRoom
+     * const StudyRoom = await prisma.studyRoom.create({
+     *   data: {
+     *     // ... data to create a StudyRoom
+     *   }
+     * })
+     * 
+     */
+    create<T extends StudyRoomCreateArgs>(args: SelectSubset<T, StudyRoomCreateArgs<ExtArgs>>): Prisma__StudyRoomClient<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StudyRooms.
+     * @param {StudyRoomCreateManyArgs} args - Arguments to create many StudyRooms.
+     * @example
+     * // Create many StudyRooms
+     * const studyRoom = await prisma.studyRoom.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StudyRoomCreateManyArgs>(args?: SelectSubset<T, StudyRoomCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StudyRooms and returns the data saved in the database.
+     * @param {StudyRoomCreateManyAndReturnArgs} args - Arguments to create many StudyRooms.
+     * @example
+     * // Create many StudyRooms
+     * const studyRoom = await prisma.studyRoom.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StudyRooms and only return the `id`
+     * const studyRoomWithIdOnly = await prisma.studyRoom.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StudyRoomCreateManyAndReturnArgs>(args?: SelectSubset<T, StudyRoomCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StudyRoom.
+     * @param {StudyRoomDeleteArgs} args - Arguments to delete one StudyRoom.
+     * @example
+     * // Delete one StudyRoom
+     * const StudyRoom = await prisma.studyRoom.delete({
+     *   where: {
+     *     // ... filter to delete one StudyRoom
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StudyRoomDeleteArgs>(args: SelectSubset<T, StudyRoomDeleteArgs<ExtArgs>>): Prisma__StudyRoomClient<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StudyRoom.
+     * @param {StudyRoomUpdateArgs} args - Arguments to update one StudyRoom.
+     * @example
+     * // Update one StudyRoom
+     * const studyRoom = await prisma.studyRoom.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StudyRoomUpdateArgs>(args: SelectSubset<T, StudyRoomUpdateArgs<ExtArgs>>): Prisma__StudyRoomClient<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StudyRooms.
+     * @param {StudyRoomDeleteManyArgs} args - Arguments to filter StudyRooms to delete.
+     * @example
+     * // Delete a few StudyRooms
+     * const { count } = await prisma.studyRoom.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StudyRoomDeleteManyArgs>(args?: SelectSubset<T, StudyRoomDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyRooms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyRoomUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StudyRooms
+     * const studyRoom = await prisma.studyRoom.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StudyRoomUpdateManyArgs>(args: SelectSubset<T, StudyRoomUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyRooms and returns the data updated in the database.
+     * @param {StudyRoomUpdateManyAndReturnArgs} args - Arguments to update many StudyRooms.
+     * @example
+     * // Update many StudyRooms
+     * const studyRoom = await prisma.studyRoom.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StudyRooms and only return the `id`
+     * const studyRoomWithIdOnly = await prisma.studyRoom.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StudyRoomUpdateManyAndReturnArgs>(args: SelectSubset<T, StudyRoomUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StudyRoom.
+     * @param {StudyRoomUpsertArgs} args - Arguments to update or create a StudyRoom.
+     * @example
+     * // Update or create a StudyRoom
+     * const studyRoom = await prisma.studyRoom.upsert({
+     *   create: {
+     *     // ... data to create a StudyRoom
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StudyRoom we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StudyRoomUpsertArgs>(args: SelectSubset<T, StudyRoomUpsertArgs<ExtArgs>>): Prisma__StudyRoomClient<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StudyRooms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyRoomCountArgs} args - Arguments to filter StudyRooms to count.
+     * @example
+     * // Count the number of StudyRooms
+     * const count = await prisma.studyRoom.count({
+     *   where: {
+     *     // ... the filter for the StudyRooms we want to count
+     *   }
+     * })
+    **/
+    count<T extends StudyRoomCountArgs>(
+      args?: Subset<T, StudyRoomCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StudyRoomCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StudyRoom.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyRoomAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StudyRoomAggregateArgs>(args: Subset<T, StudyRoomAggregateArgs>): Prisma.PrismaPromise<GetStudyRoomAggregateType<T>>
+
+    /**
+     * Group by StudyRoom.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyRoomGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StudyRoomGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StudyRoomGroupByArgs['orderBy'] }
+        : { orderBy?: StudyRoomGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StudyRoomGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStudyRoomGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StudyRoom model
+   */
+  readonly fields: StudyRoomFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StudyRoom.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StudyRoomClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    members<T extends StudyRoom$membersArgs<ExtArgs> = {}>(args?: Subset<T, StudyRoom$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    host<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StudyRoom model
+   */
+  interface StudyRoomFieldRefs {
+    readonly id: FieldRef<"StudyRoom", 'String'>
+    readonly name: FieldRef<"StudyRoom", 'String'>
+    readonly subject: FieldRef<"StudyRoom", 'String'>
+    readonly description: FieldRef<"StudyRoom", 'String'>
+    readonly hostId: FieldRef<"StudyRoom", 'String'>
+    readonly isPublic: FieldRef<"StudyRoom", 'Boolean'>
+    readonly maxMembers: FieldRef<"StudyRoom", 'Int'>
+    readonly pomodoroState: FieldRef<"StudyRoom", 'Json'>
+    readonly createdAt: FieldRef<"StudyRoom", 'DateTime'>
+    readonly updatedAt: FieldRef<"StudyRoom", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StudyRoom findUnique
+   */
+  export type StudyRoomFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyRoom to fetch.
+     */
+    where: StudyRoomWhereUniqueInput
+  }
+
+  /**
+   * StudyRoom findUniqueOrThrow
+   */
+  export type StudyRoomFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyRoom to fetch.
+     */
+    where: StudyRoomWhereUniqueInput
+  }
+
+  /**
+   * StudyRoom findFirst
+   */
+  export type StudyRoomFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyRoom to fetch.
+     */
+    where?: StudyRoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyRooms to fetch.
+     */
+    orderBy?: StudyRoomOrderByWithRelationInput | StudyRoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyRooms.
+     */
+    cursor?: StudyRoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyRooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyRooms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyRooms.
+     */
+    distinct?: StudyRoomScalarFieldEnum | StudyRoomScalarFieldEnum[]
+  }
+
+  /**
+   * StudyRoom findFirstOrThrow
+   */
+  export type StudyRoomFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyRoom to fetch.
+     */
+    where?: StudyRoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyRooms to fetch.
+     */
+    orderBy?: StudyRoomOrderByWithRelationInput | StudyRoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyRooms.
+     */
+    cursor?: StudyRoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyRooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyRooms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyRooms.
+     */
+    distinct?: StudyRoomScalarFieldEnum | StudyRoomScalarFieldEnum[]
+  }
+
+  /**
+   * StudyRoom findMany
+   */
+  export type StudyRoomFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyRooms to fetch.
+     */
+    where?: StudyRoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyRooms to fetch.
+     */
+    orderBy?: StudyRoomOrderByWithRelationInput | StudyRoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StudyRooms.
+     */
+    cursor?: StudyRoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyRooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyRooms.
+     */
+    skip?: number
+    distinct?: StudyRoomScalarFieldEnum | StudyRoomScalarFieldEnum[]
+  }
+
+  /**
+   * StudyRoom create
+   */
+  export type StudyRoomCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StudyRoom.
+     */
+    data: XOR<StudyRoomCreateInput, StudyRoomUncheckedCreateInput>
+  }
+
+  /**
+   * StudyRoom createMany
+   */
+  export type StudyRoomCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StudyRooms.
+     */
+    data: StudyRoomCreateManyInput | StudyRoomCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StudyRoom createManyAndReturn
+   */
+  export type StudyRoomCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * The data used to create many StudyRooms.
+     */
+    data: StudyRoomCreateManyInput | StudyRoomCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudyRoom update
+   */
+  export type StudyRoomUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StudyRoom.
+     */
+    data: XOR<StudyRoomUpdateInput, StudyRoomUncheckedUpdateInput>
+    /**
+     * Choose, which StudyRoom to update.
+     */
+    where: StudyRoomWhereUniqueInput
+  }
+
+  /**
+   * StudyRoom updateMany
+   */
+  export type StudyRoomUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StudyRooms.
+     */
+    data: XOR<StudyRoomUpdateManyMutationInput, StudyRoomUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyRooms to update
+     */
+    where?: StudyRoomWhereInput
+    /**
+     * Limit how many StudyRooms to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyRoom updateManyAndReturn
+   */
+  export type StudyRoomUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * The data used to update StudyRooms.
+     */
+    data: XOR<StudyRoomUpdateManyMutationInput, StudyRoomUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyRooms to update
+     */
+    where?: StudyRoomWhereInput
+    /**
+     * Limit how many StudyRooms to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudyRoom upsert
+   */
+  export type StudyRoomUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StudyRoom to update in case it exists.
+     */
+    where: StudyRoomWhereUniqueInput
+    /**
+     * In case the StudyRoom found by the `where` argument doesn't exist, create a new StudyRoom with this data.
+     */
+    create: XOR<StudyRoomCreateInput, StudyRoomUncheckedCreateInput>
+    /**
+     * In case the StudyRoom was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StudyRoomUpdateInput, StudyRoomUncheckedUpdateInput>
+  }
+
+  /**
+   * StudyRoom delete
+   */
+  export type StudyRoomDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomInclude<ExtArgs> | null
+    /**
+     * Filter which StudyRoom to delete.
+     */
+    where: StudyRoomWhereUniqueInput
+  }
+
+  /**
+   * StudyRoom deleteMany
+   */
+  export type StudyRoomDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyRooms to delete
+     */
+    where?: StudyRoomWhereInput
+    /**
+     * Limit how many StudyRooms to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyRoom.members
+   */
+  export type StudyRoom$membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    where?: RoomMemberWhereInput
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    cursor?: RoomMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoomMemberScalarFieldEnum | RoomMemberScalarFieldEnum[]
+  }
+
+  /**
+   * StudyRoom without action
+   */
+  export type StudyRoomDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyRoom
+     */
+    select?: StudyRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyRoom
+     */
+    omit?: StudyRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyRoomInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RoomMember
+   */
+
+  export type AggregateRoomMember = {
+    _count: RoomMemberCountAggregateOutputType | null
+    _min: RoomMemberMinAggregateOutputType | null
+    _max: RoomMemberMaxAggregateOutputType | null
+  }
+
+  export type RoomMemberMinAggregateOutputType = {
+    id: string | null
+    roomId: string | null
+    userId: string | null
+    joinedAt: Date | null
+    lastSeen: Date | null
+    status: string | null
+  }
+
+  export type RoomMemberMaxAggregateOutputType = {
+    id: string | null
+    roomId: string | null
+    userId: string | null
+    joinedAt: Date | null
+    lastSeen: Date | null
+    status: string | null
+  }
+
+  export type RoomMemberCountAggregateOutputType = {
+    id: number
+    roomId: number
+    userId: number
+    joinedAt: number
+    lastSeen: number
+    status: number
+    _all: number
+  }
+
+
+  export type RoomMemberMinAggregateInputType = {
+    id?: true
+    roomId?: true
+    userId?: true
+    joinedAt?: true
+    lastSeen?: true
+    status?: true
+  }
+
+  export type RoomMemberMaxAggregateInputType = {
+    id?: true
+    roomId?: true
+    userId?: true
+    joinedAt?: true
+    lastSeen?: true
+    status?: true
+  }
+
+  export type RoomMemberCountAggregateInputType = {
+    id?: true
+    roomId?: true
+    userId?: true
+    joinedAt?: true
+    lastSeen?: true
+    status?: true
+    _all?: true
+  }
+
+  export type RoomMemberAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoomMember to aggregate.
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomMembers to fetch.
+     */
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RoomMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RoomMembers
+    **/
+    _count?: true | RoomMemberCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RoomMemberMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RoomMemberMaxAggregateInputType
+  }
+
+  export type GetRoomMemberAggregateType<T extends RoomMemberAggregateArgs> = {
+        [P in keyof T & keyof AggregateRoomMember]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRoomMember[P]>
+      : GetScalarType<T[P], AggregateRoomMember[P]>
+  }
+
+
+
+
+  export type RoomMemberGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomMemberWhereInput
+    orderBy?: RoomMemberOrderByWithAggregationInput | RoomMemberOrderByWithAggregationInput[]
+    by: RoomMemberScalarFieldEnum[] | RoomMemberScalarFieldEnum
+    having?: RoomMemberScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RoomMemberCountAggregateInputType | true
+    _min?: RoomMemberMinAggregateInputType
+    _max?: RoomMemberMaxAggregateInputType
+  }
+
+  export type RoomMemberGroupByOutputType = {
+    id: string
+    roomId: string
+    userId: string
+    joinedAt: Date
+    lastSeen: Date
+    status: string
+    _count: RoomMemberCountAggregateOutputType | null
+    _min: RoomMemberMinAggregateOutputType | null
+    _max: RoomMemberMaxAggregateOutputType | null
+  }
+
+  type GetRoomMemberGroupByPayload<T extends RoomMemberGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RoomMemberGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RoomMemberGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RoomMemberGroupByOutputType[P]>
+            : GetScalarType<T[P], RoomMemberGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RoomMemberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    userId?: boolean
+    joinedAt?: boolean
+    lastSeen?: boolean
+    status?: boolean
+    room?: boolean | StudyRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["roomMember"]>
+
+  export type RoomMemberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    userId?: boolean
+    joinedAt?: boolean
+    lastSeen?: boolean
+    status?: boolean
+    room?: boolean | StudyRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["roomMember"]>
+
+  export type RoomMemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    userId?: boolean
+    joinedAt?: boolean
+    lastSeen?: boolean
+    status?: boolean
+    room?: boolean | StudyRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["roomMember"]>
+
+  export type RoomMemberSelectScalar = {
+    id?: boolean
+    roomId?: boolean
+    userId?: boolean
+    joinedAt?: boolean
+    lastSeen?: boolean
+    status?: boolean
+  }
+
+  export type RoomMemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "userId" | "joinedAt" | "lastSeen" | "status", ExtArgs["result"]["roomMember"]>
+  export type RoomMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | StudyRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RoomMemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | StudyRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RoomMemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | StudyRoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $RoomMemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RoomMember"
+    objects: {
+      room: Prisma.$StudyRoomPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      roomId: string
+      userId: string
+      joinedAt: Date
+      lastSeen: Date
+      status: string
+    }, ExtArgs["result"]["roomMember"]>
+    composites: {}
+  }
+
+  type RoomMemberGetPayload<S extends boolean | null | undefined | RoomMemberDefaultArgs> = $Result.GetResult<Prisma.$RoomMemberPayload, S>
+
+  type RoomMemberCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RoomMemberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RoomMemberCountAggregateInputType | true
+    }
+
+  export interface RoomMemberDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RoomMember'], meta: { name: 'RoomMember' } }
+    /**
+     * Find zero or one RoomMember that matches the filter.
+     * @param {RoomMemberFindUniqueArgs} args - Arguments to find a RoomMember
+     * @example
+     * // Get one RoomMember
+     * const roomMember = await prisma.roomMember.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RoomMemberFindUniqueArgs>(args: SelectSubset<T, RoomMemberFindUniqueArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RoomMember that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RoomMemberFindUniqueOrThrowArgs} args - Arguments to find a RoomMember
+     * @example
+     * // Get one RoomMember
+     * const roomMember = await prisma.roomMember.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RoomMemberFindUniqueOrThrowArgs>(args: SelectSubset<T, RoomMemberFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RoomMember that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberFindFirstArgs} args - Arguments to find a RoomMember
+     * @example
+     * // Get one RoomMember
+     * const roomMember = await prisma.roomMember.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RoomMemberFindFirstArgs>(args?: SelectSubset<T, RoomMemberFindFirstArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RoomMember that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberFindFirstOrThrowArgs} args - Arguments to find a RoomMember
+     * @example
+     * // Get one RoomMember
+     * const roomMember = await prisma.roomMember.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RoomMemberFindFirstOrThrowArgs>(args?: SelectSubset<T, RoomMemberFindFirstOrThrowArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RoomMembers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RoomMembers
+     * const roomMembers = await prisma.roomMember.findMany()
+     * 
+     * // Get first 10 RoomMembers
+     * const roomMembers = await prisma.roomMember.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const roomMemberWithIdOnly = await prisma.roomMember.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RoomMemberFindManyArgs>(args?: SelectSubset<T, RoomMemberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RoomMember.
+     * @param {RoomMemberCreateArgs} args - Arguments to create a RoomMember.
+     * @example
+     * // Create one RoomMember
+     * const RoomMember = await prisma.roomMember.create({
+     *   data: {
+     *     // ... data to create a RoomMember
+     *   }
+     * })
+     * 
+     */
+    create<T extends RoomMemberCreateArgs>(args: SelectSubset<T, RoomMemberCreateArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RoomMembers.
+     * @param {RoomMemberCreateManyArgs} args - Arguments to create many RoomMembers.
+     * @example
+     * // Create many RoomMembers
+     * const roomMember = await prisma.roomMember.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RoomMemberCreateManyArgs>(args?: SelectSubset<T, RoomMemberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RoomMembers and returns the data saved in the database.
+     * @param {RoomMemberCreateManyAndReturnArgs} args - Arguments to create many RoomMembers.
+     * @example
+     * // Create many RoomMembers
+     * const roomMember = await prisma.roomMember.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RoomMembers and only return the `id`
+     * const roomMemberWithIdOnly = await prisma.roomMember.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RoomMemberCreateManyAndReturnArgs>(args?: SelectSubset<T, RoomMemberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RoomMember.
+     * @param {RoomMemberDeleteArgs} args - Arguments to delete one RoomMember.
+     * @example
+     * // Delete one RoomMember
+     * const RoomMember = await prisma.roomMember.delete({
+     *   where: {
+     *     // ... filter to delete one RoomMember
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RoomMemberDeleteArgs>(args: SelectSubset<T, RoomMemberDeleteArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RoomMember.
+     * @param {RoomMemberUpdateArgs} args - Arguments to update one RoomMember.
+     * @example
+     * // Update one RoomMember
+     * const roomMember = await prisma.roomMember.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RoomMemberUpdateArgs>(args: SelectSubset<T, RoomMemberUpdateArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RoomMembers.
+     * @param {RoomMemberDeleteManyArgs} args - Arguments to filter RoomMembers to delete.
+     * @example
+     * // Delete a few RoomMembers
+     * const { count } = await prisma.roomMember.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RoomMemberDeleteManyArgs>(args?: SelectSubset<T, RoomMemberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoomMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RoomMembers
+     * const roomMember = await prisma.roomMember.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RoomMemberUpdateManyArgs>(args: SelectSubset<T, RoomMemberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoomMembers and returns the data updated in the database.
+     * @param {RoomMemberUpdateManyAndReturnArgs} args - Arguments to update many RoomMembers.
+     * @example
+     * // Update many RoomMembers
+     * const roomMember = await prisma.roomMember.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RoomMembers and only return the `id`
+     * const roomMemberWithIdOnly = await prisma.roomMember.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RoomMemberUpdateManyAndReturnArgs>(args: SelectSubset<T, RoomMemberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RoomMember.
+     * @param {RoomMemberUpsertArgs} args - Arguments to update or create a RoomMember.
+     * @example
+     * // Update or create a RoomMember
+     * const roomMember = await prisma.roomMember.upsert({
+     *   create: {
+     *     // ... data to create a RoomMember
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RoomMember we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RoomMemberUpsertArgs>(args: SelectSubset<T, RoomMemberUpsertArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RoomMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberCountArgs} args - Arguments to filter RoomMembers to count.
+     * @example
+     * // Count the number of RoomMembers
+     * const count = await prisma.roomMember.count({
+     *   where: {
+     *     // ... the filter for the RoomMembers we want to count
+     *   }
+     * })
+    **/
+    count<T extends RoomMemberCountArgs>(
+      args?: Subset<T, RoomMemberCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RoomMemberCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RoomMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RoomMemberAggregateArgs>(args: Subset<T, RoomMemberAggregateArgs>): Prisma.PrismaPromise<GetRoomMemberAggregateType<T>>
+
+    /**
+     * Group by RoomMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RoomMemberGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RoomMemberGroupByArgs['orderBy'] }
+        : { orderBy?: RoomMemberGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RoomMemberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoomMemberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RoomMember model
+   */
+  readonly fields: RoomMemberFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RoomMember.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RoomMemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    room<T extends StudyRoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudyRoomDefaultArgs<ExtArgs>>): Prisma__StudyRoomClient<$Result.GetResult<Prisma.$StudyRoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RoomMember model
+   */
+  interface RoomMemberFieldRefs {
+    readonly id: FieldRef<"RoomMember", 'String'>
+    readonly roomId: FieldRef<"RoomMember", 'String'>
+    readonly userId: FieldRef<"RoomMember", 'String'>
+    readonly joinedAt: FieldRef<"RoomMember", 'DateTime'>
+    readonly lastSeen: FieldRef<"RoomMember", 'DateTime'>
+    readonly status: FieldRef<"RoomMember", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RoomMember findUnique
+   */
+  export type RoomMemberFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomMember to fetch.
+     */
+    where: RoomMemberWhereUniqueInput
+  }
+
+  /**
+   * RoomMember findUniqueOrThrow
+   */
+  export type RoomMemberFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomMember to fetch.
+     */
+    where: RoomMemberWhereUniqueInput
+  }
+
+  /**
+   * RoomMember findFirst
+   */
+  export type RoomMemberFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomMember to fetch.
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomMembers to fetch.
+     */
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoomMembers.
+     */
+    cursor?: RoomMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoomMembers.
+     */
+    distinct?: RoomMemberScalarFieldEnum | RoomMemberScalarFieldEnum[]
+  }
+
+  /**
+   * RoomMember findFirstOrThrow
+   */
+  export type RoomMemberFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomMember to fetch.
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomMembers to fetch.
+     */
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoomMembers.
+     */
+    cursor?: RoomMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoomMembers.
+     */
+    distinct?: RoomMemberScalarFieldEnum | RoomMemberScalarFieldEnum[]
+  }
+
+  /**
+   * RoomMember findMany
+   */
+  export type RoomMemberFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomMembers to fetch.
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomMembers to fetch.
+     */
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RoomMembers.
+     */
+    cursor?: RoomMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomMembers.
+     */
+    skip?: number
+    distinct?: RoomMemberScalarFieldEnum | RoomMemberScalarFieldEnum[]
+  }
+
+  /**
+   * RoomMember create
+   */
+  export type RoomMemberCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RoomMember.
+     */
+    data: XOR<RoomMemberCreateInput, RoomMemberUncheckedCreateInput>
+  }
+
+  /**
+   * RoomMember createMany
+   */
+  export type RoomMemberCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RoomMembers.
+     */
+    data: RoomMemberCreateManyInput | RoomMemberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RoomMember createManyAndReturn
+   */
+  export type RoomMemberCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * The data used to create many RoomMembers.
+     */
+    data: RoomMemberCreateManyInput | RoomMemberCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RoomMember update
+   */
+  export type RoomMemberUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RoomMember.
+     */
+    data: XOR<RoomMemberUpdateInput, RoomMemberUncheckedUpdateInput>
+    /**
+     * Choose, which RoomMember to update.
+     */
+    where: RoomMemberWhereUniqueInput
+  }
+
+  /**
+   * RoomMember updateMany
+   */
+  export type RoomMemberUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RoomMembers.
+     */
+    data: XOR<RoomMemberUpdateManyMutationInput, RoomMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which RoomMembers to update
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * Limit how many RoomMembers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RoomMember updateManyAndReturn
+   */
+  export type RoomMemberUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * The data used to update RoomMembers.
+     */
+    data: XOR<RoomMemberUpdateManyMutationInput, RoomMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which RoomMembers to update
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * Limit how many RoomMembers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RoomMember upsert
+   */
+  export type RoomMemberUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RoomMember to update in case it exists.
+     */
+    where: RoomMemberWhereUniqueInput
+    /**
+     * In case the RoomMember found by the `where` argument doesn't exist, create a new RoomMember with this data.
+     */
+    create: XOR<RoomMemberCreateInput, RoomMemberUncheckedCreateInput>
+    /**
+     * In case the RoomMember was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RoomMemberUpdateInput, RoomMemberUncheckedUpdateInput>
+  }
+
+  /**
+   * RoomMember delete
+   */
+  export type RoomMemberDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter which RoomMember to delete.
+     */
+    where: RoomMemberWhereUniqueInput
+  }
+
+  /**
+   * RoomMember deleteMany
+   */
+  export type RoomMemberDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoomMembers to delete
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * Limit how many RoomMembers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RoomMember without action
+   */
+  export type RoomMemberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -46081,6 +48630,34 @@ export namespace Prisma {
   export type NovaStatsScalarFieldEnum = (typeof NovaStatsScalarFieldEnum)[keyof typeof NovaStatsScalarFieldEnum]
 
 
+  export const StudyRoomScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    subject: 'subject',
+    description: 'description',
+    hostId: 'hostId',
+    isPublic: 'isPublic',
+    maxMembers: 'maxMembers',
+    pomodoroState: 'pomodoroState',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StudyRoomScalarFieldEnum = (typeof StudyRoomScalarFieldEnum)[keyof typeof StudyRoomScalarFieldEnum]
+
+
+  export const RoomMemberScalarFieldEnum: {
+    id: 'id',
+    roomId: 'roomId',
+    userId: 'userId',
+    joinedAt: 'joinedAt',
+    lastSeen: 'lastSeen',
+    status: 'status'
+  };
+
+  export type RoomMemberScalarFieldEnum = (typeof RoomMemberScalarFieldEnum)[keyof typeof RoomMemberScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -46475,6 +49052,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebListRelationFilter
     flashcardDecks?: FlashcardDeckListRelationFilter
     novaStats?: XOR<NovaStatsNullableScalarRelationFilter, NovaStatsWhereInput> | null
+    hostedRooms?: StudyRoomListRelationFilter
+    roomMemberships?: RoomMemberListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -46530,6 +49109,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebOrderByRelationAggregateInput
     flashcardDecks?: FlashcardDeckOrderByRelationAggregateInput
     novaStats?: NovaStatsOrderByWithRelationInput
+    hostedRooms?: StudyRoomOrderByRelationAggregateInput
+    roomMemberships?: RoomMemberOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -46588,6 +49169,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebListRelationFilter
     flashcardDecks?: FlashcardDeckListRelationFilter
     novaStats?: XOR<NovaStatsNullableScalarRelationFilter, NovaStatsWhereInput> | null
+    hostedRooms?: StudyRoomListRelationFilter
+    roomMemberships?: RoomMemberListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -49038,6 +51621,155 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"NovaStats"> | Date | string
   }
 
+  export type StudyRoomWhereInput = {
+    AND?: StudyRoomWhereInput | StudyRoomWhereInput[]
+    OR?: StudyRoomWhereInput[]
+    NOT?: StudyRoomWhereInput | StudyRoomWhereInput[]
+    id?: StringFilter<"StudyRoom"> | string
+    name?: StringFilter<"StudyRoom"> | string
+    subject?: StringFilter<"StudyRoom"> | string
+    description?: StringNullableFilter<"StudyRoom"> | string | null
+    hostId?: StringFilter<"StudyRoom"> | string
+    isPublic?: BoolFilter<"StudyRoom"> | boolean
+    maxMembers?: IntFilter<"StudyRoom"> | number
+    pomodoroState?: JsonNullableFilter<"StudyRoom">
+    createdAt?: DateTimeFilter<"StudyRoom"> | Date | string
+    updatedAt?: DateTimeFilter<"StudyRoom"> | Date | string
+    members?: RoomMemberListRelationFilter
+    host?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type StudyRoomOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    subject?: SortOrder
+    description?: SortOrderInput | SortOrder
+    hostId?: SortOrder
+    isPublic?: SortOrder
+    maxMembers?: SortOrder
+    pomodoroState?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    members?: RoomMemberOrderByRelationAggregateInput
+    host?: UserOrderByWithRelationInput
+  }
+
+  export type StudyRoomWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: StudyRoomWhereInput | StudyRoomWhereInput[]
+    OR?: StudyRoomWhereInput[]
+    NOT?: StudyRoomWhereInput | StudyRoomWhereInput[]
+    name?: StringFilter<"StudyRoom"> | string
+    subject?: StringFilter<"StudyRoom"> | string
+    description?: StringNullableFilter<"StudyRoom"> | string | null
+    hostId?: StringFilter<"StudyRoom"> | string
+    isPublic?: BoolFilter<"StudyRoom"> | boolean
+    maxMembers?: IntFilter<"StudyRoom"> | number
+    pomodoroState?: JsonNullableFilter<"StudyRoom">
+    createdAt?: DateTimeFilter<"StudyRoom"> | Date | string
+    updatedAt?: DateTimeFilter<"StudyRoom"> | Date | string
+    members?: RoomMemberListRelationFilter
+    host?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type StudyRoomOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    subject?: SortOrder
+    description?: SortOrderInput | SortOrder
+    hostId?: SortOrder
+    isPublic?: SortOrder
+    maxMembers?: SortOrder
+    pomodoroState?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StudyRoomCountOrderByAggregateInput
+    _avg?: StudyRoomAvgOrderByAggregateInput
+    _max?: StudyRoomMaxOrderByAggregateInput
+    _min?: StudyRoomMinOrderByAggregateInput
+    _sum?: StudyRoomSumOrderByAggregateInput
+  }
+
+  export type StudyRoomScalarWhereWithAggregatesInput = {
+    AND?: StudyRoomScalarWhereWithAggregatesInput | StudyRoomScalarWhereWithAggregatesInput[]
+    OR?: StudyRoomScalarWhereWithAggregatesInput[]
+    NOT?: StudyRoomScalarWhereWithAggregatesInput | StudyRoomScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StudyRoom"> | string
+    name?: StringWithAggregatesFilter<"StudyRoom"> | string
+    subject?: StringWithAggregatesFilter<"StudyRoom"> | string
+    description?: StringNullableWithAggregatesFilter<"StudyRoom"> | string | null
+    hostId?: StringWithAggregatesFilter<"StudyRoom"> | string
+    isPublic?: BoolWithAggregatesFilter<"StudyRoom"> | boolean
+    maxMembers?: IntWithAggregatesFilter<"StudyRoom"> | number
+    pomodoroState?: JsonNullableWithAggregatesFilter<"StudyRoom">
+    createdAt?: DateTimeWithAggregatesFilter<"StudyRoom"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"StudyRoom"> | Date | string
+  }
+
+  export type RoomMemberWhereInput = {
+    AND?: RoomMemberWhereInput | RoomMemberWhereInput[]
+    OR?: RoomMemberWhereInput[]
+    NOT?: RoomMemberWhereInput | RoomMemberWhereInput[]
+    id?: StringFilter<"RoomMember"> | string
+    roomId?: StringFilter<"RoomMember"> | string
+    userId?: StringFilter<"RoomMember"> | string
+    joinedAt?: DateTimeFilter<"RoomMember"> | Date | string
+    lastSeen?: DateTimeFilter<"RoomMember"> | Date | string
+    status?: StringFilter<"RoomMember"> | string
+    room?: XOR<StudyRoomScalarRelationFilter, StudyRoomWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type RoomMemberOrderByWithRelationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    joinedAt?: SortOrder
+    lastSeen?: SortOrder
+    status?: SortOrder
+    room?: StudyRoomOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type RoomMemberWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    roomId_userId?: RoomMemberRoomIdUserIdCompoundUniqueInput
+    AND?: RoomMemberWhereInput | RoomMemberWhereInput[]
+    OR?: RoomMemberWhereInput[]
+    NOT?: RoomMemberWhereInput | RoomMemberWhereInput[]
+    roomId?: StringFilter<"RoomMember"> | string
+    userId?: StringFilter<"RoomMember"> | string
+    joinedAt?: DateTimeFilter<"RoomMember"> | Date | string
+    lastSeen?: DateTimeFilter<"RoomMember"> | Date | string
+    status?: StringFilter<"RoomMember"> | string
+    room?: XOR<StudyRoomScalarRelationFilter, StudyRoomWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "roomId_userId">
+
+  export type RoomMemberOrderByWithAggregationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    joinedAt?: SortOrder
+    lastSeen?: SortOrder
+    status?: SortOrder
+    _count?: RoomMemberCountOrderByAggregateInput
+    _max?: RoomMemberMaxOrderByAggregateInput
+    _min?: RoomMemberMinOrderByAggregateInput
+  }
+
+  export type RoomMemberScalarWhereWithAggregatesInput = {
+    AND?: RoomMemberScalarWhereWithAggregatesInput | RoomMemberScalarWhereWithAggregatesInput[]
+    OR?: RoomMemberScalarWhereWithAggregatesInput[]
+    NOT?: RoomMemberScalarWhereWithAggregatesInput | RoomMemberScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RoomMember"> | string
+    roomId?: StringWithAggregatesFilter<"RoomMember"> | string
+    userId?: StringWithAggregatesFilter<"RoomMember"> | string
+    joinedAt?: DateTimeWithAggregatesFilter<"RoomMember"> | Date | string
+    lastSeen?: DateTimeWithAggregatesFilter<"RoomMember"> | Date | string
+    status?: StringWithAggregatesFilter<"RoomMember"> | string
+  }
+
   export type PostCreateInput = {
     name: string
     createdAt?: Date | string
@@ -49302,6 +52034,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -49357,6 +52091,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -49412,6 +52148,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -49467,6 +52205,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -52065,6 +54805,161 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StudyRoomCreateInput = {
+    id?: string
+    name: string
+    subject: string
+    description?: string | null
+    isPublic?: boolean
+    maxMembers?: number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: RoomMemberCreateNestedManyWithoutRoomInput
+    host: UserCreateNestedOneWithoutHostedRoomsInput
+  }
+
+  export type StudyRoomUncheckedCreateInput = {
+    id?: string
+    name: string
+    subject: string
+    description?: string | null
+    hostId: string
+    isPublic?: boolean
+    maxMembers?: number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: RoomMemberUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type StudyRoomUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    maxMembers?: IntFieldUpdateOperationsInput | number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: RoomMemberUpdateManyWithoutRoomNestedInput
+    host?: UserUpdateOneRequiredWithoutHostedRoomsNestedInput
+  }
+
+  export type StudyRoomUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    maxMembers?: IntFieldUpdateOperationsInput | number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: RoomMemberUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type StudyRoomCreateManyInput = {
+    id?: string
+    name: string
+    subject: string
+    description?: string | null
+    hostId: string
+    isPublic?: boolean
+    maxMembers?: number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StudyRoomUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    maxMembers?: IntFieldUpdateOperationsInput | number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyRoomUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    maxMembers?: IntFieldUpdateOperationsInput | number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomMemberCreateInput = {
+    id?: string
+    joinedAt?: Date | string
+    lastSeen?: Date | string
+    status?: string
+    room: StudyRoomCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutRoomMembershipsInput
+  }
+
+  export type RoomMemberUncheckedCreateInput = {
+    id?: string
+    roomId: string
+    userId: string
+    joinedAt?: Date | string
+    lastSeen?: Date | string
+    status?: string
+  }
+
+  export type RoomMemberUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    room?: StudyRoomUpdateOneRequiredWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutRoomMembershipsNestedInput
+  }
+
+  export type RoomMemberUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RoomMemberCreateManyInput = {
+    id?: string
+    roomId: string
+    userId: string
+    joinedAt?: Date | string
+    lastSeen?: Date | string
+    status?: string
+  }
+
+  export type RoomMemberUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RoomMemberUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -52539,6 +55434,18 @@ export namespace Prisma {
     isNot?: NovaStatsWhereInput | null
   }
 
+  export type StudyRoomListRelationFilter = {
+    every?: StudyRoomWhereInput
+    some?: StudyRoomWhereInput
+    none?: StudyRoomWhereInput
+  }
+
+  export type RoomMemberListRelationFilter = {
+    every?: RoomMemberWhereInput
+    some?: RoomMemberWhereInput
+    none?: RoomMemberWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -52652,6 +55559,14 @@ export namespace Prisma {
   }
 
   export type FlashcardDeckOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StudyRoomOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RoomMemberOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -54237,6 +57152,88 @@ export namespace Prisma {
     battlesWon?: SortOrder
   }
 
+  export type StudyRoomCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    subject?: SortOrder
+    description?: SortOrder
+    hostId?: SortOrder
+    isPublic?: SortOrder
+    maxMembers?: SortOrder
+    pomodoroState?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StudyRoomAvgOrderByAggregateInput = {
+    maxMembers?: SortOrder
+  }
+
+  export type StudyRoomMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    subject?: SortOrder
+    description?: SortOrder
+    hostId?: SortOrder
+    isPublic?: SortOrder
+    maxMembers?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StudyRoomMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    subject?: SortOrder
+    description?: SortOrder
+    hostId?: SortOrder
+    isPublic?: SortOrder
+    maxMembers?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StudyRoomSumOrderByAggregateInput = {
+    maxMembers?: SortOrder
+  }
+
+  export type StudyRoomScalarRelationFilter = {
+    is?: StudyRoomWhereInput
+    isNot?: StudyRoomWhereInput
+  }
+
+  export type RoomMemberRoomIdUserIdCompoundUniqueInput = {
+    roomId: string
+    userId: string
+  }
+
+  export type RoomMemberCountOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    joinedAt?: SortOrder
+    lastSeen?: SortOrder
+    status?: SortOrder
+  }
+
+  export type RoomMemberMaxOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    joinedAt?: SortOrder
+    lastSeen?: SortOrder
+    status?: SortOrder
+  }
+
+  export type RoomMemberMinOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    joinedAt?: SortOrder
+    lastSeen?: SortOrder
+    status?: SortOrder
+  }
+
   export type UserCreateNestedOneWithoutPostsInput = {
     create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput
@@ -54527,6 +57524,20 @@ export namespace Prisma {
     connect?: NovaStatsWhereUniqueInput
   }
 
+  export type StudyRoomCreateNestedManyWithoutHostInput = {
+    create?: XOR<StudyRoomCreateWithoutHostInput, StudyRoomUncheckedCreateWithoutHostInput> | StudyRoomCreateWithoutHostInput[] | StudyRoomUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: StudyRoomCreateOrConnectWithoutHostInput | StudyRoomCreateOrConnectWithoutHostInput[]
+    createMany?: StudyRoomCreateManyHostInputEnvelope
+    connect?: StudyRoomWhereUniqueInput | StudyRoomWhereUniqueInput[]
+  }
+
+  export type RoomMemberCreateNestedManyWithoutUserInput = {
+    create?: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput> | RoomMemberCreateWithoutUserInput[] | RoomMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutUserInput | RoomMemberCreateOrConnectWithoutUserInput[]
+    createMany?: RoomMemberCreateManyUserInputEnvelope
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -54741,6 +57752,20 @@ export namespace Prisma {
     create?: XOR<NovaStatsCreateWithoutUserInput, NovaStatsUncheckedCreateWithoutUserInput>
     connectOrCreate?: NovaStatsCreateOrConnectWithoutUserInput
     connect?: NovaStatsWhereUniqueInput
+  }
+
+  export type StudyRoomUncheckedCreateNestedManyWithoutHostInput = {
+    create?: XOR<StudyRoomCreateWithoutHostInput, StudyRoomUncheckedCreateWithoutHostInput> | StudyRoomCreateWithoutHostInput[] | StudyRoomUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: StudyRoomCreateOrConnectWithoutHostInput | StudyRoomCreateOrConnectWithoutHostInput[]
+    createMany?: StudyRoomCreateManyHostInputEnvelope
+    connect?: StudyRoomWhereUniqueInput | StudyRoomWhereUniqueInput[]
+  }
+
+  export type RoomMemberUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput> | RoomMemberCreateWithoutUserInput[] | RoomMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutUserInput | RoomMemberCreateOrConnectWithoutUserInput[]
+    createMany?: RoomMemberCreateManyUserInputEnvelope
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -55186,6 +58211,34 @@ export namespace Prisma {
     update?: XOR<XOR<NovaStatsUpdateToOneWithWhereWithoutUserInput, NovaStatsUpdateWithoutUserInput>, NovaStatsUncheckedUpdateWithoutUserInput>
   }
 
+  export type StudyRoomUpdateManyWithoutHostNestedInput = {
+    create?: XOR<StudyRoomCreateWithoutHostInput, StudyRoomUncheckedCreateWithoutHostInput> | StudyRoomCreateWithoutHostInput[] | StudyRoomUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: StudyRoomCreateOrConnectWithoutHostInput | StudyRoomCreateOrConnectWithoutHostInput[]
+    upsert?: StudyRoomUpsertWithWhereUniqueWithoutHostInput | StudyRoomUpsertWithWhereUniqueWithoutHostInput[]
+    createMany?: StudyRoomCreateManyHostInputEnvelope
+    set?: StudyRoomWhereUniqueInput | StudyRoomWhereUniqueInput[]
+    disconnect?: StudyRoomWhereUniqueInput | StudyRoomWhereUniqueInput[]
+    delete?: StudyRoomWhereUniqueInput | StudyRoomWhereUniqueInput[]
+    connect?: StudyRoomWhereUniqueInput | StudyRoomWhereUniqueInput[]
+    update?: StudyRoomUpdateWithWhereUniqueWithoutHostInput | StudyRoomUpdateWithWhereUniqueWithoutHostInput[]
+    updateMany?: StudyRoomUpdateManyWithWhereWithoutHostInput | StudyRoomUpdateManyWithWhereWithoutHostInput[]
+    deleteMany?: StudyRoomScalarWhereInput | StudyRoomScalarWhereInput[]
+  }
+
+  export type RoomMemberUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput> | RoomMemberCreateWithoutUserInput[] | RoomMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutUserInput | RoomMemberCreateOrConnectWithoutUserInput[]
+    upsert?: RoomMemberUpsertWithWhereUniqueWithoutUserInput | RoomMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RoomMemberCreateManyUserInputEnvelope
+    set?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    disconnect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    delete?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    update?: RoomMemberUpdateWithWhereUniqueWithoutUserInput | RoomMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RoomMemberUpdateManyWithWhereWithoutUserInput | RoomMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -55614,6 +58667,34 @@ export namespace Prisma {
     delete?: NovaStatsWhereInput | boolean
     connect?: NovaStatsWhereUniqueInput
     update?: XOR<XOR<NovaStatsUpdateToOneWithWhereWithoutUserInput, NovaStatsUpdateWithoutUserInput>, NovaStatsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type StudyRoomUncheckedUpdateManyWithoutHostNestedInput = {
+    create?: XOR<StudyRoomCreateWithoutHostInput, StudyRoomUncheckedCreateWithoutHostInput> | StudyRoomCreateWithoutHostInput[] | StudyRoomUncheckedCreateWithoutHostInput[]
+    connectOrCreate?: StudyRoomCreateOrConnectWithoutHostInput | StudyRoomCreateOrConnectWithoutHostInput[]
+    upsert?: StudyRoomUpsertWithWhereUniqueWithoutHostInput | StudyRoomUpsertWithWhereUniqueWithoutHostInput[]
+    createMany?: StudyRoomCreateManyHostInputEnvelope
+    set?: StudyRoomWhereUniqueInput | StudyRoomWhereUniqueInput[]
+    disconnect?: StudyRoomWhereUniqueInput | StudyRoomWhereUniqueInput[]
+    delete?: StudyRoomWhereUniqueInput | StudyRoomWhereUniqueInput[]
+    connect?: StudyRoomWhereUniqueInput | StudyRoomWhereUniqueInput[]
+    update?: StudyRoomUpdateWithWhereUniqueWithoutHostInput | StudyRoomUpdateWithWhereUniqueWithoutHostInput[]
+    updateMany?: StudyRoomUpdateManyWithWhereWithoutHostInput | StudyRoomUpdateManyWithWhereWithoutHostInput[]
+    deleteMany?: StudyRoomScalarWhereInput | StudyRoomScalarWhereInput[]
+  }
+
+  export type RoomMemberUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput> | RoomMemberCreateWithoutUserInput[] | RoomMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutUserInput | RoomMemberCreateOrConnectWithoutUserInput[]
+    upsert?: RoomMemberUpsertWithWhereUniqueWithoutUserInput | RoomMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RoomMemberCreateManyUserInputEnvelope
+    set?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    disconnect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    delete?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    update?: RoomMemberUpdateWithWhereUniqueWithoutUserInput | RoomMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RoomMemberUpdateManyWithWhereWithoutUserInput | RoomMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
   }
 
   export type NoteCreatetagsInput = {
@@ -57159,6 +60240,90 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNovaStatsInput, UserUpdateWithoutNovaStatsInput>, UserUncheckedUpdateWithoutNovaStatsInput>
   }
 
+  export type RoomMemberCreateNestedManyWithoutRoomInput = {
+    create?: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput> | RoomMemberCreateWithoutRoomInput[] | RoomMemberUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutRoomInput | RoomMemberCreateOrConnectWithoutRoomInput[]
+    createMany?: RoomMemberCreateManyRoomInputEnvelope
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedOneWithoutHostedRoomsInput = {
+    create?: XOR<UserCreateWithoutHostedRoomsInput, UserUncheckedCreateWithoutHostedRoomsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHostedRoomsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type RoomMemberUncheckedCreateNestedManyWithoutRoomInput = {
+    create?: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput> | RoomMemberCreateWithoutRoomInput[] | RoomMemberUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutRoomInput | RoomMemberCreateOrConnectWithoutRoomInput[]
+    createMany?: RoomMemberCreateManyRoomInputEnvelope
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+  }
+
+  export type RoomMemberUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput> | RoomMemberCreateWithoutRoomInput[] | RoomMemberUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutRoomInput | RoomMemberCreateOrConnectWithoutRoomInput[]
+    upsert?: RoomMemberUpsertWithWhereUniqueWithoutRoomInput | RoomMemberUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: RoomMemberCreateManyRoomInputEnvelope
+    set?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    disconnect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    delete?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    update?: RoomMemberUpdateWithWhereUniqueWithoutRoomInput | RoomMemberUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: RoomMemberUpdateManyWithWhereWithoutRoomInput | RoomMemberUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutHostedRoomsNestedInput = {
+    create?: XOR<UserCreateWithoutHostedRoomsInput, UserUncheckedCreateWithoutHostedRoomsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHostedRoomsInput
+    upsert?: UserUpsertWithoutHostedRoomsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHostedRoomsInput, UserUpdateWithoutHostedRoomsInput>, UserUncheckedUpdateWithoutHostedRoomsInput>
+  }
+
+  export type RoomMemberUncheckedUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput> | RoomMemberCreateWithoutRoomInput[] | RoomMemberUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutRoomInput | RoomMemberCreateOrConnectWithoutRoomInput[]
+    upsert?: RoomMemberUpsertWithWhereUniqueWithoutRoomInput | RoomMemberUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: RoomMemberCreateManyRoomInputEnvelope
+    set?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    disconnect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    delete?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    update?: RoomMemberUpdateWithWhereUniqueWithoutRoomInput | RoomMemberUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: RoomMemberUpdateManyWithWhereWithoutRoomInput | RoomMemberUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+  }
+
+  export type StudyRoomCreateNestedOneWithoutMembersInput = {
+    create?: XOR<StudyRoomCreateWithoutMembersInput, StudyRoomUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: StudyRoomCreateOrConnectWithoutMembersInput
+    connect?: StudyRoomWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutRoomMembershipsInput = {
+    create?: XOR<UserCreateWithoutRoomMembershipsInput, UserUncheckedCreateWithoutRoomMembershipsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRoomMembershipsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type StudyRoomUpdateOneRequiredWithoutMembersNestedInput = {
+    create?: XOR<StudyRoomCreateWithoutMembersInput, StudyRoomUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: StudyRoomCreateOrConnectWithoutMembersInput
+    upsert?: StudyRoomUpsertWithoutMembersInput
+    connect?: StudyRoomWhereUniqueInput
+    update?: XOR<XOR<StudyRoomUpdateToOneWithWhereWithoutMembersInput, StudyRoomUpdateWithoutMembersInput>, StudyRoomUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutRoomMembershipsNestedInput = {
+    create?: XOR<UserCreateWithoutRoomMembershipsInput, UserUncheckedCreateWithoutRoomMembershipsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRoomMembershipsInput
+    upsert?: UserUpsertWithoutRoomMembershipsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRoomMembershipsInput, UserUpdateWithoutRoomMembershipsInput>, UserUncheckedUpdateWithoutRoomMembershipsInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -57490,6 +60655,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -57544,6 +60711,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -57614,6 +60783,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -57668,6 +60839,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -57722,6 +60895,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -57776,6 +60951,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -57846,6 +61023,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -57900,6 +61079,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -57954,6 +61135,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -58008,6 +61191,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -58078,6 +61263,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -58132,6 +61319,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -59164,6 +62353,68 @@ export namespace Prisma {
     create: XOR<NovaStatsCreateWithoutUserInput, NovaStatsUncheckedCreateWithoutUserInput>
   }
 
+  export type StudyRoomCreateWithoutHostInput = {
+    id?: string
+    name: string
+    subject: string
+    description?: string | null
+    isPublic?: boolean
+    maxMembers?: number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: RoomMemberCreateNestedManyWithoutRoomInput
+  }
+
+  export type StudyRoomUncheckedCreateWithoutHostInput = {
+    id?: string
+    name: string
+    subject: string
+    description?: string | null
+    isPublic?: boolean
+    maxMembers?: number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: RoomMemberUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type StudyRoomCreateOrConnectWithoutHostInput = {
+    where: StudyRoomWhereUniqueInput
+    create: XOR<StudyRoomCreateWithoutHostInput, StudyRoomUncheckedCreateWithoutHostInput>
+  }
+
+  export type StudyRoomCreateManyHostInputEnvelope = {
+    data: StudyRoomCreateManyHostInput | StudyRoomCreateManyHostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RoomMemberCreateWithoutUserInput = {
+    id?: string
+    joinedAt?: Date | string
+    lastSeen?: Date | string
+    status?: string
+    room: StudyRoomCreateNestedOneWithoutMembersInput
+  }
+
+  export type RoomMemberUncheckedCreateWithoutUserInput = {
+    id?: string
+    roomId: string
+    joinedAt?: Date | string
+    lastSeen?: Date | string
+    status?: string
+  }
+
+  export type RoomMemberCreateOrConnectWithoutUserInput = {
+    where: RoomMemberWhereUniqueInput
+    create: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type RoomMemberCreateManyUserInputEnvelope = {
+    data: RoomMemberCreateManyUserInput | RoomMemberCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -60105,6 +63356,66 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StudyRoomUpsertWithWhereUniqueWithoutHostInput = {
+    where: StudyRoomWhereUniqueInput
+    update: XOR<StudyRoomUpdateWithoutHostInput, StudyRoomUncheckedUpdateWithoutHostInput>
+    create: XOR<StudyRoomCreateWithoutHostInput, StudyRoomUncheckedCreateWithoutHostInput>
+  }
+
+  export type StudyRoomUpdateWithWhereUniqueWithoutHostInput = {
+    where: StudyRoomWhereUniqueInput
+    data: XOR<StudyRoomUpdateWithoutHostInput, StudyRoomUncheckedUpdateWithoutHostInput>
+  }
+
+  export type StudyRoomUpdateManyWithWhereWithoutHostInput = {
+    where: StudyRoomScalarWhereInput
+    data: XOR<StudyRoomUpdateManyMutationInput, StudyRoomUncheckedUpdateManyWithoutHostInput>
+  }
+
+  export type StudyRoomScalarWhereInput = {
+    AND?: StudyRoomScalarWhereInput | StudyRoomScalarWhereInput[]
+    OR?: StudyRoomScalarWhereInput[]
+    NOT?: StudyRoomScalarWhereInput | StudyRoomScalarWhereInput[]
+    id?: StringFilter<"StudyRoom"> | string
+    name?: StringFilter<"StudyRoom"> | string
+    subject?: StringFilter<"StudyRoom"> | string
+    description?: StringNullableFilter<"StudyRoom"> | string | null
+    hostId?: StringFilter<"StudyRoom"> | string
+    isPublic?: BoolFilter<"StudyRoom"> | boolean
+    maxMembers?: IntFilter<"StudyRoom"> | number
+    pomodoroState?: JsonNullableFilter<"StudyRoom">
+    createdAt?: DateTimeFilter<"StudyRoom"> | Date | string
+    updatedAt?: DateTimeFilter<"StudyRoom"> | Date | string
+  }
+
+  export type RoomMemberUpsertWithWhereUniqueWithoutUserInput = {
+    where: RoomMemberWhereUniqueInput
+    update: XOR<RoomMemberUpdateWithoutUserInput, RoomMemberUncheckedUpdateWithoutUserInput>
+    create: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type RoomMemberUpdateWithWhereUniqueWithoutUserInput = {
+    where: RoomMemberWhereUniqueInput
+    data: XOR<RoomMemberUpdateWithoutUserInput, RoomMemberUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RoomMemberUpdateManyWithWhereWithoutUserInput = {
+    where: RoomMemberScalarWhereInput
+    data: XOR<RoomMemberUpdateManyMutationInput, RoomMemberUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RoomMemberScalarWhereInput = {
+    AND?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+    OR?: RoomMemberScalarWhereInput[]
+    NOT?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+    id?: StringFilter<"RoomMember"> | string
+    roomId?: StringFilter<"RoomMember"> | string
+    userId?: StringFilter<"RoomMember"> | string
+    joinedAt?: DateTimeFilter<"RoomMember"> | Date | string
+    lastSeen?: DateTimeFilter<"RoomMember"> | Date | string
+    status?: StringFilter<"RoomMember"> | string
+  }
+
   export type UserCreateWithoutNotesInput = {
     id?: string
     name?: string | null
@@ -60157,6 +63468,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotesInput = {
@@ -60211,6 +63524,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotesInput = {
@@ -60330,6 +63645,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotesInput = {
@@ -60384,6 +63701,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FolderUpsertWithoutNotesInput = {
@@ -60481,6 +63800,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFoldersInput = {
@@ -60535,6 +63856,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFoldersInput = {
@@ -60645,6 +63968,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFoldersInput = {
@@ -60699,6 +64024,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type NoteUpsertWithWhereUniqueWithoutFolderInput = {
@@ -60769,6 +64096,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCitationsInput = {
@@ -60823,6 +64152,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCitationsInput = {
@@ -60893,6 +64224,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCitationsInput = {
@@ -60947,6 +64280,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamPredictionsInput = {
@@ -61001,6 +64336,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamPredictionsInput = {
@@ -61055,6 +64392,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamPredictionsInput = {
@@ -61125,6 +64464,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamPredictionsInput = {
@@ -61179,6 +64520,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHostedBattlesInput = {
@@ -61233,6 +64576,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedBattlesInput = {
@@ -61287,6 +64632,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedBattlesInput = {
@@ -61346,6 +64693,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutJoinedBattlesInput = {
@@ -61400,6 +64749,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutJoinedBattlesInput = {
@@ -61549,6 +64900,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedBattlesInput = {
@@ -61603,6 +64956,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutJoinedBattlesInput = {
@@ -61668,6 +65023,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutJoinedBattlesInput = {
@@ -61722,6 +65079,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleQuestionUpsertWithWhereUniqueWithoutBattleInput = {
@@ -62013,6 +65372,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleParticipantsInput = {
@@ -62067,6 +65428,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleParticipantsInput = {
@@ -62196,6 +65559,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleParticipantsInput = {
@@ -62250,6 +65615,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BattleCreateWithoutResultInput = {
@@ -62357,6 +65724,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleResultsInput = {
@@ -62411,6 +65780,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleResultsInput = {
@@ -62540,6 +65911,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleResultsInput = {
@@ -62594,6 +65967,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreatedStudyGroupsInput = {
@@ -62648,6 +66023,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedStudyGroupsInput = {
@@ -62702,6 +66079,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedStudyGroupsInput = {
@@ -63093,6 +66472,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedStudyGroupsInput = {
@@ -63147,6 +66528,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
@@ -63459,6 +66842,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStudyGroupMembershipsInput = {
@@ -63513,6 +66898,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStudyGroupMembershipsInput = {
@@ -63642,6 +67029,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudyGroupMembershipsInput = {
@@ -63696,6 +67085,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutMessagesInput = {
@@ -63803,6 +67194,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupMessagesInput = {
@@ -63857,6 +67250,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupMessagesInput = {
@@ -64010,6 +67405,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupMessagesInput = {
@@ -64064,6 +67461,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupPinnedMessageUpsertWithWhereUniqueWithoutMessageInput = {
@@ -64334,6 +67733,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSharedGroupNotesInput = {
@@ -64388,6 +67789,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSharedGroupNotesInput = {
@@ -64582,6 +67985,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSharedGroupNotesInput = {
@@ -64636,6 +68041,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupSharedNoteCommentUpsertWithWhereUniqueWithoutSharedNoteInput = {
@@ -64729,6 +68136,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupNoteCommentsInput = {
@@ -64783,6 +68192,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupNoteCommentsInput = {
@@ -64882,6 +68293,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupNoteCommentsInput = {
@@ -64936,6 +68349,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutFlashcardsInput = {
@@ -65043,6 +68458,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedGroupFlashcardsInput = {
@@ -65097,6 +68514,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedGroupFlashcardsInput = {
@@ -65226,6 +68645,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedGroupFlashcardsInput = {
@@ -65280,6 +68701,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutQuizRoundsInput = {
@@ -65387,6 +68810,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizRoundsStartedInput = {
@@ -65441,6 +68866,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizRoundsStartedInput = {
@@ -65598,6 +69025,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizRoundsStartedInput = {
@@ -65652,6 +69081,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupQuizSubmissionUpsertWithWhereUniqueWithoutRoundInput = {
@@ -65751,6 +69182,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizSubmissionsInput = {
@@ -65805,6 +69238,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizSubmissionsInput = {
@@ -65910,6 +69345,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizSubmissionsInput = {
@@ -65964,6 +69401,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutScheduleItemsInput = {
@@ -66071,6 +69510,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupSchedulesCreatedInput = {
@@ -66125,6 +69566,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupSchedulesCreatedInput = {
@@ -66254,6 +69697,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupSchedulesCreatedInput = {
@@ -66308,6 +69753,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutResourcesInput = {
@@ -66415,6 +69862,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupResourcesSharedInput = {
@@ -66469,6 +69918,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupResourcesSharedInput = {
@@ -66598,6 +70049,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupResourcesSharedInput = {
@@ -66652,6 +70105,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutLeaderboardStatsInput = {
@@ -66759,6 +70214,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupStatsInput = {
@@ -66813,6 +70270,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupStatsInput = {
@@ -66942,6 +70401,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupStatsInput = {
@@ -66996,6 +70457,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPomodoroTimerInput = {
@@ -67103,6 +70566,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedPomodoroTimersInput = {
@@ -67157,6 +70622,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedPomodoroTimersInput = {
@@ -67286,6 +70753,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedPomodoroTimersInput = {
@@ -67340,6 +70809,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPinnedMessagesInput = {
@@ -67472,6 +70943,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPinnedGroupMessagesInput = {
@@ -67526,6 +70999,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPinnedGroupMessagesInput = {
@@ -67686,6 +71161,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPinnedGroupMessagesInput = {
@@ -67740,6 +71217,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptConnectionsInput = {
@@ -67794,6 +71273,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptConnectionsInput = {
@@ -67848,6 +71329,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptConnectionsInput = {
@@ -67918,6 +71401,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptConnectionsInput = {
@@ -67972,6 +71457,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutLearningStyleResultsInput = {
@@ -68026,6 +71513,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLearningStyleResultsInput = {
@@ -68080,6 +71569,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLearningStyleResultsInput = {
@@ -68150,6 +71641,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLearningStyleResultsInput = {
@@ -68204,6 +71697,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptWebsInput = {
@@ -68258,6 +71753,8 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptWebsInput = {
@@ -68312,6 +71809,8 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptWebsInput = {
@@ -68382,6 +71881,8 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptWebsInput = {
@@ -68436,6 +71937,8 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamsInput = {
@@ -68490,6 +71993,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamsInput = {
@@ -68544,6 +72049,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamsInput = {
@@ -68614,6 +72121,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamsInput = {
@@ -68668,6 +72177,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutScanHistoriesInput = {
@@ -68722,6 +72233,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutScanHistoriesInput = {
@@ -68776,6 +72289,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutScanHistoriesInput = {
@@ -68846,6 +72361,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScanHistoriesInput = {
@@ -68900,6 +72417,8 @@ export namespace Prisma {
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutFlashcardDecksInput = {
@@ -68954,6 +72473,8 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlashcardDecksInput = {
@@ -69008,6 +72529,8 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlashcardDecksInput = {
@@ -69112,6 +72635,8 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlashcardDecksInput = {
@@ -69166,6 +72691,8 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FlashcardUpsertWithWhereUniqueWithoutDeckInput = {
@@ -69308,6 +72835,8 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNovaStatsInput = {
@@ -69362,6 +72891,8 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNovaStatsInput = {
@@ -69432,6 +72963,8 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNovaStatsInput = {
@@ -69486,6 +73019,598 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type RoomMemberCreateWithoutRoomInput = {
+    id?: string
+    joinedAt?: Date | string
+    lastSeen?: Date | string
+    status?: string
+    user: UserCreateNestedOneWithoutRoomMembershipsInput
+  }
+
+  export type RoomMemberUncheckedCreateWithoutRoomInput = {
+    id?: string
+    userId: string
+    joinedAt?: Date | string
+    lastSeen?: Date | string
+    status?: string
+  }
+
+  export type RoomMemberCreateOrConnectWithoutRoomInput = {
+    where: RoomMemberWhereUniqueInput
+    create: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput>
+  }
+
+  export type RoomMemberCreateManyRoomInputEnvelope = {
+    data: RoomMemberCreateManyRoomInput | RoomMemberCreateManyRoomInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutHostedRoomsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutHostedRoomsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutHostedRoomsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutHostedRoomsInput, UserUncheckedCreateWithoutHostedRoomsInput>
+  }
+
+  export type RoomMemberUpsertWithWhereUniqueWithoutRoomInput = {
+    where: RoomMemberWhereUniqueInput
+    update: XOR<RoomMemberUpdateWithoutRoomInput, RoomMemberUncheckedUpdateWithoutRoomInput>
+    create: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput>
+  }
+
+  export type RoomMemberUpdateWithWhereUniqueWithoutRoomInput = {
+    where: RoomMemberWhereUniqueInput
+    data: XOR<RoomMemberUpdateWithoutRoomInput, RoomMemberUncheckedUpdateWithoutRoomInput>
+  }
+
+  export type RoomMemberUpdateManyWithWhereWithoutRoomInput = {
+    where: RoomMemberScalarWhereInput
+    data: XOR<RoomMemberUpdateManyMutationInput, RoomMemberUncheckedUpdateManyWithoutRoomInput>
+  }
+
+  export type UserUpsertWithoutHostedRoomsInput = {
+    update: XOR<UserUpdateWithoutHostedRoomsInput, UserUncheckedUpdateWithoutHostedRoomsInput>
+    create: XOR<UserCreateWithoutHostedRoomsInput, UserUncheckedCreateWithoutHostedRoomsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutHostedRoomsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutHostedRoomsInput, UserUncheckedUpdateWithoutHostedRoomsInput>
+  }
+
+  export type UserUpdateWithoutHostedRoomsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutHostedRoomsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type StudyRoomCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    subject: string
+    description?: string | null
+    isPublic?: boolean
+    maxMembers?: number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    host: UserCreateNestedOneWithoutHostedRoomsInput
+  }
+
+  export type StudyRoomUncheckedCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    subject: string
+    description?: string | null
+    hostId: string
+    isPublic?: boolean
+    maxMembers?: number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StudyRoomCreateOrConnectWithoutMembersInput = {
+    where: StudyRoomWhereUniqueInput
+    create: XOR<StudyRoomCreateWithoutMembersInput, StudyRoomUncheckedCreateWithoutMembersInput>
+  }
+
+  export type UserCreateWithoutRoomMembershipsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+  }
+
+  export type UserUncheckedCreateWithoutRoomMembershipsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+  }
+
+  export type UserCreateOrConnectWithoutRoomMembershipsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRoomMembershipsInput, UserUncheckedCreateWithoutRoomMembershipsInput>
+  }
+
+  export type StudyRoomUpsertWithoutMembersInput = {
+    update: XOR<StudyRoomUpdateWithoutMembersInput, StudyRoomUncheckedUpdateWithoutMembersInput>
+    create: XOR<StudyRoomCreateWithoutMembersInput, StudyRoomUncheckedCreateWithoutMembersInput>
+    where?: StudyRoomWhereInput
+  }
+
+  export type StudyRoomUpdateToOneWithWhereWithoutMembersInput = {
+    where?: StudyRoomWhereInput
+    data: XOR<StudyRoomUpdateWithoutMembersInput, StudyRoomUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type StudyRoomUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    maxMembers?: IntFieldUpdateOperationsInput | number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    host?: UserUpdateOneRequiredWithoutHostedRoomsNestedInput
+  }
+
+  export type StudyRoomUncheckedUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    hostId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    maxMembers?: IntFieldUpdateOperationsInput | number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutRoomMembershipsInput = {
+    update: XOR<UserUpdateWithoutRoomMembershipsInput, UserUncheckedUpdateWithoutRoomMembershipsInput>
+    create: XOR<UserCreateWithoutRoomMembershipsInput, UserUncheckedCreateWithoutRoomMembershipsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRoomMembershipsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRoomMembershipsInput, UserUncheckedUpdateWithoutRoomMembershipsInput>
+  }
+
+  export type UserUpdateWithoutRoomMembershipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRoomMembershipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -69811,6 +73936,26 @@ export namespace Prisma {
     description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type StudyRoomCreateManyHostInput = {
+    id?: string
+    name: string
+    subject: string
+    description?: string | null
+    isPublic?: boolean
+    maxMembers?: number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoomMemberCreateManyUserInput = {
+    id?: string
+    roomId: string
+    joinedAt?: Date | string
+    lastSeen?: Date | string
+    status?: string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -70833,6 +74978,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StudyRoomUpdateWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    maxMembers?: IntFieldUpdateOperationsInput | number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: RoomMemberUpdateManyWithoutRoomNestedInput
+  }
+
+  export type StudyRoomUncheckedUpdateWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    maxMembers?: IntFieldUpdateOperationsInput | number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: RoomMemberUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type StudyRoomUncheckedUpdateManyWithoutHostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    maxMembers?: IntFieldUpdateOperationsInput | number
+    pomodoroState?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomMemberUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    room?: StudyRoomUpdateOneRequiredWithoutMembersNestedInput
+  }
+
+  export type RoomMemberUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RoomMemberUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
   export type GroupSharedNoteCreateManyNoteInput = {
     id?: string
     groupId: string
@@ -71521,6 +75728,38 @@ export namespace Prisma {
     nextReview?: DateTimeFieldUpdateOperationsInput | Date | string
     lastReviewed?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomMemberCreateManyRoomInput = {
+    id?: string
+    userId: string
+    joinedAt?: Date | string
+    lastSeen?: Date | string
+    status?: string
+  }
+
+  export type RoomMemberUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutRoomMembershipsNestedInput
+  }
+
+  export type RoomMemberUncheckedUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RoomMemberUncheckedUpdateManyWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
   }
 
 
