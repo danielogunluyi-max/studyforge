@@ -10,6 +10,7 @@ import { ExamWidget } from "~/app/_components/exam-widget";
 import { PomodoroWidget } from "~/app/_components/pomodoro-widget";
 import AmbientPlayer from "~/app/_components/ambient-player";
 import { AppShell } from "~/app/_components/app-shell";
+import NovaDailyAward from "~/app/_components/nova-daily-award";
 
 export const metadata: Metadata = {
   title: {
@@ -69,6 +70,7 @@ export default function RootLayout({
               <AppearanceSync />
               <TRPCReactProvider>
                 <ToastProvider>
+                  <NovaDailyAward />
                   <AppShell>
                     <div className="page-enter">{children}</div>
                   </AppShell>

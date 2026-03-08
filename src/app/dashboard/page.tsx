@@ -8,6 +8,7 @@ import { PageHero } from "~/app/_components/page-hero";
 import { useToast } from "~/app/_components/toast";
 import { RecordResultModal } from "@/components/RecordResultModal";
 import { getGradeColor, percentToLetter } from "@/lib/gradeUtils";
+import { trackNovaEvent } from "@/lib/novaClient";
 
 type Exam = {
   id: string;
@@ -830,6 +831,7 @@ export default function DashboardPage() {
           }}
           onSuccess={() => {
             setSelectedExamForResult(null);
+            trackNovaEvent("EXAM_RESULT_SAVED");
             void fetchExams();
           }}
         />

@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { trackNovaEvent } from "@/lib/novaClient";
 
 type Flashcard = {
   id: string;
@@ -116,12 +117,15 @@ export default function StudyDeckPage() {
       body: JSON.stringify({ rating }),
     });
 
+    trackNovaEvent("FLASHCARD_STUDIED");
+
     setHistory((prev) => [...prev, { card: currentCard, rating }]);
     setIsFlipped(false);
 
     const isLast = currentIndex >= queue.length - 1;
     if (isLast) {
       setIsComplete(true);
+      trackNovaEvent("DECK_COMPLETED");
       return;
     }
 

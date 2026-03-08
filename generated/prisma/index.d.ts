@@ -183,6 +183,11 @@ export type FlashcardDeck = $Result.DefaultSelection<Prisma.$FlashcardDeckPayloa
  * 
  */
 export type Flashcard = $Result.DefaultSelection<Prisma.$FlashcardPayload>
+/**
+ * Model NovaStats
+ * 
+ */
+export type NovaStats = $Result.DefaultSelection<Prisma.$NovaStatsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -641,6 +646,16 @@ export class PrismaClient<
     * ```
     */
   get flashcard(): Prisma.FlashcardDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.novaStats`: Exposes CRUD operations for the **NovaStats** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more NovaStats
+    * const novaStats = await prisma.novaStats.findMany()
+    * ```
+    */
+  get novaStats(): Prisma.NovaStatsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1115,7 +1130,8 @@ export namespace Prisma {
     Exam: 'Exam',
     ScanHistory: 'ScanHistory',
     FlashcardDeck: 'FlashcardDeck',
-    Flashcard: 'Flashcard'
+    Flashcard: 'Flashcard',
+    NovaStats: 'NovaStats'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1134,7 +1150,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard"
+      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3654,6 +3670,80 @@ export namespace Prisma {
           }
         }
       }
+      NovaStats: {
+        payload: Prisma.$NovaStatsPayload<ExtArgs>
+        fields: Prisma.NovaStatsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NovaStatsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NovaStatsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NovaStatsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NovaStatsPayload>
+          }
+          findFirst: {
+            args: Prisma.NovaStatsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NovaStatsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NovaStatsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NovaStatsPayload>
+          }
+          findMany: {
+            args: Prisma.NovaStatsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NovaStatsPayload>[]
+          }
+          create: {
+            args: Prisma.NovaStatsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NovaStatsPayload>
+          }
+          createMany: {
+            args: Prisma.NovaStatsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NovaStatsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NovaStatsPayload>[]
+          }
+          delete: {
+            args: Prisma.NovaStatsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NovaStatsPayload>
+          }
+          update: {
+            args: Prisma.NovaStatsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NovaStatsPayload>
+          }
+          deleteMany: {
+            args: Prisma.NovaStatsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NovaStatsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NovaStatsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NovaStatsPayload>[]
+          }
+          upsert: {
+            args: Prisma.NovaStatsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NovaStatsPayload>
+          }
+          aggregate: {
+            args: Prisma.NovaStatsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNovaStats>
+          }
+          groupBy: {
+            args: Prisma.NovaStatsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NovaStatsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NovaStatsCountArgs<ExtArgs>
+            result: $Utils.Optional<NovaStatsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3784,6 +3874,7 @@ export namespace Prisma {
     scanHistory?: ScanHistoryOmit
     flashcardDeck?: FlashcardDeckOmit
     flashcard?: FlashcardOmit
+    novaStats?: NovaStatsOmit
   }
 
   /* Types for Logging */
@@ -8194,6 +8285,7 @@ export namespace Prisma {
     learningStyleResults?: boolean | User$learningStyleResultsArgs<ExtArgs>
     conceptWebs?: boolean | User$conceptWebsArgs<ExtArgs>
     flashcardDecks?: boolean | User$flashcardDecksArgs<ExtArgs>
+    novaStats?: boolean | User$novaStatsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -8301,6 +8393,7 @@ export namespace Prisma {
     learningStyleResults?: boolean | User$learningStyleResultsArgs<ExtArgs>
     conceptWebs?: boolean | User$conceptWebsArgs<ExtArgs>
     flashcardDecks?: boolean | User$flashcardDecksArgs<ExtArgs>
+    novaStats?: boolean | User$novaStatsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8339,6 +8432,7 @@ export namespace Prisma {
       learningStyleResults: Prisma.$LearningStyleResultPayload<ExtArgs>[]
       conceptWebs: Prisma.$ConceptWebPayload<ExtArgs>[]
       flashcardDecks: Prisma.$FlashcardDeckPayload<ExtArgs>[]
+      novaStats: Prisma.$NovaStatsPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8786,6 +8880,7 @@ export namespace Prisma {
     learningStyleResults<T extends User$learningStyleResultsArgs<ExtArgs> = {}>(args?: Subset<T, User$learningStyleResultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LearningStyleResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     conceptWebs<T extends User$conceptWebsArgs<ExtArgs> = {}>(args?: Subset<T, User$conceptWebsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConceptWebPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     flashcardDecks<T extends User$flashcardDecksArgs<ExtArgs> = {}>(args?: Subset<T, User$flashcardDecksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlashcardDeckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    novaStats<T extends User$novaStatsArgs<ExtArgs> = {}>(args?: Subset<T, User$novaStatsArgs<ExtArgs>>): Prisma__NovaStatsClient<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9941,6 +10036,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FlashcardDeckScalarFieldEnum | FlashcardDeckScalarFieldEnum[]
+  }
+
+  /**
+   * User.novaStats
+   */
+  export type User$novaStatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsInclude<ExtArgs> | null
+    where?: NovaStatsWhereInput
   }
 
   /**
@@ -44214,6 +44328,1230 @@ export namespace Prisma {
 
 
   /**
+   * Model NovaStats
+   */
+
+  export type AggregateNovaStats = {
+    _count: NovaStatsCountAggregateOutputType | null
+    _avg: NovaStatsAvgAggregateOutputType | null
+    _sum: NovaStatsSumAggregateOutputType | null
+    _min: NovaStatsMinAggregateOutputType | null
+    _max: NovaStatsMaxAggregateOutputType | null
+  }
+
+  export type NovaStatsAvgAggregateOutputType = {
+    happiness: number | null
+    totalXP: number | null
+    level: number | null
+    streak: number | null
+    notesGenerated: number | null
+    flashcardsStudied: number | null
+    audioConverted: number | null
+    battlesWon: number | null
+  }
+
+  export type NovaStatsSumAggregateOutputType = {
+    happiness: number | null
+    totalXP: number | null
+    level: number | null
+    streak: number | null
+    notesGenerated: number | null
+    flashcardsStudied: number | null
+    audioConverted: number | null
+    battlesWon: number | null
+  }
+
+  export type NovaStatsMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    happiness: number | null
+    totalXP: number | null
+    level: number | null
+    streak: number | null
+    lastActiveDate: Date | null
+    notesGenerated: number | null
+    flashcardsStudied: number | null
+    audioConverted: number | null
+    battlesWon: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NovaStatsMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    happiness: number | null
+    totalXP: number | null
+    level: number | null
+    streak: number | null
+    lastActiveDate: Date | null
+    notesGenerated: number | null
+    flashcardsStudied: number | null
+    audioConverted: number | null
+    battlesWon: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NovaStatsCountAggregateOutputType = {
+    id: number
+    userId: number
+    happiness: number
+    totalXP: number
+    level: number
+    streak: number
+    lastActiveDate: number
+    notesGenerated: number
+    flashcardsStudied: number
+    audioConverted: number
+    battlesWon: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type NovaStatsAvgAggregateInputType = {
+    happiness?: true
+    totalXP?: true
+    level?: true
+    streak?: true
+    notesGenerated?: true
+    flashcardsStudied?: true
+    audioConverted?: true
+    battlesWon?: true
+  }
+
+  export type NovaStatsSumAggregateInputType = {
+    happiness?: true
+    totalXP?: true
+    level?: true
+    streak?: true
+    notesGenerated?: true
+    flashcardsStudied?: true
+    audioConverted?: true
+    battlesWon?: true
+  }
+
+  export type NovaStatsMinAggregateInputType = {
+    id?: true
+    userId?: true
+    happiness?: true
+    totalXP?: true
+    level?: true
+    streak?: true
+    lastActiveDate?: true
+    notesGenerated?: true
+    flashcardsStudied?: true
+    audioConverted?: true
+    battlesWon?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NovaStatsMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    happiness?: true
+    totalXP?: true
+    level?: true
+    streak?: true
+    lastActiveDate?: true
+    notesGenerated?: true
+    flashcardsStudied?: true
+    audioConverted?: true
+    battlesWon?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NovaStatsCountAggregateInputType = {
+    id?: true
+    userId?: true
+    happiness?: true
+    totalXP?: true
+    level?: true
+    streak?: true
+    lastActiveDate?: true
+    notesGenerated?: true
+    flashcardsStudied?: true
+    audioConverted?: true
+    battlesWon?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type NovaStatsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NovaStats to aggregate.
+     */
+    where?: NovaStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NovaStats to fetch.
+     */
+    orderBy?: NovaStatsOrderByWithRelationInput | NovaStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NovaStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NovaStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NovaStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned NovaStats
+    **/
+    _count?: true | NovaStatsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: NovaStatsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: NovaStatsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NovaStatsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NovaStatsMaxAggregateInputType
+  }
+
+  export type GetNovaStatsAggregateType<T extends NovaStatsAggregateArgs> = {
+        [P in keyof T & keyof AggregateNovaStats]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNovaStats[P]>
+      : GetScalarType<T[P], AggregateNovaStats[P]>
+  }
+
+
+
+
+  export type NovaStatsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NovaStatsWhereInput
+    orderBy?: NovaStatsOrderByWithAggregationInput | NovaStatsOrderByWithAggregationInput[]
+    by: NovaStatsScalarFieldEnum[] | NovaStatsScalarFieldEnum
+    having?: NovaStatsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NovaStatsCountAggregateInputType | true
+    _avg?: NovaStatsAvgAggregateInputType
+    _sum?: NovaStatsSumAggregateInputType
+    _min?: NovaStatsMinAggregateInputType
+    _max?: NovaStatsMaxAggregateInputType
+  }
+
+  export type NovaStatsGroupByOutputType = {
+    id: string
+    userId: string
+    happiness: number
+    totalXP: number
+    level: number
+    streak: number
+    lastActiveDate: Date | null
+    notesGenerated: number
+    flashcardsStudied: number
+    audioConverted: number
+    battlesWon: number
+    createdAt: Date
+    updatedAt: Date
+    _count: NovaStatsCountAggregateOutputType | null
+    _avg: NovaStatsAvgAggregateOutputType | null
+    _sum: NovaStatsSumAggregateOutputType | null
+    _min: NovaStatsMinAggregateOutputType | null
+    _max: NovaStatsMaxAggregateOutputType | null
+  }
+
+  type GetNovaStatsGroupByPayload<T extends NovaStatsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NovaStatsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NovaStatsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NovaStatsGroupByOutputType[P]>
+            : GetScalarType<T[P], NovaStatsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NovaStatsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    happiness?: boolean
+    totalXP?: boolean
+    level?: boolean
+    streak?: boolean
+    lastActiveDate?: boolean
+    notesGenerated?: boolean
+    flashcardsStudied?: boolean
+    audioConverted?: boolean
+    battlesWon?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["novaStats"]>
+
+  export type NovaStatsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    happiness?: boolean
+    totalXP?: boolean
+    level?: boolean
+    streak?: boolean
+    lastActiveDate?: boolean
+    notesGenerated?: boolean
+    flashcardsStudied?: boolean
+    audioConverted?: boolean
+    battlesWon?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["novaStats"]>
+
+  export type NovaStatsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    happiness?: boolean
+    totalXP?: boolean
+    level?: boolean
+    streak?: boolean
+    lastActiveDate?: boolean
+    notesGenerated?: boolean
+    flashcardsStudied?: boolean
+    audioConverted?: boolean
+    battlesWon?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["novaStats"]>
+
+  export type NovaStatsSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    happiness?: boolean
+    totalXP?: boolean
+    level?: boolean
+    streak?: boolean
+    lastActiveDate?: boolean
+    notesGenerated?: boolean
+    flashcardsStudied?: boolean
+    audioConverted?: boolean
+    battlesWon?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type NovaStatsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "happiness" | "totalXP" | "level" | "streak" | "lastActiveDate" | "notesGenerated" | "flashcardsStudied" | "audioConverted" | "battlesWon" | "createdAt" | "updatedAt", ExtArgs["result"]["novaStats"]>
+  export type NovaStatsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type NovaStatsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type NovaStatsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $NovaStatsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "NovaStats"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      happiness: number
+      totalXP: number
+      level: number
+      streak: number
+      lastActiveDate: Date | null
+      notesGenerated: number
+      flashcardsStudied: number
+      audioConverted: number
+      battlesWon: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["novaStats"]>
+    composites: {}
+  }
+
+  type NovaStatsGetPayload<S extends boolean | null | undefined | NovaStatsDefaultArgs> = $Result.GetResult<Prisma.$NovaStatsPayload, S>
+
+  type NovaStatsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NovaStatsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NovaStatsCountAggregateInputType | true
+    }
+
+  export interface NovaStatsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['NovaStats'], meta: { name: 'NovaStats' } }
+    /**
+     * Find zero or one NovaStats that matches the filter.
+     * @param {NovaStatsFindUniqueArgs} args - Arguments to find a NovaStats
+     * @example
+     * // Get one NovaStats
+     * const novaStats = await prisma.novaStats.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NovaStatsFindUniqueArgs>(args: SelectSubset<T, NovaStatsFindUniqueArgs<ExtArgs>>): Prisma__NovaStatsClient<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one NovaStats that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NovaStatsFindUniqueOrThrowArgs} args - Arguments to find a NovaStats
+     * @example
+     * // Get one NovaStats
+     * const novaStats = await prisma.novaStats.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NovaStatsFindUniqueOrThrowArgs>(args: SelectSubset<T, NovaStatsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NovaStatsClient<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NovaStats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NovaStatsFindFirstArgs} args - Arguments to find a NovaStats
+     * @example
+     * // Get one NovaStats
+     * const novaStats = await prisma.novaStats.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NovaStatsFindFirstArgs>(args?: SelectSubset<T, NovaStatsFindFirstArgs<ExtArgs>>): Prisma__NovaStatsClient<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NovaStats that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NovaStatsFindFirstOrThrowArgs} args - Arguments to find a NovaStats
+     * @example
+     * // Get one NovaStats
+     * const novaStats = await prisma.novaStats.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NovaStatsFindFirstOrThrowArgs>(args?: SelectSubset<T, NovaStatsFindFirstOrThrowArgs<ExtArgs>>): Prisma__NovaStatsClient<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more NovaStats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NovaStatsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all NovaStats
+     * const novaStats = await prisma.novaStats.findMany()
+     * 
+     * // Get first 10 NovaStats
+     * const novaStats = await prisma.novaStats.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const novaStatsWithIdOnly = await prisma.novaStats.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NovaStatsFindManyArgs>(args?: SelectSubset<T, NovaStatsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a NovaStats.
+     * @param {NovaStatsCreateArgs} args - Arguments to create a NovaStats.
+     * @example
+     * // Create one NovaStats
+     * const NovaStats = await prisma.novaStats.create({
+     *   data: {
+     *     // ... data to create a NovaStats
+     *   }
+     * })
+     * 
+     */
+    create<T extends NovaStatsCreateArgs>(args: SelectSubset<T, NovaStatsCreateArgs<ExtArgs>>): Prisma__NovaStatsClient<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many NovaStats.
+     * @param {NovaStatsCreateManyArgs} args - Arguments to create many NovaStats.
+     * @example
+     * // Create many NovaStats
+     * const novaStats = await prisma.novaStats.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NovaStatsCreateManyArgs>(args?: SelectSubset<T, NovaStatsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many NovaStats and returns the data saved in the database.
+     * @param {NovaStatsCreateManyAndReturnArgs} args - Arguments to create many NovaStats.
+     * @example
+     * // Create many NovaStats
+     * const novaStats = await prisma.novaStats.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many NovaStats and only return the `id`
+     * const novaStatsWithIdOnly = await prisma.novaStats.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NovaStatsCreateManyAndReturnArgs>(args?: SelectSubset<T, NovaStatsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a NovaStats.
+     * @param {NovaStatsDeleteArgs} args - Arguments to delete one NovaStats.
+     * @example
+     * // Delete one NovaStats
+     * const NovaStats = await prisma.novaStats.delete({
+     *   where: {
+     *     // ... filter to delete one NovaStats
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NovaStatsDeleteArgs>(args: SelectSubset<T, NovaStatsDeleteArgs<ExtArgs>>): Prisma__NovaStatsClient<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one NovaStats.
+     * @param {NovaStatsUpdateArgs} args - Arguments to update one NovaStats.
+     * @example
+     * // Update one NovaStats
+     * const novaStats = await prisma.novaStats.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NovaStatsUpdateArgs>(args: SelectSubset<T, NovaStatsUpdateArgs<ExtArgs>>): Prisma__NovaStatsClient<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more NovaStats.
+     * @param {NovaStatsDeleteManyArgs} args - Arguments to filter NovaStats to delete.
+     * @example
+     * // Delete a few NovaStats
+     * const { count } = await prisma.novaStats.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NovaStatsDeleteManyArgs>(args?: SelectSubset<T, NovaStatsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NovaStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NovaStatsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many NovaStats
+     * const novaStats = await prisma.novaStats.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NovaStatsUpdateManyArgs>(args: SelectSubset<T, NovaStatsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NovaStats and returns the data updated in the database.
+     * @param {NovaStatsUpdateManyAndReturnArgs} args - Arguments to update many NovaStats.
+     * @example
+     * // Update many NovaStats
+     * const novaStats = await prisma.novaStats.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more NovaStats and only return the `id`
+     * const novaStatsWithIdOnly = await prisma.novaStats.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NovaStatsUpdateManyAndReturnArgs>(args: SelectSubset<T, NovaStatsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one NovaStats.
+     * @param {NovaStatsUpsertArgs} args - Arguments to update or create a NovaStats.
+     * @example
+     * // Update or create a NovaStats
+     * const novaStats = await prisma.novaStats.upsert({
+     *   create: {
+     *     // ... data to create a NovaStats
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the NovaStats we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NovaStatsUpsertArgs>(args: SelectSubset<T, NovaStatsUpsertArgs<ExtArgs>>): Prisma__NovaStatsClient<$Result.GetResult<Prisma.$NovaStatsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of NovaStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NovaStatsCountArgs} args - Arguments to filter NovaStats to count.
+     * @example
+     * // Count the number of NovaStats
+     * const count = await prisma.novaStats.count({
+     *   where: {
+     *     // ... the filter for the NovaStats we want to count
+     *   }
+     * })
+    **/
+    count<T extends NovaStatsCountArgs>(
+      args?: Subset<T, NovaStatsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NovaStatsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a NovaStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NovaStatsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NovaStatsAggregateArgs>(args: Subset<T, NovaStatsAggregateArgs>): Prisma.PrismaPromise<GetNovaStatsAggregateType<T>>
+
+    /**
+     * Group by NovaStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NovaStatsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NovaStatsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NovaStatsGroupByArgs['orderBy'] }
+        : { orderBy?: NovaStatsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NovaStatsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNovaStatsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the NovaStats model
+   */
+  readonly fields: NovaStatsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for NovaStats.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NovaStatsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the NovaStats model
+   */
+  interface NovaStatsFieldRefs {
+    readonly id: FieldRef<"NovaStats", 'String'>
+    readonly userId: FieldRef<"NovaStats", 'String'>
+    readonly happiness: FieldRef<"NovaStats", 'Int'>
+    readonly totalXP: FieldRef<"NovaStats", 'Int'>
+    readonly level: FieldRef<"NovaStats", 'Int'>
+    readonly streak: FieldRef<"NovaStats", 'Int'>
+    readonly lastActiveDate: FieldRef<"NovaStats", 'DateTime'>
+    readonly notesGenerated: FieldRef<"NovaStats", 'Int'>
+    readonly flashcardsStudied: FieldRef<"NovaStats", 'Int'>
+    readonly audioConverted: FieldRef<"NovaStats", 'Int'>
+    readonly battlesWon: FieldRef<"NovaStats", 'Int'>
+    readonly createdAt: FieldRef<"NovaStats", 'DateTime'>
+    readonly updatedAt: FieldRef<"NovaStats", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * NovaStats findUnique
+   */
+  export type NovaStatsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which NovaStats to fetch.
+     */
+    where: NovaStatsWhereUniqueInput
+  }
+
+  /**
+   * NovaStats findUniqueOrThrow
+   */
+  export type NovaStatsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which NovaStats to fetch.
+     */
+    where: NovaStatsWhereUniqueInput
+  }
+
+  /**
+   * NovaStats findFirst
+   */
+  export type NovaStatsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which NovaStats to fetch.
+     */
+    where?: NovaStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NovaStats to fetch.
+     */
+    orderBy?: NovaStatsOrderByWithRelationInput | NovaStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NovaStats.
+     */
+    cursor?: NovaStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NovaStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NovaStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NovaStats.
+     */
+    distinct?: NovaStatsScalarFieldEnum | NovaStatsScalarFieldEnum[]
+  }
+
+  /**
+   * NovaStats findFirstOrThrow
+   */
+  export type NovaStatsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which NovaStats to fetch.
+     */
+    where?: NovaStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NovaStats to fetch.
+     */
+    orderBy?: NovaStatsOrderByWithRelationInput | NovaStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NovaStats.
+     */
+    cursor?: NovaStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NovaStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NovaStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NovaStats.
+     */
+    distinct?: NovaStatsScalarFieldEnum | NovaStatsScalarFieldEnum[]
+  }
+
+  /**
+   * NovaStats findMany
+   */
+  export type NovaStatsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which NovaStats to fetch.
+     */
+    where?: NovaStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NovaStats to fetch.
+     */
+    orderBy?: NovaStatsOrderByWithRelationInput | NovaStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing NovaStats.
+     */
+    cursor?: NovaStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NovaStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NovaStats.
+     */
+    skip?: number
+    distinct?: NovaStatsScalarFieldEnum | NovaStatsScalarFieldEnum[]
+  }
+
+  /**
+   * NovaStats create
+   */
+  export type NovaStatsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a NovaStats.
+     */
+    data: XOR<NovaStatsCreateInput, NovaStatsUncheckedCreateInput>
+  }
+
+  /**
+   * NovaStats createMany
+   */
+  export type NovaStatsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many NovaStats.
+     */
+    data: NovaStatsCreateManyInput | NovaStatsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * NovaStats createManyAndReturn
+   */
+  export type NovaStatsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * The data used to create many NovaStats.
+     */
+    data: NovaStatsCreateManyInput | NovaStatsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NovaStats update
+   */
+  export type NovaStatsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a NovaStats.
+     */
+    data: XOR<NovaStatsUpdateInput, NovaStatsUncheckedUpdateInput>
+    /**
+     * Choose, which NovaStats to update.
+     */
+    where: NovaStatsWhereUniqueInput
+  }
+
+  /**
+   * NovaStats updateMany
+   */
+  export type NovaStatsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update NovaStats.
+     */
+    data: XOR<NovaStatsUpdateManyMutationInput, NovaStatsUncheckedUpdateManyInput>
+    /**
+     * Filter which NovaStats to update
+     */
+    where?: NovaStatsWhereInput
+    /**
+     * Limit how many NovaStats to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NovaStats updateManyAndReturn
+   */
+  export type NovaStatsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * The data used to update NovaStats.
+     */
+    data: XOR<NovaStatsUpdateManyMutationInput, NovaStatsUncheckedUpdateManyInput>
+    /**
+     * Filter which NovaStats to update
+     */
+    where?: NovaStatsWhereInput
+    /**
+     * Limit how many NovaStats to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NovaStats upsert
+   */
+  export type NovaStatsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the NovaStats to update in case it exists.
+     */
+    where: NovaStatsWhereUniqueInput
+    /**
+     * In case the NovaStats found by the `where` argument doesn't exist, create a new NovaStats with this data.
+     */
+    create: XOR<NovaStatsCreateInput, NovaStatsUncheckedCreateInput>
+    /**
+     * In case the NovaStats was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NovaStatsUpdateInput, NovaStatsUncheckedUpdateInput>
+  }
+
+  /**
+   * NovaStats delete
+   */
+  export type NovaStatsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsInclude<ExtArgs> | null
+    /**
+     * Filter which NovaStats to delete.
+     */
+    where: NovaStatsWhereUniqueInput
+  }
+
+  /**
+   * NovaStats deleteMany
+   */
+  export type NovaStatsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NovaStats to delete
+     */
+    where?: NovaStatsWhereInput
+    /**
+     * Limit how many NovaStats to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * NovaStats without action
+   */
+  export type NovaStatsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NovaStats
+     */
+    select?: NovaStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NovaStats
+     */
+    omit?: NovaStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NovaStatsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -44724,6 +46062,25 @@ export namespace Prisma {
   export type FlashcardScalarFieldEnum = (typeof FlashcardScalarFieldEnum)[keyof typeof FlashcardScalarFieldEnum]
 
 
+  export const NovaStatsScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    happiness: 'happiness',
+    totalXP: 'totalXP',
+    level: 'level',
+    streak: 'streak',
+    lastActiveDate: 'lastActiveDate',
+    notesGenerated: 'notesGenerated',
+    flashcardsStudied: 'flashcardsStudied',
+    audioConverted: 'audioConverted',
+    battlesWon: 'battlesWon',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type NovaStatsScalarFieldEnum = (typeof NovaStatsScalarFieldEnum)[keyof typeof NovaStatsScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -45117,6 +46474,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultListRelationFilter
     conceptWebs?: ConceptWebListRelationFilter
     flashcardDecks?: FlashcardDeckListRelationFilter
+    novaStats?: XOR<NovaStatsNullableScalarRelationFilter, NovaStatsWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -45171,6 +46529,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultOrderByRelationAggregateInput
     conceptWebs?: ConceptWebOrderByRelationAggregateInput
     flashcardDecks?: FlashcardDeckOrderByRelationAggregateInput
+    novaStats?: NovaStatsOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -45228,6 +46587,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultListRelationFilter
     conceptWebs?: ConceptWebListRelationFilter
     flashcardDecks?: FlashcardDeckListRelationFilter
+    novaStats?: XOR<NovaStatsNullableScalarRelationFilter, NovaStatsWhereInput> | null
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -47581,6 +48941,103 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Flashcard"> | Date | string
   }
 
+  export type NovaStatsWhereInput = {
+    AND?: NovaStatsWhereInput | NovaStatsWhereInput[]
+    OR?: NovaStatsWhereInput[]
+    NOT?: NovaStatsWhereInput | NovaStatsWhereInput[]
+    id?: StringFilter<"NovaStats"> | string
+    userId?: StringFilter<"NovaStats"> | string
+    happiness?: IntFilter<"NovaStats"> | number
+    totalXP?: IntFilter<"NovaStats"> | number
+    level?: IntFilter<"NovaStats"> | number
+    streak?: IntFilter<"NovaStats"> | number
+    lastActiveDate?: DateTimeNullableFilter<"NovaStats"> | Date | string | null
+    notesGenerated?: IntFilter<"NovaStats"> | number
+    flashcardsStudied?: IntFilter<"NovaStats"> | number
+    audioConverted?: IntFilter<"NovaStats"> | number
+    battlesWon?: IntFilter<"NovaStats"> | number
+    createdAt?: DateTimeFilter<"NovaStats"> | Date | string
+    updatedAt?: DateTimeFilter<"NovaStats"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type NovaStatsOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    happiness?: SortOrder
+    totalXP?: SortOrder
+    level?: SortOrder
+    streak?: SortOrder
+    lastActiveDate?: SortOrderInput | SortOrder
+    notesGenerated?: SortOrder
+    flashcardsStudied?: SortOrder
+    audioConverted?: SortOrder
+    battlesWon?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type NovaStatsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: NovaStatsWhereInput | NovaStatsWhereInput[]
+    OR?: NovaStatsWhereInput[]
+    NOT?: NovaStatsWhereInput | NovaStatsWhereInput[]
+    happiness?: IntFilter<"NovaStats"> | number
+    totalXP?: IntFilter<"NovaStats"> | number
+    level?: IntFilter<"NovaStats"> | number
+    streak?: IntFilter<"NovaStats"> | number
+    lastActiveDate?: DateTimeNullableFilter<"NovaStats"> | Date | string | null
+    notesGenerated?: IntFilter<"NovaStats"> | number
+    flashcardsStudied?: IntFilter<"NovaStats"> | number
+    audioConverted?: IntFilter<"NovaStats"> | number
+    battlesWon?: IntFilter<"NovaStats"> | number
+    createdAt?: DateTimeFilter<"NovaStats"> | Date | string
+    updatedAt?: DateTimeFilter<"NovaStats"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type NovaStatsOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    happiness?: SortOrder
+    totalXP?: SortOrder
+    level?: SortOrder
+    streak?: SortOrder
+    lastActiveDate?: SortOrderInput | SortOrder
+    notesGenerated?: SortOrder
+    flashcardsStudied?: SortOrder
+    audioConverted?: SortOrder
+    battlesWon?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: NovaStatsCountOrderByAggregateInput
+    _avg?: NovaStatsAvgOrderByAggregateInput
+    _max?: NovaStatsMaxOrderByAggregateInput
+    _min?: NovaStatsMinOrderByAggregateInput
+    _sum?: NovaStatsSumOrderByAggregateInput
+  }
+
+  export type NovaStatsScalarWhereWithAggregatesInput = {
+    AND?: NovaStatsScalarWhereWithAggregatesInput | NovaStatsScalarWhereWithAggregatesInput[]
+    OR?: NovaStatsScalarWhereWithAggregatesInput[]
+    NOT?: NovaStatsScalarWhereWithAggregatesInput | NovaStatsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"NovaStats"> | string
+    userId?: StringWithAggregatesFilter<"NovaStats"> | string
+    happiness?: IntWithAggregatesFilter<"NovaStats"> | number
+    totalXP?: IntWithAggregatesFilter<"NovaStats"> | number
+    level?: IntWithAggregatesFilter<"NovaStats"> | number
+    streak?: IntWithAggregatesFilter<"NovaStats"> | number
+    lastActiveDate?: DateTimeNullableWithAggregatesFilter<"NovaStats"> | Date | string | null
+    notesGenerated?: IntWithAggregatesFilter<"NovaStats"> | number
+    flashcardsStudied?: IntWithAggregatesFilter<"NovaStats"> | number
+    audioConverted?: IntWithAggregatesFilter<"NovaStats"> | number
+    battlesWon?: IntWithAggregatesFilter<"NovaStats"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"NovaStats"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"NovaStats"> | Date | string
+  }
+
   export type PostCreateInput = {
     name: string
     createdAt?: Date | string
@@ -47844,6 +49301,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -47898,6 +49356,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -47952,6 +49411,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -48006,6 +49466,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -50493,6 +51954,117 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type NovaStatsCreateInput = {
+    id?: string
+    happiness?: number
+    totalXP?: number
+    level?: number
+    streak?: number
+    lastActiveDate?: Date | string | null
+    notesGenerated?: number
+    flashcardsStudied?: number
+    audioConverted?: number
+    battlesWon?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutNovaStatsInput
+  }
+
+  export type NovaStatsUncheckedCreateInput = {
+    id?: string
+    userId: string
+    happiness?: number
+    totalXP?: number
+    level?: number
+    streak?: number
+    lastActiveDate?: Date | string | null
+    notesGenerated?: number
+    flashcardsStudied?: number
+    audioConverted?: number
+    battlesWon?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NovaStatsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    happiness?: IntFieldUpdateOperationsInput | number
+    totalXP?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
+    lastActiveDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notesGenerated?: IntFieldUpdateOperationsInput | number
+    flashcardsStudied?: IntFieldUpdateOperationsInput | number
+    audioConverted?: IntFieldUpdateOperationsInput | number
+    battlesWon?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutNovaStatsNestedInput
+  }
+
+  export type NovaStatsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    happiness?: IntFieldUpdateOperationsInput | number
+    totalXP?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
+    lastActiveDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notesGenerated?: IntFieldUpdateOperationsInput | number
+    flashcardsStudied?: IntFieldUpdateOperationsInput | number
+    audioConverted?: IntFieldUpdateOperationsInput | number
+    battlesWon?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NovaStatsCreateManyInput = {
+    id?: string
+    userId: string
+    happiness?: number
+    totalXP?: number
+    level?: number
+    streak?: number
+    lastActiveDate?: Date | string | null
+    notesGenerated?: number
+    flashcardsStudied?: number
+    audioConverted?: number
+    battlesWon?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NovaStatsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    happiness?: IntFieldUpdateOperationsInput | number
+    totalXP?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
+    lastActiveDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notesGenerated?: IntFieldUpdateOperationsInput | number
+    flashcardsStudied?: IntFieldUpdateOperationsInput | number
+    audioConverted?: IntFieldUpdateOperationsInput | number
+    battlesWon?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NovaStatsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    happiness?: IntFieldUpdateOperationsInput | number
+    totalXP?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
+    lastActiveDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notesGenerated?: IntFieldUpdateOperationsInput | number
+    flashcardsStudied?: IntFieldUpdateOperationsInput | number
+    audioConverted?: IntFieldUpdateOperationsInput | number
+    battlesWon?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -50960,6 +52532,11 @@ export namespace Prisma {
     every?: FlashcardDeckWhereInput
     some?: FlashcardDeckWhereInput
     none?: FlashcardDeckWhereInput
+  }
+
+  export type NovaStatsNullableScalarRelationFilter = {
+    is?: NovaStatsWhereInput | null
+    isNot?: NovaStatsWhereInput | null
   }
 
   export type AccountOrderByRelationAggregateInput = {
@@ -52590,6 +54167,76 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NovaStatsCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    happiness?: SortOrder
+    totalXP?: SortOrder
+    level?: SortOrder
+    streak?: SortOrder
+    lastActiveDate?: SortOrder
+    notesGenerated?: SortOrder
+    flashcardsStudied?: SortOrder
+    audioConverted?: SortOrder
+    battlesWon?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NovaStatsAvgOrderByAggregateInput = {
+    happiness?: SortOrder
+    totalXP?: SortOrder
+    level?: SortOrder
+    streak?: SortOrder
+    notesGenerated?: SortOrder
+    flashcardsStudied?: SortOrder
+    audioConverted?: SortOrder
+    battlesWon?: SortOrder
+  }
+
+  export type NovaStatsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    happiness?: SortOrder
+    totalXP?: SortOrder
+    level?: SortOrder
+    streak?: SortOrder
+    lastActiveDate?: SortOrder
+    notesGenerated?: SortOrder
+    flashcardsStudied?: SortOrder
+    audioConverted?: SortOrder
+    battlesWon?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NovaStatsMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    happiness?: SortOrder
+    totalXP?: SortOrder
+    level?: SortOrder
+    streak?: SortOrder
+    lastActiveDate?: SortOrder
+    notesGenerated?: SortOrder
+    flashcardsStudied?: SortOrder
+    audioConverted?: SortOrder
+    battlesWon?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NovaStatsSumOrderByAggregateInput = {
+    happiness?: SortOrder
+    totalXP?: SortOrder
+    level?: SortOrder
+    streak?: SortOrder
+    notesGenerated?: SortOrder
+    flashcardsStudied?: SortOrder
+    audioConverted?: SortOrder
+    battlesWon?: SortOrder
+  }
+
   export type UserCreateNestedOneWithoutPostsInput = {
     create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput
@@ -52874,6 +54521,12 @@ export namespace Prisma {
     connect?: FlashcardDeckWhereUniqueInput | FlashcardDeckWhereUniqueInput[]
   }
 
+  export type NovaStatsCreateNestedOneWithoutUserInput = {
+    create?: XOR<NovaStatsCreateWithoutUserInput, NovaStatsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: NovaStatsCreateOrConnectWithoutUserInput
+    connect?: NovaStatsWhereUniqueInput
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -53082,6 +54735,12 @@ export namespace Prisma {
     connectOrCreate?: FlashcardDeckCreateOrConnectWithoutUserInput | FlashcardDeckCreateOrConnectWithoutUserInput[]
     createMany?: FlashcardDeckCreateManyUserInputEnvelope
     connect?: FlashcardDeckWhereUniqueInput | FlashcardDeckWhereUniqueInput[]
+  }
+
+  export type NovaStatsUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<NovaStatsCreateWithoutUserInput, NovaStatsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: NovaStatsCreateOrConnectWithoutUserInput
+    connect?: NovaStatsWhereUniqueInput
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -53517,6 +55176,16 @@ export namespace Prisma {
     deleteMany?: FlashcardDeckScalarWhereInput | FlashcardDeckScalarWhereInput[]
   }
 
+  export type NovaStatsUpdateOneWithoutUserNestedInput = {
+    create?: XOR<NovaStatsCreateWithoutUserInput, NovaStatsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: NovaStatsCreateOrConnectWithoutUserInput
+    upsert?: NovaStatsUpsertWithoutUserInput
+    disconnect?: NovaStatsWhereInput | boolean
+    delete?: NovaStatsWhereInput | boolean
+    connect?: NovaStatsWhereUniqueInput
+    update?: XOR<XOR<NovaStatsUpdateToOneWithWhereWithoutUserInput, NovaStatsUpdateWithoutUserInput>, NovaStatsUncheckedUpdateWithoutUserInput>
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -53935,6 +55604,16 @@ export namespace Prisma {
     update?: FlashcardDeckUpdateWithWhereUniqueWithoutUserInput | FlashcardDeckUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: FlashcardDeckUpdateManyWithWhereWithoutUserInput | FlashcardDeckUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: FlashcardDeckScalarWhereInput | FlashcardDeckScalarWhereInput[]
+  }
+
+  export type NovaStatsUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<NovaStatsCreateWithoutUserInput, NovaStatsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: NovaStatsCreateOrConnectWithoutUserInput
+    upsert?: NovaStatsUpsertWithoutUserInput
+    disconnect?: NovaStatsWhereInput | boolean
+    delete?: NovaStatsWhereInput | boolean
+    connect?: NovaStatsWhereUniqueInput
+    update?: XOR<XOR<NovaStatsUpdateToOneWithWhereWithoutUserInput, NovaStatsUpdateWithoutUserInput>, NovaStatsUncheckedUpdateWithoutUserInput>
   }
 
   export type NoteCreatetagsInput = {
@@ -55466,6 +57145,20 @@ export namespace Prisma {
     update?: XOR<XOR<FlashcardDeckUpdateToOneWithWhereWithoutCardsInput, FlashcardDeckUpdateWithoutCardsInput>, FlashcardDeckUncheckedUpdateWithoutCardsInput>
   }
 
+  export type UserCreateNestedOneWithoutNovaStatsInput = {
+    create?: XOR<UserCreateWithoutNovaStatsInput, UserUncheckedCreateWithoutNovaStatsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNovaStatsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutNovaStatsNestedInput = {
+    create?: XOR<UserCreateWithoutNovaStatsInput, UserUncheckedCreateWithoutNovaStatsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNovaStatsInput
+    upsert?: UserUpsertWithoutNovaStatsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNovaStatsInput, UserUpdateWithoutNovaStatsInput>, UserUncheckedUpdateWithoutNovaStatsInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -55796,6 +57489,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -55849,6 +57543,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -55918,6 +57613,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -55971,6 +57667,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -56024,6 +57721,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -56077,6 +57775,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -56146,6 +57845,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -56199,6 +57899,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -56252,6 +57953,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -56305,6 +58007,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -56374,6 +58077,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -56427,6 +58131,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -57424,6 +59129,41 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type NovaStatsCreateWithoutUserInput = {
+    id?: string
+    happiness?: number
+    totalXP?: number
+    level?: number
+    streak?: number
+    lastActiveDate?: Date | string | null
+    notesGenerated?: number
+    flashcardsStudied?: number
+    audioConverted?: number
+    battlesWon?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NovaStatsUncheckedCreateWithoutUserInput = {
+    id?: string
+    happiness?: number
+    totalXP?: number
+    level?: number
+    streak?: number
+    lastActiveDate?: Date | string | null
+    notesGenerated?: number
+    flashcardsStudied?: number
+    audioConverted?: number
+    battlesWon?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NovaStatsCreateOrConnectWithoutUserInput = {
+    where: NovaStatsWhereUniqueInput
+    create: XOR<NovaStatsCreateWithoutUserInput, NovaStatsUncheckedCreateWithoutUserInput>
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -58324,6 +60064,47 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"FlashcardDeck"> | Date | string
   }
 
+  export type NovaStatsUpsertWithoutUserInput = {
+    update: XOR<NovaStatsUpdateWithoutUserInput, NovaStatsUncheckedUpdateWithoutUserInput>
+    create: XOR<NovaStatsCreateWithoutUserInput, NovaStatsUncheckedCreateWithoutUserInput>
+    where?: NovaStatsWhereInput
+  }
+
+  export type NovaStatsUpdateToOneWithWhereWithoutUserInput = {
+    where?: NovaStatsWhereInput
+    data: XOR<NovaStatsUpdateWithoutUserInput, NovaStatsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type NovaStatsUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    happiness?: IntFieldUpdateOperationsInput | number
+    totalXP?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
+    lastActiveDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notesGenerated?: IntFieldUpdateOperationsInput | number
+    flashcardsStudied?: IntFieldUpdateOperationsInput | number
+    audioConverted?: IntFieldUpdateOperationsInput | number
+    battlesWon?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NovaStatsUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    happiness?: IntFieldUpdateOperationsInput | number
+    totalXP?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
+    lastActiveDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notesGenerated?: IntFieldUpdateOperationsInput | number
+    flashcardsStudied?: IntFieldUpdateOperationsInput | number
+    audioConverted?: IntFieldUpdateOperationsInput | number
+    battlesWon?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateWithoutNotesInput = {
     id?: string
     name?: string | null
@@ -58375,6 +60156,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotesInput = {
@@ -58428,6 +60210,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotesInput = {
@@ -58546,6 +60329,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotesInput = {
@@ -58599,6 +60383,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type FolderUpsertWithoutNotesInput = {
@@ -58695,6 +60480,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFoldersInput = {
@@ -58748,6 +60534,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFoldersInput = {
@@ -58857,6 +60644,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFoldersInput = {
@@ -58910,6 +60698,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type NoteUpsertWithWhereUniqueWithoutFolderInput = {
@@ -58979,6 +60768,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCitationsInput = {
@@ -59032,6 +60822,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCitationsInput = {
@@ -59101,6 +60892,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCitationsInput = {
@@ -59154,6 +60946,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamPredictionsInput = {
@@ -59207,6 +61000,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamPredictionsInput = {
@@ -59260,6 +61054,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamPredictionsInput = {
@@ -59329,6 +61124,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamPredictionsInput = {
@@ -59382,6 +61178,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHostedBattlesInput = {
@@ -59435,6 +61232,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedBattlesInput = {
@@ -59488,6 +61286,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedBattlesInput = {
@@ -59546,6 +61345,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutJoinedBattlesInput = {
@@ -59599,6 +61399,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutJoinedBattlesInput = {
@@ -59747,6 +61548,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedBattlesInput = {
@@ -59800,6 +61602,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutJoinedBattlesInput = {
@@ -59864,6 +61667,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutJoinedBattlesInput = {
@@ -59917,6 +61721,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type BattleQuestionUpsertWithWhereUniqueWithoutBattleInput = {
@@ -60207,6 +62012,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleParticipantsInput = {
@@ -60260,6 +62066,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleParticipantsInput = {
@@ -60388,6 +62195,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleParticipantsInput = {
@@ -60441,6 +62249,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type BattleCreateWithoutResultInput = {
@@ -60547,6 +62356,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBattleResultsInput = {
@@ -60600,6 +62410,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBattleResultsInput = {
@@ -60728,6 +62539,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBattleResultsInput = {
@@ -60781,6 +62593,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreatedStudyGroupsInput = {
@@ -60834,6 +62647,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedStudyGroupsInput = {
@@ -60887,6 +62701,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedStudyGroupsInput = {
@@ -61277,6 +63092,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedStudyGroupsInput = {
@@ -61330,6 +63146,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type StudyGroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
@@ -61641,6 +63458,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStudyGroupMembershipsInput = {
@@ -61694,6 +63512,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStudyGroupMembershipsInput = {
@@ -61822,6 +63641,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudyGroupMembershipsInput = {
@@ -61875,6 +63695,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutMessagesInput = {
@@ -61981,6 +63802,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupMessagesInput = {
@@ -62034,6 +63856,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupMessagesInput = {
@@ -62186,6 +64009,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupMessagesInput = {
@@ -62239,6 +64063,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type GroupPinnedMessageUpsertWithWhereUniqueWithoutMessageInput = {
@@ -62508,6 +64333,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSharedGroupNotesInput = {
@@ -62561,6 +64387,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSharedGroupNotesInput = {
@@ -62754,6 +64581,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSharedGroupNotesInput = {
@@ -62807,6 +64635,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type GroupSharedNoteCommentUpsertWithWhereUniqueWithoutSharedNoteInput = {
@@ -62899,6 +64728,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupNoteCommentsInput = {
@@ -62952,6 +64782,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupNoteCommentsInput = {
@@ -63050,6 +64881,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupNoteCommentsInput = {
@@ -63103,6 +64935,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutFlashcardsInput = {
@@ -63209,6 +65042,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedGroupFlashcardsInput = {
@@ -63262,6 +65096,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedGroupFlashcardsInput = {
@@ -63390,6 +65225,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedGroupFlashcardsInput = {
@@ -63443,6 +65279,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutQuizRoundsInput = {
@@ -63549,6 +65386,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizRoundsStartedInput = {
@@ -63602,6 +65440,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizRoundsStartedInput = {
@@ -63758,6 +65597,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizRoundsStartedInput = {
@@ -63811,6 +65651,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type GroupQuizSubmissionUpsertWithWhereUniqueWithoutRoundInput = {
@@ -63909,6 +65750,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupQuizSubmissionsInput = {
@@ -63962,6 +65804,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupQuizSubmissionsInput = {
@@ -64066,6 +65909,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupQuizSubmissionsInput = {
@@ -64119,6 +65963,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutScheduleItemsInput = {
@@ -64225,6 +66070,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupSchedulesCreatedInput = {
@@ -64278,6 +66124,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupSchedulesCreatedInput = {
@@ -64406,6 +66253,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupSchedulesCreatedInput = {
@@ -64459,6 +66307,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutResourcesInput = {
@@ -64565,6 +66414,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupResourcesSharedInput = {
@@ -64618,6 +66468,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupResourcesSharedInput = {
@@ -64746,6 +66597,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupResourcesSharedInput = {
@@ -64799,6 +66651,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutLeaderboardStatsInput = {
@@ -64905,6 +66758,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupStatsInput = {
@@ -64958,6 +66812,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupStatsInput = {
@@ -65086,6 +66941,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupStatsInput = {
@@ -65139,6 +66995,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPomodoroTimerInput = {
@@ -65245,6 +67102,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHostedPomodoroTimersInput = {
@@ -65298,6 +67156,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHostedPomodoroTimersInput = {
@@ -65426,6 +67285,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostedPomodoroTimersInput = {
@@ -65479,6 +67339,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type StudyGroupCreateWithoutPinnedMessagesInput = {
@@ -65610,6 +67471,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPinnedGroupMessagesInput = {
@@ -65663,6 +67525,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPinnedGroupMessagesInput = {
@@ -65822,6 +67685,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPinnedGroupMessagesInput = {
@@ -65875,6 +67739,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptConnectionsInput = {
@@ -65928,6 +67793,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptConnectionsInput = {
@@ -65981,6 +67847,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptConnectionsInput = {
@@ -66050,6 +67917,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptConnectionsInput = {
@@ -66103,6 +67971,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutLearningStyleResultsInput = {
@@ -66156,6 +68025,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLearningStyleResultsInput = {
@@ -66209,6 +68079,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLearningStyleResultsInput = {
@@ -66278,6 +68149,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLearningStyleResultsInput = {
@@ -66331,6 +68203,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutConceptWebsInput = {
@@ -66384,6 +68257,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConceptWebsInput = {
@@ -66437,6 +68311,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConceptWebsInput = {
@@ -66506,6 +68381,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConceptWebsInput = {
@@ -66559,6 +68435,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutExamsInput = {
@@ -66612,6 +68489,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExamsInput = {
@@ -66665,6 +68543,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExamsInput = {
@@ -66734,6 +68613,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExamsInput = {
@@ -66787,6 +68667,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutScanHistoriesInput = {
@@ -66840,6 +68721,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutScanHistoriesInput = {
@@ -66893,6 +68775,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
     flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutScanHistoriesInput = {
@@ -66962,6 +68845,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutScanHistoriesInput = {
@@ -67015,6 +68899,7 @@ export namespace Prisma {
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
     flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutFlashcardDecksInput = {
@@ -67068,6 +68953,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlashcardDecksInput = {
@@ -67121,6 +69007,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
     learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
     conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlashcardDecksInput = {
@@ -67224,6 +69111,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlashcardDecksInput = {
@@ -67277,6 +69165,7 @@ export namespace Prisma {
     conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
     learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
     conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type FlashcardUpsertWithWhereUniqueWithoutDeckInput = {
@@ -67365,6 +69254,238 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateWithoutNovaStatsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutNovaStatsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutNovaStatsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutNovaStatsInput, UserUncheckedCreateWithoutNovaStatsInput>
+  }
+
+  export type UserUpsertWithoutNovaStatsInput = {
+    update: XOR<UserUpdateWithoutNovaStatsInput, UserUncheckedUpdateWithoutNovaStatsInput>
+    create: XOR<UserCreateWithoutNovaStatsInput, UserUncheckedCreateWithoutNovaStatsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNovaStatsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNovaStatsInput, UserUncheckedUpdateWithoutNovaStatsInput>
+  }
+
+  export type UserUpdateWithoutNovaStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNovaStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {

@@ -10,6 +10,7 @@ import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
+import { trackNovaEvent } from "@/lib/novaClient";
 
 const PREFILL_STORAGE_KEY = "studyforge:prefillText";
 const PREFILL_FORMAT_KEY = "studyforge:prefillFormat";
@@ -349,6 +350,7 @@ export default function Generator() {
       if (response.ok) {
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 3000);
+        trackNovaEvent("NOTE_GENERATED");
       } else {
         setError(result.error ?? "Failed to save note");
       }

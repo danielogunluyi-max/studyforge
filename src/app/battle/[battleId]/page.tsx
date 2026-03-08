@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Button } from "~/app/_components/button";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
+import { trackNovaEvent } from "@/lib/novaClient";
 
 type BattleQuestion = {
   id?: string;
@@ -71,7 +72,12 @@ export default function BattleRoomPage() {
   const [answerFeedback, setAnswerFeedback] = useState<"correct" | "wrong" | "">("");
   const [levelFlash, setLevelFlash] = useState(false);
   const previousMultiplierRef = useRef(1);
+  const battleWinAwardedRef = useRef(false);
   const { showToast } = useToast();
+
+  useEffect(() => {
+    battleWinAwardedRef.current = false;
+  }, [battleId]);
 
   const normalizedQuestions = useMemo(() => {
     if (!battle) return [] as BattleQuestion[];
@@ -146,6 +152,15 @@ export default function BattleRoomPage() {
     }
     previousMultiplierRef.current = streakMultiplier;
   }, [streakMultiplier]);
+
+  useEffect(() => {
+    if (!battle || battle.status !== "completed") return;
+    if (!currentUserId || battleWinAwardedRef.current) return;
+    if (battle.result?.winnerId !== currentUserId) return;
+
+    battleWinAwardedRef.current = true;
+    trackNovaEvent("BATTLE_WON");
+  }, [battle, currentUserId]);
 
   const currentQuestion = useMemo(() => {
     return normalizedQuestions[currentIndex] ?? null;

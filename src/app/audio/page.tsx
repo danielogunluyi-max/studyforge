@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { trackNovaEvent } from "@/lib/novaClient";
 
 type NoteType = "summary" | "detailed" | "flashcards" | "quiz";
 type InputMode = "record" | "upload";
@@ -331,6 +332,7 @@ export default function AudioPage() {
 
       setGeneratedTitle(String(data.title ?? "Lecture Notes"));
       setGeneratedContent(String(data.content ?? ""));
+      trackNovaEvent("AUDIO_CONVERTED");
     } catch {
       setTranscriptError("Failed to generate notes.");
     } finally {

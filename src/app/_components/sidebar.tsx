@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import type { ReactNode } from "react";
+import NovaPet from "~/app/_components/nova-pet";
 
 type SidebarProps = {
   mobileOpen: boolean;
@@ -183,6 +184,8 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             {renderNavGroup("FEATURES", featureItems)}
           </nav>
         </div>
+
+        <NovaPet />
 
         <div className="sidebar-user-section p-3">
           <div className="mb-3 flex items-center gap-2">

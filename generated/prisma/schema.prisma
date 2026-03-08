@@ -104,6 +104,7 @@ model User {
   learningStyleResults   LearningStyleResult[]
   conceptWebs            ConceptWeb[]
   flashcardDecks         FlashcardDeck[]
+  novaStats              NovaStats?
 }
 
 model VerificationToken {
@@ -634,4 +635,21 @@ model Flashcard {
   @@index([deckId])
   @@index([nextReview])
   @@index([lastReviewed])
+}
+
+model NovaStats {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  happiness         Int       @default(50)
+  totalXP           Int       @default(0)
+  level             Int       @default(1)
+  streak            Int       @default(0)
+  lastActiveDate    DateTime?
+  notesGenerated    Int       @default(0)
+  flashcardsStudied Int       @default(0)
+  audioConverted    Int       @default(0)
+  battlesWon        Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -516,6 +516,22 @@ exports.Prisma.FlashcardScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.NovaStatsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  happiness: 'happiness',
+  totalXP: 'totalXP',
+  level: 'level',
+  streak: 'streak',
+  lastActiveDate: 'lastActiveDate',
+  notesGenerated: 'notesGenerated',
+  flashcardsStudied: 'flashcardsStudied',
+  audioConverted: 'audioConverted',
+  battlesWon: 'battlesWon',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -581,7 +597,8 @@ exports.Prisma.ModelName = {
   Exam: 'Exam',
   ScanHistory: 'ScanHistory',
   FlashcardDeck: 'FlashcardDeck',
-  Flashcard: 'Flashcard'
+  Flashcard: 'Flashcard',
+  NovaStats: 'NovaStats'
 };
 
 /**

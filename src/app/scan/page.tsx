@@ -7,6 +7,7 @@ import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import { useToast } from "~/app/_components/toast";
 import { preprocessHandwritingImage } from "~/lib/imagePreprocessor";
+import { trackNovaEvent } from "@/lib/novaClient";
 
 const MAX_FILE_BYTES = 15 * 1024 * 1024;
 const PREFILL_STORAGE_KEY = "studyforge:prefillText";
@@ -214,6 +215,7 @@ export default function ScanPage() {
         setHistory(Array.isArray(historyPayload.scans) ? historyPayload.scans : []);
       }
 
+      trackNovaEvent("SCAN_COMPLETED");
       showToast("Handwriting scan completed", "success");
     } catch {
       showToast("Failed to preprocess or scan image", "error");
