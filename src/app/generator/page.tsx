@@ -1249,7 +1249,7 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
 
         <div className="mb-6 flex flex-col gap-3 sm:flex-row">
           <Button
-            onClick={handleGenerate}
+            onClick={() => void handleGenerate()}
             disabled={!inputText || isLoading}
             fullWidth
             size="lg"

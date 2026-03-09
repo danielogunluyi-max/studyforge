@@ -182,9 +182,13 @@ exports.Prisma.OntarioCurriculumCourseScalarFieldEnum = {
   title: 'title',
   grade: 'grade',
   subject: 'subject',
+  category: 'category',
+  type: 'type',
   destination: 'destination',
   description: 'description',
   keywords: 'keywords',
+  isSeeded: 'isSeeded',
+  seededAt: 'seededAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

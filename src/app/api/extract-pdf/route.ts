@@ -71,21 +71,29 @@ function buildLineFromItems(items: Pdf2JsonTextItem[]): string {
   for (let i = 1; i < tokens.length; i++) {
     const prev = tokens[i - 1];
     const cur = tokens[i];
+    if (!prev || !cur) continue;
     const prevRight = prev.x + prev.width;
     const gap = cur.x - prevRight;
     if (gap > 0) gaps.push(gap);
   }
 
-  const medianGap = gaps.length ? gaps.sort((a, b) => a - b)[Math.floor(gaps.length / 2)] : avgCharWidth;
+  const sortedGaps = [...gaps].sort((a, b) => a - b);
+  const medianGap = sortedGaps.length
+    ? (sortedGaps[Math.floor(sortedGaps.length / 2)] ?? avgCharWidth)
+    : avgCharWidth;
   const gapThreshold = Math.max(avgCharWidth * 0.5, medianGap * 0.6, 0.15);
 
   // Second pass: assemble line using thresholds and handle hyphenation
   let line = "";
-  let previousRight = tokens[0].x + tokens[0].width;
-  line += tokens[0].token;
+  const firstToken = tokens[0];
+  if (!firstToken) return "";
+
+  let previousRight = firstToken.x + firstToken.width;
+  line += firstToken.token;
 
   for (let i = 1; i < tokens.length; i++) {
     const cur = tokens[i];
+    if (!cur) continue;
     const gap = cur.x - previousRight;
 
     const endsWithHyphen = /-$/.test(line);

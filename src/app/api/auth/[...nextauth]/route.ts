@@ -3,8 +3,8 @@ import { handlers } from "~/server/auth";
 
 async function callHandler(method: "GET" | "POST", request: Request) {
 	try {
-		// @ts-expect-error - handlers has GET/POST but typing may be loose
-		return await handlers[method](request);
+		const handler = handlers[method] as (req: Request) => Promise<Response>;
+		return await handler(request);
 	} catch (err) {
 		// Log stack and message to server logs for diagnosis
 		console.error("NextAuth handler error:", err instanceof Error ? err.stack ?? err.message : err);

@@ -119,9 +119,13 @@ model OntarioCurriculumCourse {
     title       String
     grade       Int
     subject     String
+    category    String   @default("General")
+    type        String   @default("Open")
     destination String
     description String   @db.Text
     keywords    String[] @default([])
+    isSeeded    Boolean  @default(false)
+    seededAt    DateTime?
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 

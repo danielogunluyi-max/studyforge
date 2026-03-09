@@ -11276,8 +11276,12 @@ export namespace Prisma {
     title: string | null
     grade: number | null
     subject: string | null
+    category: string | null
+    type: string | null
     destination: string | null
     description: string | null
+    isSeeded: boolean | null
+    seededAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -11288,8 +11292,12 @@ export namespace Prisma {
     title: string | null
     grade: number | null
     subject: string | null
+    category: string | null
+    type: string | null
     destination: string | null
     description: string | null
+    isSeeded: boolean | null
+    seededAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -11300,9 +11308,13 @@ export namespace Prisma {
     title: number
     grade: number
     subject: number
+    category: number
+    type: number
     destination: number
     description: number
     keywords: number
+    isSeeded: number
+    seededAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -11323,8 +11335,12 @@ export namespace Prisma {
     title?: true
     grade?: true
     subject?: true
+    category?: true
+    type?: true
     destination?: true
     description?: true
+    isSeeded?: true
+    seededAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -11335,8 +11351,12 @@ export namespace Prisma {
     title?: true
     grade?: true
     subject?: true
+    category?: true
+    type?: true
     destination?: true
     description?: true
+    isSeeded?: true
+    seededAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -11347,9 +11367,13 @@ export namespace Prisma {
     title?: true
     grade?: true
     subject?: true
+    category?: true
+    type?: true
     destination?: true
     description?: true
     keywords?: true
+    isSeeded?: true
+    seededAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -11447,9 +11471,13 @@ export namespace Prisma {
     title: string
     grade: number
     subject: string
+    category: string
+    type: string
     destination: string
     description: string
     keywords: string[]
+    isSeeded: boolean
+    seededAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: OntarioCurriculumCourseCountAggregateOutputType | null
@@ -11479,9 +11507,13 @@ export namespace Prisma {
     title?: boolean
     grade?: boolean
     subject?: boolean
+    category?: boolean
+    type?: boolean
     destination?: boolean
     description?: boolean
     keywords?: boolean
+    isSeeded?: boolean
+    seededAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     units?: boolean | OntarioCurriculumCourse$unitsArgs<ExtArgs>
@@ -11495,9 +11527,13 @@ export namespace Prisma {
     title?: boolean
     grade?: boolean
     subject?: boolean
+    category?: boolean
+    type?: boolean
     destination?: boolean
     description?: boolean
     keywords?: boolean
+    isSeeded?: boolean
+    seededAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["ontarioCurriculumCourse"]>
@@ -11508,9 +11544,13 @@ export namespace Prisma {
     title?: boolean
     grade?: boolean
     subject?: boolean
+    category?: boolean
+    type?: boolean
     destination?: boolean
     description?: boolean
     keywords?: boolean
+    isSeeded?: boolean
+    seededAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["ontarioCurriculumCourse"]>
@@ -11521,14 +11561,18 @@ export namespace Prisma {
     title?: boolean
     grade?: boolean
     subject?: boolean
+    category?: boolean
+    type?: boolean
     destination?: boolean
     description?: boolean
     keywords?: boolean
+    isSeeded?: boolean
+    seededAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type OntarioCurriculumCourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "title" | "grade" | "subject" | "destination" | "description" | "keywords" | "createdAt" | "updatedAt", ExtArgs["result"]["ontarioCurriculumCourse"]>
+  export type OntarioCurriculumCourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "title" | "grade" | "subject" | "category" | "type" | "destination" | "description" | "keywords" | "isSeeded" | "seededAt" | "createdAt" | "updatedAt", ExtArgs["result"]["ontarioCurriculumCourse"]>
   export type OntarioCurriculumCourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     units?: boolean | OntarioCurriculumCourse$unitsArgs<ExtArgs>
     progress?: boolean | OntarioCurriculumCourse$progressArgs<ExtArgs>
@@ -11549,9 +11593,13 @@ export namespace Prisma {
       title: string
       grade: number
       subject: string
+      category: string
+      type: string
       destination: string
       description: string
       keywords: string[]
+      isSeeded: boolean
+      seededAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["ontarioCurriculumCourse"]>
@@ -11984,9 +12032,13 @@ export namespace Prisma {
     readonly title: FieldRef<"OntarioCurriculumCourse", 'String'>
     readonly grade: FieldRef<"OntarioCurriculumCourse", 'Int'>
     readonly subject: FieldRef<"OntarioCurriculumCourse", 'String'>
+    readonly category: FieldRef<"OntarioCurriculumCourse", 'String'>
+    readonly type: FieldRef<"OntarioCurriculumCourse", 'String'>
     readonly destination: FieldRef<"OntarioCurriculumCourse", 'String'>
     readonly description: FieldRef<"OntarioCurriculumCourse", 'String'>
     readonly keywords: FieldRef<"OntarioCurriculumCourse", 'String[]'>
+    readonly isSeeded: FieldRef<"OntarioCurriculumCourse", 'Boolean'>
+    readonly seededAt: FieldRef<"OntarioCurriculumCourse", 'DateTime'>
     readonly createdAt: FieldRef<"OntarioCurriculumCourse", 'DateTime'>
     readonly updatedAt: FieldRef<"OntarioCurriculumCourse", 'DateTime'>
   }
@@ -57177,9 +57229,13 @@ export namespace Prisma {
     title: 'title',
     grade: 'grade',
     subject: 'subject',
+    category: 'category',
+    type: 'type',
     destination: 'destination',
     description: 'description',
     keywords: 'keywords',
+    isSeeded: 'isSeeded',
+    seededAt: 'seededAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -58346,9 +58402,13 @@ export namespace Prisma {
     title?: StringFilter<"OntarioCurriculumCourse"> | string
     grade?: IntFilter<"OntarioCurriculumCourse"> | number
     subject?: StringFilter<"OntarioCurriculumCourse"> | string
+    category?: StringFilter<"OntarioCurriculumCourse"> | string
+    type?: StringFilter<"OntarioCurriculumCourse"> | string
     destination?: StringFilter<"OntarioCurriculumCourse"> | string
     description?: StringFilter<"OntarioCurriculumCourse"> | string
     keywords?: StringNullableListFilter<"OntarioCurriculumCourse">
+    isSeeded?: BoolFilter<"OntarioCurriculumCourse"> | boolean
+    seededAt?: DateTimeNullableFilter<"OntarioCurriculumCourse"> | Date | string | null
     createdAt?: DateTimeFilter<"OntarioCurriculumCourse"> | Date | string
     updatedAt?: DateTimeFilter<"OntarioCurriculumCourse"> | Date | string
     units?: OntarioCurriculumUnitListRelationFilter
@@ -58361,9 +58421,13 @@ export namespace Prisma {
     title?: SortOrder
     grade?: SortOrder
     subject?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
     destination?: SortOrder
     description?: SortOrder
     keywords?: SortOrder
+    isSeeded?: SortOrder
+    seededAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     units?: OntarioCurriculumUnitOrderByRelationAggregateInput
@@ -58379,9 +58443,13 @@ export namespace Prisma {
     title?: StringFilter<"OntarioCurriculumCourse"> | string
     grade?: IntFilter<"OntarioCurriculumCourse"> | number
     subject?: StringFilter<"OntarioCurriculumCourse"> | string
+    category?: StringFilter<"OntarioCurriculumCourse"> | string
+    type?: StringFilter<"OntarioCurriculumCourse"> | string
     destination?: StringFilter<"OntarioCurriculumCourse"> | string
     description?: StringFilter<"OntarioCurriculumCourse"> | string
     keywords?: StringNullableListFilter<"OntarioCurriculumCourse">
+    isSeeded?: BoolFilter<"OntarioCurriculumCourse"> | boolean
+    seededAt?: DateTimeNullableFilter<"OntarioCurriculumCourse"> | Date | string | null
     createdAt?: DateTimeFilter<"OntarioCurriculumCourse"> | Date | string
     updatedAt?: DateTimeFilter<"OntarioCurriculumCourse"> | Date | string
     units?: OntarioCurriculumUnitListRelationFilter
@@ -58394,9 +58462,13 @@ export namespace Prisma {
     title?: SortOrder
     grade?: SortOrder
     subject?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
     destination?: SortOrder
     description?: SortOrder
     keywords?: SortOrder
+    isSeeded?: SortOrder
+    seededAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: OntarioCurriculumCourseCountOrderByAggregateInput
@@ -58415,9 +58487,13 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
     grade?: IntWithAggregatesFilter<"OntarioCurriculumCourse"> | number
     subject?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
+    category?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
+    type?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
     destination?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
     description?: StringWithAggregatesFilter<"OntarioCurriculumCourse"> | string
     keywords?: StringNullableListFilter<"OntarioCurriculumCourse">
+    isSeeded?: BoolWithAggregatesFilter<"OntarioCurriculumCourse"> | boolean
+    seededAt?: DateTimeNullableWithAggregatesFilter<"OntarioCurriculumCourse"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"OntarioCurriculumCourse"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"OntarioCurriculumCourse"> | Date | string
   }
@@ -61971,9 +62047,13 @@ export namespace Prisma {
     title: string
     grade: number
     subject: string
+    category?: string
+    type?: string
     destination: string
     description: string
     keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    isSeeded?: boolean
+    seededAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     units?: OntarioCurriculumUnitCreateNestedManyWithoutCourseInput
@@ -61986,9 +62066,13 @@ export namespace Prisma {
     title: string
     grade: number
     subject: string
+    category?: string
+    type?: string
     destination: string
     description: string
     keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    isSeeded?: boolean
+    seededAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     units?: OntarioCurriculumUnitUncheckedCreateNestedManyWithoutCourseInput
@@ -62001,9 +62085,13 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     grade?: IntFieldUpdateOperationsInput | number
     subject?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    isSeeded?: BoolFieldUpdateOperationsInput | boolean
+    seededAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: OntarioCurriculumUnitUpdateManyWithoutCourseNestedInput
@@ -62016,9 +62104,13 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     grade?: IntFieldUpdateOperationsInput | number
     subject?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    isSeeded?: BoolFieldUpdateOperationsInput | boolean
+    seededAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: OntarioCurriculumUnitUncheckedUpdateManyWithoutCourseNestedInput
@@ -62031,9 +62123,13 @@ export namespace Prisma {
     title: string
     grade: number
     subject: string
+    category?: string
+    type?: string
     destination: string
     description: string
     keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    isSeeded?: boolean
+    seededAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -62044,9 +62140,13 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     grade?: IntFieldUpdateOperationsInput | number
     subject?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    isSeeded?: BoolFieldUpdateOperationsInput | boolean
+    seededAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -62057,9 +62157,13 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     grade?: IntFieldUpdateOperationsInput | number
     subject?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    isSeeded?: BoolFieldUpdateOperationsInput | boolean
+    seededAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -66019,9 +66123,13 @@ export namespace Prisma {
     title?: SortOrder
     grade?: SortOrder
     subject?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
     destination?: SortOrder
     description?: SortOrder
     keywords?: SortOrder
+    isSeeded?: SortOrder
+    seededAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -66036,8 +66144,12 @@ export namespace Prisma {
     title?: SortOrder
     grade?: SortOrder
     subject?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
     destination?: SortOrder
     description?: SortOrder
+    isSeeded?: SortOrder
+    seededAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -66048,8 +66160,12 @@ export namespace Prisma {
     title?: SortOrder
     grade?: SortOrder
     subject?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
     destination?: SortOrder
     description?: SortOrder
+    isSeeded?: SortOrder
+    seededAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -74998,9 +75114,13 @@ export namespace Prisma {
     title: string
     grade: number
     subject: string
+    category?: string
+    type?: string
     destination: string
     description: string
     keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    isSeeded?: boolean
+    seededAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     progress?: OntarioCurriculumProgressCreateNestedManyWithoutCourseInput
@@ -75012,9 +75132,13 @@ export namespace Prisma {
     title: string
     grade: number
     subject: string
+    category?: string
+    type?: string
     destination: string
     description: string
     keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    isSeeded?: boolean
+    seededAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     progress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutCourseInput
@@ -75070,9 +75194,13 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     grade?: IntFieldUpdateOperationsInput | number
     subject?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    isSeeded?: BoolFieldUpdateOperationsInput | boolean
+    seededAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     progress?: OntarioCurriculumProgressUpdateManyWithoutCourseNestedInput
@@ -75084,9 +75212,13 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     grade?: IntFieldUpdateOperationsInput | number
     subject?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    isSeeded?: BoolFieldUpdateOperationsInput | boolean
+    seededAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     progress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutCourseNestedInput
@@ -75312,9 +75444,13 @@ export namespace Prisma {
     title: string
     grade: number
     subject: string
+    category?: string
+    type?: string
     destination: string
     description: string
     keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    isSeeded?: boolean
+    seededAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     units?: OntarioCurriculumUnitCreateNestedManyWithoutCourseInput
@@ -75326,9 +75462,13 @@ export namespace Prisma {
     title: string
     grade: number
     subject: string
+    category?: string
+    type?: string
     destination: string
     description: string
     keywords?: OntarioCurriculumCourseCreatekeywordsInput | string[]
+    isSeeded?: boolean
+    seededAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     units?: OntarioCurriculumUnitUncheckedCreateNestedManyWithoutCourseInput
@@ -75487,9 +75627,13 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     grade?: IntFieldUpdateOperationsInput | number
     subject?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    isSeeded?: BoolFieldUpdateOperationsInput | boolean
+    seededAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: OntarioCurriculumUnitUpdateManyWithoutCourseNestedInput
@@ -75501,9 +75645,13 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     grade?: IntFieldUpdateOperationsInput | number
     subject?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     keywords?: OntarioCurriculumCourseUpdatekeywordsInput | string[]
+    isSeeded?: BoolFieldUpdateOperationsInput | boolean
+    seededAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: OntarioCurriculumUnitUncheckedUpdateManyWithoutCourseNestedInput

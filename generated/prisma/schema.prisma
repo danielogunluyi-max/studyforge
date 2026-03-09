@@ -114,16 +114,20 @@ model User {
 }
 
 model OntarioCurriculumCourse {
-  id          String   @id @default(cuid())
-  code        String   @unique
+  id          String    @id @default(cuid())
+  code        String    @unique
   title       String
   grade       Int
   subject     String
+  category    String    @default("General")
+  type        String    @default("Open")
   destination String
-  description String   @db.Text
-  keywords    String[] @default([])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  description String    @db.Text
+  keywords    String[]  @default([])
+  isSeeded    Boolean   @default(false)
+  seededAt    DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   units    OntarioCurriculumUnit[]
   progress OntarioCurriculumProgress[]
