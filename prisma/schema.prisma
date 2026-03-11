@@ -111,6 +111,7 @@ model User {
     annotations  Annotation[]
     focusSessions FocusSession[]
     feynmanSessions FeynmanSession[]
+    studyPlans   StudyPlan[]
     curriculumProgress OntarioCurriculumProgress[]
 }
 
@@ -236,6 +237,21 @@ model FeynmanSession {
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([userId])
+    @@index([createdAt])
+}
+
+model StudyPlan {
+    id        String   @id @default(cuid())
+    userId    String
+    weekStart DateTime
+    subjects  String[]
+    plan      Json
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([weekStart])
     @@index([createdAt])
 }
 

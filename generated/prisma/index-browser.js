@@ -259,6 +259,15 @@ exports.Prisma.FeynmanSessionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.StudyPlanScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  weekStart: 'weekStart',
+  subjects: 'subjects',
+  plan: 'plan',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.FolderScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -698,6 +707,7 @@ exports.Prisma.ModelName = {
   VerificationToken: 'VerificationToken',
   Note: 'Note',
   FeynmanSession: 'FeynmanSession',
+  StudyPlan: 'StudyPlan',
   Folder: 'Folder',
   Citation: 'Citation',
   ExamPrediction: 'ExamPrediction',
