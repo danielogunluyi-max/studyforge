@@ -112,6 +112,7 @@ model User {
   focusSessions          FocusSession[]
   feynmanSessions        FeynmanSession[]
   studyPlans             StudyPlan[]
+  calendarEvents         CalendarEvent[]
   curriculumProgress     OntarioCurriculumProgress[]
 }
 
@@ -252,6 +253,25 @@ model StudyPlan {
 
   @@index([userId])
   @@index([weekStart])
+  @@index([createdAt])
+}
+
+model CalendarEvent {
+  id          String    @id @default(cuid())
+  userId      String
+  title       String
+  date        DateTime
+  endDate     DateTime?
+  type        String    @default("deadline")
+  color       String    @default("#f97316")
+  description String?
+  completed   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
   @@index([createdAt])
 }
 

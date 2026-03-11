@@ -13,6 +13,7 @@ function titleFromPath(pathname: string) {
 
   if (path === "/") return "Kyvex";
   if (path.startsWith("/dashboard")) return "Dashboard";
+  if (path.startsWith("/calendar")) return "Calendar";
   if (path.startsWith("/generator")) return "Generator";
   if (path.startsWith("/upload")) return "Upload File";
   if (path.startsWith("/my-notes")) return "My Notes";
