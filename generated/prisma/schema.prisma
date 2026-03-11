@@ -110,6 +110,7 @@ model User {
   pdfDocuments           PDFDocument[]
   annotations            Annotation[]
   focusSessions          FocusSession[]
+  feynmanSessions        FeynmanSession[]
   curriculumProgress     OntarioCurriculumProgress[]
 }
 
@@ -219,6 +220,23 @@ model Note {
   @@index([createdAt])
   @@index([userId])
   @@index([folderId])
+}
+
+model FeynmanSession {
+  id            String   @id @default(cuid())
+  userId        String
+  concept       String
+  explanation   String   @db.Text
+  score         Int
+  gradeLabel    String
+  feedback      Json
+  attemptNumber Int      @default(1)
+  createdAt     DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
 }
 
 model Folder {

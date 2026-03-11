@@ -64,6 +64,11 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  */
 export type Note = $Result.DefaultSelection<Prisma.$NotePayload>
 /**
+ * Model FeynmanSession
+ * 
+ */
+export type FeynmanSession = $Result.DefaultSelection<Prisma.$FeynmanSessionPayload>
+/**
  * Model Folder
  * 
  */
@@ -451,6 +456,16 @@ export class PrismaClient<
     * ```
     */
   get note(): Prisma.NoteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.feynmanSession`: Exposes CRUD operations for the **FeynmanSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FeynmanSessions
+    * const feynmanSessions = await prisma.feynmanSession.findMany()
+    * ```
+    */
+  get feynmanSession(): Prisma.FeynmanSessionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.folder`: Exposes CRUD operations for the **Folder** model.
@@ -1242,6 +1257,7 @@ export namespace Prisma {
     OntarioCurriculumProgress: 'OntarioCurriculumProgress',
     VerificationToken: 'VerificationToken',
     Note: 'Note',
+    FeynmanSession: 'FeynmanSession',
     Folder: 'Folder',
     Citation: 'Citation',
     ExamPrediction: 'ExamPrediction',
@@ -1294,7 +1310,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "ontarioCurriculumCourse" | "ontarioCurriculumUnit" | "ontarioCurriculumExpectation" | "ontarioCurriculumProgress" | "verificationToken" | "note" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember" | "pDFDocument" | "annotation" | "focusSession"
+      modelProps: "post" | "account" | "session" | "user" | "ontarioCurriculumCourse" | "ontarioCurriculumUnit" | "ontarioCurriculumExpectation" | "ontarioCurriculumProgress" | "verificationToken" | "note" | "feynmanSession" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember" | "pDFDocument" | "annotation" | "focusSession"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2035,6 +2051,80 @@ export namespace Prisma {
           count: {
             args: Prisma.NoteCountArgs<ExtArgs>
             result: $Utils.Optional<NoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      FeynmanSession: {
+        payload: Prisma.$FeynmanSessionPayload<ExtArgs>
+        fields: Prisma.FeynmanSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FeynmanSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeynmanSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FeynmanSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeynmanSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.FeynmanSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeynmanSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FeynmanSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeynmanSessionPayload>
+          }
+          findMany: {
+            args: Prisma.FeynmanSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeynmanSessionPayload>[]
+          }
+          create: {
+            args: Prisma.FeynmanSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeynmanSessionPayload>
+          }
+          createMany: {
+            args: Prisma.FeynmanSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FeynmanSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeynmanSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.FeynmanSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeynmanSessionPayload>
+          }
+          update: {
+            args: Prisma.FeynmanSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeynmanSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.FeynmanSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FeynmanSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FeynmanSessionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeynmanSessionPayload>[]
+          }
+          upsert: {
+            args: Prisma.FeynmanSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeynmanSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.FeynmanSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFeynmanSession>
+          }
+          groupBy: {
+            args: Prisma.FeynmanSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FeynmanSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FeynmanSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<FeynmanSessionCountAggregateOutputType> | number
           }
         }
       }
@@ -4660,6 +4750,7 @@ export namespace Prisma {
     ontarioCurriculumProgress?: OntarioCurriculumProgressOmit
     verificationToken?: VerificationTokenOmit
     note?: NoteOmit
+    feynmanSession?: FeynmanSessionOmit
     folder?: FolderOmit
     citation?: CitationOmit
     examPrediction?: ExamPredictionOmit
@@ -4809,6 +4900,7 @@ export namespace Prisma {
     pdfDocuments: number
     annotations: number
     focusSessions: number
+    feynmanSessions: number
     curriculumProgress: number
   }
 
@@ -4848,6 +4940,7 @@ export namespace Prisma {
     pdfDocuments?: boolean | UserCountOutputTypeCountPdfDocumentsArgs
     annotations?: boolean | UserCountOutputTypeCountAnnotationsArgs
     focusSessions?: boolean | UserCountOutputTypeCountFocusSessionsArgs
+    feynmanSessions?: boolean | UserCountOutputTypeCountFeynmanSessionsArgs
     curriculumProgress?: boolean | UserCountOutputTypeCountCurriculumProgressArgs
   }
 
@@ -5105,6 +5198,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountFocusSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FocusSessionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFeynmanSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FeynmanSessionWhereInput
   }
 
   /**
@@ -9297,6 +9397,7 @@ export namespace Prisma {
     pdfDocuments?: boolean | User$pdfDocumentsArgs<ExtArgs>
     annotations?: boolean | User$annotationsArgs<ExtArgs>
     focusSessions?: boolean | User$focusSessionsArgs<ExtArgs>
+    feynmanSessions?: boolean | User$feynmanSessionsArgs<ExtArgs>
     curriculumProgress?: boolean | User$curriculumProgressArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -9411,6 +9512,7 @@ export namespace Prisma {
     pdfDocuments?: boolean | User$pdfDocumentsArgs<ExtArgs>
     annotations?: boolean | User$annotationsArgs<ExtArgs>
     focusSessions?: boolean | User$focusSessionsArgs<ExtArgs>
+    feynmanSessions?: boolean | User$feynmanSessionsArgs<ExtArgs>
     curriculumProgress?: boolean | User$curriculumProgressArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -9456,6 +9558,7 @@ export namespace Prisma {
       pdfDocuments: Prisma.$PDFDocumentPayload<ExtArgs>[]
       annotations: Prisma.$AnnotationPayload<ExtArgs>[]
       focusSessions: Prisma.$FocusSessionPayload<ExtArgs>[]
+      feynmanSessions: Prisma.$FeynmanSessionPayload<ExtArgs>[]
       curriculumProgress: Prisma.$OntarioCurriculumProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -9910,6 +10013,7 @@ export namespace Prisma {
     pdfDocuments<T extends User$pdfDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, User$pdfDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PDFDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     annotations<T extends User$annotationsArgs<ExtArgs> = {}>(args?: Subset<T, User$annotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     focusSessions<T extends User$focusSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$focusSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FocusSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    feynmanSessions<T extends User$feynmanSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$feynmanSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     curriculumProgress<T extends User$curriculumProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$curriculumProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -11205,6 +11309,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FocusSessionScalarFieldEnum | FocusSessionScalarFieldEnum[]
+  }
+
+  /**
+   * User.feynmanSessions
+   */
+  export type User$feynmanSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionInclude<ExtArgs> | null
+    where?: FeynmanSessionWhereInput
+    orderBy?: FeynmanSessionOrderByWithRelationInput | FeynmanSessionOrderByWithRelationInput[]
+    cursor?: FeynmanSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FeynmanSessionScalarFieldEnum | FeynmanSessionScalarFieldEnum[]
   }
 
   /**
@@ -18056,6 +18184,1150 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: NoteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model FeynmanSession
+   */
+
+  export type AggregateFeynmanSession = {
+    _count: FeynmanSessionCountAggregateOutputType | null
+    _avg: FeynmanSessionAvgAggregateOutputType | null
+    _sum: FeynmanSessionSumAggregateOutputType | null
+    _min: FeynmanSessionMinAggregateOutputType | null
+    _max: FeynmanSessionMaxAggregateOutputType | null
+  }
+
+  export type FeynmanSessionAvgAggregateOutputType = {
+    score: number | null
+    attemptNumber: number | null
+  }
+
+  export type FeynmanSessionSumAggregateOutputType = {
+    score: number | null
+    attemptNumber: number | null
+  }
+
+  export type FeynmanSessionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    concept: string | null
+    explanation: string | null
+    score: number | null
+    gradeLabel: string | null
+    attemptNumber: number | null
+    createdAt: Date | null
+  }
+
+  export type FeynmanSessionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    concept: string | null
+    explanation: string | null
+    score: number | null
+    gradeLabel: string | null
+    attemptNumber: number | null
+    createdAt: Date | null
+  }
+
+  export type FeynmanSessionCountAggregateOutputType = {
+    id: number
+    userId: number
+    concept: number
+    explanation: number
+    score: number
+    gradeLabel: number
+    feedback: number
+    attemptNumber: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type FeynmanSessionAvgAggregateInputType = {
+    score?: true
+    attemptNumber?: true
+  }
+
+  export type FeynmanSessionSumAggregateInputType = {
+    score?: true
+    attemptNumber?: true
+  }
+
+  export type FeynmanSessionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    concept?: true
+    explanation?: true
+    score?: true
+    gradeLabel?: true
+    attemptNumber?: true
+    createdAt?: true
+  }
+
+  export type FeynmanSessionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    concept?: true
+    explanation?: true
+    score?: true
+    gradeLabel?: true
+    attemptNumber?: true
+    createdAt?: true
+  }
+
+  export type FeynmanSessionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    concept?: true
+    explanation?: true
+    score?: true
+    gradeLabel?: true
+    feedback?: true
+    attemptNumber?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type FeynmanSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FeynmanSession to aggregate.
+     */
+    where?: FeynmanSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FeynmanSessions to fetch.
+     */
+    orderBy?: FeynmanSessionOrderByWithRelationInput | FeynmanSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FeynmanSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FeynmanSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FeynmanSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FeynmanSessions
+    **/
+    _count?: true | FeynmanSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FeynmanSessionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FeynmanSessionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FeynmanSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FeynmanSessionMaxAggregateInputType
+  }
+
+  export type GetFeynmanSessionAggregateType<T extends FeynmanSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregateFeynmanSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFeynmanSession[P]>
+      : GetScalarType<T[P], AggregateFeynmanSession[P]>
+  }
+
+
+
+
+  export type FeynmanSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FeynmanSessionWhereInput
+    orderBy?: FeynmanSessionOrderByWithAggregationInput | FeynmanSessionOrderByWithAggregationInput[]
+    by: FeynmanSessionScalarFieldEnum[] | FeynmanSessionScalarFieldEnum
+    having?: FeynmanSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FeynmanSessionCountAggregateInputType | true
+    _avg?: FeynmanSessionAvgAggregateInputType
+    _sum?: FeynmanSessionSumAggregateInputType
+    _min?: FeynmanSessionMinAggregateInputType
+    _max?: FeynmanSessionMaxAggregateInputType
+  }
+
+  export type FeynmanSessionGroupByOutputType = {
+    id: string
+    userId: string
+    concept: string
+    explanation: string
+    score: number
+    gradeLabel: string
+    feedback: JsonValue
+    attemptNumber: number
+    createdAt: Date
+    _count: FeynmanSessionCountAggregateOutputType | null
+    _avg: FeynmanSessionAvgAggregateOutputType | null
+    _sum: FeynmanSessionSumAggregateOutputType | null
+    _min: FeynmanSessionMinAggregateOutputType | null
+    _max: FeynmanSessionMaxAggregateOutputType | null
+  }
+
+  type GetFeynmanSessionGroupByPayload<T extends FeynmanSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FeynmanSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FeynmanSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FeynmanSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], FeynmanSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FeynmanSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    concept?: boolean
+    explanation?: boolean
+    score?: boolean
+    gradeLabel?: boolean
+    feedback?: boolean
+    attemptNumber?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["feynmanSession"]>
+
+  export type FeynmanSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    concept?: boolean
+    explanation?: boolean
+    score?: boolean
+    gradeLabel?: boolean
+    feedback?: boolean
+    attemptNumber?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["feynmanSession"]>
+
+  export type FeynmanSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    concept?: boolean
+    explanation?: boolean
+    score?: boolean
+    gradeLabel?: boolean
+    feedback?: boolean
+    attemptNumber?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["feynmanSession"]>
+
+  export type FeynmanSessionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    concept?: boolean
+    explanation?: boolean
+    score?: boolean
+    gradeLabel?: boolean
+    feedback?: boolean
+    attemptNumber?: boolean
+    createdAt?: boolean
+  }
+
+  export type FeynmanSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "concept" | "explanation" | "score" | "gradeLabel" | "feedback" | "attemptNumber" | "createdAt", ExtArgs["result"]["feynmanSession"]>
+  export type FeynmanSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type FeynmanSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type FeynmanSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $FeynmanSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FeynmanSession"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      concept: string
+      explanation: string
+      score: number
+      gradeLabel: string
+      feedback: Prisma.JsonValue
+      attemptNumber: number
+      createdAt: Date
+    }, ExtArgs["result"]["feynmanSession"]>
+    composites: {}
+  }
+
+  type FeynmanSessionGetPayload<S extends boolean | null | undefined | FeynmanSessionDefaultArgs> = $Result.GetResult<Prisma.$FeynmanSessionPayload, S>
+
+  type FeynmanSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FeynmanSessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FeynmanSessionCountAggregateInputType | true
+    }
+
+  export interface FeynmanSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FeynmanSession'], meta: { name: 'FeynmanSession' } }
+    /**
+     * Find zero or one FeynmanSession that matches the filter.
+     * @param {FeynmanSessionFindUniqueArgs} args - Arguments to find a FeynmanSession
+     * @example
+     * // Get one FeynmanSession
+     * const feynmanSession = await prisma.feynmanSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FeynmanSessionFindUniqueArgs>(args: SelectSubset<T, FeynmanSessionFindUniqueArgs<ExtArgs>>): Prisma__FeynmanSessionClient<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FeynmanSession that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FeynmanSessionFindUniqueOrThrowArgs} args - Arguments to find a FeynmanSession
+     * @example
+     * // Get one FeynmanSession
+     * const feynmanSession = await prisma.feynmanSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FeynmanSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, FeynmanSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FeynmanSessionClient<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FeynmanSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeynmanSessionFindFirstArgs} args - Arguments to find a FeynmanSession
+     * @example
+     * // Get one FeynmanSession
+     * const feynmanSession = await prisma.feynmanSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FeynmanSessionFindFirstArgs>(args?: SelectSubset<T, FeynmanSessionFindFirstArgs<ExtArgs>>): Prisma__FeynmanSessionClient<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FeynmanSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeynmanSessionFindFirstOrThrowArgs} args - Arguments to find a FeynmanSession
+     * @example
+     * // Get one FeynmanSession
+     * const feynmanSession = await prisma.feynmanSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FeynmanSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, FeynmanSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__FeynmanSessionClient<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FeynmanSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeynmanSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FeynmanSessions
+     * const feynmanSessions = await prisma.feynmanSession.findMany()
+     * 
+     * // Get first 10 FeynmanSessions
+     * const feynmanSessions = await prisma.feynmanSession.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const feynmanSessionWithIdOnly = await prisma.feynmanSession.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FeynmanSessionFindManyArgs>(args?: SelectSubset<T, FeynmanSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FeynmanSession.
+     * @param {FeynmanSessionCreateArgs} args - Arguments to create a FeynmanSession.
+     * @example
+     * // Create one FeynmanSession
+     * const FeynmanSession = await prisma.feynmanSession.create({
+     *   data: {
+     *     // ... data to create a FeynmanSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends FeynmanSessionCreateArgs>(args: SelectSubset<T, FeynmanSessionCreateArgs<ExtArgs>>): Prisma__FeynmanSessionClient<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FeynmanSessions.
+     * @param {FeynmanSessionCreateManyArgs} args - Arguments to create many FeynmanSessions.
+     * @example
+     * // Create many FeynmanSessions
+     * const feynmanSession = await prisma.feynmanSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FeynmanSessionCreateManyArgs>(args?: SelectSubset<T, FeynmanSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FeynmanSessions and returns the data saved in the database.
+     * @param {FeynmanSessionCreateManyAndReturnArgs} args - Arguments to create many FeynmanSessions.
+     * @example
+     * // Create many FeynmanSessions
+     * const feynmanSession = await prisma.feynmanSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FeynmanSessions and only return the `id`
+     * const feynmanSessionWithIdOnly = await prisma.feynmanSession.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FeynmanSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, FeynmanSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a FeynmanSession.
+     * @param {FeynmanSessionDeleteArgs} args - Arguments to delete one FeynmanSession.
+     * @example
+     * // Delete one FeynmanSession
+     * const FeynmanSession = await prisma.feynmanSession.delete({
+     *   where: {
+     *     // ... filter to delete one FeynmanSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FeynmanSessionDeleteArgs>(args: SelectSubset<T, FeynmanSessionDeleteArgs<ExtArgs>>): Prisma__FeynmanSessionClient<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FeynmanSession.
+     * @param {FeynmanSessionUpdateArgs} args - Arguments to update one FeynmanSession.
+     * @example
+     * // Update one FeynmanSession
+     * const feynmanSession = await prisma.feynmanSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FeynmanSessionUpdateArgs>(args: SelectSubset<T, FeynmanSessionUpdateArgs<ExtArgs>>): Prisma__FeynmanSessionClient<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FeynmanSessions.
+     * @param {FeynmanSessionDeleteManyArgs} args - Arguments to filter FeynmanSessions to delete.
+     * @example
+     * // Delete a few FeynmanSessions
+     * const { count } = await prisma.feynmanSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FeynmanSessionDeleteManyArgs>(args?: SelectSubset<T, FeynmanSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FeynmanSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeynmanSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FeynmanSessions
+     * const feynmanSession = await prisma.feynmanSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FeynmanSessionUpdateManyArgs>(args: SelectSubset<T, FeynmanSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FeynmanSessions and returns the data updated in the database.
+     * @param {FeynmanSessionUpdateManyAndReturnArgs} args - Arguments to update many FeynmanSessions.
+     * @example
+     * // Update many FeynmanSessions
+     * const feynmanSession = await prisma.feynmanSession.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more FeynmanSessions and only return the `id`
+     * const feynmanSessionWithIdOnly = await prisma.feynmanSession.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FeynmanSessionUpdateManyAndReturnArgs>(args: SelectSubset<T, FeynmanSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one FeynmanSession.
+     * @param {FeynmanSessionUpsertArgs} args - Arguments to update or create a FeynmanSession.
+     * @example
+     * // Update or create a FeynmanSession
+     * const feynmanSession = await prisma.feynmanSession.upsert({
+     *   create: {
+     *     // ... data to create a FeynmanSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FeynmanSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FeynmanSessionUpsertArgs>(args: SelectSubset<T, FeynmanSessionUpsertArgs<ExtArgs>>): Prisma__FeynmanSessionClient<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FeynmanSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeynmanSessionCountArgs} args - Arguments to filter FeynmanSessions to count.
+     * @example
+     * // Count the number of FeynmanSessions
+     * const count = await prisma.feynmanSession.count({
+     *   where: {
+     *     // ... the filter for the FeynmanSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends FeynmanSessionCountArgs>(
+      args?: Subset<T, FeynmanSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FeynmanSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FeynmanSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeynmanSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FeynmanSessionAggregateArgs>(args: Subset<T, FeynmanSessionAggregateArgs>): Prisma.PrismaPromise<GetFeynmanSessionAggregateType<T>>
+
+    /**
+     * Group by FeynmanSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeynmanSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FeynmanSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FeynmanSessionGroupByArgs['orderBy'] }
+        : { orderBy?: FeynmanSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FeynmanSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFeynmanSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FeynmanSession model
+   */
+  readonly fields: FeynmanSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FeynmanSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FeynmanSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FeynmanSession model
+   */
+  interface FeynmanSessionFieldRefs {
+    readonly id: FieldRef<"FeynmanSession", 'String'>
+    readonly userId: FieldRef<"FeynmanSession", 'String'>
+    readonly concept: FieldRef<"FeynmanSession", 'String'>
+    readonly explanation: FieldRef<"FeynmanSession", 'String'>
+    readonly score: FieldRef<"FeynmanSession", 'Int'>
+    readonly gradeLabel: FieldRef<"FeynmanSession", 'String'>
+    readonly feedback: FieldRef<"FeynmanSession", 'Json'>
+    readonly attemptNumber: FieldRef<"FeynmanSession", 'Int'>
+    readonly createdAt: FieldRef<"FeynmanSession", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FeynmanSession findUnique
+   */
+  export type FeynmanSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which FeynmanSession to fetch.
+     */
+    where: FeynmanSessionWhereUniqueInput
+  }
+
+  /**
+   * FeynmanSession findUniqueOrThrow
+   */
+  export type FeynmanSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which FeynmanSession to fetch.
+     */
+    where: FeynmanSessionWhereUniqueInput
+  }
+
+  /**
+   * FeynmanSession findFirst
+   */
+  export type FeynmanSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which FeynmanSession to fetch.
+     */
+    where?: FeynmanSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FeynmanSessions to fetch.
+     */
+    orderBy?: FeynmanSessionOrderByWithRelationInput | FeynmanSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FeynmanSessions.
+     */
+    cursor?: FeynmanSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FeynmanSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FeynmanSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FeynmanSessions.
+     */
+    distinct?: FeynmanSessionScalarFieldEnum | FeynmanSessionScalarFieldEnum[]
+  }
+
+  /**
+   * FeynmanSession findFirstOrThrow
+   */
+  export type FeynmanSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which FeynmanSession to fetch.
+     */
+    where?: FeynmanSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FeynmanSessions to fetch.
+     */
+    orderBy?: FeynmanSessionOrderByWithRelationInput | FeynmanSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FeynmanSessions.
+     */
+    cursor?: FeynmanSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FeynmanSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FeynmanSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FeynmanSessions.
+     */
+    distinct?: FeynmanSessionScalarFieldEnum | FeynmanSessionScalarFieldEnum[]
+  }
+
+  /**
+   * FeynmanSession findMany
+   */
+  export type FeynmanSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which FeynmanSessions to fetch.
+     */
+    where?: FeynmanSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FeynmanSessions to fetch.
+     */
+    orderBy?: FeynmanSessionOrderByWithRelationInput | FeynmanSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FeynmanSessions.
+     */
+    cursor?: FeynmanSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FeynmanSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FeynmanSessions.
+     */
+    skip?: number
+    distinct?: FeynmanSessionScalarFieldEnum | FeynmanSessionScalarFieldEnum[]
+  }
+
+  /**
+   * FeynmanSession create
+   */
+  export type FeynmanSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FeynmanSession.
+     */
+    data: XOR<FeynmanSessionCreateInput, FeynmanSessionUncheckedCreateInput>
+  }
+
+  /**
+   * FeynmanSession createMany
+   */
+  export type FeynmanSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FeynmanSessions.
+     */
+    data: FeynmanSessionCreateManyInput | FeynmanSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FeynmanSession createManyAndReturn
+   */
+  export type FeynmanSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * The data used to create many FeynmanSessions.
+     */
+    data: FeynmanSessionCreateManyInput | FeynmanSessionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FeynmanSession update
+   */
+  export type FeynmanSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FeynmanSession.
+     */
+    data: XOR<FeynmanSessionUpdateInput, FeynmanSessionUncheckedUpdateInput>
+    /**
+     * Choose, which FeynmanSession to update.
+     */
+    where: FeynmanSessionWhereUniqueInput
+  }
+
+  /**
+   * FeynmanSession updateMany
+   */
+  export type FeynmanSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FeynmanSessions.
+     */
+    data: XOR<FeynmanSessionUpdateManyMutationInput, FeynmanSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which FeynmanSessions to update
+     */
+    where?: FeynmanSessionWhereInput
+    /**
+     * Limit how many FeynmanSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FeynmanSession updateManyAndReturn
+   */
+  export type FeynmanSessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * The data used to update FeynmanSessions.
+     */
+    data: XOR<FeynmanSessionUpdateManyMutationInput, FeynmanSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which FeynmanSessions to update
+     */
+    where?: FeynmanSessionWhereInput
+    /**
+     * Limit how many FeynmanSessions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FeynmanSession upsert
+   */
+  export type FeynmanSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FeynmanSession to update in case it exists.
+     */
+    where: FeynmanSessionWhereUniqueInput
+    /**
+     * In case the FeynmanSession found by the `where` argument doesn't exist, create a new FeynmanSession with this data.
+     */
+    create: XOR<FeynmanSessionCreateInput, FeynmanSessionUncheckedCreateInput>
+    /**
+     * In case the FeynmanSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FeynmanSessionUpdateInput, FeynmanSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * FeynmanSession delete
+   */
+  export type FeynmanSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionInclude<ExtArgs> | null
+    /**
+     * Filter which FeynmanSession to delete.
+     */
+    where: FeynmanSessionWhereUniqueInput
+  }
+
+  /**
+   * FeynmanSession deleteMany
+   */
+  export type FeynmanSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FeynmanSessions to delete
+     */
+    where?: FeynmanSessionWhereInput
+    /**
+     * Limit how many FeynmanSessions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FeynmanSession without action
+   */
+  export type FeynmanSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeynmanSession
+     */
+    select?: FeynmanSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FeynmanSession
+     */
+    omit?: FeynmanSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeynmanSessionInclude<ExtArgs> | null
   }
 
 
@@ -57312,6 +58584,21 @@ export namespace Prisma {
   export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof NoteScalarFieldEnum]
 
 
+  export const FeynmanSessionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    concept: 'concept',
+    explanation: 'explanation',
+    score: 'score',
+    gradeLabel: 'gradeLabel',
+    feedback: 'feedback',
+    attemptNumber: 'attemptNumber',
+    createdAt: 'createdAt'
+  };
+
+  export type FeynmanSessionScalarFieldEnum = (typeof FeynmanSessionScalarFieldEnum)[keyof typeof FeynmanSessionScalarFieldEnum]
+
+
   export const FolderScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -58209,6 +59496,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentListRelationFilter
     annotations?: AnnotationListRelationFilter
     focusSessions?: FocusSessionListRelationFilter
+    feynmanSessions?: FeynmanSessionListRelationFilter
     curriculumProgress?: OntarioCurriculumProgressListRelationFilter
   }
 
@@ -58270,6 +59558,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentOrderByRelationAggregateInput
     annotations?: AnnotationOrderByRelationAggregateInput
     focusSessions?: FocusSessionOrderByRelationAggregateInput
+    feynmanSessions?: FeynmanSessionOrderByRelationAggregateInput
     curriculumProgress?: OntarioCurriculumProgressOrderByRelationAggregateInput
   }
 
@@ -58334,6 +59623,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentListRelationFilter
     annotations?: AnnotationListRelationFilter
     focusSessions?: FocusSessionListRelationFilter
+    feynmanSessions?: FeynmanSessionListRelationFilter
     curriculumProgress?: OntarioCurriculumProgressListRelationFilter
   }, "id" | "email">
 
@@ -58858,6 +60148,83 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Note"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Note"> | Date | string
     userId?: StringWithAggregatesFilter<"Note"> | string
+  }
+
+  export type FeynmanSessionWhereInput = {
+    AND?: FeynmanSessionWhereInput | FeynmanSessionWhereInput[]
+    OR?: FeynmanSessionWhereInput[]
+    NOT?: FeynmanSessionWhereInput | FeynmanSessionWhereInput[]
+    id?: StringFilter<"FeynmanSession"> | string
+    userId?: StringFilter<"FeynmanSession"> | string
+    concept?: StringFilter<"FeynmanSession"> | string
+    explanation?: StringFilter<"FeynmanSession"> | string
+    score?: IntFilter<"FeynmanSession"> | number
+    gradeLabel?: StringFilter<"FeynmanSession"> | string
+    feedback?: JsonFilter<"FeynmanSession">
+    attemptNumber?: IntFilter<"FeynmanSession"> | number
+    createdAt?: DateTimeFilter<"FeynmanSession"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type FeynmanSessionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    concept?: SortOrder
+    explanation?: SortOrder
+    score?: SortOrder
+    gradeLabel?: SortOrder
+    feedback?: SortOrder
+    attemptNumber?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type FeynmanSessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: FeynmanSessionWhereInput | FeynmanSessionWhereInput[]
+    OR?: FeynmanSessionWhereInput[]
+    NOT?: FeynmanSessionWhereInput | FeynmanSessionWhereInput[]
+    userId?: StringFilter<"FeynmanSession"> | string
+    concept?: StringFilter<"FeynmanSession"> | string
+    explanation?: StringFilter<"FeynmanSession"> | string
+    score?: IntFilter<"FeynmanSession"> | number
+    gradeLabel?: StringFilter<"FeynmanSession"> | string
+    feedback?: JsonFilter<"FeynmanSession">
+    attemptNumber?: IntFilter<"FeynmanSession"> | number
+    createdAt?: DateTimeFilter<"FeynmanSession"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type FeynmanSessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    concept?: SortOrder
+    explanation?: SortOrder
+    score?: SortOrder
+    gradeLabel?: SortOrder
+    feedback?: SortOrder
+    attemptNumber?: SortOrder
+    createdAt?: SortOrder
+    _count?: FeynmanSessionCountOrderByAggregateInput
+    _avg?: FeynmanSessionAvgOrderByAggregateInput
+    _max?: FeynmanSessionMaxOrderByAggregateInput
+    _min?: FeynmanSessionMinOrderByAggregateInput
+    _sum?: FeynmanSessionSumOrderByAggregateInput
+  }
+
+  export type FeynmanSessionScalarWhereWithAggregatesInput = {
+    AND?: FeynmanSessionScalarWhereWithAggregatesInput | FeynmanSessionScalarWhereWithAggregatesInput[]
+    OR?: FeynmanSessionScalarWhereWithAggregatesInput[]
+    NOT?: FeynmanSessionScalarWhereWithAggregatesInput | FeynmanSessionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FeynmanSession"> | string
+    userId?: StringWithAggregatesFilter<"FeynmanSession"> | string
+    concept?: StringWithAggregatesFilter<"FeynmanSession"> | string
+    explanation?: StringWithAggregatesFilter<"FeynmanSession"> | string
+    score?: IntWithAggregatesFilter<"FeynmanSession"> | number
+    gradeLabel?: StringWithAggregatesFilter<"FeynmanSession"> | string
+    feedback?: JsonWithAggregatesFilter<"FeynmanSession">
+    attemptNumber?: IntWithAggregatesFilter<"FeynmanSession"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"FeynmanSession"> | Date | string
   }
 
   export type FolderWhereInput = {
@@ -61783,6 +63150,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -61844,6 +63212,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -61905,6 +63274,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -61966,6 +63336,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -62546,6 +63917,89 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FeynmanSessionCreateInput = {
+    id?: string
+    concept: string
+    explanation: string
+    score: number
+    gradeLabel: string
+    feedback: JsonNullValueInput | InputJsonValue
+    attemptNumber?: number
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutFeynmanSessionsInput
+  }
+
+  export type FeynmanSessionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    concept: string
+    explanation: string
+    score: number
+    gradeLabel: string
+    feedback: JsonNullValueInput | InputJsonValue
+    attemptNumber?: number
+    createdAt?: Date | string
+  }
+
+  export type FeynmanSessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    concept?: StringFieldUpdateOperationsInput | string
+    explanation?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    gradeLabel?: StringFieldUpdateOperationsInput | string
+    feedback?: JsonNullValueInput | InputJsonValue
+    attemptNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFeynmanSessionsNestedInput
+  }
+
+  export type FeynmanSessionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    concept?: StringFieldUpdateOperationsInput | string
+    explanation?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    gradeLabel?: StringFieldUpdateOperationsInput | string
+    feedback?: JsonNullValueInput | InputJsonValue
+    attemptNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FeynmanSessionCreateManyInput = {
+    id?: string
+    userId: string
+    concept: string
+    explanation: string
+    score: number
+    gradeLabel: string
+    feedback: JsonNullValueInput | InputJsonValue
+    attemptNumber?: number
+    createdAt?: Date | string
+  }
+
+  export type FeynmanSessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    concept?: StringFieldUpdateOperationsInput | string
+    explanation?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    gradeLabel?: StringFieldUpdateOperationsInput | string
+    feedback?: JsonNullValueInput | InputJsonValue
+    attemptNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FeynmanSessionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    concept?: StringFieldUpdateOperationsInput | string
+    explanation?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    gradeLabel?: StringFieldUpdateOperationsInput | string
+    feedback?: JsonNullValueInput | InputJsonValue
+    attemptNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FolderCreateInput = {
@@ -65855,6 +67309,12 @@ export namespace Prisma {
     none?: FocusSessionWhereInput
   }
 
+  export type FeynmanSessionListRelationFilter = {
+    every?: FeynmanSessionWhereInput
+    some?: FeynmanSessionWhereInput
+    none?: FeynmanSessionWhereInput
+  }
+
   export type OntarioCurriculumProgressListRelationFilter = {
     every?: OntarioCurriculumProgressWhereInput
     some?: OntarioCurriculumProgressWhereInput
@@ -65994,6 +67454,10 @@ export namespace Prisma {
   }
 
   export type FocusSessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FeynmanSessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -66392,6 +67856,99 @@ export namespace Prisma {
     updatedAt?: SortOrder
     userId?: SortOrder
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type FeynmanSessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    concept?: SortOrder
+    explanation?: SortOrder
+    score?: SortOrder
+    gradeLabel?: SortOrder
+    feedback?: SortOrder
+    attemptNumber?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FeynmanSessionAvgOrderByAggregateInput = {
+    score?: SortOrder
+    attemptNumber?: SortOrder
+  }
+
+  export type FeynmanSessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    concept?: SortOrder
+    explanation?: SortOrder
+    score?: SortOrder
+    gradeLabel?: SortOrder
+    attemptNumber?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FeynmanSessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    concept?: SortOrder
+    explanation?: SortOrder
+    score?: SortOrder
+    gradeLabel?: SortOrder
+    attemptNumber?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FeynmanSessionSumOrderByAggregateInput = {
+    score?: SortOrder
+    attemptNumber?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
 
   export type FolderCountOrderByAggregateInput = {
     id?: SortOrder
@@ -66455,29 +68012,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     userId?: SortOrder
   }
-  export type JsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -66529,32 +68063,6 @@ export namespace Prisma {
     syllabusContent?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
-  }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -68355,6 +69863,13 @@ export namespace Prisma {
     connect?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
   }
 
+  export type FeynmanSessionCreateNestedManyWithoutUserInput = {
+    create?: XOR<FeynmanSessionCreateWithoutUserInput, FeynmanSessionUncheckedCreateWithoutUserInput> | FeynmanSessionCreateWithoutUserInput[] | FeynmanSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FeynmanSessionCreateOrConnectWithoutUserInput | FeynmanSessionCreateOrConnectWithoutUserInput[]
+    createMany?: FeynmanSessionCreateManyUserInputEnvelope
+    connect?: FeynmanSessionWhereUniqueInput | FeynmanSessionWhereUniqueInput[]
+  }
+
   export type OntarioCurriculumProgressCreateNestedManyWithoutUserInput = {
     create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
@@ -68611,6 +70126,13 @@ export namespace Prisma {
     connectOrCreate?: FocusSessionCreateOrConnectWithoutUserInput | FocusSessionCreateOrConnectWithoutUserInput[]
     createMany?: FocusSessionCreateManyUserInputEnvelope
     connect?: FocusSessionWhereUniqueInput | FocusSessionWhereUniqueInput[]
+  }
+
+  export type FeynmanSessionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FeynmanSessionCreateWithoutUserInput, FeynmanSessionUncheckedCreateWithoutUserInput> | FeynmanSessionCreateWithoutUserInput[] | FeynmanSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FeynmanSessionCreateOrConnectWithoutUserInput | FeynmanSessionCreateOrConnectWithoutUserInput[]
+    createMany?: FeynmanSessionCreateManyUserInputEnvelope
+    connect?: FeynmanSessionWhereUniqueInput | FeynmanSessionWhereUniqueInput[]
   }
 
   export type OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput = {
@@ -69133,6 +70655,20 @@ export namespace Prisma {
     deleteMany?: FocusSessionScalarWhereInput | FocusSessionScalarWhereInput[]
   }
 
+  export type FeynmanSessionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FeynmanSessionCreateWithoutUserInput, FeynmanSessionUncheckedCreateWithoutUserInput> | FeynmanSessionCreateWithoutUserInput[] | FeynmanSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FeynmanSessionCreateOrConnectWithoutUserInput | FeynmanSessionCreateOrConnectWithoutUserInput[]
+    upsert?: FeynmanSessionUpsertWithWhereUniqueWithoutUserInput | FeynmanSessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FeynmanSessionCreateManyUserInputEnvelope
+    set?: FeynmanSessionWhereUniqueInput | FeynmanSessionWhereUniqueInput[]
+    disconnect?: FeynmanSessionWhereUniqueInput | FeynmanSessionWhereUniqueInput[]
+    delete?: FeynmanSessionWhereUniqueInput | FeynmanSessionWhereUniqueInput[]
+    connect?: FeynmanSessionWhereUniqueInput | FeynmanSessionWhereUniqueInput[]
+    update?: FeynmanSessionUpdateWithWhereUniqueWithoutUserInput | FeynmanSessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FeynmanSessionUpdateManyWithWhereWithoutUserInput | FeynmanSessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FeynmanSessionScalarWhereInput | FeynmanSessionScalarWhereInput[]
+  }
+
   export type OntarioCurriculumProgressUpdateManyWithoutUserNestedInput = {
     create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
@@ -69647,6 +71183,20 @@ export namespace Prisma {
     deleteMany?: FocusSessionScalarWhereInput | FocusSessionScalarWhereInput[]
   }
 
+  export type FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FeynmanSessionCreateWithoutUserInput, FeynmanSessionUncheckedCreateWithoutUserInput> | FeynmanSessionCreateWithoutUserInput[] | FeynmanSessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FeynmanSessionCreateOrConnectWithoutUserInput | FeynmanSessionCreateOrConnectWithoutUserInput[]
+    upsert?: FeynmanSessionUpsertWithWhereUniqueWithoutUserInput | FeynmanSessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FeynmanSessionCreateManyUserInputEnvelope
+    set?: FeynmanSessionWhereUniqueInput | FeynmanSessionWhereUniqueInput[]
+    disconnect?: FeynmanSessionWhereUniqueInput | FeynmanSessionWhereUniqueInput[]
+    delete?: FeynmanSessionWhereUniqueInput | FeynmanSessionWhereUniqueInput[]
+    connect?: FeynmanSessionWhereUniqueInput | FeynmanSessionWhereUniqueInput[]
+    update?: FeynmanSessionUpdateWithWhereUniqueWithoutUserInput | FeynmanSessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FeynmanSessionUpdateManyWithWhereWithoutUserInput | FeynmanSessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FeynmanSessionScalarWhereInput | FeynmanSessionScalarWhereInput[]
+  }
+
   export type OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
@@ -69949,6 +71499,20 @@ export namespace Prisma {
     update?: GroupSharedNoteUpdateWithWhereUniqueWithoutNoteInput | GroupSharedNoteUpdateWithWhereUniqueWithoutNoteInput[]
     updateMany?: GroupSharedNoteUpdateManyWithWhereWithoutNoteInput | GroupSharedNoteUpdateManyWithWhereWithoutNoteInput[]
     deleteMany?: GroupSharedNoteScalarWhereInput | GroupSharedNoteScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutFeynmanSessionsInput = {
+    create?: XOR<UserCreateWithoutFeynmanSessionsInput, UserUncheckedCreateWithoutFeynmanSessionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFeynmanSessionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutFeynmanSessionsNestedInput = {
+    create?: XOR<UserCreateWithoutFeynmanSessionsInput, UserUncheckedCreateWithoutFeynmanSessionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFeynmanSessionsInput
+    upsert?: UserUpsertWithoutFeynmanSessionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFeynmanSessionsInput, UserUpdateWithoutFeynmanSessionsInput>, UserUncheckedUpdateWithoutFeynmanSessionsInput>
   }
 
   export type UserCreateNestedOneWithoutFoldersInput = {
@@ -71931,6 +73495,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -71991,6 +73556,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -72067,6 +73633,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -72127,6 +73694,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -72187,6 +73755,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -72247,6 +73816,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -72323,6 +73893,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -72383,6 +73954,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -72443,6 +74015,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -72503,6 +74076,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -72579,6 +74153,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -72639,6 +74214,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -73838,6 +75414,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FeynmanSessionCreateWithoutUserInput = {
+    id?: string
+    concept: string
+    explanation: string
+    score: number
+    gradeLabel: string
+    feedback: JsonNullValueInput | InputJsonValue
+    attemptNumber?: number
+    createdAt?: Date | string
+  }
+
+  export type FeynmanSessionUncheckedCreateWithoutUserInput = {
+    id?: string
+    concept: string
+    explanation: string
+    score: number
+    gradeLabel: string
+    feedback: JsonNullValueInput | InputJsonValue
+    attemptNumber?: number
+    createdAt?: Date | string
+  }
+
+  export type FeynmanSessionCreateOrConnectWithoutUserInput = {
+    where: FeynmanSessionWhereUniqueInput
+    create: XOR<FeynmanSessionCreateWithoutUserInput, FeynmanSessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type FeynmanSessionCreateManyUserInputEnvelope = {
+    data: FeynmanSessionCreateManyUserInput | FeynmanSessionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OntarioCurriculumProgressCreateWithoutUserInput = {
     id?: string
     completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
@@ -74967,6 +76575,37 @@ export namespace Prisma {
     endedAt?: DateTimeNullableFilter<"FocusSession"> | Date | string | null
   }
 
+  export type FeynmanSessionUpsertWithWhereUniqueWithoutUserInput = {
+    where: FeynmanSessionWhereUniqueInput
+    update: XOR<FeynmanSessionUpdateWithoutUserInput, FeynmanSessionUncheckedUpdateWithoutUserInput>
+    create: XOR<FeynmanSessionCreateWithoutUserInput, FeynmanSessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type FeynmanSessionUpdateWithWhereUniqueWithoutUserInput = {
+    where: FeynmanSessionWhereUniqueInput
+    data: XOR<FeynmanSessionUpdateWithoutUserInput, FeynmanSessionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FeynmanSessionUpdateManyWithWhereWithoutUserInput = {
+    where: FeynmanSessionScalarWhereInput
+    data: XOR<FeynmanSessionUpdateManyMutationInput, FeynmanSessionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type FeynmanSessionScalarWhereInput = {
+    AND?: FeynmanSessionScalarWhereInput | FeynmanSessionScalarWhereInput[]
+    OR?: FeynmanSessionScalarWhereInput[]
+    NOT?: FeynmanSessionScalarWhereInput | FeynmanSessionScalarWhereInput[]
+    id?: StringFilter<"FeynmanSession"> | string
+    userId?: StringFilter<"FeynmanSession"> | string
+    concept?: StringFilter<"FeynmanSession"> | string
+    explanation?: StringFilter<"FeynmanSession"> | string
+    score?: IntFilter<"FeynmanSession"> | number
+    gradeLabel?: StringFilter<"FeynmanSession"> | string
+    feedback?: JsonFilter<"FeynmanSession">
+    attemptNumber?: IntFilter<"FeynmanSession"> | number
+    createdAt?: DateTimeFilter<"FeynmanSession"> | Date | string
+  }
+
   export type OntarioCurriculumProgressUpsertWithWhereUniqueWithoutUserInput = {
     where: OntarioCurriculumProgressWhereUniqueInput
     update: XOR<OntarioCurriculumProgressUpdateWithoutUserInput, OntarioCurriculumProgressUncheckedUpdateWithoutUserInput>
@@ -75371,6 +77010,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCurriculumProgressInput = {
@@ -75431,6 +77071,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCurriculumProgressInput = {
@@ -75548,6 +77189,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCurriculumProgressInput = {
@@ -75608,6 +77250,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OntarioCurriculumCourseUpsertWithoutProgressInput = {
@@ -75714,6 +77357,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -75774,6 +77418,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -75899,6 +77544,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -75959,6 +77605,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -76003,6 +77650,266 @@ export namespace Prisma {
   export type GroupSharedNoteUpdateManyWithWhereWithoutNoteInput = {
     where: GroupSharedNoteScalarWhereInput
     data: XOR<GroupSharedNoteUpdateManyMutationInput, GroupSharedNoteUncheckedUpdateManyWithoutNoteInput>
+  }
+
+  export type UserCreateWithoutFeynmanSessionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutFeynmanSessionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutFeynmanSessionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFeynmanSessionsInput, UserUncheckedCreateWithoutFeynmanSessionsInput>
+  }
+
+  export type UserUpsertWithoutFeynmanSessionsInput = {
+    update: XOR<UserUpdateWithoutFeynmanSessionsInput, UserUncheckedUpdateWithoutFeynmanSessionsInput>
+    create: XOR<UserCreateWithoutFeynmanSessionsInput, UserUncheckedCreateWithoutFeynmanSessionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFeynmanSessionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFeynmanSessionsInput, UserUncheckedUpdateWithoutFeynmanSessionsInput>
+  }
+
+  export type UserUpdateWithoutFeynmanSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFeynmanSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutFoldersInput = {
@@ -76062,6 +77969,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -76122,6 +78030,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -76238,6 +78147,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -76298,6 +78208,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -76374,6 +78285,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -76434,6 +78346,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -76510,6 +78423,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -76570,6 +78484,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -76630,6 +78545,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -76690,6 +78606,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -76766,6 +78683,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -76826,6 +78744,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -76886,6 +78805,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -76946,6 +78866,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -77011,6 +78932,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -77071,6 +78993,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -77226,6 +79149,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -77286,6 +79210,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -77357,6 +79282,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -77417,6 +79343,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -77714,6 +79641,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -77774,6 +79702,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -77909,6 +79838,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -77969,6 +79899,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -78082,6 +80013,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -78142,6 +80074,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -78277,6 +80210,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -78337,6 +80271,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -78397,6 +80332,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -78457,6 +80393,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -78854,6 +80791,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -78914,6 +80852,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -79232,6 +81171,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -79292,6 +81232,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -79427,6 +81368,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -79487,6 +81429,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -79600,6 +81543,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -79660,6 +81604,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -79819,6 +81764,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -79879,6 +81825,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -80155,6 +82102,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -80215,6 +82163,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -80415,6 +82364,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -80475,6 +82425,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -80574,6 +82525,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -80634,6 +82586,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -80739,6 +82692,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -80799,6 +82753,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -80912,6 +82867,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -80972,6 +82928,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -81107,6 +83064,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -81167,6 +83125,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -81280,6 +83239,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -81340,6 +83300,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -81503,6 +83464,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -81563,6 +83525,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -81668,6 +83631,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -81728,6 +83692,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -81839,6 +83804,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -81899,6 +83865,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -82012,6 +83979,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -82072,6 +84040,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -82207,6 +84176,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -82267,6 +84237,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -82380,6 +84351,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -82440,6 +84412,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -82575,6 +84548,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -82635,6 +84609,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -82748,6 +84723,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -82808,6 +84784,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -82943,6 +84920,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -83003,6 +84981,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -83116,6 +85095,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -83176,6 +85156,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -83311,6 +85292,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -83371,6 +85353,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -83509,6 +85492,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -83569,6 +85553,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -83735,6 +85720,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -83795,6 +85781,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -83855,6 +85842,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -83915,6 +85903,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -83991,6 +85980,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -84051,6 +86041,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -84111,6 +86102,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -84171,6 +86163,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -84247,6 +86240,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -84307,6 +86301,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -84367,6 +86362,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -84427,6 +86423,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -84503,6 +86500,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -84563,6 +86561,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -84623,6 +86622,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -84683,6 +86683,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -84759,6 +86760,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -84819,6 +86821,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -84879,6 +86882,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -84939,6 +86943,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -85015,6 +87020,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -85075,6 +87081,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -85135,6 +87142,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -85195,6 +87203,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -85305,6 +87314,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -85365,6 +87375,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -85513,6 +87524,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -85573,6 +87585,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -85649,6 +87662,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -85709,6 +87723,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -85795,6 +87810,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -85855,6 +87871,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -85947,6 +87964,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -86007,6 +88025,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -86098,6 +88117,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -86158,6 +88178,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -86271,6 +88292,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -86331,6 +88353,7 @@ export namespace Prisma {
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -86391,6 +88414,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -86451,6 +88475,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -86563,6 +88588,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -86623,6 +88649,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -86728,6 +88755,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -86788,6 +88816,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -86899,6 +88928,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -86959,6 +88989,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -87019,6 +89050,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
     annotations?: AnnotationCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -87079,6 +89111,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
     annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -87155,6 +89188,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -87215,6 +89249,7 @@ export namespace Prisma {
     roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
     annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -87597,6 +89632,17 @@ export namespace Prisma {
     distractions?: number
     startedAt?: Date | string
     endedAt?: Date | string | null
+  }
+
+  export type FeynmanSessionCreateManyUserInput = {
+    id?: string
+    concept: string
+    explanation: string
+    score: number
+    gradeLabel: string
+    feedback: JsonNullValueInput | InputJsonValue
+    attemptNumber?: number
+    createdAt?: Date | string
   }
 
   export type OntarioCurriculumProgressCreateManyUserInput = {
@@ -88800,6 +90846,39 @@ export namespace Prisma {
     distractions?: IntFieldUpdateOperationsInput | number
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type FeynmanSessionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    concept?: StringFieldUpdateOperationsInput | string
+    explanation?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    gradeLabel?: StringFieldUpdateOperationsInput | string
+    feedback?: JsonNullValueInput | InputJsonValue
+    attemptNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FeynmanSessionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    concept?: StringFieldUpdateOperationsInput | string
+    explanation?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    gradeLabel?: StringFieldUpdateOperationsInput | string
+    feedback?: JsonNullValueInput | InputJsonValue
+    attemptNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FeynmanSessionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    concept?: StringFieldUpdateOperationsInput | string
+    explanation?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    gradeLabel?: StringFieldUpdateOperationsInput | string
+    feedback?: JsonNullValueInput | InputJsonValue
+    attemptNumber?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OntarioCurriculumProgressUpdateWithoutUserInput = {

@@ -247,6 +247,18 @@ exports.Prisma.NoteScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.FeynmanSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  concept: 'concept',
+  explanation: 'explanation',
+  score: 'score',
+  gradeLabel: 'gradeLabel',
+  feedback: 'feedback',
+  attemptNumber: 'attemptNumber',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.FolderScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -685,6 +697,7 @@ exports.Prisma.ModelName = {
   OntarioCurriculumProgress: 'OntarioCurriculumProgress',
   VerificationToken: 'VerificationToken',
   Note: 'Note',
+  FeynmanSession: 'FeynmanSession',
   Folder: 'Folder',
   Citation: 'Citation',
   ExamPrediction: 'ExamPrediction',
