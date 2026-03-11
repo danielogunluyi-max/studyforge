@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Button } from "~/app/_components/button";
+import AudioPlayer from "~/app/_components/AudioPlayer";
 import { PageHero } from "~/app/_components/page-hero";
 import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton";
@@ -939,6 +940,15 @@ export default function MyNotes() {
                     <p className="mb-3 line-clamp-3 text-sm text-gray-600">
                       <HighlightText text={note.content} query={debouncedSearch} />
                     </p>
+
+                    <div style={{ marginTop: "12px", marginBottom: "12px" }}>
+                      <AudioPlayer
+                        noteId={note.id}
+                        noteTitle={note.title}
+                        noteContent={note.content}
+                        compact={true}
+                      />
+                    </div>
 
                     {note.tags.length > 0 && (
                       <div className="mb-3 flex flex-wrap gap-2">
