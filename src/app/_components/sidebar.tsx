@@ -50,6 +50,11 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       icon: <NavIcon><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="3.75" y="3.75" width="6.75" height="6.75" rx="1.5" /><rect x="13.5" y="3.75" width="6.75" height="6.75" rx="1.5" /><rect x="3.75" y="13.5" width="6.75" height="6.75" rx="1.5" /><rect x="13.5" y="13.5" width="6.75" height="6.75" rx="1.5" /></svg></NavIcon>,
     },
     {
+      href: "/mastery",
+      label: "Mastery Chart",
+      icon: <NavIcon><span aria-hidden="true">🗺</span></NavIcon>,
+    },
+    {
       href: "/calendar",
       label: "Calendar",
       icon: <NavIcon><span aria-hidden="true">📆</span></NavIcon>,

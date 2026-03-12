@@ -1,0 +1,535 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
+type Subject = {
+  subject: string;
+  mastery: number;
+  label: string;
+  color: string;
+  noteScore: number;
+  flashcardScore: number;
+  feynmanScore: number;
+  curriculumScore: number;
+  examScore: number;
+  notes: number;
+  topics: string[];
+  activity: Array<{ date: string; type: string }>;
+};
+
+type MasteryData = {
+  subjects: Subject[];
+  stats: {
+    totalSubjects: number;
+    masteredCount: number;
+    avgMastery: number;
+  };
+  heatmap: Record<string, number>;
+};
+
+const MASTERY_LEVELS = [
+  { label: 'Not Started', min: 0, max: 20, color: '#1e1e30', emoji: '⬜' },
+  { label: 'Beginner', min: 21, max: 40, color: '#ef4444', emoji: '🟥' },
+  { label: 'Developing', min: 41, max: 60, color: '#f97316', emoji: '🟧' },
+  { label: 'Proficient', min: 61, max: 80, color: '#eab308', emoji: '🟨' },
+  { label: 'Mastered', min: 81, max: 100, color: '#10b981', emoji: '🟩' },
+];
+
+function getMasteryEmoji(mastery: number) {
+  if (mastery <= 20) return '⬜';
+  if (mastery <= 40) return '🟥';
+  if (mastery <= 60) return '🟧';
+  if (mastery <= 80) return '🟨';
+  return '🟩';
+}
+
+function ActivityHeatmap({ heatmap }: { heatmap: Record<string, number> }) {
+  const weeks = 16;
+  const days = weeks * 7;
+  const today = new Date();
+  const cells: Array<{ date: string; count: number; intensity: number; label: string }> = [];
+
+  for (let index = days - 1; index >= 0; index -= 1) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - index);
+    const key = date.toISOString().split('T')[0] ?? '';
+    const count = heatmap[key] || 0;
+    const intensity = count === 0 ? 0 : count === 1 ? 1 : count <= 3 ? 2 : 3;
+
+    cells.push({
+      date: key,
+      count,
+      intensity,
+      label: date.toLocaleDateString(),
+    });
+  }
+
+  const intensityColors = ['#1e1e30', 'rgba(16,185,129,0.3)', 'rgba(16,185,129,0.6)', '#10b981'];
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap', maxWidth: '100%' }}>
+        {cells.map((cell) => (
+          <div
+            key={cell.date}
+            title={`${cell.label}: ${cell.count} activities`}
+            style={{
+              width: 12,
+              height: 12,
+              borderRadius: '2px',
+              background: intensityColors[cell.intensity],
+              cursor: 'default',
+              flexShrink: 0,
+            }}
+          />
+        ))}
+      </div>
+      <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginTop: '8px' }}>
+        <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Less</span>
+        {intensityColors.map((color) => (
+          <div key={color} style={{ width: 12, height: 12, borderRadius: '2px', background: color }} />
+        ))}
+        <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>More</span>
+      </div>
+    </div>
+  );
+}
+
+function SubjectRadar({ subject }: { subject: Subject }) {
+  const size = 160;
+  const centerX = size / 2;
+  const centerY = size / 2;
+  const radius = 60;
+
+  const axes = [
+    { label: 'Notes', value: subject.noteScore, max: 20 },
+    { label: 'Flashcards', value: subject.flashcardScore, max: 25 },
+    { label: 'Feynman', value: subject.feynmanScore, max: 25 },
+    { label: 'Curriculum', value: subject.curriculumScore, max: 20 },
+    { label: 'Exams', value: subject.examScore, max: 10 },
+  ];
+
+  const points = axes.map((axis, index) => {
+    const angle = (index / axes.length) * 2 * Math.PI - Math.PI / 2;
+    const ratio = axis.max > 0 ? axis.value / axis.max : 0;
+
+    return {
+      x: centerX + Math.cos(angle) * radius * ratio,
+      y: centerY + Math.sin(angle) * radius * ratio,
+      labelX: centerX + Math.cos(angle) * (radius + 18),
+      labelY: centerY + Math.sin(angle) * (radius + 18),
+      label: axis.label,
+    };
+  });
+
+  const polygon = points.map((point) => `${point.x},${point.y}`).join(' ');
+  const gridLevels = [0.25, 0.5, 0.75, 1];
+
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+      {gridLevels.map((level) => {
+        const gridPoints = axes
+          .map((_, index) => {
+            const angle = (index / axes.length) * 2 * Math.PI - Math.PI / 2;
+            return `${centerX + Math.cos(angle) * radius * level},${centerY + Math.sin(angle) * radius * level}`;
+          })
+          .join(' ');
+
+        return <polygon key={`grid-${level}`} points={gridPoints} fill="none" stroke="#1e1e30" strokeWidth="1" />;
+      })}
+
+      {axes.map((_, index) => {
+        const angle = (index / axes.length) * 2 * Math.PI - Math.PI / 2;
+        return (
+          <line
+            key={`axis-${index}`}
+            x1={centerX}
+            y1={centerY}
+            x2={centerX + Math.cos(angle) * radius}
+            y2={centerY + Math.sin(angle) * radius}
+            stroke="#1e1e30"
+            strokeWidth="1"
+          />
+        );
+      })}
+
+      <polygon points={polygon} fill={`${subject.color}30`} stroke={subject.color} strokeWidth="2" />
+
+      {points.map((point) => (
+        <text
+          key={point.label}
+          x={point.labelX}
+          y={point.labelY}
+          fill="#8888a0"
+          fontSize="8"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontFamily="ui-sans-serif, system-ui, sans-serif"
+        >
+          {point.label}
+        </text>
+      ))}
+
+      <text
+        x={centerX}
+        y={centerY - 4}
+        fill={subject.color}
+        fontSize="16"
+        fontWeight="800"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fontFamily="ui-sans-serif, system-ui, sans-serif"
+      >
+        {subject.mastery}
+      </text>
+      <text x={centerX} y={centerY + 12} fill="#8888a0" fontSize="7" textAnchor="middle" fontFamily="ui-sans-serif, system-ui, sans-serif">
+        /100
+      </text>
+    </svg>
+  );
+}
+
+export default function MasteryPage() {
+  const [data, setData] = useState<MasteryData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
+  const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    fetch('/api/mastery')
+      .then(async (response) => {
+        const payload = (await response.json().catch(() => null)) as MasteryData | null;
+        setData(payload);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  const subjects = data?.subjects ?? [];
+  const filteredSubjects = subjects.filter((subject) => {
+    if (filter === 'all') return true;
+    if (filter === 'mastered') return subject.mastery > 80;
+    if (filter === 'needs-work') return subject.mastery <= 60;
+    if (filter === 'in-progress') return subject.mastery > 20 && subject.mastery <= 80;
+    return true;
+  });
+
+  if (loading) {
+    return (
+      <div style={{ padding: '32px', maxWidth: '1000px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '28px' }}>
+          <div className="skeleton" style={{ width: 200, height: 28, borderRadius: '8px', marginBottom: '8px' }} />
+          <div className="skeleton" style={{ width: 340, height: 16, borderRadius: '6px' }} />
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '20px' }}>
+          {[1, 2, 3].map((item) => (
+            <div key={item} className="skeleton" style={{ height: 80, borderRadius: '12px' }} />
+          ))}
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
+          {[1, 2, 3, 4, 5, 6].map((item) => (
+            <div key={item} className="skeleton" style={{ height: 160, borderRadius: '12px' }} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (!data || subjects.length === 0) {
+    return (
+      <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+        <div style={{ fontSize: '64px', marginBottom: '20px' }}>🗺</div>
+        <h1 style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '12px' }}>
+          Your Mastery Chart is Empty
+        </h1>
+        <p
+          style={{
+            color: 'var(--text-secondary)',
+            fontSize: '14px',
+            lineHeight: 1.7,
+            maxWidth: '440px',
+            margin: '0 auto 28px',
+          }}
+        >
+          Start studying. Generate notes, study flashcards, try the Feynman technique, or track exam results. Your mastery map will
+          appear here automatically.
+        </p>
+
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          {[
+            { href: '/generator', label: '✨ Generate Notes' },
+            { href: '/flashcards', label: '🃏 Study Flashcards' },
+            { href: '/feynman', label: '🧠 Feynman Technique' },
+          ].map((link) => (
+            <a key={link.href} href={link.href} style={{ textDecoration: 'none' }}>
+              <button className="btn btn-primary btn-sm">{link.label}</button>
+            </a>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: '32px', maxWidth: '1100px', margin: '0 auto' }} className="animate-fade-in-up">
+      <div style={{ marginBottom: '28px' }}>
+        <h1
+          style={{
+            fontSize: '26px',
+            fontWeight: 800,
+            color: 'var(--text-primary)',
+            letterSpacing: '-0.02em',
+            marginBottom: '6px',
+          }}
+        >
+          🗺 Mastery Chart
+        </h1>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>A visual map of everything you've learned across all subjects.</p>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
+        {[
+          { label: 'Subjects Tracked', value: data.stats.totalSubjects, color: 'var(--accent-blue)', emoji: '📚' },
+          { label: 'Mastered', value: data.stats.masteredCount, color: '#10b981', emoji: '🏆' },
+          {
+            label: 'Avg Mastery',
+            value: `${data.stats.avgMastery}%`,
+            color: data.stats.avgMastery > 60 ? '#10b981' : data.stats.avgMastery > 40 ? '#f97316' : '#ef4444',
+            emoji: '📊',
+          },
+        ].map((stat) => (
+          <div key={stat.label} className="card" style={{ padding: '20px', textAlign: 'center' }}>
+            <div style={{ fontSize: '24px', marginBottom: '6px' }}>{stat.emoji}</div>
+            <div style={{ fontSize: '28px', fontWeight: 900, color: stat.color, letterSpacing: '-0.03em', marginBottom: '4px' }}>{stat.value}</div>
+            <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{stat.label}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="card" style={{ padding: '16px 20px', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
+          <span
+            style={{
+              fontSize: '12px',
+              fontWeight: 700,
+              color: 'var(--text-muted)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              flexShrink: 0,
+            }}
+          >
+            Mastery Scale:
+          </span>
+
+          {MASTERY_LEVELS.map((level) => (
+            <div key={level.label} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ width: 12, height: 12, borderRadius: '3px', background: level.color, flexShrink: 0 }} />
+              <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                {level.emoji} {level.label}
+                <span style={{ color: 'var(--text-muted)', marginLeft: '4px' }}>
+                  ({level.min}-{level.max})
+                </span>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="card" style={{ padding: '20px', marginBottom: '20px' }}>
+        <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '14px' }}>📅 Study Activity (last 16 weeks)</h3>
+        <ActivityHeatmap heatmap={data.heatmap} />
+      </div>
+
+      <div style={{ display: 'flex', gap: '6px', marginBottom: '16px', flexWrap: 'wrap' }}>
+        {[
+          { value: 'all', label: 'All subjects' },
+          { value: 'mastered', label: '🟩 Mastered' },
+          { value: 'in-progress', label: '🟧 In Progress' },
+          { value: 'needs-work', label: '🟥 Needs Work' },
+        ].map((entry) => (
+          <button
+            key={entry.value}
+            onClick={() => setFilter(entry.value)}
+            style={{
+              padding: '6px 14px',
+              borderRadius: '20px',
+              border: `1px solid ${filter === entry.value ? 'var(--accent-blue)' : 'var(--border-default)'}`,
+              background: filter === entry.value ? 'var(--accent-blue)' : 'var(--bg-elevated)',
+              color: filter === entry.value ? 'white' : 'var(--text-muted)',
+              fontSize: '12px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            {entry.label}
+            <span style={{ marginLeft: '6px', opacity: 0.8 }}>
+              {entry.value === 'all'
+                ? subjects.length
+                : entry.value === 'mastered'
+                  ? subjects.filter((subject) => subject.mastery > 80).length
+                  : entry.value === 'in-progress'
+                    ? subjects.filter((subject) => subject.mastery > 20 && subject.mastery <= 80).length
+                    : subjects.filter((subject) => subject.mastery <= 60).length}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px', marginBottom: '24px' }}>
+        {filteredSubjects.map((subject) => (
+          <div
+            key={subject.subject}
+            onClick={() => setSelectedSubject(selectedSubject?.subject === subject.subject ? null : subject)}
+            className="card"
+            style={{
+              padding: '20px',
+              cursor: 'pointer',
+              border: `1px solid ${selectedSubject?.subject === subject.subject ? subject.color : 'var(--border-default)'}`,
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(event) => {
+              event.currentTarget.style.borderColor = subject.color;
+              event.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(event) => {
+              if (selectedSubject?.subject !== subject.subject) {
+                event.currentTarget.style.borderColor = 'var(--border-default)';
+              }
+              event.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+              <div style={{ flexShrink: 0 }}>
+                <SubjectRadar subject={subject} />
+              </div>
+
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '4px', marginBottom: '6px' }}>
+                  <h3
+                    style={{
+                      fontSize: '15px',
+                      fontWeight: 700,
+                      color: 'var(--text-primary)',
+                      textTransform: 'capitalize',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {subject.subject}
+                  </h3>
+                  <span style={{ fontSize: '16px', flexShrink: 0 }}>{getMasteryEmoji(subject.mastery)}</span>
+                </div>
+
+                <div style={{ marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: '4px' }}>
+                    <span style={{ color: subject.color, fontWeight: 700 }}>{subject.label}</span>
+                    <span style={{ color: 'var(--text-muted)' }}>{subject.mastery}/100</span>
+                  </div>
+
+                  <div style={{ height: '6px', background: 'var(--border-default)', borderRadius: '3px' }}>
+                    <div
+                      style={{
+                        height: '100%',
+                        borderRadius: '3px',
+                        background: subject.color,
+                        width: `${subject.mastery}%`,
+                        transition: 'width 0.6s ease',
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                  {[
+                    { label: '📝', value: subject.noteScore, max: 20, title: 'Notes' },
+                    { label: '🃏', value: Math.round(subject.flashcardScore), max: 25, title: 'Flashcards' },
+                    { label: '🧠', value: Math.round(subject.feynmanScore), max: 25, title: 'Feynman' },
+                    { label: '🍁', value: Math.round(subject.curriculumScore), max: 20, title: 'Curriculum' },
+                    { label: '🎯', value: Math.round(subject.examScore), max: 10, title: 'Exams' },
+                  ].map((score) => (
+                    <div
+                      key={score.label}
+                      title={`${score.title}: ${score.value}/${score.max}`}
+                      style={{
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                        background: score.value > 0 ? `${subject.color}20` : 'var(--bg-elevated)',
+                        fontSize: '10px',
+                        fontWeight: 600,
+                        color: score.value > 0 ? subject.color : 'var(--text-muted)',
+                      }}
+                    >
+                      {score.label} {score.value}/{score.max}
+                    </div>
+                  ))}
+                </div>
+
+                {subject.topics.length > 0 ? (
+                  <div
+                    style={{
+                      marginTop: '8px',
+                      fontSize: '11px',
+                      color: 'var(--text-muted)',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {subject.topics.slice(0, 3).join(' · ')}
+                    {subject.topics.length > 3 ? ` +${subject.topics.length - 3} more` : ''}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {subjects.some((subject) => subject.mastery < 60) ? (
+        <div
+          className="card"
+          style={{
+            padding: '20px',
+            background: 'var(--glow-blue)',
+            border: '1px solid rgba(91,127,255,0.2)',
+          }}
+        >
+          <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--accent-blue)', marginBottom: '12px' }}>📈 Focus here next</h3>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            {subjects
+              .filter((subject) => subject.mastery < 60)
+              .slice(0, 4)
+              .map((subject) => (
+                <div
+                  key={subject.subject}
+                  style={{
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    background: 'var(--bg-elevated)',
+                    border: `1px solid ${subject.color}40`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <span style={{ fontSize: '16px' }}>{getMasteryEmoji(subject.mastery)}</span>
+                  <div>
+                    <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'capitalize' }}>{subject.subject}</div>
+                    <div style={{ fontSize: '11px', color: subject.color }}>
+                      {subject.mastery}/100 - {subject.label}
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
