@@ -291,6 +291,16 @@ exports.Prisma.PodcastScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.DiagramScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  type: 'type',
+  sourceText: 'sourceText',
+  diagramData: 'diagramData',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.FolderScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -733,6 +743,7 @@ exports.Prisma.ModelName = {
   StudyPlan: 'StudyPlan',
   CalendarEvent: 'CalendarEvent',
   Podcast: 'Podcast',
+  Diagram: 'Diagram',
   Folder: 'Folder',
   Citation: 'Citation',
   ExamPrediction: 'ExamPrediction',

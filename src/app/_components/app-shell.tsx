@@ -21,6 +21,7 @@ function titleFromPath(pathname: string) {
   if (path.startsWith("/feynman")) return "Feynman Technique";
   if (path.startsWith("/planner")) return "Study Planner";
   if (path.startsWith("/podcast")) return "Podcast";
+  if (path.startsWith("/diagrams")) return "Diagram Generator";
   if (path.startsWith("/citations")) return "Citations";
   if (path.startsWith("/scan")) return "Scan Notes";
   if (path.startsWith("/tutor")) return "Nova AI Tutor";

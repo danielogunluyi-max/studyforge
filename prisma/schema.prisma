@@ -114,6 +114,7 @@ model User {
     studyPlans   StudyPlan[]
     calendarEvents CalendarEvent[]
     podcasts     Podcast[]
+    diagrams     Diagram[]
     curriculumProgress OntarioCurriculumProgress[]
 }
 
@@ -285,6 +286,20 @@ model Podcast {
     script     Json
     topic      String
     createdAt  DateTime @default(now())
+
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model Diagram {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    title       String
+    type        String
+    sourceText  String   @db.Text
+    diagramData Json
+    createdAt   DateTime @default(now())
 
     @@index([userId])
     @@index([createdAt])

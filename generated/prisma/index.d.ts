@@ -84,6 +84,11 @@ export type CalendarEvent = $Result.DefaultSelection<Prisma.$CalendarEventPayloa
  */
 export type Podcast = $Result.DefaultSelection<Prisma.$PodcastPayload>
 /**
+ * Model Diagram
+ * 
+ */
+export type Diagram = $Result.DefaultSelection<Prisma.$DiagramPayload>
+/**
  * Model Folder
  * 
  */
@@ -511,6 +516,16 @@ export class PrismaClient<
     * ```
     */
   get podcast(): Prisma.PodcastDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.diagram`: Exposes CRUD operations for the **Diagram** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Diagrams
+    * const diagrams = await prisma.diagram.findMany()
+    * ```
+    */
+  get diagram(): Prisma.DiagramDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.folder`: Exposes CRUD operations for the **Folder** model.
@@ -1306,6 +1321,7 @@ export namespace Prisma {
     StudyPlan: 'StudyPlan',
     CalendarEvent: 'CalendarEvent',
     Podcast: 'Podcast',
+    Diagram: 'Diagram',
     Folder: 'Folder',
     Citation: 'Citation',
     ExamPrediction: 'ExamPrediction',
@@ -1358,7 +1374,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "ontarioCurriculumCourse" | "ontarioCurriculumUnit" | "ontarioCurriculumExpectation" | "ontarioCurriculumProgress" | "verificationToken" | "note" | "feynmanSession" | "studyPlan" | "calendarEvent" | "podcast" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember" | "pDFDocument" | "annotation" | "focusSession"
+      modelProps: "post" | "account" | "session" | "user" | "ontarioCurriculumCourse" | "ontarioCurriculumUnit" | "ontarioCurriculumExpectation" | "ontarioCurriculumProgress" | "verificationToken" | "note" | "feynmanSession" | "studyPlan" | "calendarEvent" | "podcast" | "diagram" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember" | "pDFDocument" | "annotation" | "focusSession"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2395,6 +2411,80 @@ export namespace Prisma {
           count: {
             args: Prisma.PodcastCountArgs<ExtArgs>
             result: $Utils.Optional<PodcastCountAggregateOutputType> | number
+          }
+        }
+      }
+      Diagram: {
+        payload: Prisma.$DiagramPayload<ExtArgs>
+        fields: Prisma.DiagramFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DiagramFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DiagramFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          findFirst: {
+            args: Prisma.DiagramFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DiagramFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          findMany: {
+            args: Prisma.DiagramFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>[]
+          }
+          create: {
+            args: Prisma.DiagramCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          createMany: {
+            args: Prisma.DiagramCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DiagramCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>[]
+          }
+          delete: {
+            args: Prisma.DiagramDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          update: {
+            args: Prisma.DiagramUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          deleteMany: {
+            args: Prisma.DiagramDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DiagramUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DiagramUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>[]
+          }
+          upsert: {
+            args: Prisma.DiagramUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          aggregate: {
+            args: Prisma.DiagramAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDiagram>
+          }
+          groupBy: {
+            args: Prisma.DiagramGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DiagramGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DiagramCountArgs<ExtArgs>
+            result: $Utils.Optional<DiagramCountAggregateOutputType> | number
           }
         }
       }
@@ -5024,6 +5114,7 @@ export namespace Prisma {
     studyPlan?: StudyPlanOmit
     calendarEvent?: CalendarEventOmit
     podcast?: PodcastOmit
+    diagram?: DiagramOmit
     folder?: FolderOmit
     citation?: CitationOmit
     examPrediction?: ExamPredictionOmit
@@ -5177,6 +5268,7 @@ export namespace Prisma {
     studyPlans: number
     calendarEvents: number
     podcasts: number
+    diagrams: number
     curriculumProgress: number
   }
 
@@ -5220,6 +5312,7 @@ export namespace Prisma {
     studyPlans?: boolean | UserCountOutputTypeCountStudyPlansArgs
     calendarEvents?: boolean | UserCountOutputTypeCountCalendarEventsArgs
     podcasts?: boolean | UserCountOutputTypeCountPodcastsArgs
+    diagrams?: boolean | UserCountOutputTypeCountDiagramsArgs
     curriculumProgress?: boolean | UserCountOutputTypeCountCurriculumProgressArgs
   }
 
@@ -5505,6 +5598,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPodcastsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PodcastWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDiagramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiagramWhereInput
   }
 
   /**
@@ -9701,6 +9801,7 @@ export namespace Prisma {
     studyPlans?: boolean | User$studyPlansArgs<ExtArgs>
     calendarEvents?: boolean | User$calendarEventsArgs<ExtArgs>
     podcasts?: boolean | User$podcastsArgs<ExtArgs>
+    diagrams?: boolean | User$diagramsArgs<ExtArgs>
     curriculumProgress?: boolean | User$curriculumProgressArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -9819,6 +9920,7 @@ export namespace Prisma {
     studyPlans?: boolean | User$studyPlansArgs<ExtArgs>
     calendarEvents?: boolean | User$calendarEventsArgs<ExtArgs>
     podcasts?: boolean | User$podcastsArgs<ExtArgs>
+    diagrams?: boolean | User$diagramsArgs<ExtArgs>
     curriculumProgress?: boolean | User$curriculumProgressArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -9868,6 +9970,7 @@ export namespace Prisma {
       studyPlans: Prisma.$StudyPlanPayload<ExtArgs>[]
       calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
       podcasts: Prisma.$PodcastPayload<ExtArgs>[]
+      diagrams: Prisma.$DiagramPayload<ExtArgs>[]
       curriculumProgress: Prisma.$OntarioCurriculumProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -10326,6 +10429,7 @@ export namespace Prisma {
     studyPlans<T extends User$studyPlansArgs<ExtArgs> = {}>(args?: Subset<T, User$studyPlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     calendarEvents<T extends User$calendarEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     podcasts<T extends User$podcastsArgs<ExtArgs> = {}>(args?: Subset<T, User$podcastsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    diagrams<T extends User$diagramsArgs<ExtArgs> = {}>(args?: Subset<T, User$diagramsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     curriculumProgress<T extends User$curriculumProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$curriculumProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -11717,6 +11821,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PodcastScalarFieldEnum | PodcastScalarFieldEnum[]
+  }
+
+  /**
+   * User.diagrams
+   */
+  export type User$diagramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    cursor?: DiagramWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiagramScalarFieldEnum | DiagramScalarFieldEnum[]
   }
 
   /**
@@ -22978,6 +23106,1086 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PodcastInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Diagram
+   */
+
+  export type AggregateDiagram = {
+    _count: DiagramCountAggregateOutputType | null
+    _min: DiagramMinAggregateOutputType | null
+    _max: DiagramMaxAggregateOutputType | null
+  }
+
+  export type DiagramMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    title: string | null
+    type: string | null
+    sourceText: string | null
+    createdAt: Date | null
+  }
+
+  export type DiagramMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    title: string | null
+    type: string | null
+    sourceText: string | null
+    createdAt: Date | null
+  }
+
+  export type DiagramCountAggregateOutputType = {
+    id: number
+    userId: number
+    title: number
+    type: number
+    sourceText: number
+    diagramData: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type DiagramMinAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    type?: true
+    sourceText?: true
+    createdAt?: true
+  }
+
+  export type DiagramMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    type?: true
+    sourceText?: true
+    createdAt?: true
+  }
+
+  export type DiagramCountAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    type?: true
+    sourceText?: true
+    diagramData?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type DiagramAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Diagram to aggregate.
+     */
+    where?: DiagramWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Diagrams to fetch.
+     */
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DiagramWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Diagrams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Diagrams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Diagrams
+    **/
+    _count?: true | DiagramCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DiagramMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DiagramMaxAggregateInputType
+  }
+
+  export type GetDiagramAggregateType<T extends DiagramAggregateArgs> = {
+        [P in keyof T & keyof AggregateDiagram]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDiagram[P]>
+      : GetScalarType<T[P], AggregateDiagram[P]>
+  }
+
+
+
+
+  export type DiagramGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiagramWhereInput
+    orderBy?: DiagramOrderByWithAggregationInput | DiagramOrderByWithAggregationInput[]
+    by: DiagramScalarFieldEnum[] | DiagramScalarFieldEnum
+    having?: DiagramScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DiagramCountAggregateInputType | true
+    _min?: DiagramMinAggregateInputType
+    _max?: DiagramMaxAggregateInputType
+  }
+
+  export type DiagramGroupByOutputType = {
+    id: string
+    userId: string
+    title: string
+    type: string
+    sourceText: string
+    diagramData: JsonValue
+    createdAt: Date
+    _count: DiagramCountAggregateOutputType | null
+    _min: DiagramMinAggregateOutputType | null
+    _max: DiagramMaxAggregateOutputType | null
+  }
+
+  type GetDiagramGroupByPayload<T extends DiagramGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DiagramGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DiagramGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DiagramGroupByOutputType[P]>
+            : GetScalarType<T[P], DiagramGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DiagramSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    type?: boolean
+    sourceText?: boolean
+    diagramData?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["diagram"]>
+
+  export type DiagramSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    type?: boolean
+    sourceText?: boolean
+    diagramData?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["diagram"]>
+
+  export type DiagramSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    type?: boolean
+    sourceText?: boolean
+    diagramData?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["diagram"]>
+
+  export type DiagramSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    type?: boolean
+    sourceText?: boolean
+    diagramData?: boolean
+    createdAt?: boolean
+  }
+
+  export type DiagramOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "type" | "sourceText" | "diagramData" | "createdAt", ExtArgs["result"]["diagram"]>
+  export type DiagramInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DiagramIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DiagramIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $DiagramPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Diagram"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      title: string
+      type: string
+      sourceText: string
+      diagramData: Prisma.JsonValue
+      createdAt: Date
+    }, ExtArgs["result"]["diagram"]>
+    composites: {}
+  }
+
+  type DiagramGetPayload<S extends boolean | null | undefined | DiagramDefaultArgs> = $Result.GetResult<Prisma.$DiagramPayload, S>
+
+  type DiagramCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DiagramFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DiagramCountAggregateInputType | true
+    }
+
+  export interface DiagramDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Diagram'], meta: { name: 'Diagram' } }
+    /**
+     * Find zero or one Diagram that matches the filter.
+     * @param {DiagramFindUniqueArgs} args - Arguments to find a Diagram
+     * @example
+     * // Get one Diagram
+     * const diagram = await prisma.diagram.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DiagramFindUniqueArgs>(args: SelectSubset<T, DiagramFindUniqueArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Diagram that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DiagramFindUniqueOrThrowArgs} args - Arguments to find a Diagram
+     * @example
+     * // Get one Diagram
+     * const diagram = await prisma.diagram.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DiagramFindUniqueOrThrowArgs>(args: SelectSubset<T, DiagramFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Diagram that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramFindFirstArgs} args - Arguments to find a Diagram
+     * @example
+     * // Get one Diagram
+     * const diagram = await prisma.diagram.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DiagramFindFirstArgs>(args?: SelectSubset<T, DiagramFindFirstArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Diagram that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramFindFirstOrThrowArgs} args - Arguments to find a Diagram
+     * @example
+     * // Get one Diagram
+     * const diagram = await prisma.diagram.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DiagramFindFirstOrThrowArgs>(args?: SelectSubset<T, DiagramFindFirstOrThrowArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Diagrams that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Diagrams
+     * const diagrams = await prisma.diagram.findMany()
+     * 
+     * // Get first 10 Diagrams
+     * const diagrams = await prisma.diagram.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const diagramWithIdOnly = await prisma.diagram.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DiagramFindManyArgs>(args?: SelectSubset<T, DiagramFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Diagram.
+     * @param {DiagramCreateArgs} args - Arguments to create a Diagram.
+     * @example
+     * // Create one Diagram
+     * const Diagram = await prisma.diagram.create({
+     *   data: {
+     *     // ... data to create a Diagram
+     *   }
+     * })
+     * 
+     */
+    create<T extends DiagramCreateArgs>(args: SelectSubset<T, DiagramCreateArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Diagrams.
+     * @param {DiagramCreateManyArgs} args - Arguments to create many Diagrams.
+     * @example
+     * // Create many Diagrams
+     * const diagram = await prisma.diagram.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DiagramCreateManyArgs>(args?: SelectSubset<T, DiagramCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Diagrams and returns the data saved in the database.
+     * @param {DiagramCreateManyAndReturnArgs} args - Arguments to create many Diagrams.
+     * @example
+     * // Create many Diagrams
+     * const diagram = await prisma.diagram.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Diagrams and only return the `id`
+     * const diagramWithIdOnly = await prisma.diagram.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DiagramCreateManyAndReturnArgs>(args?: SelectSubset<T, DiagramCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Diagram.
+     * @param {DiagramDeleteArgs} args - Arguments to delete one Diagram.
+     * @example
+     * // Delete one Diagram
+     * const Diagram = await prisma.diagram.delete({
+     *   where: {
+     *     // ... filter to delete one Diagram
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DiagramDeleteArgs>(args: SelectSubset<T, DiagramDeleteArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Diagram.
+     * @param {DiagramUpdateArgs} args - Arguments to update one Diagram.
+     * @example
+     * // Update one Diagram
+     * const diagram = await prisma.diagram.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DiagramUpdateArgs>(args: SelectSubset<T, DiagramUpdateArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Diagrams.
+     * @param {DiagramDeleteManyArgs} args - Arguments to filter Diagrams to delete.
+     * @example
+     * // Delete a few Diagrams
+     * const { count } = await prisma.diagram.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DiagramDeleteManyArgs>(args?: SelectSubset<T, DiagramDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Diagrams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Diagrams
+     * const diagram = await prisma.diagram.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DiagramUpdateManyArgs>(args: SelectSubset<T, DiagramUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Diagrams and returns the data updated in the database.
+     * @param {DiagramUpdateManyAndReturnArgs} args - Arguments to update many Diagrams.
+     * @example
+     * // Update many Diagrams
+     * const diagram = await prisma.diagram.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Diagrams and only return the `id`
+     * const diagramWithIdOnly = await prisma.diagram.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DiagramUpdateManyAndReturnArgs>(args: SelectSubset<T, DiagramUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Diagram.
+     * @param {DiagramUpsertArgs} args - Arguments to update or create a Diagram.
+     * @example
+     * // Update or create a Diagram
+     * const diagram = await prisma.diagram.upsert({
+     *   create: {
+     *     // ... data to create a Diagram
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Diagram we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DiagramUpsertArgs>(args: SelectSubset<T, DiagramUpsertArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Diagrams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramCountArgs} args - Arguments to filter Diagrams to count.
+     * @example
+     * // Count the number of Diagrams
+     * const count = await prisma.diagram.count({
+     *   where: {
+     *     // ... the filter for the Diagrams we want to count
+     *   }
+     * })
+    **/
+    count<T extends DiagramCountArgs>(
+      args?: Subset<T, DiagramCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DiagramCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Diagram.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DiagramAggregateArgs>(args: Subset<T, DiagramAggregateArgs>): Prisma.PrismaPromise<GetDiagramAggregateType<T>>
+
+    /**
+     * Group by Diagram.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DiagramGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DiagramGroupByArgs['orderBy'] }
+        : { orderBy?: DiagramGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DiagramGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDiagramGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Diagram model
+   */
+  readonly fields: DiagramFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Diagram.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DiagramClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Diagram model
+   */
+  interface DiagramFieldRefs {
+    readonly id: FieldRef<"Diagram", 'String'>
+    readonly userId: FieldRef<"Diagram", 'String'>
+    readonly title: FieldRef<"Diagram", 'String'>
+    readonly type: FieldRef<"Diagram", 'String'>
+    readonly sourceText: FieldRef<"Diagram", 'String'>
+    readonly diagramData: FieldRef<"Diagram", 'Json'>
+    readonly createdAt: FieldRef<"Diagram", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Diagram findUnique
+   */
+  export type DiagramFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter, which Diagram to fetch.
+     */
+    where: DiagramWhereUniqueInput
+  }
+
+  /**
+   * Diagram findUniqueOrThrow
+   */
+  export type DiagramFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter, which Diagram to fetch.
+     */
+    where: DiagramWhereUniqueInput
+  }
+
+  /**
+   * Diagram findFirst
+   */
+  export type DiagramFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter, which Diagram to fetch.
+     */
+    where?: DiagramWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Diagrams to fetch.
+     */
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Diagrams.
+     */
+    cursor?: DiagramWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Diagrams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Diagrams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Diagrams.
+     */
+    distinct?: DiagramScalarFieldEnum | DiagramScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram findFirstOrThrow
+   */
+  export type DiagramFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter, which Diagram to fetch.
+     */
+    where?: DiagramWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Diagrams to fetch.
+     */
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Diagrams.
+     */
+    cursor?: DiagramWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Diagrams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Diagrams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Diagrams.
+     */
+    distinct?: DiagramScalarFieldEnum | DiagramScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram findMany
+   */
+  export type DiagramFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter, which Diagrams to fetch.
+     */
+    where?: DiagramWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Diagrams to fetch.
+     */
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Diagrams.
+     */
+    cursor?: DiagramWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Diagrams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Diagrams.
+     */
+    skip?: number
+    distinct?: DiagramScalarFieldEnum | DiagramScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram create
+   */
+  export type DiagramCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Diagram.
+     */
+    data: XOR<DiagramCreateInput, DiagramUncheckedCreateInput>
+  }
+
+  /**
+   * Diagram createMany
+   */
+  export type DiagramCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Diagrams.
+     */
+    data: DiagramCreateManyInput | DiagramCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Diagram createManyAndReturn
+   */
+  export type DiagramCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * The data used to create many Diagrams.
+     */
+    data: DiagramCreateManyInput | DiagramCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Diagram update
+   */
+  export type DiagramUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Diagram.
+     */
+    data: XOR<DiagramUpdateInput, DiagramUncheckedUpdateInput>
+    /**
+     * Choose, which Diagram to update.
+     */
+    where: DiagramWhereUniqueInput
+  }
+
+  /**
+   * Diagram updateMany
+   */
+  export type DiagramUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Diagrams.
+     */
+    data: XOR<DiagramUpdateManyMutationInput, DiagramUncheckedUpdateManyInput>
+    /**
+     * Filter which Diagrams to update
+     */
+    where?: DiagramWhereInput
+    /**
+     * Limit how many Diagrams to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Diagram updateManyAndReturn
+   */
+  export type DiagramUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * The data used to update Diagrams.
+     */
+    data: XOR<DiagramUpdateManyMutationInput, DiagramUncheckedUpdateManyInput>
+    /**
+     * Filter which Diagrams to update
+     */
+    where?: DiagramWhereInput
+    /**
+     * Limit how many Diagrams to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Diagram upsert
+   */
+  export type DiagramUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Diagram to update in case it exists.
+     */
+    where: DiagramWhereUniqueInput
+    /**
+     * In case the Diagram found by the `where` argument doesn't exist, create a new Diagram with this data.
+     */
+    create: XOR<DiagramCreateInput, DiagramUncheckedCreateInput>
+    /**
+     * In case the Diagram was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DiagramUpdateInput, DiagramUncheckedUpdateInput>
+  }
+
+  /**
+   * Diagram delete
+   */
+  export type DiagramDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter which Diagram to delete.
+     */
+    where: DiagramWhereUniqueInput
+  }
+
+  /**
+   * Diagram deleteMany
+   */
+  export type DiagramDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Diagrams to delete
+     */
+    where?: DiagramWhereInput
+    /**
+     * Limit how many Diagrams to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Diagram without action
+   */
+  export type DiagramDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
   }
 
 
@@ -62290,6 +63498,19 @@ export namespace Prisma {
   export type PodcastScalarFieldEnum = (typeof PodcastScalarFieldEnum)[keyof typeof PodcastScalarFieldEnum]
 
 
+  export const DiagramScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    title: 'title',
+    type: 'type',
+    sourceText: 'sourceText',
+    diagramData: 'diagramData',
+    createdAt: 'createdAt'
+  };
+
+  export type DiagramScalarFieldEnum = (typeof DiagramScalarFieldEnum)[keyof typeof DiagramScalarFieldEnum]
+
+
   export const FolderScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -63191,6 +64412,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
     podcasts?: PodcastListRelationFilter
+    diagrams?: DiagramListRelationFilter
     curriculumProgress?: OntarioCurriculumProgressListRelationFilter
   }
 
@@ -63256,6 +64478,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanOrderByRelationAggregateInput
     calendarEvents?: CalendarEventOrderByRelationAggregateInput
     podcasts?: PodcastOrderByRelationAggregateInput
+    diagrams?: DiagramOrderByRelationAggregateInput
     curriculumProgress?: OntarioCurriculumProgressOrderByRelationAggregateInput
   }
 
@@ -63324,6 +64547,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
     podcasts?: PodcastListRelationFilter
+    diagrams?: DiagramListRelationFilter
     curriculumProgress?: OntarioCurriculumProgressListRelationFilter
   }, "id" | "email">
 
@@ -64130,6 +65354,71 @@ export namespace Prisma {
     script?: JsonWithAggregatesFilter<"Podcast">
     topic?: StringWithAggregatesFilter<"Podcast"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Podcast"> | Date | string
+  }
+
+  export type DiagramWhereInput = {
+    AND?: DiagramWhereInput | DiagramWhereInput[]
+    OR?: DiagramWhereInput[]
+    NOT?: DiagramWhereInput | DiagramWhereInput[]
+    id?: StringFilter<"Diagram"> | string
+    userId?: StringFilter<"Diagram"> | string
+    title?: StringFilter<"Diagram"> | string
+    type?: StringFilter<"Diagram"> | string
+    sourceText?: StringFilter<"Diagram"> | string
+    diagramData?: JsonFilter<"Diagram">
+    createdAt?: DateTimeFilter<"Diagram"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type DiagramOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    sourceText?: SortOrder
+    diagramData?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type DiagramWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DiagramWhereInput | DiagramWhereInput[]
+    OR?: DiagramWhereInput[]
+    NOT?: DiagramWhereInput | DiagramWhereInput[]
+    userId?: StringFilter<"Diagram"> | string
+    title?: StringFilter<"Diagram"> | string
+    type?: StringFilter<"Diagram"> | string
+    sourceText?: StringFilter<"Diagram"> | string
+    diagramData?: JsonFilter<"Diagram">
+    createdAt?: DateTimeFilter<"Diagram"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type DiagramOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    sourceText?: SortOrder
+    diagramData?: SortOrder
+    createdAt?: SortOrder
+    _count?: DiagramCountOrderByAggregateInput
+    _max?: DiagramMaxOrderByAggregateInput
+    _min?: DiagramMinOrderByAggregateInput
+  }
+
+  export type DiagramScalarWhereWithAggregatesInput = {
+    AND?: DiagramScalarWhereWithAggregatesInput | DiagramScalarWhereWithAggregatesInput[]
+    OR?: DiagramScalarWhereWithAggregatesInput[]
+    NOT?: DiagramScalarWhereWithAggregatesInput | DiagramScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Diagram"> | string
+    userId?: StringWithAggregatesFilter<"Diagram"> | string
+    title?: StringWithAggregatesFilter<"Diagram"> | string
+    type?: StringWithAggregatesFilter<"Diagram"> | string
+    sourceText?: StringWithAggregatesFilter<"Diagram"> | string
+    diagramData?: JsonWithAggregatesFilter<"Diagram">
+    createdAt?: DateTimeWithAggregatesFilter<"Diagram"> | Date | string
   }
 
   export type FolderWhereInput = {
@@ -67059,6 +68348,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -67124,6 +68414,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -67189,6 +68480,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -67254,6 +68546,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -68137,6 +69430,75 @@ export namespace Prisma {
     sourceText?: StringFieldUpdateOperationsInput | string
     script?: JsonNullValueInput | InputJsonValue
     topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiagramCreateInput = {
+    id?: string
+    title: string
+    type: string
+    sourceText: string
+    diagramData: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateInput = {
+    id?: string
+    userId: string
+    title: string
+    type: string
+    sourceText: string
+    diagramData: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type DiagramUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    diagramData?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    diagramData?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiagramCreateManyInput = {
+    id?: string
+    userId: string
+    title: string
+    type: string
+    sourceText: string
+    diagramData: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type DiagramUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    diagramData?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiagramUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    diagramData?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -71471,6 +72833,12 @@ export namespace Prisma {
     none?: PodcastWhereInput
   }
 
+  export type DiagramListRelationFilter = {
+    every?: DiagramWhereInput
+    some?: DiagramWhereInput
+    none?: DiagramWhereInput
+  }
+
   export type OntarioCurriculumProgressListRelationFilter = {
     every?: OntarioCurriculumProgressWhereInput
     some?: OntarioCurriculumProgressWhereInput
@@ -71626,6 +72994,10 @@ export namespace Prisma {
   }
 
   export type PodcastOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DiagramOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -72205,6 +73577,34 @@ export namespace Prisma {
     title?: SortOrder
     sourceText?: SortOrder
     topic?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DiagramCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    sourceText?: SortOrder
+    diagramData?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DiagramMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    sourceText?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DiagramMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    sourceText?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -74149,6 +75549,13 @@ export namespace Prisma {
     connect?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
   }
 
+  export type DiagramCreateNestedManyWithoutUserInput = {
+    create?: XOR<DiagramCreateWithoutUserInput, DiagramUncheckedCreateWithoutUserInput> | DiagramCreateWithoutUserInput[] | DiagramUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutUserInput | DiagramCreateOrConnectWithoutUserInput[]
+    createMany?: DiagramCreateManyUserInputEnvelope
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+  }
+
   export type OntarioCurriculumProgressCreateNestedManyWithoutUserInput = {
     create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
@@ -74433,6 +75840,13 @@ export namespace Prisma {
     connectOrCreate?: PodcastCreateOrConnectWithoutUserInput | PodcastCreateOrConnectWithoutUserInput[]
     createMany?: PodcastCreateManyUserInputEnvelope
     connect?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
+  }
+
+  export type DiagramUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DiagramCreateWithoutUserInput, DiagramUncheckedCreateWithoutUserInput> | DiagramCreateWithoutUserInput[] | DiagramUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutUserInput | DiagramCreateOrConnectWithoutUserInput[]
+    createMany?: DiagramCreateManyUserInputEnvelope
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
   }
 
   export type OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput = {
@@ -75011,6 +76425,20 @@ export namespace Prisma {
     deleteMany?: PodcastScalarWhereInput | PodcastScalarWhereInput[]
   }
 
+  export type DiagramUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DiagramCreateWithoutUserInput, DiagramUncheckedCreateWithoutUserInput> | DiagramCreateWithoutUserInput[] | DiagramUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutUserInput | DiagramCreateOrConnectWithoutUserInput[]
+    upsert?: DiagramUpsertWithWhereUniqueWithoutUserInput | DiagramUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DiagramCreateManyUserInputEnvelope
+    set?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    disconnect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    delete?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    update?: DiagramUpdateWithWhereUniqueWithoutUserInput | DiagramUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DiagramUpdateManyWithWhereWithoutUserInput | DiagramUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
+  }
+
   export type OntarioCurriculumProgressUpdateManyWithoutUserNestedInput = {
     create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
@@ -75581,6 +77009,20 @@ export namespace Prisma {
     deleteMany?: PodcastScalarWhereInput | PodcastScalarWhereInput[]
   }
 
+  export type DiagramUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DiagramCreateWithoutUserInput, DiagramUncheckedCreateWithoutUserInput> | DiagramCreateWithoutUserInput[] | DiagramUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutUserInput | DiagramCreateOrConnectWithoutUserInput[]
+    upsert?: DiagramUpsertWithWhereUniqueWithoutUserInput | DiagramUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DiagramCreateManyUserInputEnvelope
+    set?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    disconnect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    delete?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    update?: DiagramUpdateWithWhereUniqueWithoutUserInput | DiagramUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DiagramUpdateManyWithWhereWithoutUserInput | DiagramUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
+  }
+
   export type OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
@@ -75948,6 +77390,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutPodcastsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPodcastsInput, UserUpdateWithoutPodcastsInput>, UserUncheckedUpdateWithoutPodcastsInput>
+  }
+
+  export type UserCreateNestedOneWithoutDiagramsInput = {
+    create?: XOR<UserCreateWithoutDiagramsInput, UserUncheckedCreateWithoutDiagramsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDiagramsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDiagramsNestedInput = {
+    create?: XOR<UserCreateWithoutDiagramsInput, UserUncheckedCreateWithoutDiagramsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDiagramsInput
+    upsert?: UserUpsertWithoutDiagramsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDiagramsInput, UserUpdateWithoutDiagramsInput>, UserUncheckedUpdateWithoutDiagramsInput>
   }
 
   export type UserCreateNestedOneWithoutFoldersInput = {
@@ -77934,6 +79390,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -77998,6 +79455,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -78078,6 +79536,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -78142,6 +79601,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -78206,6 +79666,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -78270,6 +79731,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -78350,6 +79812,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -78414,6 +79877,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -78478,6 +79942,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -78542,6 +80007,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -78622,6 +80088,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -78686,6 +80153,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -80005,6 +81473,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DiagramCreateWithoutUserInput = {
+    id?: string
+    title: string
+    type: string
+    sourceText: string
+    diagramData: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type DiagramUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    type: string
+    sourceText: string
+    diagramData: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type DiagramCreateOrConnectWithoutUserInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutUserInput, DiagramUncheckedCreateWithoutUserInput>
+  }
+
+  export type DiagramCreateManyUserInputEnvelope = {
+    data: DiagramCreateManyUserInput | DiagramCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OntarioCurriculumProgressCreateWithoutUserInput = {
     id?: string
     completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
@@ -81254,6 +82750,35 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Podcast"> | Date | string
   }
 
+  export type DiagramUpsertWithWhereUniqueWithoutUserInput = {
+    where: DiagramWhereUniqueInput
+    update: XOR<DiagramUpdateWithoutUserInput, DiagramUncheckedUpdateWithoutUserInput>
+    create: XOR<DiagramCreateWithoutUserInput, DiagramUncheckedCreateWithoutUserInput>
+  }
+
+  export type DiagramUpdateWithWhereUniqueWithoutUserInput = {
+    where: DiagramWhereUniqueInput
+    data: XOR<DiagramUpdateWithoutUserInput, DiagramUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DiagramUpdateManyWithWhereWithoutUserInput = {
+    where: DiagramScalarWhereInput
+    data: XOR<DiagramUpdateManyMutationInput, DiagramUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DiagramScalarWhereInput = {
+    AND?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
+    OR?: DiagramScalarWhereInput[]
+    NOT?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
+    id?: StringFilter<"Diagram"> | string
+    userId?: StringFilter<"Diagram"> | string
+    title?: StringFilter<"Diagram"> | string
+    type?: StringFilter<"Diagram"> | string
+    sourceText?: StringFilter<"Diagram"> | string
+    diagramData?: JsonFilter<"Diagram">
+    createdAt?: DateTimeFilter<"Diagram"> | Date | string
+  }
+
   export type OntarioCurriculumProgressUpsertWithWhereUniqueWithoutUserInput = {
     where: OntarioCurriculumProgressWhereUniqueInput
     update: XOR<OntarioCurriculumProgressUpdateWithoutUserInput, OntarioCurriculumProgressUncheckedUpdateWithoutUserInput>
@@ -81662,6 +83187,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCurriculumProgressInput = {
@@ -81726,6 +83252,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCurriculumProgressInput = {
@@ -81847,6 +83374,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCurriculumProgressInput = {
@@ -81911,6 +83439,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OntarioCurriculumCourseUpsertWithoutProgressInput = {
@@ -82021,6 +83550,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -82085,6 +83615,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -82214,6 +83745,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -82278,6 +83810,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -82385,6 +83918,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -82449,6 +83983,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -82529,6 +84064,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -82593,6 +84129,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -82657,6 +84194,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -82721,6 +84259,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -82801,6 +84340,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -82865,6 +84405,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -82929,6 +84470,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -82993,6 +84535,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -83073,6 +84616,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -83137,6 +84681,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -83201,6 +84746,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -83265,6 +84811,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -83345,6 +84892,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -83409,6 +84957,283 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutDiagramsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
+    studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDiagramsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
+    studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDiagramsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDiagramsInput, UserUncheckedCreateWithoutDiagramsInput>
+  }
+
+  export type UserUpsertWithoutDiagramsInput = {
+    update: XOR<UserUpdateWithoutDiagramsInput, UserUncheckedUpdateWithoutDiagramsInput>
+    create: XOR<UserCreateWithoutDiagramsInput, UserUncheckedCreateWithoutDiagramsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDiagramsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDiagramsInput, UserUncheckedUpdateWithoutDiagramsInput>
+  }
+
+  export type UserUpdateWithoutDiagramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
+    studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDiagramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
+    studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -83473,6 +85298,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -83537,6 +85363,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -83657,6 +85484,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -83721,6 +85549,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -83801,6 +85630,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -83865,6 +85695,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -83945,6 +85776,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -84009,6 +85841,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -84073,6 +85906,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -84137,6 +85971,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -84217,6 +86052,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -84281,6 +86117,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -84345,6 +86182,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -84409,6 +86247,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -84478,6 +86317,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -84542,6 +86382,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -84701,6 +86542,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -84765,6 +86607,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -84840,6 +86683,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -84904,6 +86748,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -85205,6 +87050,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -85269,6 +87115,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -85408,6 +87255,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -85472,6 +87320,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -85589,6 +87438,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -85653,6 +87503,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -85792,6 +87643,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -85856,6 +87708,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -85920,6 +87773,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -85984,6 +87838,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -86385,6 +88240,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -86449,6 +88305,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -86771,6 +88628,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -86835,6 +88693,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -86974,6 +88833,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -87038,6 +88898,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -87155,6 +89016,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -87219,6 +89081,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -87382,6 +89245,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -87446,6 +89310,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -87726,6 +89591,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -87790,6 +89656,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -87994,6 +89861,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -88058,6 +89926,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -88161,6 +90030,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -88225,6 +90095,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -88334,6 +90205,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -88398,6 +90270,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -88515,6 +90388,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -88579,6 +90453,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -88718,6 +90593,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -88782,6 +90658,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -88899,6 +90776,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -88963,6 +90841,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -89130,6 +91009,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -89194,6 +91074,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -89303,6 +91184,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -89367,6 +91249,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -89482,6 +91365,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -89546,6 +91430,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -89663,6 +91548,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -89727,6 +91613,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -89866,6 +91753,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -89930,6 +91818,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -90047,6 +91936,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -90111,6 +92001,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -90250,6 +92141,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -90314,6 +92206,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -90431,6 +92324,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -90495,6 +92389,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -90634,6 +92529,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -90698,6 +92594,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -90815,6 +92712,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -90879,6 +92777,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -91018,6 +92917,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -91082,6 +92982,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -91224,6 +93125,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -91288,6 +93190,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -91458,6 +93361,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -91522,6 +93426,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -91586,6 +93491,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -91650,6 +93556,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -91730,6 +93637,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -91794,6 +93702,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -91858,6 +93767,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -91922,6 +93832,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -92002,6 +93913,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -92066,6 +93978,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -92130,6 +94043,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -92194,6 +94108,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -92274,6 +94189,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -92338,6 +94254,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -92402,6 +94319,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -92466,6 +94384,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -92546,6 +94465,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -92610,6 +94530,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -92674,6 +94595,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -92738,6 +94660,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -92818,6 +94741,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -92882,6 +94806,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -92946,6 +94871,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -93010,6 +94936,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -93124,6 +95051,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -93188,6 +95116,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -93340,6 +95269,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -93404,6 +95334,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -93484,6 +95415,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -93548,6 +95480,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -93638,6 +95571,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -93702,6 +95636,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -93798,6 +95733,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -93862,6 +95798,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -93957,6 +95894,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -94021,6 +95959,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -94138,6 +96077,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -94202,6 +96142,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -94266,6 +96207,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -94330,6 +96272,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -94446,6 +96389,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -94510,6 +96454,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -94619,6 +96564,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -94683,6 +96629,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -94798,6 +96745,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -94862,6 +96810,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -94926,6 +96875,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     podcasts?: PodcastCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -94990,6 +96940,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -95070,6 +97021,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -95134,6 +97086,7 @@ export namespace Prisma {
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -95555,6 +97508,15 @@ export namespace Prisma {
     sourceText: string
     script: JsonNullValueInput | InputJsonValue
     topic: string
+    createdAt?: Date | string
+  }
+
+  export type DiagramCreateManyUserInput = {
+    id?: string
+    title: string
+    type: string
+    sourceText: string
+    diagramData: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -96878,6 +98840,33 @@ export namespace Prisma {
     sourceText?: StringFieldUpdateOperationsInput | string
     script?: JsonNullValueInput | InputJsonValue
     topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiagramUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    diagramData?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiagramUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    diagramData?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiagramUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    diagramData?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

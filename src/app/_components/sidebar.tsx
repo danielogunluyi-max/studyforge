@@ -70,6 +70,11 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       icon: <NavIcon><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m12 3 1.5 3.5L17 8l-3.5 1.5L12 13l-1.5-3.5L7 8l3.5-1.5L12 3z" /></svg></NavIcon>,
     },
     {
+      href: "/diagrams",
+      label: "Diagram Generator",
+      icon: <NavIcon><span aria-hidden="true">🗺</span></NavIcon>,
+    },
+    {
       href: "/upload",
       label: "Upload File",
       icon: <NavIcon><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V6m0 0 3.75 3.75M12 6 8.25 9.75" /><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 16.5v1.5A2.25 2.25 0 006.75 20.25h10.5A2.25 2.25 0 0019.5 18v-1.5" /></svg></NavIcon>,
