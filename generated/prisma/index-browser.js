@@ -281,6 +281,16 @@ exports.Prisma.CalendarEventScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PodcastScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  sourceText: 'sourceText',
+  script: 'script',
+  topic: 'topic',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.FolderScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -722,6 +732,7 @@ exports.Prisma.ModelName = {
   FeynmanSession: 'FeynmanSession',
   StudyPlan: 'StudyPlan',
   CalendarEvent: 'CalendarEvent',
+  Podcast: 'Podcast',
   Folder: 'Folder',
   Citation: 'Citation',
   ExamPrediction: 'ExamPrediction',

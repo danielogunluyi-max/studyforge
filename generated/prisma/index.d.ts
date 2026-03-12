@@ -79,6 +79,11 @@ export type StudyPlan = $Result.DefaultSelection<Prisma.$StudyPlanPayload>
  */
 export type CalendarEvent = $Result.DefaultSelection<Prisma.$CalendarEventPayload>
 /**
+ * Model Podcast
+ * 
+ */
+export type Podcast = $Result.DefaultSelection<Prisma.$PodcastPayload>
+/**
  * Model Folder
  * 
  */
@@ -496,6 +501,16 @@ export class PrismaClient<
     * ```
     */
   get calendarEvent(): Prisma.CalendarEventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.podcast`: Exposes CRUD operations for the **Podcast** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Podcasts
+    * const podcasts = await prisma.podcast.findMany()
+    * ```
+    */
+  get podcast(): Prisma.PodcastDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.folder`: Exposes CRUD operations for the **Folder** model.
@@ -1290,6 +1305,7 @@ export namespace Prisma {
     FeynmanSession: 'FeynmanSession',
     StudyPlan: 'StudyPlan',
     CalendarEvent: 'CalendarEvent',
+    Podcast: 'Podcast',
     Folder: 'Folder',
     Citation: 'Citation',
     ExamPrediction: 'ExamPrediction',
@@ -1342,7 +1358,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "ontarioCurriculumCourse" | "ontarioCurriculumUnit" | "ontarioCurriculumExpectation" | "ontarioCurriculumProgress" | "verificationToken" | "note" | "feynmanSession" | "studyPlan" | "calendarEvent" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember" | "pDFDocument" | "annotation" | "focusSession"
+      modelProps: "post" | "account" | "session" | "user" | "ontarioCurriculumCourse" | "ontarioCurriculumUnit" | "ontarioCurriculumExpectation" | "ontarioCurriculumProgress" | "verificationToken" | "note" | "feynmanSession" | "studyPlan" | "calendarEvent" | "podcast" | "folder" | "citation" | "examPrediction" | "battle" | "battleQuestion" | "battleParticipant" | "battleResult" | "studyGroup" | "studyGroupMember" | "groupMessage" | "groupSession" | "groupSharedNote" | "groupSharedNoteComment" | "groupFlashcard" | "groupQuizRound" | "groupQuizSubmission" | "groupScheduleItem" | "groupResource" | "groupMemberStats" | "groupPomodoroTimer" | "groupPinnedMessage" | "conceptConnection" | "learningStyleResult" | "conceptWeb" | "exam" | "scanHistory" | "flashcardDeck" | "flashcard" | "novaStats" | "studyRoom" | "roomMember" | "pDFDocument" | "annotation" | "focusSession"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2305,6 +2321,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CalendarEventCountArgs<ExtArgs>
             result: $Utils.Optional<CalendarEventCountAggregateOutputType> | number
+          }
+        }
+      }
+      Podcast: {
+        payload: Prisma.$PodcastPayload<ExtArgs>
+        fields: Prisma.PodcastFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PodcastFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PodcastPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PodcastFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PodcastPayload>
+          }
+          findFirst: {
+            args: Prisma.PodcastFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PodcastPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PodcastFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PodcastPayload>
+          }
+          findMany: {
+            args: Prisma.PodcastFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PodcastPayload>[]
+          }
+          create: {
+            args: Prisma.PodcastCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PodcastPayload>
+          }
+          createMany: {
+            args: Prisma.PodcastCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PodcastCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PodcastPayload>[]
+          }
+          delete: {
+            args: Prisma.PodcastDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PodcastPayload>
+          }
+          update: {
+            args: Prisma.PodcastUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PodcastPayload>
+          }
+          deleteMany: {
+            args: Prisma.PodcastDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PodcastUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PodcastUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PodcastPayload>[]
+          }
+          upsert: {
+            args: Prisma.PodcastUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PodcastPayload>
+          }
+          aggregate: {
+            args: Prisma.PodcastAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePodcast>
+          }
+          groupBy: {
+            args: Prisma.PodcastGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PodcastGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PodcastCountArgs<ExtArgs>
+            result: $Utils.Optional<PodcastCountAggregateOutputType> | number
           }
         }
       }
@@ -4933,6 +5023,7 @@ export namespace Prisma {
     feynmanSession?: FeynmanSessionOmit
     studyPlan?: StudyPlanOmit
     calendarEvent?: CalendarEventOmit
+    podcast?: PodcastOmit
     folder?: FolderOmit
     citation?: CitationOmit
     examPrediction?: ExamPredictionOmit
@@ -5085,6 +5176,7 @@ export namespace Prisma {
     feynmanSessions: number
     studyPlans: number
     calendarEvents: number
+    podcasts: number
     curriculumProgress: number
   }
 
@@ -5127,6 +5219,7 @@ export namespace Prisma {
     feynmanSessions?: boolean | UserCountOutputTypeCountFeynmanSessionsArgs
     studyPlans?: boolean | UserCountOutputTypeCountStudyPlansArgs
     calendarEvents?: boolean | UserCountOutputTypeCountCalendarEventsArgs
+    podcasts?: boolean | UserCountOutputTypeCountPodcastsArgs
     curriculumProgress?: boolean | UserCountOutputTypeCountCurriculumProgressArgs
   }
 
@@ -5405,6 +5498,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCalendarEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CalendarEventWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPodcastsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PodcastWhereInput
   }
 
   /**
@@ -9600,6 +9700,7 @@ export namespace Prisma {
     feynmanSessions?: boolean | User$feynmanSessionsArgs<ExtArgs>
     studyPlans?: boolean | User$studyPlansArgs<ExtArgs>
     calendarEvents?: boolean | User$calendarEventsArgs<ExtArgs>
+    podcasts?: boolean | User$podcastsArgs<ExtArgs>
     curriculumProgress?: boolean | User$curriculumProgressArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -9717,6 +9818,7 @@ export namespace Prisma {
     feynmanSessions?: boolean | User$feynmanSessionsArgs<ExtArgs>
     studyPlans?: boolean | User$studyPlansArgs<ExtArgs>
     calendarEvents?: boolean | User$calendarEventsArgs<ExtArgs>
+    podcasts?: boolean | User$podcastsArgs<ExtArgs>
     curriculumProgress?: boolean | User$curriculumProgressArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -9765,6 +9867,7 @@ export namespace Prisma {
       feynmanSessions: Prisma.$FeynmanSessionPayload<ExtArgs>[]
       studyPlans: Prisma.$StudyPlanPayload<ExtArgs>[]
       calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
+      podcasts: Prisma.$PodcastPayload<ExtArgs>[]
       curriculumProgress: Prisma.$OntarioCurriculumProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -10222,6 +10325,7 @@ export namespace Prisma {
     feynmanSessions<T extends User$feynmanSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$feynmanSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeynmanSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     studyPlans<T extends User$studyPlansArgs<ExtArgs> = {}>(args?: Subset<T, User$studyPlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     calendarEvents<T extends User$calendarEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    podcasts<T extends User$podcastsArgs<ExtArgs> = {}>(args?: Subset<T, User$podcastsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     curriculumProgress<T extends User$curriculumProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$curriculumProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OntarioCurriculumProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -11589,6 +11693,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CalendarEventScalarFieldEnum | CalendarEventScalarFieldEnum[]
+  }
+
+  /**
+   * User.podcasts
+   */
+  export type User$podcastsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastInclude<ExtArgs> | null
+    where?: PodcastWhereInput
+    orderBy?: PodcastOrderByWithRelationInput | PodcastOrderByWithRelationInput[]
+    cursor?: PodcastWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PodcastScalarFieldEnum | PodcastScalarFieldEnum[]
   }
 
   /**
@@ -21770,6 +21898,1086 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CalendarEventInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Podcast
+   */
+
+  export type AggregatePodcast = {
+    _count: PodcastCountAggregateOutputType | null
+    _min: PodcastMinAggregateOutputType | null
+    _max: PodcastMaxAggregateOutputType | null
+  }
+
+  export type PodcastMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    title: string | null
+    sourceText: string | null
+    topic: string | null
+    createdAt: Date | null
+  }
+
+  export type PodcastMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    title: string | null
+    sourceText: string | null
+    topic: string | null
+    createdAt: Date | null
+  }
+
+  export type PodcastCountAggregateOutputType = {
+    id: number
+    userId: number
+    title: number
+    sourceText: number
+    script: number
+    topic: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PodcastMinAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    sourceText?: true
+    topic?: true
+    createdAt?: true
+  }
+
+  export type PodcastMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    sourceText?: true
+    topic?: true
+    createdAt?: true
+  }
+
+  export type PodcastCountAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    sourceText?: true
+    script?: true
+    topic?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PodcastAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Podcast to aggregate.
+     */
+    where?: PodcastWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Podcasts to fetch.
+     */
+    orderBy?: PodcastOrderByWithRelationInput | PodcastOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PodcastWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Podcasts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Podcasts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Podcasts
+    **/
+    _count?: true | PodcastCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PodcastMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PodcastMaxAggregateInputType
+  }
+
+  export type GetPodcastAggregateType<T extends PodcastAggregateArgs> = {
+        [P in keyof T & keyof AggregatePodcast]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePodcast[P]>
+      : GetScalarType<T[P], AggregatePodcast[P]>
+  }
+
+
+
+
+  export type PodcastGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PodcastWhereInput
+    orderBy?: PodcastOrderByWithAggregationInput | PodcastOrderByWithAggregationInput[]
+    by: PodcastScalarFieldEnum[] | PodcastScalarFieldEnum
+    having?: PodcastScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PodcastCountAggregateInputType | true
+    _min?: PodcastMinAggregateInputType
+    _max?: PodcastMaxAggregateInputType
+  }
+
+  export type PodcastGroupByOutputType = {
+    id: string
+    userId: string
+    title: string
+    sourceText: string
+    script: JsonValue
+    topic: string
+    createdAt: Date
+    _count: PodcastCountAggregateOutputType | null
+    _min: PodcastMinAggregateOutputType | null
+    _max: PodcastMaxAggregateOutputType | null
+  }
+
+  type GetPodcastGroupByPayload<T extends PodcastGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PodcastGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PodcastGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PodcastGroupByOutputType[P]>
+            : GetScalarType<T[P], PodcastGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PodcastSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    sourceText?: boolean
+    script?: boolean
+    topic?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["podcast"]>
+
+  export type PodcastSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    sourceText?: boolean
+    script?: boolean
+    topic?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["podcast"]>
+
+  export type PodcastSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    sourceText?: boolean
+    script?: boolean
+    topic?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["podcast"]>
+
+  export type PodcastSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    sourceText?: boolean
+    script?: boolean
+    topic?: boolean
+    createdAt?: boolean
+  }
+
+  export type PodcastOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "sourceText" | "script" | "topic" | "createdAt", ExtArgs["result"]["podcast"]>
+  export type PodcastInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PodcastIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PodcastIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PodcastPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Podcast"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      title: string
+      sourceText: string
+      script: Prisma.JsonValue
+      topic: string
+      createdAt: Date
+    }, ExtArgs["result"]["podcast"]>
+    composites: {}
+  }
+
+  type PodcastGetPayload<S extends boolean | null | undefined | PodcastDefaultArgs> = $Result.GetResult<Prisma.$PodcastPayload, S>
+
+  type PodcastCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PodcastFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PodcastCountAggregateInputType | true
+    }
+
+  export interface PodcastDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Podcast'], meta: { name: 'Podcast' } }
+    /**
+     * Find zero or one Podcast that matches the filter.
+     * @param {PodcastFindUniqueArgs} args - Arguments to find a Podcast
+     * @example
+     * // Get one Podcast
+     * const podcast = await prisma.podcast.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PodcastFindUniqueArgs>(args: SelectSubset<T, PodcastFindUniqueArgs<ExtArgs>>): Prisma__PodcastClient<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Podcast that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PodcastFindUniqueOrThrowArgs} args - Arguments to find a Podcast
+     * @example
+     * // Get one Podcast
+     * const podcast = await prisma.podcast.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PodcastFindUniqueOrThrowArgs>(args: SelectSubset<T, PodcastFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PodcastClient<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Podcast that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PodcastFindFirstArgs} args - Arguments to find a Podcast
+     * @example
+     * // Get one Podcast
+     * const podcast = await prisma.podcast.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PodcastFindFirstArgs>(args?: SelectSubset<T, PodcastFindFirstArgs<ExtArgs>>): Prisma__PodcastClient<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Podcast that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PodcastFindFirstOrThrowArgs} args - Arguments to find a Podcast
+     * @example
+     * // Get one Podcast
+     * const podcast = await prisma.podcast.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PodcastFindFirstOrThrowArgs>(args?: SelectSubset<T, PodcastFindFirstOrThrowArgs<ExtArgs>>): Prisma__PodcastClient<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Podcasts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PodcastFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Podcasts
+     * const podcasts = await prisma.podcast.findMany()
+     * 
+     * // Get first 10 Podcasts
+     * const podcasts = await prisma.podcast.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const podcastWithIdOnly = await prisma.podcast.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PodcastFindManyArgs>(args?: SelectSubset<T, PodcastFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Podcast.
+     * @param {PodcastCreateArgs} args - Arguments to create a Podcast.
+     * @example
+     * // Create one Podcast
+     * const Podcast = await prisma.podcast.create({
+     *   data: {
+     *     // ... data to create a Podcast
+     *   }
+     * })
+     * 
+     */
+    create<T extends PodcastCreateArgs>(args: SelectSubset<T, PodcastCreateArgs<ExtArgs>>): Prisma__PodcastClient<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Podcasts.
+     * @param {PodcastCreateManyArgs} args - Arguments to create many Podcasts.
+     * @example
+     * // Create many Podcasts
+     * const podcast = await prisma.podcast.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PodcastCreateManyArgs>(args?: SelectSubset<T, PodcastCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Podcasts and returns the data saved in the database.
+     * @param {PodcastCreateManyAndReturnArgs} args - Arguments to create many Podcasts.
+     * @example
+     * // Create many Podcasts
+     * const podcast = await prisma.podcast.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Podcasts and only return the `id`
+     * const podcastWithIdOnly = await prisma.podcast.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PodcastCreateManyAndReturnArgs>(args?: SelectSubset<T, PodcastCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Podcast.
+     * @param {PodcastDeleteArgs} args - Arguments to delete one Podcast.
+     * @example
+     * // Delete one Podcast
+     * const Podcast = await prisma.podcast.delete({
+     *   where: {
+     *     // ... filter to delete one Podcast
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PodcastDeleteArgs>(args: SelectSubset<T, PodcastDeleteArgs<ExtArgs>>): Prisma__PodcastClient<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Podcast.
+     * @param {PodcastUpdateArgs} args - Arguments to update one Podcast.
+     * @example
+     * // Update one Podcast
+     * const podcast = await prisma.podcast.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PodcastUpdateArgs>(args: SelectSubset<T, PodcastUpdateArgs<ExtArgs>>): Prisma__PodcastClient<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Podcasts.
+     * @param {PodcastDeleteManyArgs} args - Arguments to filter Podcasts to delete.
+     * @example
+     * // Delete a few Podcasts
+     * const { count } = await prisma.podcast.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PodcastDeleteManyArgs>(args?: SelectSubset<T, PodcastDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Podcasts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PodcastUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Podcasts
+     * const podcast = await prisma.podcast.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PodcastUpdateManyArgs>(args: SelectSubset<T, PodcastUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Podcasts and returns the data updated in the database.
+     * @param {PodcastUpdateManyAndReturnArgs} args - Arguments to update many Podcasts.
+     * @example
+     * // Update many Podcasts
+     * const podcast = await prisma.podcast.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Podcasts and only return the `id`
+     * const podcastWithIdOnly = await prisma.podcast.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PodcastUpdateManyAndReturnArgs>(args: SelectSubset<T, PodcastUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Podcast.
+     * @param {PodcastUpsertArgs} args - Arguments to update or create a Podcast.
+     * @example
+     * // Update or create a Podcast
+     * const podcast = await prisma.podcast.upsert({
+     *   create: {
+     *     // ... data to create a Podcast
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Podcast we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PodcastUpsertArgs>(args: SelectSubset<T, PodcastUpsertArgs<ExtArgs>>): Prisma__PodcastClient<$Result.GetResult<Prisma.$PodcastPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Podcasts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PodcastCountArgs} args - Arguments to filter Podcasts to count.
+     * @example
+     * // Count the number of Podcasts
+     * const count = await prisma.podcast.count({
+     *   where: {
+     *     // ... the filter for the Podcasts we want to count
+     *   }
+     * })
+    **/
+    count<T extends PodcastCountArgs>(
+      args?: Subset<T, PodcastCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PodcastCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Podcast.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PodcastAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PodcastAggregateArgs>(args: Subset<T, PodcastAggregateArgs>): Prisma.PrismaPromise<GetPodcastAggregateType<T>>
+
+    /**
+     * Group by Podcast.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PodcastGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PodcastGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PodcastGroupByArgs['orderBy'] }
+        : { orderBy?: PodcastGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PodcastGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPodcastGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Podcast model
+   */
+  readonly fields: PodcastFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Podcast.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PodcastClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Podcast model
+   */
+  interface PodcastFieldRefs {
+    readonly id: FieldRef<"Podcast", 'String'>
+    readonly userId: FieldRef<"Podcast", 'String'>
+    readonly title: FieldRef<"Podcast", 'String'>
+    readonly sourceText: FieldRef<"Podcast", 'String'>
+    readonly script: FieldRef<"Podcast", 'Json'>
+    readonly topic: FieldRef<"Podcast", 'String'>
+    readonly createdAt: FieldRef<"Podcast", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Podcast findUnique
+   */
+  export type PodcastFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastInclude<ExtArgs> | null
+    /**
+     * Filter, which Podcast to fetch.
+     */
+    where: PodcastWhereUniqueInput
+  }
+
+  /**
+   * Podcast findUniqueOrThrow
+   */
+  export type PodcastFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastInclude<ExtArgs> | null
+    /**
+     * Filter, which Podcast to fetch.
+     */
+    where: PodcastWhereUniqueInput
+  }
+
+  /**
+   * Podcast findFirst
+   */
+  export type PodcastFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastInclude<ExtArgs> | null
+    /**
+     * Filter, which Podcast to fetch.
+     */
+    where?: PodcastWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Podcasts to fetch.
+     */
+    orderBy?: PodcastOrderByWithRelationInput | PodcastOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Podcasts.
+     */
+    cursor?: PodcastWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Podcasts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Podcasts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Podcasts.
+     */
+    distinct?: PodcastScalarFieldEnum | PodcastScalarFieldEnum[]
+  }
+
+  /**
+   * Podcast findFirstOrThrow
+   */
+  export type PodcastFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastInclude<ExtArgs> | null
+    /**
+     * Filter, which Podcast to fetch.
+     */
+    where?: PodcastWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Podcasts to fetch.
+     */
+    orderBy?: PodcastOrderByWithRelationInput | PodcastOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Podcasts.
+     */
+    cursor?: PodcastWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Podcasts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Podcasts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Podcasts.
+     */
+    distinct?: PodcastScalarFieldEnum | PodcastScalarFieldEnum[]
+  }
+
+  /**
+   * Podcast findMany
+   */
+  export type PodcastFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastInclude<ExtArgs> | null
+    /**
+     * Filter, which Podcasts to fetch.
+     */
+    where?: PodcastWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Podcasts to fetch.
+     */
+    orderBy?: PodcastOrderByWithRelationInput | PodcastOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Podcasts.
+     */
+    cursor?: PodcastWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Podcasts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Podcasts.
+     */
+    skip?: number
+    distinct?: PodcastScalarFieldEnum | PodcastScalarFieldEnum[]
+  }
+
+  /**
+   * Podcast create
+   */
+  export type PodcastCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Podcast.
+     */
+    data: XOR<PodcastCreateInput, PodcastUncheckedCreateInput>
+  }
+
+  /**
+   * Podcast createMany
+   */
+  export type PodcastCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Podcasts.
+     */
+    data: PodcastCreateManyInput | PodcastCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Podcast createManyAndReturn
+   */
+  export type PodcastCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * The data used to create many Podcasts.
+     */
+    data: PodcastCreateManyInput | PodcastCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Podcast update
+   */
+  export type PodcastUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Podcast.
+     */
+    data: XOR<PodcastUpdateInput, PodcastUncheckedUpdateInput>
+    /**
+     * Choose, which Podcast to update.
+     */
+    where: PodcastWhereUniqueInput
+  }
+
+  /**
+   * Podcast updateMany
+   */
+  export type PodcastUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Podcasts.
+     */
+    data: XOR<PodcastUpdateManyMutationInput, PodcastUncheckedUpdateManyInput>
+    /**
+     * Filter which Podcasts to update
+     */
+    where?: PodcastWhereInput
+    /**
+     * Limit how many Podcasts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Podcast updateManyAndReturn
+   */
+  export type PodcastUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * The data used to update Podcasts.
+     */
+    data: XOR<PodcastUpdateManyMutationInput, PodcastUncheckedUpdateManyInput>
+    /**
+     * Filter which Podcasts to update
+     */
+    where?: PodcastWhereInput
+    /**
+     * Limit how many Podcasts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Podcast upsert
+   */
+  export type PodcastUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Podcast to update in case it exists.
+     */
+    where: PodcastWhereUniqueInput
+    /**
+     * In case the Podcast found by the `where` argument doesn't exist, create a new Podcast with this data.
+     */
+    create: XOR<PodcastCreateInput, PodcastUncheckedCreateInput>
+    /**
+     * In case the Podcast was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PodcastUpdateInput, PodcastUncheckedUpdateInput>
+  }
+
+  /**
+   * Podcast delete
+   */
+  export type PodcastDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastInclude<ExtArgs> | null
+    /**
+     * Filter which Podcast to delete.
+     */
+    where: PodcastWhereUniqueInput
+  }
+
+  /**
+   * Podcast deleteMany
+   */
+  export type PodcastDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Podcasts to delete
+     */
+    where?: PodcastWhereInput
+    /**
+     * Limit how many Podcasts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Podcast without action
+   */
+  export type PodcastDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Podcast
+     */
+    select?: PodcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Podcast
+     */
+    omit?: PodcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PodcastInclude<ExtArgs> | null
   }
 
 
@@ -61069,6 +62277,19 @@ export namespace Prisma {
   export type CalendarEventScalarFieldEnum = (typeof CalendarEventScalarFieldEnum)[keyof typeof CalendarEventScalarFieldEnum]
 
 
+  export const PodcastScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    title: 'title',
+    sourceText: 'sourceText',
+    script: 'script',
+    topic: 'topic',
+    createdAt: 'createdAt'
+  };
+
+  export type PodcastScalarFieldEnum = (typeof PodcastScalarFieldEnum)[keyof typeof PodcastScalarFieldEnum]
+
+
   export const FolderScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -61969,6 +63190,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionListRelationFilter
     studyPlans?: StudyPlanListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    podcasts?: PodcastListRelationFilter
     curriculumProgress?: OntarioCurriculumProgressListRelationFilter
   }
 
@@ -62033,6 +63255,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionOrderByRelationAggregateInput
     studyPlans?: StudyPlanOrderByRelationAggregateInput
     calendarEvents?: CalendarEventOrderByRelationAggregateInput
+    podcasts?: PodcastOrderByRelationAggregateInput
     curriculumProgress?: OntarioCurriculumProgressOrderByRelationAggregateInput
   }
 
@@ -62100,6 +63323,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionListRelationFilter
     studyPlans?: StudyPlanListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    podcasts?: PodcastListRelationFilter
     curriculumProgress?: OntarioCurriculumProgressListRelationFilter
   }, "id" | "email">
 
@@ -62841,6 +64065,71 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"CalendarEvent"> | string | null
     completed?: BoolWithAggregatesFilter<"CalendarEvent"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"CalendarEvent"> | Date | string
+  }
+
+  export type PodcastWhereInput = {
+    AND?: PodcastWhereInput | PodcastWhereInput[]
+    OR?: PodcastWhereInput[]
+    NOT?: PodcastWhereInput | PodcastWhereInput[]
+    id?: StringFilter<"Podcast"> | string
+    userId?: StringFilter<"Podcast"> | string
+    title?: StringFilter<"Podcast"> | string
+    sourceText?: StringFilter<"Podcast"> | string
+    script?: JsonFilter<"Podcast">
+    topic?: StringFilter<"Podcast"> | string
+    createdAt?: DateTimeFilter<"Podcast"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PodcastOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    sourceText?: SortOrder
+    script?: SortOrder
+    topic?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PodcastWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PodcastWhereInput | PodcastWhereInput[]
+    OR?: PodcastWhereInput[]
+    NOT?: PodcastWhereInput | PodcastWhereInput[]
+    userId?: StringFilter<"Podcast"> | string
+    title?: StringFilter<"Podcast"> | string
+    sourceText?: StringFilter<"Podcast"> | string
+    script?: JsonFilter<"Podcast">
+    topic?: StringFilter<"Podcast"> | string
+    createdAt?: DateTimeFilter<"Podcast"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type PodcastOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    sourceText?: SortOrder
+    script?: SortOrder
+    topic?: SortOrder
+    createdAt?: SortOrder
+    _count?: PodcastCountOrderByAggregateInput
+    _max?: PodcastMaxOrderByAggregateInput
+    _min?: PodcastMinOrderByAggregateInput
+  }
+
+  export type PodcastScalarWhereWithAggregatesInput = {
+    AND?: PodcastScalarWhereWithAggregatesInput | PodcastScalarWhereWithAggregatesInput[]
+    OR?: PodcastScalarWhereWithAggregatesInput[]
+    NOT?: PodcastScalarWhereWithAggregatesInput | PodcastScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Podcast"> | string
+    userId?: StringWithAggregatesFilter<"Podcast"> | string
+    title?: StringWithAggregatesFilter<"Podcast"> | string
+    sourceText?: StringWithAggregatesFilter<"Podcast"> | string
+    script?: JsonWithAggregatesFilter<"Podcast">
+    topic?: StringWithAggregatesFilter<"Podcast"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Podcast"> | Date | string
   }
 
   export type FolderWhereInput = {
@@ -65769,6 +67058,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -65833,6 +67123,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -65897,6 +67188,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -65961,6 +67253,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -66775,6 +68068,75 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     completed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PodcastCreateInput = {
+    id?: string
+    title: string
+    sourceText: string
+    script: JsonNullValueInput | InputJsonValue
+    topic: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutPodcastsInput
+  }
+
+  export type PodcastUncheckedCreateInput = {
+    id?: string
+    userId: string
+    title: string
+    sourceText: string
+    script: JsonNullValueInput | InputJsonValue
+    topic: string
+    createdAt?: Date | string
+  }
+
+  export type PodcastUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    script?: JsonNullValueInput | InputJsonValue
+    topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPodcastsNestedInput
+  }
+
+  export type PodcastUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    script?: JsonNullValueInput | InputJsonValue
+    topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PodcastCreateManyInput = {
+    id?: string
+    userId: string
+    title: string
+    sourceText: string
+    script: JsonNullValueInput | InputJsonValue
+    topic: string
+    createdAt?: Date | string
+  }
+
+  export type PodcastUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    script?: JsonNullValueInput | InputJsonValue
+    topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PodcastUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    script?: JsonNullValueInput | InputJsonValue
+    topic?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -70103,6 +71465,12 @@ export namespace Prisma {
     none?: CalendarEventWhereInput
   }
 
+  export type PodcastListRelationFilter = {
+    every?: PodcastWhereInput
+    some?: PodcastWhereInput
+    none?: PodcastWhereInput
+  }
+
   export type OntarioCurriculumProgressListRelationFilter = {
     every?: OntarioCurriculumProgressWhereInput
     some?: OntarioCurriculumProgressWhereInput
@@ -70254,6 +71622,10 @@ export namespace Prisma {
   }
 
   export type CalendarEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PodcastOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -70805,6 +72177,34 @@ export namespace Prisma {
     color?: SortOrder
     description?: SortOrder
     completed?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PodcastCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    sourceText?: SortOrder
+    script?: SortOrder
+    topic?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PodcastMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    sourceText?: SortOrder
+    topic?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PodcastMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    sourceText?: SortOrder
+    topic?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -72742,6 +74142,13 @@ export namespace Prisma {
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
   }
 
+  export type PodcastCreateNestedManyWithoutUserInput = {
+    create?: XOR<PodcastCreateWithoutUserInput, PodcastUncheckedCreateWithoutUserInput> | PodcastCreateWithoutUserInput[] | PodcastUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PodcastCreateOrConnectWithoutUserInput | PodcastCreateOrConnectWithoutUserInput[]
+    createMany?: PodcastCreateManyUserInputEnvelope
+    connect?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
+  }
+
   export type OntarioCurriculumProgressCreateNestedManyWithoutUserInput = {
     create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
@@ -73019,6 +74426,13 @@ export namespace Prisma {
     connectOrCreate?: CalendarEventCreateOrConnectWithoutUserInput | CalendarEventCreateOrConnectWithoutUserInput[]
     createMany?: CalendarEventCreateManyUserInputEnvelope
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
+  }
+
+  export type PodcastUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PodcastCreateWithoutUserInput, PodcastUncheckedCreateWithoutUserInput> | PodcastCreateWithoutUserInput[] | PodcastUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PodcastCreateOrConnectWithoutUserInput | PodcastCreateOrConnectWithoutUserInput[]
+    createMany?: PodcastCreateManyUserInputEnvelope
+    connect?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
   }
 
   export type OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput = {
@@ -73583,6 +74997,20 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type PodcastUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PodcastCreateWithoutUserInput, PodcastUncheckedCreateWithoutUserInput> | PodcastCreateWithoutUserInput[] | PodcastUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PodcastCreateOrConnectWithoutUserInput | PodcastCreateOrConnectWithoutUserInput[]
+    upsert?: PodcastUpsertWithWhereUniqueWithoutUserInput | PodcastUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PodcastCreateManyUserInputEnvelope
+    set?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
+    disconnect?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
+    delete?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
+    connect?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
+    update?: PodcastUpdateWithWhereUniqueWithoutUserInput | PodcastUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PodcastUpdateManyWithWhereWithoutUserInput | PodcastUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PodcastScalarWhereInput | PodcastScalarWhereInput[]
+  }
+
   export type OntarioCurriculumProgressUpdateManyWithoutUserNestedInput = {
     create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
@@ -74139,6 +75567,20 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type PodcastUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PodcastCreateWithoutUserInput, PodcastUncheckedCreateWithoutUserInput> | PodcastCreateWithoutUserInput[] | PodcastUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PodcastCreateOrConnectWithoutUserInput | PodcastCreateOrConnectWithoutUserInput[]
+    upsert?: PodcastUpsertWithWhereUniqueWithoutUserInput | PodcastUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PodcastCreateManyUserInputEnvelope
+    set?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
+    disconnect?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
+    delete?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
+    connect?: PodcastWhereUniqueInput | PodcastWhereUniqueInput[]
+    update?: PodcastUpdateWithWhereUniqueWithoutUserInput | PodcastUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PodcastUpdateManyWithWhereWithoutUserInput | PodcastUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PodcastScalarWhereInput | PodcastScalarWhereInput[]
+  }
+
   export type OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<OntarioCurriculumProgressCreateWithoutUserInput, OntarioCurriculumProgressUncheckedCreateWithoutUserInput> | OntarioCurriculumProgressCreateWithoutUserInput[] | OntarioCurriculumProgressUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OntarioCurriculumProgressCreateOrConnectWithoutUserInput | OntarioCurriculumProgressCreateOrConnectWithoutUserInput[]
@@ -74492,6 +75934,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutCalendarEventsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCalendarEventsInput, UserUpdateWithoutCalendarEventsInput>, UserUncheckedUpdateWithoutCalendarEventsInput>
+  }
+
+  export type UserCreateNestedOneWithoutPodcastsInput = {
+    create?: XOR<UserCreateWithoutPodcastsInput, UserUncheckedCreateWithoutPodcastsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPodcastsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPodcastsNestedInput = {
+    create?: XOR<UserCreateWithoutPodcastsInput, UserUncheckedCreateWithoutPodcastsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPodcastsInput
+    upsert?: UserUpsertWithoutPodcastsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPodcastsInput, UserUpdateWithoutPodcastsInput>, UserUncheckedUpdateWithoutPodcastsInput>
   }
 
   export type UserCreateNestedOneWithoutFoldersInput = {
@@ -76477,6 +77933,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -76540,6 +77997,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -76619,6 +78077,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -76682,6 +78141,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -76745,6 +78205,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -76808,6 +78269,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -76887,6 +78349,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -76950,6 +78413,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -77013,6 +78477,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -77076,6 +78541,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -77155,6 +78621,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -77218,6 +78685,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -78509,6 +79977,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PodcastCreateWithoutUserInput = {
+    id?: string
+    title: string
+    sourceText: string
+    script: JsonNullValueInput | InputJsonValue
+    topic: string
+    createdAt?: Date | string
+  }
+
+  export type PodcastUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    sourceText: string
+    script: JsonNullValueInput | InputJsonValue
+    topic: string
+    createdAt?: Date | string
+  }
+
+  export type PodcastCreateOrConnectWithoutUserInput = {
+    where: PodcastWhereUniqueInput
+    create: XOR<PodcastCreateWithoutUserInput, PodcastUncheckedCreateWithoutUserInput>
+  }
+
+  export type PodcastCreateManyUserInputEnvelope = {
+    data: PodcastCreateManyUserInput | PodcastCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OntarioCurriculumProgressCreateWithoutUserInput = {
     id?: string
     completedUnits?: OntarioCurriculumProgressCreatecompletedUnitsInput | string[]
@@ -79729,6 +81225,35 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"CalendarEvent"> | Date | string
   }
 
+  export type PodcastUpsertWithWhereUniqueWithoutUserInput = {
+    where: PodcastWhereUniqueInput
+    update: XOR<PodcastUpdateWithoutUserInput, PodcastUncheckedUpdateWithoutUserInput>
+    create: XOR<PodcastCreateWithoutUserInput, PodcastUncheckedCreateWithoutUserInput>
+  }
+
+  export type PodcastUpdateWithWhereUniqueWithoutUserInput = {
+    where: PodcastWhereUniqueInput
+    data: XOR<PodcastUpdateWithoutUserInput, PodcastUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PodcastUpdateManyWithWhereWithoutUserInput = {
+    where: PodcastScalarWhereInput
+    data: XOR<PodcastUpdateManyMutationInput, PodcastUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PodcastScalarWhereInput = {
+    AND?: PodcastScalarWhereInput | PodcastScalarWhereInput[]
+    OR?: PodcastScalarWhereInput[]
+    NOT?: PodcastScalarWhereInput | PodcastScalarWhereInput[]
+    id?: StringFilter<"Podcast"> | string
+    userId?: StringFilter<"Podcast"> | string
+    title?: StringFilter<"Podcast"> | string
+    sourceText?: StringFilter<"Podcast"> | string
+    script?: JsonFilter<"Podcast">
+    topic?: StringFilter<"Podcast"> | string
+    createdAt?: DateTimeFilter<"Podcast"> | Date | string
+  }
+
   export type OntarioCurriculumProgressUpsertWithWhereUniqueWithoutUserInput = {
     where: OntarioCurriculumProgressWhereUniqueInput
     update: XOR<OntarioCurriculumProgressUpdateWithoutUserInput, OntarioCurriculumProgressUncheckedUpdateWithoutUserInput>
@@ -80136,6 +81661,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCurriculumProgressInput = {
@@ -80199,6 +81725,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCurriculumProgressInput = {
@@ -80319,6 +81846,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCurriculumProgressInput = {
@@ -80382,6 +81910,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OntarioCurriculumCourseUpsertWithoutProgressInput = {
@@ -80491,6 +82020,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -80554,6 +82084,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -80682,6 +82213,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -80745,6 +82277,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -80851,6 +82384,7 @@ export namespace Prisma {
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -80914,6 +82448,7 @@ export namespace Prisma {
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -80993,6 +82528,7 @@ export namespace Prisma {
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -81056,6 +82592,7 @@ export namespace Prisma {
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -81119,6 +82656,7 @@ export namespace Prisma {
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -81182,6 +82720,7 @@ export namespace Prisma {
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -81261,6 +82800,7 @@ export namespace Prisma {
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -81324,6 +82864,7 @@ export namespace Prisma {
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -81387,6 +82928,7 @@ export namespace Prisma {
     focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -81450,6 +82992,7 @@ export namespace Prisma {
     focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -81529,6 +83072,7 @@ export namespace Prisma {
     focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -81592,6 +83136,279 @@ export namespace Prisma {
     focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPodcastsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    citations?: CitationCreateNestedManyWithoutUserInput
+    exams?: ExamCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentCreateNestedManyWithoutUserInput
+    annotations?: AnnotationCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
+    studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPodcastsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    learningStyle?: string | null
+    autoAdapt?: boolean
+    theme?: string | null
+    accentColor?: string | null
+    fontSize?: string | null
+    compactMode?: boolean
+    defaultNoteFormat?: string | null
+    autoSaveNotes?: boolean
+    emailNotifications?: boolean
+    lastActive?: Date | string | null
+    studyStreak?: number
+    battleXp?: number
+    battleWinStreak?: number
+    soloSessionsCompleted?: number
+    battleAchievements?: UserCreatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    citations?: CitationUncheckedCreateNestedManyWithoutUserInput
+    exams?: ExamUncheckedCreateNestedManyWithoutUserInput
+    scanHistories?: ScanHistoryUncheckedCreateNestedManyWithoutUserInput
+    examPredictions?: ExamPredictionUncheckedCreateNestedManyWithoutUserInput
+    hostedBattles?: BattleUncheckedCreateNestedManyWithoutHostInput
+    joinedBattles?: BattleUncheckedCreateNestedManyWithoutOpponentInput
+    battleParticipants?: BattleParticipantUncheckedCreateNestedManyWithoutUserInput
+    battleResults?: BattleResultUncheckedCreateNestedManyWithoutWinnerInput
+    createdStudyGroups?: StudyGroupUncheckedCreateNestedManyWithoutCreatorInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+    groupMessages?: GroupMessageUncheckedCreateNestedManyWithoutUserInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedCreateNestedManyWithoutSharedByInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedCreateNestedManyWithoutUserInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedCreateNestedManyWithoutCreatorInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedCreateNestedManyWithoutStartedByInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedCreateNestedManyWithoutUserInput
+    groupResourcesShared?: GroupResourceUncheckedCreateNestedManyWithoutSharedByInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedCreateNestedManyWithoutCreatedByInput
+    groupStats?: GroupMemberStatsUncheckedCreateNestedManyWithoutUserInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedCreateNestedManyWithoutHostInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedCreateNestedManyWithoutPinnedByInput
+    conceptConnections?: ConceptConnectionUncheckedCreateNestedManyWithoutUserInput
+    learningStyleResults?: LearningStyleResultUncheckedCreateNestedManyWithoutUserInput
+    conceptWebs?: ConceptWebUncheckedCreateNestedManyWithoutUserInput
+    flashcardDecks?: FlashcardDeckUncheckedCreateNestedManyWithoutUserInput
+    novaStats?: NovaStatsUncheckedCreateNestedOneWithoutUserInput
+    hostedRooms?: StudyRoomUncheckedCreateNestedManyWithoutHostInput
+    roomMemberships?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    pdfDocuments?: PDFDocumentUncheckedCreateNestedManyWithoutUserInput
+    annotations?: AnnotationUncheckedCreateNestedManyWithoutUserInput
+    focusSessions?: FocusSessionUncheckedCreateNestedManyWithoutUserInput
+    feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
+    studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPodcastsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPodcastsInput, UserUncheckedCreateWithoutPodcastsInput>
+  }
+
+  export type UserUpsertWithoutPodcastsInput = {
+    update: XOR<UserUpdateWithoutPodcastsInput, UserUncheckedUpdateWithoutPodcastsInput>
+    create: XOR<UserCreateWithoutPodcastsInput, UserUncheckedCreateWithoutPodcastsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPodcastsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPodcastsInput, UserUncheckedUpdateWithoutPodcastsInput>
+  }
+
+  export type UserUpdateWithoutPodcastsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    citations?: CitationUpdateManyWithoutUserNestedInput
+    exams?: ExamUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
+    studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPodcastsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
+    autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    theme?: NullableStringFieldUpdateOperationsInput | string | null
+    accentColor?: NullableStringFieldUpdateOperationsInput | string | null
+    fontSize?: NullableStringFieldUpdateOperationsInput | string | null
+    compactMode?: BoolFieldUpdateOperationsInput | boolean
+    defaultNoteFormat?: NullableStringFieldUpdateOperationsInput | string | null
+    autoSaveNotes?: BoolFieldUpdateOperationsInput | boolean
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    lastActive?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    studyStreak?: IntFieldUpdateOperationsInput | number
+    battleXp?: IntFieldUpdateOperationsInput | number
+    battleWinStreak?: IntFieldUpdateOperationsInput | number
+    soloSessionsCompleted?: IntFieldUpdateOperationsInput | number
+    battleAchievements?: UserUpdatebattleAchievementsInput | string[]
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    citations?: CitationUncheckedUpdateManyWithoutUserNestedInput
+    exams?: ExamUncheckedUpdateManyWithoutUserNestedInput
+    scanHistories?: ScanHistoryUncheckedUpdateManyWithoutUserNestedInput
+    examPredictions?: ExamPredictionUncheckedUpdateManyWithoutUserNestedInput
+    hostedBattles?: BattleUncheckedUpdateManyWithoutHostNestedInput
+    joinedBattles?: BattleUncheckedUpdateManyWithoutOpponentNestedInput
+    battleParticipants?: BattleParticipantUncheckedUpdateManyWithoutUserNestedInput
+    battleResults?: BattleResultUncheckedUpdateManyWithoutWinnerNestedInput
+    createdStudyGroups?: StudyGroupUncheckedUpdateManyWithoutCreatorNestedInput
+    studyGroupMemberships?: StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    groupMessages?: GroupMessageUncheckedUpdateManyWithoutUserNestedInput
+    sharedGroupNotes?: GroupSharedNoteUncheckedUpdateManyWithoutSharedByNestedInput
+    groupNoteComments?: GroupSharedNoteCommentUncheckedUpdateManyWithoutUserNestedInput
+    createdGroupFlashcards?: GroupFlashcardUncheckedUpdateManyWithoutCreatorNestedInput
+    groupQuizRoundsStarted?: GroupQuizRoundUncheckedUpdateManyWithoutStartedByNestedInput
+    groupQuizSubmissions?: GroupQuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
+    groupResourcesShared?: GroupResourceUncheckedUpdateManyWithoutSharedByNestedInput
+    groupSchedulesCreated?: GroupScheduleItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    groupStats?: GroupMemberStatsUncheckedUpdateManyWithoutUserNestedInput
+    hostedPomodoroTimers?: GroupPomodoroTimerUncheckedUpdateManyWithoutHostNestedInput
+    pinnedGroupMessages?: GroupPinnedMessageUncheckedUpdateManyWithoutPinnedByNestedInput
+    conceptConnections?: ConceptConnectionUncheckedUpdateManyWithoutUserNestedInput
+    learningStyleResults?: LearningStyleResultUncheckedUpdateManyWithoutUserNestedInput
+    conceptWebs?: ConceptWebUncheckedUpdateManyWithoutUserNestedInput
+    flashcardDecks?: FlashcardDeckUncheckedUpdateManyWithoutUserNestedInput
+    novaStats?: NovaStatsUncheckedUpdateOneWithoutUserNestedInput
+    hostedRooms?: StudyRoomUncheckedUpdateManyWithoutHostNestedInput
+    roomMemberships?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    pdfDocuments?: PDFDocumentUncheckedUpdateManyWithoutUserNestedInput
+    annotations?: AnnotationUncheckedUpdateManyWithoutUserNestedInput
+    focusSessions?: FocusSessionUncheckedUpdateManyWithoutUserNestedInput
+    feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
+    studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -81655,6 +83472,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -81718,6 +83536,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -81837,6 +83656,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -81900,6 +83720,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -81979,6 +83800,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -82042,6 +83864,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -82121,6 +83944,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -82184,6 +84008,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -82247,6 +84072,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -82310,6 +84136,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -82389,6 +84216,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -82452,6 +84280,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -82515,6 +84344,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -82578,6 +84408,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -82646,6 +84477,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -82709,6 +84541,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -82867,6 +84700,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -82930,6 +84764,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -83004,6 +84839,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -83067,6 +84903,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -83367,6 +85204,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -83430,6 +85268,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -83568,6 +85407,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -83631,6 +85471,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -83747,6 +85588,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -83810,6 +85652,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -83948,6 +85791,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -84011,6 +85855,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -84074,6 +85919,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -84137,6 +85983,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -84537,6 +86384,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -84600,6 +86448,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -84921,6 +86770,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -84984,6 +86834,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -85122,6 +86973,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -85185,6 +87037,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -85301,6 +87154,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -85364,6 +87218,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -85526,6 +87381,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -85589,6 +87445,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -85868,6 +87725,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -85931,6 +87789,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -86134,6 +87993,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -86197,6 +88057,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -86299,6 +88160,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -86362,6 +88224,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -86470,6 +88333,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -86533,6 +88397,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -86649,6 +88514,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -86712,6 +88578,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -86850,6 +88717,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -86913,6 +88781,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -87029,6 +88898,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -87092,6 +88962,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -87258,6 +89129,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -87321,6 +89193,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -87429,6 +89302,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -87492,6 +89366,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -87606,6 +89481,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -87669,6 +89545,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -87785,6 +89662,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -87848,6 +89726,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -87986,6 +89865,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -88049,6 +89929,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -88165,6 +90046,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -88228,6 +90110,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -88366,6 +90249,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -88429,6 +90313,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -88545,6 +90430,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -88608,6 +90494,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -88746,6 +90633,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -88809,6 +90697,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -88925,6 +90814,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -88988,6 +90878,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -89126,6 +91017,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -89189,6 +91081,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -89330,6 +91223,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -89393,6 +91287,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -89562,6 +91457,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -89625,6 +91521,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -89688,6 +91585,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -89751,6 +91649,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -89830,6 +91729,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -89893,6 +91793,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -89956,6 +91857,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -90019,6 +91921,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -90098,6 +92001,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -90161,6 +92065,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -90224,6 +92129,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -90287,6 +92193,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -90366,6 +92273,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -90429,6 +92337,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -90492,6 +92401,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -90555,6 +92465,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -90634,6 +92545,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -90697,6 +92609,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -90760,6 +92673,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -90823,6 +92737,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -90902,6 +92817,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -90965,6 +92881,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -91028,6 +92945,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -91091,6 +93009,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -91204,6 +93123,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -91267,6 +93187,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -91418,6 +93339,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -91481,6 +93403,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -91560,6 +93483,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -91623,6 +93547,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -91712,6 +93637,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -91775,6 +93701,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -91870,6 +93797,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -91933,6 +93861,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -92027,6 +93956,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -92090,6 +94020,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -92206,6 +94137,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -92269,6 +94201,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -92332,6 +94265,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -92395,6 +94329,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -92510,6 +94445,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -92573,6 +94509,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -92681,6 +94618,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -92744,6 +94682,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -92858,6 +94797,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -92921,6 +94861,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -92984,6 +94925,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    podcasts?: PodcastCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressCreateNestedManyWithoutUserInput
   }
 
@@ -93047,6 +94989,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedCreateNestedManyWithoutUserInput
     studyPlans?: StudyPlanUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    podcasts?: PodcastUncheckedCreateNestedManyWithoutUserInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -93126,6 +95069,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUpdateManyWithoutUserNestedInput
   }
 
@@ -93189,6 +95133,7 @@ export namespace Prisma {
     feynmanSessions?: FeynmanSessionUncheckedUpdateManyWithoutUserNestedInput
     studyPlans?: StudyPlanUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    podcasts?: PodcastUncheckedUpdateManyWithoutUserNestedInput
     curriculumProgress?: OntarioCurriculumProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -93601,6 +95546,15 @@ export namespace Prisma {
     color?: string
     description?: string | null
     completed?: boolean
+    createdAt?: Date | string
+  }
+
+  export type PodcastCreateManyUserInput = {
+    id?: string
+    title: string
+    sourceText: string
+    script: JsonNullValueInput | InputJsonValue
+    topic: string
     createdAt?: Date | string
   }
 
@@ -94897,6 +96851,33 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     completed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PodcastUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    script?: JsonNullValueInput | InputJsonValue
+    topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PodcastUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    script?: JsonNullValueInput | InputJsonValue
+    topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PodcastUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    sourceText?: StringFieldUpdateOperationsInput | string
+    script?: JsonNullValueInput | InputJsonValue
+    topic?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

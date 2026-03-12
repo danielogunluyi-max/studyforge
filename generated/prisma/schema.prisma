@@ -113,6 +113,7 @@ model User {
   feynmanSessions        FeynmanSession[]
   studyPlans             StudyPlan[]
   calendarEvents         CalendarEvent[]
+  podcasts               Podcast[]
   curriculumProgress     OntarioCurriculumProgress[]
 }
 
@@ -272,6 +273,20 @@ model CalendarEvent {
 
   @@index([userId])
   @@index([date])
+  @@index([createdAt])
+}
+
+model Podcast {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title      String
+  sourceText String   @db.Text
+  script     Json
+  topic      String
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
   @@index([createdAt])
 }
 
