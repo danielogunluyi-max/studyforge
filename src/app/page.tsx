@@ -99,6 +99,20 @@ export default function LandingPage() {
         .footer-link:hover {
           color: #8888a0 !important;
         }
+        .gradient-headline {
+          background: linear-gradient(100deg, #7aa0ff 0%, #a78bfa 50%, #5eead4 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          display: inline;
+        }
+        .gradient-cta {
+          background: linear-gradient(100deg, #7aa0ff, #a78bfa);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          display: inline;
+        }
       `}</style>
 
       <div style={{
@@ -256,12 +270,7 @@ export default function LandingPage() {
               marginBottom: '20px',
             }}>
               The AI study app<br />
-              <span style={{
-                background: 'linear-gradient(100deg, #7aa0ff 0%, #a78bfa 50%, #5eead4 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}>
+              <span className="gradient-headline">
                 Ontario students love.
               </span>
             </h1>
@@ -959,12 +968,7 @@ export default function LandingPage() {
               lineHeight: 1.05, marginBottom: '16px', color: '#e8e8f0',
             }}>
               Your exams aren't going<br />
-              <span style={{
-                background: 'linear-gradient(100deg, #7aa0ff, #a78bfa)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}>
+              <span className="gradient-cta">
                 to ace themselves.
               </span>
             </h2>
