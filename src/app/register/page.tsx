@@ -1,10 +1,10 @@
 'use client'
 import { useState } from 'react'
-import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -15,14 +15,22 @@ export default function LoginPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
-    const res = await signIn('credentials', {
-      email, password, redirect: false,
-    })
-    if (res?.error) {
-      setError('Invalid email or password')
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setError(data.error || 'Registration failed')
+        setLoading(false)
+      } else {
+        router.push('/login')
+      }
+    } catch {
+      setError('Something went wrong. Please try again.')
       setLoading(false)
-    } else {
-      router.push('/dashboard')
     }
   }
 
@@ -99,24 +107,21 @@ export default function LoginPage() {
           overflow: 'hidden',
         }}>
 
-          {/* Background glow */}
           <div style={{
-            position: 'absolute', top: '20%', left: '50%',
+            position: 'absolute', top: '15%', left: '50%',
             transform: 'translateX(-50%)',
             width: '400px', height: '400px', borderRadius: '50%',
             background:
-              'radial-gradient(ellipse, rgba(91,127,255,0.12) 0%, transparent 65%)',
+              'radial-gradient(ellipse, rgba(139,92,246,0.12) 0%, transparent 65%)',
             pointerEvents: 'none',
           }} />
           <div style={{
-            position: 'absolute', bottom: '10%', right: '-10%',
-            width: '280px', height: '280px', borderRadius: '50%',
+            position: 'absolute', bottom: '15%', right: '-5%',
+            width: '260px', height: '260px', borderRadius: '50%',
             background:
-              'radial-gradient(ellipse, rgba(139,92,246,0.08) 0%, transparent 65%)',
+              'radial-gradient(ellipse, rgba(91,127,255,0.08) 0%, transparent 65%)',
             pointerEvents: 'none',
           }} />
-
-          {/* Dot grid */}
           <div style={{
             position: 'absolute', inset: 0,
             backgroundImage:
@@ -128,7 +133,6 @@ export default function LoginPage() {
           <div style={{ position: 'relative', zIndex: 1,
             textAlign: 'center', maxWidth: '360px' }}>
 
-            {/* Logo */}
             <div style={{ display: 'flex', alignItems: 'center',
               justifyContent: 'center', gap: '10px',
               marginBottom: '48px' }}>
@@ -150,38 +154,58 @@ export default function LoginPage() {
               </span>
             </div>
 
-            {/* Headline */}
             <h2 style={{
               fontSize: '28px', fontWeight: 900,
               color: '#e8e8f0', letterSpacing: '-0.03em',
               lineHeight: 1.15, marginBottom: '14px',
             }}>
-              Welcome back.
+              Your AI study
               <br />
-              <span style={{ color: '#7aa0ff' }}>
-                Pick up where you left off.
+              <span style={{ color: '#a78bfa' }}>
+                workspace awaits.
               </span>
             </h2>
             <p style={{ fontSize: '14px', color: '#3a3a58',
               lineHeight: 1.7, marginBottom: '48px' }}>
-              Your notes, flashcards, and mastery progress
-              are waiting for you.
+              Join and get instant access to 15+ AI features
+              built for Ontario high school students.
             </p>
 
-            {/* Floating feature pills */}
+            {/* Stats */}
+            <div style={{ display: 'flex', gap: '24px',
+              justifyContent: 'center', marginBottom: '40px' }}>
+              {[
+                { v: '15+', l: 'AI Features' },
+                { v: '136', l: 'ON Courses' },
+                { v: 'Free', l: 'To Start' },
+              ].map(s => (
+                <div key={s.l} style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '20px', fontWeight: 900,
+                    color: '#7aa0ff', letterSpacing: '-0.03em' }}>
+                    {s.v}
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#2a2a45',
+                    marginTop: '2px', fontWeight: 600,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em' }}>
+                    {s.l}
+                  </div>
+                </div>
+              ))}
+            </div>
+
             <div style={{ display: 'flex', flexDirection: 'column',
               gap: '10px', alignItems: 'center' }}>
               {[
                 { className: 'pill-1', emoji: 'AI', label: 'AI Note Generator', color: '#5b7fff' },
-                { className: 'pill-2', emoji: 'SR', label: 'Spaced Repetition', color: '#8b5cf6' },
+                { className: 'pill-2', emoji: 'BA', label: 'Battle Arena', color: '#f97316' },
                 { className: 'pill-3', emoji: 'ON', label: 'Ontario Curriculum', color: '#10b981' },
-                { className: 'pill-4', emoji: 'FT', label: 'Feynman Technique', color: '#f97316' },
-                { className: 'pill-5', emoji: 'MC', label: 'Mastery Chart', color: '#ec4899' },
+                { className: 'pill-4', emoji: 'NP', label: 'Notes to Podcast', color: '#8b5cf6' },
+                { className: 'pill-5', emoji: 'SP', label: 'AI Study Planner', color: '#ec4899' },
               ].map(pill => (
                 <div key={pill.label} className={pill.className}
                   style={{
-                    padding: '9px 18px',
-                    borderRadius: '999px',
+                    padding: '9px 18px', borderRadius: '999px',
                     background: `${pill.color}10`,
                     border: `1px solid ${pill.color}25`,
                     display: 'flex', alignItems: 'center',
@@ -212,16 +236,16 @@ export default function LoginPage() {
               color: '#e8e8f0', letterSpacing: '-0.025em',
               marginBottom: '6px',
             }}>
-              Sign in to Kyvex
+              Create your account
             </h1>
             <p style={{ fontSize: '13px', color: '#3a3a58',
               marginBottom: '32px' }}>
-              Don't have an account?{' '}
-              <Link href="/register" style={{
+              Already have an account?{' '}
+              <Link href="/login" style={{
                 color: '#7aa0ff', textDecoration: 'none',
                 fontWeight: 600,
               }}>
-                Sign up free ->
+                Sign in ->
               </Link>
             </p>
 
@@ -238,6 +262,33 @@ export default function LoginPage() {
             )}
 
             <form onSubmit={handleSubmit}>
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{
+                  display: 'block', fontSize: '12px',
+                  fontWeight: 700, color: '#4a4a68',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em', marginBottom: '7px',
+                }}>
+                  Full name
+                </label>
+                <input
+                  className="input-field"
+                  type="text"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  placeholder="Your name"
+                  required
+                  style={{
+                    width: '100%', padding: '11px 14px',
+                    borderRadius: '10px',
+                    background: 'rgba(255,255,255,0.03)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    color: '#e8e8f0', fontSize: '14px',
+                    fontFamily: 'inherit',
+                  }}
+                />
+              </div>
+
               <div style={{ marginBottom: '16px' }}>
                 <label style={{
                   display: 'block', fontSize: '12px',
@@ -279,7 +330,7 @@ export default function LoginPage() {
                   type="password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Min. 8 characters"
                   required
                   style={{
                     width: '100%', padding: '11px 14px',
@@ -303,12 +354,12 @@ export default function LoginPage() {
                     ? 'rgba(91,127,255,0.4)'
                     : 'linear-gradient(135deg, #5b7fff, #8b5cf6)',
                   color: 'white', fontSize: '14px',
-                  fontWeight: 700, cursor: loading
-                    ? 'not-allowed' : 'pointer',
+                  fontWeight: 700,
+                  cursor: loading ? 'not-allowed' : 'pointer',
                   fontFamily: 'inherit',
                   boxShadow: '0 4px 20px rgba(91,127,255,0.35)',
                 }}>
-                {loading ? 'Signing in...' : 'Sign in ->'}
+                {loading ? 'Creating account...' : 'Create account ->'}
               </button>
             </form>
 
