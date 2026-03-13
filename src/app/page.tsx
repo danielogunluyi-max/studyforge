@@ -250,13 +250,13 @@ export default function LandingPage() {
             <h1 className="anim-2" style={{
               fontSize: 'clamp(48px, 9vw, 96px)',
               fontWeight: 900,
-              lineHeight: 1.0,
+              lineHeight: 1.12,
               letterSpacing: '-0.05em',
               color: '#f0f0ff',
               marginBottom: '20px',
             }}>
               The AI study app<br />
-              <span style={{ color: '#7aa0ff' }}>
+              <span style={{ color: '#7aa0ff', display: 'block', marginTop: '8px' }}>
                 Ontario students love.
               </span>
             </h1>
@@ -954,7 +954,7 @@ export default function LandingPage() {
               lineHeight: 1.05, marginBottom: '16px', color: '#e8e8f0',
             }}>
               Your exams aren't going<br />
-              <span style={{ color: '#7aa0ff' }}>
+              <span style={{ color: '#7aa0ff', display: 'block', marginTop: '8px' }}>
                 to ace themselves.
               </span>
             </h2>
