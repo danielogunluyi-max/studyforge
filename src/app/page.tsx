@@ -256,7 +256,7 @@ export default function LandingPage() {
               marginBottom: '20px',
             }}>
               The AI study app<br />
-              <span style={{ color: '#7aa0ff', display: 'block', marginTop: '8px' }}>
+              <span style={{ color: '#7aa0ff', display: 'inline-block', marginTop: '8px' }}>
                 Ontario students love.
               </span>
             </h1>
@@ -954,7 +954,7 @@ export default function LandingPage() {
               lineHeight: 1.05, marginBottom: '16px', color: '#e8e8f0',
             }}>
               Your exams aren't going<br />
-              <span style={{ color: '#7aa0ff', display: 'block', marginTop: '8px' }}>
+              <span style={{ color: '#7aa0ff', display: 'inline-block', marginTop: '8px' }}>
                 to ace themselves.
               </span>
             </h2>
