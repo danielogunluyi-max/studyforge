@@ -245,7 +245,7 @@ export default function RegisterPage() {
                 color: '#7aa0ff', textDecoration: 'none',
                 fontWeight: 600,
               }}>
-                Sign in ->
+                Sign in {'->'}
               </Link>
             </p>
 

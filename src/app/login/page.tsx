@@ -221,7 +221,7 @@ export default function LoginPage() {
                 color: '#7aa0ff', textDecoration: 'none',
                 fontWeight: 600,
               }}>
-                Sign up free ->
+                Sign up free {'->'}
               </Link>
             </p>
 
