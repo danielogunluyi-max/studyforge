@@ -129,6 +129,14 @@ model User {
     narrativeMemories    NarrativeMemory[]
     debateSessions       DebateSession[]
     interleavingSessions InterleavingSession[]
+    communityPosts    CommunityPost[]
+    communityLikes    CommunityLike[]
+    communityComments CommunityComment[]
+    habits            Habit[]
+    habitEntries      HabitEntry[]
+    quickCaptures     QuickCapture[]
+    mockExamAttempts  MockExamAttempt[]
+    mockExams         MockExam[]
 }
 
 model OntarioCurriculumCourse {
@@ -999,4 +1007,106 @@ model InterleavingSession {
 
     @@index([userId])
     @@index([createdAt])
+}
+
+model CommunityPost {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    content     String   @db.Text
+    topic       String?
+    likes       CommunityLike[]
+    comments    CommunityComment[]
+    createdAt   DateTime @default(now())
+}
+
+model CommunityLike {
+    id        String   @id @default(cuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    postId    String
+    post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now())
+
+    @@unique([userId, postId])
+}
+
+model CommunityComment {
+    id        String   @id @default(cuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    postId    String
+    post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+    content   String   @db.Text
+    createdAt DateTime @default(now())
+}
+
+model HabitEntry {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    habitName   String
+    completed   Boolean  @default(false)
+    date        DateTime @default(now())
+    createdAt   DateTime @default(now())
+}
+
+model Habit {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    name        String
+    emoji       String   @default("✅")
+    streak      Int      @default(0)
+    bestStreak  Int      @default(0)
+    color       String   @default("#f0b429")
+    active      Boolean  @default(true)
+    createdAt   DateTime @default(now())
+}
+
+model QuickCapture {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    content     String   @db.Text
+    tags        String[]
+    processed   Boolean  @default(false)
+    convertedTo String?
+    createdAt   DateTime @default(now())
+}
+
+model MockExam {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    title       String
+    subject     String
+    questions   MockExamQuestion[]
+    attempts    MockExamAttempt[]
+    timeLimit   Int
+    createdAt   DateTime @default(now())
+}
+
+model MockExamQuestion {
+    id          String   @id @default(cuid())
+    examId      String
+    exam        MockExam @relation(fields: [examId], references: [id], onDelete: Cascade)
+    question    String   @db.Text
+    options     Json
+    answer      String
+    explanation String   @db.Text
+    type        String   @default("mcq")
+    points      Int      @default(1)
+}
+
+model MockExamAttempt {
+    id          String   @id @default(cuid())
+    examId      String
+    exam        MockExam @relation(fields: [examId], references: [id], onDelete: Cascade)
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    answers     Json
+    score       Float
+    timeTaken   Int
+    createdAt   DateTime @default(now())
 }

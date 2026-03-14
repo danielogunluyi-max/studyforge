@@ -753,6 +753,90 @@ exports.Prisma.InterleavingSessionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CommunityPostScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  content: 'content',
+  topic: 'topic',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CommunityLikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CommunityCommentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  content: 'content',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.HabitEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  habitName: 'habitName',
+  completed: 'completed',
+  date: 'date',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.HabitScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  emoji: 'emoji',
+  streak: 'streak',
+  bestStreak: 'bestStreak',
+  color: 'color',
+  active: 'active',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.QuickCaptureScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  content: 'content',
+  tags: 'tags',
+  processed: 'processed',
+  convertedTo: 'convertedTo',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MockExamScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  subject: 'subject',
+  timeLimit: 'timeLimit',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MockExamQuestionScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  question: 'question',
+  options: 'options',
+  answer: 'answer',
+  explanation: 'explanation',
+  type: 'type',
+  points: 'points'
+};
+
+exports.Prisma.MockExamAttemptScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  userId: 'userId',
+  answers: 'answers',
+  score: 'score',
+  timeTaken: 'timeTaken',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -842,7 +926,16 @@ exports.Prisma.ModelName = {
   ConfidenceRating: 'ConfidenceRating',
   NarrativeMemory: 'NarrativeMemory',
   DebateSession: 'DebateSession',
-  InterleavingSession: 'InterleavingSession'
+  InterleavingSession: 'InterleavingSession',
+  CommunityPost: 'CommunityPost',
+  CommunityLike: 'CommunityLike',
+  CommunityComment: 'CommunityComment',
+  HabitEntry: 'HabitEntry',
+  Habit: 'Habit',
+  QuickCapture: 'QuickCapture',
+  MockExam: 'MockExam',
+  MockExamQuestion: 'MockExamQuestion',
+  MockExamAttempt: 'MockExamAttempt'
 };
 
 /**

@@ -209,6 +209,16 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3.75l1.8 3.9L18 9.5l-4.2 1.85L12 15.25l-1.8-3.9L6 9.5l4.2-1.85L12 3.75z" /></svg>,
     },
     {
+      href: '/voice-tutor',
+      label: 'Voice Tutor',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19 10.5V12a7 7 0 11-14 0v-1.5" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 19.5V22.5M9 22.5h6" /></svg>,
+    },
+    {
+      href: '/games',
+      label: 'Games',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 9h10.5a3 3 0 013 3v3.75a2.25 2.25 0 01-2.25 2.25h-2.25l-2.25-2.25h-3l-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V12a3 3 0 013-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 12.75h1.5M9 12v1.5M15.75 12.75h.008v.008h-.008zM17.25 14.25h.008v.008h-.008z" /></svg>,
+    },
+    {
       href: '/battle',
       label: 'Battle Arena',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="m7 5 5 5M5.5 7.5 9 4M4 9l4-4M17 5l-5 5m6.5-2.5L15 4m5 5-4-4" /></svg>,
@@ -232,6 +242,11 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       href: '/exam-predictor',
       label: 'Exam Predictor',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="8.25" /><circle cx="12" cy="12" r="4.25" /><circle cx="12" cy="12" r="1.25" /></svg>,
+    },
+    {
+      href: '/mock-exam',
+      label: 'Mock Exam',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 3.75h9l3 3v13.5a1.5 1.5 0 01-1.5 1.5h-10.5A1.5 1.5 0 014.5 20.25V5.25A1.5 1.5 0 016 3.75z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 10.5h6M9 14.25h6M9 18h4.5" /></svg>,
     },
     {
       href: '/learning-style-quiz',
@@ -266,6 +281,19 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       label: 'Debate',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5h6v6h-6zM10.5 16.5h6v6h-6z" /><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5h3m-6 9h-3" /></svg>,
     },
+    {
+      href: '/capture',
+      label: 'Quick Capture',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 4.5h12a1.5 1.5 0 011.5 1.5v12A1.5 1.5 0 0118 19.5H6A1.5 1.5 0 014.5 18V6A1.5 1.5 0 016 4.5z" /><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9h7.5M8.25 12.75h7.5M8.25 16.5h4.5" /></svg>,
+    },
+  ]
+
+  const socialItems: NavItem[] = [
+    {
+      href: '/community',
+      label: 'Community',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75A2.25 2.25 0 016 4.5h12a2.25 2.25 0 012.25 2.25v7.5A2.25 2.25 0 0118 16.5H9.75L6 19.5v-3H6a2.25 2.25 0 01-2.25-2.25v-7.5z" /></svg>,
+    },
   ]
 
   const wellnessItems: NavItem[] = [
@@ -284,6 +312,11 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       label: 'Interleave',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 7.5h15M4.5 12h15M4.5 16.5h15" /><path strokeLinecap="round" strokeLinejoin="round" d="m8.25 6 2.25 1.5L8.25 9M13.5 10.5l2.25 1.5-2.25 1.5M6.75 15l2.25 1.5L6.75 18" /></svg>,
     },
+    {
+      href: '/habits',
+      label: 'Habits',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 4.5h9a1.5 1.5 0 011.5 1.5v13.5A1.5 1.5 0 0116.5 21h-9A1.5 1.5 0 016 19.5V6A1.5 1.5 0 017.5 4.5z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 9h6M9 13h6M9 17h3" /></svg>,
+    },
   ]
 
   const handleSignOut = async () => {
@@ -299,7 +332,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   const userName = session?.user?.name ?? 'Kyvex User'
   const userEmail = session?.user?.email ?? 'student@kyvex.app'
   const initials = getInitials(session?.user?.name, session?.user?.email)
-  const allItems = [...mainItems, ...featureItems, ...toolItems, ...wellnessItems]
+  const allItems = [...mainItems, ...featureItems, ...toolItems, ...socialItems, ...wellnessItems]
 
   function nearestEdge(x: number, y: number): SidebarPlacement {
     const vw = window.innerWidth
@@ -739,9 +772,11 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
               <nav>
                 {renderNavGroup('MAIN', mainItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('FEATURES', featureItems)}
+                {renderNavGroup('LEARN', featureItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
                 {renderNavGroup('TOOLS', toolItems)}
+                <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
+                {renderNavGroup('SOCIAL', socialItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
                 {renderNavGroup('WELLNESS', wellnessItems)}
               </nav>
