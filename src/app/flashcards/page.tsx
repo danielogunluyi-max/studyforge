@@ -78,11 +78,13 @@ export default async function FlashcardsPage({
   const params = (await searchParams) ?? {};
 
   return (
-    <DeckLibraryClient
-      initialDecks={decks}
-      studiedToday={studiedToday}
-      notes={notes}
-      initialGenerateFrom={params.generateFrom ?? ""}
-    />
+    <div className="kv-page">
+      <DeckLibraryClient
+        initialDecks={decks}
+        studiedToday={studiedToday}
+        notes={notes}
+        initialGenerateFrom={params.generateFrom ?? ""}
+      />
+    </div>
   );
 }
