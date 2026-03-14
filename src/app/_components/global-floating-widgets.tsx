@@ -1,0 +1,41 @@
+"use client";
+
+import { useMemo } from "react";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+
+import { ExamWidget } from "~/app/_components/exam-widget";
+import { PomodoroWidget } from "~/app/_components/pomodoro-widget";
+import AmbientPlayer from "~/app/_components/ambient-player";
+import NovaDailyAward from "~/app/_components/nova-daily-award";
+import FocusMode from "~/app/_components/focus-mode";
+
+const PUBLIC_ROUTES = new Set(["/", "/login", "/register", "/signup"]);
+
+export function GlobalFloatingWidgets() {
+  const pathname = usePathname();
+  const { status } = useSession();
+
+  const shouldRender = useMemo(() => {
+    if (status !== "authenticated") {
+      return false;
+    }
+
+    const route = (pathname ?? "/").split("?")[0] ?? "/";
+    return !PUBLIC_ROUTES.has(route);
+  }, [pathname, status]);
+
+  if (!shouldRender) {
+    return null;
+  }
+
+  return (
+    <>
+      <NovaDailyAward />
+      <AmbientPlayer />
+      <FocusMode />
+      <PomodoroWidget />
+      <ExamWidget />
+    </>
+  );
+}
