@@ -5,6 +5,19 @@ import { db } from "~/server/db";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+export async function GET() {
+  const session = await auth();
+  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const predictions = await db.examPrediction.findMany({
+    where: { userId: session.user.id },
+    orderBy: { createdAt: "desc" },
+    take: 10,
+  });
+
+  return NextResponse.json({ predictions });
+}
+
 export async function POST(req: Request) {
   const session = await auth();
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
