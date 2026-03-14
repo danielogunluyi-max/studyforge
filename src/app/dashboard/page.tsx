@@ -1,151 +1,157 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "~/app/_components/button";
-import { PageHero } from "~/app/_components/page-hero";
-import { useToast } from "~/app/_components/toast";
-import { RecordResultModal } from "@/components/RecordResultModal";
-import { getGradeColor, percentToLetter } from "@/lib/gradeUtils";
-import { trackNovaEvent } from "@/lib/novaClient";
+import Link from 'next/link'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useToast } from '~/app/_components/toast'
+import { RecordResultModal } from '@/components/RecordResultModal'
+import { getGradeColor, percentToLetter } from '@/lib/gradeUtils'
+import { trackNovaEvent } from '@/lib/novaClient'
 
 type Exam = {
-  id: string;
-  subject: string;
-  examDate: string;
-  board: string | null;
-  difficulty: string | null;
-  topics: string | null;
-  studyPlan: string | null;
-  resultRecorded: boolean;
-  scorePercent: number | null;
-  gradeKU: number | null;
-  gradeThinking: number | null;
-  gradeComm: number | null;
-  gradeApp: number | null;
-  resultNotes: string | null;
-  resultRecordedAt: string | null;
-  createdAt: string;
-};
+  id: string
+  subject: string
+  examDate: string
+  board: string | null
+  difficulty: string | null
+  topics: string | null
+  studyPlan: string | null
+  resultRecorded: boolean
+  scorePercent: number | null
+  gradeKU: number | null
+  gradeThinking: number | null
+  gradeComm: number | null
+  gradeApp: number | null
+  resultNotes: string | null
+  resultRecordedAt: string | null
+  createdAt: string
+}
 
 type StudyPlanDay = {
-  date: string;
-  title: string;
-  tasks: string[];
-  completed?: boolean;
-};
+  date: string
+  title: string
+  tasks: string[]
+  completed?: boolean
+}
 
 type NotesResponse = {
-  notes?: Array<{ title?: string }>;
-};
+  notes?: Array<{ title?: string }>
+}
 
 type PreferencesResponse = {
-  studyStreak?: number;
-};
+  studyStreak?: number
+}
 
-type UrgencyTier = "green" | "yellow" | "orange" | "red";
+type UrgencyTier = 'green' | 'yellow' | 'orange' | 'red'
 
 type PanicTier = {
-  label: string;
-  color: string;
-};
+  label: string
+  color: string
+}
 
-const DIFFICULTY_OPTIONS = ["Easy", "Medium", "Hard"];
+const DIFFICULTY_OPTIONS = ['Easy', 'Medium', 'Hard']
 
 function safeDaysUntil(examDate: string): number {
-  const target = new Date(examDate).getTime();
-  const diff = target - Date.now();
-  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+  const target = new Date(examDate).getTime()
+  const diff = target - Date.now()
+  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)))
 }
 
 function countdownParts(examDate: string) {
-  const target = new Date(examDate).getTime();
-  const diff = Math.max(0, target - Date.now());
+  const target = new Date(examDate).getTime()
+  const diff = Math.max(0, target - Date.now())
 
-  const totalMinutes = Math.floor(diff / (1000 * 60));
-  const minutes = totalMinutes % 60;
-  const totalHours = Math.floor(totalMinutes / 60);
-  const hours = totalHours % 24;
-  const days = Math.floor(totalHours / 24);
+  const totalMinutes = Math.floor(diff / (1000 * 60))
+  const minutes = totalMinutes % 60
+  const totalHours = Math.floor(totalMinutes / 60)
+  const hours = totalHours % 24
+  const days = Math.floor(totalHours / 24)
 
-  return { days, hours, minutes };
+  return { days, hours, minutes }
 }
 
 function formatCountdown(examDate: string) {
-  const { days, hours, minutes } = countdownParts(examDate);
-  return `${days} days ${hours} hours ${minutes} minutes`;
+  const { days, hours, minutes } = countdownParts(examDate)
+  return `${days} days ${hours} hours ${minutes} minutes`
 }
 
 function urgencyFromDays(days: number): UrgencyTier {
-  if (days >= 30) return "green";
-  if (days >= 14) return "yellow";
-  if (days >= 7) return "orange";
-  return "red";
+  if (days >= 30) return 'green'
+  if (days >= 14) return 'yellow'
+  if (days >= 7) return 'orange'
+  return 'red'
 }
 
 function urgencyClasses(tier: UrgencyTier) {
-  if (tier === "green") {
+  if (tier === 'green') {
     return {
-      badge: "border-emerald-500/40 bg-emerald-500/15 text-emerald-300",
-      text: "text-emerald-300",
-      bar: "bg-emerald-500",
-      pulse: "",
-    };
+      badgeBorder: 'rgba(16,185,129,0.45)',
+      badgeBg: 'rgba(16,185,129,0.12)',
+      badgeText: '#34d399',
+      text: '#34d399',
+      bar: '#10b981',
+      pulse: false,
+    }
   }
 
-  if (tier === "yellow") {
+  if (tier === 'yellow') {
     return {
-      badge: "border-yellow-500/40 bg-yellow-500/15 text-yellow-300",
-      text: "text-yellow-300",
-      bar: "bg-yellow-500",
-      pulse: "",
-    };
+      badgeBorder: 'rgba(245,158,11,0.45)',
+      badgeBg: 'rgba(245,158,11,0.12)',
+      badgeText: '#fbbf24',
+      text: '#fbbf24',
+      bar: '#f59e0b',
+      pulse: false,
+    }
   }
 
-  if (tier === "orange") {
+  if (tier === 'orange') {
     return {
-      badge: "border-orange-500/40 bg-orange-500/15 text-orange-300",
-      text: "text-orange-300",
-      bar: "bg-orange-500",
-      pulse: "animate-pulse",
-    };
+      badgeBorder: 'rgba(249,115,22,0.45)',
+      badgeBg: 'rgba(249,115,22,0.12)',
+      badgeText: '#fb923c',
+      text: '#fb923c',
+      bar: '#f97316',
+      pulse: true,
+    }
   }
 
   return {
-    badge: "border-red-500/40 bg-red-500/15 text-red-300",
-    text: "text-red-300",
-    bar: "bg-red-500",
-    pulse: "animate-pulse",
-  };
+    badgeBorder: 'rgba(239,68,68,0.45)',
+    badgeBg: 'rgba(239,68,68,0.12)',
+    badgeText: '#f87171',
+    text: '#f87171',
+    bar: '#ef4444',
+    pulse: true,
+  }
 }
 
 function urgencyProgress(days: number) {
-  if (days >= 30) return 20;
-  if (days >= 14) return 45;
-  if (days >= 7) return 72;
-  return 92;
+  if (days >= 30) return 20
+  if (days >= 14) return 45
+  if (days >= 7) return 72
+  return 92
 }
 
 function parseTopics(topics: string | null): string[] {
-  return (topics ?? "")
-    .split(",")
+  return (topics ?? '')
+    .split(',')
     .map((topic) => topic.trim())
-    .filter(Boolean);
+    .filter(Boolean)
 }
 
 function panicData(exam: Exam): { totalTopics: number; daysAvailable: number; topicsPerDay: number; tier: PanicTier } {
-  const totalTopics = parseTopics(exam.topics).length;
-  const daysAvailable = Math.max(1, safeDaysUntil(exam.examDate));
-  const topicsPerDay = totalTopics === 0 ? 0 : totalTopics / daysAvailable;
+  const totalTopics = parseTopics(exam.topics).length
+  const daysAvailable = Math.max(1, safeDaysUntil(exam.examDate))
+  const topicsPerDay = totalTopics === 0 ? 0 : totalTopics / daysAvailable
 
   if (topicsPerDay > 3) {
     return {
       totalTopics,
       daysAvailable,
       topicsPerDay,
-      tier: { label: "High pressure", color: "text-red-300" },
-    };
+      tier: { label: 'High pressure', color: '#ef4444' },
+    }
   }
 
   if (topicsPerDay >= 1) {
@@ -153,185 +159,185 @@ function panicData(exam: Exam): { totalTopics: number; daysAvailable: number; to
       totalTopics,
       daysAvailable,
       topicsPerDay,
-      tier: { label: "Manageable", color: "text-yellow-300" },
-    };
+      tier: { label: 'Manageable', color: '#f59e0b' },
+    }
   }
 
   return {
     totalTopics,
     daysAvailable,
     topicsPerDay,
-    tier: { label: "Well prepared", color: "text-emerald-300" },
-  };
+    tier: { label: 'Well prepared', color: '#10b981' },
+  }
 }
 
 function parseStudyPlan(studyPlanRaw: string | null): StudyPlanDay[] {
-  if (!studyPlanRaw) return [];
+  if (!studyPlanRaw) return []
 
   try {
-    const parsed = JSON.parse(studyPlanRaw) as { days?: StudyPlanDay[] };
-    return Array.isArray(parsed.days) ? parsed.days : [];
+    const parsed = JSON.parse(studyPlanRaw) as { days?: StudyPlanDay[] }
+    return Array.isArray(parsed.days) ? parsed.days : []
   } catch {
-    return [];
+    return []
   }
 }
 
 function isTodayLabel(label: string) {
-  const today = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric" }).toLowerCase();
-  return label.toLowerCase().includes(today);
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' }).toLowerCase()
+  return label.toLowerCase().includes(today)
 }
 
 function subjectIcon(subject: string) {
-  const s = subject.toLowerCase();
-  if (s.includes("math") || s.includes("algebra") || s.includes("calculus")) return "📐";
-  if (s.includes("bio")) return "🧬";
-  if (s.includes("chem")) return "⚗️";
-  if (s.includes("phys")) return "🧲";
-  if (s.includes("history")) return "🏛️";
-  if (s.includes("english") || s.includes("literature")) return "📚";
-  if (s.includes("computer") || s.includes("coding")) return "💻";
-  return "📝";
+  const s = subject.toLowerCase()
+  if (s.includes('math') || s.includes('algebra') || s.includes('calculus')) return '📐'
+  if (s.includes('bio')) return '🧬'
+  if (s.includes('chem')) return '⚗️'
+  if (s.includes('phys')) return '🧲'
+  if (s.includes('history')) return '🏛️'
+  if (s.includes('english') || s.includes('literature')) return '📚'
+  if (s.includes('computer') || s.includes('coding')) return '💻'
+  return '📝'
 }
 
 export default function DashboardPage() {
-  const router = useRouter();
-  const [exams, setExams] = useState<Exam[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [generatingExamId, setGeneratingExamId] = useState("");
-  const [savingPlanExamId, setSavingPlanExamId] = useState("");
-  const [studyStreak, setStudyStreak] = useState(0);
-  const [clockTick, setClockTick] = useState(0);
-  const [noteTitles, setNoteTitles] = useState<string[]>([]);
-  const [isScanningNotes, setIsScanningNotes] = useState(false);
-  const [scanConfidence, setScanConfidence] = useState<number | null>(null);
+  const router = useRouter()
+  const [exams, setExams] = useState<Exam[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isSaving, setIsSaving] = useState(false)
+  const [generatingExamId, setGeneratingExamId] = useState('')
+  const [savingPlanExamId, setSavingPlanExamId] = useState('')
+  const [studyStreak, setStudyStreak] = useState(0)
+  const [clockTick, setClockTick] = useState(0)
+  const [noteTitles, setNoteTitles] = useState<string[]>([])
+  const [isScanningNotes, setIsScanningNotes] = useState(false)
+  const [scanConfidence, setScanConfidence] = useState<number | null>(null)
 
-  const [subject, setSubject] = useState("");
-  const [examDate, setExamDate] = useState("");
-  const [board, setBoard] = useState("");
-  const [difficulty, setDifficulty] = useState("Medium");
-  const [topics, setTopics] = useState("");
+  const [subject, setSubject] = useState('')
+  const [examDate, setExamDate] = useState('')
+  const [board, setBoard] = useState('')
+  const [difficulty, setDifficulty] = useState('Medium')
+  const [topics, setTopics] = useState('')
   const [selectedExamForResult, setSelectedExamForResult] = useState<{
-    id: string;
-    subject: string;
-    examDate: string;
-    board: string | null;
-  } | null>(null);
-  const scanFileInputRef = useRef<HTMLInputElement>(null);
+    id: string
+    subject: string
+    examDate: string
+    board: string | null
+  } | null>(null)
+  const scanFileInputRef = useRef<HTMLInputElement>(null)
 
-  const { showToast } = useToast();
+  const { showToast } = useToast()
 
   const fetchExams = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const response = await fetch("/api/exams");
-      const data = (await response.json()) as { exams?: Exam[]; error?: string };
+      const response = await fetch('/api/exams')
+      const data = (await response.json()) as { exams?: Exam[]; error?: string }
       if (!response.ok) {
-        showToast(data.error ?? "Failed to load exams", "error");
-        return;
+        showToast(data.error ?? 'Failed to load exams', 'error')
+        return
       }
-      setExams(data.exams ?? []);
+      setExams(data.exams ?? [])
     } catch {
-      showToast("Failed to load exams", "error");
+      showToast('Failed to load exams', 'error')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    void fetchExams();
+    void fetchExams()
 
     void (async () => {
-      const response = await fetch("/api/user/preferences");
-      const data = (await response.json().catch(() => ({}))) as PreferencesResponse;
+      const response = await fetch('/api/user/preferences')
+      const data = (await response.json().catch(() => ({}))) as PreferencesResponse
       if (response.ok) {
-        setStudyStreak(data.studyStreak ?? 0);
+        setStudyStreak(data.studyStreak ?? 0)
       }
-    })();
+    })()
 
     void (async () => {
-      const response = await fetch("/api/notes?limit=100");
-      const data = (await response.json().catch(() => ({}))) as NotesResponse;
-      if (!response.ok) return;
-      const titles = (data.notes ?? []).map((note) => String(note.title ?? "").trim()).filter(Boolean);
-      setNoteTitles(titles.slice(0, 40));
-    })();
-  }, []);
+      const response = await fetch('/api/notes?limit=100')
+      const data = (await response.json().catch(() => ({}))) as NotesResponse
+      if (!response.ok) return
+      const titles = (data.notes ?? []).map((note) => String(note.title ?? '').trim()).filter(Boolean)
+      setNoteTitles(titles.slice(0, 40))
+    })()
+  }, [])
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setClockTick((value) => value + 1);
-    }, 60_000);
+      setClockTick((value) => value + 1)
+    }, 60_000)
 
-    return () => window.clearInterval(timer);
-  }, []);
+    return () => window.clearInterval(timer)
+  }, [])
 
   const { upcomingExams, pastExams } = useMemo(() => {
-    void clockTick;
-    const now = new Date();
-    const nowMs = now.getTime();
+    void clockTick
+    const now = new Date()
+    const nowMs = now.getTime()
     return {
       upcomingExams: exams.filter((e) => new Date(e.examDate).getTime() > nowMs),
       pastExams: exams.filter((e) => new Date(e.examDate).getTime() <= nowMs),
-    };
-  }, [clockTick, exams]);
+    }
+  }, [clockTick, exams])
 
   const sortedUpcoming = useMemo(
     () => [...upcomingExams].sort((a, b) => new Date(a.examDate).getTime() - new Date(b.examDate).getTime()),
     [upcomingExams],
-  );
+  )
 
-  const nextExam = sortedUpcoming[0] ?? null;
+  const nextExam = sortedUpcoming[0] ?? null
 
   const totalExamsThisMonth = useMemo(() => {
-    const now = new Date();
-    const month = now.getMonth();
-    const year = now.getFullYear();
+    const now = new Date()
+    const month = now.getMonth()
+    const year = now.getFullYear()
 
     return upcomingExams.filter((exam) => {
-      const date = new Date(exam.examDate);
-      return date.getMonth() === month && date.getFullYear() === year;
-    }).length;
-  }, [upcomingExams]);
+      const date = new Date(exam.examDate)
+      return date.getMonth() === month && date.getFullYear() === year
+    }).length
+  }, [upcomingExams])
 
   const readinessScore = useMemo(() => {
-    if (!upcomingExams.length) return 100;
+    if (!upcomingExams.length) return 100
 
-    const allDays = upcomingExams.flatMap((exam) => parseStudyPlan(exam.studyPlan));
-    if (!allDays.length) return 0;
+    const allDays = upcomingExams.flatMap((exam) => parseStudyPlan(exam.studyPlan))
+    if (!allDays.length) return 0
 
-    const completed = allDays.filter((day) => day.completed).length;
-    return Math.round((completed / allDays.length) * 100);
-  }, [upcomingExams]);
+    const completed = allDays.filter((day) => day.completed).length
+    return Math.round((completed / allDays.length) * 100)
+  }, [upcomingExams])
 
   const handleDeleteExam = async (examId: string) => {
     try {
-      const response = await fetch(`/api/exams/${examId}`, { method: "DELETE" });
-      const data = (await response.json().catch(() => ({}))) as { error?: string };
+      const response = await fetch(`/api/exams/${examId}`, { method: 'DELETE' })
+      const data = (await response.json().catch(() => ({}))) as { error?: string }
       if (!response.ok) {
-        showToast(data.error ?? "Failed to delete exam", "error");
-        return;
+        showToast(data.error ?? 'Failed to delete exam', 'error')
+        return
       }
 
-      setExams((prev) => prev.filter((exam) => exam.id !== examId));
-      showToast("Exam deleted", "success");
+      setExams((prev) => prev.filter((exam) => exam.id !== examId))
+      showToast('Exam deleted', 'success')
     } catch {
-      showToast("Failed to delete exam", "error");
+      showToast('Failed to delete exam', 'error')
     }
-  };
+  }
 
   const createExam = async () => {
     if (!subject.trim() || !examDate) {
-      showToast("Subject and exam date/time are required", "error");
-      return;
+      showToast('Subject and exam date/time are required', 'error')
+      return
     }
 
-    setIsSaving(true);
+    setIsSaving(true)
 
     try {
-      const response = await fetch("/api/exams", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/exams', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           subject: subject.trim(),
           examDate,
@@ -339,265 +345,481 @@ export default function DashboardPage() {
           difficulty,
           topics,
         }),
-      });
+      })
 
-      const data = (await response.json()) as { exam?: Exam; error?: string };
+      const data = (await response.json()) as { exam?: Exam; error?: string }
       if (!response.ok || !data.exam) {
-        showToast(data.error ?? "Failed to create exam", "error");
-        return;
+        showToast(data.error ?? 'Failed to create exam', 'error')
+        return
       }
 
-      setSubject("");
-      setExamDate("");
-      setBoard("");
-      setDifficulty("Medium");
-      setTopics("");
-      showToast("Exam added", "success");
-      await fetchExams();
+      setSubject('')
+      setExamDate('')
+      setBoard('')
+      setDifficulty('Medium')
+      setTopics('')
+      showToast('Exam added', 'success')
+      await fetchExams()
     } catch {
-      showToast("Failed to create exam", "error");
+      showToast('Failed to create exam', 'error')
     } finally {
-      setIsSaving(false);
+      setIsSaving(false)
     }
-  };
+  }
 
   const generateStudyPlan = async (examId: string) => {
-    setGeneratingExamId(examId);
+    setGeneratingExamId(examId)
 
     try {
       const response = await fetch(`/api/exams/${examId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           generatePlan: true,
           noteTitles,
         }),
-      });
+      })
 
-      const data = (await response.json()) as { error?: string };
+      const data = (await response.json()) as { error?: string }
       if (!response.ok) {
-        showToast(data.error ?? "Failed to generate plan", "error");
-        return;
+        showToast(data.error ?? 'Failed to generate plan', 'error')
+        return
       }
 
-      showToast("Study plan generated", "success");
-      await fetchExams();
+      showToast('Study plan generated', 'success')
+      await fetchExams()
     } catch {
-      showToast("Failed to generate plan", "error");
+      showToast('Failed to generate plan', 'error')
     } finally {
-      setGeneratingExamId("");
+      setGeneratingExamId('')
     }
-  };
+  }
 
   const togglePlanDay = async (exam: Exam, dayIndex: number) => {
-    const current = parseStudyPlan(exam.studyPlan);
-    if (!current[dayIndex]) return;
+    const current = parseStudyPlan(exam.studyPlan)
+    if (!current[dayIndex]) return
 
     const nextDays = current.map((day, index) =>
       index === dayIndex ? { ...day, completed: !day.completed } : day,
-    );
+    )
 
-    setSavingPlanExamId(exam.id);
+    setSavingPlanExamId(exam.id)
 
     try {
       const response = await fetch(`/api/exams/${exam.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ days: nextDays }),
-      });
+      })
 
-      const data = (await response.json()) as { error?: string };
+      const data = (await response.json()) as { error?: string }
       if (!response.ok) {
-        showToast(data.error ?? "Failed to update day", "error");
-        return;
+        showToast(data.error ?? 'Failed to update day', 'error')
+        return
       }
 
       setExams((prev) =>
         prev.map((item) =>
           item.id === exam.id ? { ...item, studyPlan: JSON.stringify({ days: nextDays }) } : item,
         ),
-      );
+      )
     } catch {
-      showToast("Failed to update day", "error");
+      showToast('Failed to update day', 'error')
     } finally {
-      setSavingPlanExamId("");
+      setSavingPlanExamId('')
     }
-  };
+  }
 
   const openScanPicker = () => {
-    scanFileInputRef.current?.click();
-  };
+    scanFileInputRef.current?.click()
+  }
 
   const handleScanFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (!file) return;
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    if (!file) return
 
-    if (!file.type.startsWith("image/")) {
-      showToast("Please select an image for handwritten scanning", "error");
-      return;
+    if (!file.type.startsWith('image/')) {
+      showToast('Please select an image for handwritten scanning', 'error')
+      return
     }
 
-    setIsScanningNotes(true);
-    setScanConfidence(null);
+    setIsScanningNotes(true)
+    setScanConfidence(null)
 
     try {
-      const formData = new FormData();
-      formData.append("image", file);
+      const formData = new FormData()
+      formData.append('image', file)
 
-      const response = await fetch("/api/scan-handwritten", {
-        method: "POST",
+      const response = await fetch('/api/scan-handwritten', {
+        method: 'POST',
         body: formData,
-      });
+      })
 
       const data = (await response.json().catch(() => ({}))) as {
-        text?: string;
-        confidence?: number;
-        error?: string;
-      };
+        text?: string
+        confidence?: number
+        error?: string
+      }
 
       if (!response.ok) {
-        showToast(data.error ?? "Failed to scan handwritten notes", "error");
-        return;
+        showToast(data.error ?? 'Failed to scan handwritten notes', 'error')
+        return
       }
 
-      const text = String(data.text ?? "").trim();
+      const text = String(data.text ?? '').trim()
       if (!text) {
-        showToast("No readable handwritten text found", "error");
-        return;
+        showToast('No readable handwritten text found', 'error')
+        return
       }
 
-      if (typeof data.confidence === "number") {
-        setScanConfidence(data.confidence);
+      if (typeof data.confidence === 'number') {
+        setScanConfidence(data.confidence)
       }
 
-      sessionStorage.setItem("kyvex:prefillText", text);
-      sessionStorage.setItem("kyvex:prefillFormat", "summary");
-      showToast("Handwritten notes ready in generator", "success");
-      router.push("/generator?source=dashboard-scan");
+      sessionStorage.setItem('kyvex:prefillText', text)
+      sessionStorage.setItem('kyvex:prefillFormat', 'summary')
+      showToast('Handwritten notes ready in generator', 'success')
+      router.push('/generator?source=dashboard-scan')
     } catch {
-      showToast("Failed to scan handwritten notes", "error");
+      showToast('Failed to scan handwritten notes', 'error')
     } finally {
-      setIsScanningNotes(false);
+      setIsScanningNotes(false)
     }
-  };
+  }
+
+  const baseCardStyle: React.CSSProperties = {
+    background: '#0d1424',
+    border: '1px solid rgba(255,255,255,0.07)',
+    borderRadius: '16px',
+    padding: '24px',
+    transition: 'all 0.2s ease',
+  }
+
+  const applyCardHover = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.currentTarget.style.borderColor = 'rgba(240,180,41,0.2)'
+    event.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.3)'
+  }
+
+  const clearCardHover = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
+    event.currentTarget.style.boxShadow = 'none'
+  }
+
+  const inputStyle: React.CSSProperties = {
+    borderRadius: '10px',
+    border: '1px solid rgba(255,255,255,0.07)',
+    background: '#12192e',
+    color: '#e8eaf6',
+    padding: '10px 12px',
+    fontSize: '13px',
+    width: '100%',
+    fontFamily: 'inherit',
+  }
 
   return (
-    <main className="app-premium-dark min-h-screen bg-gray-950 text-white">
+    <main style={{ minHeight: '100vh', background: '#050810', color: '#e8eaf6' }}>
+      <style>{`
+        @keyframes dashboard-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.6; }
+        }
+      `}</style>
 
-      <div className="container mx-auto mb-[100px] max-w-7xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
-        <PageHero
-          title="Exam Countdown Dashboard"
-          description="Track every upcoming exam, pressure level, and AI-generated day-by-day preparation plan."
-          actions={
-            <div className="flex flex-wrap gap-2">
-              <Button href="/my-notes" variant="secondary" size="sm">Open My Notes</Button>
-              <Button onClick={openScanPicker} loading={isScanningNotes} disabled={isScanningNotes} variant="secondary" size="sm">
-                Scan Handwritten Notes
-              </Button>
-            </div>
-          }
-        />
+      <div style={{ maxWidth: '1280px', margin: '0 auto', marginBottom: '100px', padding: '32px 24px 72px' }}>
+        <h1 style={{
+          fontSize: '22px',
+          fontWeight: 900,
+          letterSpacing: '-0.025em',
+          color: '#e8eaf6',
+          marginBottom: '4px',
+        }}>
+          Exam Countdown Dashboard
+        </h1>
+        <p style={{ fontSize: '13px', color: '#8892b0', marginBottom: '28px' }}>
+          Track every upcoming exam, pressure level, and AI-generated day-by-day preparation plan.
+        </p>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '18px' }}>
+          <Link
+            href="/my-notes"
+            style={{
+              textDecoration: 'none',
+              borderRadius: '10px',
+              border: '1px solid rgba(255,255,255,0.07)',
+              background: '#12192e',
+              color: '#e8eaf6',
+              padding: '10px 14px',
+              fontSize: '12px',
+              fontWeight: 600,
+            }}
+          >
+            Open My Notes
+          </Link>
+          <button
+            type="button"
+            onClick={openScanPicker}
+            disabled={isScanningNotes}
+            style={{
+              borderRadius: '10px',
+              border: '1px solid rgba(255,255,255,0.07)',
+              background: '#12192e',
+              color: '#e8eaf6',
+              padding: '10px 14px',
+              fontSize: '12px',
+              fontWeight: 600,
+              cursor: isScanningNotes ? 'not-allowed' : 'pointer',
+              opacity: isScanningNotes ? 0.7 : 1,
+              fontFamily: 'inherit',
+            }}
+          >
+            {isScanningNotes ? 'Scanning...' : 'Scan Handwritten Notes'}
+          </button>
+        </div>
 
         <input
           ref={scanFileInputRef}
           type="file"
           accept="image/png,image/jpeg,.jpg,.jpeg"
-          className="hidden"
+          style={{ display: 'none' }}
           onChange={(event) => {
-            void handleScanFile(event);
+            void handleScanFile(event)
           }}
         />
 
         {scanConfidence !== null && (
-          <div className="mb-4 inline-flex items-center gap-2 rounded-lg border border-violet-400/40 bg-violet-500/15 px-3 py-2 text-xs font-semibold text-violet-200">
+          <div style={{
+            marginBottom: '16px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            borderRadius: '10px',
+            border: '1px solid rgba(79,142,247,0.45)',
+            background: 'rgba(79,142,247,0.15)',
+            padding: '8px 12px',
+            fontSize: '12px',
+            fontWeight: 700,
+            color: '#93c5fd',
+          }}>
             Latest handwritten scan confidence: {scanConfidence}%
           </div>
         )}
 
-        <div className="mb-6 grid gap-4 lg:grid-cols-4">
-          <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-900/40 via-indigo-900/20 to-purple-900/40 p-5 lg:col-span-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-blue-200">Next Exam Countdown</p>
+        <div style={{
+          marginBottom: '24px',
+          display: 'grid',
+          gap: '12px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+        }}>
+          <div
+            onMouseEnter={applyCardHover}
+            onMouseLeave={clearCardHover}
+            style={{
+              background: '#0d1424',
+              border: '1px solid rgba(255,255,255,0.07)',
+              borderLeft: '3px solid #f0b429',
+              borderRadius: '16px',
+              padding: '20px 24px',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <p style={{
+              fontSize: '10px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: '#3d4a6b',
+              marginBottom: '8px',
+            }}>
+              Next Exam Countdown
+            </p>
             {nextExam ? (
               <>
-                <p className="mt-2 text-lg font-semibold text-slate-100">{subjectIcon(nextExam.subject)} {nextExam.subject}</p>
-                <p className="mt-2 bg-gradient-to-r from-blue-300 via-cyan-300 to-purple-300 bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl">
+                <p style={{ fontSize: '14px', fontWeight: 700, color: '#8892b0', marginBottom: '6px' }}>
+                  {subjectIcon(nextExam.subject)} {nextExam.subject}
+                </p>
+                <p style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
                   {formatCountdown(nextExam.examDate)}
                 </p>
-                <p className="mt-2 text-xs text-slate-300">{new Date(nextExam.examDate).toLocaleString()}</p>
+                <p style={{ fontSize: '12px', color: '#8892b0', marginTop: '4px' }}>
+                  {new Date(nextExam.examDate).toLocaleString()}
+                </p>
               </>
             ) : (
-              <div className="mt-3">
-                <p className="text-sm text-slate-300">No upcoming exams 🎉</p>
-                <Link href="/dashboard" className="mt-1 inline-block text-xs text-slate-400 hover:text-slate-300">
-                  Add one
-                </Link>
-              </div>
+              <>
+                <p style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+                  0 days
+                </p>
+                <p style={{ fontSize: '12px', color: '#8892b0', marginTop: '4px' }}>
+                  No upcoming exams yet.
+                </p>
+              </>
             )}
           </div>
 
-          <div className="rounded-2xl border border-slate-700 bg-slate-900 p-5">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Exams This Month</p>
-            <p className="mt-2 text-4xl font-extrabold text-white">{totalExamsThisMonth}</p>
+          <div
+            onMouseEnter={applyCardHover}
+            onMouseLeave={clearCardHover}
+            style={{
+              background: '#0d1424',
+              border: '1px solid rgba(255,255,255,0.07)',
+              borderRadius: '16px',
+              padding: '20px 24px',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <p style={{
+              fontSize: '10px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: '#3d4a6b',
+              marginBottom: '8px',
+            }}>
+              Exams This Month
+            </p>
+            <p style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+              {totalExamsThisMonth}
+            </p>
+            <p style={{ fontSize: '12px', color: '#8892b0' }}>scheduled</p>
           </div>
 
-          <div className="rounded-2xl border border-slate-700 bg-slate-900 p-5">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Study Streak</p>
-            <p className="mt-2 text-4xl font-extrabold text-white">{studyStreak}</p>
-            <p className="text-xs text-slate-400">days</p>
+          <div
+            onMouseEnter={applyCardHover}
+            onMouseLeave={clearCardHover}
+            style={{
+              background: '#0d1424',
+              border: '1px solid rgba(255,255,255,0.07)',
+              borderLeft: '3px solid #2dd4bf',
+              borderRadius: '16px',
+              padding: '20px 24px',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <p style={{
+              fontSize: '10px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: '#3d4a6b',
+              marginBottom: '8px',
+            }}>
+              Study Streak
+            </p>
+            <p style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+              {studyStreak}
+            </p>
+            <p style={{ fontSize: '12px', color: '#8892b0' }}>days</p>
           </div>
         </div>
 
-        <div className="mb-6 rounded-2xl border border-slate-700 bg-slate-900 p-5">
-          <div className="flex items-center justify-between gap-4">
+        <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px', flexWrap: 'wrap' }}>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Overall Readiness Score</p>
-              <p className="mt-1 text-3xl font-extrabold text-white">
-                {upcomingExams.length === 0 ? "All caught up!" : `${readinessScore}%`}
+              <p style={{
+                fontSize: '11px',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                color: '#3d4a6b',
+                marginBottom: '8px',
+              }}>
+                Overall Readiness Score
+              </p>
+              <p style={{ fontSize: '30px', fontWeight: 900, color: '#f0b429', letterSpacing: '-0.03em' }}>
+                {upcomingExams.length === 0 ? 'All caught up!' : `${readinessScore}%`}
               </p>
             </div>
-            <div className="h-3 w-48 overflow-hidden rounded-full bg-slate-700 sm:w-72">
-              <div className="h-full bg-gradient-to-r from-blue-500 to-emerald-500 transition-all duration-300" style={{ width: `${readinessScore}%` }} />
+            <div style={{ width: '320px', maxWidth: '100%' }}>
+              <div style={{ height: '6px', borderRadius: '999px', background: '#12192e', overflow: 'hidden' }}>
+                <div
+                  style={{
+                    height: '100%',
+                    width: `${readinessScore}%`,
+                    borderRadius: '999px',
+                    background: 'linear-gradient(90deg, #f0b429, #2dd4bf)',
+                    transition: 'width 0.3s ease',
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mb-6 rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-900/30 via-slate-900 to-indigo-900/30 p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+        <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-blue-200">Ontario Curriculum</p>
-              <p className="mt-1 text-lg font-semibold text-white">Plan study by official Grade 11 expectations</p>
-              <p className="mt-1 text-sm text-slate-300">Open course units, track completion, and generate targeted lessons.</p>
+              <p style={{
+                fontSize: '11px',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                color: '#3d4a6b',
+                marginBottom: '8px',
+              }}>
+                Ontario Curriculum
+              </p>
+              <p style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#e8eaf6' }}>
+                Plan study by official Grade 11 expectations
+              </p>
+              <p style={{ marginTop: '6px', fontSize: '13px', color: '#8892b0' }}>
+                Open course units, track completion, and generate targeted lessons.
+              </p>
             </div>
-            <Button href="/curriculum" size="sm">Open Curriculum Hub</Button>
+            <Link
+              href="/curriculum"
+              style={{
+                textDecoration: 'none',
+                background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
+                color: '#050810',
+                fontWeight: 700,
+                borderRadius: '10px',
+                padding: '10px 20px',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 4px 16px rgba(240,180,41,0.3)',
+                fontSize: '13px',
+              }}
+            >
+              Open Curriculum Hub
+            </Link>
           </div>
         </div>
 
-        <div className="mb-8 rounded-2xl border border-slate-700 bg-[#0d142b] p-5">
-          <h2 className="mb-4 text-[20px] font-semibold text-white">Add Upcoming Exam</h2>
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+        <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '28px' }}>
+          <p style={{
+            fontSize: '11px',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            color: '#3d4a6b',
+            marginBottom: '16px',
+          }}>
+            Add Upcoming Exam
+          </p>
+          <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
             <input
               value={subject}
               onChange={(event) => setSubject(event.target.value)}
               placeholder="Subject name"
-              className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white placeholder:text-slate-400"
+              style={inputStyle}
             />
             <input
               value={examDate}
               onChange={(event) => setExamDate(event.target.value)}
               type="datetime-local"
-              className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white"
+              style={inputStyle}
             />
             <input
               value={board}
               onChange={(event) => setBoard(event.target.value)}
               placeholder="Exam board (APA, IB, Ontario...)"
-              className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white placeholder:text-slate-400"
+              style={inputStyle}
             />
             <select
               value={difficulty}
               onChange={(event) => setDifficulty(event.target.value)}
-              className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white"
+              style={inputStyle}
             >
               {DIFFICULTY_OPTIONS.map((option) => (
                 <option key={option} value={option}>{option}</option>
@@ -607,172 +829,270 @@ export default function DashboardPage() {
               value={topics}
               onChange={(event) => setTopics(event.target.value)}
               placeholder="Topics (comma separated)"
-              className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white placeholder:text-slate-400 md:col-span-2"
+              style={inputStyle}
             />
-            <Button onClick={() => void createExam()} loading={isSaving} disabled={isSaving}>
-              Save Exam
-            </Button>
+            <button
+              type="button"
+              onClick={() => {
+                void createExam()
+              }}
+              disabled={isSaving}
+              style={{
+                borderRadius: '10px',
+                border: 'none',
+                background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
+                color: '#050810',
+                fontWeight: 700,
+                fontSize: '13px',
+                padding: '10px 14px',
+                cursor: isSaving ? 'not-allowed' : 'pointer',
+                opacity: isSaving ? 0.75 : 1,
+                boxShadow: '0 4px 16px rgba(240,180,41,0.3)',
+                fontFamily: 'inherit',
+              }}
+            >
+              {isSaving ? 'Saving...' : 'Save Exam'}
+            </button>
           </div>
         </div>
 
         {isLoading ? (
-          <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 text-sm text-slate-300">Loading dashboard...</div>
+          <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={baseCardStyle}>
+            <p style={{ fontSize: '13px', color: '#8892b0' }}>Loading dashboard...</p>
+          </div>
         ) : exams.length === 0 ? (
-          <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 text-sm text-slate-300">No exams added - add one so we can count down together!</div>
+          <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={baseCardStyle}>
+            <p style={{ fontSize: '13px', color: '#8892b0' }}>No exams added - add one so we can count down together!</p>
+          </div>
         ) : (
           <>
             {upcomingExams.length === 0 ? (
-              <div className="card" style={{ textAlign: "center", padding: "48px" }}>
-                <p style={{ fontSize: "32px", marginBottom: "8px" }}>🎉</p>
-                <p style={{ color: "var(--text-primary)", fontWeight: 600 }}>No upcoming exams</p>
-                <p style={{ color: "var(--text-muted)", fontSize: "13px", marginTop: "4px" }}>Add an exam above to start your countdown</p>
+              <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, textAlign: 'center', padding: '48px' }}>
+                <p style={{ fontSize: '32px', marginBottom: '8px' }}>🎉</p>
+                <p style={{ color: '#e8eaf6', fontWeight: 600 }}>No upcoming exams</p>
+                <p style={{ color: '#3d4a6b', fontSize: '13px', marginTop: '4px' }}>
+                  Add an exam above to start your countdown
+                </p>
               </div>
             ) : (
-              <div className="stagger-grid grid gap-5 xl:grid-cols-2">
-                {[...upcomingExams]
-                  .sort((a, b) => new Date(a.examDate).getTime() - new Date(b.examDate).getTime())
-                  .map((exam) => {
-                    const days = safeDaysUntil(exam.examDate);
-                    const urgencyTier = urgencyFromDays(days);
-                    const urgency = urgencyClasses(urgencyTier);
-                    const panic = panicData(exam);
-                    const planDays = parseStudyPlan(exam.studyPlan);
+              <>
+                <p style={{
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: '#3d4a6b',
+                  marginBottom: '16px',
+                }}>
+                  Upcoming Exams
+                </p>
+                <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))' }}>
+                  {[...upcomingExams]
+                    .sort((a, b) => new Date(a.examDate).getTime() - new Date(b.examDate).getTime())
+                    .map((exam) => {
+                      const days = safeDaysUntil(exam.examDate)
+                      const urgencyTier = urgencyFromDays(days)
+                      const urgency = urgencyClasses(urgencyTier)
+                      const panic = panicData(exam)
+                      const planDays = parseStudyPlan(exam.studyPlan)
 
-                    return (
-                      <div key={exam.id} className="stagger-card rounded-2xl border border-slate-700 bg-[#0d142b] p-5">
-                        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                          <p className="text-lg font-bold text-white">{subjectIcon(exam.subject)} {exam.subject}</p>
-                          <span className={`rounded-full border px-2 py-1 text-xs font-semibold ${urgency.badge} ${urgency.pulse}`}>
-                            {urgencyTier.toUpperCase()} URGENCY
-                          </span>
-                        </div>
-
-                        <p className="text-xs text-slate-400">{new Date(exam.examDate).toLocaleString()} • {exam.board || "No board"} • {exam.difficulty || "Medium"}</p>
-
-                        <p className={`mt-3 bg-gradient-to-r from-blue-300 via-purple-300 to-cyan-300 bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl ${urgency.pulse}`}>
-                          {formatCountdown(exam.examDate)}
-                        </p>
-
-                        <div className="mt-3">
-                          <div className="mb-1 flex items-center justify-between text-xs text-slate-400">
-                            <span>Panic meter</span>
-                            <span>{urgencyProgress(days)}%</span>
+                      return (
+                        <div
+                          key={exam.id}
+                          onMouseEnter={applyCardHover}
+                          onMouseLeave={clearCardHover}
+                          style={baseCardStyle}
+                        >
+                          <div style={{ marginBottom: '12px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                            <p style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: '#e8eaf6' }}>
+                              {subjectIcon(exam.subject)} {exam.subject}
+                            </p>
+                            <span style={{
+                              borderRadius: '999px',
+                              border: `1px solid ${urgency.badgeBorder}`,
+                              background: urgency.badgeBg,
+                              padding: '4px 10px',
+                              fontSize: '11px',
+                              fontWeight: 700,
+                              color: urgency.badgeText,
+                              animation: urgency.pulse ? 'dashboard-pulse 1.2s ease infinite' : 'none',
+                            }}>
+                              {urgencyTier.toUpperCase()} URGENCY
+                            </span>
                           </div>
-                          <div className="h-2 overflow-hidden rounded-full bg-slate-700">
-                            <div className={`h-full ${urgency.bar}`} style={{ width: `${urgencyProgress(days)}%` }} />
-                          </div>
-                        </div>
 
-                        <div className="mt-3 rounded-lg border border-slate-700 bg-slate-900/60 p-3 text-sm">
-                          <p className={`font-semibold ${panic.tier.color}`}>{panic.tier.label}</p>
-                          <p className="mt-1 text-xs text-slate-300">
-                            Topics: {panic.totalTopics} • Days available: {panic.daysAvailable} • Topics/day needed: {panic.topicsPerDay.toFixed(2)}
+                          <p style={{ fontSize: '12px', color: '#8892b0', margin: 0 }}>
+                            {new Date(exam.examDate).toLocaleString()} • {exam.board || 'No board'} • {exam.difficulty || 'Medium'}
                           </p>
-                        </div>
 
-                        <div className="mt-4 flex items-center gap-2">
-                          <Button
-                            onClick={() => void generateStudyPlan(exam.id)}
-                            loading={generatingExamId === exam.id}
-                            disabled={generatingExamId === exam.id}
-                            size="sm"
-                          >
-                            Generate Study Plan
-                          </Button>
-                        </div>
+                          <p style={{
+                            marginTop: '14px',
+                            marginBottom: '0',
+                            fontSize: '34px',
+                            fontWeight: 900,
+                            letterSpacing: '-0.03em',
+                            color: '#e8eaf6',
+                            animation: urgency.pulse ? 'dashboard-pulse 1.2s ease infinite' : 'none',
+                          }}>
+                            {formatCountdown(exam.examDate)}
+                          </p>
 
-                        {planDays.length > 0 && (
-                          <div className="mt-4">
-                            <p className="mb-2 text-sm font-semibold text-slate-200">Study Timeline</p>
-                            <div className="space-y-2">
-                              {planDays.map((day, index) => {
-                                const completed = Boolean(day.completed);
-                                const today = isTodayLabel(day.date);
-
-                                const cardClass = completed
-                                  ? "border-emerald-500/40 bg-emerald-500/15"
-                                  : today
-                                    ? "border-blue-500/40 bg-blue-500/15"
-                                    : "border-slate-700 bg-slate-900/60";
-
-                                return (
-                                  <div key={`${exam.id}-${index}`} className={`rounded-lg border p-3 ${cardClass}`}>
-                                    <div className="flex items-start gap-3">
-                                      <input
-                                        type="checkbox"
-                                        checked={completed}
-                                        disabled={savingPlanExamId === exam.id}
-                                        onChange={() => void togglePlanDay(exam, index)}
-                                        className="mt-1 h-4 w-4 rounded border-slate-500 bg-transparent"
-                                      />
-                                      <div className="min-w-0">
-                                        <p className="text-sm font-semibold text-white">Day {index + 1} ({day.date}): {day.title}</p>
-                                        {day.tasks.length > 0 && (
-                                          <ul className="mt-1 list-disc space-y-1 pl-5 text-xs text-slate-300">
-                                            {day.tasks.map((task, taskIndex) => (
-                                              <li key={`${exam.id}-${index}-${taskIndex}`}>{task}</li>
-                                            ))}
-                                          </ul>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                );
-                              })}
+                          <div style={{ marginTop: '14px' }}>
+                            <div style={{ marginBottom: '6px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: '#8892b0' }}>
+                              <span>Panic meter</span>
+                              <span>{urgencyProgress(days)}%</span>
+                            </div>
+                            <div style={{ height: '8px', borderRadius: '999px', overflow: 'hidden', background: '#12192e' }}>
+                              <div style={{ height: '100%', width: `${urgencyProgress(days)}%`, background: urgency.bar }} />
                             </div>
                           </div>
-                        )}
-                      </div>
-                    );
-                  })}
-              </div>
+
+                          <div style={{
+                            marginTop: '12px',
+                            borderRadius: '12px',
+                            border: '1px solid rgba(255,255,255,0.07)',
+                            background: '#12192e',
+                            padding: '12px',
+                            fontSize: '13px',
+                          }}>
+                            <p style={{ margin: 0, fontWeight: 700, color: panic.tier.color }}>{panic.tier.label}</p>
+                            <p style={{ margin: '6px 0 0', fontSize: '12px', color: '#8892b0' }}>
+                              Topics: {panic.totalTopics} • Days available: {panic.daysAvailable} • Topics/day needed: {panic.topicsPerDay.toFixed(2)}
+                            </p>
+                          </div>
+
+                          <div style={{ marginTop: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                void generateStudyPlan(exam.id)
+                              }}
+                              disabled={generatingExamId === exam.id}
+                              style={{
+                                borderRadius: '10px',
+                                border: 'none',
+                                background: '#4f8ef7',
+                                color: '#050810',
+                                fontWeight: 700,
+                                fontSize: '12px',
+                                padding: '9px 12px',
+                                cursor: generatingExamId === exam.id ? 'not-allowed' : 'pointer',
+                                opacity: generatingExamId === exam.id ? 0.75 : 1,
+                                fontFamily: 'inherit',
+                              }}
+                            >
+                              {generatingExamId === exam.id ? 'Generating...' : 'Generate Study Plan'}
+                            </button>
+                          </div>
+
+                          {planDays.length > 0 && (
+                            <div style={{ marginTop: '16px' }}>
+                              <p style={{ margin: '0 0 8px', fontSize: '13px', fontWeight: 700, color: '#e8eaf6' }}>Study Timeline</p>
+                              <div style={{ display: 'grid', gap: '8px' }}>
+                                {planDays.map((day, index) => {
+                                  const completed = Boolean(day.completed)
+                                  const today = isTodayLabel(day.date)
+
+                                  let dayBg = '#12192e'
+                                  let dayBorder = 'rgba(255,255,255,0.07)'
+                                  if (completed) {
+                                    dayBg = 'rgba(16,185,129,0.12)'
+                                    dayBorder = 'rgba(16,185,129,0.4)'
+                                  } else if (today) {
+                                    dayBg = 'rgba(79,142,247,0.14)'
+                                    dayBorder = 'rgba(79,142,247,0.4)'
+                                  }
+
+                                  return (
+                                    <div
+                                      key={`${exam.id}-${index}`}
+                                      style={{ borderRadius: '10px', border: `1px solid ${dayBorder}`, background: dayBg, padding: '12px' }}
+                                    >
+                                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                                        <input
+                                          type="checkbox"
+                                          checked={completed}
+                                          disabled={savingPlanExamId === exam.id}
+                                          onChange={() => {
+                                            void togglePlanDay(exam, index)
+                                          }}
+                                          style={{ marginTop: '2px', accentColor: '#2dd4bf' }}
+                                        />
+                                        <div style={{ minWidth: 0 }}>
+                                          <p style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#e8eaf6' }}>
+                                            Day {index + 1} ({day.date}): {day.title}
+                                          </p>
+                                          {day.tasks.length > 0 && (
+                                            <ul style={{ margin: '6px 0 0', paddingLeft: '16px', color: '#8892b0', fontSize: '12px' }}>
+                                              {day.tasks.map((task, taskIndex) => (
+                                                <li key={`${exam.id}-${index}-${taskIndex}`} style={{ marginBottom: '3px' }}>{task}</li>
+                                              ))}
+                                            </ul>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                </div>
+              </>
             )}
 
             {pastExams.length > 0 && (
-              <div style={{ marginTop: "48px" }}>
-                <p className="text-label" style={{ marginBottom: "16px" }}>Past Exams</p>
+              <div style={{ marginTop: '48px' }}>
+                <p style={{
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: '#3d4a6b',
+                  marginBottom: '16px',
+                }}>
+                  Past Exams
+                </p>
                 {[...pastExams]
                   .sort((a, b) => new Date(b.examDate).getTime() - new Date(a.examDate).getTime())
                   .map((exam) => (
                     <div
                       key={exam.id}
-                      className="card"
+                      onMouseEnter={applyCardHover}
+                      onMouseLeave={clearCardHover}
                       style={{
-                        opacity: 0.55,
-                        marginBottom: "12px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        padding: "16px 20px",
+                        ...baseCardStyle,
+                        opacity: 0.62,
+                        marginBottom: '12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '16px 20px',
                       }}
                     >
                       <div>
-                        <p
-                          style={{
-                            fontWeight: 600,
-                            color: "var(--text-secondary)",
-                            textDecoration: "line-through",
-                            fontSize: "15px",
-                          }}
-                        >
+                        <p style={{
+                          fontWeight: 600,
+                          color: '#8892b0',
+                          textDecoration: 'line-through',
+                          fontSize: '15px',
+                          margin: 0,
+                        }}>
                           {exam.subject}
                         </p>
-                        <p
-                          style={{
-                            fontSize: "12px",
-                            color: "var(--text-muted)",
-                            marginTop: "2px",
-                          }}
-                        >
-                          Completed — {new Date(exam.examDate).toLocaleDateString("en-CA", {
-                            month: "short", day: "numeric", year: "numeric",
+                        <p style={{ fontSize: '12px', color: '#3d4a6b', marginTop: '2px', marginBottom: 0 }}>
+                          Completed — {new Date(exam.examDate).toLocaleDateString('en-CA', {
+                            month: 'short', day: 'numeric', year: 'numeric',
                           })}
                         </p>
                         {exam.board && (
-                          <p style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>{exam.board}</p>
+                          <p style={{ fontSize: '11px', color: '#3d4a6b', marginTop: '2px', marginBottom: 0 }}>{exam.board}</p>
                         )}
                       </div>
-                      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         {!exam.resultRecorded ? (
                           <button
                             type="button"
@@ -782,17 +1102,18 @@ export default function DashboardPage() {
                                 subject: exam.subject,
                                 examDate: exam.examDate,
                                 board: exam.board,
-                              });
+                              })
                             }}
                             style={{
-                              border: "1px solid var(--accent-blue)",
-                              borderRadius: 8,
-                              background: "transparent",
-                              color: "var(--accent-blue)",
-                              padding: "6px 10px",
-                              fontSize: 12,
+                              border: '1px solid #4f8ef7',
+                              borderRadius: '8px',
+                              background: 'transparent',
+                              color: '#4f8ef7',
+                              padding: '6px 10px',
+                              fontSize: '12px',
                               fontWeight: 600,
-                              cursor: "pointer",
+                              cursor: 'pointer',
+                              fontFamily: 'inherit',
                             }}
                           >
                             Record Result
@@ -801,17 +1122,18 @@ export default function DashboardPage() {
                           <button
                             type="button"
                             onClick={() => {
-                              void router.push("/results");
+                              void router.push('/results')
                             }}
                             style={{
-                              border: "none",
-                              borderRadius: 20,
+                              border: 'none',
+                              borderRadius: '20px',
                               background: getGradeColor(exam.scorePercent ?? 0),
-                              color: "var(--text-primary)",
-                              padding: "6px 10px",
-                              fontSize: 12,
+                              color: '#e8eaf6',
+                              padding: '6px 10px',
+                              fontSize: '12px',
                               fontWeight: 700,
-                              cursor: "pointer",
+                              cursor: 'pointer',
+                              fontFamily: 'inherit',
                             }}
                           >
                             {percentToLetter(exam.scorePercent ?? 0)} {(exam.scorePercent ?? 0).toFixed(1)}%
@@ -819,9 +1141,19 @@ export default function DashboardPage() {
                         )}
                         <button
                           onClick={() => {
-                            void handleDeleteExam(exam.id);
+                            void handleDeleteExam(exam.id)
                           }}
-                          className="btn btn-danger btn-sm"
+                          style={{
+                            border: '1px solid rgba(239,68,68,0.35)',
+                            background: 'rgba(239,68,68,0.1)',
+                            color: '#ef4444',
+                            borderRadius: '8px',
+                            padding: '6px 10px',
+                            fontSize: '12px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            fontFamily: 'inherit',
+                          }}
                         >
                           Delete
                         </button>
@@ -838,17 +1170,15 @@ export default function DashboardPage() {
         <RecordResultModal
           exam={selectedExamForResult}
           onClose={() => {
-            setSelectedExamForResult(null);
+            setSelectedExamForResult(null)
           }}
           onSuccess={() => {
-            setSelectedExamForResult(null);
-            trackNovaEvent("EXAM_RESULT_SAVED");
-            void fetchExams();
+            setSelectedExamForResult(null)
+            trackNovaEvent('EXAM_RESULT_SAVED')
+            void fetchExams()
           }}
         />
       )}
     </main>
-  );
+  )
 }
-
-
