@@ -69,24 +69,24 @@ export default function CurriculumPage() {
   const seededCourses = useMemo(() => courses.filter((course) => course.isSeeded), [courses]);
 
   return (
-    <main style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px 100px" }}>
+    <main className="kv-page" style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px 100px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 18 }}>
         <div>
-          <h1 className="text-title">Ontario Curriculum Hub</h1>
-          <p style={{ color: "var(--text-secondary)", marginTop: 4 }}>Grades 9-12 courses, expectations, and seeding status.</p>
+          <h1 className="kv-page-title">Ontario Curriculum Hub</h1>
+          <p className="kv-page-subtitle" style={{ marginTop: 4, marginBottom: 0 }}>Grades 9-12 courses, expectations, and seeding status.</p>
         </div>
       </div>
 
       <div style={{ display: "grid", gap: 10, gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", marginBottom: 16 }}>
-        <div className="card" style={{ padding: 12 }}>
+        <div className="kv-card" style={{ padding: 12 }}>
           <p style={{ margin: 0, color: "var(--text-muted)", fontSize: 12 }}>Total Courses</p>
           <p style={{ margin: "4px 0 0", fontSize: 22, fontWeight: 800 }}>{stats.totalCourses}</p>
         </div>
-        <div className="card" style={{ padding: 12 }}>
+        <div className="kv-card" style={{ padding: 12 }}>
           <p style={{ margin: 0, color: "var(--text-muted)", fontSize: 12 }}>Seeded</p>
           <p style={{ margin: "4px 0 0", fontSize: 22, fontWeight: 800 }}>{stats.seededCourses}</p>
         </div>
-        <div className="card" style={{ padding: 12 }}>
+        <div className="kv-card" style={{ padding: 12 }}>
           <p style={{ margin: 0, color: "var(--text-muted)", fontSize: 12 }}>Total Expectations</p>
           <p style={{ margin: "4px 0 0", fontSize: 22, fontWeight: 800 }}>{stats.totalExpectations}</p>
         </div>
@@ -96,7 +96,7 @@ export default function CurriculumPage() {
         {GRADE_OPTIONS.map((option) => (
           <button
             key={option.value}
-            className="btn btn-ghost btn-sm"
+            className="kv-btn-ghost"
             style={{ border: grade === option.value ? "1px solid #3b82f6" : undefined }}
             onClick={() => setGrade(option.value)}
           >
@@ -105,9 +105,9 @@ export default function CurriculumPage() {
         ))}
       </div>
 
-      <div className="card" style={{ padding: 14, marginBottom: 16, display: "grid", gap: 10, gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
-        <input className="input" placeholder="Search by code/title/topic" value={query} onChange={(event) => setQuery(event.target.value)} />
-        <select className="input" value={subject} onChange={(event) => setSubject(event.target.value)}>
+      <div className="kv-card" style={{ padding: 14, marginBottom: 16, display: "grid", gap: 10, gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
+        <input className="kv-input" placeholder="Search by code/title/topic" value={query} onChange={(event) => setQuery(event.target.value)} />
+        <select className="kv-select" value={subject} onChange={(event) => setSubject(event.target.value)}>
           <option value="">All subjects</option>
           {subjects.map((item) => (
             <option key={item} value={item}>{item}</option>
@@ -116,15 +116,15 @@ export default function CurriculumPage() {
       </div>
 
       {isLoading ? (
-        <div className="card" style={{ padding: 14 }}>Loading curriculum...</div>
+        <div className="kv-card" style={{ padding: 14 }}>Loading curriculum...</div>
       ) : courses.length === 0 && subject ? (
-        <div className="card" style={{ padding: 14 }}>
+        <div className="kv-card kv-empty" style={{ padding: 14 }}>
           No {subject} courses seeded yet - run the seeder first.
         </div>
       ) : (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))", gap: 14 }}>
           {courses.map((course) => (
-            <Link href={`/curriculum/${course.code}`} key={course.id} className="card" style={{ padding: 14, textDecoration: "none" }}>
+            <Link href={`/curriculum/${course.code}`} key={course.id} className="kv-card" style={{ padding: 14, textDecoration: "none" }}>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
                 <p style={{ margin: 0, fontSize: 20, fontWeight: 800 }}>{course.code}</p>
                 <span className="badge">{course.subject} • Gr.{course.grade}</span>
@@ -136,8 +136,8 @@ export default function CurriculumPage() {
                   <p style={{ marginTop: 8, color: "var(--text-muted)", fontSize: 12 }}>
                     {course.unitCount} strands • {course.expectationCount} expectations • {course.type}
                   </p>
-                  <div style={{ marginTop: 8, borderRadius: 9999, overflow: "hidden", background: "#1f2937", height: 8 }}>
-                    <div style={{ width: "100%", height: 8, background: "#22c55e" }} />
+                  <div className="kv-progress-track" style={{ marginTop: 8, borderRadius: 9999, overflow: "hidden", background: "#1f2937", height: 8 }}>
+                    <div className="kv-progress-fill" style={{ width: "100%", height: 8, background: "#22c55e" }} />
                   </div>
                 </>
               ) : (
@@ -151,7 +151,7 @@ export default function CurriculumPage() {
       )}
 
       {!isLoading && seededCourses.length === 0 && !subject && (
-        <div className="card" style={{ padding: 14, marginTop: 14 }}>
+        <div className="kv-card kv-empty" style={{ padding: 14, marginTop: 14 }}>
           No courses are seeded yet. Open `/curriculum/admin` and run the auto-seeder.
         </div>
       )}

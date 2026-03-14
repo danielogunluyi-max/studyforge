@@ -447,10 +447,10 @@ export default function PresentationPage() {
   }
 
   return (
-    <main style={{ maxWidth: "1300px", margin: "0 auto", padding: "24px 16px 40px" }}>
+    <main className="kv-page" style={{ maxWidth: "1300px", margin: "0 auto", padding: "24px 16px 40px" }}>
       <div style={{ marginBottom: "32px" }}>
-        <h1 className="text-title">Presentation Generator 🎯</h1>
-        <p style={{ color: "var(--text-secondary)", marginTop: "6px" }}>
+        <h1 className="kv-page-title">Presentation Generator 🎯</h1>
+        <p className="kv-page-subtitle" style={{ marginTop: "6px", marginBottom: 0 }}>
           Turn your notes into a polished slide deck - download as PowerPoint
         </p>
       </div>
@@ -464,7 +464,7 @@ export default function PresentationPage() {
         }}
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <div className="card" style={{ padding: "18px" }}>
+          <div className="kv-card" style={{ padding: "18px" }}>
             <div style={{ display: "flex", gap: "8px", marginBottom: "16px", flexWrap: "wrap" }}>
               {[
                 { id: 1, label: "Step 1: Input Content" },
@@ -477,7 +477,7 @@ export default function PresentationPage() {
               ))}
             </div>
 
-            <div style={{ marginBottom: "12px", fontSize: "13px", fontWeight: 600, color: "var(--text-primary)" }}>Input Content</div>
+            <div className="kv-section-label" style={{ marginBottom: "12px", fontSize: "13px", fontWeight: 600, color: "var(--text-primary)" }}>Input Content</div>
 
             <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
               <button
@@ -517,7 +517,7 @@ export default function PresentationPage() {
             {inputMode === "notes" ? (
               <>
                 <textarea
-                  className="textarea"
+                  className="kv-textarea"
                   placeholder="Paste your notes here - the AI will structure them into slides..."
                   value={notesInput}
                   onChange={(e) => setNotesInput(e.target.value)}
@@ -528,14 +528,14 @@ export default function PresentationPage() {
             ) : (
               <>
                 <input
-                  className="input"
+                  className="kv-input"
                   placeholder="e.g. The French Revolution, Photosynthesis, World War II"
                   value={topicInput}
                   onChange={(e) => setTopicInput(e.target.value)}
                   style={{ marginBottom: "12px" }}
                 />
                 <textarea
-                  className="textarea"
+                  className="kv-textarea"
                   placeholder="Any additional context or specific points to include? (optional)"
                   value={contextInput}
                   onChange={(e) => setContextInput(e.target.value)}
@@ -545,18 +545,18 @@ export default function PresentationPage() {
             )}
           </div>
 
-          <div className="card" style={{ padding: "18px" }}>
-            <div style={{ marginBottom: "12px", fontSize: "13px", fontWeight: 600, color: "var(--text-primary)" }}>Customize</div>
+          <div className="kv-card" style={{ padding: "18px" }}>
+            <div className="kv-section-label" style={{ marginBottom: "12px", fontSize: "13px", fontWeight: 600, color: "var(--text-primary)" }}>Customize</div>
 
             <div style={{ display: "grid", gap: "12px" }}>
               <input
-                className="input"
+                className="kv-input"
                 placeholder="Subject (e.g. Biology, History, Computer Science)"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
               />
 
-              <select className="input" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
+              <select className="kv-select" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
                 <option value="">Ontario course (optional)</option>
                 {curriculumOptions.map((course) => (
                   <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
@@ -697,7 +697,7 @@ export default function PresentationPage() {
               </div>
 
               <button
-                className="btn btn-primary"
+                className="kv-btn-primary"
                 style={{ width: "100%", marginTop: "8px" }}
                 onClick={() => void handleGenerate()}
                 disabled={isGenerating || (!notesInput.trim() && !topicInput.trim())}
@@ -717,7 +717,7 @@ export default function PresentationPage() {
         <div>
           {!presentation && !isGenerating && (
             <div
-              className="card"
+              className="kv-card kv-empty"
               style={{
                 padding: "60px 24px",
                 textAlign: "center",
@@ -735,7 +735,7 @@ export default function PresentationPage() {
           )}
 
           {isGenerating && (
-            <div className="card" style={{ padding: "24px", minHeight: "500px" }}>
+            <div className="kv-card" style={{ padding: "24px", minHeight: "500px" }}>
               {[...Array(4)].map((_, i) => (
                 <div
                   key={i}
@@ -748,7 +748,7 @@ export default function PresentationPage() {
 
           {presentation && activeSlideData && (
             <>
-              <div className="card" style={{ padding: "16px" }}>
+              <div className="kv-card" style={{ padding: "16px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", gap: "12px" }}>
                   <div>
                     <h3 style={{ fontWeight: 700, fontSize: "16px", color: "var(--text-primary)" }}>{presentation.title}</h3>
@@ -756,16 +756,17 @@ export default function PresentationPage() {
                       {presentation.slides.length} slides • {theme} theme
                     </p>
                   </div>
-                  <button className="btn btn-primary" onClick={() => void handleDownload()} disabled={isDownloading} style={{ gap: "6px" }}>
+                  <button className="kv-btn-primary" onClick={() => void handleDownload()} disabled={isDownloading} style={{ gap: "6px" }}>
                     {isDownloading ? "⏳ Building..." : "⬇ Download .pptx"}
                   </button>
                 </div>
 
-                <div style={{ display: "flex", gap: "6px", overflowX: "auto", paddingBottom: "8px", marginBottom: "16px" }}>
+                <div className="kv-tabs" style={{ display: "flex", gap: "6px", overflowX: "auto", paddingBottom: "8px", marginBottom: "16px" }}>
                   {presentation.slides.map((slide, i) => (
                     <button
                       key={`${slide.id}-${i}`}
                       onClick={() => setActiveSlide(i)}
+                      className={`kv-tab ${activeSlide === i ? "active" : ""}`}
                       style={{
                         flexShrink: 0,
                         padding: "4px 12px",
@@ -813,7 +814,7 @@ export default function PresentationPage() {
 
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "12px" }}>
                   <button
-                    className="btn btn-ghost btn-sm"
+                    className="kv-btn-ghost"
                     onClick={() => setActiveSlide((s) => Math.max(0, s - 1))}
                     disabled={activeSlide === 0}
                   >
@@ -823,7 +824,7 @@ export default function PresentationPage() {
                     {activeSlide + 1} / {presentation.slides.length}
                   </span>
                   <button
-                    className="btn btn-ghost btn-sm"
+                    className="kv-btn-ghost"
                     onClick={() => setActiveSlide((s) => Math.min(presentation.slides.length - 1, s + 1))}
                     disabled={activeSlide === presentation.slides.length - 1}
                   >
@@ -835,12 +836,12 @@ export default function PresentationPage() {
                 </p>
               </div>
 
-              <div className="card" style={{ padding: "16px", marginTop: "16px" }}>
+              <div className="kv-card" style={{ padding: "16px", marginTop: "16px" }}>
                 <div style={{ display: "flex", gap: "8px" }}>
-                  <button className="btn btn-primary" style={{ flex: 1 }} onClick={() => void handleDownload()} disabled={isDownloading}>
+                  <button className="kv-btn-primary" style={{ flex: 1 }} onClick={() => void handleDownload()} disabled={isDownloading}>
                     {isDownloading ? "⏳ Building PPTX..." : "⬇ Download PowerPoint"}
                   </button>
-                  <button className="btn btn-ghost" style={{ flex: 1 }} onClick={() => void handleSaveAsNote()}>
+                  <button className="kv-btn-ghost" style={{ flex: 1 }} onClick={() => void handleSaveAsNote()}>
                     💾 Save as Note
                   </button>
                 </div>
@@ -849,7 +850,7 @@ export default function PresentationPage() {
                 </p>
               </div>
 
-              <button className="btn btn-ghost btn-sm" style={{ width: "100%", marginTop: "8px" }} onClick={() => void handleGenerate()}>
+              <button className="kv-btn-ghost" style={{ width: "100%", marginTop: "8px" }} onClick={() => void handleGenerate()}>
                 🔄 Regenerate with same settings
               </button>
             </>

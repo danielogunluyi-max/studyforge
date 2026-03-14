@@ -101,25 +101,25 @@ export default function CurriculumCoursePage() {
   };
 
   if (isLoading) {
-    return <main style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px" }}>Loading course...</main>;
+    return <main className="kv-page" style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px" }}>Loading course...</main>;
   }
 
   if (!course) {
-    return <main style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px" }}>Course not found.</main>;
+    return <main className="kv-page kv-empty" style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px" }}>Course not found.</main>;
   }
 
   return (
-    <main style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px 100px" }}>
-      <div className="card" style={{ padding: 16 }}>
+    <main className="kv-page" style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px 100px" }}>
+      <div className="kv-card" style={{ padding: 16 }}>
         <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
           <div>
-            <h1 className="text-title">{course.code} • {course.title}</h1>
-            <p style={{ color: "var(--text-secondary)", marginTop: 6 }}>
+            <h1 className="kv-page-title">{course.code} • {course.title}</h1>
+            <p className="kv-page-subtitle" style={{ marginTop: 6, marginBottom: 0 }}>
               Grade {course.grade} • {course.subject} • {course.destination}
             </p>
             <p style={{ color: "var(--text-muted)", marginTop: 8 }}>{course.description}</p>
           </div>
-          <button className="btn btn-primary" onClick={() => setShowLearnModal(true)}>Open Learn Mode</button>
+          <button className="kv-btn-primary" onClick={() => setShowLearnModal(true)}>Open Learn Mode</button>
         </div>
 
         <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -133,10 +133,10 @@ export default function CurriculumCoursePage() {
         {course.units.map((unit) => {
           const completedUnit = progress.completedUnits.includes(unit.code);
           return (
-            <div key={unit.id} className="card" style={{ padding: 14 }}>
+            <div key={unit.id} className="kv-card" style={{ padding: 14 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
                 <p style={{ margin: 0, fontWeight: 700 }}>{unit.code} • {unit.title}</p>
-                <button className="btn btn-ghost btn-sm" onClick={() => toggleUnit(unit.code)}>
+                <button className="kv-btn-ghost" onClick={() => toggleUnit(unit.code)}>
                   {completedUnit ? "Mark Incomplete" : "Mark Complete"}
                 </button>
               </div>
@@ -146,10 +146,10 @@ export default function CurriculumCoursePage() {
                 {unit.expectations.map((expectation) => {
                   const completed = progress.completedExpectations.includes(expectation.code);
                   return (
-                    <div key={expectation.id} style={{ border: "1px solid var(--border-default)", borderRadius: 8, padding: 10 }}>
+                    <div key={expectation.id} className="kv-card-elevated" style={{ border: "1px solid var(--border-default)", borderRadius: 8, padding: 10 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
                         <p style={{ margin: 0, fontWeight: 600 }}>{expectation.code} • {expectation.title}</p>
-                        <button className="btn btn-ghost btn-sm" onClick={() => toggleExpectation(expectation.code)}>
+                        <button className="kv-btn-ghost" onClick={() => toggleExpectation(expectation.code)}>
                           {completed ? "Undo" : "Done"}
                         </button>
                       </div>

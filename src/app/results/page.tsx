@@ -60,31 +60,31 @@ export default async function ResultsPage({ searchParams }: ResultsPageProps) {
   const hasTrend = allResults.length >= 6;
 
   return (
-    <main className="page-shell app-premium-dark min-h-screen bg-gray-950 pb-24">
+    <main className="kv-page min-h-screen pb-24">
       <div className="mx-auto w-full max-w-6xl">
         <header className="mb-5 border-b border-[var(--border-subtle)] pb-5">
-          <h1 className="text-[28px] font-bold tracking-tight text-white">My Results</h1>
-          <p className="mt-1.5 text-sm text-[var(--text-secondary)]">Track your academic progress</p>
+          <h1 className="kv-page-title text-[28px] font-bold tracking-tight text-white">My Results</h1>
+          <p className="kv-page-subtitle mt-1.5 mb-0 text-sm text-[var(--text-secondary)]">Track your academic progress</p>
         </header>
 
         <section className="mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          <div className="card p-4">
+          <div className="kv-card p-4">
             <p className="text-xs text-[var(--text-secondary)]">Average Score</p>
             <p className="mt-2 text-[26px] font-extrabold text-white">{avgScore.toFixed(1)}%</p>
           </div>
 
-          <div className="card p-4">
+          <div className="kv-card p-4">
             <p className="text-xs text-[var(--text-secondary)]">Best Score</p>
             <p className="mt-2 text-[26px] font-extrabold text-white">{best ? `${(best.scorePercent ?? 0).toFixed(1)}%` : "-"}</p>
             <p className="mt-1 text-xs text-[var(--text-secondary)]">{best?.subject ?? "No exams yet"}</p>
           </div>
 
-          <div className="card p-4">
+          <div className="kv-card p-4">
             <p className="text-xs text-[var(--text-secondary)]">Total Exams Recorded</p>
             <p className="mt-2 text-[26px] font-extrabold text-white">{allResults.length}</p>
           </div>
 
-          <div className="card p-4">
+          <div className="kv-card p-4">
             <p className="text-xs text-[var(--text-secondary)]">Improvement Trend</p>
             <p className="mt-2 text-[26px] font-extrabold" style={{ color: trendDelta >= 0 ? "var(--accent-green)" : "var(--accent-red)" }}>
               {hasTrend ? `${trendDelta >= 0 ? "↑" : "↓"} ${Math.abs(trendDelta).toFixed(1)}%` : "N/A"}
@@ -93,10 +93,10 @@ export default async function ResultsPage({ searchParams }: ResultsPageProps) {
           </div>
         </section>
 
-        <form method="GET" className="card mb-5 flex flex-wrap items-end gap-3 p-3">
+        <form method="GET" className="kv-card mb-5 flex flex-wrap items-end gap-3 p-3">
           <div className="min-w-[220px] flex-1">
-            <label htmlFor="subject" className="mb-1.5 block text-xs text-[var(--text-secondary)]">Subject</label>
-            <select id="subject" name="subject" defaultValue={selectedSubject} className="input h-10 w-full">
+            <label htmlFor="subject" className="kv-label mb-1.5 block text-xs text-[var(--text-secondary)]">Subject</label>
+            <select id="subject" name="subject" defaultValue={selectedSubject} className="kv-select h-10 w-full">
               <option value="all">All Subjects</option>
               {subjects.map((subject) => (
                 <option key={subject} value={subject}>{subject}</option>
@@ -105,18 +105,18 @@ export default async function ResultsPage({ searchParams }: ResultsPageProps) {
           </div>
 
           <div className="min-w-[180px] flex-1">
-            <label htmlFor="sort" className="mb-1.5 block text-xs text-[var(--text-secondary)]">Sort By</label>
-            <select id="sort" name="sort" defaultValue={sort} className="input h-10 w-full">
+            <label htmlFor="sort" className="kv-label mb-1.5 block text-xs text-[var(--text-secondary)]">Sort By</label>
+            <select id="sort" name="sort" defaultValue={sort} className="kv-select h-10 w-full">
               <option value="date">Date (Newest)</option>
               <option value="score">Score (Highest)</option>
             </select>
           </div>
 
-          <button type="submit" className="btn btn-primary h-10 px-5">Apply</button>
+          <button type="submit" className="kv-btn-primary h-10 px-5">Apply</button>
         </form>
 
         {sorted.length === 0 ? (
-          <div className="card py-12 text-center">
+          <div className="kv-card kv-empty py-12 text-center">
             <div aria-hidden="true" className="mx-auto mb-3 flex h-[72px] w-[72px] items-center justify-center rounded-full border border-[var(--border-default)] text-3xl text-[var(--text-secondary)]">
               📊
             </div>

@@ -39,7 +39,7 @@ function shuffle<T>(list: T[]): T[] {
 
 function StatCard({ label, value, color }: { label: string; value: number; color?: string }) {
   return (
-    <div className="card p-3.5">
+    <div className="kv-card p-3.5">
       <p className="m-0 text-xs text-[var(--text-secondary)]">{label}</p>
       <p className="mt-2 text-[28px] font-extrabold" style={{ color: color ?? "var(--text-primary)" }}>{value}</p>
     </div>
@@ -170,25 +170,25 @@ export default function StudyDeckPage() {
   }, [isComplete, isFlipped, currentCard, currentIndex, queue]);
 
   if (isLoading) {
-    return <main className="p-6 text-[var(--text-primary)]">Loading session...</main>;
+    return <main className="kv-page p-6 text-[var(--text-primary)]">Loading session...</main>;
   }
 
   if (error) {
-    return <main className="p-6 text-[var(--accent-red)]">{error}</main>;
+    return <main className="kv-page kv-alert-error p-6">{error}</main>;
   }
 
   if (!isComplete && queue.length === 0) {
     return (
-      <main className="min-h-screen bg-[var(--bg-base)] px-4 py-6 pb-24 text-[var(--text-primary)] md:px-6">
-        <div className="card mx-auto max-w-[760px] p-6 text-center md:py-16">
+      <main className="kv-page min-h-screen bg-[var(--bg-base)] px-4 py-6 pb-24 text-[var(--text-primary)] md:px-6">
+        <div className="kv-card kv-empty mx-auto max-w-[760px] p-6 text-center md:py-16">
           <div className="mb-4 text-7xl">🎉</div>
-          <h2 className="text-title m-0">Nothing due! Come back tomorrow.</h2>
+          <h2 className="kv-page-title m-0">Nothing due! Come back tomorrow.</h2>
           {nextDueDate && (
             <p className="mt-2.5 text-[var(--text-secondary)]">
               Next due: {nextDueDate.toLocaleDateString()} {nextDueDate.toLocaleTimeString()}
             </p>
           )}
-          <button className="btn btn-primary mt-5" onClick={() => router.push("/flashcards")}>Back to Decks</button>
+          <button className="kv-btn-primary mt-5" onClick={() => router.push("/flashcards")}>Back to Decks</button>
         </div>
       </main>
     );
@@ -196,10 +196,10 @@ export default function StudyDeckPage() {
 
   if (isComplete) {
     return (
-      <main className="min-h-screen bg-[var(--bg-base)] px-4 py-6 pb-24 text-[var(--text-primary)] md:px-6">
-        <div className="card mx-auto max-w-[840px] p-6 text-center md:py-16">
+      <main className="kv-page min-h-screen bg-[var(--bg-base)] px-4 py-6 pb-24 text-[var(--text-primary)] md:px-6">
+        <div className="kv-card mx-auto max-w-[840px] p-6 text-center md:py-16">
           <div className="mb-4 text-7xl">🎉</div>
-          <h2 className="text-title">Session Complete!</h2>
+          <h2 className="kv-page-title">Session Complete!</h2>
           <div className="my-8 grid grid-cols-3 gap-4">
             <StatCard label="Reviewed" value={totalReviewed} />
             <StatCard label="Correct" value={correct} color="var(--accent-green)" />
@@ -209,8 +209,8 @@ export default function StudyDeckPage() {
             Accuracy: {totalReviewed > 0 ? Math.round((correct / totalReviewed) * 100) : 0}%
           </p>
           <div className="mt-6 flex justify-center gap-3">
-            <button className="btn btn-primary" onClick={() => router.push("/flashcards")}>Back to Decks</button>
-            <button className="btn btn-ghost" onClick={restartWithWrong} disabled={wrong === 0}>Study Wrong Cards Again</button>
+            <button className="kv-btn-primary" onClick={() => router.push("/flashcards")}>Back to Decks</button>
+            <button className="kv-btn-ghost" onClick={restartWithWrong} disabled={wrong === 0}>Study Wrong Cards Again</button>
           </div>
         </div>
       </main>
@@ -220,18 +220,18 @@ export default function StudyDeckPage() {
   const progressPercent = Math.round(((currentIndex + 1) / queue.length) * 100);
 
   return (
-    <main className="min-h-screen bg-[var(--bg-base)] px-4 py-6 pb-24 text-[var(--text-primary)] md:px-6">
+    <main className="kv-page min-h-screen bg-[var(--bg-base)] px-4 py-6 pb-24 text-[var(--text-primary)] md:px-6">
       <div className="mx-auto max-w-[900px]">
         <div className="mb-4 flex items-center justify-between">
           <div>
             <p className="m-0 text-[var(--text-secondary)]">Card {currentIndex + 1} of {queue.length}</p>
             <p className="mt-1 text-xs text-[var(--text-muted)]">Session Stats: ✓ {correct} ✗ {wrong}</p>
           </div>
-          <button className="btn btn-ghost" onClick={() => router.push(`/flashcards/${deckId}`)}>✕ End</button>
+          <button className="kv-btn-ghost" onClick={() => router.push(`/flashcards/${deckId}`)}>✕ End</button>
         </div>
 
-        <div className="mb-4 h-2.5 w-full overflow-hidden rounded-full bg-[var(--bg-elevated)]">
-          <div className="h-full bg-[var(--accent-blue)] transition-[width] duration-[250ms] ease-[ease]" style={{ width: `${progressPercent}%` }} />
+        <div className="kv-progress-track mb-4 h-2.5 w-full overflow-hidden rounded-full bg-[var(--bg-elevated)]">
+          <div className="kv-progress-fill h-full bg-[var(--accent-blue)] transition-[width] duration-[250ms] ease-[ease]" style={{ width: `${progressPercent}%` }} />
         </div>
 
         <div className="card-container mx-auto max-w-[600px]" style={{ perspective: 1000 }}>

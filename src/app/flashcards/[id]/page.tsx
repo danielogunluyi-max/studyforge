@@ -200,22 +200,22 @@ export default function DeckEditorPage() {
   };
 
   if (isLoading) {
-    return <main style={{ padding: 24, color: "var(--text-primary)" }}>Loading deck...</main>;
+    return <main className="kv-page" style={{ padding: 24, color: "var(--text-primary)" }}>Loading deck...</main>;
   }
 
   if (!deck) {
-    return <main style={{ padding: 24, color: "var(--accent-red)" }}>{error || "Deck not found"}</main>;
+    return <main className="kv-page kv-alert-error" style={{ padding: 24, color: "var(--accent-red)" }}>{error || "Deck not found"}</main>;
   }
 
   return (
-    <main style={{ minHeight: "100vh", background: "var(--bg-base)", color: "var(--text-primary)", padding: "24px 16px 100px" }}>
+    <main className="kv-page" style={{ minHeight: "100vh", background: "var(--bg-base)", color: "var(--text-primary)", padding: "24px 16px 100px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
           <div>
             <Link href="/flashcards" style={{ color: "var(--text-secondary)", fontSize: 13 }}>← Back to Decks</Link>
             {isEditingTitle ? (
               <input
-                className="input"
+                className="kv-input"
                 value={titleDraft}
                 onChange={(event) => setTitleDraft(event.target.value)}
                 onBlur={() => void saveTitle()}
@@ -223,7 +223,7 @@ export default function DeckEditorPage() {
                 style={{ marginTop: 6, width: 320 }}
               />
             ) : (
-              <h1 className="text-title" style={{ marginTop: 8, cursor: "pointer" }} onClick={() => setIsEditingTitle(true)}>
+              <h1 className="kv-page-title" style={{ marginTop: 8, cursor: "pointer" }} onClick={() => setIsEditingTitle(true)}>
                 {deck.title}
               </h1>
             )}
@@ -234,18 +234,18 @@ export default function DeckEditorPage() {
             </div>
           </div>
 
-          <button className="btn btn-primary" onClick={() => router.push(`/flashcards/${deck.id}/study`)}>Study Now</button>
+          <button className="kv-btn-primary" onClick={() => router.push(`/flashcards/${deck.id}/study`)}>Study Now</button>
         </div>
 
-        <div className="card" style={{ marginTop: 16, padding: 14 }}>
-          <button className="btn btn-ghost" onClick={() => setShowGenerateSection((prev) => !prev)}>
+        <div className="kv-card" style={{ marginTop: 16, padding: 14 }}>
+          <button className="kv-btn-ghost" onClick={() => setShowGenerateSection((prev) => !prev)}>
             {showGenerateSection ? "Hide Generate More Cards" : "Generate More Cards"}
           </button>
 
           {showGenerateSection && (
             <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
-              <input className="input" placeholder="Topic for new cards" value={generateTopic} onChange={(event) => setGenerateTopic(event.target.value)} />
-              <select className="input" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
+              <input className="kv-input" placeholder="Topic for new cards" value={generateTopic} onChange={(event) => setGenerateTopic(event.target.value)} />
+              <select className="kv-select" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
                 <option value="">Ontario course (optional)</option>
                 {curriculumOptions.map((course) => (
                   <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
@@ -255,27 +255,27 @@ export default function DeckEditorPage() {
                 <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 12 }}>Count: {generateCount}</p>
                 <input type="range" min={10} max={50} value={generateCount} onChange={(event) => setGenerateCount(Number(event.target.value))} style={{ width: "100%" }} />
               </div>
-              <button className="btn btn-primary" onClick={() => void runGenerate()} disabled={isGenerating}>
+              <button className="kv-btn-primary" onClick={() => void runGenerate()} disabled={isGenerating}>
                 {isGenerating ? `Generating ${generateCount} cards...` : "Generate"}
               </button>
             </div>
           )}
         </div>
 
-        {error && <p style={{ marginTop: 12, color: "var(--accent-red)" }}>{error}</p>}
+        {error && <p className="kv-alert-error" style={{ marginTop: 12 }}>{error}</p>}
 
-        <div className="card" style={{ marginTop: 16, padding: 0, overflow: "hidden" }}>
+        <div className="kv-card" style={{ marginTop: 16, padding: 0, overflow: "hidden" }}>
           {deck.cards.map((card) => {
             const isEditing = editingCardId === card.id;
             return (
               <div key={card.id} style={{ padding: 12, borderBottom: "1px solid var(--border-default)", display: "grid", gridTemplateColumns: "1.2fr 1fr auto", gap: 10, alignItems: "center" }}>
                 {isEditing ? (
                   <div style={{ gridColumn: "1 / span 3", display: "grid", gap: 8 }}>
-                    <textarea className="input" rows={2} value={editFront} onChange={(event) => setEditFront(event.target.value)} />
-                    <textarea className="input" rows={3} value={editBack} onChange={(event) => setEditBack(event.target.value)} />
+                    <textarea className="kv-textarea" rows={2} value={editFront} onChange={(event) => setEditFront(event.target.value)} />
+                    <textarea className="kv-textarea" rows={3} value={editBack} onChange={(event) => setEditBack(event.target.value)} />
                     <div style={{ display: "flex", gap: 8 }}>
-                      <button className="btn btn-primary" onClick={() => void saveCardEdit()}>Save</button>
-                      <button className="btn btn-ghost" onClick={() => setEditingCardId("")}>Cancel</button>
+                      <button className="kv-btn-primary" onClick={() => void saveCardEdit()}>Save</button>
+                      <button className="kv-btn-ghost" onClick={() => setEditingCardId("")}>Cancel</button>
                     </div>
                   </div>
                 ) : (
@@ -287,7 +287,7 @@ export default function DeckEditorPage() {
                         {card.interval}d • EF {card.easeFactor.toFixed(2)} • {new Date(card.nextReview).toLocaleDateString()}
                       </span>
                       <button
-                        className="btn btn-ghost"
+                        className="kv-btn-ghost"
                         onClick={() => {
                           setEditingCardId(card.id);
                           setEditFront(card.front);
@@ -296,7 +296,7 @@ export default function DeckEditorPage() {
                       >
                         ✏️
                       </button>
-                      <button className="btn btn-ghost" onClick={() => void deleteCard(card.id)}>🗑️</button>
+                      <button className="kv-btn-ghost" onClick={() => void deleteCard(card.id)}>🗑️</button>
                     </div>
                   </>
                 )}
@@ -307,14 +307,14 @@ export default function DeckEditorPage() {
 
         <div style={{ marginTop: 12 }}>
           {!showAddCard ? (
-            <button className="btn btn-ghost" onClick={() => setShowAddCard(true)}>+ Add Card</button>
+            <button className="kv-btn-ghost" onClick={() => setShowAddCard(true)}>+ Add Card</button>
           ) : (
-            <div className="card" style={{ padding: 12, display: "grid", gap: 8 }}>
-              <textarea className="input" rows={2} placeholder="Front" value={newFront} onChange={(event) => setNewFront(event.target.value)} />
-              <textarea className="input" rows={3} placeholder="Back" value={newBack} onChange={(event) => setNewBack(event.target.value)} />
+            <div className="kv-card kv-card-elevated" style={{ padding: 12, display: "grid", gap: 8 }}>
+              <textarea className="kv-textarea" rows={2} placeholder="Front" value={newFront} onChange={(event) => setNewFront(event.target.value)} />
+              <textarea className="kv-textarea" rows={3} placeholder="Back" value={newBack} onChange={(event) => setNewBack(event.target.value)} />
               <div style={{ display: "flex", gap: 8 }}>
-                <button className="btn btn-primary" onClick={() => void addCard()}>Save</button>
-                <button className="btn btn-ghost" onClick={() => setShowAddCard(false)}>Cancel</button>
+                <button className="kv-btn-primary" onClick={() => void addCard()}>Save</button>
+                <button className="kv-btn-ghost" onClick={() => setShowAddCard(false)}>Cancel</button>
               </div>
             </div>
           )}

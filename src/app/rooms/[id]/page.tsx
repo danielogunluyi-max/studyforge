@@ -394,11 +394,11 @@ export default function RoomInteriorPage() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] p-6">
-        <div className="card max-w-[720px] mx-auto p-5">
-          <h1 className="text-title mb-2">Could not open room</h1>
+      <main className="kv-page min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] p-6">
+        <div className="kv-card max-w-[720px] mx-auto p-5">
+          <h1 className="kv-page-title mb-2">Could not open room</h1>
           <p className="text-[var(--accent-red)]">{error}</p>
-          <button className="btn btn-primary mt-3.5" onClick={() => router.push("/rooms")}>Back to Rooms</button>
+          <button className="kv-btn-primary mt-3.5" onClick={() => router.push("/rooms")}>Back to Rooms</button>
         </div>
       </main>
     );
@@ -413,14 +413,14 @@ export default function RoomInteriorPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] px-4 py-6 pb-24 md:px-6">
+    <main className="kv-page min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] px-4 py-6 pb-24 md:px-6">
       <div className="max-w-[1200px] mx-auto">
         <div className="flex items-center justify-between mb-4 gap-3">
           <div>
-            <button className="btn btn-ghost mb-2.5" onClick={() => router.push("/rooms")}>
+            <button className="kv-btn-ghost mb-2.5" onClick={() => router.push("/rooms")}> 
               ← All Rooms
             </button>
-            <h1 className="text-title mb-1">{room.name}</h1>
+            <h1 className="kv-page-title mb-1">{room.name}</h1>
             <div className="flex gap-2 items-center flex-wrap">
               <span className="badge bg-[rgba(59,130,246,0.15)] text-[var(--accent-blue)] border border-[var(--accent-blue)]">
                 {room.subject}
@@ -430,7 +430,7 @@ export default function RoomInteriorPage() {
           </div>
 
           <button
-            className="btn btn-danger"
+            className="kv-btn-danger"
             disabled={leaving}
             onClick={() => {
               setLeaving(true);
@@ -450,7 +450,7 @@ export default function RoomInteriorPage() {
             gap: 16,
           }}
         >
-          <section className="card p-5">
+          <section className="kv-card p-5">
             <div className="flex justify-center">
               <div className="relative w-[220px] h-[220px] flex items-center justify-center">
                 <svg width="180" height="180" viewBox="0 0 200 200" aria-hidden="true">
@@ -492,16 +492,16 @@ export default function RoomInteriorPage() {
 
             {isHost ? (
               <div className="flex gap-2 justify-center mt-4 flex-wrap">
-                <button className="btn btn-primary" onClick={() => void controlPomodoro("start")} disabled={Boolean(pomodoroState?.isRunning)}>
+                <button className="kv-btn-primary" onClick={() => void controlPomodoro("start")} disabled={Boolean(pomodoroState?.isRunning)}>
                   ▶ Start
                 </button>
-                <button className="btn btn-ghost" onClick={() => void controlPomodoro("pause")} disabled={!pomodoroState?.isRunning}>
+                <button className="kv-btn-ghost" onClick={() => void controlPomodoro("pause")} disabled={!pomodoroState?.isRunning}>
                   ⏸ Pause
                 </button>
-                <button className="btn btn-ghost" onClick={() => void controlPomodoro("skip")}>
+                <button className="kv-btn-ghost" onClick={() => void controlPomodoro("skip")}>
                   ⏭ Skip
                 </button>
-                <button className="btn btn-ghost" onClick={() => void controlPomodoro("reset")}>
+                <button className="kv-btn-ghost" onClick={() => void controlPomodoro("reset")}>
                   ↺ Reset
                 </button>
               </div>
@@ -511,8 +511,8 @@ export default function RoomInteriorPage() {
               </p>
             )}
 
-            <div className="card mt-4 p-3.5 bg-[var(--bg-elevated)]">
-              <p className="text-label mb-2.5">Live Activity</p>
+            <div className="kv-card kv-card-elevated mt-4 p-3.5 bg-[var(--bg-elevated)]">
+              <p className="kv-label mb-2.5">Live Activity</p>
               <div
                 className="max-h-[220px] overflow-y-auto border border-[var(--border-default)] rounded-lg px-2.5 py-2 bg-[var(--bg-card)]"
               >
@@ -535,8 +535,8 @@ export default function RoomInteriorPage() {
               </div>
             </div>
 
-            <div className="card mt-3.5 p-3.5">
-              <p className="text-label mb-2">Your Status</p>
+            <div className="kv-card mt-3.5 p-3.5">
+              <p className="kv-label mb-2">Your Status</p>
               <div className="flex gap-2 flex-wrap">
                 {[
                   { key: "studying", label: "📚 Studying" },
@@ -553,7 +553,7 @@ export default function RoomInteriorPage() {
                         setMyStatus(nextStatus);
                         void postHeartbeat(nextStatus);
                       }}
-                      className="border-none rounded-full cursor-pointer px-3 py-2 text-xs font-semibold"
+                      className="kv-tab border-none rounded-full cursor-pointer px-3 py-2 text-xs font-semibold"
                       style={{
                         background: active ? "var(--accent-blue)" : "var(--bg-elevated)",
                         color: active ? "white" : "var(--text-secondary)",
@@ -567,7 +567,7 @@ export default function RoomInteriorPage() {
             </div>
           </section>
 
-          <aside className="card p-4">
+          <aside className="kv-card p-4">
             <div className="flex justify-between items-center mb-3">
               <h2 className="m-0 text-base font-bold">In This Room</h2>
               <span className="text-xs text-[var(--text-secondary)]">{members.length}</span>
@@ -604,8 +604,8 @@ export default function RoomInteriorPage() {
               ))}
             </div>
 
-            <div className="card mt-4 p-3 bg-[var(--bg-elevated)]">
-              <p className="text-label mb-2">Room Info</p>
+            <div className="kv-card kv-card-elevated mt-4 p-3 bg-[var(--bg-elevated)]">
+              <p className="kv-label mb-2">Room Info</p>
               <div className="mb-2">
                 <span className="badge bg-[rgba(59,130,246,0.15)] text-[var(--accent-blue)] border border-[var(--accent-blue)]">
                   {room.subject}
@@ -614,7 +614,7 @@ export default function RoomInteriorPage() {
               <p className="m-0 text-xs text-[var(--text-secondary)]">
                 Room created by {room.host?.name ?? "Host"}
               </p>
-              <button className="btn btn-ghost mt-2.5 w-full">
+              <button className="kv-btn-ghost mt-2.5 w-full">
                 Report Room
               </button>
             </div>

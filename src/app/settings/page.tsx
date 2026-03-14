@@ -143,7 +143,7 @@ export default function SettingsPage() {
 
   if (status === "loading") {
     return (
-      <main className="app-premium-dark min-h-screen bg-gray-950 p-6">
+      <main className="kv-page min-h-screen p-6">
         <SkeletonList count={3} />
       </main>
     );
@@ -238,22 +238,22 @@ export default function SettingsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="kv-page min-h-screen">
       
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="mb-8">
-          <h1 className="mb-2 text-4xl font-bold text-gray-900">Settings</h1>
-          <p className="text-lg text-gray-600">Customize your Kyvex experience</p>
+          <h1 className="kv-page-title mb-2 text-4xl font-bold">Settings</h1>
+          <p className="kv-page-subtitle text-lg">Customize your Kyvex experience</p>
         </div>
 
         <div className="space-y-6">
           {/* APPEARANCE SECTION */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">Appearance</h2>
+          <div className="kv-card">
+            <h2 className="kv-section-title mb-4 text-2xl font-bold">Appearance</h2>
             
             {/* Theme */}
             <div className="mb-4">
-              <label className="mb-2 block text-sm font-semibold text-gray-900">Theme</label>
+              <label className="kv-label mb-2 block text-sm font-semibold">Theme</label>
               <Listbox
                 value={settings.theme}
                 onChange={(v) => updateSetting("theme", v as Theme)}
@@ -267,7 +267,7 @@ export default function SettingsPage() {
 
             {/* Accent Color */}
             <div className="mb-4">
-              <label className="mb-2 block text-sm font-semibold text-gray-900">Accent Color</label>
+              <label className="kv-label mb-2 block text-sm font-semibold">Accent Color</label>
               <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
                 {(Object.entries(ACCENT_COLORS) as [AccentColor, typeof ACCENT_COLORS[AccentColor]][]).map(([color, { bg, label }]) => (
                   <Button
@@ -290,7 +290,7 @@ export default function SettingsPage() {
 
             {/* Font Size */}
             <div className="mb-4">
-              <label className="mb-2 block text-sm font-semibold text-gray-900">Font Size</label>
+              <label className="kv-label mb-2 block text-sm font-semibold">Font Size</label>
               <Listbox
                 value={settings.fontSize}
                 onChange={(v) => updateSetting("fontSize", v as FontSize)}
@@ -303,7 +303,7 @@ export default function SettingsPage() {
             </div>
 
             {/* Compact Mode */}
-            <label className="flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <label className="kv-card-elevated flex items-center gap-3 rounded-lg p-4">
               <input
                 type="checkbox"
                 checked={settings.compactMode}
@@ -311,19 +311,19 @@ export default function SettingsPage() {
                 className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
               />
               <div>
-                <p className="font-semibold text-gray-900">Compact Mode</p>
-                <p className="text-sm text-gray-600">Reduce spacing for a denser layout</p>
+                <p className="font-semibold">Compact Mode</p>
+                <p className="text-sm kv-secondary">Reduce spacing for a denser layout</p>
               </div>
             </label>
           </div>
 
           {/* STUDY PREFERENCES SECTION */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">Study Preferences</h2>
+          <div className="kv-card">
+            <h2 className="kv-section-title mb-4 text-2xl font-bold">Study Preferences</h2>
             
             {/* Learning Style */}
             <div className="mb-4">
-              <label className="mb-2 block text-sm font-semibold text-gray-900">Learning Style</label>
+              <label className="kv-label mb-2 block text-sm font-semibold">Learning Style</label>
               <Listbox
                 value={settings.learningStyle}
                 onChange={(v) => updateSetting("learningStyle", v as Style)}
@@ -338,7 +338,7 @@ export default function SettingsPage() {
             </div>
 
             {/* Auto-Adapt Content */}
-            <label className="mb-4 flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <label className="kv-card-elevated mb-4 flex items-center gap-3 rounded-lg p-4">
               <input
                 type="checkbox"
                 checked={settings.autoAdapt}
@@ -346,14 +346,14 @@ export default function SettingsPage() {
                 className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
               />
               <div>
-                <p className="font-semibold text-gray-900">Auto-Adapt Content</p>
-                <p className="text-sm text-gray-600">Automatically transform generated notes to match your learning style</p>
+                <p className="font-semibold">Auto-Adapt Content</p>
+                <p className="text-sm kv-secondary">Automatically transform generated notes to match your learning style</p>
               </div>
             </label>
 
             {/* Default Note Format */}
             <div className="mb-4">
-              <label className="mb-2 block text-sm font-semibold text-gray-900">Default Note Format</label>
+              <label className="kv-label mb-2 block text-sm font-semibold">Default Note Format</label>
               <Listbox
                 value={settings.defaultNoteFormat}
                 onChange={(v) => updateSetting("defaultNoteFormat", v as NoteFormat)}
@@ -367,7 +367,7 @@ export default function SettingsPage() {
             </div>
 
             {/* Auto-Save Notes */}
-            <label className="flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <label className="kv-card-elevated flex items-center gap-3 rounded-lg p-4">
               <input
                 type="checkbox"
                 checked={settings.autoSaveNotes}
@@ -375,17 +375,17 @@ export default function SettingsPage() {
                 className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
               />
               <div>
-                <p className="font-semibold text-gray-900">Auto-Save Notes</p>
-                <p className="text-sm text-gray-600">Automatically save generated notes to your library</p>
+                <p className="font-semibold">Auto-Save Notes</p>
+                <p className="text-sm kv-secondary">Automatically save generated notes to your library</p>
               </div>
             </label>
           </div>
 
           {/* NOTIFICATIONS SECTION */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">Notifications</h2>
+          <div className="kv-card">
+            <h2 className="kv-section-title mb-4 text-2xl font-bold">Notifications</h2>
             
-            <label className="flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <label className="kv-card-elevated flex items-center gap-3 rounded-lg p-4">
               <input
                 type="checkbox"
                 checked={settings.emailNotifications}
@@ -393,52 +393,52 @@ export default function SettingsPage() {
                 className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
               />
               <div>
-                <p className="font-semibold text-gray-900">Email Notifications</p>
-                <p className="text-sm text-gray-600">Receive updates about battles, study groups, and weekly summaries</p>
+                <p className="font-semibold">Email Notifications</p>
+                <p className="text-sm kv-secondary">Receive updates about battles, study groups, and weekly summaries</p>
               </div>
             </label>
           </div>
 
           {/* ACCOUNT SECTION */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">Account</h2>
+          <div className="kv-card">
+            <h2 className="kv-section-title mb-4 text-2xl font-bold">Account</h2>
             
             <div className="space-y-4">
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-900">Name</label>
+                <label className="kv-label mb-2 block text-sm font-semibold">Name</label>
                 <input
                   type="text"
                   value={settings.name}
                   onChange={(e) => updateSetting("name", e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="kv-input w-full p-3"
                   placeholder="Your name"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-900">Email</label>
+                <label className="kv-label mb-2 block text-sm font-semibold">Email</label>
                 <input
                   type="email"
                   value={settings.email}
                   disabled
-                  className="w-full rounded-lg border border-gray-300 bg-gray-100 p-3 text-gray-600"
+                  className="kv-input w-full p-3"
                   placeholder="your@email.com"
                 />
-                <p className="mt-1 text-xs text-gray-500">Contact support to change your email</p>
+                <p className="mt-1 text-xs kv-muted">Contact support to change your email</p>
               </div>
             </div>
           </div>
 
           {/* DATA & PRIVACY SECTION */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">Data & Privacy</h2>
+          <div className="kv-card">
+            <h2 className="kv-section-title mb-4 text-2xl font-bold">Data & Privacy</h2>
             
             <div className="space-y-3">
               <Button
                 onClick={() => void exportData()}
                 variant="secondary"
                 fullWidth
-                className="justify-between p-4 text-left font-semibold text-gray-900"
+                className="kv-btn-secondary justify-between p-4 text-left font-semibold"
               >
                 <div className="flex items-center justify-between">
                   <span>Export All Data</span>
@@ -453,7 +453,7 @@ export default function SettingsPage() {
                 onClick={() => setShowDeleteConfirm(true)}
                 variant="danger"
                 fullWidth
-                className="justify-between p-4 text-left"
+                className="kv-btn-danger justify-between p-4 text-left"
               >
                 <div className="flex items-center justify-between">
                   <span>Delete Account</span>
@@ -474,6 +474,7 @@ export default function SettingsPage() {
               fullWidth
               size="lg"
               loading={isSaving}
+              className="kv-btn-primary"
             >
               {isSaving ? "Saving..." : "Save All Settings"}
             </Button>
@@ -489,9 +490,9 @@ export default function SettingsPage() {
           aria-modal="true"
           aria-labelledby="delete-dialog-title"
         >
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-            <h3 id="delete-dialog-title" className="mb-3 text-xl font-bold text-gray-900">Delete Account?</h3>
-            <p className="mb-6 text-gray-600">
+          <div className="kv-card w-full max-w-md p-6">
+            <h3 id="delete-dialog-title" className="kv-section-title mb-3 text-xl font-bold">Delete Account?</h3>
+            <p className="mb-6 kv-secondary">
               This action cannot be undone. All your notes, citations, battle history, and study groups will be permanently deleted.
             </p>
             <div className="flex gap-3">

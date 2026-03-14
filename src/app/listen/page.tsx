@@ -24,22 +24,22 @@ export default async function ListenIndexPage() {
   })
 
   return (
-    <div style={{ padding: '32px', maxWidth: '900px', margin: '0 auto' }}>
+    <div className="kv-page" style={{ padding: '32px', maxWidth: '900px', margin: '0 auto' }}>
       <div style={{ marginBottom: '32px' }}>
-        <h1 style={{
+        <h1 className="kv-page-title" style={{
           fontSize: '28px', fontWeight: 800,
           color: 'var(--text-primary)', letterSpacing: '-0.02em',
           marginBottom: '8px',
         }}>
           Listen to Notes 🎧
         </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>
+        <p className="kv-page-subtitle" style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: 0 }}>
           Turn any note into audio — study while you commute, exercise, or relax
         </p>
       </div>
 
       {notes.length === 0 ? (
-        <div className="card" style={{ padding: '48px', textAlign: 'center' }}>
+        <div className="kv-card kv-empty" style={{ padding: '48px', textAlign: 'center' }}>
           <div style={{ fontSize: '48px', marginBottom: '16px' }}>🎧</div>
           <p style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>
             No notes yet
@@ -51,7 +51,7 @@ export default async function ListenIndexPage() {
             Generate some notes first, then come back to listen
           </p>
           <Link href="/generator">
-            <button className="btn btn-primary">
+            <button className="kv-btn-primary">
               Generate notes →
             </button>
           </Link>
@@ -67,7 +67,7 @@ export default async function ListenIndexPage() {
               note.format === 'questions' ? 'badge-orange' : 'badge-green'
 
             return (
-              <div key={note.id} className="card" style={{ padding: '20px' }}>
+              <div key={note.id} className="kv-card" style={{ padding: '20px' }}>
                 <div style={{
                   display: 'flex', justifyContent: 'space-between',
                   alignItems: 'flex-start', marginBottom: '12px',
@@ -94,7 +94,7 @@ export default async function ListenIndexPage() {
                     </div>
                   </div>
                   <Link href={`/listen/${note.id}`}>
-                    <button className="btn btn-primary btn-sm">
+                    <button className="kv-btn-primary">
                       🎧 Listen
                     </button>
                   </Link>

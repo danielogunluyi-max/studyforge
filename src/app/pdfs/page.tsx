@@ -160,35 +160,35 @@ export default function PdfLibraryPage() {
   };
 
   return (
-    <main className="page-shell app-premium-dark min-h-screen bg-gray-950 pb-24">
+    <main className="kv-page min-h-screen pb-24">
       <div className="mx-auto w-full max-w-6xl">
         <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="text-[28px] font-bold tracking-tight text-white">PDF Library 📄</h1>
-            <p className="mt-1.5 text-sm text-[var(--text-secondary)]">
+            <h1 className="kv-page-title text-[28px] font-bold tracking-tight text-white">PDF Library 📄</h1>
+            <p className="kv-page-subtitle mt-1.5 mb-0 text-sm text-[var(--text-secondary)]">
               Search, highlight, and annotate your documents
             </p>
           </div>
-          <button className="btn btn-primary" onClick={() => setShowUpload(true)}>
+          <button className="kv-btn-primary" onClick={() => setShowUpload(true)}>
             + Upload PDF
           </button>
         </div>
 
         <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="card" style={{ padding: "16px" }}>
-            <p className="text-label" style={{ color: "var(--text-muted)" }}>Total Documents</p>
+          <div className="kv-card" style={{ padding: "16px" }}>
+            <p className="kv-label" style={{ color: "var(--text-muted)" }}>Total Documents</p>
             <p style={{ fontSize: "28px", fontWeight: 700, color: "var(--text-primary)", marginTop: "6px" }}>
               {stats.totalDocuments}
             </p>
           </div>
-          <div className="card" style={{ padding: "16px" }}>
-            <p className="text-label" style={{ color: "var(--text-muted)" }}>Total Annotations</p>
+          <div className="kv-card" style={{ padding: "16px" }}>
+            <p className="kv-label" style={{ color: "var(--text-muted)" }}>Total Annotations</p>
             <p style={{ fontSize: "28px", fontWeight: 700, color: "var(--text-primary)", marginTop: "6px" }}>
               {stats.totalAnnotations}
             </p>
           </div>
-          <div className="card" style={{ padding: "16px" }}>
-            <p className="text-label" style={{ color: "var(--text-muted)" }}>Total Pages</p>
+          <div className="kv-card" style={{ padding: "16px" }}>
+            <p className="kv-label" style={{ color: "var(--text-muted)" }}>Total Pages</p>
             <p style={{ fontSize: "28px", fontWeight: 700, color: "var(--text-primary)", marginTop: "6px" }}>
               {stats.totalPages}
             </p>
@@ -196,7 +196,7 @@ export default function PdfLibraryPage() {
         </div>
 
         <input
-          className="input"
+          className="kv-input"
           placeholder="🔍 Search across all PDFs..."
           value={globalSearch}
           onChange={(event) => setGlobalSearch(event.target.value)}
@@ -206,17 +206,17 @@ export default function PdfLibraryPage() {
         {isLoading ? (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {[...Array(6)].map((_, idx) => (
-              <div key={idx} className="card skeleton" style={{ height: "180px" }} />
+              <div key={idx} className="kv-card skeleton" style={{ height: "180px" }} />
             ))}
           </div>
         ) : documents.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "80px 24px" }}>
+          <div className="kv-empty" style={{ textAlign: "center", padding: "80px 24px" }}>
             <div style={{ fontSize: "64px", marginBottom: "16px" }}>📄</div>
             <p className="text-heading">No PDFs yet</p>
             <p style={{ color: "var(--text-muted)", marginTop: "8px" }}>
               Upload lecture slides, textbook chapters, or past papers
             </p>
-            <button className="btn btn-primary" style={{ marginTop: "24px" }} onClick={() => setShowUpload(true)}>
+            <button className="kv-btn-primary" style={{ marginTop: "24px" }} onClick={() => setShowUpload(true)}>
               Upload First PDF
             </button>
           </div>
@@ -225,7 +225,7 @@ export default function PdfLibraryPage() {
             {documents.map((doc) => (
               <div
                 key={doc.id}
-                className="card card-hover"
+                className="kv-card"
                 style={{ padding: "20px", cursor: "pointer" }}
                 onClick={() => router.push(`/pdfs/${doc.id}`)}
               >
@@ -271,7 +271,7 @@ export default function PdfLibraryPage() {
                 <p style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "8px" }}>{formatDate(doc.createdAt)}</p>
 
                 {globalSearch.trim() && (searchByDoc[doc.id]?.length ?? 0) > 0 && (
-                  <div className="card" style={{ marginTop: "10px", padding: "8px", maxHeight: "120px", overflowY: "auto" }}>
+                  <div className="kv-card kv-card-elevated" style={{ marginTop: "10px", padding: "8px", maxHeight: "120px", overflowY: "auto" }}>
                     {(searchByDoc[doc.id] ?? []).map((result) => (
                       <div key={`${doc.id}-s-${result.page}`} style={{ marginBottom: "6px" }}>
                         <p style={{ fontSize: "11px", color: "var(--accent-blue)", fontWeight: 600 }}>Page {result.page}</p>
@@ -282,7 +282,7 @@ export default function PdfLibraryPage() {
                 )}
 
                 <button
-                  className="btn btn-danger btn-sm"
+                  className="kv-btn-danger"
                   style={{ marginTop: "12px", width: "100%" }}
                   onClick={(event) => {
                     event.stopPropagation();
@@ -317,10 +317,10 @@ export default function PdfLibraryPage() {
             if (!uploading) setShowUpload(false);
           }}
         >
-          <div className="card" style={{ width: "100%", maxWidth: "520px", padding: "20px" }} onClick={(event) => event.stopPropagation()}>
+          <div className="kv-card" style={{ width: "100%", maxWidth: "520px", padding: "20px" }} onClick={(event) => event.stopPropagation()}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
               <h2 style={{ fontSize: "18px", fontWeight: 700, color: "var(--text-primary)" }}>Upload PDF</h2>
-              <button className="btn btn-ghost btn-sm" onClick={() => !uploading && setShowUpload(false)}>✕</button>
+              <button className="kv-btn-ghost" onClick={() => !uploading && setShowUpload(false)}>✕</button>
             </div>
 
             <div
@@ -365,7 +365,7 @@ export default function PdfLibraryPage() {
             />
 
             {selectedFile && (
-              <div className="card" style={{ marginTop: "12px", padding: "10px 12px" }}>
+              <div className="kv-card kv-card-elevated" style={{ marginTop: "12px", padding: "10px 12px" }}>
                 <p style={{ fontSize: "13px", color: "var(--text-primary)", fontWeight: 600 }}>{selectedFile.name}</p>
                 <p style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>
                   {(selectedFile.size / 1024 / 1024).toFixed(2)}MB
@@ -373,7 +373,7 @@ export default function PdfLibraryPage() {
               </div>
             )}
 
-            <button className="btn btn-primary" style={{ width: "100%", marginTop: "14px" }} onClick={() => void handleUpload()} disabled={uploading}>
+            <button className="kv-btn-primary" style={{ width: "100%", marginTop: "14px" }} onClick={() => void handleUpload()} disabled={uploading}>
               {uploading ? "Uploading... extracting pages..." : "Upload PDF"}
             </button>
           </div>
