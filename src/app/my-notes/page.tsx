@@ -592,7 +592,7 @@ export default function MyNotes() {
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950">
 
-      <div className="container mx-auto mb-[100px] max-w-7xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
+      <div className="kv-page container mx-auto mb-[100px] max-w-7xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
         <PageHero
           title="My Notes"
           description={`All your saved study notes in one place • 🔥 ${studyStreak} day streak`}
@@ -610,14 +610,14 @@ export default function MyNotes() {
           </Button>
         </div>
 
-        <div className="mb-6 card">
+        <div className="mb-6 kv-card">
           <div className="grid gap-3 md:grid-cols-4">
             <input
               type="text"
               placeholder="Search title and content..."
               value={searchInput}
               onChange={(event) => setSearchInput(event.target.value)}
-              className="md:col-span-2 w-full input"
+              className="md:col-span-2 w-full kv-input"
               aria-label="Search notes"
             />
             <div className="w-full sm:w-48">
@@ -687,7 +687,7 @@ export default function MyNotes() {
         </div>
 
         {recentlyViewed.length > 0 && (
-          <div className="mb-6 card">
+          <div className="mb-6 kv-card">
             <div className="mb-3 flex items-center justify-between">
               <h2 className="text-sm font-semibold text-white">Recently Viewed</h2>
               <span className="text-xs text-gray-500">Last 3 notes accessed</span>
@@ -698,7 +698,7 @@ export default function MyNotes() {
                   key={`recent-${note.id}`}
                   type="button"
                   onClick={() => void openNote(note)}
-                  className="stagger-card card text-left transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:bg-blue-50"
+                  className="stagger-card kv-card text-left transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:bg-blue-50"
                 >
                   <p className="line-clamp-1 text-sm font-semibold text-white">{note.title}</p>
                   <p className="mt-1 line-clamp-2 text-xs text-gray-600">{note.content}</p>
@@ -712,7 +712,7 @@ export default function MyNotes() {
         )}
 
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-          <aside className={`${showMobileFilters ? "block" : "hidden"} card lg:block`}>
+          <aside className={`${showMobileFilters ? "block" : "hidden"} kv-card lg:block`}>
             <div className="mb-3 flex items-center justify-between lg:hidden">
               <p className="text-sm font-semibold text-white">Filters</p>
               <Button size="sm" variant="secondary" onClick={() => setShowMobileFilters(false)}>
@@ -859,7 +859,7 @@ export default function MyNotes() {
                     onDragStart={(event) => event.dataTransfer.setData("text/note-id", note.id)}
                     onMouseEnter={() => setHoveredNoteId(note.id)}
                     onMouseLeave={() => setHoveredNoteId("")}
-                    className="stagger-card group relative card transition-all duration-200 hover:-translate-y-1"
+                    className="stagger-card group relative kv-card transition-all duration-200 hover:-translate-y-1"
                   >
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -972,7 +972,7 @@ export default function MyNotes() {
                     </p>
 
                     {menuOpenNoteId === note.id && (
-                      <div className="mt-3 card p-2">
+                      <div className="mt-3 kv-card p-2">
                         <Button
                           onClick={() => {
                             void duplicateNote(note);
@@ -988,7 +988,7 @@ export default function MyNotes() {
                     )}
 
                     {hoveredNoteId === note.id && (
-                      <div className="pointer-events-none absolute left-full top-0 z-30 ml-3 hidden w-80 card md:block">
+                      <div className="pointer-events-none absolute left-full top-0 z-30 ml-3 hidden w-80 kv-card md:block">
                         <p className="mb-2 text-sm font-semibold text-white">Preview</p>
                         <p className="max-h-72 overflow-y-auto whitespace-pre-wrap text-xs text-gray-700">{note.content}</p>
                       </div>
@@ -1080,7 +1080,7 @@ export default function MyNotes() {
               </Button>
             </div>
 
-            <div className="prose max-w-none whitespace-pre-wrap card text-gray-700">
+            <div className="prose kv-card max-w-none whitespace-pre-wrap text-gray-700">
               <HighlightText text={selectedNote.content} query={debouncedSearch} />
             </div>
 
@@ -1140,13 +1140,13 @@ export default function MyNotes() {
                     value={renameOldTag}
                     onChange={(event) => setRenameOldTag(event.target.value)}
                     placeholder="Current tag"
-                    className="input"
+                    className="kv-input"
                   />
                   <input
                     value={renameNewTag}
                     onChange={(event) => setRenameNewTag(event.target.value)}
                     placeholder="New tag"
-                    className="input"
+                    className="kv-input"
                   />
                 </div>
                 <Button
@@ -1170,7 +1170,7 @@ export default function MyNotes() {
                   value={deleteTagName}
                   onChange={(event) => setDeleteTagName(event.target.value)}
                   placeholder="Tag to delete"
-                  className="w-full input"
+                  className="w-full kv-input"
                 />
                 <Button
                   onClick={() => void updateTags({ action: "delete", tag: deleteTagName })}
@@ -1189,13 +1189,13 @@ export default function MyNotes() {
                     value={mergeSourceTag}
                     onChange={(event) => setMergeSourceTag(event.target.value)}
                     placeholder="Source tag"
-                    className="input"
+                    className="kv-input"
                   />
                   <input
                     value={mergeTargetTag}
                     onChange={(event) => setMergeTargetTag(event.target.value)}
                     placeholder="Target tag"
-                    className="input"
+                    className="kv-input"
                   />
                 </div>
                 <Button

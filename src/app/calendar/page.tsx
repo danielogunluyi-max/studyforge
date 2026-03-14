@@ -197,13 +197,13 @@ export default function CalendarPage() {
   );
 
   return (
-    <div style={{ padding: '32px', maxWidth: '1200px', margin: '0 auto' }} className="animate-fade-in-up">
+    <div style={{ padding: '32px', maxWidth: '1200px', margin: '0 auto' }} className="kv-page animate-fade-in-up">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 style={{ fontSize: '26px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
+          <h1 className="kv-page-title" style={{ fontSize: '26px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '6px' }}>
             📆 Calendar
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>
+          <p className="kv-page-subtitle" style={{ fontSize: '14px' }}>
             All your exams, study sessions, and deadlines in one place
           </p>
         </div>
@@ -212,7 +212,7 @@ export default function CalendarPage() {
             setNewDate(formatDateInput(today));
             setShowAddModal(true);
           }}
-          className="btn btn-primary btn-sm"
+          className="kv-btn-primary"
         >
           + Add event
         </button>
@@ -220,9 +220,9 @@ export default function CalendarPage() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(260px,300px)', gap: '20px', alignItems: 'start' }}>
         <div>
-          <div className="card" style={{ padding: '20px', marginBottom: '16px' }}>
+          <div className="kv-card" style={{ padding: '20px', marginBottom: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '8px' }}>
-              <button onClick={prevMonth} className="btn btn-ghost btn-sm">← Prev</button>
+              <button onClick={prevMonth} className="kv-btn-ghost">← Prev</button>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                   {MONTHS[currentMonth]} {currentYear}
@@ -233,12 +233,12 @@ export default function CalendarPage() {
                     setCurrentYear(today.getFullYear());
                     setSelectedDate(today);
                   }}
-                  className="btn btn-ghost btn-sm"
+                  className="kv-btn-ghost"
                 >
                   Today
                 </button>
               </div>
-              <button onClick={nextMonth} className="btn btn-ghost btn-sm">Next →</button>
+              <button onClick={nextMonth} className="kv-btn-ghost">Next →</button>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px', marginBottom: '4px' }}>
@@ -330,7 +330,7 @@ export default function CalendarPage() {
           </div>
 
           {selectedDate ? (
-            <div className="card" style={{ padding: '20px' }}>
+            <div className="kv-card" style={{ padding: '20px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)' }}>
                   {selectedDate.toLocaleDateString('en-CA', {
@@ -344,7 +344,7 @@ export default function CalendarPage() {
                     setNewDate(formatDateInput(selectedDate));
                     setShowAddModal(true);
                   }}
-                  className="btn btn-ghost btn-sm"
+                  className="kv-btn-ghost"
                 >
                   + Add
                 </button>
@@ -427,7 +427,7 @@ export default function CalendarPage() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div className="card" style={{ padding: '16px' }}>
+          <div className="kv-card" style={{ padding: '16px' }}>
             <h3 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Legend
             </h3>
@@ -441,7 +441,7 @@ export default function CalendarPage() {
             </div>
           </div>
 
-          <div className="card" style={{ padding: '16px' }}>
+          <div className="kv-card" style={{ padding: '16px' }}>
             <h3 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Next 7 Days
             </h3>
@@ -501,7 +501,7 @@ export default function CalendarPage() {
             )}
           </div>
 
-          <div className="card" style={{ padding: '16px' }}>
+          <div className="kv-card" style={{ padding: '16px' }}>
             <h3 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               This Month
             </h3>
@@ -540,7 +540,7 @@ export default function CalendarPage() {
             if (event.target === event.currentTarget) setShowAddModal(false);
           }}
         >
-          <div className="card animate-fade-in-up" style={{ padding: '28px', width: '100%', maxWidth: '440px' }}>
+          <div className="kv-card animate-fade-in-up" style={{ padding: '28px', width: '100%', maxWidth: '440px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)' }}>Add Event</h2>
               <button
@@ -557,7 +557,7 @@ export default function CalendarPage() {
                   Title
                 </label>
                 <input
-                  className="input"
+                  className="kv-input"
                   placeholder='e.g. "Chemistry assignment due"'
                   value={newTitle}
                   onChange={(event) => setNewTitle(event.target.value)}
@@ -568,14 +568,14 @@ export default function CalendarPage() {
                 <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   Date
                 </label>
-                <input className="input" type="date" value={newDate} onChange={(event) => setNewDate(event.target.value)} />
+                <input className="kv-input" type="date" value={newDate} onChange={(event) => setNewDate(event.target.value)} />
               </div>
 
               <div>
                 <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   Type
                 </label>
-                <select className="input" value={newType} onChange={(event) => setNewType(event.target.value)}>
+                <select className="kv-select" value={newType} onChange={(event) => setNewType(event.target.value)}>
                   <option value="deadline">⏰ Deadline</option>
                   <option value="assignment">📋 Assignment</option>
                   <option value="reminder">🔔 Reminder</option>
@@ -588,7 +588,7 @@ export default function CalendarPage() {
                   Notes (optional)
                 </label>
                 <textarea
-                  className="textarea"
+                  className="kv-textarea"
                   rows={2}
                   placeholder="Any extra details..."
                   value={newDesc}
@@ -599,7 +599,7 @@ export default function CalendarPage() {
               <button
                 onClick={() => void handleAddEvent()}
                 disabled={!newTitle.trim() || !newDate || saving}
-                className="btn btn-primary"
+                className="kv-btn-primary"
                 style={{ width: '100%', marginTop: '4px' }}
               >
                 {saving ? 'Saving...' : '+ Add to calendar'}

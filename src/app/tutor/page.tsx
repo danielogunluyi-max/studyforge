@@ -288,14 +288,14 @@ export default function TutorPage() {
 
   return (
     <main className="app-premium-dark min-h-screen bg-gray-950 text-white">
-      <div className="mx-auto flex h-[calc(100vh-72px)] w-full max-w-6xl flex-col px-4 py-4 pb-28 sm:px-6 sm:pb-4">
-        <div className="mb-3 rounded-xl border border-slate-700/80 bg-gradient-to-br from-[#07102a] via-[#0f1737] to-[#2a1243] p-5">
+      <div className="kv-page mx-auto flex h-[calc(100vh-72px)] w-full max-w-6xl flex-col px-4 py-4 pb-28 sm:px-6 sm:pb-4">
+        <div className="kv-card kv-card-elevated mb-3 p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-600/30 text-xl">🤖</div>
               <div>
-                <h1 className="text-3xl font-bold text-white">Nova AI Tutor</h1>
-                <p className="text-sm text-slate-300">Conversational tutoring with guided reasoning.</p>
+                <h1 className="kv-page-title text-3xl font-bold">Nova AI Tutor</h1>
+                <p className="kv-page-subtitle text-sm">Conversational tutoring with guided reasoning.</p>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -312,7 +312,7 @@ export default function TutorPage() {
             <select
               value={subject}
               onChange={(event) => setSubject(event.target.value as Subject)}
-              className="rounded-lg border border-slate-600 bg-[#131b36] px-3 py-2 text-sm"
+              className="kv-select"
             >
               {SUBJECTS.map((item) => (
                 <option key={item} value={item}>{item}</option>
@@ -322,7 +322,7 @@ export default function TutorPage() {
             <select
               value={selectedNoteId}
               onChange={(event) => setSelectedNoteId(event.target.value)}
-              className="rounded-lg border border-slate-600 bg-[#131b36] px-3 py-2 text-sm"
+              className="kv-select"
             >
               <option value="">Load my note...</option>
               {notes.map((note) => (
@@ -333,7 +333,7 @@ export default function TutorPage() {
             <select
               value={curriculumCode}
               onChange={(event) => setCurriculumCode(event.target.value)}
-              className="rounded-lg border border-slate-600 bg-[#131b36] px-3 py-2 text-sm"
+              className="kv-select"
             >
               <option value="">Ontario course (optional)</option>
               {curriculumOptions.map((course) => (
@@ -341,14 +341,14 @@ export default function TutorPage() {
               ))}
             </select>
 
-            <Button size="sm" variant="secondary" onClick={loadSelectedNote} disabled={!selectedNoteId}>Load my note</Button>
-            <Button size="sm" onClick={() => void generateFlashcards()} loading={flashcardsLoading} disabled={flashcardsLoading || messages.length < 2}>
+            <Button size="sm" variant="secondary" className="kv-btn-secondary" onClick={loadSelectedNote} disabled={!selectedNoteId}>Load my note</Button>
+            <Button size="sm" className="kv-btn-primary" onClick={() => void generateFlashcards()} loading={flashcardsLoading} disabled={flashcardsLoading || messages.length < 2}>
               Generate Flashcards from this chat
             </Button>
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto rounded-xl border border-slate-700 bg-[#0a1126] p-3 sm:p-4">
+        <div className="kv-card flex-1 overflow-y-auto p-3 sm:p-4">
           <div className="space-y-3">
             {messages.map((message, index) => (
               <div
@@ -384,7 +384,7 @@ export default function TutorPage() {
 
             {(isThinking || isTypingResponse) && (
               <div className="flex justify-start">
-                <div className="rounded-2xl border border-slate-600 bg-[#111a38] px-4 py-3">
+                <div className="kv-card-elevated rounded-2xl px-4 py-3">
                   <div className="flex items-center gap-1">
                     <span className="h-2 w-2 animate-bounce rounded-full bg-purple-300 [animation-delay:-0.3s]" />
                     <span className="h-2 w-2 animate-bounce rounded-full bg-purple-300 [animation-delay:-0.15s]" />
@@ -398,7 +398,7 @@ export default function TutorPage() {
           </div>
         </div>
 
-        <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-slate-700 bg-[#0d142b]/95 p-3 backdrop-blur sm:static sm:mt-3 sm:rounded-xl sm:border sm:bg-[#0d142b] sm:p-3 sm:backdrop-blur-none">
+        <div className="kv-card-elevated fixed bottom-0 left-0 right-0 z-20 border-t p-3 backdrop-blur sm:static sm:mt-3 sm:rounded-xl sm:border sm:p-3 sm:backdrop-blur-none">
           <div className="mx-auto w-full max-w-6xl sm:max-w-none">
           <div className="flex gap-2">
             <input
@@ -411,9 +411,9 @@ export default function TutorPage() {
                 }
               }}
               placeholder="Ask Nova anything..."
-              className="flex-1 rounded-lg border border-slate-600 bg-[#131b36] px-3 py-2 text-sm"
+              className="kv-input flex-1"
             />
-            <Button onClick={() => void sendMessage()} disabled={!input.trim() || isThinking}>Send</Button>
+            <Button className="kv-btn-primary" onClick={() => void sendMessage()} disabled={!input.trim() || isThinking}>Send</Button>
           </div>
 
           <div className="mt-2 overflow-x-auto whitespace-nowrap text-xs text-slate-300">
@@ -423,7 +423,7 @@ export default function TutorPage() {
                 <button
                   key={command}
                   type="button"
-                  className="shrink-0 rounded-full border border-slate-500/60 px-2 py-1 transition hover:border-blue-400 hover:text-blue-200"
+                  className="kv-btn-ghost shrink-0"
                   onClick={() => setInput(command)}
                 >
                   {command}

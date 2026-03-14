@@ -187,6 +187,7 @@ export default function FeynmanPage() {
     return (
       <>
         <div
+          className="kv-page"
           style={{
             padding: '32px',
             maxWidth: '800px',
@@ -216,16 +217,16 @@ export default function FeynmanPage() {
           </div>
           <div style={{ textAlign: 'center' }}>
             <h2
+              className="kv-page-title"
               style={{
                 fontSize: '20px',
                 fontWeight: 700,
-                color: 'var(--text-primary)',
                 marginBottom: '8px',
               }}
             >
               Nova is reading your explanation...
             </h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
+            <p className="kv-page-subtitle" style={{ fontSize: '14px' }}>
               Checking your understanding of &quot;{concept}&quot;
             </p>
           </div>
@@ -265,22 +266,22 @@ export default function FeynmanPage() {
 
     return (
       <div
+        className="kv-page animate-fade-in-up"
         style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }}
-        className="animate-fade-in-up"
       >
         <div style={{ marginBottom: '28px' }}>
           <h1
+            className="kv-page-title"
             style={{
               fontSize: '26px',
               fontWeight: 800,
-              color: 'var(--text-primary)',
               letterSpacing: '-0.02em',
               marginBottom: '6px',
             }}
           >
             🧠 Feynman Results
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
+          <p className="kv-page-subtitle" style={{ fontSize: '14px' }}>
             Concept:{' '}
             <strong style={{ color: 'var(--text-secondary)' }}>{concept}</strong>
             {attemptNumber > 1 ? (
@@ -292,7 +293,7 @@ export default function FeynmanPage() {
         </div>
 
         <div
-          className="card"
+          className="kv-card"
           style={{
             padding: '28px',
             marginBottom: '16px',
@@ -375,7 +376,7 @@ export default function FeynmanPage() {
           }}
         >
           {result.correct.length > 0 ? (
-            <div className="card" style={{ padding: '20px' }}>
+            <div className="kv-card" style={{ padding: '20px' }}>
               <h3
                 style={{
                   fontSize: '14px',
@@ -408,7 +409,7 @@ export default function FeynmanPage() {
           ) : null}
 
           {result.missing.length > 0 ? (
-            <div className="card" style={{ padding: '20px' }}>
+            <div className="kv-card" style={{ padding: '20px' }}>
               <h3
                 style={{
                   fontSize: '14px',
@@ -441,7 +442,7 @@ export default function FeynmanPage() {
           ) : null}
 
           {result.wrong.length > 0 ? (
-            <div className="card" style={{ padding: '20px' }}>
+            <div className="kv-card" style={{ padding: '20px' }}>
               <h3
                 style={{
                   fontSize: '14px',
@@ -474,7 +475,7 @@ export default function FeynmanPage() {
           ) : null}
 
           {result.studyNext.length > 0 ? (
-            <div className="card" style={{ padding: '20px' }}>
+            <div className="kv-card" style={{ padding: '20px' }}>
               <h3
                 style={{
                   fontSize: '14px',
@@ -508,7 +509,7 @@ export default function FeynmanPage() {
         </div>
 
         <div
-          className="card"
+          className="kv-card kv-card-elevated"
           style={{
             padding: '20px',
             marginBottom: '24px',
@@ -535,13 +536,13 @@ export default function FeynmanPage() {
         </div>
 
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          <button onClick={handleTryAgain} className="btn btn-primary btn-lg">
+          <button onClick={handleTryAgain} className="kv-btn-primary">
             🔄 Try again with same concept
           </button>
-          <button onClick={handleNewConcept} className="btn btn-ghost btn-lg">
+          <button onClick={handleNewConcept} className="kv-btn-ghost">
             ✨ New concept
           </button>
-          <button onClick={() => setView('history')} className="btn btn-ghost btn-lg">
+          <button onClick={() => setView('history')} className="kv-btn-ghost">
             📊 View history
           </button>
         </div>
@@ -551,25 +552,25 @@ export default function FeynmanPage() {
 
   if (view === 'history') {
     return (
-      <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }} className="animate-fade-in-up">
+      <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }} className="kv-page animate-fade-in-up">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', gap: '12px', flexWrap: 'wrap' }}>
           <div>
             <h1
+              className="kv-page-title"
               style={{
                 fontSize: '26px',
                 fontWeight: 800,
-                color: 'var(--text-primary)',
                 letterSpacing: '-0.02em',
                 marginBottom: '4px',
               }}
             >
               🧠 Your Feynman History
             </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
+            <p className="kv-page-subtitle" style={{ fontSize: '14px' }}>
               Track how your understanding improves over time
             </p>
           </div>
-          <button onClick={handleNewConcept} className="btn btn-primary btn-sm">
+          <button onClick={handleNewConcept} className="kv-btn-primary">
             + New session
           </button>
         </div>
@@ -577,7 +578,7 @@ export default function FeynmanPage() {
         {historyLoading ? (
           <div style={{ textAlign: 'center', padding: '48px', color: 'var(--text-muted)' }}>Loading...</div>
         ) : history.length === 0 ? (
-          <div className="card" style={{ padding: '48px', textAlign: 'center' }}>
+          <div className="kv-card kv-empty" style={{ padding: '48px', textAlign: 'center' }}>
             <div style={{ fontSize: '48px', marginBottom: '16px' }}>🧠</div>
             <p style={{ color: 'var(--text-secondary)', fontWeight: 600, marginBottom: '8px' }}>
               No sessions yet
@@ -585,7 +586,7 @@ export default function FeynmanPage() {
             <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '20px' }}>
               Complete your first Feynman session to see your history
             </p>
-            <button onClick={handleNewConcept} className="btn btn-primary">
+            <button onClick={handleNewConcept} className="kv-btn-primary">
               Start now →
             </button>
           </div>
@@ -594,7 +595,7 @@ export default function FeynmanPage() {
             {history.map((session) => (
               <div
                 key={session.id}
-                className="card"
+                className="kv-card"
                 style={{ padding: '18px', display: 'flex', alignItems: 'center', gap: '16px' }}
               >
                 <div
@@ -670,7 +671,7 @@ export default function FeynmanPage() {
   }
 
   return (
-    <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }} className="animate-fade-in-up">
+    <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }} className="kv-page animate-fade-in-up">
       <div
         style={{
           marginBottom: '28px',
@@ -683,10 +684,10 @@ export default function FeynmanPage() {
       >
         <div>
           <h1
+            className="kv-page-title"
             style={{
               fontSize: '26px',
               fontWeight: 800,
-              color: 'var(--text-primary)',
               letterSpacing: '-0.02em',
               marginBottom: '6px',
             }}
@@ -694,8 +695,8 @@ export default function FeynmanPage() {
             🧠 Feynman Technique
           </h1>
           <p
+            className="kv-page-subtitle"
             style={{
-              color: 'var(--text-secondary)',
               fontSize: '14px',
               maxWidth: '480px',
               lineHeight: 1.6,
@@ -705,13 +706,13 @@ export default function FeynmanPage() {
             show you exactly what you&apos;re missing.
           </p>
         </div>
-        <button onClick={() => setView('history')} className="btn btn-ghost btn-sm">
+        <button onClick={() => setView('history')} className="kv-btn-ghost">
           📊 History
         </button>
       </div>
 
       <div
-        className="card"
+        className="kv-card kv-card-elevated"
         style={{
           padding: '16px 20px',
           marginBottom: '24px',
@@ -752,7 +753,7 @@ export default function FeynmanPage() {
         </div>
       </div>
 
-      <div className="card" style={{ padding: '24px', marginBottom: '16px' }}>
+      <div className="kv-card" style={{ padding: '24px', marginBottom: '16px' }}>
         <label
           style={{
             fontSize: '13px',
@@ -767,7 +768,7 @@ export default function FeynmanPage() {
           What concept are you explaining?
         </label>
         <input
-          className="input"
+          className="kv-input"
           placeholder='e.g. "How photosynthesis works" or "What a derivative is"'
           value={concept}
           onChange={(event) => setConcept(event.target.value)}
@@ -818,7 +819,7 @@ export default function FeynmanPage() {
         </div>
       </div>
 
-      <div className="card" style={{ padding: '24px', marginBottom: '16px' }}>
+      <div className="kv-card" style={{ padding: '24px', marginBottom: '16px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
           <label
             style={{
@@ -837,7 +838,7 @@ export default function FeynmanPage() {
           </span>
         </div>
         <textarea
-          className="textarea"
+          className="kv-textarea"
           rows={7}
           placeholder={
             concept
@@ -859,14 +860,12 @@ export default function FeynmanPage() {
 
       {error ? (
         <div
+          className="kv-alert-error"
           style={{
             padding: '10px 14px',
             marginBottom: '16px',
-            background: 'rgba(239,68,68,0.1)',
-            border: '1px solid rgba(239,68,68,0.2)',
             borderRadius: '10px',
             fontSize: '13px',
-            color: 'var(--accent-red)',
           }}
         >
           {error}
@@ -876,7 +875,7 @@ export default function FeynmanPage() {
       <button
         onClick={handleSubmit}
         disabled={!concept.trim() || explanation.trim().length < 30}
-        className="btn btn-primary btn-lg"
+        className="kv-btn-primary"
         style={{ width: '100%' }}
       >
         🧠 Grade my explanation →

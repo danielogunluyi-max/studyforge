@@ -229,6 +229,7 @@ export default function PlannerPage() {
     return (
       <>
         <div
+          className="kv-page"
           style={{
             padding: '32px',
             maxWidth: '800px',
@@ -257,16 +258,16 @@ export default function PlannerPage() {
           </div>
           <div style={{ textAlign: 'center' }}>
             <h2
+              className="kv-page-title"
               style={{
                 fontSize: '20px',
                 fontWeight: 700,
-                color: 'var(--text-primary)',
                 marginBottom: '8px',
               }}
             >
               Nova is building your week...
             </h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
+            <p className="kv-page-subtitle" style={{ fontSize: '14px' }}>
               Applying interleaving and spaced repetition to your schedule
             </p>
           </div>
@@ -300,21 +301,21 @@ export default function PlannerPage() {
     const selected = days[selectedDay] ?? days[0];
 
     return (
-      <div style={{ padding: '32px', maxWidth: '1000px', margin: '0 auto' }} className="animate-fade-in-up">
+      <div style={{ padding: '32px', maxWidth: '1000px', margin: '0 auto' }} className="kv-page animate-fade-in-up">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
           <div>
             <h1
+              className="kv-page-title"
               style={{
                 fontSize: '26px',
                 fontWeight: 800,
-                color: 'var(--text-primary)',
                 letterSpacing: '-0.02em',
                 marginBottom: '6px',
               }}
             >
               📅 Your Weekly Study Plan
             </h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', maxWidth: '560px', lineHeight: 1.6 }}>
+            <p className="kv-page-subtitle" style={{ fontSize: '14px', maxWidth: '560px', lineHeight: 1.6 }}>
               {plan.weekSummary}
             </p>
             {planId ? (
@@ -323,19 +324,19 @@ export default function PlannerPage() {
               </span>
             ) : null}
           </div>
-          <button onClick={() => setView('form')} className="btn btn-ghost btn-sm">
+          <button onClick={() => setView('form')} className="kv-btn-ghost">
             🔄 Regenerate
           </button>
         </div>
 
-        <div className="card" style={{ padding: '16px 20px', marginBottom: '20px', background: 'var(--glow-blue)', border: '1px solid rgba(91,127,255,0.2)' }}>
+        <div className="kv-card kv-card-elevated" style={{ padding: '16px 20px', marginBottom: '20px' }}>
           <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
             <strong style={{ color: 'var(--accent-blue)' }}>🧠 Strategy: </strong>
             {plan.strategyReasoning}
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '6px', marginBottom: '20px', overflowX: 'auto', paddingBottom: '4px' }}>
+        <div className="kv-tabs" style={{ marginBottom: '20px', overflowX: 'auto', paddingBottom: '4px' }}>
           {days.map((day, index) => {
             const totalMins = (day.blocks ?? []).reduce((sum, block) => sum + block.duration, 0);
             const active = selectedDay === index;
@@ -343,12 +344,10 @@ export default function PlannerPage() {
               <button
                 key={`${day.day}-${index}`}
                 onClick={() => setSelectedDay(index)}
+                className={active ? 'kv-tab active' : 'kv-tab'}
                 style={{
                   padding: '10px 16px',
                   borderRadius: '12px',
-                  border: `1px solid ${active ? 'var(--accent-blue)' : 'var(--border-default)'}`,
-                  background: active ? 'var(--accent-blue)' : 'var(--bg-elevated)',
-                  color: active ? 'white' : 'var(--text-secondary)',
                   cursor: 'pointer',
                   flexShrink: 0,
                   transition: 'all 0.15s ease',
@@ -364,7 +363,7 @@ export default function PlannerPage() {
         </div>
 
         {selected ? (
-          <div className="card" style={{ padding: '24px', marginBottom: '20px' }}>
+          <div className="kv-card" style={{ padding: '24px', marginBottom: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
               <div>
                 <h2 style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '4px' }}>
@@ -440,7 +439,7 @@ export default function PlannerPage() {
         ) : null}
 
         {plan.tips?.length ? (
-          <div className="card" style={{ padding: '20px' }}>
+          <div className="kv-card" style={{ padding: '20px' }}>
             <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '12px' }}>
               💡 Nova's tips for your week
             </h3>
@@ -458,26 +457,26 @@ export default function PlannerPage() {
   }
 
   return (
-    <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }} className="animate-fade-in-up">
+    <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }} className="kv-page animate-fade-in-up">
       <div style={{ marginBottom: '28px' }}>
         <h1
+          className="kv-page-title"
           style={{
             fontSize: '26px',
             fontWeight: 800,
-            color: 'var(--text-primary)',
             letterSpacing: '-0.02em',
             marginBottom: '6px',
           }}
         >
           📅 AI Study Planner
         </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: 1.6 }}>
+        <p className="kv-page-subtitle" style={{ fontSize: '14px', lineHeight: 1.6 }}>
           Tell Nova what you&apos;re studying and she&apos;ll build a personalized week using interleaving and spaced repetition.
         </p>
       </div>
 
       {savedPlans.length > 0 ? (
-        <div className="card" style={{ padding: '20px', marginBottom: '16px' }}>
+        <div className="kv-card" style={{ padding: '20px', marginBottom: '16px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
             <label style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Recent saved plans
@@ -489,7 +488,7 @@ export default function PlannerPage() {
               <button
                 key={saved.id}
                 type="button"
-                className="btn btn-ghost"
+                className="kv-btn-ghost"
                 style={{ justifyContent: 'space-between' }}
                 onClick={() => {
                   setPlan(saved.plan);
@@ -508,7 +507,7 @@ export default function PlannerPage() {
         </div>
       ) : null}
 
-      <div className="card" style={{ padding: '24px', marginBottom: '16px' }}>
+      <div className="kv-card" style={{ padding: '24px', marginBottom: '16px' }}>
         <label
           style={{
             fontSize: '13px',
@@ -527,14 +526,14 @@ export default function PlannerPage() {
           {subjects.map((subject, index) => (
             <div key={index} style={{ display: 'flex', gap: '8px' }}>
               <input
-                className="input"
+                className="kv-input"
                 placeholder={`Subject ${index + 1} e.g. "Grade 11 Chemistry"`}
                 value={subject}
                 onChange={(event) => updateSubject(index, event.target.value)}
                 style={{ flex: 1 }}
               />
               {subjects.length > 1 ? (
-                <button onClick={() => removeSubject(index)} className="btn btn-ghost btn-sm" style={{ color: 'var(--accent-red)', flexShrink: 0 }}>
+                <button onClick={() => removeSubject(index)} className="kv-btn-danger" style={{ flexShrink: 0 }}>
                   ✕
                 </button>
               ) : null}
@@ -542,13 +541,13 @@ export default function PlannerPage() {
           ))}
         </div>
 
-        <button onClick={addSubject} className="btn btn-ghost btn-sm">
+        <button onClick={addSubject} className="kv-btn-ghost">
           + Add subject
         </button>
       </div>
 
       {upcomingExams.length > 0 ? (
-        <div className="card" style={{ padding: '24px', marginBottom: '16px' }}>
+        <div className="kv-card" style={{ padding: '24px', marginBottom: '16px' }}>
           <label
             style={{
               fontSize: '13px',
@@ -600,7 +599,7 @@ export default function PlannerPage() {
         </div>
       ) : null}
 
-      <div className="card" style={{ padding: '24px', marginBottom: '16px' }}>
+      <div className="kv-card" style={{ padding: '24px', marginBottom: '16px' }}>
         <label
           style={{
             fontSize: '13px',
@@ -631,7 +630,7 @@ export default function PlannerPage() {
                     [day]: Math.max(0, Math.min(12, Number(event.target.value) || 0)),
                   }))
                 }
-                className="input"
+                className="kv-input"
                 style={{ textAlign: 'center', padding: '8px 4px', fontSize: '16px', fontWeight: 700 }}
               />
             </div>
@@ -643,7 +642,7 @@ export default function PlannerPage() {
         </p>
       </div>
 
-      <div className="card" style={{ padding: '24px', marginBottom: '16px' }}>
+      <div className="kv-card" style={{ padding: '24px', marginBottom: '16px' }}>
         <label
           style={{
             fontSize: '13px',
@@ -689,7 +688,7 @@ export default function PlannerPage() {
         </div>
       </div>
 
-      <div className="card" style={{ padding: '24px', marginBottom: '24px' }}>
+      <div className="kv-card" style={{ padding: '24px', marginBottom: '24px' }}>
         <label
           style={{
             fontSize: '13px',
@@ -705,7 +704,7 @@ export default function PlannerPage() {
         </label>
 
         <textarea
-          className="textarea"
+          className="kv-textarea"
           rows={3}
           placeholder='e.g. "I struggle with integration by parts and organic chemistry reactions. Need more practice with essay writing."'
           value={weakAreas}
@@ -715,21 +714,19 @@ export default function PlannerPage() {
 
       {error ? (
         <div
+          className="kv-alert-error"
           style={{
             padding: '10px 14px',
             marginBottom: '16px',
-            background: 'rgba(239,68,68,0.1)',
-            border: '1px solid rgba(239,68,68,0.2)',
             borderRadius: '10px',
             fontSize: '13px',
-            color: 'var(--accent-red)',
           }}
         >
           {error}
         </div>
       ) : null}
 
-      <button onClick={handleGenerate} className="btn btn-primary btn-lg" style={{ width: '100%' }}>
+      <button onClick={handleGenerate} className="kv-btn-primary" style={{ width: '100%' }}>
         📅 Generate my weekly plan →
       </button>
     </div>
