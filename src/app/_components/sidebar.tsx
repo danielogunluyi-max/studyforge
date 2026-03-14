@@ -97,6 +97,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   const isHorizontal = placement === 'top' || placement === 'bottom'
   const effectiveCollapsed = isHorizontal ? false : collapsed
   const compactDensity = navDensity === 'compact'
+  const horizontalDockHeight = compactDensity ? 106 : 122
 
   const mainItems: NavItem[] = [
     {
@@ -447,8 +448,8 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
           zIndex: 50,
           width: isHorizontal ? '100%' : effectiveCollapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)',
           minWidth: isHorizontal ? '100%' : effectiveCollapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)',
-          height: isHorizontal ? '94px' : '100%',
-          minHeight: isHorizontal ? '94px' : '100%',
+          height: isHorizontal ? `${horizontalDockHeight}px` : '100%',
+          minHeight: isHorizontal ? `${horizontalDockHeight}px` : '100%',
           transform: mobileOpen ? 'translateX(0)' : 'translateX(-100%)',
           transition: 'transform 0.2s ease, width 0.2s ease',
           background: 'linear-gradient(180deg, rgba(7, 12, 22, 0.98), rgba(5, 9, 18, 0.98))',
@@ -516,7 +517,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: '10px',
-            padding: '8px 10px',
+            padding: compactDensity ? '6px 10px' : '8px 10px',
             borderBottom: placement === 'top' ? '1px solid var(--border-subtle)' : 'none',
             borderTop: placement === 'bottom' ? '1px solid var(--border-subtle)' : 'none',
           }}>
