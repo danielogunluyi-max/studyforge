@@ -27,6 +27,7 @@ type Theme = "light" | "dark" | "auto";
 type AccentColor = "blue" | "purple" | "green" | "pink" | "orange" | "indigo";
 type FontSize = "small" | "medium" | "large";
 type NoteFormat = "summary" | "detailed" | "flashcards" | "questions";
+type StudyPreset = "HIGHSCHOOL" | "COLLEGE" | "UNIVERSITY";
 
 type AppearancePayload = {
   theme: Theme;
@@ -105,6 +106,8 @@ export default function SettingsPage() {
   const [sidebarPlacement, setSidebarPlacement] = useState<SidebarPlacement>("left");
   const [sidebarDensity, setSidebarDensity] = useState<SidebarDensity>("expanded");
   const [sidebarLabelMode, setSidebarLabelMode] = useState<SidebarLabelMode>("always");
+  const [preset, setPreset] = useState<StudyPreset | null>(null);
+  const [savingPreset, setSavingPreset] = useState(false);
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -133,7 +136,41 @@ export default function SettingsPage() {
     };
 
     void loadSettings();
+
+    const loadPreset = async () => {
+      try {
+        const response = await fetch("/api/preset");
+        if (!response.ok) return;
+        const data = await response.json() as { preset?: StudyPreset };
+        if (data.preset) setPreset(data.preset);
+      } catch {
+      }
+    };
+
+    void loadPreset();
   }, [session]);
+
+  const savePreset = async (nextPreset: StudyPreset) => {
+    setSavingPreset(true);
+    try {
+      const response = await fetch("/api/preset", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ preset: nextPreset }),
+      });
+      if (!response.ok) {
+        setError("Failed to update study level");
+        return;
+      }
+      setPreset(nextPreset);
+      setSuccess("Study level updated");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch {
+      setError("Failed to update study level");
+    } finally {
+      setSavingPreset(false);
+    }
+  };
 
   useEffect(() => {
     if (!error) return;
@@ -447,6 +484,59 @@ export default function SettingsPage() {
                 <p className="font-semibold">Labels</p>
                 <p className="kv-secondary uppercase">{sidebarLabelMode}</p>
               </div>
+            </div>
+          </div>
+
+          <div className="kv-card">
+            <h2 className="kv-section-title mb-4 text-2xl font-bold">Study Level</h2>
+            <p className="kv-page-subtitle" style={{ marginBottom: 14 }}>
+              Choose your current academic level. Kyvex adapts prompts and guidance accordingly.
+            </p>
+
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              {([
+                {
+                  key: "HIGHSCHOOL",
+                  title: "HIGH SCHOOL 🍁",
+                  desc: "Gr. 9-12 · Ontario curriculum integration · Exam prep · Credit courses",
+                },
+                {
+                  key: "COLLEGE",
+                  title: "COLLEGE 🎓",
+                  desc: "Diploma programs · Applied learning · Practical skills · Co-op ready",
+                },
+                {
+                  key: "UNIVERSITY",
+                  title: "UNIVERSITY 🏛",
+                  desc: "Degree programs · Research skills · Essay writing · Deep theory",
+                },
+              ] as { key: StudyPreset; title: string; desc: string }[]).map((item) => {
+                const selected = preset === item.key;
+                return (
+                  <button
+                    key={item.key}
+                    type="button"
+                    onClick={() => void savePreset(item.key)}
+                    disabled={savingPreset}
+                    className={selected ? "kv-card-gold" : "kv-card"}
+                    style={{
+                      textAlign: "left",
+                      padding: 16,
+                      minHeight: 150,
+                      position: "relative",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {selected && (
+                      <span style={{ position: "absolute", right: 10, top: 10, color: "var(--accent-gold)", fontWeight: 900 }}>
+                        ✓
+                      </span>
+                    )}
+                    <p style={{ margin: "0 0 8px", fontWeight: 800, fontSize: 12 }}>{item.title}</p>
+                    <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 12, lineHeight: 1.6 }}>{item.desc}</p>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

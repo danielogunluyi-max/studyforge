@@ -8,6 +8,7 @@ import { AppearanceSync } from "~/app/_components/appearance-sync";
 import { ToastProvider, ToastViewport } from "~/app/_components/toast";
 import { AppShell } from "~/app/_components/app-shell";
 import { GlobalFloatingWidgets } from "~/app/_components/global-floating-widgets";
+import PresetGate from "~/app/_components/preset-gate";
 
 export const metadata: Metadata = {
   title: {
@@ -70,6 +71,7 @@ export default function RootLayout({
                   <AppShell>
                     <div className="page-enter">{children}</div>
                   </AppShell>
+                  <PresetGate />
                   <GlobalFloatingWidgets />
                   <ToastViewport />
                 </ToastProvider>

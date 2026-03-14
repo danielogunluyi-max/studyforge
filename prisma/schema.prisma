@@ -11,6 +11,12 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum UserPreset {
+    HIGHSCHOOL
+    COLLEGE
+    UNIVERSITY
+}
+
 model Post {
     id        Int      @id @default(autoincrement())
     name      String
@@ -73,6 +79,8 @@ model User {
     battleWinStreak Int     @default(0)
     soloSessionsCompleted Int @default(0)
     battleAchievements String[] @default([])
+    preset        UserPreset  @default(HIGHSCHOOL)
+    presetSet     Boolean     @default(false)
     // Relations
     accounts      Account[]
     sessions      Session[]
@@ -116,6 +124,11 @@ model User {
     podcasts     Podcast[]
     diagrams     Diagram[]
     curriculumProgress OntarioCurriculumProgress[]
+    wellnessEntries      WellnessEntry[]
+    confidenceRatings    ConfidenceRating[]
+    narrativeMemories    NarrativeMemory[]
+    debateSessions       DebateSession[]
+    interleavingSessions InterleavingSession[]
 }
 
 model OntarioCurriculumCourse {
@@ -343,6 +356,12 @@ model ExamPrediction {
     syllabusContent String?  @db.Text
     predictions     Json
     analytics       Json?
+    // Smart forecast fields
+    subject         String?
+    examDate        DateTime?
+    predictedScore  Float?
+    confidence      Float?
+    factors         Json?
     createdAt       DateTime @default(now())
 
     userId String
@@ -798,6 +817,7 @@ model Flashcard {
     createdAt    DateTime      @default(now())
 
     deck FlashcardDeck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+    confidenceRatings    ConfidenceRating[]
 
     @@index([deckId])
     @@index([nextReview])
@@ -907,4 +927,76 @@ model FocusSession {
 
     @@index([userId])
     @@index([startedAt])
+}
+
+model WellnessEntry {
+    id           String   @id @default(cuid())
+    userId       String
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    mood         Int
+    energy       Int
+    stress       Int
+    notes        String?
+    burnoutScore Float
+    createdAt    DateTime @default(now())
+
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model ConfidenceRating {
+    id          String    @id @default(cuid())
+    userId      String
+    user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    flashcardId String
+    flashcard   Flashcard @relation(fields: [flashcardId], references: [id], onDelete: Cascade)
+    rating      Int
+    wasCorrect  Boolean
+    createdAt   DateTime  @default(now())
+
+    @@index([userId])
+    @@index([flashcardId])
+    @@index([createdAt])
+}
+
+model NarrativeMemory {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    noteId      String?
+    sourceText  String   @db.Text
+    narrative   String   @db.Text
+    topic       String
+    createdAt   DateTime @default(now())
+
+    @@index([userId])
+    @@index([topic])
+    @@index([createdAt])
+}
+
+model DebateSession {
+    id               String   @id @default(cuid())
+    userId           String
+    user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    topic            String
+    forArguments     Json
+    againstArguments Json
+    verdict          String?
+    createdAt        DateTime @default(now())
+
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model InterleavingSession {
+    id           String   @id @default(cuid())
+    userId       String
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    subjects     String[]
+    schedule     Json
+    totalMinutes Int
+    createdAt    DateTime @default(now())
+
+    @@index([userId])
+    @@index([createdAt])
 }

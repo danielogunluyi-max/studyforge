@@ -173,7 +173,9 @@ exports.Prisma.UserScalarFieldEnum = {
   battleXp: 'battleXp',
   battleWinStreak: 'battleWinStreak',
   soloSessionsCompleted: 'soloSessionsCompleted',
-  battleAchievements: 'battleAchievements'
+  battleAchievements: 'battleAchievements',
+  preset: 'preset',
+  presetSet: 'presetSet'
 };
 
 exports.Prisma.OntarioCurriculumCourseScalarFieldEnum = {
@@ -329,6 +331,11 @@ exports.Prisma.ExamPredictionScalarFieldEnum = {
   syllabusContent: 'syllabusContent',
   predictions: 'predictions',
   analytics: 'analytics',
+  subject: 'subject',
+  examDate: 'examDate',
+  predictedScore: 'predictedScore',
+  confidence: 'confidence',
+  factors: 'factors',
   createdAt: 'createdAt',
   userId: 'userId'
 };
@@ -697,6 +704,55 @@ exports.Prisma.FocusSessionScalarFieldEnum = {
   endedAt: 'endedAt'
 };
 
+exports.Prisma.WellnessEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  mood: 'mood',
+  energy: 'energy',
+  stress: 'stress',
+  notes: 'notes',
+  burnoutScore: 'burnoutScore',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ConfidenceRatingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  flashcardId: 'flashcardId',
+  rating: 'rating',
+  wasCorrect: 'wasCorrect',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NarrativeMemoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  noteId: 'noteId',
+  sourceText: 'sourceText',
+  narrative: 'narrative',
+  topic: 'topic',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DebateSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  topic: 'topic',
+  forArguments: 'forArguments',
+  againstArguments: 'againstArguments',
+  verdict: 'verdict',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.InterleavingSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  subjects: 'subjects',
+  schedule: 'schedule',
+  totalMinutes: 'totalMinutes',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -726,7 +782,11 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-
+exports.UserPreset = exports.$Enums.UserPreset = {
+  HIGHSCHOOL: 'HIGHSCHOOL',
+  COLLEGE: 'COLLEGE',
+  UNIVERSITY: 'UNIVERSITY'
+};
 
 exports.Prisma.ModelName = {
   Post: 'Post',
@@ -777,7 +837,12 @@ exports.Prisma.ModelName = {
   RoomMember: 'RoomMember',
   PDFDocument: 'PDFDocument',
   Annotation: 'Annotation',
-  FocusSession: 'FocusSession'
+  FocusSession: 'FocusSession',
+  WellnessEntry: 'WellnessEntry',
+  ConfidenceRating: 'ConfidenceRating',
+  NarrativeMemory: 'NarrativeMemory',
+  DebateSession: 'DebateSession',
+  InterleavingSession: 'InterleavingSession'
 };
 
 /**

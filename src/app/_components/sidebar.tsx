@@ -245,6 +245,47 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
+  const toolItems: NavItem[] = [
+    {
+      href: '/search',
+      label: 'Search',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="m21 21-4.35-4.35m0 0A7.5 7.5 0 106.15 6.15a7.5 7.5 0 0010.5 10.5z" /></svg>,
+    },
+    {
+      href: '/narrative',
+      label: 'Narrative',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 4.5h11.25A2.25 2.25 0 0118 6.75V19.5l-2.25-1.5-2.25 1.5-2.25-1.5-2.25 1.5-2.25-1.5-2.25 1.5V6.75A2.25 2.25 0 014.5 4.5z" /><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 9h7.5M7.5 12.75h7.5" /></svg>,
+    },
+    {
+      href: '/compress',
+      label: 'Compress',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 6h9M7.5 12h9M7.5 18h5.25" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 6 16.5 9 19.5 12" /></svg>,
+    },
+    {
+      href: '/debate',
+      label: 'Debate',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5h6v6h-6zM10.5 16.5h6v6h-6z" /><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5h3m-6 9h-3" /></svg>,
+    },
+  ]
+
+  const wellnessItems: NavItem[] = [
+    {
+      href: '/wellness',
+      label: 'Wellness',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 21s-7.5-4.35-7.5-10.05A4.95 4.95 0 0112 7.8a4.95 4.95 0 017.5 3.15C19.5 16.65 12 21 12 21z" /></svg>,
+    },
+    {
+      href: '/predictor',
+      label: 'Predictor',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5V4.5m0 15h15" /><path strokeLinecap="round" strokeLinejoin="round" d="m7.5 15 3-3 2.25 2.25L18 9" /></svg>,
+    },
+    {
+      href: '/interleave',
+      label: 'Interleave',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 7.5h15M4.5 12h15M4.5 16.5h15" /><path strokeLinecap="round" strokeLinejoin="round" d="m8.25 6 2.25 1.5L8.25 9M13.5 10.5l2.25 1.5-2.25 1.5M6.75 15l2.25 1.5L6.75 18" /></svg>,
+    },
+  ]
+
   const handleSignOut = async () => {
     try {
       await signOut({ redirect: false })
@@ -258,7 +299,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   const userName = session?.user?.name ?? 'Kyvex User'
   const userEmail = session?.user?.email ?? 'student@kyvex.app'
   const initials = getInitials(session?.user?.name, session?.user?.email)
-  const allItems = [...mainItems, ...featureItems]
+  const allItems = [...mainItems, ...featureItems, ...toolItems, ...wellnessItems]
 
   function nearestEdge(x: number, y: number): SidebarPlacement {
     const vw = window.innerWidth
@@ -699,6 +740,10 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                 {renderNavGroup('MAIN', mainItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
                 {renderNavGroup('FEATURES', featureItems)}
+                <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
+                {renderNavGroup('TOOLS', toolItems)}
+                <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
+                {renderNavGroup('WELLNESS', wellnessItems)}
               </nav>
             </div>
 

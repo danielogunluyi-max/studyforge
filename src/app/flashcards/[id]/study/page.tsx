@@ -13,18 +13,27 @@ type Flashcard = {
 };
 
 type RatingValue = 0 | 1 | 2 | 3;
+type ConfidenceValue = 1 | 2 | 3 | 4 | 5;
 
 type SessionCard = {
   card: Flashcard;
   rating?: RatingValue;
 };
 
-const ratings = [
-  { label: "Again", value: 0 as const, color: "var(--accent-red)", hint: "Complete blackout", emoji: "😵" },
-  { label: "Hard", value: 1 as const, color: "var(--accent-orange)", hint: "Significant difficulty", emoji: "😓" },
-  { label: "Good", value: 2 as const, color: "var(--accent-blue)", hint: "Correct with effort", emoji: "👍" },
-  { label: "Easy", value: 3 as const, color: "var(--accent-green)", hint: "Perfect recall", emoji: "⚡" },
+const confidenceOptions = [
+  { label: "No idea", value: 1 as const, color: "var(--accent-red)", emoji: "😩" },
+  { label: "Unsure", value: 2 as const, color: "var(--accent-orange)", emoji: "😕" },
+  { label: "Sort of", value: 3 as const, color: "var(--accent-blue)", emoji: "😐" },
+  { label: "Confident", value: 4 as const, color: "var(--accent-teal)", emoji: "🙂" },
+  { label: "Nailed it", value: 5 as const, color: "var(--accent-green)", emoji: "😄" },
 ];
+
+function mapConfidenceToSm2(confidence: ConfidenceValue): RatingValue {
+  if (confidence >= 5) return 3;
+  if (confidence >= 4) return 2;
+  if (confidence >= 3) return 1;
+  return 0;
+}
 
 function shuffle<T>(list: T[]): T[] {
   const copy = [...list];
@@ -132,6 +141,29 @@ export default function StudyDeckPage() {
     setCurrentIndex((prev) => prev + 1);
   };
 
+  const submitConfidence = async (confidence: ConfidenceValue) => {
+    if (!currentCard) return;
+
+    const sm2Rating = mapConfidenceToSm2(confidence);
+    const wasCorrect = sm2Rating >= 2;
+
+    try {
+      await fetch("/api/confidence", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          flashcardId: currentCard.id,
+          rating: confidence,
+          wasCorrect,
+        }),
+      });
+    } catch {
+      // Do not block study flow if confidence logging fails.
+    }
+
+    await rateCard(sm2Rating);
+  };
+
   const restartWithWrong = () => {
     const wrongCards = history
       .filter((item) => (item.rating ?? 0) < 2)
@@ -159,10 +191,11 @@ export default function StudyDeckPage() {
 
       if (!isFlipped) return;
 
-      if (event.key === "1") void rateCard(0);
-      if (event.key === "2") void rateCard(1);
-      if (event.key === "3") void rateCard(2);
-      if (event.key === "4") void rateCard(3);
+      if (event.key === "1") void submitConfidence(1);
+      if (event.key === "2") void submitConfidence(2);
+      if (event.key === "3") void submitConfidence(3);
+      if (event.key === "4") void submitConfidence(4);
+      if (event.key === "5") void submitConfidence(5);
     };
 
     window.addEventListener("keydown", onKeyDown);
@@ -261,27 +294,27 @@ export default function StudyDeckPage() {
 
         {isFlipped && (
           <>
-            <div className="mt-4 grid grid-cols-4 gap-2.5">
-              {ratings.map((rating) => (
+            <p className="mt-4 text-center text-sm font-semibold text-[var(--text-primary)]">How confident were you?</p>
+            <div className="mt-2.5 grid grid-cols-5 gap-2.5">
+              {confidenceOptions.map((option) => (
                 <button
-                  key={rating.value}
+                  key={option.value}
                   type="button"
-                  onClick={() => void rateCard(rating.value)}
+                  onClick={() => void submitConfidence(option.value)}
                   className="grid cursor-pointer justify-items-center gap-1 rounded-lg px-2.5 py-3 text-sm font-semibold"
                   style={{
-                    border: `1px solid ${rating.color}`,
-                    background: `color-mix(in srgb, ${rating.color} 15%, transparent)`,
-                    color: rating.color,
+                    border: `1px solid ${option.color}`,
+                    background: `color-mix(in srgb, ${option.color} 15%, transparent)`,
+                    color: option.color,
                   }}
                 >
-                  <span className="text-lg">{rating.emoji}</span>
-                  <span>{rating.label}</span>
-                  <span className="text-[11px] text-[var(--text-muted)]">{rating.hint}</span>
+                  <span className="text-lg">{option.emoji}</span>
+                  <span>{option.label}</span>
                 </button>
               ))}
             </div>
             <p className="mt-2.5 text-center text-xs text-[var(--text-muted)]">
-              1-4 to rate • Space to flip
+              1-5 to rate confidence • Space to flip
             </p>
           </>
         )}
