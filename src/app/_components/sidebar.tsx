@@ -470,11 +470,22 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: '10px',
-            padding: '8px 12px',
+            padding: '8px 10px',
             borderBottom: placement === 'top' ? '1px solid var(--border-subtle)' : 'none',
             borderTop: placement === 'bottom' ? '1px solid var(--border-subtle)' : 'none',
           }}>
-            <nav style={{ display: 'flex', gap: '6px', overflowX: 'auto', flex: 1 }}>
+            <nav
+              style={{
+                display: 'grid',
+                gridAutoFlow: 'column',
+                gridAutoColumns: '72px',
+                gap: '8px',
+                overflowX: 'auto',
+                overflowY: 'hidden',
+                flex: 1,
+                paddingBottom: '4px',
+              }}
+            >
               {allItems.map((item) => {
                 const active = isActivePath(pathname, item.href)
                 return (
@@ -483,23 +494,37 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                     href={item.href}
                     onClick={onCloseMobile}
                     style={{
-                      minHeight: '32px',
-                      borderRadius: '999px',
-                      display: 'inline-flex',
+                      minHeight: '54px',
+                      borderRadius: '14px',
+                      display: 'flex',
+                      flexDirection: 'column',
                       alignItems: 'center',
-                      gap: '8px',
-                      padding: '6px 11px',
-                      whiteSpace: 'nowrap',
+                      justifyContent: 'center',
+                      gap: '4px',
+                      padding: '6px',
+                      width: '72px',
+                      minWidth: '72px',
                       color: active ? '#f0b429' : 'var(--text-secondary)',
                       border: active ? '1px solid rgba(240,180,41,0.3)' : '1px solid var(--border-subtle)',
                       background: active ? 'linear-gradient(135deg, rgba(240,180,41,0.18), rgba(45,212,191,0.07))' : 'rgba(255,255,255,0.02)',
-                      fontSize: '12px',
+                      fontSize: '10px',
                       fontWeight: active ? 700 : 500,
                       textDecoration: 'none',
+                      textAlign: 'center',
                     }}
                   >
                     <NavIcon active={active}>{item.icon}</NavIcon>
-                    <span>{item.label}</span>
+                    <span
+                      style={{
+                        width: '100%',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      {item.label}
+                    </span>
                   </Link>
                 )
               })}
