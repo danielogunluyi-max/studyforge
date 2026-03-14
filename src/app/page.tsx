@@ -4,21 +4,50 @@ import Link from 'next/link'
 
 const trustPillars = [
   {
-    mark: 'P',
+    icon: 'shield',
     label: 'Private Study Environment',
     body: 'A focused academic space built for serious work, without the noise or clutter that breaks attention.',
   },
   {
-    mark: 'B',
+    icon: 'stack',
     label: 'Professional By Default',
     body: 'Clear structure, calmer visuals, and a more mature tone from the first click to the final study session.',
   },
   {
-    mark: 'R',
+    icon: 'target',
     label: 'Designed Around Retention',
     body: 'Capture, revision, and preparation are organized to reduce drift and support stronger exam performance.',
   },
 ]
+
+function TrustPillarIcon({ icon }: { icon: 'shield' | 'stack' | 'target' }) {
+  if (icon === 'shield') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '24px', height: '24px', position: 'absolute', right: '10px', bottom: '10px', color: '#9fbfff', filter: 'drop-shadow(0 0 10px rgba(79, 142, 247, 0.45))' }}>
+        <path d="M12 3 18 6v5c0 4-2.2 7.2-6 9-3.8-1.8-6-5-6-9V6l6-3Z" fill="none" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M9.3 11.7 11.1 13.5 14.9 9.7" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    )
+  }
+
+  if (icon === 'stack') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '24px', height: '24px', position: 'absolute', right: '10px', bottom: '10px', color: '#9fbfff', filter: 'drop-shadow(0 0 10px rgba(79, 142, 247, 0.45))' }}>
+        <rect x="5" y="6" width="14" height="3" rx="1.5" fill="currentColor" opacity="0.95" />
+        <rect x="4" y="11" width="16" height="3" rx="1.5" fill="currentColor" opacity="0.78" />
+        <rect x="3" y="16" width="18" height="3" rx="1.5" fill="currentColor" opacity="0.62" />
+      </svg>
+    )
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '24px', height: '24px', position: 'absolute', right: '10px', bottom: '10px', color: '#9fbfff', filter: 'drop-shadow(0 0 10px rgba(79, 142, 247, 0.45))' }}>
+      <circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" strokeWidth="1.6" opacity="0.85" />
+      <circle cx="12" cy="12" r="3.3" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="12" cy="12" r="1.3" fill="currentColor" />
+    </svg>
+  )
+}
 
 const proofItems = [
   { value: '136', label: 'course-aligned pathways supported' },
@@ -516,20 +545,7 @@ export default function LandingPage() {
                             animation: 'shimmer 4s linear infinite',
                           }}
                         />
-                        <div
-                          style={{
-                            position: 'absolute',
-                            right: '10px',
-                            bottom: '9px',
-                            fontSize: '20px',
-                            fontWeight: 800,
-                            letterSpacing: '-0.03em',
-                            color: 'rgba(159, 191, 255, 0.92)',
-                            textShadow: '0 0 16px rgba(79, 142, 247, 0.45)',
-                          }}
-                        >
-                          {item.mark}
-                        </div>
+                        <TrustPillarIcon icon={item.icon as 'shield' | 'stack' | 'target'} />
                       </div>
 
                       <div>
