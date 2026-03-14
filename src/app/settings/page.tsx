@@ -9,9 +9,16 @@ import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
 import {
+  type SidebarDensity,
+  type SidebarLabelMode,
   type SidebarPlacement,
   SIDEBAR_LAYOUT_EVENT,
+  SIDEBAR_PREFERENCES_EVENT,
+  persistSidebarDensity,
+  persistSidebarLabelMode,
   persistSidebarPlacement,
+  readSidebarDensity,
+  readSidebarLabelMode,
   readSidebarPlacement,
 } from "~/app/_components/sidebar-layout";
 
@@ -96,6 +103,8 @@ export default function SettingsPage() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [sidebarPlacement, setSidebarPlacement] = useState<SidebarPlacement>("left");
+  const [sidebarDensity, setSidebarDensity] = useState<SidebarDensity>("expanded");
+  const [sidebarLabelMode, setSidebarLabelMode] = useState<SidebarLabelMode>("always");
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -138,14 +147,23 @@ export default function SettingsPage() {
 
   useEffect(() => {
     setSidebarPlacement(readSidebarPlacement());
+    setSidebarDensity(readSidebarDensity());
+    setSidebarLabelMode(readSidebarLabelMode());
 
     const syncPlacement = () => {
       setSidebarPlacement(readSidebarPlacement());
     };
 
+    const syncPreferences = () => {
+      setSidebarDensity(readSidebarDensity());
+      setSidebarLabelMode(readSidebarLabelMode());
+    };
+
     window.addEventListener(SIDEBAR_LAYOUT_EVENT, syncPlacement as EventListener);
+    window.addEventListener(SIDEBAR_PREFERENCES_EVENT, syncPreferences as EventListener);
     return () => {
       window.removeEventListener(SIDEBAR_LAYOUT_EVENT, syncPlacement as EventListener);
+      window.removeEventListener(SIDEBAR_PREFERENCES_EVENT, syncPreferences as EventListener);
     };
   }, []);
 
@@ -361,21 +379,74 @@ export default function SettingsPage() {
               />
             </div>
 
+            <div className="mb-4">
+              <label className="kv-label mb-2 block text-sm font-semibold">Navigation Density</label>
+              <Listbox
+                value={sidebarDensity}
+                onChange={(value) => {
+                  const next = value as SidebarDensity;
+                  setSidebarDensity(next);
+                  persistSidebarDensity(next);
+                }}
+                options={[
+                  { value: "expanded", label: "Expanded" },
+                  { value: "compact", label: "Compact" },
+                ]}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="kv-label mb-2 block text-sm font-semibold">Navigation Labels</label>
+              <Listbox
+                value={sidebarLabelMode}
+                onChange={(value) => {
+                  const next = value as SidebarLabelMode;
+                  setSidebarLabelMode(next);
+                  persistSidebarLabelMode(next);
+                }}
+                options={[
+                  { value: "always", label: "Always show labels" },
+                  { value: "hover", label: "Reveal labels on hover" },
+                ]}
+              />
+            </div>
+
             <div className="kv-card-elevated flex items-center justify-between rounded-lg p-4">
               <div>
                 <p className="font-semibold">Current placement</p>
                 <p className="text-sm kv-secondary">{sidebarPlacement.toUpperCase()}</p>
               </div>
-              <button
-                type="button"
-                className="kv-btn-secondary"
-                onClick={() => {
-                  setSidebarPlacement("left");
-                  persistSidebarPlacement("left");
-                }}
-              >
-                Reset to Left
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="kv-btn-secondary"
+                  onClick={() => {
+                    setSidebarPlacement("left");
+                    setSidebarDensity("expanded");
+                    setSidebarLabelMode("always");
+                    persistSidebarPlacement("left");
+                    persistSidebarDensity("expanded");
+                    persistSidebarLabelMode("always");
+                  }}
+                >
+                  Reset Layout
+                </button>
+              </div>
+            </div>
+
+            <div className="kv-card-elevated mt-4 grid gap-2 rounded-lg p-4 text-sm sm:grid-cols-3">
+              <div>
+                <p className="font-semibold">Position</p>
+                <p className="kv-secondary uppercase">{sidebarPlacement}</p>
+              </div>
+              <div>
+                <p className="font-semibold">Density</p>
+                <p className="kv-secondary uppercase">{sidebarDensity}</p>
+              </div>
+              <div>
+                <p className="font-semibold">Labels</p>
+                <p className="kv-secondary uppercase">{sidebarLabelMode}</p>
+              </div>
             </div>
           </div>
 

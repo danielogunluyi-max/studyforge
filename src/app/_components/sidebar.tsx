@@ -3,9 +3,18 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
-import { type PointerEvent as ReactPointerEvent, type ReactNode, useState } from 'react'
+import { type PointerEvent as ReactPointerEvent, type ReactNode, useEffect, useState } from 'react'
 import NovaPet from '~/app/_components/nova-pet'
-import { type SidebarPlacement } from '~/app/_components/sidebar-layout'
+import {
+  type SidebarDensity,
+  type SidebarLabelMode,
+  type SidebarPlacement,
+  SIDEBAR_PREFERENCES_EVENT,
+  persistSidebarDensity,
+  persistSidebarLabelMode,
+  readSidebarDensity,
+  readSidebarLabelMode,
+} from '~/app/_components/sidebar-layout'
 
 type SidebarProps = {
   mobileOpen: boolean
@@ -58,9 +67,36 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   const [hoveredHref, setHoveredHref] = useState<string | null>(null)
   const [collapseHover, setCollapseHover] = useState(false)
   const [dragHint, setDragHint] = useState<SidebarPlacement | null>(null)
+  const [navDensity, setNavDensity] = useState<SidebarDensity>('expanded')
+  const [navLabelMode, setNavLabelMode] = useState<SidebarLabelMode>('always')
+
+  useEffect(() => {
+    const syncPreferences = () => {
+      setNavDensity(readSidebarDensity())
+      setNavLabelMode(readSidebarLabelMode())
+    }
+
+    syncPreferences()
+    window.addEventListener(SIDEBAR_PREFERENCES_EVENT, syncPreferences as EventListener)
+
+    return () => {
+      window.removeEventListener(SIDEBAR_PREFERENCES_EVENT, syncPreferences as EventListener)
+    }
+  }, [])
+
+  function updateNavDensity(next: SidebarDensity) {
+    setNavDensity(next)
+    persistSidebarDensity(next)
+  }
+
+  function updateNavLabelMode(next: SidebarLabelMode) {
+    setNavLabelMode(next)
+    persistSidebarLabelMode(next)
+  }
 
   const isHorizontal = placement === 'top' || placement === 'bottom'
   const effectiveCollapsed = isHorizontal ? false : collapsed
+  const compactDensity = navDensity === 'compact'
 
   const mainItems: NavItem[] = [
     {
@@ -285,7 +321,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                 position: 'relative',
                 margin: '2px 8px',
                 padding: effectiveCollapsed ? '9px 0' : '9px 12px',
-                minHeight: '38px',
+                minHeight: compactDensity ? '34px' : '38px',
                 borderRadius: '10px',
                 display: 'flex',
                 alignItems: 'center',
@@ -295,7 +331,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                 fontSize: '13px',
                 fontWeight: active ? 700 : 500,
                 cursor: 'pointer',
-                transition: 'all 0.15s ease',
+                transition: 'all 0.18s ease',
                 background: active
                   ? 'linear-gradient(135deg, rgba(240,180,41,0.18) 0%, rgba(45,212,191,0.08) 100%)'
                   : hovered
@@ -307,6 +343,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                     ? '1px solid var(--border-subtle)'
                     : '1px solid transparent',
                 boxShadow: active ? '0 2px 12px rgba(240,180,41,0.12)' : 'none',
+                transform: hovered ? 'translateX(2px)' : 'translateX(0)',
                 textDecoration: 'none',
               }}
             >
@@ -325,7 +362,16 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
               )}
               <NavIcon active={active}>{item.icon}</NavIcon>
               {!effectiveCollapsed && (
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <span
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    maxWidth: navLabelMode === 'always' || hovered || active ? '180px' : '0px',
+                    opacity: navLabelMode === 'always' || hovered || active ? 1 : 0,
+                    transition: 'max-width 0.18s ease, opacity 0.18s ease',
+                  }}
+                >
                   {item.label}
                 </span>
               )}
@@ -478,7 +524,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
               style={{
                 display: 'grid',
                 gridAutoFlow: 'column',
-                gridAutoColumns: '72px',
+                gridAutoColumns: compactDensity ? '60px' : '72px',
                 gap: '8px',
                 overflowX: 'auto',
                 overflowY: 'hidden',
@@ -493,17 +539,20 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                     key={item.href}
                     href={item.href}
                     onClick={onCloseMobile}
+                    onMouseEnter={() => setHoveredHref(item.href)}
+                    onMouseLeave={() => setHoveredHref((current) => (current === item.href ? null : current))}
+                    title={navLabelMode === 'hover' ? item.label : undefined}
                     style={{
-                      minHeight: '54px',
+                      minHeight: compactDensity ? '46px' : '54px',
                       borderRadius: '14px',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      gap: '4px',
-                      padding: '6px',
-                      width: '72px',
-                      minWidth: '72px',
+                      gap: compactDensity ? '2px' : '4px',
+                      padding: compactDensity ? '4px' : '6px',
+                      width: compactDensity ? '60px' : '72px',
+                      minWidth: compactDensity ? '60px' : '72px',
                       color: active ? '#f0b429' : 'var(--text-secondary)',
                       border: active ? '1px solid rgba(240,180,41,0.3)' : '1px solid var(--border-subtle)',
                       background: active ? 'linear-gradient(135deg, rgba(240,180,41,0.18), rgba(45,212,191,0.07))' : 'rgba(255,255,255,0.02)',
@@ -511,6 +560,8 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                       fontWeight: active ? 700 : 500,
                       textDecoration: 'none',
                       textAlign: 'center',
+                      transform: hoveredHref === item.href ? 'translateY(-2px) scale(1.02)' : 'translateY(0) scale(1)',
+                      transition: 'transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease',
                     }}
                   >
                     <NavIcon active={active}>{item.icon}</NavIcon>
@@ -521,6 +572,9 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
                         lineHeight: 1.1,
+                        maxHeight: navLabelMode === 'always' || hoveredHref === item.href || active ? '14px' : '0px',
+                        opacity: navLabelMode === 'always' || hoveredHref === item.href || active ? 1 : 0,
+                        transition: 'max-height 0.18s ease, opacity 0.18s ease',
                       }}
                     >
                       {item.label}
@@ -531,6 +585,46 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
             </nav>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button
+                type="button"
+                onClick={() => updateNavDensity(compactDensity ? 'expanded' : 'compact')}
+                title={compactDensity ? 'Switch to expanded mode' : 'Switch to compact mode'}
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '10px',
+                  border: '1px solid var(--border-default)',
+                  background: compactDensity ? 'rgba(240,180,41,0.12)' : 'rgba(255,255,255,0.02)',
+                  color: compactDensity ? 'var(--accent-gold)' : 'var(--text-secondary)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="4" y="6" width="16" height="3" rx="1.5" /><rect x="4" y="11" width="16" height="3" rx="1.5" /><rect x="4" y="16" width="16" height="3" rx="1.5" /></svg>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => updateNavLabelMode(navLabelMode === 'always' ? 'hover' : 'always')}
+                title={navLabelMode === 'hover' ? 'Show labels always' : 'Reveal labels on hover'}
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '10px',
+                  border: '1px solid var(--border-default)',
+                  background: navLabelMode === 'hover' ? 'rgba(45,212,191,0.12)' : 'rgba(255,255,255,0.02)',
+                  color: navLabelMode === 'hover' ? 'var(--accent-cyan)' : 'var(--text-secondary)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z" /><circle cx="12" cy="12" r="2.5" /></svg>
+              </button>
+
               <Link
                 href="/settings"
                 onClick={onCloseMobile}
@@ -628,6 +722,52 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
             >
               {effectiveCollapsed ? '→' : '←'}
             </button>
+
+            {!effectiveCollapsed && (
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '8px',
+                  padding: '8px 10px',
+                  borderTop: '1px solid var(--border-subtle)',
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => updateNavDensity(compactDensity ? 'expanded' : 'compact')}
+                  style={{
+                    height: '30px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-default)',
+                    background: compactDensity ? 'rgba(240,180,41,0.12)' : 'rgba(255,255,255,0.02)',
+                    color: compactDensity ? 'var(--accent-gold)' : 'var(--text-secondary)',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {compactDensity ? 'Compact' : 'Expanded'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => updateNavLabelMode(navLabelMode === 'always' ? 'hover' : 'always')}
+                  style={{
+                    height: '30px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-default)',
+                    background: navLabelMode === 'hover' ? 'rgba(45,212,191,0.12)' : 'rgba(255,255,255,0.02)',
+                    color: navLabelMode === 'hover' ? 'var(--accent-cyan)' : 'var(--text-secondary)',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {navLabelMode === 'hover' ? 'Hover Labels' : 'Always Labels'}
+                </button>
+              </div>
+            )}
 
             <button
               type="button"
