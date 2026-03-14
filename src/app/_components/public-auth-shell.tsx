@@ -109,7 +109,7 @@ export function PublicAuthShell({
         }
 
         .public-auth-home {
-          display: inline-flex;
+          display: flex;
           align-items: center;
           gap: 12px;
           width: fit-content;
@@ -393,7 +393,7 @@ export function PublicAuthShell({
             <div className="public-auth-brand-copy">
               <Link href="/" className="public-auth-home">
                 <div className="public-auth-home-mark">
-                   <img src="/Kyvex-logo.png" alt="Kyvex" style={{ width: '22px', height: '22px', objectFit: 'contain' }} />
+                <img src="/Kyvex-logo.png" alt="Kyvex" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }} />
                 </div>
                 <div>
                   <div style={{ fontSize: '18px', fontWeight: 800, letterSpacing: '-0.04em' }}>Kyvex</div>

@@ -4,14 +4,17 @@ import Link from 'next/link'
 
 const trustPillars = [
   {
+    mark: 'P',
     label: 'Private Study Environment',
     body: 'A focused academic space built for serious work, without the noise or clutter that breaks attention.',
   },
   {
+    mark: 'B',
     label: 'Professional By Default',
     body: 'Clear structure, calmer visuals, and a more mature tone from the first click to the final study session.',
   },
   {
+    mark: 'R',
     label: 'Designed Around Retention',
     body: 'Capture, revision, and preparation are organized to reduce drift and support stronger exam performance.',
   },
@@ -203,7 +206,7 @@ export default function LandingPage() {
                 boxShadow: '0 10px 30px rgba(79, 142, 247, 0.24)',
               }}
             >
-                <img src="/Kyvex-logo.png" alt="Kyvex" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
+              <img src="/Kyvex-logo.png" alt="Kyvex" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px' }} />
             </div>
             <div>
               <div style={{ fontSize: '16px', fontWeight: 800, letterSpacing: '-0.04em' }}>Kyvex</div>
@@ -513,6 +516,20 @@ export default function LandingPage() {
                             animation: 'shimmer 4s linear infinite',
                           }}
                         />
+                        <div
+                          style={{
+                            position: 'absolute',
+                            right: '10px',
+                            bottom: '9px',
+                            fontSize: '20px',
+                            fontWeight: 800,
+                            letterSpacing: '-0.03em',
+                            color: 'rgba(159, 191, 255, 0.92)',
+                            textShadow: '0 0 16px rgba(79, 142, 247, 0.45)',
+                          }}
+                        >
+                          {item.mark}
+                        </div>
                       </div>
 
                       <div>
