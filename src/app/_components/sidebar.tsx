@@ -257,12 +257,12 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
                 background: active
-                  ? 'linear-gradient(135deg, rgba(240,180,41,0.15) 0%, rgba(45,212,191,0.08) 100%)'
+                  ? 'linear-gradient(135deg, rgba(240,180,41,0.18) 0%, rgba(45,212,191,0.08) 100%)'
                   : hovered
                     ? 'var(--bg-elevated)'
                     : 'transparent',
                 border: active
-                  ? '1px solid rgba(240,180,41,0.25)'
+                  ? '1px solid rgba(240,180,41,0.3)'
                   : hovered
                     ? '1px solid var(--border-subtle)'
                     : '1px solid transparent',
@@ -278,7 +278,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     left: '-8px',
                     width: '3px',
                     height: '20px',
-                    background: 'var(--gradient-primary)',
+                    background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
                     borderRadius: '999px',
                   }}
                 />
