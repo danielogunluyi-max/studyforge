@@ -203,7 +203,7 @@ export default function LandingPage() {
                 boxShadow: '0 10px 30px rgba(79, 142, 247, 0.24)',
               }}
             >
-              <img src="/kyvex-logo.png" alt="Kyvex" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
+                <img src="/Kyvex-logo.png" alt="Kyvex" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
             </div>
             <div>
               <div style={{ fontSize: '16px', fontWeight: 800, letterSpacing: '-0.04em' }}>Kyvex</div>
@@ -301,9 +301,9 @@ export default function LandingPage() {
               >
                 Study with
                 <br />
-                <span style={{ color: '#f3f6ff' }}>clarity.</span>
+                 <span style={{ color: '#f3f6ff', fontSize: 'inherit' }}>clarity.</span>
                 <br />
-                <span style={{ color: '#7faeff' }}>Perform with confidence.</span>
+                 <span style={{ color: '#7faeff', fontSize: 'inherit' }}>Perform with confidence.</span>
               </h1>
 
               <p

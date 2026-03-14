@@ -393,7 +393,7 @@ export function PublicAuthShell({
             <div className="public-auth-brand-copy">
               <Link href="/" className="public-auth-home">
                 <div className="public-auth-home-mark">
-                  <img src="/kyvex-logo.png" alt="Kyvex" style={{ width: '22px', height: '22px', objectFit: 'contain' }} />
+                   <img src="/Kyvex-logo.png" alt="Kyvex" style={{ width: '22px', height: '22px', objectFit: 'contain' }} />
                 </div>
                 <div>
                   <div style={{ fontSize: '18px', fontWeight: 800, letterSpacing: '-0.04em' }}>Kyvex</div>
@@ -407,7 +407,7 @@ export function PublicAuthShell({
               <h1 className="public-auth-title">
                 {headline}
                 <br />
-                <span style={{ color: '#7faeff' }}>{accent}</span>
+                 <span style={{ color: '#7faeff', fontSize: 'inherit' }}>{accent}</span>
               </h1>
               <p className="public-auth-copy">{description}</p>
 
