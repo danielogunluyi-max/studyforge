@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getExamResults } from "@/app/actions/examResults";
 import { ExamResultCard } from "@/components/ExamResultCard";
 import { auth } from "~/server/auth";
+import { ExportResultsButton } from "./export-results-button";
 
 type ResultsPageProps = {
   searchParams?: Promise<{
@@ -63,8 +64,13 @@ export default async function ResultsPage({ searchParams }: ResultsPageProps) {
     <main className="kv-page min-h-screen pb-24">
       <div className="mx-auto w-full max-w-6xl">
         <header className="mb-5 border-b border-[var(--border-subtle)] pb-5">
-          <h1 className="kv-page-title text-[28px] font-bold tracking-tight text-white">My Results</h1>
-          <p className="kv-page-subtitle mt-1.5 mb-0 text-sm text-[var(--text-secondary)]">Track your academic progress</p>
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h1 className="kv-page-title text-[28px] font-bold tracking-tight text-white">My Results</h1>
+              <p className="kv-page-subtitle mt-1.5 mb-0 text-sm text-[var(--text-secondary)]">Track your academic progress</p>
+            </div>
+            <ExportResultsButton results={allResults} />
+          </div>
         </header>
 
         <section className="mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

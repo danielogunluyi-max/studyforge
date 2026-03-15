@@ -9,6 +9,8 @@ import { ToastProvider, ToastViewport } from "~/app/_components/toast";
 import { AppShell } from "~/app/_components/app-shell";
 import { GlobalFloatingWidgets } from "~/app/_components/global-floating-widgets";
 import PresetGate from "~/app/_components/preset-gate";
+import { NotificationManager } from "~/app/_components/notification-manager";
+import { KeyboardShortcuts } from "~/app/_components/keyboard-shortcuts";
 
 export const metadata: Metadata = {
   title: {
@@ -66,6 +68,8 @@ export default function RootLayout({
             <SessionProvider>
               {/* Removed global Listbox guard — prefer component-level guards. */}
               <AppearanceSync />
+              <NotificationManager />
+              <KeyboardShortcuts />
               <TRPCReactProvider>
                 <ToastProvider>
                   <AppShell>

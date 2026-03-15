@@ -87,6 +87,36 @@
   --radius: 0.5rem;
 }
 
+[data-theme="light"] {
+  --bg-base:     #f8f9ff;
+  --bg-surface:  #f0f2ff;
+  --bg-card:     #ffffff;
+  --bg-elevated: #e8eaff;
+  --bg-hover:    #e0e3ff;
+  --bg-active:   #d8dcff;
+
+  --border-subtle:  rgba(0, 0, 0, 0.06);
+  --border-default: rgba(0, 0, 0, 0.10);
+  --border-strong:  rgba(0, 0, 0, 0.18);
+
+  --text-primary:   #0a0a18;
+  --text-secondary: #3d4a6b;
+  --text-muted:     #8892b0;
+  --text-inverse:   #f8f9ff;
+
+  --glass-bg:     rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.08);
+
+  --app-bg: var(--bg-base);
+  --app-surface: var(--bg-card);
+  --app-muted-surface: var(--bg-surface);
+  --app-text: var(--text-primary);
+  --app-text-muted: var(--text-secondary);
+  --app-text-soft: var(--text-muted);
+  --app-border: var(--border-default);
+  --app-border-strong: var(--border-strong);
+}
+
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);

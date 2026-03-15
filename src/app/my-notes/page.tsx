@@ -117,6 +117,9 @@ export default function MyNotes() {
   const [newFolderName, setNewFolderName] = useState("");
   const [newFolderColor, setNewFolderColor] = useState("#f0b429");
   const [newFolderOpen, setNewFolderOpen] = useState(false);
+  const [eli5Loading, setEli5Loading] = useState(false);
+  const [eli5Result, setEli5Result] = useState("");
+  const [eli5ModalOpen, setEli5ModalOpen] = useState(false);
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -481,6 +484,43 @@ export default function MyNotes() {
     URL.revokeObjectURL(url);
   };
 
+  const exportAllNotes = () => {
+    if (!notes.length) return;
+    const payload = notes
+      .map((note) => `=== ${note.title} ===\n${note.content}`)
+      .join("\n\n");
+    const blob = new Blob([payload], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "kyvex-all-notes.txt";
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const eli5Note = async (content: string) => {
+    setEli5Loading(true);
+    setEli5Result("");
+    setEli5ModalOpen(true);
+    try {
+      const res = await fetch("/api/eli5", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: content }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { explanation?: string; error?: string };
+      if (!res.ok || !data.explanation) {
+        setEli5Result(data.error ?? "Failed to get ELI5 explanation.");
+        return;
+      }
+      setEli5Result(data.explanation);
+    } catch {
+      setEli5Result("Failed to get ELI5 explanation.");
+    } finally {
+      setEli5Loading(false);
+    }
+  };
+
   const shareNote = async (note: Note) => {
     try {
       const response = await fetch("/api/notes", {
@@ -605,7 +645,12 @@ export default function MyNotes() {
         <PageHero
           title="My Notes"
           description={`All your saved study notes in one place • 🔥 ${studyStreak} day streak`}
-          actions={<Button onClick={() => setTagModalOpen(true)} variant="secondary" size="sm">Manage Tags</Button>}
+          actions={
+            <div className="flex gap-2">
+              <Button onClick={exportAllNotes} variant="secondary" size="sm" disabled={!notes.length}>Export All Notes</Button>
+              <Button onClick={() => setTagModalOpen(true)} variant="secondary" size="sm">Manage Tags</Button>
+            </div>
+          }
         />
 
         <div className="mb-4 lg:hidden">
@@ -1145,6 +1190,15 @@ export default function MyNotes() {
                 Copy
               </Button>
               <Button
+                onClick={() => void eli5Note(selectedNote.content)}
+                variant="secondary"
+                size="md"
+                loading={eli5Loading}
+                disabled={eli5Loading}
+              >
+                ELI5 this
+              </Button>
+              <Button
                 onClick={() => openFlashcardsFromNote(selectedNote.id)}
                 variant="secondary"
                 size="md"
@@ -1174,13 +1228,43 @@ export default function MyNotes() {
         </div>
       )}
 
+      {eli5ModalOpen && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4"
+          onClick={() => setEli5ModalOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="ELI5 explanation"
+        >
+          <div
+            className="kv-card-gold w-full max-w-xl overflow-y-auto rounded-2xl p-6 shadow-2xl"
+            style={{ maxHeight: "70vh", background: "var(--bg-elevated)", border: "1px solid rgba(240,180,41,0.3)" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-lg font-bold text-[var(--accent-gold)]">🧠 ELI5 Explanation</h2>
+              <Button onClick={() => setEli5ModalOpen(false)} variant="ghost" size="sm" aria-label="Close ELI5 modal">✕</Button>
+            </div>
+            {eli5Loading ? (
+              <div className="flex items-center gap-2 py-4 text-sm text-[var(--text-secondary)]">
+                <span className="h-2 w-2 animate-bounce rounded-full bg-[var(--accent-gold)] [animation-delay:-0.3s]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-[var(--accent-gold)] [animation-delay:-0.15s]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-[var(--accent-gold)]" />
+                <span className="ml-2">Getting simple explanation...</span>
+              </div>
+            ) : (
+              <p className="whitespace-pre-wrap text-sm leading-relaxed text-[var(--text-primary)]">{eli5Result}</p>
+            )}
+          </div>
+        </div>
+      )}
+
       {tagModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setTagModalOpen(false)}>
           <div
             className="w-full max-w-xl rounded-xl bg-[var(--bg-card)] p-6"
             onClick={(event) => event.stopPropagation()}
           >
-            <h2 className="mb-4 text-[20px] font-semibold text-white">Manage Tags</h2>
 
             <div className="space-y-5">
               <div className="rounded-lg border border-[var(--border-default)] p-4">

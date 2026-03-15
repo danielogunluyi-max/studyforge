@@ -64,6 +64,9 @@ export default function TutorPage() {
   const [flashcardsLoading, setFlashcardsLoading] = useState(false);
   const [error, setError] = useState("");
   const [isTypingResponse, setIsTypingResponse] = useState(false);
+  const [eli5MessageId, setEli5MessageId] = useState<string | null>(null);
+  const [eli5Loading, setEli5Loading] = useState(false);
+  const [eli5Results, setEli5Results] = useState<Record<string, string>>({});
   const { showToast } = useToast();
 
   const endRef = useRef<HTMLDivElement | null>(null);
@@ -238,6 +241,26 @@ export default function TutorPage() {
     }
   };
 
+  const eli5Message = async (message: ChatMessage) => {
+    setEli5MessageId(message.id);
+    setEli5Loading(true);
+    try {
+      const res = await fetch("/api/eli5", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: message.content }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { explanation?: string; error?: string };
+      const explanation = data.explanation ?? data.error ?? "Could not generate explanation.";
+      setEli5Results((prev) => ({ ...prev, [message.id]: explanation }));
+    } catch {
+      setEli5Results((prev) => ({ ...prev, [message.id]: "Failed to get ELI5 explanation." }));
+    } finally {
+      setEli5Loading(false);
+      setEli5MessageId(null);
+    }
+  };
+
   const generateFlashcards = async () => {
     if (messages.length < 2) return;
     setFlashcardsLoading(true);
@@ -365,7 +388,7 @@ export default function TutorPage() {
                 >
                   <p className="whitespace-pre-wrap break-words">{message.content}</p>
                   {message.role === "assistant" && (
-                    <div className="mt-2 flex justify-end">
+                    <div className="mt-2 flex flex-wrap justify-end gap-2">
                       <Button
                         size="sm"
                         variant="secondary"
@@ -376,6 +399,22 @@ export default function TutorPage() {
                       >
                         Save to Notes
                       </Button>
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="text-xs"
+                        onClick={() => void eli5Message(message)}
+                        loading={eli5Loading && eli5MessageId === message.id}
+                        disabled={eli5Loading && eli5MessageId === message.id}
+                      >
+                        ELI5 this
+                      </Button>
+                    </div>
+                  )}
+                  {eli5Results[message.id] && (
+                    <div className="mt-3 rounded-xl border border-[rgba(240,180,41,0.3)] bg-[rgba(240,180,41,0.08)] p-3">
+                      <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-[var(--accent-gold)]">ELI5</p>
+                      <p className="whitespace-pre-wrap text-xs leading-relaxed text-slate-200">{eli5Results[message.id]}</p>
                     </div>
                   )}
                 </div>

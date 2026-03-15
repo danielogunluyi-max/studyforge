@@ -61,6 +61,7 @@ export default function DeckEditorPage() {
   const [showAddCard, setShowAddCard] = useState(false);
   const [newFront, setNewFront] = useState("");
   const [newBack, setNewBack] = useState("");
+  const [exportingAnki, setExportingAnki] = useState(false);
 
   const dueCount = useMemo(() => {
     if (!deck) return 0;
@@ -199,6 +200,44 @@ export default function DeckEditorPage() {
     }
   };
 
+  const exportCsv = () => {
+    if (!deck) return;
+    const header = "front,back\n";
+    const rows = deck.cards
+      .map((c) => `"${c.front.replace(/"/g, '""')}","${c.back.replace(/"/g, '""')}"`)
+      .join("\n");
+    const blob = new Blob([header + rows], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${deck.title}-flashcards.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const exportAnki = async () => {
+    if (!deck) return;
+    setExportingAnki(true);
+    try {
+      const res = await fetch(`/api/anki-export?deckId=${deck.id}`);
+      if (!res.ok) {
+        setError("Failed to export Anki deck");
+        return;
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${deck.title}-anki.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      setError("Failed to export Anki deck");
+    } finally {
+      setExportingAnki(false);
+    }
+  };
+
   if (isLoading) {
     return <main className="kv-page" style={{ padding: 24, color: "var(--text-primary)" }}>Loading deck...</main>;
   }
@@ -234,7 +273,13 @@ export default function DeckEditorPage() {
             </div>
           </div>
 
-          <button className="kv-btn-primary" onClick={() => router.push(`/flashcards/${deck.id}/study`)}>Study Now</button>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <button className="kv-btn-primary" onClick={() => router.push(`/flashcards/${deck.id}/study`)}>Study Now</button>
+            <button className="kv-btn-ghost" onClick={exportCsv}>Export CSV</button>
+            <button className="kv-btn-ghost" onClick={() => void exportAnki()} disabled={exportingAnki}>
+              {exportingAnki ? "Exporting..." : "Export Anki"}
+            </button>
+          </div>
         </div>
 
         <div className="kv-card" style={{ marginTop: 16, padding: 14 }}>
