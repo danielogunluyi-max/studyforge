@@ -565,6 +565,39 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <section style={{ padding: '16px 24px 8px' }}>
+          <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
+            <div className="kv-section-label" style={{ color: '#9fbfff', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '14px' }}>
+              Trusted by Ontario students 🍁
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
+              <article className="landing-panel" style={{ borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8, 13, 24, 0.9)', padding: '22px 22px 18px' }}>
+                <p style={{ margin: 0, color: '#f0b429', fontSize: '34px', lineHeight: 0.8 }}>“</p>
+                <p style={{ margin: '8px 0 14px', color: '#d8e3ff', fontSize: '15px', fontStyle: 'italic', lineHeight: 1.8 }}>
+                  I went from a 68 to an 84 in Grade 11 Functions using Kyvex&apos;s flashcards and Feynman technique. Nothing else comes close.
+                </p>
+                <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '12px' }}>- Sarah M., Gr. 11, Toronto DSB</p>
+              </article>
+
+              <article className="landing-panel" style={{ borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8, 13, 24, 0.9)', padding: '22px 22px 18px' }}>
+                <p style={{ margin: 0, color: '#f0b429', fontSize: '34px', lineHeight: 0.8 }}>“</p>
+                <p style={{ margin: '8px 0 14px', color: '#d8e3ff', fontSize: '15px', fontStyle: 'italic', lineHeight: 1.8 }}>
+                  The Battle Royale with my friends made studying actually fun. We used it the night before our chem exam and everyone did better.
+                </p>
+                <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '12px' }}>- Marcus T., Gr. 12, Peel DSB</p>
+              </article>
+
+              <article className="landing-panel" style={{ borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8, 13, 24, 0.9)', padding: '22px 22px 18px' }}>
+                <p style={{ margin: 0, color: '#f0b429', fontSize: '34px', lineHeight: 0.8 }}>“</p>
+                <p style={{ margin: '8px 0 14px', color: '#d8e3ff', fontSize: '15px', fontStyle: 'italic', lineHeight: 1.8 }}>
+                  The Ontario Curriculum hub is insane - it maps every expectation to study materials automatically. No other app does this.
+                </p>
+                <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '12px' }}>- Priya K., Gr. 10, TDSB</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
         <section style={{ padding: '16px 24px 0' }}>
           <div className="landing-proof" style={{ maxWidth: '1240px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '14px' }}>
             {proofItems.map((item) => (
@@ -597,6 +630,65 @@ export default function LandingPage() {
                   <h3 style={{ fontSize: '22px', lineHeight: 1.1, letterSpacing: '-0.04em', fontWeight: 800, marginBottom: '12px' }}>{item.title}</h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: 1.8 }}>{item.text}</p>
                 </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section style={{ padding: '20px 24px 24px' }}>
+          <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
+            <div className="kv-section-label" style={{ color: '#9fbfff', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '14px' }}>
+              Comparison
+            </div>
+            <div style={{ borderRadius: '20px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(8, 13, 24, 0.9)', overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '760px' }}>
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: 'left', padding: '14px 16px', color: 'var(--text-secondary)', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>Feature</th>
+                    <th style={{ textAlign: 'center', padding: '14px 16px', color: '#0b1020', fontSize: '13px', fontWeight: 800, background: 'linear-gradient(135deg, #f0b429 0%, #f7ca66 100%)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>Kyvex</th>
+                    <th style={{ textAlign: 'center', padding: '14px 16px', color: 'var(--text-secondary)', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>Quizlet</th>
+                    <th style={{ textAlign: 'center', padding: '14px 16px', color: 'var(--text-secondary)', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>StudyFetch</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['Ontario Curriculum', '✅', '❌', '❌'],
+                    ['Real SM-2 Spaced Rep', '✅', '⚠️', '⚠️'],
+                    ['Battle Royale', '✅', '❌', '❌'],
+                    ['Study DNA', '✅', '❌', '❌'],
+                    ['Exam Autopsy', '✅', '❌', '❌'],
+                    ['Kyvex Wrapped', '✅', '❌', '❌'],
+                    ['Price', '$1/mo', '$7.99/mo', '$11.99/mo'],
+                  ].map((row) => (
+                    <tr key={row[0]}>
+                      <td style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', color: '#d8e3ff', fontSize: '14px' }}>{row[0]}</td>
+                      <td style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', textAlign: 'center', color: row[1] === '✅' ? '#f0b429' : '#d8e3ff', fontWeight: 700 }}>{row[1]}</td>
+                      <td style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', textAlign: 'center', color: row[2] === '❌' ? '#f87171' : '#f0b429' }}>{row[2]}</td>
+                      <td style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', textAlign: 'center', color: row[3] === '❌' ? '#f87171' : '#f0b429' }}>{row[3]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section style={{ padding: '10px 24px 36px' }}>
+          <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
+            <div className="kv-section-label" style={{ color: '#9fbfff', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '14px' }}>
+              Kyvex by the numbers
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
+              {[
+                { value: '50+', label: 'AI-powered features' },
+                { value: '136', label: 'Ontario courses mapped' },
+                { value: '20+', label: 'study tools' },
+                { value: '$1/mo', label: 'vs $12/mo industry average' },
+              ].map((item) => (
+                <div key={item.label} className="landing-panel" style={{ borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8, 13, 24, 0.9)', padding: '20px' }}>
+                  <div style={{ color: '#f0b429', fontSize: '36px', fontWeight: 800, letterSpacing: '-0.05em', marginBottom: '8px' }}>{item.value}</div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: 1.6 }}>{item.label}</div>
+                </div>
               ))}
             </div>
           </div>
@@ -655,6 +747,41 @@ export default function LandingPage() {
             <Link href="/about" style={{ color: 'inherit', textDecoration: 'none' }}>About</Link>
             <span aria-hidden="true">·</span>
             <a href="mailto:kyvex@gmail.com" style={{ color: 'inherit', textDecoration: 'none' }}>Contact</a>
+          </div>
+        </footer>
+
+        <footer style={{ padding: '0 24px 56px' }}>
+          <div style={{ maxWidth: '1240px', margin: '0 auto', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '28px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '14px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+                <img src="/Kyvex-logo.png" alt="Kyvex" style={{ width: '28px', height: '28px', borderRadius: '8px' }} />
+                <div>
+                  <div style={{ fontWeight: 800, letterSpacing: '-0.03em' }}>Kyvex</div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '12px' }}>Built for Ontario students</div>
+                </div>
+              </div>
+
+              <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter" style={{ color: 'var(--text-secondary)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '18px', height: '18px', fill: 'currentColor' }}>
+                  <path d="M18.901 1.153h3.68l-8.04 9.19 9.458 12.504H16.59l-5.804-7.584-6.64 7.584H.466l8.6-9.826L0 1.154h7.595l5.242 6.932L18.9 1.153Zm-1.29 19.494h2.04L6.486 3.24H4.298L17.61 20.647Z" />
+                </svg>
+                Twitter
+              </a>
+            </div>
+
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', color: 'var(--text-secondary)', fontSize: '13px', marginBottom: '10px' }}>
+              <Link href="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</Link>
+              <span aria-hidden="true">·</span>
+              <Link href="/terms" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</Link>
+              <span aria-hidden="true">·</span>
+              <Link href="/about" style={{ color: 'inherit', textDecoration: 'none' }}>About</Link>
+              <span aria-hidden="true">·</span>
+              <Link href="/grade-calc" style={{ color: 'inherit', textDecoration: 'none' }}>Grade Calculator</Link>
+              <span aria-hidden="true">·</span>
+              <Link href="/curriculum" style={{ color: 'inherit', textDecoration: 'none' }}>Curriculum</Link>
+            </div>
+
+            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '12px' }}>© 2026 Kyvex · Made in Toronto 🍁</p>
           </div>
         </footer>
       </main>
