@@ -3,6 +3,8 @@
 import { useSession } from 'next-auth/react';
 import { useEffect, useMemo, useState } from 'react';
 
+type LeaderboardEntry = { id: string; name: string; score: number; notes: number; decks: number };
+
 type CommunityUser = {
   id: string;
   name: string | null;
@@ -53,6 +55,7 @@ export default function CommunityPage() {
   const [posting, setPosting] = useState(false);
   const [expandedComments, setExpandedComments] = useState<Record<string, boolean>>({});
   const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({});
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   async function loadPosts() {
     try {
@@ -68,6 +71,9 @@ export default function CommunityPage() {
 
   useEffect(() => {
     void loadPosts();
+    void fetch('/api/leaderboard')
+      .then((r) => r.json() as Promise<{ leaderboard?: LeaderboardEntry[] }>)
+      .then((d) => setLeaderboard(d.leaderboard ?? []));
     const timer = window.setInterval(() => {
       void loadPosts();
     }, 30000);
@@ -192,8 +198,10 @@ export default function CommunityPage() {
       <h1 className="kv-page-title">Community</h1>
       <p className="kv-page-subtitle">Mini Twitter for students. Share ideas, ask questions, help each other.</p>
 
-      <section className="kv-card" style={{ marginBottom: 16 }}>
-        <label className="kv-label" htmlFor="community-content">Post</label>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr min(280px, 30%)', gap: 20, alignItems: 'start' }}>
+        <div>
+          <section className="kv-card" style={{ marginBottom: 16 }}>
+            <label className="kv-label" htmlFor="community-content">Post</label>
         <textarea
           id="community-content"
           className="kv-textarea"
@@ -315,6 +323,38 @@ export default function CommunityPage() {
           );
         })}
       </section>
+        </div>
+
+        {/* Leaderboard sidebar */}
+        <aside className="kv-card" style={{ padding: 16, position: 'sticky', top: 80 }}>
+          <p style={{ margin: '0 0 12px', fontWeight: 800, fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)' }}>
+            🏆 Top Students
+          </p>
+          {leaderboard.length === 0 ? (
+            <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>No data yet.</p>
+          ) : (
+            <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: 8 }}>
+              {leaderboard.map((entry, idx) => {
+                const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}.`;
+                return (
+                  <li key={entry.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ fontSize: idx < 3 ? 18 : 13, fontWeight: 700, minWidth: 24 }}>{medal}</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ margin: 0, fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {entry.name}
+                      </p>
+                      <p style={{ margin: 0, fontSize: 11, color: 'var(--text-muted)' }}>
+                        {entry.notes} notes · {entry.decks} decks
+                      </p>
+                    </div>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--accent-gold)' }}>{entry.score}</span>
+                  </li>
+                );
+              })}
+            </ol>
+          )}
+        </aside>
+      </div>
     </main>
   );
 }

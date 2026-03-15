@@ -11,6 +11,8 @@ import { GlobalFloatingWidgets } from "~/app/_components/global-floating-widgets
 import PresetGate from "~/app/_components/preset-gate";
 import { NotificationManager } from "~/app/_components/notification-manager";
 import { KeyboardShortcuts } from "~/app/_components/keyboard-shortcuts";
+import OnboardingTour from "~/app/_components/onboarding-tour";
+import { ToastContainer } from "~/app/_components/toast";
 
 export const metadata: Metadata = {
   title: {
@@ -78,8 +80,10 @@ export default function RootLayout({
                   <PresetGate />
                   <GlobalFloatingWidgets />
                   <ToastViewport />
+                                <ToastContainer />
                 </ToastProvider>
               </TRPCReactProvider>
+                        <OnboardingTour />
             </SessionProvider>
       </body>
     </html>

@@ -58,6 +58,32 @@ function escapeRegex(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+function countSyllables(word: string): number {
+  const w = word.toLowerCase().replace(/[^a-z]/g, '');
+  if (!w) return 0;
+  const vowelGroups = w.match(/[aeiouy]+/g);
+  let count = vowelGroups ? vowelGroups.length : 1;
+  if (w.endsWith('e') && count > 1) count--;
+  return Math.max(1, count);
+}
+
+function fleschKincaid(text: string): { score: number; label: string; color: string } {
+  const sentences = text.split(/[.!?]+/).filter((s) => s.trim().length > 0);
+  const words = text.trim().split(/\s+/).filter((w) => w.length > 0);
+  const syllables = words.reduce((sum, w) => sum + countSyllables(w), 0);
+  const S = sentences.length || 1;
+  const W = words.length || 1;
+  const score = Math.round(206.835 - 1.015 * (W / S) - 84.6 * (syllables / W));
+  const clamped = Math.max(0, Math.min(100, score));
+  let label: string;
+  let color: string;
+  if (clamped >= 80) { label = 'Easy'; color = '#2dd4bf'; }
+  else if (clamped >= 60) { label = 'Standard'; color = '#60a5fa'; }
+  else if (clamped >= 40) { label = 'Moderate'; color = '#f0b429'; }
+  else { label = 'Complex'; color = '#f87171'; }
+  return { score: clamped, label, color };
+}
+
 function HighlightText({ text, query }: { text: string; query: string }) {
   if (!query.trim()) {
     return <>{text}</>;
@@ -1133,6 +1159,30 @@ export default function MyNotes() {
                 </span>
                 <h2 id="note-title" className="text-2xl font-bold text-white">{selectedNote.title}</h2>
                 <p className="mt-1 text-sm text-gray-500">{formatDate(selectedNote.createdAt)}</p>
+                {(() => {
+                  const fk = fleschKincaid(selectedNote.content);
+                  return (
+                    <span
+                      title={`Flesch-Kincaid readability score: ${fk.score}/100`}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 5,
+                        marginTop: 8,
+                        padding: '3px 10px',
+                        borderRadius: 999,
+                        border: `1px solid ${fk.color}44`,
+                        background: `${fk.color}18`,
+                        fontSize: 11,
+                        fontWeight: 700,
+                        color: fk.color,
+                        letterSpacing: '0.03em',
+                      }}
+                    >
+                      📖 {fk.label} · {fk.score}/100
+                    </span>
+                  );
+                })()}
                 {selectedNote.tags.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-2">
                     {selectedNote.tags.map((tag) => (
