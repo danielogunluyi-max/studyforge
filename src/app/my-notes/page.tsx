@@ -114,6 +114,9 @@ export default function MyNotes() {
   const [mergeSourceTag, setMergeSourceTag] = useState("");
   const [mergeTargetTag, setMergeTargetTag] = useState("");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [newFolderName, setNewFolderName] = useState("");
+  const [newFolderColor, setNewFolderColor] = useState("#f0b429");
+  const [newFolderOpen, setNewFolderOpen] = useState(false);
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -360,14 +363,17 @@ export default function MyNotes() {
   };
 
   const createFolder = async () => {
-    const name = prompt("Folder name")?.trim();
-    if (!name) return;
+    const name = newFolderName.trim();
+    if (!name) {
+      setError("Folder name is required");
+      return;
+    }
 
     try {
       const response = await fetch("/api/folders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name }),
+        body: JSON.stringify({ name, color: newFolderColor }),
       });
 
       const data = (await response.json().catch(() => ({}))) as { folder?: Folder; error?: string };
@@ -377,6 +383,9 @@ export default function MyNotes() {
       }
 
       setFolders((prev) => [...prev, data.folder!]);
+      setNewFolderName("");
+      setNewFolderColor("#f0b429");
+      setNewFolderOpen(false);
     } catch {
       setError("Failed to create folder");
     }
@@ -722,10 +731,33 @@ export default function MyNotes() {
             <div className="mb-4 rounded-lg border border-gray-100 p-3">
               <div className="mb-2 flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-white">Folders</h2>
-                <Button onClick={() => void createFolder()} variant="secondary" size="sm" className="px-2 py-1 text-xs">
+                <Button onClick={() => setNewFolderOpen((prev) => !prev)} variant="secondary" size="sm" className="px-2 py-1 text-xs">
                   New Folder
                 </Button>
               </div>
+
+              {newFolderOpen && (
+                <div className="mb-3 rounded-lg border border-[var(--border-default)] bg-[var(--bg-card)] p-2">
+                  <input
+                    value={newFolderName}
+                    onChange={(event) => setNewFolderName(event.target.value)}
+                    placeholder="Folder name"
+                    className="kv-input mb-2"
+                  />
+                  <div className="mb-2 flex items-center justify-between gap-2">
+                    <span className="text-xs text-gray-500">Color</span>
+                    <input
+                      type="color"
+                      value={newFolderColor}
+                      onChange={(event) => setNewFolderColor(event.target.value)}
+                      className="h-8 w-12 cursor-pointer rounded border border-[var(--border-default)] bg-transparent p-0"
+                    />
+                  </div>
+                  <Button onClick={() => void createFolder()} size="sm" className="w-full px-2 py-2 text-xs">
+                    Create Folder
+                  </Button>
+                </div>
+              )}
 
               <Button
                 onClick={() => setActiveFolder("")}
@@ -1065,6 +1097,24 @@ export default function MyNotes() {
                     ))}
                   </div>
                 )}
+
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">Move to folder</span>
+                  <div className="w-44">
+                    <Listbox
+                      value={selectedNote.folderId ?? ""}
+                      onChange={(value) => {
+                        const nextFolderId = value || null;
+                        void moveNoteToFolder(selectedNote.id, nextFolderId);
+                        setSelectedNote((prev) => (prev ? { ...prev, folderId: nextFolderId } : prev));
+                      }}
+                      options={[
+                        { value: "", label: "No Folder" },
+                        ...folders.map((folder) => ({ value: folder.id, label: folder.name })),
+                      ]}
+                    />
+                  </div>
+                </div>
               </div>
 
               <Button
