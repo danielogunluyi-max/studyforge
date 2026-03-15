@@ -91,7 +91,7 @@ model User {
     exams         Exam[]
     scanHistories ScanHistory[]
     examPredictions ExamPrediction[]
-    hostedBattles Battle[] @relation("BattleHost")
+    hostedDuels Battle[] @relation("BattleHost")
     joinedBattles Battle[] @relation("BattleOpponent")
     battleParticipants BattleParticipant[]
     battleResults BattleResult[]
@@ -137,6 +137,18 @@ model User {
     quickCaptures     QuickCapture[]
     mockExamAttempts  MockExamAttempt[]
     mockExams         MockExam[]
+    sharedDecks          SharedDeck[]
+    teacherClasses       StudyClass[]          @relation("TeacherClasses")
+    classMembers         StudyClassMember[]
+    studyDNA             StudyDNA?
+    examAutopsies        ExamAutopsy[]
+    decayAlerts          DecayAlert[]
+    conceptCollisions    ConceptCollision[]
+    hostedBattles        BattleRoyale[]        @relation("HostedBattles")
+    battlePlayers        BattleRoyalePlayer[]
+    syllabusAnalyses     SyllabusAnalysis[]
+    youtubeImports       YouTubeImport[]
+    gradeCalculations    GradeCalculation[]
 }
 
 model OntarioCurriculumCourse {
@@ -807,6 +819,7 @@ model FlashcardDeck {
 
     user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
     cards Flashcard[]
+    sharedDecks SharedDeck[]
 
     @@index([userId])
     @@index([createdAt])
@@ -1109,4 +1122,180 @@ model MockExamAttempt {
     score       Float
     timeTaken   Int
     createdAt   DateTime @default(now())
+}
+
+model SharedDeck {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    deckId      String
+    deck        FlashcardDeck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+    title       String
+    subject     String
+    description String?
+    preset      String   @default("HIGHSCHOOL")
+    likes       Int      @default(0)
+    downloads   Int      @default(0)
+    createdAt   DateTime @default(now())
+}
+
+model StudyClass {
+    id          String   @id @default(cuid())
+    teacherId   String
+    teacher     User     @relation("TeacherClasses", fields: [teacherId], references: [id], onDelete: Cascade)
+    name        String
+    subject     String
+    code        String   @unique
+    members     StudyClassMember[]
+    assignments StudyClassAssignment[]
+    createdAt   DateTime @default(now())
+}
+
+model StudyClassMember {
+    id        String   @id @default(cuid())
+    classId   String
+    class     StudyClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    joinedAt  DateTime @default(now())
+
+    @@unique([classId, userId])
+}
+
+model StudyClassAssignment {
+    id          String   @id @default(cuid())
+    classId     String
+    class       StudyClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+    title       String
+    description String?
+    dueDate     DateTime?
+    type        String
+    resourceId  String?
+    createdAt   DateTime @default(now())
+}
+
+model StudyDNA {
+    id                String   @id @default(cuid())
+    userId            String   @unique
+    user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    visualScore       Float    @default(0)
+    auditoryScore     Float    @default(0)
+    readWriteScore    Float    @default(0)
+    kinestheticScore  Float    @default(0)
+    bestTimeOfDay     String   @default("morning")
+    avgSessionMinutes Int      @default(25)
+    strongSubjects    String[]
+    weakSubjects      String[]
+    learningVelocity  Float    @default(1.0)
+    profile           Json
+    updatedAt         DateTime @updatedAt
+    createdAt         DateTime @default(now())
+}
+
+model ExamAutopsy {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    examId        String?
+    subject       String
+    score         Float
+    totalMarks    Float
+    diagnosis     Json
+    weakAreas     String[]
+    strongAreas   String[]
+    actionPlan    Json
+    createdAt     DateTime @default(now())
+}
+
+model DecayAlert {
+    id                  String   @id @default(cuid())
+    userId              String
+    user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    conceptId           String
+    conceptType         String
+    conceptTitle        String
+    decayScore          Float
+    predictedForgetDate DateTime
+    lastReviewed        DateTime
+    dismissed           Boolean  @default(false)
+    createdAt           DateTime @default(now())
+}
+
+model ConceptCollision {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    concept1      String
+    concept2      String
+    subject1      String
+    subject2      String
+    connection    String   @db.Text
+    strength      Float
+    createdAt     DateTime @default(now())
+}
+
+model BattleRoyale {
+    id            String   @id @default(cuid())
+    hostId        String
+    host          User     @relation("HostedBattles", fields: [hostId], references: [id], onDelete: Cascade)
+    code          String   @unique
+    subject       String
+    status        String   @default("waiting")
+    maxPlayers    Int      @default(100)
+    players       BattleRoyalePlayer[]
+    questions     Json
+    currentQ      Int      @default(0)
+    winnerId      String?
+    createdAt     DateTime @default(now())
+}
+
+model BattleRoyalePlayer {
+    id            String   @id @default(cuid())
+    battleId      String
+    battle        BattleRoyale @relation(fields: [battleId], references: [id], onDelete: Cascade)
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    score         Int      @default(0)
+    eliminated    Boolean  @default(false)
+    rank          Int?
+    joinedAt      DateTime @default(now())
+
+    @@unique([battleId, userId])
+}
+
+model SyllabusAnalysis {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    originalText  String   @db.Text
+    courseName    String
+    semester      String
+    plan          Json
+    events        Json
+    createdAt     DateTime @default(now())
+}
+
+model YouTubeImport {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    youtubeUrl    String
+    title         String
+    transcript    String   @db.Text
+    notes         String   @db.Text
+    flashcards    Json
+    createdAt     DateTime @default(now())
+}
+
+model GradeCalculation {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    courseName    String
+    currentGrade  Float
+    currentWeight Float
+    finalWeight   Float
+    targetGrade   Float
+    neededOnFinal Float
+    createdAt     DateTime @default(now())
 }

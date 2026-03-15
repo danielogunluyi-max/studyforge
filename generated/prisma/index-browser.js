@@ -837,6 +837,159 @@ exports.Prisma.MockExamAttemptScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.SharedDeckScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  deckId: 'deckId',
+  title: 'title',
+  subject: 'subject',
+  description: 'description',
+  preset: 'preset',
+  likes: 'likes',
+  downloads: 'downloads',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.StudyClassScalarFieldEnum = {
+  id: 'id',
+  teacherId: 'teacherId',
+  name: 'name',
+  subject: 'subject',
+  code: 'code',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.StudyClassMemberScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  userId: 'userId',
+  joinedAt: 'joinedAt'
+};
+
+exports.Prisma.StudyClassAssignmentScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  title: 'title',
+  description: 'description',
+  dueDate: 'dueDate',
+  type: 'type',
+  resourceId: 'resourceId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.StudyDNAScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  visualScore: 'visualScore',
+  auditoryScore: 'auditoryScore',
+  readWriteScore: 'readWriteScore',
+  kinestheticScore: 'kinestheticScore',
+  bestTimeOfDay: 'bestTimeOfDay',
+  avgSessionMinutes: 'avgSessionMinutes',
+  strongSubjects: 'strongSubjects',
+  weakSubjects: 'weakSubjects',
+  learningVelocity: 'learningVelocity',
+  profile: 'profile',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ExamAutopsyScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  examId: 'examId',
+  subject: 'subject',
+  score: 'score',
+  totalMarks: 'totalMarks',
+  diagnosis: 'diagnosis',
+  weakAreas: 'weakAreas',
+  strongAreas: 'strongAreas',
+  actionPlan: 'actionPlan',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DecayAlertScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  conceptId: 'conceptId',
+  conceptType: 'conceptType',
+  conceptTitle: 'conceptTitle',
+  decayScore: 'decayScore',
+  predictedForgetDate: 'predictedForgetDate',
+  lastReviewed: 'lastReviewed',
+  dismissed: 'dismissed',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ConceptCollisionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  concept1: 'concept1',
+  concept2: 'concept2',
+  subject1: 'subject1',
+  subject2: 'subject2',
+  connection: 'connection',
+  strength: 'strength',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BattleRoyaleScalarFieldEnum = {
+  id: 'id',
+  hostId: 'hostId',
+  code: 'code',
+  subject: 'subject',
+  status: 'status',
+  maxPlayers: 'maxPlayers',
+  questions: 'questions',
+  currentQ: 'currentQ',
+  winnerId: 'winnerId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BattleRoyalePlayerScalarFieldEnum = {
+  id: 'id',
+  battleId: 'battleId',
+  userId: 'userId',
+  score: 'score',
+  eliminated: 'eliminated',
+  rank: 'rank',
+  joinedAt: 'joinedAt'
+};
+
+exports.Prisma.SyllabusAnalysisScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  originalText: 'originalText',
+  courseName: 'courseName',
+  semester: 'semester',
+  plan: 'plan',
+  events: 'events',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.YouTubeImportScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  youtubeUrl: 'youtubeUrl',
+  title: 'title',
+  transcript: 'transcript',
+  notes: 'notes',
+  flashcards: 'flashcards',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GradeCalculationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  courseName: 'courseName',
+  currentGrade: 'currentGrade',
+  currentWeight: 'currentWeight',
+  finalWeight: 'finalWeight',
+  targetGrade: 'targetGrade',
+  neededOnFinal: 'neededOnFinal',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -935,7 +1088,20 @@ exports.Prisma.ModelName = {
   QuickCapture: 'QuickCapture',
   MockExam: 'MockExam',
   MockExamQuestion: 'MockExamQuestion',
-  MockExamAttempt: 'MockExamAttempt'
+  MockExamAttempt: 'MockExamAttempt',
+  SharedDeck: 'SharedDeck',
+  StudyClass: 'StudyClass',
+  StudyClassMember: 'StudyClassMember',
+  StudyClassAssignment: 'StudyClassAssignment',
+  StudyDNA: 'StudyDNA',
+  ExamAutopsy: 'ExamAutopsy',
+  DecayAlert: 'DecayAlert',
+  ConceptCollision: 'ConceptCollision',
+  BattleRoyale: 'BattleRoyale',
+  BattleRoyalePlayer: 'BattleRoyalePlayer',
+  SyllabusAnalysis: 'SyllabusAnalysis',
+  YouTubeImport: 'YouTubeImport',
+  GradeCalculation: 'GradeCalculation'
 };
 
 /**
