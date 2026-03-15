@@ -136,6 +136,11 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 4.5h10.5v15l-5.25-2.625L6.75 19.5v-15z" /></svg>,
     },
     {
+      href: '/classroom-import',
+      label: 'Classroom Import',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5 3.75 9 12 13.5 20.25 9 12 4.5Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 11.25v3.75c0 1.243 2.015 2.25 4.5 2.25s4.5-1.007 4.5-2.25v-3.75" /></svg>,
+    },
+    {
       href: '/upload',
       label: 'Upload File',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V6m0 0 3.75 3.75M12 6 8.25 9.75" /><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 16.5v1.5A2.25 2.25 0 006.75 20.25h10.5A2.25 2.25 0 0019.5 18v-1.5" /></svg>,
