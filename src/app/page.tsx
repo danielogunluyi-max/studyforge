@@ -632,6 +632,31 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        <footer style={{ padding: '0 24px 48px' }}>
+          <div
+            style={{
+              maxWidth: '1240px',
+              margin: '0 auto',
+              borderTop: '1px solid rgba(255,255,255,0.08)',
+              paddingTop: '18px',
+              display: 'flex',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              gap: '10px',
+              color: 'var(--text-secondary)',
+              fontSize: '13px',
+            }}
+          >
+            <Link href="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</Link>
+            <span aria-hidden="true">·</span>
+            <Link href="/terms" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</Link>
+            <span aria-hidden="true">·</span>
+            <Link href="/about" style={{ color: 'inherit', textDecoration: 'none' }}>About</Link>
+            <span aria-hidden="true">·</span>
+            <a href="mailto:kyvex@gmail.com" style={{ color: 'inherit', textDecoration: 'none' }}>Contact</a>
+          </div>
+        </footer>
       </main>
     </>
   )

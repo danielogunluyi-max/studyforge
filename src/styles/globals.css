@@ -251,6 +251,12 @@ html.dark {
   transform: scaleX(1);
 }
 
+.math-block {
+  overflow-x: auto;
+  padding: 12px 0;
+  text-align: center;
+}
+
 .toast-item {
   animation: toastIn 220ms ease-out forwards, toastOut 220ms ease-in 2.75s forwards;
 }

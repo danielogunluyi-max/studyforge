@@ -11,6 +11,7 @@ import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
 import { trackNovaEvent } from "@/lib/novaClient";
+import { renderMath } from "@/lib/mathRenderer";
 
 const PREFILL_STORAGE_KEY = "kyvex:prefillText";
 const PREFILL_FORMAT_KEY = "kyvex:prefillFormat";
@@ -881,7 +882,10 @@ export default function Generator() {
           {cards.length === 0 && (
             <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
               <p className="font-semibold">No flashcards parsed from AI output.</p>
-              <p className="mt-2 whitespace-pre-wrap text-xs text-gray-700">{generatedNotes}</p>
+              <div
+                className="mt-2 text-xs text-gray-700"
+                dangerouslySetInnerHTML={{ __html: renderMath(generatedNotes) }}
+              />
             </div>
           )}
         </div>
@@ -1018,9 +1022,10 @@ export default function Generator() {
             </Button>
           </div>
         </div>
-        <div className="prose max-w-none whitespace-pre-wrap text-gray-700">
-          {generatedNotes}
-        </div>
+        <div
+          className="prose max-w-none text-gray-700"
+          dangerouslySetInnerHTML={{ __html: renderMath(generatedNotes) }}
+        />
       </div>
     );
   };

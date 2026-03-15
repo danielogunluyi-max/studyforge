@@ -11,6 +11,7 @@ import { EmptyState } from "~/app/_components/empty-state";
 import { SkeletonList } from "~/app/_components/skeleton";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
+import { renderMath } from "@/lib/mathRenderer";
 
 const PREFILL_STORAGE_KEY = "kyvex:prefillText";
 const PREFILL_FORMAT_KEY = "kyvex:prefillFormat";
@@ -1040,9 +1041,10 @@ export default function MyNotes() {
                       <HighlightText text={note.title} query={debouncedSearch} />
                     </h3>
 
-                    <p className="mb-3 line-clamp-3 text-sm text-gray-600">
-                      <HighlightText text={note.content} query={debouncedSearch} />
-                    </p>
+                    <div
+                      className="mb-3 line-clamp-3 text-sm text-gray-600"
+                      dangerouslySetInnerHTML={{ __html: renderMath(note.content) }}
+                    />
 
                     <div style={{ marginTop: "12px", marginBottom: "12px" }}>
                       <AudioPlayer
@@ -1093,7 +1095,10 @@ export default function MyNotes() {
                     {hoveredNoteId === note.id && (
                       <div className="pointer-events-none absolute left-full top-0 z-30 ml-3 hidden w-80 kv-card md:block">
                         <p className="mb-2 text-sm font-semibold text-white">Preview</p>
-                        <p className="max-h-72 overflow-y-auto whitespace-pre-wrap text-xs text-gray-700">{note.content}</p>
+                        <div
+                          className="max-h-72 overflow-y-auto text-xs text-gray-700"
+                          dangerouslySetInnerHTML={{ __html: renderMath(note.content) }}
+                        />
                       </div>
                     )}
 
@@ -1225,9 +1230,10 @@ export default function MyNotes() {
               </Button>
             </div>
 
-            <div className="prose kv-card max-w-none whitespace-pre-wrap text-gray-700">
-              <HighlightText text={selectedNote.content} query={debouncedSearch} />
-            </div>
+            <div
+              className="prose kv-card max-w-none text-gray-700"
+              dangerouslySetInnerHTML={{ __html: renderMath(selectedNote.content) }}
+            />
 
             <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-4">
               <Button

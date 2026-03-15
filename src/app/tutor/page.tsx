@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "~/app/_components/button";
 import { useToast } from "~/app/_components/toast";
+import { renderMath } from "@/lib/mathRenderer";
 
 type Subject = "Math" | "Science" | "English" | "History" | "Chemistry" | "Physics" | "General";
 
@@ -386,7 +387,14 @@ export default function TutorPage() {
                       : "chat-bubble-nova border border-slate-600 bg-[#111a38] text-slate-100"
                   }`}
                 >
-                  <p className="whitespace-pre-wrap break-words">{message.content}</p>
+                  {message.role === "assistant" ? (
+                    <div
+                      className="break-words"
+                      dangerouslySetInnerHTML={{ __html: renderMath(message.content) }}
+                    />
+                  ) : (
+                    <p className="whitespace-pre-wrap break-words">{message.content}</p>
+                  )}
                   {message.role === "assistant" && (
                     <div className="mt-2 flex flex-wrap justify-end gap-2">
                       <Button
