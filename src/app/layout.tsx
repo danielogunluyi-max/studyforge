@@ -13,6 +13,7 @@ import { NotificationManager } from "~/app/_components/notification-manager";
 import { KeyboardShortcuts } from "~/app/_components/keyboard-shortcuts";
 import OnboardingTour from "~/app/_components/onboarding-tour";
 import { ToastContainer } from "~/app/_components/toast";
+import ErrorBoundary from "~/app/_components/error-boundary";
 
 export const metadata: Metadata = {
   title: {
@@ -75,7 +76,9 @@ export default function RootLayout({
               <TRPCReactProvider>
                 <ToastProvider>
                   <AppShell>
-                    <div className="page-enter">{children}</div>
+                    <ErrorBoundary>
+                      <div className="page-enter">{children}</div>
+                    </ErrorBoundary>
                   </AppShell>
                   <PresetGate />
                   <GlobalFloatingWidgets />

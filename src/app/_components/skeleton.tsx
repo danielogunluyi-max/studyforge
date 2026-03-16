@@ -1,35 +1,67 @@
-import React from "react";
+'use client';
 
-type SkeletonProps = {
+interface SkeletonProps {
+  variant?: 'card' | 'text' | 'title' | 'avatar' | 'list';
+  count?: number;
   className?: string;
-};
-
-export function Skeleton({ className = "" }: SkeletonProps) {
-  return <div className={`skeleton-block rounded-md ${className}`.trim()} aria-hidden="true" />;
 }
 
-export function SkeletonCard({ lines = 3 }: { lines?: number }) {
-  return (
-    <div className="rounded-xl border border-gray-700 bg-gray-900 p-4">
-      <Skeleton className="mb-3 h-4 w-1/3" />
-      <Skeleton className="mb-2 h-5 w-4/5" />
-      {Array.from({ length: lines }).map((_, index) => (
-        <Skeleton key={index} className={`mb-2 h-3 ${index === lines - 1 ? "w-2/3" : "w-full"}`} />
-      ))}
-      <div className="mt-3 flex gap-2">
-        <Skeleton className="h-8 w-20" />
-        <Skeleton className="h-8 w-24" />
+export default function Skeleton({ variant = 'card', count = 1, className = '' }: SkeletonProps) {
+  const items = Array.from({ length: count });
+
+  if (variant === 'list') {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {items.map((_, i) => (
+          <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <div className="kv-skeleton kv-skeleton-avatar" />
+            <div style={{ flex: 1 }}>
+              <div className="kv-skeleton kv-skeleton-title" style={{ width: '40%' }} />
+              <div className="kv-skeleton kv-skeleton-text" style={{ width: '70%' }} />
+            </div>
+          </div>
+        ))}
       </div>
+    );
+  }
+
+  if (variant === 'text') {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        {items.map((_, i) => (
+          <div
+            key={i}
+            className={`kv-skeleton kv-skeleton-text ${className}`}
+            style={{ width: i === items.length - 1 ? '60%' : '100%' }}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  if (variant === 'title') {
+    return <div className={`kv-skeleton kv-skeleton-title ${className}`.trim()} />;
+  }
+
+  if (variant === 'avatar') {
+    return <div className={`kv-skeleton kv-skeleton-avatar ${className}`.trim()} />;
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      {items.map((_, i) => (
+        <div key={i} className={`kv-skeleton kv-skeleton-card ${className}`.trim()} />
+      ))}
     </div>
   );
+}
+
+export { Skeleton };
+
+export function SkeletonCard({ lines = 3 }: { lines?: number }) {
+  return <Skeleton variant="text" count={lines + 2} className="h-3" />;
 }
 
 export function SkeletonList({ count = 4 }: { count?: number }) {
-  return (
-    <div className="grid gap-4 md:grid-cols-2">
-      {Array.from({ length: count }).map((_, index) => (
-        <SkeletonCard key={index} />
-      ))}
-    </div>
-  );
+  return <Skeleton variant="list" count={count} />;
 }

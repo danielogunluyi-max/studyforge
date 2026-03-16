@@ -1717,3 +1717,223 @@ textarea:focus {
 .kv-blue { color: var(--accent-blue); }
 .kv-muted { color: var(--text-muted); }
 .kv-secondary { color: var(--text-secondary); }
+
+/* ============================================
+   KYVEX POLISH SYSTEM - animations + skeletons
+   ============================================ */
+
+/* -- PAGE TRANSITIONS -- */
+@keyframes kv-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes kv-fade-in-fast {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes kv-slide-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes kv-slide-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes kv-scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes kv-bounce-in {
+  0%   { opacity: 0; transform: scale(0.85); }
+  60%  { opacity: 1; transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* -- SKELETON LOADING -- */
+@keyframes kv-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.kv-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    var(--bg-hover)    50%,
+    var(--bg-elevated) 75%
+  );
+  background-size: 200% 100%;
+  animation: kv-shimmer 1.4s ease-in-out infinite;
+  border-radius: var(--radius-md);
+}
+
+.kv-skeleton-text {
+  height: 14px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.kv-skeleton-title {
+  height: 22px;
+  width: 60%;
+  margin-bottom: 12px;
+  border-radius: 4px;
+}
+
+.kv-skeleton-card {
+  height: 120px;
+  border-radius: var(--radius-lg);
+}
+
+.kv-skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* -- PAGE ANIMATION CLASSES -- */
+.kv-animate-in {
+  animation: kv-fade-in 0.35s ease both;
+}
+
+.kv-animate-in-fast {
+  animation: kv-fade-in-fast 0.2s ease both;
+}
+
+.kv-animate-scale {
+  animation: kv-scale-in 0.3s ease both;
+}
+
+.kv-animate-right {
+  animation: kv-slide-in-right 0.3s ease both;
+}
+
+.kv-animate-left {
+  animation: kv-slide-in-left 0.3s ease both;
+}
+
+.kv-animate-bounce {
+  animation: kv-bounce-in 0.4s ease both;
+}
+
+/* Staggered children */
+.kv-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.kv-stagger > *:nth-child(2) { animation-delay: 60ms; }
+.kv-stagger > *:nth-child(3) { animation-delay: 120ms; }
+.kv-stagger > *:nth-child(4) { animation-delay: 180ms; }
+.kv-stagger > *:nth-child(5) { animation-delay: 240ms; }
+.kv-stagger > *:nth-child(6) { animation-delay: 300ms; }
+.kv-stagger > *:nth-child(7) { animation-delay: 360ms; }
+.kv-stagger > *:nth-child(8) { animation-delay: 420ms; }
+
+/* -- HOVER EFFECTS -- */
+.kv-card-hover {
+  transition: transform 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.kv-card-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(240, 180, 41, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.kv-lift:hover {
+  transform: translateY(-3px);
+  transition: transform 0.2s ease;
+}
+
+/* -- BUTTON PRESS -- */
+.kv-btn-primary:active,
+.kv-btn-secondary:active,
+.kv-btn-ghost:active {
+  transform: translateY(1px) !important;
+}
+
+/* -- PULSE GLOW -- */
+@keyframes kv-pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(240, 180, 41, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(240, 180, 41, 0); }
+}
+
+@keyframes kv-pulse-teal {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(45, 212, 191, 0); }
+}
+
+.kv-pulse-gold { animation: kv-pulse-gold 2s ease-in-out infinite; }
+.kv-pulse-teal { animation: kv-pulse-teal 2s ease-in-out infinite; }
+
+/* -- NUMBER COUNT UP -- */
+@keyframes kv-count {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.kv-count { animation: kv-count 0.4s ease both; }
+
+/* -- FLOATING -- */
+@keyframes kv-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+.kv-float { animation: kv-float 3s ease-in-out infinite; }
+
+/* -- SPIN -- */
+@keyframes kv-spin-slow {
+  to { transform: rotate(360deg); }
+}
+.kv-spin-slow { animation: kv-spin-slow 3s linear infinite; }
+
+/* -- MOBILE RESPONSIVENESS -- */
+@media (max-width: 768px) {
+  .kv-page { padding: 16px; }
+  .kv-grid-2,
+  .kv-grid-3,
+  .kv-grid-4 {
+    grid-template-columns: 1fr !important;
+  }
+  .kv-hide-mobile { display: none !important; }
+  .kv-card { padding: 16px; }
+  .kv-page-title { font-size: 18px; }
+}
+
+@media (max-width: 480px) {
+  .kv-grid-2 { grid-template-columns: 1fr !important; }
+  .kv-tabs { flex-wrap: wrap; }
+}
+
+/* -- SCROLLBAR POLISH -- */
+* { scrollbar-width: thin; scrollbar-color: var(--bg-active) transparent; }
+
+/* -- FOCUS RING -- */
+*:focus-visible {
+  outline: 2px solid rgba(240, 180, 41, 0.6);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* -- SELECTION -- */
+::selection {
+  background: rgba(240, 180, 41, 0.25);
+  color: var(--text-primary);
+}
+
+/* -- SMOOTH SCROLL -- */
+html { scroll-behavior: smooth; }
+
+/* -- IMAGE LOADING -- */
+img {
+  transition: opacity 0.3s ease;
+}
+
+/* -- LINK HOVER -- */
+a {
+  transition: color 0.15s ease, opacity 0.15s ease;
+}
