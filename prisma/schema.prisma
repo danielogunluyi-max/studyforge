@@ -149,6 +149,23 @@ model User {
     syllabusAnalyses     SyllabusAnalysis[]
     youtubeImports       YouTubeImport[]
     gradeCalculations    GradeCalculation[]
+    studyContracts       StudyContract[]
+    contractCheckIns     ContractCheckIn[]
+    readingSessions      ReadingSession[]
+    microLessons         MicroLesson[]
+    adaptiveNotes        AdaptiveNote[]
+    counterarguments     CounterargumentSession[]
+    focusScores          FocusScore[]
+    reviewsGiven         PeerReview[] @relation("ReviewsGiven")
+    reviewsReceived      PeerReview[] @relation("ReviewsReceived")
+    careerPath           CareerPath?
+    lectureSessions      LectureSession[]
+    crossoverChallenges  CrossoverChallenge[]
+    memorySimulations    MemorySimulation[]
+    kyvexIQ              KyvexIQ?
+    noteEvolutions       NoteEvolution[]
+    debatesAsPlayer1     DebateJudge[] @relation("DebatePlayer1")
+    debatesAsPlayer2     DebateJudge[] @relation("DebatePlayer2")
 }
 
 model OntarioCurriculumCourse {
@@ -253,6 +270,8 @@ model Note {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     folder    Folder?  @relation(fields: [folderId], references: [id], onDelete: SetNull)
         sharedInGroups GroupSharedNote[]
+        adaptiveNote AdaptiveNote?
+        evolutions   NoteEvolution[]
 
   @@index([createdAt])
   @@index([userId])
@@ -1298,4 +1317,208 @@ model GradeCalculation {
     targetGrade   Float
     neededOnFinal Float
     createdAt     DateTime @default(now())
+}
+
+model StudyContract {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    commitment    String   @db.Text
+    dailyHours    Float
+    durationDays  Int
+    startDate     DateTime @default(now())
+    endDate       DateTime
+    status        String   @default("active")
+    checkIns      ContractCheckIn[]
+    currentStreak Int      @default(0)
+    totalDays     Int      @default(0)
+    createdAt     DateTime @default(now())
+}
+
+model ContractCheckIn {
+    id            String        @id @default(cuid())
+    contractId    String
+    contract      StudyContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+    userId        String
+    user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    hoursStudied  Float
+    notes         String?
+    aiResponse    String        @db.Text
+    mood          Int           @default(3)
+    createdAt     DateTime      @default(now())
+}
+
+model ReadingSession {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    text          String   @db.Text
+    topic         String
+    wpm           Int      @default(0)
+    comprehension Float    @default(0)
+    targetWpm     Int      @default(250)
+    questions     Json
+    answers       Json
+    createdAt     DateTime @default(now())
+}
+
+model MicroLesson {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    topic         String
+    subject       String
+    lessons       Json
+    totalLessons  Int
+    completed     Int      @default(0)
+    createdAt     DateTime @default(now())
+}
+
+model AdaptiveNote {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    noteId        String   @unique
+    note          Note     @relation(fields: [noteId], references: [id], onDelete: Cascade)
+    level1        String   @db.Text
+    level2        String   @db.Text
+    level3        String   @db.Text
+    level4        String   @db.Text
+    currentLevel  Int      @default(1)
+    createdAt     DateTime @default(now())
+}
+
+model CounterargumentSession {
+    id               String   @id @default(cuid())
+    userId           String
+    user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    originalArgument String   @db.Text
+    topic            String
+    counterarguments Json
+    userRebuttals    Json
+    score            Float    @default(0)
+    createdAt        DateTime @default(now())
+}
+
+model FocusScore {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    sessionDate   DateTime @default(now())
+    score         Float
+    activeMinutes Int
+    totalMinutes  Int
+    distractions  Int      @default(0)
+    deepWorkRatio Float
+    createdAt     DateTime @default(now())
+}
+
+model PeerReview {
+    id          String   @id @default(cuid())
+    authorId    String
+    author      User     @relation("ReviewsGiven", fields: [authorId], references: [id], onDelete: Cascade)
+    reviewerId  String?
+    reviewer    User?    @relation("ReviewsReceived", fields: [reviewerId], references: [id])
+    content     String   @db.Text
+    contentType String
+    subject     String
+    status      String   @default("pending")
+    feedback    String?  @db.Text
+    rating      Int?
+    aiFeedback  String?  @db.Text
+    createdAt   DateTime @default(now())
+}
+
+model CareerPath {
+    id              String   @id @default(cuid())
+    userId          String   @unique
+    user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    strongSubjects  String[]
+    interests       String[]
+    paths           Json
+    topPath         String
+    requiredCourses Json
+    updatedAt       DateTime @updatedAt
+    createdAt       DateTime @default(now())
+}
+
+model LectureSession {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    title       String
+    transcript  String   @db.Text
+    notes       String   @db.Text
+    flashcards  Json
+    duration    Int
+    subject     String
+    createdAt   DateTime @default(now())
+}
+
+model CrossoverChallenge {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    subject1    String
+    subject2    String
+    challenge   String   @db.Text
+    userAnswer  String?  @db.Text
+    aiFeedback  String?  @db.Text
+    score       Float?
+    date        DateTime @default(now())
+    completed   Boolean  @default(false)
+    createdAt   DateTime @default(now())
+}
+
+model MemorySimulation {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    deckId      String
+    simulation  Json
+    generatedAt DateTime @default(now())
+}
+
+model KyvexIQ {
+    id                String   @id @default(cuid())
+    userId            String   @unique
+    user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    score             Float    @default(0)
+    masteryScore      Float    @default(0)
+    consistencyScore  Float    @default(0)
+    velocityScore     Float    @default(0)
+    depthScore        Float    @default(0)
+    breakdown         Json
+    rank              String   @default("Beginner")
+    updatedAt         DateTime @updatedAt
+    createdAt         DateTime @default(now())
+}
+
+model NoteEvolution {
+    id          String   @id @default(cuid())
+    noteId      String
+    note        Note     @relation(fields: [noteId], references: [id], onDelete: Cascade)
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    snapshot    String   @db.Text
+    wordCount   Int
+    version     Int
+    createdAt   DateTime @default(now())
+}
+
+model DebateJudge {
+    id          String   @id @default(cuid())
+    topic       String
+    player1Id   String
+    player1     User     @relation("DebatePlayer1", fields: [player1Id], references: [id], onDelete: Cascade)
+    player2Id   String?
+    player2     User?    @relation("DebatePlayer2", fields: [player2Id], references: [id])
+    player1Arg  String?  @db.Text
+    player2Arg  String?  @db.Text
+    verdict     String?  @db.Text
+    winnerId    String?
+    scores      Json?
+    status      String   @default("waiting")
+    code        String   @unique
+    createdAt   DateTime @default(now())
 }

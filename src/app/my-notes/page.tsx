@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -147,6 +147,7 @@ export default function MyNotes() {
   const [eli5Loading, setEli5Loading] = useState(false);
   const [eli5Result, setEli5Result] = useState("");
   const [eli5ModalOpen, setEli5ModalOpen] = useState(false);
+  const evolutionSnapshotCacheRef = useRef<Record<string, string>>({});
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -335,6 +336,22 @@ export default function MyNotes() {
 
   const getReadTime = (text: string) => Math.max(1, Math.ceil(getWordCount(text) / 200));
 
+  const queueEvolutionSnapshot = (noteId: string, content: string) => {
+    const normalized = content.trim();
+    if (!noteId || !normalized) return;
+    if (evolutionSnapshotCacheRef.current[noteId] === normalized) return;
+    evolutionSnapshotCacheRef.current[noteId] = normalized;
+
+    // Fire-and-forget snapshot call so existing save UX never blocks.
+    void fetch("/api/note-evolution", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ noteId, content: normalized }),
+    }).catch(() => {
+      // Silent fail by design.
+    });
+  };
+
   const openNote = async (note: Note) => {
     setSelectedNote(note);
 
@@ -377,6 +394,7 @@ export default function MyNotes() {
       setNotes((prev) => prev.map((item) => (item.id === note.id ? { ...item, isPinned: data.note!.isPinned } : item)));
       setRecentlyViewed((prev) => prev.map((item) => (item.id === note.id ? { ...item, isPinned: data.note!.isPinned } : item)));
       setSelectedNote((prev) => (prev?.id === note.id ? { ...prev, isPinned: data.note!.isPinned } : prev));
+      queueEvolutionSnapshot(note.id, note.content);
     } catch {
       setError("Failed to update pin state");
     }
@@ -432,6 +450,11 @@ export default function MyNotes() {
       if (!response.ok) {
         setError("Failed to move note");
         return;
+      }
+
+      const note = notes.find((item) => item.id === noteId);
+      if (note) {
+        queueEvolutionSnapshot(note.id, note.content);
       }
 
       await Promise.all([fetchNotes(), fetchFolders()]);
@@ -563,6 +586,7 @@ export default function MyNotes() {
       }
 
       setNotes((prev) => prev.map((item) => (item.id === note.id ? { ...item, isShared: true } : item)));
+      queueEvolutionSnapshot(note.id, note.content);
       const link = `${window.location.origin}/notes/shared/${note.id}`;
       await navigator.clipboard.writeText(link);
     } catch {
@@ -583,6 +607,7 @@ export default function MyNotes() {
         return;
       }
 
+      queueEvolutionSnapshot(note.id, note.content);
       await Promise.all([fetchNotes(), fetchTagStats(), fetchFolders(), fetchStreak()]);
     } catch {
       setError("Failed to duplicate note");

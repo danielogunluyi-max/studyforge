@@ -990,6 +990,189 @@ exports.Prisma.GradeCalculationScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.StudyContractScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  commitment: 'commitment',
+  dailyHours: 'dailyHours',
+  durationDays: 'durationDays',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  status: 'status',
+  currentStreak: 'currentStreak',
+  totalDays: 'totalDays',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ContractCheckInScalarFieldEnum = {
+  id: 'id',
+  contractId: 'contractId',
+  userId: 'userId',
+  hoursStudied: 'hoursStudied',
+  notes: 'notes',
+  aiResponse: 'aiResponse',
+  mood: 'mood',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ReadingSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  text: 'text',
+  topic: 'topic',
+  wpm: 'wpm',
+  comprehension: 'comprehension',
+  targetWpm: 'targetWpm',
+  questions: 'questions',
+  answers: 'answers',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MicroLessonScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  topic: 'topic',
+  subject: 'subject',
+  lessons: 'lessons',
+  totalLessons: 'totalLessons',
+  completed: 'completed',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AdaptiveNoteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  noteId: 'noteId',
+  level1: 'level1',
+  level2: 'level2',
+  level3: 'level3',
+  level4: 'level4',
+  currentLevel: 'currentLevel',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CounterargumentSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  originalArgument: 'originalArgument',
+  topic: 'topic',
+  counterarguments: 'counterarguments',
+  userRebuttals: 'userRebuttals',
+  score: 'score',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.FocusScoreScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sessionDate: 'sessionDate',
+  score: 'score',
+  activeMinutes: 'activeMinutes',
+  totalMinutes: 'totalMinutes',
+  distractions: 'distractions',
+  deepWorkRatio: 'deepWorkRatio',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PeerReviewScalarFieldEnum = {
+  id: 'id',
+  authorId: 'authorId',
+  reviewerId: 'reviewerId',
+  content: 'content',
+  contentType: 'contentType',
+  subject: 'subject',
+  status: 'status',
+  feedback: 'feedback',
+  rating: 'rating',
+  aiFeedback: 'aiFeedback',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CareerPathScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  strongSubjects: 'strongSubjects',
+  interests: 'interests',
+  paths: 'paths',
+  topPath: 'topPath',
+  requiredCourses: 'requiredCourses',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LectureSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  transcript: 'transcript',
+  notes: 'notes',
+  flashcards: 'flashcards',
+  duration: 'duration',
+  subject: 'subject',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CrossoverChallengeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  subject1: 'subject1',
+  subject2: 'subject2',
+  challenge: 'challenge',
+  userAnswer: 'userAnswer',
+  aiFeedback: 'aiFeedback',
+  score: 'score',
+  date: 'date',
+  completed: 'completed',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MemorySimulationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  deckId: 'deckId',
+  simulation: 'simulation',
+  generatedAt: 'generatedAt'
+};
+
+exports.Prisma.KyvexIQScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  score: 'score',
+  masteryScore: 'masteryScore',
+  consistencyScore: 'consistencyScore',
+  velocityScore: 'velocityScore',
+  depthScore: 'depthScore',
+  breakdown: 'breakdown',
+  rank: 'rank',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NoteEvolutionScalarFieldEnum = {
+  id: 'id',
+  noteId: 'noteId',
+  userId: 'userId',
+  snapshot: 'snapshot',
+  wordCount: 'wordCount',
+  version: 'version',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DebateJudgeScalarFieldEnum = {
+  id: 'id',
+  topic: 'topic',
+  player1Id: 'player1Id',
+  player2Id: 'player2Id',
+  player1Arg: 'player1Arg',
+  player2Arg: 'player2Arg',
+  verdict: 'verdict',
+  winnerId: 'winnerId',
+  scores: 'scores',
+  status: 'status',
+  code: 'code',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1101,7 +1284,22 @@ exports.Prisma.ModelName = {
   BattleRoyalePlayer: 'BattleRoyalePlayer',
   SyllabusAnalysis: 'SyllabusAnalysis',
   YouTubeImport: 'YouTubeImport',
-  GradeCalculation: 'GradeCalculation'
+  GradeCalculation: 'GradeCalculation',
+  StudyContract: 'StudyContract',
+  ContractCheckIn: 'ContractCheckIn',
+  ReadingSession: 'ReadingSession',
+  MicroLesson: 'MicroLesson',
+  AdaptiveNote: 'AdaptiveNote',
+  CounterargumentSession: 'CounterargumentSession',
+  FocusScore: 'FocusScore',
+  PeerReview: 'PeerReview',
+  CareerPath: 'CareerPath',
+  LectureSession: 'LectureSession',
+  CrossoverChallenge: 'CrossoverChallenge',
+  MemorySimulation: 'MemorySimulation',
+  KyvexIQ: 'KyvexIQ',
+  NoteEvolution: 'NoteEvolution',
+  DebateJudge: 'DebateJudge'
 };
 
 /**

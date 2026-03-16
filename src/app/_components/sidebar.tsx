@@ -361,6 +361,87 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
+  // â”€â”€ TRAIN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  const trainItems: NavItem[] = [
+    {
+      href: '/reading-speed',
+      label: '⚡ Reading Speed',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12S7.5 6.75 12 6.75 20.25 12 20.25 12 16.5 17.25 12 17.25 3.75 12 3.75 12z" /><circle cx="12" cy="12" r="2.25" /></svg>,
+    },
+    {
+      href: '/micro-lessons',
+      label: '📖 Micro-Lessons',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 5.25h6.75v13.5H4.5V5.25zM12.75 5.25h6.75v13.5h-6.75V5.25z" /></svg>,
+    },
+    {
+      href: '/lecture',
+      label: '🎤 Live Lecture',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19 10.5V12a7 7 0 11-14 0v-1.5" /></svg>,
+    },
+    {
+      href: '/counterargument',
+      label: '⚔️ Counterargument',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="m7 5 5 5M5.5 7.5 9 4M4 9l4-4M17 5l-5 5m6.5-2.5L15 4m5 5-4-4" /></svg>,
+    },
+    {
+      href: '/adaptive-notes',
+      label: '🎯 Adaptive Notes',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="8.25" /><circle cx="12" cy="12" r="4.25" /><circle cx="12" cy="12" r="1.25" /></svg>,
+    },
+  ]
+
+  // â”€â”€ CHALLENGES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  const challengeItems: NavItem[] = [
+    {
+      href: '/crossover',
+      label: '🔀 Crossover Challenge',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5h4.5v4.5H7.5V7.5zM12 12h4.5v4.5H12V12z" /></svg>,
+    },
+    {
+      href: '/debate-judge',
+      label: '🧑‍⚖️ Debate Judge',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15M6.75 8.25h10.5M8.25 8.25l-2.25 4.5h4.5l-2.25-4.5zm9.75 0-2.25 4.5h4.5L18 8.25z" /></svg>,
+    },
+  ]
+
+  // â”€â”€ INTELLIGENCE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  const intelligenceItems: NavItem[] = [
+    {
+      href: '/kyvex-iq',
+      label: '🧬 Kyvex IQ',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3.75v16.5M8.25 7.5c0 2.07 1.68 3.75 3.75 3.75s3.75 1.68 3.75 3.75" /></svg>,
+    },
+    {
+      href: '/memory-sim',
+      label: '🧠 Memory Sim',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 4.5a3 3 0 016 0v.4a2.75 2.75 0 012.25 2.7v.9a2.5 2.5 0 011.5 2.3 2.5 2.5 0 01-1.5 2.3v.9a2.75 2.75 0 01-2.25 2.7v.4a3 3 0 01-6 0v-.4A2.75 2.75 0 016.75 14v-.9a2.5 2.5 0 01-1.5-2.3 2.5 2.5 0 011.5-2.3v-.9A2.75 2.75 0 019 4.9v-.4Z" /></svg>,
+    },
+    {
+      href: '/career-path',
+      label: '🗺️ Career Path',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75 9 4.5l6 2.25 5.25-2.25v12.75L15 19.5 9 17.25l-5.25 2.25V6.75z" /></svg>,
+    },
+    {
+      href: '/contract',
+      label: '📜 Study Contract',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 3.75h9l3 3v13.5a1.5 1.5 0 01-1.5 1.5H6a1.5 1.5 0 01-1.5-1.5V5.25A1.5 1.5 0 016 3.75z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 10.5h6M9 14.25h6" /></svg>,
+    },
+    {
+      href: '/focus-score',
+      label: '🎯 Focus Score',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="8.25" /><circle cx="12" cy="12" r="4.25" /><circle cx="12" cy="12" r="1.25" /></svg>,
+    },
+  ]
+
+  // â”€â”€ NOTES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  const notesItems: NavItem[] = [
+    {
+      href: '/note-evolution',
+      label: '📈 Note Evolution',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5V4.5m0 15h15" /><path strokeLinecap="round" strokeLinejoin="round" d="m7.5 15 3-3 2.25 2.25L18 9" /></svg>,
+    },
+  ]
+
   // â”€â”€ SOCIAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const socialItems: NavItem[] = [
     {
@@ -372,6 +453,11 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       href: '/match',
       label: 'Study Buddy',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>,
+    },
+    {
+      href: '/peer-review',
+      label: '🤝 Peer Review',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75v-1.5a3.75 3.75 0 00-7.5 0v1.5M12 12a3 3 0 100-6 3 3 0 000 6z" /></svg>,
     },
   ]
 
@@ -451,7 +537,22 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   const userName = session?.user?.name ?? 'Kyvex User'
   const userEmail = session?.user?.email ?? 'student@kyvex.app'
   const initials = getInitials(session?.user?.name, session?.user?.email)
-  const allItems = [...mainItems, ...studyToolItems, ...createItems, ...flashcardItems, ...aiToolItems, ...researchItems, ...discoverItems, ...analyticsItems, ...socialItems, ...personalItems]
+  const allItems = [
+    ...mainItems,
+    ...studyToolItems,
+    ...trainItems,
+    ...createItems,
+    ...flashcardItems,
+    ...aiToolItems,
+    ...researchItems,
+    ...discoverItems,
+    ...challengeItems,
+    ...analyticsItems,
+    ...intelligenceItems,
+    ...notesItems,
+    ...socialItems,
+    ...personalItems,
+  ]
 
   function nearestEdge(x: number, y: number): SidebarPlacement {
     const vw = window.innerWidth
@@ -903,7 +1004,15 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
                 {renderNavGroup('DISCOVER', discoverItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
+                {renderNavGroup('TRAIN', trainItems)}
+                <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
+                {renderNavGroup('CHALLENGES', challengeItems)}
+                <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
                 {renderNavGroup('ANALYTICS', analyticsItems)}
+                <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
+                {renderNavGroup('INTELLIGENCE', intelligenceItems)}
+                <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
+                {renderNavGroup('NOTES', notesItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
                 {renderNavGroup('SOCIAL', socialItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
