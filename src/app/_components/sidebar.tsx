@@ -524,6 +524,25 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5h6v6h-6zM10.5 16.5h6v6h-6z" /><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5h3m-6 9h-3" /></svg>,
     },
   ]
+
+  const toolsItems: NavItem[] = [
+    {
+      href: '/smart-upload',
+      label: '⚡ SmartUpload',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V6m0 0 3.75 3.75M12 6 8.25 9.75" /><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 16.5v1.5A2.25 2.25 0 006.75 20.25h10.5A2.25 2.25 0 0019.5 18v-1.5" /></svg>,
+    },
+    {
+      href: '/grammar',
+      label: '✍️ Grammar Check',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" /></svg>,
+    },
+    {
+      href: '/plagiarism',
+      label: '🔍 Originality Check',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><circle cx="11" cy="11" r="7" /><path strokeLinecap="round" strokeLinejoin="round" d="m20 20-3.5-3.5" /></svg>,
+    },
+  ]
+
   const handleSignOut = async () => {
     try {
       await signOut({ redirect: false })
@@ -552,6 +571,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     ...notesItems,
     ...socialItems,
     ...personalItems,
+    ...toolsItems,
   ]
 
   function nearestEdge(x: number, y: number): SidebarPlacement {
@@ -1017,6 +1037,8 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                 {renderNavGroup('SOCIAL', socialItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
                 {renderNavGroup('PERSONAL', personalItems)}
+                <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
+                {renderNavGroup('TOOLS', toolsItems)}
               </nav>
             </div>
 

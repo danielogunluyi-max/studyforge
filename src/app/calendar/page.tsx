@@ -18,6 +18,9 @@ const MONTHS = [
 ] as const;
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
+const TIMETABLE_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] as const;
+const TIMETABLE_SLOTS = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'] as const;
+const TIMETABLE_COLORS = ['#f0b429', '#5b7fff', '#2dd4bf', '#f97316', '#ef4444', '#a855f7'] as const;
 
 const TYPE_COLORS: Record<string, string> = {
   exam: 'var(--accent-red)',
@@ -47,12 +50,25 @@ type CalEvent = {
   description?: string;
 };
 
+type TimetableClass = {
+  id: string;
+  className: string;
+  subject: string;
+  room: string;
+  teacher: string;
+  day: (typeof TIMETABLE_DAYS)[number];
+  startTime: (typeof TIMETABLE_SLOTS)[number];
+  endTime: (typeof TIMETABLE_SLOTS)[number];
+  color: string;
+};
+
 function formatDateInput(date: Date) {
   return date.toISOString().split('T')[0] ?? '';
 }
 
 export default function CalendarPage() {
   const today = new Date();
+  const [activeTab, setActiveTab] = useState<'calendar' | 'timetable'>('calendar');
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [selectedDate, setSelectedDate] = useState<Date | null>(today);
@@ -65,6 +81,18 @@ export default function CalendarPage() {
   const [newDate, setNewDate] = useState(formatDateInput(today));
   const [newDesc, setNewDesc] = useState('');
   const [saving, setSaving] = useState(false);
+
+  const [timetableClasses, setTimetableClasses] = useState<TimetableClass[]>([]);
+  const [showClassModal, setShowClassModal] = useState(false);
+  const [editingClassId, setEditingClassId] = useState('');
+  const [className, setClassName] = useState('');
+  const [classSubject, setClassSubject] = useState('');
+  const [classRoom, setClassRoom] = useState('');
+  const [classTeacher, setClassTeacher] = useState('');
+  const [classDay, setClassDay] = useState<(typeof TIMETABLE_DAYS)[number]>('Mon');
+  const [classStart, setClassStart] = useState<(typeof TIMETABLE_SLOTS)[number]>('08:00');
+  const [classEnd, setClassEnd] = useState<(typeof TIMETABLE_SLOTS)[number]>('09:00');
+  const [classColor, setClassColor] = useState<string>(TIMETABLE_COLORS[0]);
 
   const loadEvents = useCallback(async () => {
     setLoading(true);
@@ -82,6 +110,23 @@ export default function CalendarPage() {
   useEffect(() => {
     void loadEvents();
   }, [loadEvents]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('kyvex-timetable');
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as TimetableClass[];
+      if (Array.isArray(parsed)) {
+        setTimetableClasses(parsed);
+      }
+    } catch {
+      setTimetableClasses([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('kyvex-timetable', JSON.stringify(timetableClasses));
+  }, [timetableClasses]);
 
   const prevMonth = () => {
     if (currentMonth === 0) {
@@ -196,6 +241,63 @@ export default function CalendarPage() {
     [events, today],
   );
 
+  const openNewClassModal = () => {
+    setEditingClassId('');
+    setClassName('');
+    setClassSubject('');
+    setClassRoom('');
+    setClassTeacher('');
+    setClassDay('Mon');
+    setClassStart('08:00');
+    setClassEnd('09:00');
+    setClassColor(TIMETABLE_COLORS[0]);
+    setShowClassModal(true);
+  };
+
+  const openEditClassModal = (entry: TimetableClass) => {
+    setEditingClassId(entry.id);
+    setClassName(entry.className);
+    setClassSubject(entry.subject);
+    setClassRoom(entry.room);
+    setClassTeacher(entry.teacher);
+    setClassDay(entry.day);
+    setClassStart(entry.startTime);
+    setClassEnd(entry.endTime);
+    setClassColor(entry.color);
+    setShowClassModal(true);
+  };
+
+  const saveClass = () => {
+    if (!className.trim()) return;
+
+    const payload: TimetableClass = {
+      id: editingClassId || `tt-${Date.now()}`,
+      className: className.trim(),
+      subject: classSubject.trim(),
+      room: classRoom.trim(),
+      teacher: classTeacher.trim(),
+      day: classDay,
+      startTime: classStart,
+      endTime: classEnd,
+      color: classColor,
+    };
+
+    setTimetableClasses((prev) => {
+      if (!editingClassId) return [...prev, payload];
+      return prev.map((entry) => (entry.id === editingClassId ? payload : entry));
+    });
+    setShowClassModal(false);
+  };
+
+  const deleteClass = (id: string) => {
+    setTimetableClasses((prev) => prev.filter((entry) => entry.id !== id));
+    setShowClassModal(false);
+  };
+
+  const getClassForCell = (day: (typeof TIMETABLE_DAYS)[number], slot: (typeof TIMETABLE_SLOTS)[number]) => {
+    return timetableClasses.filter((entry) => entry.day === day && entry.startTime === slot);
+  };
+
   return (
     <div style={{ padding: '32px', maxWidth: '1200px', margin: '0 auto' }} className="kv-page animate-fade-in-up">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', flexWrap: 'wrap', gap: '12px' }}>
@@ -206,19 +308,39 @@ export default function CalendarPage() {
           <p className="kv-page-subtitle" style={{ fontSize: '14px' }}>
             All your exams, study sessions, and deadlines in one place
           </p>
+          <div className="kv-tabs" style={{ marginTop: 10 }}>
+            <button
+              type="button"
+              className={`kv-tab ${activeTab === 'calendar' ? 'active' : ''}`}
+              onClick={() => setActiveTab('calendar')}
+            >
+              Calendar
+            </button>
+            <button
+              type="button"
+              className={`kv-tab ${activeTab === 'timetable' ? 'active' : ''}`}
+              onClick={() => setActiveTab('timetable')}
+            >
+              Timetable
+            </button>
+          </div>
         </div>
         <button
           onClick={() => {
-            setNewDate(formatDateInput(today));
-            setShowAddModal(true);
+            if (activeTab === 'calendar') {
+              setNewDate(formatDateInput(today));
+              setShowAddModal(true);
+              return;
+            }
+            openNewClassModal();
           }}
           className="kv-btn-primary"
         >
-          + Add event
+          {activeTab === 'calendar' ? '+ Add event' : 'Add Class'}
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(260px,300px)', gap: '20px', alignItems: 'start' }}>
+      <div style={{ display: activeTab === 'calendar' ? 'grid' : 'none', gridTemplateColumns: 'minmax(0,1fr) minmax(260px,300px)', gap: '20px', alignItems: 'start' }}>
         <div>
           <div className="kv-card" style={{ padding: '20px', marginBottom: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '8px' }}>
@@ -523,6 +645,58 @@ export default function CalendarPage() {
         </div>
       </div>
 
+      <div style={{ display: activeTab === 'timetable' ? 'block' : 'none' }}>
+        <div className="kv-card" style={{ padding: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '120px repeat(5, minmax(0, 1fr))', gap: 8, alignItems: 'stretch' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Time</div>
+            {TIMETABLE_DAYS.map((day) => (
+              <div key={`head-${day}`} style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', textAlign: 'center' }}>
+                {day}
+              </div>
+            ))}
+
+            {TIMETABLE_SLOTS.map((slot) => (
+              <div key={`slot-row-${slot}`} style={{ display: 'contents' }}>
+                <div className="kv-card-sm" style={{ display: 'grid', placeItems: 'center', fontSize: 12, color: 'var(--text-secondary)' }}>
+                  {slot}
+                </div>
+                {TIMETABLE_DAYS.map((day) => {
+                  const classes = getClassForCell(day, slot);
+                  return (
+                    <div
+                      key={`${day}-${slot}`}
+                      className="kv-card-sm"
+                      style={{ minHeight: 68, padding: 6, display: 'flex', flexDirection: 'column', gap: 6 }}
+                    >
+                      {classes.map((entry) => (
+                        <button
+                          key={entry.id}
+                          type="button"
+                          onClick={() => openEditClassModal(entry)}
+                          style={{
+                            width: '100%',
+                            textAlign: 'left',
+                            background: `${entry.color}22`,
+                            border: `1px solid ${entry.color}`,
+                            borderRadius: 8,
+                            padding: '6px 8px',
+                            color: 'var(--text-primary)',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <div style={{ fontSize: 12, fontWeight: 700 }}>{entry.className}</div>
+                          <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{entry.subject || 'Subject'} • {entry.room || 'Room'}</div>
+                        </button>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {showAddModal ? (
         <div
           style={{
@@ -604,6 +778,91 @@ export default function CalendarPage() {
               >
                 {saving ? 'Saving...' : '+ Add to calendar'}
               </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {showClassModal ? (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 1000,
+            background: 'rgba(0,0,0,0.7)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+          }}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) setShowClassModal(false);
+          }}
+        >
+          <div className="kv-card animate-fade-in-up" style={{ padding: '24px', width: '100%', maxWidth: '520px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)' }}>{editingClassId ? 'Edit Class' : 'Add Class'}</h2>
+              <button
+                onClick={() => setShowClassModal(false)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', color: 'var(--text-muted)' }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
+              <input className="kv-input" placeholder="Class name" value={className} onChange={(e) => setClassName(e.target.value)} />
+              <input className="kv-input" placeholder="Subject" value={classSubject} onChange={(e) => setClassSubject(e.target.value)} />
+              <input className="kv-input" placeholder="Room" value={classRoom} onChange={(e) => setClassRoom(e.target.value)} />
+              <input className="kv-input" placeholder="Teacher" value={classTeacher} onChange={(e) => setClassTeacher(e.target.value)} />
+
+              <select className="kv-select" value={classDay} onChange={(e) => setClassDay(e.target.value as (typeof TIMETABLE_DAYS)[number])}>
+                {TIMETABLE_DAYS.map((day) => (
+                  <option key={`day-${day}`} value={day}>{day}</option>
+                ))}
+              </select>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                <select className="kv-select" value={classStart} onChange={(e) => setClassStart(e.target.value as (typeof TIMETABLE_SLOTS)[number])}>
+                  {TIMETABLE_SLOTS.map((slot) => (
+                    <option key={`start-${slot}`} value={slot}>{slot}</option>
+                  ))}
+                </select>
+                <select className="kv-select" value={classEnd} onChange={(e) => setClassEnd(e.target.value as (typeof TIMETABLE_SLOTS)[number])}>
+                  {TIMETABLE_SLOTS.map((slot) => (
+                    <option key={`end-${slot}`} value={slot}>{slot}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+              {TIMETABLE_COLORS.map((color) => (
+                <button
+                  key={color}
+                  type="button"
+                  onClick={() => setClassColor(color)}
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: '50%',
+                    border: classColor === color ? '2px solid white' : '1px solid var(--border-default)',
+                    background: color,
+                    cursor: 'pointer',
+                  }}
+                />
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', gap: 8, marginTop: 16, justifyContent: 'flex-end' }}>
+              {editingClassId ? (
+                <button className="kv-btn-danger" onClick={() => deleteClass(editingClassId)}>
+                  Delete
+                </button>
+              ) : null}
+              <button className="kv-btn-secondary" onClick={() => setShowClassModal(false)}>Cancel</button>
+              <button className="kv-btn-primary" onClick={saveClass} disabled={!className.trim()}>Save Class</button>
             </div>
           </div>
         </div>
