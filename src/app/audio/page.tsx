@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { trackNovaEvent } from "@/lib/novaClient";
+import { SendToPanel } from "~/app/_components/send-to-panel";
 
 type NoteType = "summary" | "detailed" | "flashcards" | "quiz";
 type InputMode = "record" | "upload";
@@ -62,6 +63,7 @@ export default function AudioPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedTitle, setGeneratedTitle] = useState("");
   const [generatedContent, setGeneratedContent] = useState("");
+  const [generatedNoteId, setGeneratedNoteId] = useState("");
   const [isSaved, setIsSaved] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -310,6 +312,7 @@ export default function AudioPage() {
     setTranscriptError("");
     setGeneratedContent("");
     setGeneratedTitle("");
+    setGeneratedNoteId("");
     setIsSaved(false);
     setStep(3);
 
@@ -332,6 +335,7 @@ export default function AudioPage() {
 
       setGeneratedTitle(String(data.title ?? "Lecture Notes"));
       setGeneratedContent(String(data.content ?? ""));
+      setGeneratedNoteId("");
       trackNovaEvent("AUDIO_CONVERTED");
     } catch {
       setTranscriptError("Failed to generate notes.");
@@ -355,12 +359,16 @@ export default function AudioPage() {
         }),
       });
 
-      const data = (await response.json().catch(() => ({}))) as { error?: string };
+      const data = (await response.json().catch(() => ({}))) as {
+        note?: { id?: string };
+        error?: string;
+      };
       if (!response.ok) {
         setTranscriptError(data.error ?? "Failed to save notes.");
         return;
       }
 
+      setGeneratedNoteId(data.note?.id ?? "");
       setIsSaved(true);
     } catch {
       setTranscriptError("Failed to save notes.");
@@ -425,6 +433,13 @@ export default function AudioPage() {
 
     return "";
   }, [audioBlob, uploadedFile]);
+
+  useEffect(() => {
+    if (!isSaved) return;
+
+    const timer = window.setTimeout(() => setIsSaved(false), 3000);
+    return () => window.clearTimeout(timer);
+  }, [isSaved]);
 
   return (
     <main style={{ minHeight: "100vh", background: "var(--bg-base)", color: "var(--text-primary)", padding: "28px 16px 100px" }}>
@@ -795,6 +810,13 @@ export default function AudioPage() {
                     ⚡ Open in Generator
                   </button>
                 </div>
+
+                <SendToPanel
+                  contentType="note"
+                  contentId={generatedNoteId}
+                  title={generatedTitle || "Audio Lecture Notes"}
+                  content={generatedContent}
+                />
 
                 {isSaved && (
                   <div className="animate-fade-in-up" style={{ display: "flex", alignItems: "center", gap: 8, color: "var(--accent-green)", fontWeight: 600 }}>

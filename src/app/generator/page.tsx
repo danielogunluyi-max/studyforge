@@ -10,6 +10,7 @@ import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
+import { SendToPanel } from "~/app/_components/send-to-panel";
 import LoadingButton from "@/app/_components/loading-button";
 import { trackNovaEvent } from "@/lib/novaClient";
 import { renderMath } from "@/lib/mathRenderer";
@@ -49,12 +50,19 @@ function parseTags(input: string): string[] {
   return Array.from(new Set(tags));
 }
 
+function deriveGeneratedTitle(source: string, fallback: string) {
+  const base = source.trim() || fallback.trim() || "Generated notes";
+  return base.slice(0, 50) + (base.length > 50 ? "..." : "");
+}
+
 export default function Generator() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [inputText, setInputText] = useState("");
   const [outputFormat, setOutputFormat] = useState("summary");
   const [generatedNotes, setGeneratedNotes] = useState("");
+  const [generatedNoteId, setGeneratedNoteId] = useState("");
+  const [generatedTitle, setGeneratedTitle] = useState("");
   const [tagsInput, setTagsInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isRegenerating, setIsRegenerating] = useState(false);
@@ -205,6 +213,7 @@ export default function Generator() {
     setIsLoading(true);
     setError("");
     setSaveSuccess(false);
+    setGeneratedNoteId("");
     setFlippedCards(new Set());
     setReviewedCards(new Set());
     setKnownCards(new Set());
@@ -260,6 +269,7 @@ export default function Generator() {
         }
         
         setGeneratedNotes(finalNotes);
+        setGeneratedTitle(deriveGeneratedTitle(inputText, finalNotes));
       } else {
         setError(data.error ?? "Failed to generate notes");
       }
@@ -349,7 +359,7 @@ export default function Generator() {
       }
 
       const sourceForTitle = inputText.trim() || contentToSave;
-      const title = sourceForTitle.slice(0, 50) + (sourceForTitle.length > 50 ? "..." : "");
+      const title = deriveGeneratedTitle(sourceForTitle, contentToSave);
 
       const response = await fetch("/api/notes", {
         method: "POST",
@@ -364,9 +374,14 @@ export default function Generator() {
         }),
       });
 
-      const result = (await response.json().catch(() => ({}))) as { error?: string };
+      const result = (await response.json().catch(() => ({}))) as {
+        note?: { id?: string; title?: string };
+        error?: string;
+      };
 
       if (response.ok) {
+        setGeneratedNoteId(result.note?.id ?? "");
+        setGeneratedTitle(result.note?.title ?? title);
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 3000);
         trackNovaEvent("NOTE_GENERATED");
@@ -385,6 +400,8 @@ export default function Generator() {
     setInputText("");
     setTagsInput("");
     setGeneratedNotes("");
+    setGeneratedNoteId("");
+    setGeneratedTitle("");
     setDetectedSubject(null);
     setSuggestedFormat(null);
     setError("");
@@ -1320,7 +1337,17 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
         {isLoading && !generatedNotes ? (
           <SkeletonList count={2} />
         ) : (
-          <div className="animate-[fadeInUp_0.4s_ease_forwards]">{renderOutput()}</div>
+          <div className="space-y-4 animate-[fadeInUp_0.4s_ease_forwards]">
+            {renderOutput()}
+            {generatedNotes ? (
+              <SendToPanel
+                contentType="note"
+                contentId={generatedNoteId}
+                title={generatedTitle || deriveGeneratedTitle(inputText, generatedNotes)}
+                content={generatedNotes}
+              />
+            ) : null}
+          </div>
         )}
       </div>
 

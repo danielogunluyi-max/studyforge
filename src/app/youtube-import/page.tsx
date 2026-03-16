@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { SendToPanel } from '~/app/_components/send-to-panel';
 
 type FlashcardPair = {
   question: string;
@@ -253,6 +254,13 @@ export default function YouTubeImportPage() {
                 {result.transcript || 'Transcript unavailable from API response.'}
               </div>
             ) : null}
+
+            <SendToPanel
+              contentType="note"
+              contentId={result.id}
+              title={result.title}
+              content={result.notes}
+            />
           </section>
         ) : null}
 

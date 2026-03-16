@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import { SendToPanel } from '~/app/_components/send-to-panel';
 
 type SmartUploadResult = {
   title?: string;
@@ -246,6 +247,15 @@ export default function SmartUploadPage() {
             </div>
 
             <div className="kv-card-elevated mt-4 italic">{result.summary}</div>
+
+            <div className="mt-4">
+              <SendToPanel
+                contentType="note"
+                contentId={result.noteId}
+                title={result.title || 'Generated notes'}
+                content={result.notes || result.summary || ''}
+              />
+            </div>
           </>
         )}
       </section>

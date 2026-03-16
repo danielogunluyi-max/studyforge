@@ -15,6 +15,7 @@ import OnboardingTour from "~/app/_components/onboarding-tour";
 import { ToastContainer } from "~/app/_components/toast";
 import ErrorBoundary from "~/app/_components/error-boundary";
 import { UnhandledRejectionListener } from "~/app/_components/unhandled-rejection-listener";
+import { SmartSuggestionBar } from "~/app/_components/smart-suggestion-bar";
 
 export const metadata: Metadata = {
   title: {
@@ -84,6 +85,7 @@ export default function RootLayout({
                   </AppShell>
                   <PresetGate />
                   <GlobalFloatingWidgets />
+                  <SmartSuggestionBar />
                   <ToastViewport />
                                 <ToastContainer />
                 </ToastProvider>

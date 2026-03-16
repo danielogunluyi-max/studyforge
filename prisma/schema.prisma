@@ -166,6 +166,12 @@ model User {
     noteEvolutions       NoteEvolution[]
     debatesAsPlayer1     DebateJudge[] @relation("DebatePlayer1")
     debatesAsPlayer2     DebateJudge[] @relation("DebatePlayer2")
+    sip                  StudentIntelligenceProfile?
+    autoTransformQueue   AutoTransformQueue[]
+    smartSuggestions     SmartSuggestion[]
+    studyModeSessions    StudyModeSession[]
+    contentConnections   ContentConnection[]
+    featurePreference    FeaturePreference?
 }
 
 model OntarioCurriculumCourse {
@@ -1521,4 +1527,113 @@ model DebateJudge {
     status      String   @default("waiting")
     code        String   @unique
     createdAt   DateTime @default(now())
+}
+
+model StudentIntelligenceProfile {
+    id                String   @id @default(cuid())
+    userId            String   @unique
+    user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    // KNOWLEDGE
+    knowledgeBreadth  Float    @default(0)
+    retentionScore    Float    @default(0)
+    depthScore        Float    @default(0)
+    performanceScore  Float    @default(0)
+    consistencyScore  Float    @default(0)
+    wellbeingScore    Float    @default(0)
+    disciplineScore   Float    @default(0)
+    synthesisScore    Float    @default(0)
+    velocityScore     Float    @default(0)
+
+    // PROFILE
+    chronotype        String   @default("unknown")
+    dominantStyle     String   @default("unknown")
+    strongestSubjects String[]
+    weakestSubjects   String[]
+    subjectGraph      Json     @default("{}")
+    featureUsage      Json     @default("{}")
+    learningPatterns  Json     @default("{}")
+
+    // PROGRESSION GATES
+    flashcardGate     String   @default("standard")
+    difficultyGate    String   @default("normal")
+    contentUnlocks    String[]
+
+    // SUGGESTIONS
+    lastSuggestions   Json     @default("[]")
+    suggestionHistory Json     @default("[]")
+
+    // META
+    totalStudyHours   Float    @default(0)
+    lastCalculated    DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+    createdAt         DateTime @default(now())
+}
+
+model AutoTransformQueue {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    sourceType  String
+    sourceId    String
+    sourceTitle String
+    subject     String?
+    status      String   @default("pending")
+    results     Json     @default("{}")
+    createdAt   DateTime @default(now())
+    processedAt DateTime?
+}
+
+model SmartSuggestion {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    trigger     String
+    suggestions Json
+    shown       Boolean  @default(false)
+    actedOn     Boolean  @default(false)
+    createdAt   DateTime @default(now())
+}
+
+model StudyModeSession {
+    id           String   @id @default(cuid())
+    userId       String
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    topic        String
+    subject      String
+    totalMinutes Int
+    phases       Json
+    currentPhase Int      @default(0)
+    status       String   @default("active")
+    results      Json     @default("{}")
+    startedAt    DateTime @default(now())
+    completedAt  DateTime?
+    createdAt    DateTime @default(now())
+}
+
+model ContentConnection {
+    id         String   @id @default(cuid())
+    userId     String
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    sourceType String
+    sourceId   String
+    targetType String
+    targetId   String
+    strength   Float    @default(0)
+    reason     String?
+    createdAt  DateTime @default(now())
+
+    @@unique([sourceId, targetId])
+}
+
+model FeaturePreference {
+    id              String   @id @default(cuid())
+    userId          String   @unique
+    user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    enabledFeatures String[]
+    hiddenFeatures  String[]
+    preset          String   @default("HIGHSCHOOL")
+    customized      Boolean  @default(false)
+    updatedAt       DateTime @updatedAt
+    createdAt       DateTime @default(now())
 }

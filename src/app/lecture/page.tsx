@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { SendToPanel } from '~/app/_components/send-to-panel';
 
 type LectureHistory = {
   id: string;
@@ -53,6 +54,7 @@ export default function LecturePage() {
   const [history, setHistory] = useState<LectureHistory[]>([]);
   const [result, setResult] = useState<LectureResult | null>(null);
   const [error, setError] = useState('');
+  const [savedNoteId, setSavedNoteId] = useState('');
 
   const loadHistory = async () => {
     try {
@@ -97,6 +99,7 @@ export default function LecturePage() {
     setTranscript('');
     setInterimTranscript('');
     setResult(null);
+    setSavedNoteId('');
     setSeconds(0);
 
     const recognition = new SpeechApi();
@@ -195,6 +198,7 @@ export default function LecturePage() {
         flashcards: data.flashcards ?? [],
         transcript: fullTranscript,
       });
+      setSavedNoteId('');
       setState('done');
       setActiveTab('notes');
       await loadHistory();
@@ -206,7 +210,7 @@ export default function LecturePage() {
 
   const saveNotes = async () => {
     if (!result?.notes) return;
-    await fetch('/api/notes', {
+    const response = await fetch('/api/notes', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -216,6 +220,11 @@ export default function LecturePage() {
         tags: [subject || 'lecture', 'live-transcript'],
       }),
     });
+
+    const data = (await response.json().catch(() => ({}))) as { note?: { id?: string } };
+    if (response.ok) {
+      setSavedNoteId(data.note?.id ?? '');
+    }
   };
 
   const saveAsDeck = async () => {
@@ -312,6 +321,14 @@ export default function LecturePage() {
             <article className="kv-card p-5">
               <p className="whitespace-pre-wrap leading-8">{result.notes || 'No notes generated.'}</p>
               <button className="kv-btn-primary mt-4" onClick={() => void saveNotes()}>Save Notes</button>
+              <div className="mt-4">
+                <SendToPanel
+                  contentType="note"
+                  contentId={savedNoteId}
+                  title={title.trim() || 'Lecture Notes'}
+                  content={result.notes}
+                />
+              </div>
             </article>
           )}
 

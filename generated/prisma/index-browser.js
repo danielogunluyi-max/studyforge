@@ -1173,6 +1173,97 @@ exports.Prisma.DebateJudgeScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.StudentIntelligenceProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  knowledgeBreadth: 'knowledgeBreadth',
+  retentionScore: 'retentionScore',
+  depthScore: 'depthScore',
+  performanceScore: 'performanceScore',
+  consistencyScore: 'consistencyScore',
+  wellbeingScore: 'wellbeingScore',
+  disciplineScore: 'disciplineScore',
+  synthesisScore: 'synthesisScore',
+  velocityScore: 'velocityScore',
+  chronotype: 'chronotype',
+  dominantStyle: 'dominantStyle',
+  strongestSubjects: 'strongestSubjects',
+  weakestSubjects: 'weakestSubjects',
+  subjectGraph: 'subjectGraph',
+  featureUsage: 'featureUsage',
+  learningPatterns: 'learningPatterns',
+  flashcardGate: 'flashcardGate',
+  difficultyGate: 'difficultyGate',
+  contentUnlocks: 'contentUnlocks',
+  lastSuggestions: 'lastSuggestions',
+  suggestionHistory: 'suggestionHistory',
+  totalStudyHours: 'totalStudyHours',
+  lastCalculated: 'lastCalculated',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AutoTransformQueueScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sourceType: 'sourceType',
+  sourceId: 'sourceId',
+  sourceTitle: 'sourceTitle',
+  subject: 'subject',
+  status: 'status',
+  results: 'results',
+  createdAt: 'createdAt',
+  processedAt: 'processedAt'
+};
+
+exports.Prisma.SmartSuggestionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  trigger: 'trigger',
+  suggestions: 'suggestions',
+  shown: 'shown',
+  actedOn: 'actedOn',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.StudyModeSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  topic: 'topic',
+  subject: 'subject',
+  totalMinutes: 'totalMinutes',
+  phases: 'phases',
+  currentPhase: 'currentPhase',
+  status: 'status',
+  results: 'results',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ContentConnectionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sourceType: 'sourceType',
+  sourceId: 'sourceId',
+  targetType: 'targetType',
+  targetId: 'targetId',
+  strength: 'strength',
+  reason: 'reason',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.FeaturePreferenceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  enabledFeatures: 'enabledFeatures',
+  hiddenFeatures: 'hiddenFeatures',
+  preset: 'preset',
+  customized: 'customized',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1299,7 +1390,13 @@ exports.Prisma.ModelName = {
   MemorySimulation: 'MemorySimulation',
   KyvexIQ: 'KyvexIQ',
   NoteEvolution: 'NoteEvolution',
-  DebateJudge: 'DebateJudge'
+  DebateJudge: 'DebateJudge',
+  StudentIntelligenceProfile: 'StudentIntelligenceProfile',
+  AutoTransformQueue: 'AutoTransformQueue',
+  SmartSuggestion: 'SmartSuggestion',
+  StudyModeSession: 'StudyModeSession',
+  ContentConnection: 'ContentConnection',
+  FeaturePreference: 'FeaturePreference'
 };
 
 /**
