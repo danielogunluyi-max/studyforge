@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import EmptyState from '@/app/_components/empty-state';
 
 type WrappedData = {
   totalHours: number;
@@ -54,9 +56,15 @@ export default function WrappedPage() {
   const [data, setData] = useState<WrappedData | null>(null);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [error, setError] = useState('');
+  const [displayHours, setDisplayHours] = useState(0);
+  const [displayNotes, setDisplayNotes] = useState(0);
+  const [displayCards, setDisplayCards] = useState(0);
+  const [displayAvg, setDisplayAvg] = useState(0);
 
   async function generateWrapped() {
     setLoading(true);
+    setError('');
     try {
       const response = await fetch('/api/wrapped', {
         method: 'POST',
@@ -66,6 +74,8 @@ export default function WrappedPage() {
       const payload = (await response.json().catch(() => null)) as { data?: WrappedData } | null;
       setData(payload?.data ?? null);
       setIndex(0);
+    } catch {
+      setError('Failed to generate wrapped data');
     } finally {
       setLoading(false);
     }
@@ -122,6 +132,32 @@ export default function WrappedPage() {
     return () => clearInterval(timer);
   }, [data, paused, cards.length]);
 
+  useEffect(() => {
+    if (!data) {
+      setDisplayHours(0);
+      setDisplayNotes(0);
+      setDisplayCards(0);
+      setDisplayAvg(0);
+      return;
+    }
+
+    const duration = 1200;
+    const start = performance.now();
+    let raf = 0;
+
+    const animate = (now: number) => {
+      const progress = Math.min(1, (now - start) / duration);
+      setDisplayHours(Math.round(data.totalHours * progress));
+      setDisplayNotes(Math.round(data.totalNotes * progress));
+      setDisplayCards(Math.round(data.totalCards * progress));
+      setDisplayAvg(Math.round(data.avgScore * progress));
+      if (progress < 1) raf = requestAnimationFrame(animate);
+    };
+
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
+  }, [data]);
+
   async function shareWrapped() {
     if (!data) return;
     const text = `My Kyvex Wrapped: ${data.totalHours}h focus, ${data.totalNotes} notes, avg score ${data.avgScore}%`;
@@ -134,9 +170,10 @@ export default function WrappedPage() {
   }
 
   return (
-    <div className="kv-page" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+    <div className="kv-page kv-animate-in" style={{ maxWidth: '1000px', margin: '0 auto' }}>
       <h1 className="kv-page-title">Kyvex Wrapped</h1>
       <p className="kv-page-subtitle">Spotify Wrapped for your study life.</p>
+      {error ? <div className="kv-alert-error kv-animate-in">{error}</div> : null}
 
       <div className="kv-card" style={{ marginBottom: 18 }}>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'end' }}>
@@ -153,11 +190,20 @@ export default function WrappedPage() {
               ))}
             </select>
           </div>
-          <button className="kv-btn-primary" onClick={() => void generateWrapped()} disabled={loading}>
-            {loading ? 'Generating...' : 'Generate My Wrapped'}
-          </button>
+          <LoadingButton loading={loading} type="button" onClick={() => void generateWrapped()}>
+            Generate My Wrapped
+          </LoadingButton>
         </div>
       </div>
+
+      {!data && !loading ? (
+        <EmptyState
+          icon="🎬"
+          title="No wrapped data yet"
+          description="Study more this month to generate your Kyvex Wrapped"
+          action={{ label: 'Generate wrapped', onClick: () => void generateWrapped() }}
+        />
+      ) : null}
 
       {data ? (
         <div
@@ -173,12 +219,19 @@ export default function WrappedPage() {
             boxShadow: '0 30px 80px rgba(0,0,0,0.35)',
             display: 'grid',
             alignContent: 'space-between',
+            transition: 'all 0.35s ease',
           }}
         >
-          <div style={{ animation: 'fadeSlide 0.35s ease' }}>
+          <div className="kv-animate-scale" style={{ animation: 'fadeSlide 0.35s ease' }}>
             <div style={{ fontSize: 12, opacity: 0.8, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>Kyvex Wrapped</div>
             <h2 style={{ fontSize: 46, lineHeight: 1.06, margin: 0, marginBottom: 14 }}>{cards[index]?.title}</h2>
             <p style={{ fontSize: 20, lineHeight: 1.6, margin: 0, maxWidth: 760 }}>{cards[index]?.body}</p>
+            <div className="kv-grid-4" style={{ marginTop: 14 }}>
+              <div className="kv-card-sm kv-count" style={{ padding: 8 }}>Hours: {displayHours}</div>
+              <div className="kv-card-sm kv-count" style={{ padding: 8 }}>Notes: {displayNotes}</div>
+              <div className="kv-card-sm kv-count" style={{ padding: 8 }}>Cards: {displayCards}</div>
+              <div className="kv-card-sm kv-count" style={{ padding: 8 }}>Avg: {displayAvg}%</div>
+            </div>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>

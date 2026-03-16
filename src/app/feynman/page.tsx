@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
+import LoadingButton from '@/app/_components/loading-button';
 
 import { trackNovaEvent } from '@/lib/novaClient';
 
@@ -187,7 +190,7 @@ export default function FeynmanPage() {
     return (
       <>
         <div
-          className="kv-page"
+          className="kv-page kv-animate-in"
           style={{
             padding: '32px',
             maxWidth: '800px',
@@ -266,7 +269,7 @@ export default function FeynmanPage() {
 
     return (
       <div
-        className="kv-page animate-fade-in-up"
+        className="kv-page kv-animate-in"
         style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }}
       >
         <div style={{ marginBottom: '28px' }}>
@@ -552,7 +555,7 @@ export default function FeynmanPage() {
 
   if (view === 'history') {
     return (
-      <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }} className="kv-page animate-fade-in-up">
+      <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }} className="kv-page kv-animate-in">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', gap: '12px', flexWrap: 'wrap' }}>
           <div>
             <h1
@@ -576,26 +579,20 @@ export default function FeynmanPage() {
         </div>
 
         {historyLoading ? (
-          <div style={{ textAlign: 'center', padding: '48px', color: 'var(--text-muted)' }}>Loading...</div>
+          <Skeleton variant="list" count={5} />
         ) : history.length === 0 ? (
-          <div className="kv-card kv-empty" style={{ padding: '48px', textAlign: 'center' }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>🧠</div>
-            <p style={{ color: 'var(--text-secondary)', fontWeight: 600, marginBottom: '8px' }}>
-              No sessions yet
-            </p>
-            <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '20px' }}>
-              Complete your first Feynman session to see your history
-            </p>
-            <button onClick={handleNewConcept} className="kv-btn-primary">
-              Start now →
-            </button>
-          </div>
+          <EmptyState
+            icon="🔬"
+            title="No Feynman sessions yet"
+            description="Pick a concept and explain it in your own words"
+            action={{ label: 'Start now', onClick: handleNewConcept }}
+          />
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div className="kv-stagger kv-animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {history.map((session) => (
               <div
                 key={session.id}
-                className="kv-card"
+                className="kv-card kv-card-hover kv-animate-in"
                 style={{ padding: '18px', display: 'flex', alignItems: 'center', gap: '16px' }}
               >
                 <div
@@ -671,7 +668,7 @@ export default function FeynmanPage() {
   }
 
   return (
-    <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }} className="kv-page animate-fade-in-up">
+    <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }} className="kv-page kv-animate-in">
       <div
         style={{
           marginBottom: '28px',
@@ -872,14 +869,15 @@ export default function FeynmanPage() {
         </div>
       ) : null}
 
-      <button
+      <LoadingButton
+        loading={false}
         onClick={handleSubmit}
         disabled={!concept.trim() || explanation.trim().length < 30}
-        className="kv-btn-primary"
-        style={{ width: '100%' }}
+        type="button"
+        fullWidth
       >
         🧠 Grade my explanation →
-      </button>
+      </LoadingButton>
 
       {attemptNumber > 1 ? (
         <p style={{ textAlign: 'center', fontSize: '13px', color: 'var(--text-muted)', marginTop: '12px' }}>

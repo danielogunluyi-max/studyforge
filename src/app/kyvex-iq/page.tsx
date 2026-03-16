@@ -1,6 +1,8 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import EmptyState from '@/app/_components/empty-state';
 
 type IQBreakdown = {
   masteryScore: number;
@@ -31,10 +33,35 @@ export default function KyvexIQPage() {
   const [calcDetails, setCalcDetails] = useState<IQBreakdown | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [displayScore, setDisplayScore] = useState(0);
 
   const cardText = useMemo(() => {
     if (!iq) return 'My Kyvex IQ: Not calculated yet';
     return `My Kyvex IQ: ${iq.score}\n${iq.rank}\nMastery ${iq.masteryScore}/250 • Consistency ${iq.consistencyScore}/250 • Velocity ${iq.velocityScore}/250 • Depth ${iq.depthScore}/250`;
+  }, [iq]);
+
+  useEffect(() => {
+    if (!iq) {
+      setDisplayScore(0);
+      return;
+    }
+
+    const duration = 1500;
+    const start = performance.now();
+    const target = iq.score;
+
+    let rafId = 0;
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(1, elapsed / duration);
+      setDisplayScore(Math.round(target * progress));
+      if (progress < 1) {
+        rafId = requestAnimationFrame(tick);
+      }
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
   }, [iq]);
 
   const calcIQ = async () => {
@@ -114,7 +141,7 @@ export default function KyvexIQPage() {
   };
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8">
+    <main className="mx-auto max-w-6xl px-4 py-8 kv-animate-in">
       <header className="mb-6">
         <h1 className="text-3xl font-black">Kyvex IQ Score</h1>
         <p className="mt-2 text-[var(--text-secondary)]">your academic intelligence rating</p>
@@ -123,29 +150,38 @@ export default function KyvexIQPage() {
       {error && <div className="kv-card mb-4 border-[var(--accent-red)] p-3 text-sm text-[var(--accent-red)]">{error}</div>}
 
       <section className="kv-card kv-card-gold mb-4 p-6 text-center">
-        <button className="kv-btn-primary" onClick={() => void calcIQ()} disabled={loading}>
-          {loading ? 'Analyzing your entire Kyvex history...' : 'Calculate My IQ'}
-        </button>
+        <LoadingButton loading={loading} type="button" onClick={() => void calcIQ()}>
+          Calculate My IQ
+        </LoadingButton>
 
         {iq && (
           <div className="mt-6">
-            <p className="bg-gradient-to-r from-[#f0b429] to-[#2dd4bf] bg-clip-text text-[96px] font-black leading-none text-transparent">{iq.score}</p>
+            <p className="kv-animate-bounce bg-gradient-to-r from-[#f0b429] to-[#2dd4bf] bg-clip-text text-[96px] font-black leading-none text-transparent">{displayScore}</p>
             <p className="mt-2 text-2xl font-bold">{iq.rank}</p>
             <p className="text-sm text-[var(--text-secondary)]">out of 1000</p>
           </div>
         )}
       </section>
 
+      {!iq && !loading ? (
+        <EmptyState
+          icon="🧬"
+          title="IQ not calculated yet"
+          description="Calculate your Kyvex IQ to see your academic intelligence score"
+          action={{ label: 'Calculate my IQ', onClick: () => void calcIQ() }}
+        />
+      ) : null}
+
       {iq && (
         <>
-          <section className="kv-grid-2 mb-4">
+          <section className="kv-grid-2 kv-stagger kv-animate-in mb-4">
             {[
               { label: 'Mastery', value: iq.masteryScore, desc: 'Understanding and exam performance' },
               { label: 'Consistency', value: iq.consistencyScore, desc: 'Habit and streak reliability' },
               { label: 'Velocity', value: iq.velocityScore, desc: 'Study output over time' },
               { label: 'Depth', value: iq.depthScore, desc: 'Concept clarity and explanation quality' },
             ].map((item) => (
-              <article key={item.label} className="kv-card p-4">
+              <article key={item.label} className="kv-card kv-animate-in p-4">
                 <p className="text-sm font-semibold text-[var(--text-secondary)]">{item.label}</p>
                 <p className="text-4xl font-black">{item.value}<span className="text-base font-semibold text-[var(--text-secondary)]"> / 250</span></p>
                 <div className="kv-progress-track mt-3">
@@ -173,7 +209,7 @@ export default function KyvexIQPage() {
 
           <section className="kv-card kv-card-gold p-5">
             <div className="kv-card-elevated rounded-2xl p-5">
-              <p className="text-5xl font-black">My Kyvex IQ: {iq.score}</p>
+              <p className="text-5xl font-black kv-count">My Kyvex IQ: {displayScore}</p>
               <p className="mt-2 inline-block rounded-full bg-[rgba(45,212,191,0.2)] px-3 py-1 text-sm font-bold">{iq.rank}</p>
               <div className="mt-4 grid grid-cols-2 gap-2">
                 <div className="kv-card-sm p-2">Mastery: {iq.masteryScore}</div>

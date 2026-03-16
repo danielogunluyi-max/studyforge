@@ -7,8 +7,8 @@ import { useSession } from "next-auth/react";
 import { Button } from "~/app/_components/button";
 import AudioPlayer from "~/app/_components/AudioPlayer";
 import { PageHero } from "~/app/_components/page-hero";
-import { EmptyState } from "~/app/_components/empty-state";
-import { SkeletonList } from "~/app/_components/skeleton";
+import EmptyState from "@/app/_components/empty-state";
+import Skeleton, { SkeletonList } from "@/app/_components/skeleton";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { renderMath } from "@/lib/mathRenderer";
@@ -691,7 +691,7 @@ export default function MyNotes() {
   }
 
   return (
-    <main className="app-premium-dark min-h-screen bg-gray-950">
+    <main className="app-premium-dark min-h-screen bg-gray-950 kv-animate-in">
 
       <div className="kv-page container mx-auto mb-[100px] max-w-7xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
         <PageHero
@@ -798,13 +798,13 @@ export default function MyNotes() {
               <h2 className="text-sm font-semibold text-white">Recently Viewed</h2>
               <span className="text-xs text-gray-500">Last 3 notes accessed</span>
             </div>
-            <div className="stagger-grid grid gap-3 md:grid-cols-3">
+            <div className="stagger-grid kv-stagger kv-animate-in grid gap-3 md:grid-cols-3">
               {recentlyViewed.slice(0, 3).map((note) => (
                 <button
                   key={`recent-${note.id}`}
                   type="button"
                   onClick={() => void openNote(note)}
-                  className="stagger-card kv-card text-left transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:bg-blue-50"
+                  className="stagger-card kv-card kv-card-hover kv-animate-in text-left transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:bg-blue-50"
                 >
                   <p className="line-clamp-1 text-sm font-semibold text-white">{note.title}</p>
                   <p className="mt-1 line-clamp-2 text-xs text-gray-600">{note.content}</p>
@@ -818,7 +818,7 @@ export default function MyNotes() {
         )}
 
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-          <aside className={`${showMobileFilters ? "block" : "hidden"} kv-card lg:block`}>
+          <aside className={`${showMobileFilters ? "block" : "hidden"} kv-card kv-hide-mobile lg:block`}>
             <div className="mb-3 flex items-center justify-between lg:hidden">
               <p className="text-sm font-semibold text-white">Filters</p>
               <Button size="sm" variant="secondary" onClick={() => setShowMobileFilters(false)}>
@@ -907,7 +907,7 @@ export default function MyNotes() {
             </Button>
 
             {isTagLoading ? (
-              <p className="text-xs text-gray-500">Loading tags...</p>
+              <Skeleton variant="text" count={4} />
             ) : tagStats.length === 0 ? (
               <p className="text-xs text-gray-500">No tags yet.</p>
             ) : (
@@ -968,19 +968,17 @@ export default function MyNotes() {
               <SkeletonList count={6} />
             ) : notes.length === 0 ? (
               <EmptyState
-                title={debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat ? "No notes found" : "Nothing here yet - generate your first note!"}
+                icon="📝"
+                title={debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat ? "No notes found" : "No notes yet"}
                 description={
                   debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat
                     ? "Try adjusting your search or removing filters to see more results."
-                    : "Upload a file or paste text and we will turn it into study-ready notes in seconds."
+                    : "Generate your first AI note from any topic"
                 }
-                actionLabel="Create Your First Note"
-                actionHref="/generator"
-                secondaryActionLabel="Upload a File"
-                secondaryActionHref="/upload"
+                action={{ label: 'Create your first note', href: '/generator' }}
               />
             ) : (
-              <div className="stagger-grid grid gap-6 md:grid-cols-2">
+              <div className="stagger-grid kv-stagger kv-animate-in grid gap-6 md:grid-cols-2">
                 {notes.map((note) => (
                   <div
                     key={note.id}
@@ -988,7 +986,7 @@ export default function MyNotes() {
                     onDragStart={(event) => event.dataTransfer.setData("text/note-id", note.id)}
                     onMouseEnter={() => setHoveredNoteId(note.id)}
                     onMouseLeave={() => setHoveredNoteId("")}
-                    className="stagger-card group relative kv-card transition-all duration-200 hover:-translate-y-1"
+                    className="stagger-card group relative kv-card kv-card-hover kv-animate-in transition-all duration-200 hover:-translate-y-1"
                   >
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">

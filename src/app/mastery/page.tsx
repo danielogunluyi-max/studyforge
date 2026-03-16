@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type Subject = {
   subject: string;
@@ -194,17 +196,22 @@ export default function MasteryPage() {
   const [loading, setLoading] = useState(true);
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
   const [filter, setFilter] = useState('all');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('/api/mastery')
-      .then(async (response) => {
+    void (async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const response = await fetch('/api/mastery');
         const payload = (await response.json().catch(() => null)) as MasteryData | null;
         setData(payload);
+      } catch {
+        setError('Failed to load mastery data');
+      } finally {
         setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+      }
+    })();
   }, []);
 
   const subjects = data?.subjects ?? [];
@@ -218,64 +225,28 @@ export default function MasteryPage() {
 
   if (loading) {
     return (
-      <div style={{ padding: '32px', maxWidth: '1000px', margin: '0 auto' }}>
-        <div style={{ marginBottom: '28px' }}>
-          <div className="skeleton" style={{ width: 200, height: 28, borderRadius: '8px', marginBottom: '8px' }} />
-          <div className="skeleton" style={{ width: 340, height: 16, borderRadius: '6px' }} />
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '20px' }}>
-          {[1, 2, 3].map((item) => (
-            <div key={item} className="skeleton" style={{ height: 80, borderRadius: '12px' }} />
-          ))}
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
-          {[1, 2, 3, 4, 5, 6].map((item) => (
-            <div key={item} className="skeleton" style={{ height: 160, borderRadius: '12px' }} />
-          ))}
-        </div>
+      <div style={{ padding: '32px', maxWidth: '1000px', margin: '0 auto' }} className="kv-animate-in">
+        <Skeleton variant="card" count={3} />
       </div>
     );
   }
 
   if (!data || subjects.length === 0) {
     return (
-      <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-        <div style={{ fontSize: '64px', marginBottom: '20px' }}>🗺</div>
-        <h1 style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '12px' }}>
-          Your Mastery Chart is Empty
-        </h1>
-        <p
-          style={{
-            color: 'var(--text-secondary)',
-            fontSize: '14px',
-            lineHeight: 1.7,
-            maxWidth: '440px',
-            margin: '0 auto 28px',
-          }}
-        >
-          Start studying. Generate notes, study flashcards, try the Feynman technique, or track exam results. Your mastery map will
-          appear here automatically.
-        </p>
-
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          {[
-            { href: '/generator', label: '✨ Generate Notes' },
-            { href: '/flashcards', label: '🃏 Study Flashcards' },
-            { href: '/feynman', label: '🧠 Feynman Technique' },
-          ].map((link) => (
-            <a key={link.href} href={link.href} style={{ textDecoration: 'none' }}>
-              <button className="btn btn-primary btn-sm">{link.label}</button>
-            </a>
-          ))}
-        </div>
+      <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto', textAlign: 'center' }} className="kv-animate-in">
+        <EmptyState
+          icon="🎯"
+          title="No mastery data yet"
+          description="Create notes and flashcards to start tracking mastery"
+          action={{ label: 'Create your first note', href: '/generator' }}
+        />
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '32px', maxWidth: '1100px', margin: '0 auto' }} className="animate-fade-in-up">
+    <div style={{ padding: '32px', maxWidth: '1100px', margin: '0 auto' }} className="kv-animate-in">
+      {error ? <div className="kv-alert-error kv-animate-in">{error}</div> : null}
       <div style={{ marginBottom: '28px' }}>
         <h1
           style={{
@@ -380,12 +351,12 @@ export default function MasteryPage() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px', marginBottom: '24px' }}>
+      <div className="kv-stagger kv-animate-in" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px', marginBottom: '24px' }}>
         {filteredSubjects.map((subject) => (
           <div
             key={subject.subject}
+            className="card kv-card-hover kv-animate-in"
             onClick={() => setSelectedSubject(selectedSubject?.subject === subject.subject ? null : subject)}
-            className="card"
             style={{
               padding: '20px',
               cursor: 'pointer',

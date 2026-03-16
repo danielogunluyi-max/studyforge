@@ -7,6 +7,9 @@ import { useToast } from '~/app/_components/toast'
 import { RecordResultModal } from '@/components/RecordResultModal'
 import { getGradeColor, percentToLetter } from '@/lib/gradeUtils'
 import { trackNovaEvent } from '@/lib/novaClient'
+import LoadingButton from '@/app/_components/loading-button'
+import Skeleton from '@/app/_components/skeleton'
+import EmptyState from '@/app/_components/empty-state'
 
 type Exam = {
   id: string
@@ -518,7 +521,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <main style={{ minHeight: '100vh', background: '#050810', color: '#e8eaf6' }}>
+    <main className="kv-animate-in" style={{ minHeight: '100vh', background: '#050810', color: '#e8eaf6' }}>
       <style>{`
         @keyframes dashboard-pulse {
           0%, 100% { opacity: 1; }
@@ -612,6 +615,7 @@ export default function DashboardPage() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
         }}>
           <div
+            className="kv-card-hover"
             onMouseEnter={applyCardHover}
             onMouseLeave={clearCardHover}
             style={{
@@ -638,7 +642,7 @@ export default function DashboardPage() {
                 <p style={{ fontSize: '14px', fontWeight: 700, color: '#8892b0', marginBottom: '6px' }}>
                   {subjectIcon(nextExam.subject)} {nextExam.subject}
                 </p>
-                <p style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+                <p className="kv-bounce-in" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
                   {formatCountdown(nextExam.examDate)}
                 </p>
                 <p style={{ fontSize: '12px', color: '#8892b0', marginTop: '4px' }}>
@@ -647,7 +651,7 @@ export default function DashboardPage() {
               </>
             ) : (
               <>
-                <p style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+                <p className="kv-bounce-in" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
                   0 days
                 </p>
                 <p style={{ fontSize: '12px', color: '#8892b0', marginTop: '4px' }}>
@@ -658,6 +662,7 @@ export default function DashboardPage() {
           </div>
 
           <div
+            className="kv-card-hover"
             onMouseEnter={applyCardHover}
             onMouseLeave={clearCardHover}
             style={{
@@ -678,13 +683,14 @@ export default function DashboardPage() {
             }}>
               Exams This Month
             </p>
-            <p style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+            <p className="kv-bounce-in" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
               {totalExamsThisMonth}
             </p>
             <p style={{ fontSize: '12px', color: '#8892b0' }}>scheduled</p>
           </div>
 
           <div
+            className="kv-card-hover"
             onMouseEnter={applyCardHover}
             onMouseLeave={clearCardHover}
             style={{
@@ -706,14 +712,14 @@ export default function DashboardPage() {
             }}>
               Study Streak
             </p>
-            <p style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+            <p className="kv-bounce-in" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
               {studyStreak}
             </p>
             <p style={{ fontSize: '12px', color: '#8892b0' }}>days</p>
           </div>
         </div>
 
-        <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
+        <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px', flexWrap: 'wrap' }}>
             <div>
               <p style={{
@@ -746,7 +752,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
+        <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
             <div>
               <p style={{
@@ -768,6 +774,7 @@ export default function DashboardPage() {
             </div>
             <Link
               href="/curriculum"
+              className="kv-pulse-gold"
               style={{
                 textDecoration: 'none',
                 background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
@@ -786,7 +793,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '28px' }}>
+        <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '28px' }}>
           <p style={{
             fontSize: '11px',
             fontWeight: 800,
@@ -831,49 +838,36 @@ export default function DashboardPage() {
               placeholder="Topics (comma separated)"
               style={inputStyle}
             />
-            <button
-              type="button"
+            <LoadingButton
+              loading={isSaving}
               onClick={() => {
                 void createExam()
               }}
-              disabled={isSaving}
-              style={{
-                borderRadius: '10px',
-                border: 'none',
-                background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
-                color: '#050810',
-                fontWeight: 700,
-                fontSize: '13px',
-                padding: '10px 14px',
-                cursor: isSaving ? 'not-allowed' : 'pointer',
-                opacity: isSaving ? 0.75 : 1,
-                boxShadow: '0 4px 16px rgba(240,180,41,0.3)',
-                fontFamily: 'inherit',
-              }}
+              type="button"
+              fullWidth
             >
-              {isSaving ? 'Saving...' : 'Save Exam'}
-            </button>
+              Save Exam
+            </LoadingButton>
           </div>
         </div>
 
         {isLoading ? (
-          <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={baseCardStyle}>
-            <p style={{ fontSize: '13px', color: '#8892b0' }}>Loading dashboard...</p>
-          </div>
+          <Skeleton variant="card" count={3} />
         ) : exams.length === 0 ? (
-          <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={baseCardStyle}>
-            <p style={{ fontSize: '13px', color: '#8892b0' }}>No exams added - add one so we can count down together!</p>
-          </div>
+          <EmptyState
+            icon="🚀"
+            title="Your dashboard is empty"
+            description="Start by creating a note or importing a flashcard deck"
+            action={{ label: 'Create your first note', href: '/generator' }}
+          />
         ) : (
           <>
             {upcomingExams.length === 0 ? (
-              <div onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, textAlign: 'center', padding: '48px' }}>
-                <p style={{ fontSize: '32px', marginBottom: '8px' }}>🎉</p>
-                <p style={{ color: '#e8eaf6', fontWeight: 600 }}>No upcoming exams</p>
-                <p style={{ color: '#3d4a6b', fontSize: '13px', marginTop: '4px' }}>
-                  Add an exam above to start your countdown
-                </p>
-              </div>
+              <EmptyState
+                icon="📅"
+                title="No events scheduled"
+                description="Add your exams, assignments, and deadlines"
+              />
             ) : (
               <>
                 <p style={{
@@ -886,7 +880,7 @@ export default function DashboardPage() {
                 }}>
                   Upcoming Exams
                 </p>
-                <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))' }}>
+                <div className="kv-stagger kv-animate-in" style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))' }}>
                   {[...upcomingExams]
                     .sort((a, b) => new Date(a.examDate).getTime() - new Date(b.examDate).getTime())
                     .map((exam) => {
@@ -899,6 +893,7 @@ export default function DashboardPage() {
                       return (
                         <div
                           key={exam.id}
+                          className="kv-card-hover kv-animate-in"
                           onMouseEnter={applyCardHover}
                           onMouseLeave={clearCardHover}
                           style={baseCardStyle}

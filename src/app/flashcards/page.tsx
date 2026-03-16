@@ -78,7 +78,7 @@ export default async function FlashcardsPage({
   const params = (await searchParams) ?? {};
 
   return (
-    <div className="kv-page">
+    <div className="kv-page kv-animate-in">
       <DeckLibraryClient
         initialDecks={decks}
         studiedToday={studiedToday}

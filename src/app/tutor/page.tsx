@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "~/app/_components/button";
 import { useToast } from "~/app/_components/toast";
 import { renderMath } from "@/lib/mathRenderer";
+import LoadingButton from "@/app/_components/loading-button";
 
 type Subject = "Math" | "Science" | "English" | "History" | "Chemistry" | "Physics" | "General";
 
@@ -76,6 +77,7 @@ export default function TutorPage() {
     () => messages.map((message) => `${message.role === "user" ? "Student" : "Nova"}: ${message.content}`).join("\n\n"),
     [messages],
   );
+  const isLoading = isThinking || isTypingResponse;
 
   useEffect(() => {
     const raw = sessionStorage.getItem(STORAGE_KEY);
@@ -311,7 +313,7 @@ export default function TutorPage() {
   };
 
   return (
-    <main className="app-premium-dark min-h-screen bg-gray-950 text-white">
+    <main className="app-premium-dark min-h-screen bg-gray-950 text-white kv-animate-in">
       <div className="kv-page mx-auto flex h-[calc(100vh-72px)] w-full max-w-6xl flex-col px-4 py-4 pb-28 sm:px-6 sm:pb-4">
         <div className="kv-card kv-card-elevated mb-3 p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -366,9 +368,14 @@ export default function TutorPage() {
             </select>
 
             <Button size="sm" variant="secondary" className="kv-btn-secondary" onClick={loadSelectedNote} disabled={!selectedNoteId}>Load my note</Button>
-            <Button size="sm" className="kv-btn-primary" onClick={() => void generateFlashcards()} loading={flashcardsLoading} disabled={flashcardsLoading || messages.length < 2}>
+            <LoadingButton
+              loading={flashcardsLoading}
+              type="button"
+              onClick={() => void generateFlashcards()}
+              disabled={flashcardsLoading || messages.length < 2}
+            >
               Generate Flashcards from this chat
-            </Button>
+            </LoadingButton>
           </div>
         </div>
 
@@ -377,7 +384,7 @@ export default function TutorPage() {
             {messages.map((message, index) => (
               <div
                 key={message.id}
-                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                className={`flex kv-animate-in-fast ${message.role === "user" ? "justify-end kv-animate-right" : "justify-start kv-animate-left"}`}
                 style={{ animationDelay: `${Math.min(index * 18, 220)}ms` }}
               >
                 <div
@@ -429,15 +436,11 @@ export default function TutorPage() {
               </div>
             ))}
 
-            {(isThinking || isTypingResponse) && (
-              <div className="flex justify-start">
-                <div className="kv-card-elevated rounded-2xl px-4 py-3">
-                  <div className="flex items-center gap-1">
-                    <span className="h-2 w-2 animate-bounce rounded-full bg-purple-300 [animation-delay:-0.3s]" />
-                    <span className="h-2 w-2 animate-bounce rounded-full bg-purple-300 [animation-delay:-0.15s]" />
-                    <span className="h-2 w-2 animate-bounce rounded-full bg-purple-300" />
-                  </div>
-                </div>
+            {isLoading && (
+              <div style={{ display: 'flex', gap: '4px', padding: '12px 16px', alignItems: 'center' }}>
+                <div className="typing-dot" />
+                <div className="typing-dot" />
+                <div className="typing-dot" />
               </div>
             )}
 
@@ -460,7 +463,14 @@ export default function TutorPage() {
               placeholder="Ask Nova anything..."
               className="kv-input flex-1"
             />
-            <Button className="kv-btn-primary" onClick={() => void sendMessage()} disabled={!input.trim() || isThinking}>Send</Button>
+            <LoadingButton
+              loading={isThinking}
+              type="button"
+              onClick={() => void sendMessage()}
+              disabled={!input.trim() || isThinking}
+            >
+              Send
+            </LoadingButton>
           </div>
 
           <div className="mt-2 overflow-x-auto whitespace-nowrap text-xs text-slate-300">
@@ -483,6 +493,22 @@ export default function TutorPage() {
       </div>
 
       <style jsx>{`
+        @keyframes typing-dot {
+          0%, 60%, 100% { transform: translateY(0); }
+          30% { transform: translateY(-6px); }
+        }
+
+        .typing-dot {
+          width: 8px;
+          height: 8px;
+          background: var(--accent-gold);
+          border-radius: 50%;
+          animation: typing-dot 1.2s ease-in-out infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
         .chat-bubble-nova {
           animation: slideNovaIn 260ms ease-out both;
         }

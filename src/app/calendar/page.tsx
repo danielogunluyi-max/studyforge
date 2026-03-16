@@ -1,6 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 const MONTHS = [
   'January',
@@ -81,6 +84,7 @@ export default function CalendarPage() {
   const [newDate, setNewDate] = useState(formatDateInput(today));
   const [newDesc, setNewDesc] = useState('');
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
   const [timetableClasses, setTimetableClasses] = useState<TimetableClass[]>([]);
   const [showClassModal, setShowClassModal] = useState(false);
@@ -96,12 +100,14 @@ export default function CalendarPage() {
 
   const loadEvents = useCallback(async () => {
     setLoading(true);
+    setError('');
     try {
       const response = await fetch(`/api/calendar?year=${currentYear}&month=${currentMonth}`);
       const data = (await response.json().catch(() => ({}))) as { events?: CalEvent[] };
       setEvents(data.events ?? []);
     } catch {
       setEvents([]);
+      setError('Failed to load calendar events');
     } finally {
       setLoading(false);
     }
@@ -215,18 +221,26 @@ export default function CalendarPage() {
 
   const handleDeleteEvent = async (id: string) => {
     if (id.startsWith('exam-') || id.startsWith('study-')) return;
-    await fetch(`/api/calendar/${id}`, { method: 'DELETE' });
-    await loadEvents();
+    try {
+      await fetch(`/api/calendar/${id}`, { method: 'DELETE' });
+      await loadEvents();
+    } catch {
+      setError('Failed to delete event');
+    }
   };
 
   const handleToggleComplete = async (id: string, completed: boolean) => {
     if (id.startsWith('exam-') || id.startsWith('study-')) return;
-    await fetch(`/api/calendar/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ completed: !completed }),
-    });
-    await loadEvents();
+    try {
+      await fetch(`/api/calendar/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ completed: !completed }),
+      });
+      await loadEvents();
+    } catch {
+      setError('Failed to update event');
+    }
   };
 
   const upcomingEvents = useMemo(
@@ -299,7 +313,8 @@ export default function CalendarPage() {
   };
 
   return (
-    <div style={{ padding: '32px', maxWidth: '1200px', margin: '0 auto' }} className="kv-page animate-fade-in-up">
+    <div style={{ padding: '32px', maxWidth: '1200px', margin: '0 auto' }} className="kv-page kv-animate-in">
+      {error ? <div className="kv-alert-error kv-animate-in">{error}</div> : null}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 className="kv-page-title" style={{ fontSize: '26px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '6px' }}>
@@ -473,23 +488,17 @@ export default function CalendarPage() {
               </div>
 
               {selectedEvents.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)', fontSize: '13px' }}>
-                  No events on this day.{' '}
-                  <span
-                    onClick={() => {
-                      setNewDate(formatDateInput(selectedDate));
-                      setShowAddModal(true);
-                    }}
-                    style={{ color: 'var(--accent-blue)', cursor: 'pointer', fontWeight: 600 }}
-                  >
-                    Add one →
-                  </span>
-                </div>
+                <EmptyState
+                  icon="📅"
+                  title="No events scheduled"
+                  description="Add your exams, assignments, and deadlines"
+                />
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div className="kv-stagger kv-animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {selectedEvents.map((event) => (
                     <div
                       key={event.id}
+                      className="kv-card-hover kv-animate-in"
                       style={{
                         display: 'flex',
                         gap: '12px',
@@ -548,7 +557,7 @@ export default function CalendarPage() {
           ) : null}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="kv-hide-mobile" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div className="kv-card" style={{ padding: '16px' }}>
             <h3 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Legend
@@ -568,11 +577,15 @@ export default function CalendarPage() {
               Next 7 Days
             </h3>
             {loading ? (
-              <div style={{ fontSize: '13px', color: 'var(--text-muted)', textAlign: 'center', padding: '16px' }}>Loading...</div>
+              <Skeleton variant="text" count={4} />
             ) : upcomingEvents.length === 0 ? (
-              <div style={{ fontSize: '13px', color: 'var(--text-muted)', textAlign: 'center', padding: '16px' }}>Nothing coming up 🎉</div>
+              <EmptyState
+                icon="📅"
+                title="No events scheduled"
+                description="Add your exams, assignments, and deadlines"
+              />
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div className="kv-stagger kv-animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {upcomingEvents.map((event) => {
                   const date = new Date(event.date);
                   const diff = Math.ceil((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
@@ -580,6 +593,7 @@ export default function CalendarPage() {
                   return (
                     <div
                       key={event.id}
+                      className="kv-card-hover kv-animate-in"
                       onClick={() => {
                         setCurrentMonth(date.getMonth());
                         setCurrentYear(date.getFullYear());
@@ -770,14 +784,16 @@ export default function CalendarPage() {
                 />
               </div>
 
-              <button
+              <LoadingButton
+                loading={saving}
                 onClick={() => void handleAddEvent()}
                 disabled={!newTitle.trim() || !newDate || saving}
-                className="kv-btn-primary"
-                style={{ width: '100%', marginTop: '4px' }}
+                type="button"
+                fullWidth
+                style={{ marginTop: '4px' }}
               >
-                {saving ? 'Saving...' : '+ Add to calendar'}
-              </button>
+                + Add to calendar
+              </LoadingButton>
             </div>
           </div>
         </div>

@@ -2,6 +2,9 @@
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type LeaderboardEntry = { id: string; name: string; score: number; notes: number; decks: number };
 
@@ -53,6 +56,8 @@ export default function CommunityPage() {
   const [content, setContent] = useState('');
   const [topic, setTopic] = useState('');
   const [posting, setPosting] = useState(false);
+  const [error, setError] = useState('');
+  const [likedPostId, setLikedPostId] = useState('');
   const [expandedComments, setExpandedComments] = useState<Record<string, boolean>>({});
   const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({});
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
@@ -64,6 +69,8 @@ export default function CommunityPage() {
       if (res.ok) {
         setPosts(data.posts || []);
       }
+    } catch {
+      setError('Failed to load community feed');
     } finally {
       setLoading(false);
     }
@@ -71,9 +78,15 @@ export default function CommunityPage() {
 
   useEffect(() => {
     void loadPosts();
-    void fetch('/api/leaderboard')
-      .then((r) => r.json() as Promise<{ leaderboard?: LeaderboardEntry[] }>)
-      .then((d) => setLeaderboard(d.leaderboard ?? []));
+    void (async () => {
+      try {
+        const response = await fetch('/api/leaderboard');
+        const data = (await response.json().catch(() => ({}))) as { leaderboard?: LeaderboardEntry[] };
+        setLeaderboard(data.leaderboard ?? []);
+      } catch {
+        setLeaderboard([]);
+      }
+    })();
     const timer = window.setInterval(() => {
       void loadPosts();
     }, 30000);
@@ -114,6 +127,7 @@ export default function CommunityPage() {
       }
     } catch {
       setPosts((prev) => prev.filter((p) => p.id !== optimisticPost.id));
+      setError('Failed to create post');
     } finally {
       setPosting(false);
     }
@@ -138,8 +152,11 @@ export default function CommunityPage() {
 
     try {
       await fetch(`/api/community/${postId}/like`, { method: 'POST' });
+      setLikedPostId(postId);
+      window.setTimeout(() => setLikedPostId(''), 320);
     } catch {
       setPosts(snapshot);
+      setError('Failed to update like');
     }
   }
 
@@ -188,15 +205,17 @@ export default function CommunityPage() {
       }
     } catch {
       setPosts(snapshot);
+      setError('Failed to post comment');
     }
   }
 
   const sortedPosts = useMemo(() => posts, [posts]);
 
   return (
-    <main className="kv-page">
+    <main className="kv-page kv-animate-in">
       <h1 className="kv-page-title">Community</h1>
       <p className="kv-page-subtitle">Mini Twitter for students. Share ideas, ask questions, help each other.</p>
+      {error ? <div className="kv-alert-error kv-animate-in">{error}</div> : null}
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr min(280px, 30%)', gap: 20, alignItems: 'start' }}>
         <div>
@@ -221,25 +240,23 @@ export default function CommunityPage() {
               placeholder="e.g. Biology"
             />
           </div>
-          <button className="kv-btn-primary" disabled={posting || !content.trim()} onClick={() => void createPost()}>
-            {posting ? 'Posting...' : 'Post'}
-          </button>
+          <LoadingButton loading={posting} type="button" fullWidth disabled={!content.trim()} onClick={() => void createPost()}>
+            Post
+          </LoadingButton>
         </div>
       </section>
 
-      <section style={{ display: 'grid', gap: 12 }}>
+      <section className="kv-stagger kv-animate-in" style={{ display: 'grid', gap: 12 }}>
         {loading && (
-          <div className="kv-card-elevated" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div className="kv-spinner" />
-            <span>Loading feed...</span>
-          </div>
+          <Skeleton variant="list" count={5} />
         )}
 
         {!loading && sortedPosts.length === 0 && (
-          <div className="kv-empty kv-card">
-            <p className="kv-empty-title">Be the first to post something!</p>
-            <p className="kv-empty-text">Start a thread and kick off the discussion.</p>
-          </div>
+          <EmptyState
+            icon="🌍"
+            title="No posts yet"
+            description="Be the first to post something to the community"
+          />
         )}
 
         {sortedPosts.map((post) => {
@@ -248,7 +265,7 @@ export default function CommunityPage() {
           const expanded = !!expandedComments[post.id];
 
           return (
-            <article key={post.id} className="kv-card">
+            <article key={post.id} className={`kv-card kv-card-hover kv-animate-in ${post.id === likedPostId ? 'liked' : ''}`}>
               <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 8 }}>
                 <div
                   style={{
@@ -274,7 +291,7 @@ export default function CommunityPage() {
               {post.topic && <span className="kv-badge kv-badge-gold">{post.topic}</span>}
 
               <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
-                <button className={liked ? 'kv-btn-primary' : 'kv-btn-secondary'} onClick={() => void toggleLike(post.id)}>
+                <button className={`${liked ? 'kv-btn-primary' : 'kv-btn-secondary'} ${post.id === likedPostId ? 'liked' : ''}`} onClick={() => void toggleLike(post.id)}>
                   ❤️ {post.likes.length}
                 </button>
                 <button
@@ -326,7 +343,7 @@ export default function CommunityPage() {
         </div>
 
         {/* Leaderboard sidebar */}
-        <aside className="kv-card" style={{ padding: 16, position: 'sticky', top: 80 }}>
+        <aside className="kv-card kv-hide-mobile" style={{ padding: 16, position: 'sticky', top: 80 }}>
           <p style={{ margin: '0 0 12px', fontWeight: 800, fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)' }}>
             🏆 Top Students
           </p>
@@ -355,6 +372,9 @@ export default function CommunityPage() {
           )}
         </aside>
       </div>
+      <style jsx>{`
+        .liked { animation: kv-bounce-in 0.3s ease; }
+      `}</style>
     </main>
   );
 }
