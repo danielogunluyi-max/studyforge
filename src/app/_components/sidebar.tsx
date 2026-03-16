@@ -29,6 +29,107 @@ type NavItem = {
   icon: ReactNode
 }
 
+type FilterableNavItem = NavItem & {
+  key: string
+  alwaysVisible?: boolean
+}
+
+const NAV_KEY_BY_HREF: Record<string, string> = {
+  '/dashboard': 'dashboard',
+  '/results': 'results',
+  '/calendar': 'calendar',
+  '/mastery': 'mastery',
+  '/curriculum': 'curriculum',
+  '/study-mode': 'study-mode',
+  '/my-notes': 'my-notes',
+  '/classroom-import': 'classroom-import',
+  '/upload': 'smart-upload',
+  '/audio': 'audio',
+  '/scan': 'scan',
+  '/feynman': 'feynman',
+  '/planner': 'planner',
+  '/pdfs': 'pdf-library',
+  '/listen': 'listen',
+  '/generator': 'generator',
+  '/diagrams': 'diagrams',
+  '/presentation': 'presentations',
+  '/photo-quiz': 'photo-quiz',
+  '/podcast': 'podcast',
+  '/cornell': 'cornell',
+  '/flashcards': 'flashcards',
+  '/exam-predictor': 'predictor',
+  '/mock-exam': 'mock-exam',
+  '/quizlet-import': 'quizlet-import',
+  '/tutor': 'tutor',
+  '/voice-tutor': 'voice-tutor',
+  '/concept-web': 'concept-web',
+  '/learning-style-quiz': 'learning-style-quiz',
+  '/focus': 'focus',
+  '/citations': 'citations',
+  '/syllabus': 'syllabus',
+  '/youtube-import': 'youtube-import',
+  '/library': 'library',
+  '/search': 'search',
+  '/capture': 'capture',
+  '/narrative': 'narrative',
+  '/knowledge-map': 'knowledge-map',
+  '/content-hub': 'content-hub',
+  '/games': 'games',
+  '/battle': 'battle',
+  '/battle-royale': 'battle-royale',
+  '/study-groups': 'study-groups',
+  '/rooms': 'rooms',
+  '/study-dna': 'study-dna',
+  '/autopsy': 'autopsy',
+  '/decay-alerts': 'decay-alerts',
+  '/concept-collision': 'concept-collision',
+  '/grade-calc': 'grade-calc',
+  '/reading-speed': 'reading-speed',
+  '/micro-lessons': 'micro-lessons',
+  '/lecture': 'lecture',
+  '/counterargument': 'counterargument',
+  '/adaptive-notes': 'adaptive-notes',
+  '/crossover': 'crossover',
+  '/debate-judge': 'debate-judge',
+  '/kyvex-iq': 'kyvex-iq',
+  '/memory-sim': 'memory-sim',
+  '/career-path': 'career-path',
+  '/contract': 'contract',
+  '/focus-score': 'focus-score',
+  '/note-evolution': 'note-evolution',
+  '/community': 'community',
+  '/match': 'match',
+  '/peer-review': 'peer-review',
+  '/achievements': 'achievements',
+  '/wrapped': 'wrapped',
+  '/study-ghost': 'study-ghost',
+  '/referral': 'referral',
+  '/wellness': 'wellness',
+  '/habits': 'habits',
+  '/interleave': 'interleave',
+  '/predictor': 'predictor',
+  '/essay-grade': 'essay-grade',
+  '/handwriting': 'handwriting',
+  '/compress': 'compress',
+  '/debate': 'debate',
+  '/smart-upload': 'smart-upload',
+  '/grammar': 'grammar',
+  '/plagiarism': 'plagiarism',
+}
+
+const ALWAYS_VISIBLE_FEATURE_KEYS = new Set<string>(['dashboard', 'results'])
+
+function withFeatureKeys(items: NavItem[]): FilterableNavItem[] {
+  return items.map((item) => {
+    const key = NAV_KEY_BY_HREF[item.href] ?? item.href.replace(/^\//, '')
+    return {
+      ...item,
+      key,
+      alwaysVisible: ALWAYS_VISIBLE_FEATURE_KEYS.has(key),
+    }
+  })
+}
+
 function NavIcon({ children, active }: { children: ReactNode; active: boolean }) {
   return (
     <span style={{
@@ -69,6 +170,9 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   const [dragHint, setDragHint] = useState<SidebarPlacement | null>(null)
   const [navDensity, setNavDensity] = useState<SidebarDensity>('expanded')
   const [navLabelMode, setNavLabelMode] = useState<SidebarLabelMode>('always')
+  const [enabledFeatureKeys, setEnabledFeatureKeys] = useState<Set<string>>(new Set())
+  const [featureFilterLoaded, setFeatureFilterLoaded] = useState(false)
+  const [featureFilterFailed, setFeatureFilterFailed] = useState(false)
 
   useEffect(() => {
     const syncPreferences = () => {
@@ -81,6 +185,39 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
 
     return () => {
       window.removeEventListener(SIDEBAR_PREFERENCES_EVENT, syncPreferences as EventListener)
+    }
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+
+    const loadFeaturePreferences = async () => {
+      try {
+        const response = await fetch('/api/feature-preferences', { cache: 'no-store' })
+        if (!response.ok) {
+          throw new Error('Failed to load feature preferences')
+        }
+
+        const data = await response.json()
+        const enabled = Array.isArray(data?.prefs?.enabledFeatures) ? data.prefs.enabledFeatures : []
+
+        if (!cancelled) {
+          setEnabledFeatureKeys(new Set(enabled))
+          setFeatureFilterFailed(false)
+          setFeatureFilterLoaded(true)
+        }
+      } catch {
+        if (!cancelled) {
+          setFeatureFilterFailed(true)
+          setFeatureFilterLoaded(true)
+        }
+      }
+    }
+
+    void loadFeaturePreferences()
+
+    return () => {
+      cancelled = true
     }
   }, [])
 
@@ -558,6 +695,46 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
+  const mainItemsWithKeys = withFeatureKeys(mainItems)
+  const studyToolItemsWithKeys = withFeatureKeys(studyToolItems)
+  const trainItemsWithKeys = withFeatureKeys(trainItems)
+  const createItemsWithKeys = withFeatureKeys(createItems)
+  const flashcardItemsWithKeys = withFeatureKeys(flashcardItems)
+  const aiToolItemsWithKeys = withFeatureKeys(aiToolItems)
+  const researchItemsWithKeys = withFeatureKeys(researchItems)
+  const discoverItemsWithKeys = withFeatureKeys(discoverItems)
+  const challengeItemsWithKeys = withFeatureKeys(challengeItems)
+  const analyticsItemsWithKeys = withFeatureKeys(analyticsItems)
+  const intelligenceItemsWithKeys = withFeatureKeys(intelligenceItems)
+  const notesItemsWithKeys = withFeatureKeys(notesItems)
+  const socialItemsWithKeys = withFeatureKeys(socialItems)
+  const personalItemsWithKeys = withFeatureKeys(personalItems)
+  const toolsItemsWithKeys = withFeatureKeys(toolsItems)
+
+  const filterNavItems = (items: FilterableNavItem[]) => {
+    if (!featureFilterLoaded || featureFilterFailed) {
+      return items
+    }
+
+    return items.filter((item) => item.alwaysVisible || enabledFeatureKeys.has(item.key))
+  }
+
+  const filteredMainItems = filterNavItems(mainItemsWithKeys)
+  const filteredStudyToolItems = filterNavItems(studyToolItemsWithKeys)
+  const filteredTrainItems = filterNavItems(trainItemsWithKeys)
+  const filteredCreateItems = filterNavItems(createItemsWithKeys)
+  const filteredFlashcardItems = filterNavItems(flashcardItemsWithKeys)
+  const filteredAiToolItems = filterNavItems(aiToolItemsWithKeys)
+  const filteredResearchItems = filterNavItems(researchItemsWithKeys)
+  const filteredDiscoverItems = filterNavItems(discoverItemsWithKeys)
+  const filteredChallengeItems = filterNavItems(challengeItemsWithKeys)
+  const filteredAnalyticsItems = filterNavItems(analyticsItemsWithKeys)
+  const filteredIntelligenceItems = filterNavItems(intelligenceItemsWithKeys)
+  const filteredNotesItems = filterNavItems(notesItemsWithKeys)
+  const filteredSocialItems = filterNavItems(socialItemsWithKeys)
+  const filteredPersonalItems = filterNavItems(personalItemsWithKeys)
+  const filteredToolsItems = filterNavItems(toolsItemsWithKeys)
+
   const handleSignOut = async () => {
     try {
       await signOut({ redirect: false })
@@ -572,21 +749,21 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   const userEmail = session?.user?.email ?? 'student@kyvex.app'
   const initials = getInitials(session?.user?.name, session?.user?.email)
   const allItems = [
-    ...mainItems,
-    ...studyToolItems,
-    ...trainItems,
-    ...createItems,
-    ...flashcardItems,
-    ...aiToolItems,
-    ...researchItems,
-    ...discoverItems,
-    ...challengeItems,
-    ...analyticsItems,
-    ...intelligenceItems,
-    ...notesItems,
-    ...socialItems,
-    ...personalItems,
-    ...toolsItems,
+    ...filteredMainItems,
+    ...filteredStudyToolItems,
+    ...filteredTrainItems,
+    ...filteredCreateItems,
+    ...filteredFlashcardItems,
+    ...filteredAiToolItems,
+    ...filteredResearchItems,
+    ...filteredDiscoverItems,
+    ...filteredChallengeItems,
+    ...filteredAnalyticsItems,
+    ...filteredIntelligenceItems,
+    ...filteredNotesItems,
+    ...filteredSocialItems,
+    ...filteredPersonalItems,
+    ...filteredToolsItems,
   ]
 
   function nearestEdge(x: number, y: number): SidebarPlacement {
@@ -621,7 +798,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     window.addEventListener('pointerup', stop)
   }
 
-  const renderNavGroup = (label: string, items: NavItem[]) => (
+  const renderNavGroup = (label: string, items: FilterableNavItem[]) => (
     <div style={{ position: 'relative' }}>
       {!effectiveCollapsed && (
         <p style={{

@@ -27,17 +27,40 @@ const PRESETS = [
 export default function PresetModal({ onSelect }: Props) {
   const [selected, setSelected] = useState<string>('');
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function submit() {
     if (!selected) return;
     setSaving(true);
+    setError(null);
     try {
-      await fetch('/api/preset', {
+      const presetResponse = await fetch('/api/preset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ preset: selected }),
       });
+
+      if (!presetResponse.ok) {
+        throw new Error('Failed to save preset');
+      }
+
+      const featureResponse = await fetch('/api/feature-preferences', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          resetToPreset: true,
+          preset: selected,
+        }),
+      });
+
+      if (!featureResponse.ok) {
+        throw new Error('Failed to reset feature preferences');
+      }
+
       onSelect(selected);
+      window.location.reload();
+    } catch {
+      setError('Could not apply this preset. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -107,6 +130,12 @@ export default function PresetModal({ onSelect }: Props) {
         >
           {saving ? 'Saving...' : 'Get Started'}
         </button>
+
+        {error && (
+          <p className="kv-page-subtitle" style={{ marginTop: 12, color: '#fecaca' }}>
+            {error}
+          </p>
+        )}
       </div>
     </div>
   );
