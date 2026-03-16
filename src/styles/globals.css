@@ -124,6 +124,7 @@ body {
     'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 html {
@@ -1279,6 +1280,7 @@ textarea:focus {
   padding: 32px;
   max-width: 1200px;
   color: var(--text-primary);
+  overflow-x: hidden;
 }
 
 .kv-page-title {

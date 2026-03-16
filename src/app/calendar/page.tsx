@@ -660,8 +660,8 @@ export default function CalendarPage() {
       </div>
 
       <div style={{ display: activeTab === 'timetable' ? 'block' : 'none' }}>
-        <div className="kv-card" style={{ padding: 20 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '120px repeat(5, minmax(0, 1fr))', gap: 8, alignItems: 'stretch' }}>
+        <div className="kv-card" style={{ padding: 20, overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '120px repeat(5, minmax(0, 1fr))', gap: 8, alignItems: 'stretch', minWidth: '800px' }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Time</div>
             {TIMETABLE_DAYS.map((day) => (
               <div key={`head-${day}`} style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', textAlign: 'center' }}>

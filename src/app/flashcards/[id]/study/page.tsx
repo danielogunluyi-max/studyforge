@@ -295,13 +295,13 @@ export default function StudyDeckPage() {
         {isFlipped && (
           <>
             <p className="mt-4 text-center text-sm font-semibold text-[var(--text-primary)]">How confident were you?</p>
-            <div className="mt-2.5 grid grid-cols-5 gap-2.5">
+            <div className="mt-2.5 grid grid-cols-2 gap-2 md:grid-cols-5 md:gap-2.5">
               {confidenceOptions.map((option) => (
                 <button
                   key={option.value}
                   type="button"
                   onClick={() => void submitConfidence(option.value)}
-                  className="grid cursor-pointer justify-items-center gap-1 rounded-lg px-2.5 py-3 text-sm font-semibold"
+                  className="grid cursor-pointer justify-items-center gap-1 rounded-lg px-2 py-2.5 text-xs md:text-sm font-semibold"
                   style={{
                     border: `1px solid ${option.color}`,
                     background: `color-mix(in srgb, ${option.color} 15%, transparent)`,
@@ -309,7 +309,7 @@ export default function StudyDeckPage() {
                   }}
                 >
                   <span className="text-lg">{option.emoji}</span>
-                  <span>{option.label}</span>
+                  <span className="hidden md:block">{option.label}</span>
                 </button>
               ))}
             </div>

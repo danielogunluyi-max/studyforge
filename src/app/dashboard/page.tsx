@@ -880,7 +880,7 @@ export default function DashboardPage() {
                 }}>
                   Upcoming Exams
                 </p>
-                <div className="kv-stagger kv-animate-in" style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))' }}>
+                <div className="kv-stagger kv-animate-in" style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
                   {[...upcomingExams]
                     .sort((a, b) => new Date(a.examDate).getTime() - new Date(b.examDate).getTime())
                     .map((exam) => {

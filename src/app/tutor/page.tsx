@@ -448,8 +448,8 @@ export default function TutorPage() {
           </div>
         </div>
 
-        <div className="kv-card-elevated fixed bottom-0 left-0 right-0 z-20 border-t p-3 backdrop-blur sm:static sm:mt-3 sm:rounded-xl sm:border sm:p-3 sm:backdrop-blur-none">
-          <div className="mx-auto w-full max-w-6xl sm:max-w-none">
+        <div className="md:static fixed bottom-0 left-0 right-0 w-full z-30 md:z-20 md:mt-3 md:rounded-xl kv-card-elevated border-t md:border md:border-t p-3 md:p-3 backdrop-blur md:backdrop-blur-none">
+          <div className="mx-auto w-full px-4 sm:px-0 md:max-w-none">
           <div className="flex gap-2">
             <input
               value={input}

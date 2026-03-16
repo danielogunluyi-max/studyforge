@@ -384,6 +384,14 @@ export default function AmbientPlayer() {
     };
   };
 
+  useEffect(() => {
+    // Collapse on mobile by default
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (isMobile) {
+      setIsExpanded(false);
+    }
+  }, []);
+
   const getAudioCtx = () => {
     if (!audioCtxRef.current) {
       audioCtxRef.current = new AudioContext();

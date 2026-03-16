@@ -266,6 +266,14 @@ export function PomodoroWidget() {
   };
 
   useEffect(() => {
+    // Start collapsed on mobile
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (isMobile) {
+      setIsCollapsed(true);
+    }
+  }, []);
+
+  useEffect(() => {
     try {
       const rawPos = sessionStorage.getItem(POSITION_KEY);
       if (rawPos) {

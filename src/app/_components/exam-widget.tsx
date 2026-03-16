@@ -106,6 +106,14 @@ export function ExamWidget() {
   };
 
   useEffect(() => {
+    // Start collapsed on mobile
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (isMobile) {
+      setIsCollapsed(true);
+    }
+  }, []);
+
+  useEffect(() => {
     try {
       const raw = sessionStorage.getItem(SESSION_KEY);
       if (!raw) return;
