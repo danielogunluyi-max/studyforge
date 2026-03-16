@@ -131,6 +131,11 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   // â”€â”€ STUDY TOOLS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const studyToolItems: NavItem[] = [
     {
+      href: '/study-mode',
+      label: '🎯 Study Mode',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="8.25" /><circle cx="12" cy="12" r="4.25" /><circle cx="12" cy="12" r="1.25" /></svg>,
+    },
+    {
       href: '/my-notes',
       label: 'My Notes',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 4.5h10.5v15l-5.25-2.625L6.75 19.5v-15z" /></svg>,
@@ -305,6 +310,16 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
 
   // â”€â”€ DISCOVER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const discoverItems: NavItem[] = [
+    {
+      href: '/knowledge-map',
+      label: '🗺 Knowledge Map',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75 9 4.5l6 2.25 5.25-2.25v12.75L15 19.5 9 17.25l-5.25 2.25V6.75z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 4.5v12.75M15 6.75V19.5" /></svg>,
+    },
+    {
+      href: '/content-hub',
+      label: '📦 Content Hub',
+      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 7.5h16.5v9a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 16.5v-9z" /><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5V5.25A1.5 1.5 0 019.75 3.75h4.5a1.5 1.5 0 011.5 1.5V7.5" /></svg>,
+    },
     {
       href: '/games',
       label: 'Games',
