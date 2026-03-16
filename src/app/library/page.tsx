@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type SharedDeck = {
   id: string;
@@ -51,7 +53,7 @@ export default function LibraryPage() {
     const rows: SharedDeck[] = (payload?.decks ?? []).map((entry, index) => {
       const user = (entry.user as Record<string, unknown> | undefined) ?? {};
       const deck = (entry.deck as Record<string, unknown> | undefined) ?? {};
-      const flashcards = Array.isArray(deck.flashcards) ? deck.flashcards : [];
+      const cards = Array.isArray(deck.cards) ? deck.cards : [];
 
       return {
         id: String(entry.id ?? index),
@@ -61,7 +63,7 @@ export default function LibraryPage() {
         description: typeof entry.description === 'string' ? entry.description : '',
         downloads: typeof entry.downloads === 'number' ? entry.downloads : 0,
         creatorName: typeof user.name === 'string' && user.name ? user.name : 'Anonymous',
-        cardCount: flashcards.length,
+        cardCount: cards.length,
       };
     });
 
@@ -202,9 +204,17 @@ export default function LibraryPage() {
         </section>
 
         {loading ? (
-          <section className="kv-card">Loading library...</section>
+          <section className="kv-card" style={{ padding: 16 }}>
+            <Skeleton variant="card" count={6} />
+          </section>
         ) : decks.length === 0 ? (
-          <section className="kv-card kv-empty" style={{ padding: 20 }}>No decks yet. Be the first to share!</section>
+          <section className="kv-card kv-empty" style={{ padding: 20 }}>
+            <EmptyState
+              icon="📚"
+              title="No decks yet"
+              description="Be the first to share a study deck with the community"
+            />
+          </section>
         ) : (
           <section className="kv-grid-3" style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
             {decks.map((deck) => (

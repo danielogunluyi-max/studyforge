@@ -20,19 +20,25 @@ export default function AchievementsPage() {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [unlockedCount, setUnlockedCount] = useState(0);
   const [total, setTotal] = useState(25);
+  const [loading, setLoading] = useState(true);
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
   async function loadAchievements() {
-    const response = await fetch('/api/achievements');
-    const data = (await response.json().catch(() => null)) as {
-      achievements?: Achievement[];
-      unlockedCount?: number;
-      total?: number;
-    } | null;
+    setLoading(true);
+    try {
+      const response = await fetch('/api/achievements');
+      const data = (await response.json().catch(() => null)) as {
+        achievements?: Achievement[];
+        unlockedCount?: number;
+        total?: number;
+      } | null;
 
-    setAchievements(data?.achievements ?? []);
-    setUnlockedCount(data?.unlockedCount ?? 0);
-    setTotal(data?.total ?? 25);
+      setAchievements(data?.achievements ?? []);
+      setUnlockedCount(data?.unlockedCount ?? 0);
+      setTotal(data?.total ?? 25);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function runCheck() {
@@ -72,11 +78,10 @@ export default function AchievementsPage() {
   }, []);
 
   useEffect(() => {
-    if (achievements.length > 0) {
+    if (!loading && achievements.length > 0) {
       void runCheck();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [achievements.length]);
+  }, [loading, achievements.length]);
 
   const lockedCount = Math.max(0, total - unlockedCount);
   const completion = total > 0 ? Math.round((unlockedCount / total) * 100) : 0;
@@ -107,6 +112,17 @@ export default function AchievementsPage() {
         <div className="kv-card"><div style={{ fontSize: 26, fontWeight: 900, color: '#2dd4bf' }}>{completion}%</div><div style={{ color: 'var(--text-muted)' }}>Completion</div></div>
       </div>
 
+      {loading ? (
+        <div style={{ marginBottom: 16 }}>
+          <Skeleton variant="card" count={6} />
+        </div>
+      ) : achievements.length === 0 ? (
+        <EmptyState
+          icon="🏆"
+          title="No achievements yet"
+          description="Start using Kyvex features and your first badges will appear here"
+        />
+      ) : (
       <div style={gridStyle}>
         {achievements.map((item) => {
           const unlocked = item.unlocked;
@@ -122,6 +138,7 @@ export default function AchievementsPage() {
           );
         })}
       </div>
+      )}
 
       <div style={{ position: 'fixed', right: 16, bottom: 16, zIndex: 50, display: 'grid', gap: 8 }}>
         {toasts.map((toast) => (

@@ -136,7 +136,10 @@ export default function CommunityPage() {
   async function toggleLike(postId: string) {
     if (!currentUserId) return;
 
-    const snapshot = posts;
+    const targetBefore = posts.find((post) => post.id === postId);
+    if (!targetBefore) return;
+    const wasLiked = targetBefore.likes.some((like) => like.userId === currentUserId);
+
     setPosts((prev) =>
       prev.map((post) => {
         if (post.id !== postId) return post;
@@ -155,7 +158,17 @@ export default function CommunityPage() {
       setLikedPostId(postId);
       window.setTimeout(() => setLikedPostId(''), 320);
     } catch {
-      setPosts(snapshot);
+      setPosts((prev) =>
+        prev.map((post) => {
+          if (post.id !== postId) return post;
+          return {
+            ...post,
+            likes: wasLiked
+              ? [...post.likes.filter((l) => l.userId !== currentUserId), { userId: currentUserId }]
+              : post.likes.filter((l) => l.userId !== currentUserId),
+          };
+        }),
+      );
       setError('Failed to update like');
     }
   }

@@ -33,5 +33,8 @@ export async function GET() {
     .sort((a, b) => b.score - a.score)
     .slice(0, 10);
 
-  return NextResponse.json({ leaderboard: ranked });
+  return NextResponse.json(
+    { leaderboard: ranked },
+    { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' } },
+  );
 }

@@ -8,7 +8,7 @@ export async function GET(req: Request) {
   const preset = searchParams.get('preset')
   const q = searchParams.get('q')
 
-  const where: any = {}
+  const where: { subject?: { contains: string; mode: 'insensitive' }; preset?: string; title?: { contains: string; mode: 'insensitive' } } = {}
   if (subject) where.subject = { contains: subject, mode: 'insensitive' }
   if (preset) where.preset = preset
   if (q) where.title = { contains: q, mode: 'insensitive' }
@@ -19,10 +19,13 @@ export async function GET(req: Request) {
     take: 50,
     include: {
       user: { select: { name: true } },
-      deck: { include: { flashcards: { select: { id: true } } } }
+      deck: { include: { cards: { select: { id: true } } } }
     }
   })
-  return NextResponse.json({ decks })
+  return NextResponse.json(
+    { decks },
+    { headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=300' } },
+  )
 }
 
 export async function POST(req: Request) {
@@ -41,7 +44,7 @@ export async function POST(req: Request) {
     data: {
       userId: session.user.id,
       deckId,
-      title: title || deck.name,
+      title: title || deck.title,
       subject: subject || deck.subject || 'General',
       description,
       preset: preset || 'HIGHSCHOOL',

@@ -14,6 +14,7 @@ import { KeyboardShortcuts } from "~/app/_components/keyboard-shortcuts";
 import OnboardingTour from "~/app/_components/onboarding-tour";
 import { ToastContainer } from "~/app/_components/toast";
 import ErrorBoundary from "~/app/_components/error-boundary";
+import { UnhandledRejectionListener } from "~/app/_components/unhandled-rejection-listener";
 
 export const metadata: Metadata = {
   title: {
@@ -71,6 +72,7 @@ export default function RootLayout({
             <SessionProvider>
               {/* Removed global Listbox guard — prefer component-level guards. */}
               <AppearanceSync />
+              <UnhandledRejectionListener />
               <NotificationManager />
               <KeyboardShortcuts />
               <TRPCReactProvider>
