@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type Achievement = {
   key: string;
@@ -85,7 +88,7 @@ export default function AchievementsPage() {
   }), []);
 
   return (
-    <div className="kv-page" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="kv-page kv-animate-in" style={{ maxWidth: '1200px', margin: '0 auto' }}>
       <h1 className="kv-page-title">Achievements 🏆</h1>
       <p className="kv-page-subtitle">Unlock badges as you grow your study consistency and mastery.</p>
 
@@ -108,7 +111,7 @@ export default function AchievementsPage() {
         {achievements.map((item) => {
           const unlocked = item.unlocked;
           return (
-            <div key={item.key} className={unlocked ? 'kv-card-gold' : 'kv-card'} style={{ opacity: unlocked ? 1 : 0.5 }}>
+            <div key={item.key} className={`${unlocked ? 'kv-card-gold kv-pulse-gold' : 'kv-card'} kv-animate-in`} style={{ opacity: unlocked ? 1 : 0.5, filter: unlocked ? 'none' : 'grayscale(1)' }}>
               <div style={{ fontSize: 48, filter: unlocked ? 'none' : 'grayscale(1)', marginBottom: 8 }}>{item.emoji}</div>
               <div style={{ fontWeight: 700, color: unlocked ? '#f0b429' : 'var(--text-secondary)', marginBottom: 6 }}>{item.title}</div>
               <div style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6 }}>{item.description}</div>

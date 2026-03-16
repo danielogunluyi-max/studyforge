@@ -3,6 +3,9 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { trackNovaEvent } from '@/lib/novaClient';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type PlannerView = 'form' | 'loading' | 'plan';
 
@@ -229,7 +232,7 @@ export default function PlannerPage() {
     return (
       <>
         <div
-          className="kv-page"
+                    className="kv-page kv-animate-in"
           style={{
             padding: '32px',
             maxWidth: '800px',

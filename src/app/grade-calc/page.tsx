@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import EmptyState from '@/app/_components/empty-state';
 
 type GradeCalcRow = {
   id: string;
@@ -43,8 +45,30 @@ export default function GradeCalcPage() {
   const [error, setError] = useState('');
 
   const tone = useMemo(() => (result ? resultTone(result.neededOnFinal) : null), [result]);
+  const [displayScore, setDisplayScore] = useState(0);
 
   async function loadRecent() {
+
+      useEffect(() => {
+        if (!result) {
+          setDisplayScore(0);
+          return;
+        }
+        const target = result.neededOnFinal;
+        const duration = 1200;
+        const start = performance.now();
+        let rafId = 0;
+        const tick = (now: number) => {
+          const elapsed = now - start;
+          const progress = Math.min(1, elapsed / duration);
+          setDisplayScore(Math.round(target * progress * 10) / 10);
+          if (progress < 1) {
+            rafId = requestAnimationFrame(tick);
+          }
+        };
+        rafId = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(rafId);
+      }, [result?.neededOnFinal]);
     const response = await fetch('/api/grade-calc');
     if (!response.ok) return;
 
@@ -140,7 +164,7 @@ export default function GradeCalcPage() {
   }
 
   return (
-    <main className="kv-page kv-page-grade-calc" style={{ padding: '32px 16px 48px' }}>
+    <main className="kv-page kv-page-grade-calc kv-animate-in" style={{ padding: '32px 16px 48px' }}>
       <section className="kv-container kv-stack-lg" style={{ maxWidth: 980, margin: '0 auto' }}>
         <header className="kv-hero kv-text-center" style={{ marginBottom: 20 }}>
           <h1 className="kv-title-xl" style={{ fontSize: 40, fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 8 }}>
@@ -223,10 +247,10 @@ export default function GradeCalcPage() {
             <div className="kv-text-center" style={{ marginBottom: 8 }}>
               <p className="kv-caption">You need</p>
               <div
-                className="kv-number-xl"
+                className={`kv-number-xl ${!result.isPossible ? 'kv-shake' : ''}`}
                 style={{ fontSize: 56, fontWeight: 900, color: tone.color, lineHeight: 1, letterSpacing: '-0.04em' }}
               >
-                {result.neededOnFinal.toFixed(1)}%
+                {displayScore.toFixed(1)}%
               </div>
               <p className="kv-result-tone" style={{ color: tone.color, fontWeight: 700, marginTop: 8 }}>{tone.label}</p>
             </div>
@@ -234,7 +258,11 @@ export default function GradeCalcPage() {
             <p className="kv-body" style={{ color: 'var(--text-secondary)', textAlign: 'center' }}>{result.message}</p>
 
             <button className="kv-btn-secondary kv-btn-block" onClick={saveCalculation} disabled={saving}>
-              {saving ? 'Saving...' : 'Save Calculation'}
+              {saving ? (
+                <span style={{ opacity: 0.7 }}>Saving...</span>
+              ) : (
+                <span>Save Calculation</span>
+              )}
             </button>
           </section>
         ) : null}
@@ -258,7 +286,6 @@ export default function GradeCalcPage() {
                     borderRadius: 10,
                   }}
                 >
-                  <span className="kv-text-strong" style={{ fontWeight: 700 }}>{entry.courseName || 'Untitled course'}</span>
                   <span className="kv-badge kv-badge-gold" style={{ fontWeight: 800 }}>{entry.neededOnFinal.toFixed(1)}%</span>
                 </div>
               ))}
@@ -267,5 +294,7 @@ export default function GradeCalcPage() {
         </section>
       </section>
     </main>
+
   );
 }
+

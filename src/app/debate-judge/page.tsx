@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type ScoreCard = {
   logic: number;
@@ -145,7 +148,7 @@ export default function DebateJudgePage() {
   }
 
   return (
-    <main className="kv-page">
+    <main className="kv-page kv-animate-in">
       <section className="kv-section">
         <h1 className="kv-title">AI Debate Judge</h1>
         <p className="kv-subtitle">1v1 academic debates</p>
@@ -158,7 +161,7 @@ export default function DebateJudgePage() {
         {error && <div className="kv-card mb-4 border border-red-500/40 text-red-300">{error}</div>}
 
         {mode === 'create' && !debate && (
-          <div className="kv-card">
+          <div className="kv-card kv-animate-in">
             <h2 className="mb-3 text-lg font-semibold">Start a Debate</h2>
             <input className="kv-input mb-3" placeholder="Topic" value={topic} onChange={(e) => setTopic(e.target.value)} />
             <textarea className="kv-textarea mb-3" value={argument} onChange={(e) => setArgument(e.target.value)} placeholder="Your argument" />
@@ -169,7 +172,7 @@ export default function DebateJudgePage() {
         )}
 
         {mode === 'join' && !debate && (
-          <div className="kv-card">
+          <div className="kv-card kv-animate-in">
             <h2 className="mb-3 text-lg font-semibold">Join Debate</h2>
             <input
               className="kv-input mb-3"

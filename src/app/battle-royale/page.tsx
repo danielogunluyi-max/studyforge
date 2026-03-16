@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type Player = {
   id: string;
@@ -226,7 +229,7 @@ export default function BattleRoyalePage() {
   const sortedPlayers = battle ? [...battle.players].sort((a, b) => (scores[b.userId] ?? b.score) - (scores[a.userId] ?? a.score)) : [];
 
   return (
-    <div style={{ padding: '32px', maxWidth: '860px', margin: '0 auto' }}>
+    <div style={{ padding: '32px', maxWidth: '860px', margin: '0 auto' }} className="kv-animate-in">
       {/* MENU */}
       {mode === 'menu' && (
         <>
@@ -276,7 +279,11 @@ export default function BattleRoyalePage() {
             </div>
             {error && <p style={{ color: '#ef4444', fontSize: '13px', marginBottom: '12px' }}>{error}</p>}
             <button className="kv-btn-primary" onClick={() => void createBattle()} disabled={loading}>
-              {loading ? '⚙️ Generating 20 questions...' : '⚔️ Create Battle'}
+              {loading ? (
+                <span style={{ opacity: 0.7 }}>⚙️ Generating 20 questions...</span>
+              ) : (
+                <span>⚔️ Create Battle</span>
+              )}
             </button>
           </div>
         </div>

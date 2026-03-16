@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type CareerItem = {
   career: string;
@@ -76,7 +79,7 @@ export default function CareerPathPage() {
   }
 
   return (
-    <main className="kv-page">
+    <main className="kv-page kv-animate-in">
       <section className="kv-section">
         <h1 className="kv-title">Career Path Mapper 🗺️</h1>
         <p className="kv-subtitle">Based on your strongest subjects, here's where you could go</p>
@@ -89,7 +92,7 @@ export default function CareerPathPage() {
         </div>
 
         {topMatch && (
-          <div className="kv-card-gold mt-5">
+          <div className="kv-card-gold kv-pulse-gold mt-5 kv-animate-in">
             <p className="text-sm text-[var(--text-secondary)]">TOP MATCH</p>
             <h2 className="text-3xl font-black text-[var(--text-primary)]">{topPath || topMatch.career}</h2>
             <p className="text-lg font-bold text-[var(--accent-gold)]">{clamp(topMatch.match)}% match</p>
@@ -112,7 +115,7 @@ export default function CareerPathPage() {
 
                 <div className="mb-2 text-sm text-[var(--text-secondary)]">{clamp(item.match)}% match</div>
                 <div className="kv-progress-track mb-3">
-                  <div className="kv-progress-fill" style={{ width: `${clamp(item.match)}%` }} />
+                  <div className="kv-progress-fill" style={{ width: `${clamp(item.match)}%`, transition: 'width 0.8s ease-out', animation: `fillBar 0.8s ease-out` }} />
                 </div>
 
                 <p className="mb-3 text-sm text-[var(--text-secondary)]">{item.description}</p>
@@ -151,7 +154,7 @@ export default function CareerPathPage() {
         </div>
 
         {paths.length > 0 && (
-          <button className="kv-btn-secondary mt-5" onClick={() => void mapCareers()} disabled={loading}>
+          <button className="kv-btn-secondary mt-5" onClick={() => void mapCareers()} disabled={loading} type="button">
             {loading ? 'Updating...' : 'Update Analysis'}
           </button>
         )}

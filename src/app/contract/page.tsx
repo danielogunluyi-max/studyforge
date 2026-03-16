@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type CheckIn = {
   id: string;
@@ -133,20 +136,20 @@ export default function ContractPage() {
     : 0;
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-8">
+    <main className="mx-auto max-w-5xl px-4 py-8 kv-animate-in">
       <header className="mb-6">
         <h1 className="text-3xl font-black text-[var(--text-primary)]">Study Contract 📜</h1>
         <p className="mt-2 text-[var(--text-secondary)]">Make a commitment. Let AI hold you to it.</p>
       </header>
 
       {error && (
-        <div className="kv-card mb-4 border-[var(--accent-red)] p-3 text-sm text-[var(--accent-red)]">
+        <div className="kv-card kv-animate-in mb-4 border-[var(--accent-red)] p-3 text-sm text-[var(--accent-red)]">
           {error}
         </div>
       )}
 
       {loading ? (
-        <div className="kv-card p-4">Loading...</div>
+        <Skeleton variant="card" count={2} />
       ) : !activeContract ? (
         <section className="kv-card kv-card-gold mx-auto w-full max-w-[500px] p-6">
           <label className="mb-2 block text-sm font-semibold text-[var(--text-secondary)]">I commit to...</label>

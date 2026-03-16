@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
 
 type GameState = 'setup' | 'playing' | 'won' | 'lost';
 type DifficultyKey = 'easy' | 'normal' | 'hard';
@@ -242,7 +243,7 @@ export default function GamesPage() {
   }
 
   return (
-    <main className="kv-page">
+    <main className="kv-page kv-animate-in">
       <h1 className="kv-page-title">Study Games</h1>
       <p className="kv-page-subtitle">Boss Battle mode powered by your flashcards.</p>
 
@@ -289,13 +290,9 @@ export default function GamesPage() {
               </div>
             </div>
 
-            <button
-              className="kv-btn-primary"
-              onClick={startBattle}
-              disabled={!selectedDeckId || loadingCards || cards.length < 4}
-            >
+            <LoadingButton loading={false} onClick={startBattle} disabled={!selectedDeckId || loadingCards || cards.length < 4} type="button" fullWidth>
               Start Battle
-            </button>
+            </LoadingButton>
 
             {selectedDeckId && !loadingCards && cards.length < 4 && (
               <p style={{ fontSize: 12, color: 'var(--accent-red)' }}>
@@ -311,8 +308,8 @@ export default function GamesPage() {
           <article className="kv-card" style={{ position: 'relative', overflow: 'hidden' }}>
             <p className="kv-label">Boss</p>
             <div
-              className={`${bossShake ? 'boss-shake' : ''} ${bossAttackAnim ? 'boss-attack' : ''}`}
               style={{ fontSize: 90, lineHeight: 1, textAlign: 'center', marginTop: 6 }}
+                          className={`${bossShake ? 'boss-shake' : ''} ${bossAttackAnim ? 'boss-attack' : ''} ${bossHP < bossMeta.bossHP ? 'kv-animate-bounce' : ''}`}
             >
               {bossMeta.bossEmoji}
             </div>
@@ -320,7 +317,7 @@ export default function GamesPage() {
               Dark Lord of {selectedDeck?.subject || 'Knowledge'}
             </p>
             <div className="kv-progress-track" style={{ marginTop: 10, background: 'rgba(239,68,68,0.18)' }}>
-              <div className="kv-progress-fill" style={{ width: `${bossPercent}%`, background: '#ef4444' }} />
+              <div className="kv-progress-fill" style={{ width: `${bossPercent}%`, background: '#ef4444', transition: 'width 0.5s ease' }} />
             </div>
             <p style={{ marginTop: 6, fontSize: 12, color: 'var(--text-muted)' }}>Boss HP: {bossHP}/{bossMeta.bossHP}</p>
 
@@ -340,12 +337,12 @@ export default function GamesPage() {
             </div>
 
             <div className="kv-progress-track" style={{ marginTop: 10, background: 'rgba(16,185,129,0.18)' }}>
-              <div className="kv-progress-fill" style={{ width: `${playerPercent}%`, background: '#10b981' }} />
+              <div className="kv-progress-fill" style={{ width: `${playerPercent}%`, background: '#10b981', transition: 'width 0.5s ease' }} />
             </div>
             <p style={{ marginTop: 6, fontSize: 12, color: 'var(--text-muted)' }}>Player HP: {playerHP}/100</p>
 
             <div
-              className={`kv-card-elevated ${flashState === 'good' ? 'flash-green' : ''} ${flashState === 'bad' ? 'flash-red' : ''}`}
+              className={`kv-card-elevated ${flashState === 'good' ? 'flash-green kv-bounce-in' : ''} ${flashState === 'bad' ? 'flash-red' : ''}`}
               style={{ marginTop: 12, padding: 16 }}
             >
               <p style={{ fontSize: 20, fontWeight: 700, lineHeight: 1.4, margin: 0 }}>{currentQuestion.prompt}</p>
@@ -382,8 +379,8 @@ export default function GamesPage() {
       )}
 
       {gameState === 'won' && (
-        <section className="kv-card" style={{ maxWidth: 700 }}>
-          <h2 className="kv-page-title">Victory! 🏆</h2>
+        <section className="kv-card kv-animate-in" style={{ maxWidth: 700 }}>
+          <h2 className="kv-page-title kv-bounce-in">Victory! 🏆</h2>
           <p className="kv-page-subtitle">You defeated the boss.</p>
           <p>Score: <strong>{score}</strong></p>
           <p>Cards answered: <strong>{answeredCount}</strong></p>

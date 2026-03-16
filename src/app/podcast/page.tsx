@@ -1,6 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type ScriptSpeaker = 'Nova' | 'Alex';
 
@@ -276,6 +279,7 @@ export default function PodcastPage() {
           minHeight: '60vh',
           gap: '24px',
         }}
+        className="kv-animate-in"
       >
         <div style={{ display: 'flex', gap: '20px' }}>
           <div

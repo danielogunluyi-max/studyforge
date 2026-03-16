@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { renderDiagram } from '@/lib/diagramRenderers';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type DiagramType = 'auto' | 'concept_map' | 'flowchart' | 'timeline' | 'comparison' | 'hierarchy';
 
@@ -156,7 +159,7 @@ export default function DiagramsPage() {
   };
 
   return (
-    <div style={{ padding: '32px', maxWidth: '1000px', margin: '0 auto' }} className="animate-fade-in-up">
+    <div style={{ padding: '32px', maxWidth: '1000px', margin: '0 auto' }} className="kv-animate-in">
       <div
         style={{
           display: 'flex',
@@ -282,7 +285,11 @@ export default function DiagramsPage() {
           ) : null}
 
           <button onClick={handleGenerate} disabled={!text.trim() || loading} className="btn btn-primary btn-lg" style={{ width: '100%' }}>
-            {loading ? '⏳ Generating...' : '🗺 Generate diagram →'}
+            {loading ? (
+              <span style={{ opacity: 0.7 }}>⏳ Generating...</span>
+            ) : (
+              <span>🗺 Generate diagram →</span>
+            )}
           </button>
         </div>
 

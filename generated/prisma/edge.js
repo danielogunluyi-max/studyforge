@@ -1284,7 +1284,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\danie\\projects\\studyforge\\generated\\prisma",
+      "value": "c:\\Users\\danie\\projects\\studyforge\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -1298,7 +1298,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\danie\\projects\\studyforge\\prisma\\schema.prisma",
+    "sourceFilePath": "c:\\Users\\danie\\projects\\studyforge\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

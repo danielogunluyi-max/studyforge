@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import EmptyState from '@/app/_components/empty-state';
 
 type GhostSnapshot = {
   id: string;
@@ -28,6 +30,7 @@ export default function StudyGhostPage() {
   const [loading, setLoading] = useState(false);
   const [active, setActive] = useState<GhostResponse | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [displayedText, setDisplayedText] = useState('');
 
   async function loadHistory() {
     const response = await fetch('/api/study-ghost');
@@ -46,20 +49,43 @@ export default function StudyGhostPage() {
       const data = (await response.json().catch(() => null)) as GhostResponse | null;
       if (!response.ok || !data) return;
       setActive(data);
+        setDisplayedText('');
       await loadHistory();
     } finally {
       setLoading(false);
     }
   }
 
+  useEffect(() => {
+    if (!active) {
+      setDisplayedText('');
+      return;
+    }
+    const text = active.ghost.narrative || '';
+    let i = 0;
+    const timer = setInterval(() => {
+      if (i <= text.length) {
+        setDisplayedText(text.substring(0, i));
+        i++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 25);
+    return () => clearInterval(timer);
+  }, [active]);
+
   return (
-    <div className="kv-page" style={{ maxWidth: '940px', margin: '0 auto' }}>
+    <div className="kv-page kv-animate-in" style={{ maxWidth: '940px', margin: '0 auto' }}>
       <h1 className="kv-page-title">Study Ghost 👻</h1>
       <p className="kv-page-subtitle">A letter from your past self to remind you how far you have come.</p>
 
       <div style={{ marginBottom: 20 }}>
         <button className="kv-btn-primary" onClick={() => void takeSnapshot()} disabled={loading}>
-          {loading ? 'Capturing your current study self...' : 'Take Snapshot'}
+          {loading ? (
+            <span style={{ opacity: 0.7 }}>Capturing your current study self...</span>
+          ) : (
+            <span>Take Snapshot</span>
+          )}
         </button>
       </div>
 
@@ -76,14 +102,14 @@ export default function StudyGhostPage() {
               whiteSpace: 'pre-wrap',
             }}
           >
-            {active.ghost.narrative}
+            {displayedText}
           </p>
 
-          {active.prevSnapshot ? (
+          {active?.prevSnapshot ? (
             <div className="kv-grid-3" style={{ marginTop: 16 }}>
-              <div className="kv-card-sm">Notes: +{active.growth.notes} ↑</div>
-              <div className="kv-card-sm">Cards: +{active.growth.cards} ↑</div>
-              <div className="kv-card-sm">Avg Score: {active.growth.scoreChange >= 0 ? '+' : ''}{active.growth.scoreChange.toFixed(1)}% ↑</div>
+              <div className="kv-card-sm">Notes: +{active?.growth.notes} ↑</div>
+              <div className="kv-card-sm">Cards: +{active?.growth.cards} ↑</div>
+              <div className="kv-card-sm">Avg Score: {active?.growth.scoreChange! >= 0 ? '+' : ''}{active?.growth.scoreChange.toFixed(1)}% ↑</div>
             </div>
           ) : null}
         </div>

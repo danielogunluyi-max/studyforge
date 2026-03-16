@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type Habit = {
   id: string;
@@ -110,7 +113,7 @@ export default function HabitsPage() {
   }, []);
 
   return (
-    <main className="kv-page">
+    <main className="kv-page kv-animate-in">
       <h1 className="kv-page-title">Habit Tracker</h1>
       <p className="kv-page-subtitle">Build consistency with daily check-ins and streak momentum.</p>
 
@@ -153,23 +156,17 @@ export default function HabitsPage() {
           </div>
 
           <button className="kv-btn-primary" onClick={() => void addHabit()} disabled={!name.trim()}>
-            Add
+            Add Habit
           </button>
         </div>
       </section>
 
       {loading && (
-        <div className="kv-card-elevated" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <div className="kv-spinner" />
-          <span>Loading habits...</span>
-        </div>
+        <Skeleton variant="card" count={3} />
       )}
 
       {!loading && habits.length === 0 && (
-        <div className="kv-empty kv-card">
-          <p className="kv-empty-title">Add your first habit</p>
-          <p className="kv-empty-text">Start with one tiny daily action.</p>
-        </div>
+        <EmptyState icon="📝" title="Add your first habit" description="Start with one tiny daily action" action={{label: 'Add habit', onClick: () => setName('Exercise')}}/>
       )}
 
       {!loading && habits.length > 0 && (
@@ -180,7 +177,7 @@ export default function HabitsPage() {
               return (
                 <article
                   key={habit.id}
-                  className="kv-card"
+                  className={`${completed ? 'kv-bounce-in' : ''} kv-animate-in`}
                   style={{
                     borderColor: completed ? 'var(--accent-gold)' : undefined,
                     boxShadow: completed ? '0 0 0 1px rgba(240,180,41,0.35) inset' : undefined,

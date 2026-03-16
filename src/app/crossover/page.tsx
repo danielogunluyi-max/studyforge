@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import Skeleton from '@/app/_components/skeleton';
+import EmptyState from '@/app/_components/empty-state';
 
 type Challenge = {
   id: string;
@@ -107,7 +110,7 @@ export default function CrossoverPage() {
   };
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8">
+    <main className="mx-auto max-w-6xl px-4 py-8 kv-animate-in">
       <header className="mb-6">
         <h1 className="text-3xl font-black">Crossover Challenges 🔀</h1>
         <p className="mt-2 text-[var(--text-secondary)]">One challenge. Two subjects. The rarest skill in education.</p>

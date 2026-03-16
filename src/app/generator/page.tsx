@@ -10,6 +10,7 @@ import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
+import LoadingButton from "@/app/_components/loading-button";
 import { trackNovaEvent } from "@/lib/novaClient";
 import { renderMath } from "@/lib/mathRenderer";
 
@@ -1031,7 +1032,7 @@ export default function Generator() {
   };
 
   return (
-    <main className="app-premium-dark min-h-screen bg-gray-950">
+    <main className="app-premium-dark min-h-screen bg-gray-950 kv-animate-in">
       {isLoading && (
         <div className="pointer-events-none fixed left-0 right-0 top-0 z-50 h-0.5 overflow-hidden bg-blue-500/25">
           <div className="h-full w-1/3 animate-[loadingScan_1.1s_ease-in-out_infinite] bg-blue-500" />

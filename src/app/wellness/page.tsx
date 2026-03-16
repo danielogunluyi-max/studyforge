@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import LoadingButton from '@/app/_components/loading-button';
+import EmptyState from '@/app/_components/empty-state';
 
 type WellnessEntry = {
   id: string;
@@ -104,7 +106,7 @@ export default function WellnessPage() {
   const trend = entries.slice(0, 7).reverse();
 
   return (
-    <main className="kv-page">
+    <main className="kv-page kv-animate-in">
       <h1 className="kv-page-title">Wellness Check-ins</h1>
       <p className="kv-page-subtitle">Track mood, energy, stress, and burnout risk over time.</p>
 
@@ -126,7 +128,11 @@ export default function WellnessPage() {
         />
 
         <button type="button" className="kv-btn-primary" onClick={() => void submitCheckin()} disabled={saving}>
-          {saving ? 'Saving...' : 'Submit Check-in'}
+          {saving ? (
+            <span style={{ opacity: 0.7 }}>Saving...</span>
+          ) : (
+            <span>Submit Check-in</span>
+          )}
         </button>
       </section>
 
