@@ -130,7 +130,7 @@ function withFeatureKeys(items: NavItem[]): FilterableNavItem[] {
   })
 }
 
-function NavIcon({ children, active }: { children: ReactNode; active: boolean }) {
+function NavIcon({ children, active, hovered = false }: { children: ReactNode; active: boolean; hovered?: boolean }) {
   return (
     <span style={{
       width: '16px',
@@ -141,6 +141,8 @@ function NavIcon({ children, active }: { children: ReactNode; active: boolean })
       justifyContent: 'center',
       color: 'currentColor',
       filter: active ? 'drop-shadow(0 0 6px rgba(240,180,41,0.5))' : 'none',
+      transform: hovered ? 'translateY(-0.5px) scale(1.06)' : 'translateY(0) scale(1)',
+      transition: 'transform 0.18s ease',
     }}>
       {children}
     </span>
@@ -236,7 +238,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   const compactDensity = navDensity === 'compact'
   const horizontalDockHeight = compactDensity ? 106 : 122
 
-  // â”€â”€ MAIN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // MAIN
   const mainItems: NavItem[] = [
     {
       href: '/dashboard',
@@ -265,7 +267,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ STUDY TOOLS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // STUDY TOOLS
   const studyToolItems: NavItem[] = [
     {
       href: '/study-mode',
@@ -319,7 +321,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ CREATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // CREATE
   const createItems: NavItem[] = [
     {
       href: '/generator',
@@ -353,7 +355,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ FLASHCARDS & EXAMS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // FLASHCARDS & EXAMS
   const flashcardItems: NavItem[] = [
     {
       href: '/flashcards',
@@ -377,7 +379,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ AI TOOLS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // AI TOOLS
   const aiToolItems: NavItem[] = [
     {
       href: '/tutor',
@@ -406,7 +408,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ RESEARCH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // RESEARCH
   const researchItems: NavItem[] = [
     {
       href: '/citations',
@@ -445,7 +447,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ DISCOVER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // DISCOVER
   const discoverItems: NavItem[] = [
     {
       href: '/knowledge-map',
@@ -484,7 +486,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ ANALYTICS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ANALYTICS
   const analyticsItems: NavItem[] = [
     {
       href: '/study-dna',
@@ -513,7 +515,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ TRAIN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // TRAIN
   const trainItems: NavItem[] = [
     {
       href: '/reading-speed',
@@ -542,7 +544,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ CHALLENGES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // CHALLENGES
   const challengeItems: NavItem[] = [
     {
       href: '/crossover',
@@ -556,7 +558,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ INTELLIGENCE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // INTELLIGENCE
   const intelligenceItems: NavItem[] = [
     {
       href: '/kyvex-iq',
@@ -585,7 +587,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ NOTES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // NOTES
   const notesItems: NavItem[] = [
     {
       href: '/note-evolution',
@@ -594,7 +596,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ SOCIAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // SOCIAL
   const socialItems: NavItem[] = [
     {
       href: '/community',
@@ -613,7 +615,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     },
   ]
 
-  // â”€â”€ PERSONAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // PERSONAL
   const personalItems: NavItem[] = [
     {
       href: '/achievements',
@@ -802,18 +804,19 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     <div style={{ position: 'relative' }}>
       {!effectiveCollapsed && (
         <p style={{
-          fontSize: '9px',
+          fontSize: '10px',
           fontWeight: 800,
           textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          color: 'var(--text-muted)',
-          padding: '20px 16px 6px',
+          letterSpacing: '0.11em',
+          color: '#6f7da4',
+          padding: '18px 16px 8px',
+          animation: 'sidebar-group-in 260ms ease both',
         }}>
           {label}
         </p>
       )}
       <div>
-        {items.map((item) => {
+        {items.map((item, itemIndex) => {
           const active = isActivePath(pathname, item.href)
           const hovered = hoveredHref === item.href
           return (
@@ -826,32 +829,34 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
               title={effectiveCollapsed ? item.label : undefined}
               style={{
                 position: 'relative',
-                margin: '2px 8px',
-                padding: effectiveCollapsed ? '9px 0' : '9px 12px',
-                minHeight: compactDensity ? '34px' : '38px',
-                borderRadius: '10px',
+                margin: '3px 10px',
+                padding: effectiveCollapsed ? '10px 0' : '10px 12px',
+                minHeight: compactDensity ? '36px' : '40px',
+                borderRadius: '12px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: effectiveCollapsed ? 'center' : 'flex-start',
                 gap: effectiveCollapsed ? '0px' : '10px',
                 color: active ? '#f0b429' : hovered ? 'var(--text-primary)' : 'var(--text-secondary)',
-                fontSize: '13px',
-                fontWeight: active ? 700 : 500,
+                fontSize: '13.5px',
+                fontWeight: active ? 700 : hovered ? 600 : 500,
                 cursor: 'pointer',
                 transition: 'all 0.18s ease',
                 background: active
-                  ? 'linear-gradient(135deg, rgba(240,180,41,0.18) 0%, rgba(45,212,191,0.08) 100%)'
+                  ? 'linear-gradient(135deg, rgba(240,180,41,0.2) 0%, rgba(45,212,191,0.1) 100%)'
                   : hovered
-                    ? 'var(--bg-elevated)'
+                    ? 'rgba(255,255,255,0.035)'
                     : 'transparent',
                 border: active
-                  ? '1px solid rgba(240,180,41,0.3)'
+                  ? '1px solid rgba(240,180,41,0.34)'
                   : hovered
-                    ? '1px solid var(--border-subtle)'
+                    ? '1px solid rgba(255,255,255,0.08)'
                     : '1px solid transparent',
-                boxShadow: active ? '0 2px 12px rgba(240,180,41,0.12)' : 'none',
-                transform: hovered ? 'translateX(2px)' : 'translateX(0)',
+                boxShadow: active ? '0 6px 18px rgba(240,180,41,0.12)' : 'none',
+                transform: hovered ? 'translateX(3px)' : 'translateX(0)',
                 textDecoration: 'none',
+                animation: !effectiveCollapsed ? 'sidebar-item-in 300ms ease both' : 'none',
+                animationDelay: `${Math.min(260, itemIndex * 18)}ms`,
               }}
             >
               {active && (
@@ -867,7 +872,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                   }}
                 />
               )}
-              <NavIcon active={active}>{item.icon}</NavIcon>
+              <NavIcon active={active} hovered={hovered}>{item.icon}</NavIcon>
               {!effectiveCollapsed && (
                 <span
                   style={{
@@ -892,6 +897,28 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   return (
     <>
       <style>{`
+        @keyframes sidebar-group-in {
+          from {
+            opacity: 0;
+            transform: translateY(6px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes sidebar-item-in {
+          from {
+            opacity: 0;
+            transform: translateX(-5px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
         @media (min-width: 768px) {
           .sidebar-overlay {
             display: none !important;
@@ -959,6 +986,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
           transform: mobileOpen ? 'translateX(0)' : 'translateX(-100%)',
           transition: 'transform 0.2s ease, width 0.2s ease',
           background: 'linear-gradient(180deg, rgba(7, 12, 22, 0.98), rgba(5, 9, 18, 0.98))',
+          backdropFilter: 'blur(10px)',
           borderRight: placement === 'left' ? '1px solid rgba(240,180,41,0.12)' : 'none',
           borderLeft: placement === 'right' ? '1px solid rgba(240,180,41,0.12)' : 'none',
           borderBottom: placement === 'top' ? '1px solid rgba(240,180,41,0.12)' : 'none',
@@ -978,14 +1006,14 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       >
         <Link href="/dashboard" onClick={onCloseMobile} style={{ textDecoration: 'none' }}>
           <div style={{
-            height: 'var(--topbar-height)',
+            height: '56px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: effectiveCollapsed ? 'center' : 'flex-start',
             gap: effectiveCollapsed ? '0px' : '10px',
             padding: isHorizontal ? '0 14px' : effectiveCollapsed ? '0' : '0 16px',
-            borderBottom: '1px solid rgba(240,180,41,0.08)',
-            background: 'linear-gradient(90deg, rgba(79, 142, 247, 0.1), transparent)',
+            borderBottom: '1px solid rgba(240,180,41,0.12)',
+            background: 'linear-gradient(90deg, rgba(79, 142, 247, 0.12), rgba(45,212,191,0.04), transparent)',
           }}>
             <div style={{
               width: '28px',
@@ -1006,9 +1034,10 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
             </div>
             {!effectiveCollapsed && (
               <span style={{
-                fontSize: '17px',
-                fontWeight: 900,
+                fontSize: '18px',
+                fontWeight: 800,
                 letterSpacing: '-0.03em',
+                fontFamily: '"Space Grotesk", var(--font-inter), sans-serif',
                 color: 'var(--text-primary)',
               }}>
                 Kyvex
@@ -1041,6 +1070,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
             >
               {allItems.map((item) => {
                 const active = isActivePath(pathname, item.href)
+                const hovered = hoveredHref === item.href
                 return (
                   <Link
                     key={item.href}
@@ -1071,7 +1101,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
                       transition: 'transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease',
                     }}
                   >
-                    <NavIcon active={active}>{item.icon}</NavIcon>
+                    <NavIcon active={active} hovered={hovered}>{item.icon}</NavIcon>
                     <span
                       style={{
                         width: '100%',
@@ -1202,35 +1232,35 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
               padding: effectiveCollapsed ? '8px 0' : '8px 0 12px',
             }}>
               <nav>
-                {renderNavGroup('MAIN', mainItems)}
+                {renderNavGroup('MAIN', filteredMainItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('STUDY TOOLS', studyToolItems)}
+                {renderNavGroup('STUDY TOOLS', filteredStudyToolItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('CREATE', createItems)}
+                {renderNavGroup('CREATE', filteredCreateItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('FLASHCARDS & EXAMS', flashcardItems)}
+                {renderNavGroup('FLASHCARDS & EXAMS', filteredFlashcardItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('AI TOOLS', aiToolItems)}
+                {renderNavGroup('AI TOOLS', filteredAiToolItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('RESEARCH', researchItems)}
+                {renderNavGroup('RESEARCH', filteredResearchItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('DISCOVER', discoverItems)}
+                {renderNavGroup('DISCOVER', filteredDiscoverItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('TRAIN', trainItems)}
+                {renderNavGroup('TRAIN', filteredTrainItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('CHALLENGES', challengeItems)}
+                {renderNavGroup('CHALLENGES', filteredChallengeItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('ANALYTICS', analyticsItems)}
+                {renderNavGroup('ANALYTICS', filteredAnalyticsItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('INTELLIGENCE', intelligenceItems)}
+                {renderNavGroup('INTELLIGENCE', filteredIntelligenceItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('NOTES', notesItems)}
+                {renderNavGroup('NOTES', filteredNotesItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('SOCIAL', socialItems)}
+                {renderNavGroup('SOCIAL', filteredSocialItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('PERSONAL', personalItems)}
+                {renderNavGroup('PERSONAL', filteredPersonalItems)}
                 <div style={{ height: '1px', background: 'var(--border-subtle)', margin: effectiveCollapsed ? '8px 8px' : '8px 16px' }} />
-                {renderNavGroup('TOOLS', toolsItems)}
+                {renderNavGroup('TOOLS', filteredToolsItems)}
               </nav>
             </div>
 
@@ -1253,7 +1283,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
               }}
               aria-label={effectiveCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
-              {effectiveCollapsed ? 'â†’' : 'â†'}
+              {effectiveCollapsed ? '>' : '<'}
             </button>
 
             {!effectiveCollapsed && (

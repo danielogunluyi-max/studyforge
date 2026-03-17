@@ -492,10 +492,12 @@ export default function DashboardPage() {
   }
 
   const baseCardStyle: React.CSSProperties = {
-    background: '#0d1424',
-    border: '1px solid rgba(255,255,255,0.07)',
-    borderRadius: '16px',
+    background: 'linear-gradient(165deg, rgba(18,25,46,0.86), rgba(13,20,36,0.88))',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: '18px',
     padding: '24px',
+    boxShadow: '0 10px 30px rgba(3,8,20,0.35)',
+    backdropFilter: 'blur(8px)',
     transition: 'all 0.2s ease',
   }
 
@@ -505,23 +507,34 @@ export default function DashboardPage() {
   }
 
   const clearCardHover = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
-    event.currentTarget.style.boxShadow = 'none'
+    event.currentTarget.style.borderColor = ''
+    event.currentTarget.style.boxShadow = ''
   }
 
   const inputStyle: React.CSSProperties = {
-    borderRadius: '10px',
+    borderRadius: '12px',
     border: '1px solid rgba(255,255,255,0.07)',
     background: '#12192e',
     color: '#e8eaf6',
-    padding: '10px 12px',
-    fontSize: '13px',
+    padding: '11px 13px',
+    fontSize: '14px',
     width: '100%',
     fontFamily: 'inherit',
   }
 
   return (
-    <main className="kv-animate-in" style={{ minHeight: '100vh', background: '#050810', color: '#e8eaf6' }}>
+    <main
+      className="kv-animate-in"
+      style={{
+        minHeight: '100vh',
+        background: [
+          'radial-gradient(1200px 520px at -15% -10%, rgba(45,212,191,0.12), transparent 60%)',
+          'radial-gradient(900px 440px at 115% 0%, rgba(240,180,41,0.12), transparent 60%)',
+          '#050810',
+        ].join(', '),
+        color: '#e8eaf6',
+      }}
+    >
       <style>{`
         @keyframes dashboard-pulse {
           0%, 100% { opacity: 1; }
@@ -529,32 +542,54 @@ export default function DashboardPage() {
         }
       `}</style>
 
-      <div style={{ maxWidth: '1280px', margin: '0 auto', marginBottom: '100px', padding: '32px 24px 72px' }}>
-        <h1 style={{
-          fontSize: '22px',
-          fontWeight: 900,
-          letterSpacing: '-0.025em',
-          color: '#e8eaf6',
-          marginBottom: '4px',
-        }}>
-          Exam Countdown Dashboard
-        </h1>
-        <p style={{ fontSize: '13px', color: '#8892b0', marginBottom: '28px' }}>
-          Track every upcoming exam, pressure level, and AI-generated day-by-day preparation plan.
-        </p>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', marginBottom: '100px', padding: '36px 24px 80px' }}>
+        <section style={{ marginBottom: '24px' }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            borderRadius: '999px',
+            border: '1px solid rgba(45,212,191,0.35)',
+            background: 'rgba(45,212,191,0.1)',
+            color: '#5eead4',
+            padding: '6px 12px',
+            fontSize: '11px',
+            fontWeight: 700,
+            letterSpacing: '0.07em',
+            textTransform: 'uppercase',
+            marginBottom: '12px',
+          }}>
+            Study Command Center
+          </div>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '18px' }}>
+          <h1 style={{
+            fontSize: 'clamp(28px, 4.4vw, 44px)',
+            fontWeight: 800,
+            letterSpacing: '-0.04em',
+            fontFamily: '"Space Grotesk", var(--font-inter), sans-serif',
+            color: '#f8fbff',
+            lineHeight: 1.03,
+            marginBottom: '10px',
+          }}>
+            Build Exam Momentum Every Day
+          </h1>
+          <p style={{ fontSize: '14px', color: '#9ba7c8', marginBottom: '0', maxWidth: '760px', lineHeight: 1.55 }}>
+            Own the timeline: track countdown pressure, turn topics into daily execution plans, and keep your study streak alive with less friction.
+          </p>
+        </section>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
           <Link
             href="/my-notes"
             style={{
               textDecoration: 'none',
-              borderRadius: '10px',
-              border: '1px solid rgba(255,255,255,0.07)',
-              background: '#12192e',
-              color: '#e8eaf6',
+              borderRadius: '12px',
+              border: '1px solid rgba(79,142,247,0.42)',
+              background: 'rgba(79,142,247,0.14)',
+              color: '#bfdbfe',
               padding: '10px 14px',
               fontSize: '12px',
-              fontWeight: 600,
+              fontWeight: 700,
             }}
           >
             Open My Notes
@@ -564,13 +599,13 @@ export default function DashboardPage() {
             onClick={openScanPicker}
             disabled={isScanningNotes}
             style={{
-              borderRadius: '10px',
-              border: '1px solid rgba(255,255,255,0.07)',
-              background: '#12192e',
-              color: '#e8eaf6',
+              borderRadius: '12px',
+              border: '1px solid rgba(240,180,41,0.42)',
+              background: 'rgba(240,180,41,0.14)',
+              color: '#fde68a',
               padding: '10px 14px',
               fontSize: '12px',
-              fontWeight: 600,
+              fontWeight: 700,
               cursor: isScanningNotes ? 'not-allowed' : 'pointer',
               opacity: isScanningNotes ? 0.7 : 1,
               fontFamily: 'inherit',
@@ -609,9 +644,9 @@ export default function DashboardPage() {
         )}
 
         <div style={{
-          marginBottom: '24px',
+          marginBottom: '28px',
           display: 'grid',
-          gap: '12px',
+          gap: '14px',
           gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
         }}>
           <div
@@ -619,21 +654,22 @@ export default function DashboardPage() {
             onMouseEnter={applyCardHover}
             onMouseLeave={clearCardHover}
             style={{
-              background: '#0d1424',
-              border: '1px solid rgba(255,255,255,0.07)',
+              background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
+              border: '1px solid rgba(240,180,41,0.26)',
               borderLeft: '3px solid #f0b429',
-              borderRadius: '16px',
-              padding: '20px 24px',
+              borderRadius: '18px',
+              padding: '22px 24px',
+              boxShadow: '0 12px 32px rgba(4,8,18,0.35)',
               transition: 'all 0.2s ease',
             }}
           >
             <p style={{
-              fontSize: '10px',
+              fontSize: '11px',
               fontWeight: 800,
               textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: '#3d4a6b',
-              marginBottom: '8px',
+              letterSpacing: '0.09em',
+              color: '#7a88af',
+              marginBottom: '10px',
             }}>
               Next Exam Countdown
             </p>
@@ -642,7 +678,7 @@ export default function DashboardPage() {
                 <p style={{ fontSize: '14px', fontWeight: 700, color: '#8892b0', marginBottom: '6px' }}>
                   {subjectIcon(nextExam.subject)} {nextExam.subject}
                 </p>
-                <p className="kv-bounce-in" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+                <p className="kv-bounce-in" style={{ fontSize: '32px', fontWeight: 900, letterSpacing: '-0.04em', color: '#f8fbff' }}>
                   {formatCountdown(nextExam.examDate)}
                 </p>
                 <p style={{ fontSize: '12px', color: '#8892b0', marginTop: '4px' }}>
@@ -666,10 +702,11 @@ export default function DashboardPage() {
             onMouseEnter={applyCardHover}
             onMouseLeave={clearCardHover}
             style={{
-              background: '#0d1424',
+              background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
               border: '1px solid rgba(255,255,255,0.07)',
-              borderRadius: '16px',
-              padding: '20px 24px',
+              borderRadius: '18px',
+              padding: '22px 24px',
+              boxShadow: '0 12px 32px rgba(4,8,18,0.3)',
               transition: 'all 0.2s ease',
             }}
           >
@@ -694,11 +731,12 @@ export default function DashboardPage() {
             onMouseEnter={applyCardHover}
             onMouseLeave={clearCardHover}
             style={{
-              background: '#0d1424',
-              border: '1px solid rgba(255,255,255,0.07)',
+              background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
+              border: '1px solid rgba(45,212,191,0.25)',
               borderLeft: '3px solid #2dd4bf',
-              borderRadius: '16px',
-              padding: '20px 24px',
+              borderRadius: '18px',
+              padding: '22px 24px',
+              boxShadow: '0 12px 32px rgba(4,8,18,0.35)',
               transition: 'all 0.2s ease',
             }}
           >
