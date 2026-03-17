@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { PublicAuthShell } from '~/app/_components/public-auth-shell'
+import { PublicAuthShell } from '@/app/_components/public-auth-shell'
 
 export default function RegisterPage() {
   const [name, setName] = useState('')
@@ -49,18 +49,18 @@ export default function RegisterPage() {
   return (
     <PublicAuthShell
       sectionLabel="New members"
-      headline="Start in a workspace"
-      accent="built for serious study."
-      description="Create your account to move into a cleaner academic environment for notes, revision, and exam preparation without public-page clutter."
+      headline="Start in a premium"
+      accent="study workspace."
+      description="Create your account to enter a cleaner academic environment for notes, revision, and exam preparation without UI noise."
       stats={[
         { value: '15+', label: 'study workflows after sign-up' },
         { value: '136', label: 'course-aligned pathways supported' },
         { value: 'Free', label: 'to start' },
       ]}
       highlights={[
-        'One account gives you a private workspace for capture, review, and performance tracking.',
-        'The public experience stays concise so the real product only appears after you enter it.',
-        'Built to feel credible for high school, college, and university learners alike.',
+        'One account unlocks a private workspace for capture, review, and performance tracking.',
+        'The public experience stays concise so the real product appears after entry.',
+        'Built to feel credible across high school, college, and university workflows.',
       ]}
       formBadge="Create account"
       formTitle="Set up your Kyvex account"

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { PublicAuthShell } from '~/app/_components/public-auth-shell'
+import { PublicAuthShell } from '@/app/_components/public-auth-shell'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -36,18 +36,18 @@ export default function LoginPage() {
   return (
     <PublicAuthShell
       sectionLabel="Existing members"
-      headline="Return to a calmer"
+      headline="Return to a focused"
       accent="study workflow."
-      description="Sign in to continue with your notes, revision, and progress inside a workspace designed to stay clear under academic pressure."
+      description="Sign in to continue your notes, revision, and progress in a cleaner workspace built for serious study sessions."
       stats={[
         { value: '1', label: 'private academic workspace' },
         { value: '15+', label: 'study workflows ready after sign-in' },
         { value: '24/7', label: 'access to your saved materials' },
       ]}
       highlights={[
-        'Pick up where you left off without reorienting yourself in a noisy interface.',
-        'Keep notes, revision, and performance tools inside one disciplined environment.',
-        'Public pages stay minimal so your actual study workspace starts after sign-in.',
+        'Pick up exactly where you left off without reorienting in a cluttered UI.',
+        'Keep notes, revision, and performance tools in one consistent environment.',
+        'Public pages stay minimal so your real workflow starts right after sign-in.',
       ]}
       formBadge="Secure sign-in"
       formTitle="Sign in to Kyvex"

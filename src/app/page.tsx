@@ -2,72 +2,40 @@
 
 import Link from 'next/link'
 
-const trustPillars = [
+const proofStats = [
+  { value: '1', label: 'workspace for notes, review, and exam prep' },
+  { value: '15+', label: 'study workflows available after sign-in' },
+  { value: '136', label: 'course-aligned pathways currently supported' },
+  { value: '24/7', label: 'access across desktop and mobile sessions' },
+]
+
+const painPoints = [
   {
-    icon: 'shield',
-    label: 'Private Study Environment',
-    body: 'A focused academic space built for serious work, without the noise or clutter that breaks attention.',
+    issue: 'Too many screens with no clear flow',
+    fix: 'Kyvex keeps one primary path: capture, understand, rehearse, track progress.',
   },
   {
-    icon: 'stack',
-    label: 'Professional By Default',
-    body: 'Clear structure, calmer visuals, and a more mature tone from the first click to the final study session.',
+    issue: 'Visual noise that burns focus',
+    fix: 'Calmer spacing, stronger hierarchy, and fewer competing elements per screen.',
   },
   {
-    icon: 'target',
-    label: 'Designed Around Retention',
-    body: 'Capture, revision, and preparation are organized to reduce drift and support stronger exam performance.',
+    issue: 'Tools feel disconnected',
+    fix: 'Notes, flashcards, and exam prep live in one consistent environment.',
   },
 ]
 
-function TrustPillarIcon({ icon }: { icon: 'shield' | 'stack' | 'target' }) {
-  if (icon === 'shield') {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '24px', height: '24px', position: 'absolute', right: '10px', bottom: '10px', color: '#9fbfff', filter: 'drop-shadow(0 0 10px rgba(79, 142, 247, 0.45))' }}>
-        <path d="M12 3 18 6v5c0 4-2.2 7.2-6 9-3.8-1.8-6-5-6-9V6l6-3Z" fill="none" stroke="currentColor" strokeWidth="1.8" />
-        <path d="M9.3 11.7 11.1 13.5 14.9 9.7" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    )
-  }
-
-  if (icon === 'stack') {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '24px', height: '24px', position: 'absolute', right: '10px', bottom: '10px', color: '#9fbfff', filter: 'drop-shadow(0 0 10px rgba(79, 142, 247, 0.45))' }}>
-        <rect x="5" y="6" width="14" height="3" rx="1.5" fill="currentColor" opacity="0.95" />
-        <rect x="4" y="11" width="16" height="3" rx="1.5" fill="currentColor" opacity="0.78" />
-        <rect x="3" y="16" width="18" height="3" rx="1.5" fill="currentColor" opacity="0.62" />
-      </svg>
-    )
-  }
-
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '24px', height: '24px', position: 'absolute', right: '10px', bottom: '10px', color: '#9fbfff', filter: 'drop-shadow(0 0 10px rgba(79, 142, 247, 0.45))' }}>
-      <circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" strokeWidth="1.6" opacity="0.85" />
-      <circle cx="12" cy="12" r="3.3" fill="none" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="12" cy="12" r="1.3" fill="currentColor" />
-    </svg>
-  )
-}
-
-const proofItems = [
-  { value: '136', label: 'course-aligned pathways supported' },
-  { value: '15+', label: 'study workflows in one workspace' },
-  { value: '9-12', label: 'grades supported at launch' },
-  { value: '1', label: 'disciplined academic system' },
-]
-
-const audienceCards = [
+const featureBands = [
   {
-    title: 'For high school students',
-    text: 'Keep coursework organized, build stronger revision habits, and turn last-minute studying into a repeatable routine.',
+    title: 'Capture once, reuse everywhere',
+    body: 'Upload notes and course material, then transform them into quizzes, summaries, and active-recall workflows.',
   },
   {
-    title: 'For college students',
-    text: 'Keep lectures, assignments, deadlines, and review sessions inside one system built to reduce friction.',
+    title: 'Study with less guessing',
+    body: 'Plan sessions around what matters next instead of jumping between random tasks and tabs.',
   },
   {
-    title: 'For university students',
-    text: 'Handle heavier reading loads and more demanding concepts with a workspace designed to stay clear under pressure.',
+    title: 'Track confidence by topic',
+    body: 'See weak spots early so your final review is targeted instead of rushed.',
   },
 ]
 
@@ -79,10 +47,10 @@ export default function LandingPage() {
           color-scheme: dark;
         }
 
-        @keyframes hero-rise {
+        @keyframes enter-up {
           from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(18px);
           }
           to {
             opacity: 1;
@@ -90,700 +58,342 @@ export default function LandingPage() {
           }
         }
 
-        @keyframes slow-float {
-          0%, 100% {
-            transform: translate3d(0, 0, 0);
-          }
-          50% {
-            transform: translate3d(0, -14px, 0);
-          }
-        }
-
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-120%);
-          }
-          100% {
-            transform: translateX(120%);
-          }
-        }
-
-        .landing-shell {
+        .mk-shell {
           min-height: 100vh;
           background:
-            radial-gradient(circle at top left, rgba(79, 142, 247, 0.16), transparent 32%),
-            radial-gradient(circle at 85% 18%, rgba(240, 180, 41, 0.11), transparent 24%),
-            linear-gradient(180deg, #04070f 0%, #07101d 38%, #050810 100%);
+            radial-gradient(1000px 500px at -8% -8%, rgba(79, 142, 247, 0.16), transparent 60%),
+            radial-gradient(900px 420px at 108% 0%, rgba(240, 180, 41, 0.14), transparent 60%),
+            linear-gradient(180deg, #050810 0%, #070f1c 100%);
           color: var(--text-primary);
-          font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
-          overflow-x: hidden;
+          font-family: 'Space Grotesk', var(--font-inter), sans-serif;
         }
 
-        .landing-grid {
-          position: absolute;
-          inset: 0;
-          background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-          background-size: 44px 44px;
-          mask-image: radial-gradient(circle at center, rgba(0,0,0,1) 42%, rgba(0,0,0,0) 100%);
-          pointer-events: none;
-          opacity: 0.28;
+        .mk-wrap {
+          width: min(1240px, calc(100% - 40px));
+          margin: 0 auto;
         }
 
-        .landing-fade-1 { animation: hero-rise 0.7s ease both; }
-        .landing-fade-2 { animation: hero-rise 0.7s 0.1s ease both; }
-        .landing-fade-3 { animation: hero-rise 0.7s 0.2s ease both; }
-        .landing-fade-4 { animation: hero-rise 0.7s 0.3s ease both; }
-
-        .landing-nav-link:hover {
-          border-color: rgba(255,255,255,0.16) !important;
-          color: var(--text-primary) !important;
-          background: rgba(255,255,255,0.03) !important;
+        .mk-nav {
+          position: sticky;
+          top: 0;
+          z-index: 30;
+          backdrop-filter: blur(18px);
+          background: rgba(5, 8, 16, 0.72);
+          border-bottom: 1px solid rgba(255,255,255,0.06);
         }
 
-        .landing-primary:hover {
+        .mk-in {
+          animation: enter-up 520ms ease both;
+        }
+
+        .mk-card {
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 20px;
+          background: linear-gradient(180deg, rgba(12,18,34,0.88), rgba(8,12,24,0.9));
+          box-shadow: 0 18px 50px rgba(0,0,0,0.28);
+        }
+
+        .mk-chip {
+          border: 1px solid rgba(79,142,247,0.35);
+          background: rgba(79,142,247,0.14);
+          color: #b9d0ff;
+          border-radius: 999px;
+          padding: 8px 14px;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+
+        .mk-btn-primary:hover {
           transform: translateY(-1px);
-          box-shadow: 0 16px 40px rgba(79, 142, 247, 0.28);
+          box-shadow: 0 18px 48px rgba(79,142,247,0.28);
         }
 
-        .landing-secondary:hover {
-          border-color: rgba(240, 180, 41, 0.22) !important;
+        .mk-btn-secondary:hover {
+          background: rgba(255,255,255,0.04) !important;
+          border-color: rgba(255,255,255,0.2) !important;
           color: var(--text-primary) !important;
-          background: rgba(255,255,255,0.03) !important;
         }
 
-        .landing-panel:hover {
-          transform: translateY(-3px);
-          border-color: rgba(255,255,255,0.12) !important;
-          background: rgba(11, 19, 34, 0.92) !important;
+        .mk-grid-3 {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 14px;
         }
 
-        .landing-panel {
-          transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+        .mk-grid-4 {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 14px;
         }
 
         @media (max-width: 980px) {
-          .landing-hero-grid {
+          .mk-hero {
             grid-template-columns: 1fr !important;
           }
 
-          .landing-nav {
-            padding: 0 18px !important;
+          .mk-grid-4 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
           }
 
-          .landing-proof {
-            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+          .mk-grid-3 {
+            grid-template-columns: 1fr;
           }
         }
 
         @media (max-width: 640px) {
-          .landing-nav-actions {
+          .mk-nav-actions {
             display: none !important;
           }
 
-          .landing-proof {
-            grid-template-columns: 1fr !important;
+          .mk-grid-4 {
+            grid-template-columns: 1fr;
           }
 
-          .landing-audience {
-            grid-template-columns: 1fr !important;
-          }
-
-          .landing-cta-group {
-            flex-direction: column;
-            align-items: stretch;
+          .mk-wrap {
+            width: calc(100% - 24px);
           }
         }
       `}</style>
 
-      <main className="landing-shell" style={{ position: 'relative' }}>
-        <div className="landing-grid" />
-
-        <nav
-          className="landing-nav"
-          style={{
-            position: 'sticky',
-            top: 0,
-            zIndex: 40,
-            height: '76px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0 28px',
-            borderBottom: '1px solid rgba(255,255,255,0.05)',
-            backdropFilter: 'blur(20px)',
-            background: 'rgba(4, 7, 15, 0.7)',
-          }}
-        >
-          <Link
-            href="/"
+      <main className="mk-shell">
+        <nav className="mk-nav">
+          <div
+            className="mk-wrap"
             style={{
-              display: 'inline-flex',
+              height: '74px',
+              display: 'flex',
               alignItems: 'center',
+              justifyContent: 'space-between',
               gap: '12px',
-              textDecoration: 'none',
-              color: 'inherit',
             }}
           >
-            <div
-              style={{
-                width: '34px',
-                height: '34px',
-                borderRadius: '10px',
-                display: 'grid',
-                placeItems: 'center',
-                background: 'linear-gradient(135deg, #4f8ef7, #f0b429)',
-                boxShadow: '0 10px 30px rgba(79, 142, 247, 0.24)',
-              }}
-            >
-              <img src="/Kyvex-logo.png" alt="Kyvex" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px' }} />
-            </div>
-            <div>
-              <div style={{ fontSize: '16px', fontWeight: 800, letterSpacing: '-0.04em' }}>Kyvex</div>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                Academic AI Workspace
+            <Link href="/" style={{ textDecoration: 'none', color: 'inherit', display: 'inline-flex', alignItems: 'center', gap: '12px' }}>
+              <div
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '10px',
+                  background: 'linear-gradient(135deg, #4f8ef7, #f0b429)',
+                  boxShadow: '0 10px 28px rgba(79, 142, 247, 0.25)',
+                }}
+              >
+                <img src="/Kyvex-logo.png" alt="Kyvex" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px' }} />
               </div>
-            </div>
-          </Link>
+              <div>
+                <div style={{ fontWeight: 800, letterSpacing: '-0.04em', fontSize: '17px' }}>Kyvex</div>
+                <div style={{ color: 'var(--text-muted)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  Academic AI Workspace
+                </div>
+              </div>
+            </Link>
 
-          <div className="landing-nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Link href="/login" style={{ textDecoration: 'none' }}>
-              <button
-                className="landing-nav-link"
-                style={{
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  background: 'transparent',
-                  color: 'var(--text-secondary)',
-                  borderRadius: '12px',
-                  padding: '12px 16px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  transition: 'all 0.18s ease',
-                }}
-              >
-                Log In
-              </button>
-            </Link>
-            <Link href="/register" style={{ textDecoration: 'none' }}>
-              <button
-                className="landing-primary"
-                style={{
-                  border: 'none',
-                  background: 'linear-gradient(135deg, #4f8ef7, #7c8cff)',
-                  color: '#ffffff',
-                  borderRadius: '12px',
-                  padding: '12px 18px',
-                  fontSize: '13px',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  transition: 'transform 0.18s ease, box-shadow 0.18s ease',
-                  boxShadow: '0 14px 34px rgba(79, 142, 247, 0.22)',
-                }}
-              >
-                Start Free
-              </button>
-            </Link>
+            <div className="mk-nav-actions" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <Link href="/login" style={{ textDecoration: 'none' }}>
+                <button
+                  className="mk-btn-secondary"
+                  style={{
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '12px',
+                    background: 'transparent',
+                    color: 'var(--text-secondary)',
+                    padding: '11px 15px',
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    cursor: 'pointer',
+                    transition: 'all 0.18s ease',
+                  }}
+                >
+                  Log In
+                </button>
+              </Link>
+              <Link href="/register" style={{ textDecoration: 'none' }}>
+                <button
+                  className="mk-btn-primary"
+                  style={{
+                    border: 'none',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #4f8ef7, #7a93ff)',
+                    color: '#fff',
+                    padding: '11px 16px',
+                    fontWeight: 800,
+                    fontSize: '13px',
+                    cursor: 'pointer',
+                    boxShadow: '0 14px 36px rgba(79,142,247,0.2)',
+                    transition: 'transform 0.18s ease, box-shadow 0.18s ease',
+                  }}
+                >
+                  Start Free
+                </button>
+              </Link>
+            </div>
           </div>
         </nav>
 
-        <section style={{ position: 'relative', padding: '56px 24px 40px' }}>
-          <div
-            className="landing-hero-grid"
-            style={{
-              maxWidth: '1240px',
-              margin: '0 auto',
-              display: 'grid',
-              gridTemplateColumns: 'minmax(0, 1.08fr) minmax(380px, 0.92fr)',
-              gap: '42px',
-              alignItems: 'center',
-            }}
-          >
-            <div>
-              <div
-                className="landing-fade-1"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '10px 16px',
-                  borderRadius: '999px',
-                  border: '1px solid rgba(79, 142, 247, 0.18)',
-                  background: 'rgba(79, 142, 247, 0.08)',
-                  color: '#a8c1ff',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  marginBottom: '26px',
-                }}
-              >
-                Built for focused study across high school, college, and university
-              </div>
-
-              <h1
-                className="landing-fade-2"
-                style={{
-                  fontSize: 'clamp(52px, 8vw, 92px)',
-                  lineHeight: 0.95,
-                  letterSpacing: '-0.065em',
-                  fontWeight: 800,
-                  maxWidth: '760px',
-                  marginBottom: '24px',
-                }}
-              >
-                Study with
+        <section style={{ padding: '54px 0 28px' }}>
+          <div className="mk-wrap mk-hero" style={{ display: 'grid', gridTemplateColumns: '1.06fr 0.94fr', gap: '24px', alignItems: 'center' }}>
+            <div className="mk-in" style={{ animationDelay: '60ms' }}>
+              <div className="mk-chip" style={{ width: 'fit-content', marginBottom: '18px' }}>Competitor-informed redesign</div>
+              <h1 style={{ fontSize: 'clamp(44px, 8vw, 86px)', lineHeight: 0.93, letterSpacing: '-0.065em', fontWeight: 800, margin: '0 0 20px' }}>
+                Premium study UX
                 <br />
-                 <span style={{ color: '#f3f6ff', fontSize: 'inherit' }}>clarity.</span>
-                <br />
-                 <span style={{ color: '#7faeff', fontSize: 'inherit' }}>Perform with confidence.</span>
+                <span style={{ color: '#86b0ff', fontSize: 'inherit' }}>without the chaos.</span>
               </h1>
-
-              <p
-                className="landing-fade-3"
-                style={{
-                  maxWidth: '610px',
-                  color: 'var(--text-secondary)',
-                  fontSize: '18px',
-                  lineHeight: 1.75,
-                  marginBottom: '34px',
-                }}
-              >
-                Kyvex brings revision, organization, and guided study into one disciplined workspace so students can think clearly, prepare faster, and approach assessments with more control.
+              <p style={{ maxWidth: '640px', color: 'var(--text-secondary)', fontSize: '17px', lineHeight: 1.8, marginBottom: '24px' }}>
+                Inspired by what works in top study products: direct value messaging, strong trust cues, and a cleaner path into your daily workflow.
               </p>
 
-              <div className="landing-fade-4 landing-cta-group" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '28px' }}>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '22px' }}>
                 <Link href="/register" style={{ textDecoration: 'none' }}>
                   <button
-                    className="landing-primary"
+                    className="mk-btn-primary"
                     style={{
                       border: 'none',
                       borderRadius: '14px',
-                      padding: '16px 24px',
-                      background: 'linear-gradient(135deg, #4f8ef7 0%, #6c8fff 55%, #8bb6ff 100%)',
-                      color: '#ffffff',
-                      fontSize: '15px',
+                      background: 'linear-gradient(135deg, #4f8ef7, #7b95ff)',
+                      color: '#fff',
+                      padding: '15px 22px',
                       fontWeight: 800,
+                      fontSize: '15px',
                       cursor: 'pointer',
-                      boxShadow: '0 18px 44px rgba(79, 142, 247, 0.26)',
+                      boxShadow: '0 16px 40px rgba(79,142,247,0.22)',
                       transition: 'transform 0.18s ease, box-shadow 0.18s ease',
                     }}
                   >
-                    Create Your Account
+                    Create account
                   </button>
                 </Link>
+
                 <Link href="/login" style={{ textDecoration: 'none' }}>
                   <button
-                    className="landing-secondary"
+                    className="mk-btn-secondary"
                     style={{
-                      border: '1px solid rgba(255,255,255,0.1)',
+                      border: '1px solid rgba(255,255,255,0.12)',
                       borderRadius: '14px',
-                      padding: '16px 24px',
                       background: 'rgba(255,255,255,0.02)',
                       color: 'var(--text-secondary)',
-                      fontSize: '15px',
+                      padding: '15px 22px',
                       fontWeight: 700,
+                      fontSize: '15px',
                       cursor: 'pointer',
                       transition: 'all 0.18s ease',
                     }}
                   >
-                    Log In
+                    I already have an account
                   </button>
                 </Link>
               </div>
 
-              <div className="landing-fade-4" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 28px', color: 'var(--text-muted)', fontSize: '13px' }}>
-                <span>Private experience stays private</span>
-                <span>Academic-first visual system</span>
-                <span>Free to start</span>
+              <div style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', color: 'var(--text-muted)', fontSize: '13px' }}>
+                <span>Cleaner hierarchy</span>
+                <span>Less cognitive clutter</span>
+                <span>Focused conversion flow</span>
               </div>
             </div>
 
-            <div
-              className="landing-fade-3"
-              style={{
-                position: 'relative',
-                minHeight: '640px',
-                borderRadius: '28px',
-                border: '1px solid rgba(255,255,255,0.08)',
-                background: 'linear-gradient(180deg, rgba(12, 18, 33, 0.96) 0%, rgba(8, 12, 24, 0.96) 100%)',
-                boxShadow: '0 40px 110px rgba(0, 0, 0, 0.45)',
-                overflow: 'hidden',
-              }}
-            >
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: '-10% auto auto -10%',
-                  width: '360px',
-                  height: '360px',
-                  borderRadius: '999px',
-                  background: 'radial-gradient(circle, rgba(79, 142, 247, 0.2), transparent 70%)',
-                  filter: 'blur(18px)',
-                }}
-              />
-
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '18px',
-                  left: '18px',
-                  right: '18px',
-                  height: '54px',
-                  borderRadius: '18px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '0 16px',
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.06)',
-                }}
-              >
-                <div style={{ display: 'flex', gap: '6px' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '999px', background: '#334155' }} />
-                  <span style={{ width: '10px', height: '10px', borderRadius: '999px', background: '#334155' }} />
-                  <span style={{ width: '10px', height: '10px', borderRadius: '999px', background: '#334155' }} />
-                </div>
-                <div
-                  style={{
-                    flex: 1,
-                    height: '12px',
-                    borderRadius: '999px',
-                    background: 'linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))',
-                  }}
-                />
-              </div>
-
-              <div style={{ padding: '92px 22px 22px', height: '100%', display: 'grid', gridTemplateRows: 'auto auto 1fr auto', gap: '16px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '14px' }}>
-                  <div className="landing-panel" style={{ borderRadius: '22px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(9, 15, 28, 0.86)', padding: '20px', position: 'relative', overflow: 'hidden' }}>
-                    <div style={{ color: 'var(--text-muted)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '18px' }}>
-                      Student workspace
-                    </div>
-                    <div style={{ fontSize: '34px', fontWeight: 800, letterSpacing: '-0.05em', marginBottom: '8px' }}>Built for calm, structured study.</div>
-                    <div style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: 1.7, maxWidth: '320px' }}>
-                      A calmer academic interface that keeps revision structured, information readable, and study sessions more deliberate.
-                    </div>
-                    <div style={{ position: 'absolute', right: '-30px', bottom: '-20px', width: '170px', height: '170px', borderRadius: '999px', background: 'radial-gradient(circle, rgba(240, 180, 41, 0.18), transparent 70%)' }} />
-                  </div>
-
-                  <div className="landing-panel" style={{ borderRadius: '22px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(9, 15, 28, 0.86)', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <div style={{ color: 'var(--text-muted)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                      Design standard
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '56px', lineHeight: 0.9, fontWeight: 800, letterSpacing: '-0.06em', color: '#7faeff' }}>A+</div>
-                      <div style={{ marginTop: '10px', color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: '14px' }}>
-                        Clear hierarchy, tighter pacing, and a presentation serious enough for demanding students.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '12px' }}>
-                  {proofItems.map((item) => (
-                    <div key={item.label} className="landing-panel" style={{ borderRadius: '18px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8, 13, 24, 0.88)', padding: '16px 18px' }}>
-                      <div style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.05em', marginBottom: '6px' }}>{item.value}</div>
-                      <div style={{ color: 'var(--text-muted)', fontSize: '12px', lineHeight: 1.5 }}>{item.label}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px' }}>
-                  {trustPillars.map((item, index) => (
-                    <div
-                      key={item.label}
-                      className="landing-panel"
-                      style={{
-                        borderRadius: '18px',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        background: 'rgba(8, 13, 24, 0.88)',
-                        padding: '18px 20px',
-                        display: 'grid',
-                        gridTemplateColumns: '76px 1fr',
-                        gap: '16px',
-                        alignItems: 'center',
-                        animation: index === 1 ? 'slow-float 7s ease-in-out infinite' : undefined,
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '76px',
-                          height: '76px',
-                          borderRadius: '18px',
-                          border: '1px solid rgba(79, 142, 247, 0.2)',
-                          background: 'linear-gradient(180deg, rgba(79, 142, 247, 0.12), rgba(79, 142, 247, 0.04))',
-                          position: 'relative',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        <div
-                          style={{
-                            position: 'absolute',
-                            inset: 'auto auto 10px 10px',
-                            width: '34px',
-                            height: '6px',
-                            borderRadius: '999px',
-                            background: 'rgba(127, 174, 255, 0.72)',
-                          }}
-                        />
-                        <div
-                          style={{
-                            position: 'absolute',
-                            inset: '18px 10px auto 10px',
-                            height: '1px',
-                            background: 'rgba(255,255,255,0.08)',
-                          }}
-                        />
-                        <div
-                          style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '40%',
-                            height: '100%',
-                            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
-                            animation: 'shimmer 4s linear infinite',
-                          }}
-                        />
-                        <TrustPillarIcon icon={item.icon as 'shield' | 'stack' | 'target'} />
-                      </div>
-
-                      <div>
-                        <div style={{ fontSize: '15px', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '4px' }}>{item.label}</div>
-                        <div style={{ color: 'var(--text-secondary)', fontSize: '13px', lineHeight: 1.7 }}>{item.body}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', paddingTop: '6px', color: 'var(--text-muted)', fontSize: '12px' }}>
-                  <span>Professional presentation for serious learners.</span>
-                  <span>The private workspace stays behind sign-in.</span>
-                </div>
+            <div className="mk-card mk-in" style={{ padding: '20px', animationDelay: '120ms' }}>
+              <p style={{ margin: '0 0 14px', fontSize: '11px', color: '#88a8e2', fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase' }}>
+                What premium competitors do well
+              </p>
+              <div className="mk-grid-3">
+                {featureBands.map((item) => (
+                  <article key={item.title} style={{ borderRadius: '16px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)', padding: '16px' }}>
+                    <h3 style={{ margin: '0 0 8px', fontSize: '18px', lineHeight: 1.1, letterSpacing: '-0.03em' }}>{item.title}</h3>
+                    <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px', lineHeight: 1.7 }}>{item.body}</p>
+                  </article>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
-        <section style={{ padding: '16px 24px 8px' }}>
-          <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-            <div className="kv-section-label" style={{ color: '#9fbfff', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '14px' }}>
-              Trusted by Ontario students 🍁
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
-              <article className="landing-panel" style={{ borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8, 13, 24, 0.9)', padding: '22px 22px 18px' }}>
-                <p style={{ margin: 0, color: '#f0b429', fontSize: '34px', lineHeight: 0.8 }}>“</p>
-                <p style={{ margin: '8px 0 14px', color: '#d8e3ff', fontSize: '15px', fontStyle: 'italic', lineHeight: 1.8 }}>
-                  I went from a 68 to an 84 in Grade 11 Functions using Kyvex&apos;s flashcards and Feynman technique. Nothing else comes close.
-                </p>
-                <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '12px' }}>- Sarah M., Gr. 11, Toronto DSB</p>
-              </article>
-
-              <article className="landing-panel" style={{ borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8, 13, 24, 0.9)', padding: '22px 22px 18px' }}>
-                <p style={{ margin: 0, color: '#f0b429', fontSize: '34px', lineHeight: 0.8 }}>“</p>
-                <p style={{ margin: '8px 0 14px', color: '#d8e3ff', fontSize: '15px', fontStyle: 'italic', lineHeight: 1.8 }}>
-                  The Battle Royale with my friends made studying actually fun. We used it the night before our chem exam and everyone did better.
-                </p>
-                <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '12px' }}>- Marcus T., Gr. 12, Peel DSB</p>
-              </article>
-
-              <article className="landing-panel" style={{ borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8, 13, 24, 0.9)', padding: '22px 22px 18px' }}>
-                <p style={{ margin: 0, color: '#f0b429', fontSize: '34px', lineHeight: 0.8 }}>“</p>
-                <p style={{ margin: '8px 0 14px', color: '#d8e3ff', fontSize: '15px', fontStyle: 'italic', lineHeight: 1.8 }}>
-                  The Ontario Curriculum hub is insane - it maps every expectation to study materials automatically. No other app does this.
-                </p>
-                <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '12px' }}>- Priya K., Gr. 10, TDSB</p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section style={{ padding: '16px 24px 0' }}>
-          <div className="landing-proof" style={{ maxWidth: '1240px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '14px' }}>
-            {proofItems.map((item) => (
-              <div key={item.label} className="landing-panel" style={{ padding: '22px 24px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8, 13, 24, 0.88)' }}>
-                <div style={{ fontSize: '34px', fontWeight: 800, letterSpacing: '-0.05em', marginBottom: '8px' }}>{item.value}</div>
-                <div style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: 1.6 }}>{item.label}</div>
+        <section style={{ padding: '16px 0 26px' }}>
+          <div className="mk-wrap mk-grid-4">
+            {proofStats.map((item, index) => (
+              <div key={item.label} className="mk-card mk-in" style={{ padding: '20px', animationDelay: `${140 + index * 35}ms` }}>
+                <div style={{ fontSize: '36px', lineHeight: 0.9, fontWeight: 800, letterSpacing: '-0.05em', marginBottom: '8px' }}>{item.value}</div>
+                <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '13px', lineHeight: 1.6 }}>{item.label}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section style={{ padding: '88px 24px 40px' }}>
-          <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-            <div style={{ maxWidth: '760px', marginBottom: '30px' }}>
-              <div style={{ color: '#9fbfff', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '14px' }}>
-                Designed for academic pressure
-              </div>
-              <h2 style={{ fontSize: 'clamp(34px, 5vw, 60px)', lineHeight: 1, letterSpacing: '-0.055em', fontWeight: 800, marginBottom: '18px' }}>
-                Professional enough for university. Clear enough for high school.
-              </h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '17px', lineHeight: 1.8, maxWidth: '680px' }}>
-                Whether the workload is coursework, labs, essays, or exam season, Kyvex keeps materials organized and the interface calm so students can stay in control.
-              </p>
-            </div>
+        <section style={{ padding: '40px 0 34px' }}>
+          <div className="mk-wrap">
+            <p style={{ margin: '0 0 10px', color: '#9fbfff', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              What feels broken in many study apps
+            </p>
+            <h2 style={{ fontSize: 'clamp(32px, 5vw, 56px)', lineHeight: 1, letterSpacing: '-0.055em', margin: '0 0 18px', maxWidth: '860px' }}>
+              Fast sign-up means nothing if the product feels messy after minute one.
+            </h2>
 
-            <div className="landing-audience" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '14px' }}>
-              {audienceCards.map((item) => (
-                <article key={item.title} className="landing-panel" style={{ borderRadius: '22px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8, 13, 24, 0.88)', padding: '26px' }}>
-                  <div style={{ width: '52px', height: '4px', borderRadius: '999px', background: 'linear-gradient(90deg, #4f8ef7, #f0b429)', marginBottom: '18px' }} />
-                  <h3 style={{ fontSize: '22px', lineHeight: 1.1, letterSpacing: '-0.04em', fontWeight: 800, marginBottom: '12px' }}>{item.title}</h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: 1.8 }}>{item.text}</p>
+            <div className="mk-grid-3">
+              {painPoints.map((item) => (
+                <article key={item.issue} className="mk-card" style={{ padding: '24px' }}>
+                  <p style={{ margin: '0 0 8px', color: '#fda4a4', fontSize: '13px', fontWeight: 700 }}>Broken feeling</p>
+                  <h3 style={{ margin: '0 0 12px', fontSize: '22px', lineHeight: 1.1, letterSpacing: '-0.03em' }}>{item.issue}</h3>
+                  <p style={{ margin: 0, color: 'var(--text-secondary)', lineHeight: 1.75, fontSize: '14px' }}>{item.fix}</p>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section style={{ padding: '20px 24px 24px' }}>
-          <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-            <div className="kv-section-label" style={{ color: '#9fbfff', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '14px' }}>
-              Comparison
-            </div>
-            <div style={{ borderRadius: '20px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(8, 13, 24, 0.9)', overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '760px' }}>
-                <thead>
-                  <tr>
-                    <th style={{ textAlign: 'left', padding: '14px 16px', color: 'var(--text-secondary)', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>Feature</th>
-                    <th style={{ textAlign: 'center', padding: '14px 16px', color: '#0b1020', fontSize: '13px', fontWeight: 800, background: 'linear-gradient(135deg, #f0b429 0%, #f7ca66 100%)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>Kyvex</th>
-                    <th style={{ textAlign: 'center', padding: '14px 16px', color: 'var(--text-secondary)', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>Quizlet</th>
-                    <th style={{ textAlign: 'center', padding: '14px 16px', color: 'var(--text-secondary)', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>StudyFetch</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    ['Ontario Curriculum', '✅', '❌', '❌'],
-                    ['Real SM-2 Spaced Rep', '✅', '⚠️', '⚠️'],
-                    ['Battle Royale', '✅', '❌', '❌'],
-                    ['Study DNA', '✅', '❌', '❌'],
-                    ['Exam Autopsy', '✅', '❌', '❌'],
-                    ['Kyvex Wrapped', '✅', '❌', '❌'],
-                    ['Price', '$1/mo', '$7.99/mo', '$11.99/mo'],
-                  ].map((row) => (
-                    <tr key={row[0]}>
-                      <td style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', color: '#d8e3ff', fontSize: '14px' }}>{row[0]}</td>
-                      <td style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', textAlign: 'center', color: row[1] === '✅' ? '#f0b429' : '#d8e3ff', fontWeight: 700 }}>{row[1]}</td>
-                      <td style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', textAlign: 'center', color: row[2] === '❌' ? '#f87171' : '#f0b429' }}>{row[2]}</td>
-                      <td style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', textAlign: 'center', color: row[3] === '❌' ? '#f87171' : '#f0b429' }}>{row[3]}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <section style={{ padding: '10px 24px 36px' }}>
-          <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-            <div className="kv-section-label" style={{ color: '#9fbfff', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '14px' }}>
-              Kyvex by the numbers
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
-              {[
-                { value: '50+', label: 'AI-powered features' },
-                { value: '136', label: 'Ontario courses mapped' },
-                { value: '20+', label: 'study tools' },
-                { value: '$1/mo', label: 'vs $12/mo industry average' },
-              ].map((item) => (
-                <div key={item.label} className="landing-panel" style={{ borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(8, 13, 24, 0.9)', padding: '20px' }}>
-                  <div style={{ color: '#f0b429', fontSize: '36px', fontWeight: 800, letterSpacing: '-0.05em', marginBottom: '8px' }}>{item.value}</div>
-                  <div style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: 1.6 }}>{item.label}</div>
-                </div>
-              ))}
+        <section style={{ padding: '56px 0 100px' }}>
+          <div className="mk-wrap mk-card" style={{ padding: '36px 26px', textAlign: 'center' }}>
+            <p style={{ margin: '0 0 12px', color: '#9fbfff', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              Ready to switch
+            </p>
+            <h2 style={{ margin: '0 0 14px', fontSize: 'clamp(34px, 5vw, 62px)', lineHeight: 0.98, letterSpacing: '-0.06em' }}>
+              Start with a cleaner
+              <br />
+              study experience.
+            </h2>
+            <p style={{ margin: '0 auto 22px', maxWidth: '660px', color: 'var(--text-secondary)', fontSize: '16px', lineHeight: 1.75 }}>
+              Create an account and move directly into a focused workspace built for sustained study, not random feature hopping.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', flexWrap: 'wrap' }}>
+              <Link href="/register" style={{ textDecoration: 'none' }}>
+                <button
+                  className="mk-btn-primary"
+                  style={{
+                    border: 'none',
+                    borderRadius: '14px',
+                    background: 'linear-gradient(135deg, #4f8ef7, #7b95ff)',
+                    color: '#fff',
+                    padding: '15px 22px',
+                    fontWeight: 800,
+                    fontSize: '15px',
+                    cursor: 'pointer',
+                    boxShadow: '0 16px 40px rgba(79,142,247,0.22)',
+                    transition: 'transform 0.18s ease, box-shadow 0.18s ease',
+                  }}
+                >
+                  Create account
+                </button>
+              </Link>
+              <Link href="/login" style={{ textDecoration: 'none' }}>
+                <button
+                  className="mk-btn-secondary"
+                  style={{
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: '14px',
+                    background: 'rgba(255,255,255,0.02)',
+                    color: 'var(--text-secondary)',
+                    padding: '15px 22px',
+                    fontWeight: 700,
+                    fontSize: '15px',
+                    cursor: 'pointer',
+                    transition: 'all 0.18s ease',
+                  }}
+                >
+                  Log in
+                </button>
+              </Link>
             </div>
           </div>
         </section>
-
-        <section style={{ padding: '96px 24px 120px' }}>
-          <div style={{ maxWidth: '1040px', margin: '0 auto', borderRadius: '30px', border: '1px solid rgba(255,255,255,0.08)', background: 'linear-gradient(180deg, rgba(10, 16, 30, 0.96), rgba(7, 11, 22, 0.98))', padding: '48px 30px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', top: '-40px', left: '50%', transform: 'translateX(-50%)', width: '560px', height: '220px', background: 'radial-gradient(circle, rgba(79, 142, 247, 0.18), transparent 70%)', filter: 'blur(18px)', pointerEvents: 'none' }} />
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <div style={{ color: '#9fbfff', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
-                Start with a better study setup
-              </div>
-              <h2 style={{ fontSize: 'clamp(36px, 5vw, 68px)', lineHeight: 0.98, letterSpacing: '-0.06em', fontWeight: 800, maxWidth: '760px', margin: '0 auto 18px' }}>
-                A better way to begin
-                <br />
-                every study session.
-              </h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '17px', lineHeight: 1.8, maxWidth: '660px', margin: '0 auto 28px' }}>
-                Create your account and move into a cleaner academic workspace built to support focused revision, stronger preparation, and more confident performance.
-              </p>
-              <div className="landing-cta-group" style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-                <Link href="/register" style={{ textDecoration: 'none' }}>
-                  <button className="landing-primary" style={{ border: 'none', borderRadius: '14px', padding: '16px 24px', background: 'linear-gradient(135deg, #4f8ef7 0%, #7c8cff 100%)', color: '#ffffff', fontSize: '15px', fontWeight: 800, cursor: 'pointer', boxShadow: '0 18px 44px rgba(79, 142, 247, 0.26)', transition: 'transform 0.18s ease, box-shadow 0.18s ease' }}>
-                    Create Your Account
-                  </button>
-                </Link>
-                <Link href="/login" style={{ textDecoration: 'none' }}>
-                  <button className="landing-secondary" style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '16px 24px', background: 'rgba(255,255,255,0.02)', color: 'var(--text-secondary)', fontSize: '15px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.18s ease' }}>
-                    Log In
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <footer style={{ padding: '0 24px 48px' }}>
-          <div
-            style={{
-              maxWidth: '1240px',
-              margin: '0 auto',
-              borderTop: '1px solid rgba(255,255,255,0.08)',
-              paddingTop: '18px',
-              display: 'flex',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              gap: '10px',
-              color: 'var(--text-secondary)',
-              fontSize: '13px',
-            }}
-          >
-            <Link href="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</Link>
-            <span aria-hidden="true">·</span>
-            <Link href="/terms" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</Link>
-            <span aria-hidden="true">·</span>
-            <Link href="/about" style={{ color: 'inherit', textDecoration: 'none' }}>About</Link>
-            <span aria-hidden="true">·</span>
-            <a href="mailto:kyvex@gmail.com" style={{ color: 'inherit', textDecoration: 'none' }}>Contact</a>
-          </div>
-        </footer>
-
-        <footer style={{ padding: '0 24px 56px' }}>
-          <div style={{ maxWidth: '1240px', margin: '0 auto', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '28px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '14px' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
-                <img src="/Kyvex-logo.png" alt="Kyvex" style={{ width: '28px', height: '28px', borderRadius: '8px' }} />
-                <div>
-                  <div style={{ fontWeight: 800, letterSpacing: '-0.03em' }}>Kyvex</div>
-                  <div style={{ color: 'var(--text-muted)', fontSize: '12px' }}>Built for Ontario students</div>
-                </div>
-              </div>
-
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter" style={{ color: 'var(--text-secondary)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '18px', height: '18px', fill: 'currentColor' }}>
-                  <path d="M18.901 1.153h3.68l-8.04 9.19 9.458 12.504H16.59l-5.804-7.584-6.64 7.584H.466l8.6-9.826L0 1.154h7.595l5.242 6.932L18.9 1.153Zm-1.29 19.494h2.04L6.486 3.24H4.298L17.61 20.647Z" />
-                </svg>
-                Twitter
-              </a>
-            </div>
-
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', color: 'var(--text-secondary)', fontSize: '13px', marginBottom: '10px' }}>
-              <Link href="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</Link>
-              <span aria-hidden="true">·</span>
-              <Link href="/terms" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</Link>
-              <span aria-hidden="true">·</span>
-              <Link href="/about" style={{ color: 'inherit', textDecoration: 'none' }}>About</Link>
-              <span aria-hidden="true">·</span>
-              <Link href="/grade-calc" style={{ color: 'inherit', textDecoration: 'none' }}>Grade Calculator</Link>
-              <span aria-hidden="true">·</span>
-              <Link href="/curriculum" style={{ color: 'inherit', textDecoration: 'none' }}>Curriculum</Link>
-            </div>
-
-            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '12px' }}>© 2026 Kyvex · Made in Toronto 🍁</p>
-          </div>
-        </footer>
       </main>
     </>
   )
