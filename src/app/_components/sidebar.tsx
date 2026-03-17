@@ -798,7 +798,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     window.addEventListener('pointerup', stop)
   }
 
-  const renderNavGroup = (label: string, items: FilterableNavItem[]) => (
+  const renderNavGroup = (label: string, items: NavItem[]) => (
     <div style={{ position: 'relative' }}>
       {!effectiveCollapsed && (
         <p style={{
