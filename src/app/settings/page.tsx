@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { Button } from "~/app/_components/button";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
@@ -28,6 +27,7 @@ type AccentColor = "blue" | "purple" | "green" | "pink" | "orange" | "indigo";
 type FontSize = "small" | "medium" | "large";
 type NoteFormat = "summary" | "detailed" | "flashcards" | "questions";
 type StudyPreset = "HIGHSCHOOL" | "COLLEGE" | "UNIVERSITY";
+type Tab = "profile" | "appearance" | "workspace" | "study" | "notifications" | "data";
 
 type AppearancePayload = {
   theme: Theme;
@@ -59,14 +59,215 @@ const STYLE_LABELS: Record<Style, string> = {
   kinesthetic: "Kinesthetic",
 };
 
-const ACCENT_COLORS: Record<AccentColor, { bg: string; hover: string; label: string }> = {
-  blue: { bg: "bg-blue-600", hover: "hover:bg-blue-700", label: "Blue" },
-  purple: { bg: "bg-purple-600", hover: "hover:bg-purple-700", label: "Purple" },
-  green: { bg: "bg-green-600", hover: "hover:bg-green-700", label: "Green" },
-  pink: { bg: "bg-pink-600", hover: "hover:bg-pink-700", label: "Pink" },
-  orange: { bg: "bg-orange-600", hover: "hover:bg-orange-700", label: "Orange" },
-  indigo: { bg: "bg-indigo-600", hover: "hover:bg-indigo-700", label: "Indigo" },
+const ACCENT_COLOR_MAP: Record<AccentColor, { hex: string; label: string }> = {
+  blue:   { hex: "#4f8ef7", label: "Blue" },
+  purple: { hex: "#9b6ff7", label: "Purple" },
+  green:  { hex: "#34d399", label: "Green" },
+  pink:   { hex: "#f472b6", label: "Pink" },
+  orange: { hex: "#f97316", label: "Orange" },
+  indigo: { hex: "#6366f1", label: "Indigo" },
 };
+
+const TABS: { key: Tab; label: string; icon: ReactNode }[] = [
+  {
+    key: "profile",
+    label: "Profile",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+    ),
+  },
+  {
+    key: "appearance",
+    label: "Appearance",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+      </svg>
+    ),
+  },
+  {
+    key: "workspace",
+    label: "Workspace",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
+      </svg>
+    ),
+  },
+  {
+    key: "study",
+    label: "Study",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+      </svg>
+    ),
+  },
+  {
+    key: "notifications",
+    label: "Notifications",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+      </svg>
+    ),
+  },
+  {
+    key: "data",
+    label: "Data & Privacy",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+    ),
+  },
+];
+
+function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      onClick={() => onChange(!checked)}
+      style={{
+        width: 44,
+        height: 24,
+        borderRadius: 12,
+        border: "none",
+        cursor: "pointer",
+        padding: 2,
+        display: "flex",
+        alignItems: "center",
+        transition: "background 200ms ease",
+        background: checked ? "#4f8ef7" : "rgba(120,120,160,0.25)",
+        flexShrink: 0,
+      }}
+    >
+      <span
+        style={{
+          width: 20,
+          height: 20,
+          borderRadius: "50%",
+          background: "#fff",
+          boxShadow: "0 1px 4px rgba(0,0,0,0.3)",
+          transition: "transform 200ms ease",
+          transform: checked ? "translateX(20px)" : "translateX(0)",
+          display: "block",
+        }}
+      />
+    </button>
+  );
+}
+
+function ToggleRow({
+  label,
+  description,
+  checked,
+  onChange,
+}: {
+  label: string;
+  description?: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+}) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 16,
+        padding: "14px 16px",
+        borderRadius: 12,
+        background: "rgba(255,255,255,0.03)",
+        border: "1px solid rgba(255,255,255,0.07)",
+      }}
+    >
+      <div>
+        <p style={{ margin: 0, fontWeight: 600, fontSize: 14, color: "var(--text-primary)" }}>{label}</p>
+        {description && (
+          <p style={{ margin: "2px 0 0", fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>{description}</p>
+        )}
+      </div>
+      <Toggle checked={checked} onChange={onChange} />
+    </div>
+  );
+}
+
+function SettingLabel({ children }: { children: ReactNode }) {
+  return (
+    <p
+      style={{
+        margin: "0 0 8px",
+        fontSize: 11.5,
+        fontWeight: 700,
+        color: "var(--text-secondary)",
+        textTransform: "uppercase",
+        letterSpacing: "0.07em",
+      }}
+    >
+      {children}
+    </p>
+  );
+}
+
+function SectionBlock({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div style={{ marginBottom: 28 }}>
+      <div style={{ marginBottom: 14 }}>
+        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>{title}</h3>
+        {description && (
+          <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 }}>{description}</p>
+        )}
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>{children}</div>
+    </div>
+  );
+}
+
+function SaveButton({ isSaving, onClick }: { isSaving: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={isSaving}
+      style={{
+        padding: "11px 28px",
+        borderRadius: 10,
+        border: "none",
+        cursor: isSaving ? "default" : "pointer",
+        background: "linear-gradient(135deg, #4f8ef7, #7b95ff)",
+        color: "#fff",
+        fontWeight: 700,
+        fontSize: 14,
+        boxShadow: "0 8px 24px rgba(79,142,247,0.25)",
+        opacity: isSaving ? 0.7 : 1,
+        transition: "opacity 150ms",
+      }}
+    >
+      {isSaving ? "Saving…" : "Save Changes"}
+    </button>
+  );
+}
 
 function syncAppearance(next: UserSettings) {
   if (typeof window === "undefined") return;
@@ -85,6 +286,7 @@ function syncAppearance(next: UserSettings) {
 export default function SettingsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState<Tab>("profile");
   const [settings, setSettings] = useState<UserSettings>({
     name: "",
     email: "",
@@ -226,14 +428,18 @@ export default function SettingsPage() {
 
   if (!session) return null;
 
+  const initials = (settings.name || session.user?.name || "?")
+    .split(" ")
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() ?? "")
+    .join("");
+
   const updateSetting = <K extends keyof UserSettings>(key: K, value: UserSettings[K]) => {
     setSettings((prev) => {
       const next = { ...prev, [key]: value };
-
       if (key === "theme" || key === "accentColor" || key === "fontSize" || key === "compactMode") {
         syncAppearance(next);
       }
-
       return next;
     });
   };
@@ -242,14 +448,12 @@ export default function SettingsPage() {
     setIsSaving(true);
     setError("");
     setSuccess("");
-
     try {
       const response = await fetch("/api/user/settings", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(settings),
       });
-
       if (response.ok) {
         setSuccess("Settings saved successfully!");
         setTimeout(() => setSuccess(""), 3000);
@@ -266,19 +470,11 @@ export default function SettingsPage() {
 
   const deleteAccount = async () => {
     setIsDeleting(true);
-    
     try {
-      const response = await fetch("/api/user/delete", {
-        method: "DELETE",
-      });
-
+      const response = await fetch("/api/user/delete", { method: "DELETE" });
       if (response.ok) {
-        try {
-          await signOut({ redirect: false });
-        } catch (err) {
-          // ignore
-        }
-        router.push('/');
+        try { await signOut({ redirect: false }); } catch { /* ignore */ }
+        router.push("/");
         setTimeout(() => window.location.reload(), 100);
       } else {
         const data = await response.json() as { error?: string };
@@ -299,7 +495,7 @@ export default function SettingsPage() {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `kyvex-data-${new Date().toISOString().split('T')[0]}.json`;
+        a.download = `kyvex-data-${new Date().toISOString().split("T")[0]}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -307,443 +503,644 @@ export default function SettingsPage() {
         setSuccess("Data exported successfully!");
         setTimeout(() => setSuccess(""), 3000);
       }
-    } catch (err) {
+    } catch {
       setError("Failed to export data");
     }
   };
 
   return (
-    <main className="kv-page min-h-screen">
-      
-      <div className="container mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mb-8">
-          <h1 className="kv-page-title mb-2 text-4xl font-bold">Settings</h1>
-          <p className="kv-page-subtitle text-lg">Customize your Kyvex experience</p>
-        </div>
+    <main className="kv-page" style={{ minHeight: "100vh", padding: "32px 24px 80px" }}>
+      {/* Page header */}
+      <div style={{ maxWidth: 920, margin: "0 auto 28px" }}>
+        <p style={{ margin: "0 0 4px", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--accent-gold)", opacity: 0.85 }}>
+          Configuration
+        </p>
+        <h1 style={{ margin: 0, fontSize: "clamp(26px, 4vw, 36px)", fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+          Settings
+        </h1>
+      </div>
 
-        <div className="space-y-6">
-          {/* APPEARANCE SECTION */}
-          <div className="kv-card">
-            <h2 className="kv-section-title mb-4 text-2xl font-bold">Appearance</h2>
-            
-            {/* Theme */}
-            <div className="mb-4">
-              <label className="kv-label mb-2 block text-sm font-semibold">Theme</label>
-              <Listbox
-                value={settings.theme}
-                onChange={(v) => updateSetting("theme", v as Theme)}
-                options={[
-                  { value: "light", label: "Light" },
-                  { value: "dark", label: "Dark" },
-                  { value: "auto", label: "Auto (System)" },
-                ]}
-              />
-            </div>
+      <div className="settings-layout" style={{ maxWidth: 920, margin: "0 auto", display: "grid", gridTemplateColumns: "188px 1fr", gap: 22, alignItems: "start" }}>
 
-            {/* Accent Color */}
-            <div className="mb-4">
-              <label className="kv-label mb-2 block text-sm font-semibold">Accent Color</label>
-              <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
-                {(Object.entries(ACCENT_COLORS) as [AccentColor, typeof ACCENT_COLORS[AccentColor]][]).map(([color, { bg, label }]) => (
-                  <Button
-                    key={color}
-                    onClick={() => updateSetting("accentColor", color)}
-                    variant="secondary"
-                    size="sm"
-                    className={`flex h-auto flex-col items-center gap-2 border-2 p-3 ${
-                      settings.accentColor === color
-                        ? "border-gray-900 bg-gray-50"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                  >
-                    <div className={`h-8 w-8 rounded-full ${bg}`} />
-                    <span className="text-xs font-medium text-gray-700">{label}</span>
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            {/* Font Size */}
-            <div className="mb-4">
-              <label className="kv-label mb-2 block text-sm font-semibold">Font Size</label>
-              <Listbox
-                value={settings.fontSize}
-                onChange={(v) => updateSetting("fontSize", v as FontSize)}
-                options={[
-                  { value: "small", label: "Small" },
-                  { value: "medium", label: "Medium (Default)" },
-                  { value: "large", label: "Large" },
-                ]}
-              />
-            </div>
-
-            {/* Compact Mode */}
-            <label className="kv-card-elevated flex items-center gap-3 rounded-lg p-4">
-              <input
-                type="checkbox"
-                checked={settings.compactMode}
-                onChange={(e) => updateSetting("compactMode", e.target.checked)}
-                className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
-              />
-              <div>
-                <p className="font-semibold">Compact Mode</p>
-                <p className="text-sm kv-secondary">Reduce spacing for a denser layout</p>
-              </div>
-            </label>
-          </div>
-
-          <div className="kv-card">
-            <h2 className="kv-section-title mb-4 text-2xl font-bold">Workspace Layout</h2>
-            <p className="kv-page-subtitle" style={{ marginBottom: 14 }}>
-              Dock the sidebar on any edge. You can also drag the Dock handle in the sidebar to snap it live.
-            </p>
-
-            <div className="mb-4">
-              <label className="kv-label mb-2 block text-sm font-semibold">Sidebar Position</label>
-              <Listbox
-                value={sidebarPlacement}
-                onChange={(value) => {
-                  const next = value as SidebarPlacement;
-                  setSidebarPlacement(next);
-                  persistSidebarPlacement(next);
+        {/* Left tab nav */}
+        <nav
+          style={{
+            position: "sticky",
+            top: 24,
+            borderRadius: 16,
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(255,255,255,0.07)",
+            backdropFilter: "blur(16px)",
+            padding: "8px 6px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          {TABS.map((tab) => {
+            const active = activeTab === tab.key;
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => setActiveTab(tab.key)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  padding: "9px 12px",
+                  borderRadius: 10,
+                  border: "none",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  fontSize: 13.5,
+                  fontWeight: active ? 700 : 500,
+                  color: active ? "var(--text-primary)" : "var(--text-secondary)",
+                  background: active ? "rgba(79,142,247,0.14)" : "transparent",
+                  transition: "all 140ms ease",
+                  width: "100%",
                 }}
-                options={[
-                  { value: "left", label: "Left rail" },
-                  { value: "right", label: "Right rail" },
-                  { value: "top", label: "Top dock" },
-                  { value: "bottom", label: "Bottom dock" },
-                ]}
-              />
-            </div>
+              >
+                <span style={{ opacity: active ? 1 : 0.55, color: active ? "#4f8ef7" : "inherit", flexShrink: 0 }}>
+                  {tab.icon}
+                </span>
+                {tab.label}
+              </button>
+            );
+          })}
+        </nav>
 
-            <div className="mb-4">
-              <label className="kv-label mb-2 block text-sm font-semibold">Navigation Density</label>
-              <Listbox
-                value={sidebarDensity}
-                onChange={(value) => {
-                  const next = value as SidebarDensity;
-                  setSidebarDensity(next);
-                  persistSidebarDensity(next);
+        {/* Right content */}
+        <div key={activeTab} className="settings-section" style={{ minWidth: 0 }}>
+
+          {/* ── PROFILE ── */}
+          {activeTab === "profile" && (
+            <>
+              {/* Avatar card */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 18,
+                  padding: "20px 22px",
+                  borderRadius: 16,
+                  background: "linear-gradient(135deg, rgba(79,142,247,0.08), rgba(123,149,255,0.05))",
+                  border: "1px solid rgba(79,142,247,0.16)",
+                  marginBottom: 26,
                 }}
-                options={[
-                  { value: "expanded", label: "Expanded" },
-                  { value: "compact", label: "Compact" },
-                ]}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="kv-label mb-2 block text-sm font-semibold">Navigation Labels</label>
-              <Listbox
-                value={sidebarLabelMode}
-                onChange={(value) => {
-                  const next = value as SidebarLabelMode;
-                  setSidebarLabelMode(next);
-                  persistSidebarLabelMode(next);
-                }}
-                options={[
-                  { value: "always", label: "Always show labels" },
-                  { value: "hover", label: "Reveal labels on hover" },
-                ]}
-              />
-            </div>
-
-            <div className="kv-card-elevated flex items-center justify-between rounded-lg p-4">
-              <div>
-                <p className="font-semibold">Current placement</p>
-                <p className="text-sm kv-secondary">{sidebarPlacement.toUpperCase()}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  className="kv-btn-secondary"
-                  onClick={() => {
-                    setSidebarPlacement("left");
-                    setSidebarDensity("expanded");
-                    setSidebarLabelMode("always");
-                    persistSidebarPlacement("left");
-                    persistSidebarDensity("expanded");
-                    persistSidebarLabelMode("always");
+              >
+                <div
+                  style={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: "50%",
+                    background: "linear-gradient(135deg, #4f8ef7, #7b95ff)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 20,
+                    fontWeight: 800,
+                    color: "#fff",
+                    flexShrink: 0,
+                    boxShadow: "0 8px 24px rgba(79,142,247,0.3)",
+                    letterSpacing: "-0.02em",
                   }}
                 >
-                  Reset Layout
-                </button>
+                  {initials}
+                </div>
+                <div>
+                  <p style={{ margin: 0, fontSize: 17, fontWeight: 800, color: "var(--text-primary)" }}>
+                    {settings.name || session.user?.name || "Your Name"}
+                  </p>
+                  <p style={{ margin: "3px 0 0", fontSize: 13, color: "var(--text-secondary)" }}>
+                    {settings.email || session.user?.email}
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <div className="kv-card-elevated mt-4 grid gap-2 rounded-lg p-4 text-sm sm:grid-cols-3">
-              <div>
-                <p className="font-semibold">Position</p>
-                <p className="kv-secondary uppercase">{sidebarPlacement}</p>
-              </div>
-              <div>
-                <p className="font-semibold">Density</p>
-                <p className="kv-secondary uppercase">{sidebarDensity}</p>
-              </div>
-              <div>
-                <p className="font-semibold">Labels</p>
-                <p className="kv-secondary uppercase">{sidebarLabelMode}</p>
-              </div>
-            </div>
-          </div>
+              <SectionBlock title="Personal Information">
+                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                  <div>
+                    <SettingLabel>Display Name</SettingLabel>
+                    <input
+                      type="text"
+                      value={settings.name}
+                      onChange={(e) => updateSetting("name", e.target.value)}
+                      className="kv-input"
+                      style={{ width: "100%", padding: "11px 14px", borderRadius: 10, fontSize: 14, boxSizing: "border-box" }}
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div>
+                    <SettingLabel>Email Address</SettingLabel>
+                    <input
+                      type="email"
+                      value={settings.email || session.user?.email || ""}
+                      disabled
+                      className="kv-input"
+                      style={{ width: "100%", padding: "11px 14px", borderRadius: 10, fontSize: 14, opacity: 0.5, cursor: "not-allowed", boxSizing: "border-box" }}
+                    />
+                    <p style={{ margin: "6px 0 0", fontSize: 12, color: "var(--text-secondary)" }}>Contact support to change your email address.</p>
+                  </div>
+                </div>
+              </SectionBlock>
 
-          <div className="kv-card">
-            <h2 className="kv-section-title mb-4 text-2xl font-bold">Study Level</h2>
-            <p className="kv-page-subtitle" style={{ marginBottom: 14 }}>
-              Choose your current academic level. Kyvex adapts prompts and guidance accordingly.
-            </p>
+              <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
+            </>
+          )}
 
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-              {([
-                {
-                  key: "HIGHSCHOOL",
-                  title: "HIGH SCHOOL 🍁",
-                  desc: "Gr. 9-12 · Ontario curriculum integration · Exam prep · Credit courses",
-                },
-                {
-                  key: "COLLEGE",
-                  title: "COLLEGE 🎓",
-                  desc: "Diploma programs · Applied learning · Practical skills · Co-op ready",
-                },
-                {
-                  key: "UNIVERSITY",
-                  title: "UNIVERSITY 🏛",
-                  desc: "Degree programs · Research skills · Essay writing · Deep theory",
-                },
-              ] as { key: StudyPreset; title: string; desc: string }[]).map((item) => {
-                const selected = preset === item.key;
-                return (
-                  <button
-                    key={item.key}
-                    type="button"
-                    onClick={() => void savePreset(item.key)}
-                    disabled={savingPreset}
-                    className={selected ? "kv-card-gold" : "kv-card"}
+          {/* ── APPEARANCE ── */}
+          {activeTab === "appearance" && (
+            <>
+              <SectionBlock title="Theme" description="Choose how Kyvex looks on your device.">
+                <Listbox
+                  value={settings.theme}
+                  onChange={(v) => updateSetting("theme", v as Theme)}
+                  options={[
+                    { value: "light", label: "Light" },
+                    { value: "dark", label: "Dark" },
+                    { value: "auto", label: "Auto (System)" },
+                  ]}
+                />
+              </SectionBlock>
+
+              <SectionBlock title="Accent Color" description="Personalize the highlight color throughout the interface.">
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 10 }}>
+                  {(Object.entries(ACCENT_COLOR_MAP) as [AccentColor, { hex: string; label: string }][]).map(([color, { hex, label }]) => {
+                    const active = settings.accentColor === color;
+                    return (
+                      <button
+                        key={color}
+                        type="button"
+                        title={label}
+                        onClick={() => updateSetting("accentColor", color)}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          gap: 8,
+                          padding: "12px 6px",
+                          borderRadius: 12,
+                          border: active ? `2px solid ${hex}` : "2px solid rgba(255,255,255,0.08)",
+                          background: active ? `${hex}18` : "rgba(255,255,255,0.02)",
+                          cursor: "pointer",
+                          transition: "all 140ms",
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: 26,
+                            height: 26,
+                            borderRadius: "50%",
+                            background: hex,
+                            display: "block",
+                            boxShadow: active ? `0 4px 14px ${hex}60` : "none",
+                          }}
+                        />
+                        <span style={{ fontSize: 11, fontWeight: 600, color: active ? "var(--text-primary)" : "var(--text-secondary)" }}>
+                          {label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </SectionBlock>
+
+              <SectionBlock title="Font Size" description="Adjust the base reading size.">
+                <Listbox
+                  value={settings.fontSize}
+                  onChange={(v) => updateSetting("fontSize", v as FontSize)}
+                  options={[
+                    { value: "small", label: "Small" },
+                    { value: "medium", label: "Medium (Default)" },
+                    { value: "large", label: "Large" },
+                  ]}
+                />
+              </SectionBlock>
+
+              <SectionBlock title="Density">
+                <ToggleRow
+                  label="Compact Mode"
+                  description="Reduce spacing for a denser layout"
+                  checked={settings.compactMode}
+                  onChange={(v) => updateSetting("compactMode", v)}
+                />
+              </SectionBlock>
+
+              <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
+            </>
+          )}
+
+          {/* ── WORKSPACE ── */}
+          {activeTab === "workspace" && (
+            <>
+              <SectionBlock
+                title="Sidebar Position"
+                description="Dock the sidebar on any edge. You can also drag the Dock handle in the sidebar to snap it live."
+              >
+                <Listbox
+                  value={sidebarPlacement}
+                  onChange={(value) => {
+                    const next = value as SidebarPlacement;
+                    setSidebarPlacement(next);
+                    persistSidebarPlacement(next);
+                  }}
+                  options={[
+                    { value: "left", label: "Left rail" },
+                    { value: "right", label: "Right rail" },
+                    { value: "top", label: "Top dock" },
+                    { value: "bottom", label: "Bottom dock" },
+                  ]}
+                />
+              </SectionBlock>
+
+              <SectionBlock title="Navigation Density">
+                <Listbox
+                  value={sidebarDensity}
+                  onChange={(value) => {
+                    const next = value as SidebarDensity;
+                    setSidebarDensity(next);
+                    persistSidebarDensity(next);
+                  }}
+                  options={[
+                    { value: "expanded", label: "Expanded" },
+                    { value: "compact", label: "Compact" },
+                  ]}
+                />
+              </SectionBlock>
+
+              <SectionBlock title="Navigation Labels">
+                <Listbox
+                  value={sidebarLabelMode}
+                  onChange={(value) => {
+                    const next = value as SidebarLabelMode;
+                    setSidebarLabelMode(next);
+                    persistSidebarLabelMode(next);
+                  }}
+                  options={[
+                    { value: "always", label: "Always show labels" },
+                    { value: "hover", label: "Reveal on hover" },
+                  ]}
+                />
+              </SectionBlock>
+
+              {/* Current state */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 22 }}>
+                {[
+                  { label: "Position", value: sidebarPlacement },
+                  { label: "Density", value: sidebarDensity },
+                  { label: "Labels", value: sidebarLabelMode },
+                ].map(({ label, value }) => (
+                  <div
+                    key={label}
                     style={{
-                      textAlign: "left",
-                      padding: 16,
-                      minHeight: 150,
-                      position: "relative",
-                      cursor: "pointer",
+                      padding: "12px 14px",
+                      borderRadius: 12,
+                      background: "rgba(255,255,255,0.03)",
+                      border: "1px solid rgba(255,255,255,0.07)",
                     }}
                   >
-                    {selected && (
-                      <span style={{ position: "absolute", right: 10, top: 10, color: "var(--accent-gold)", fontWeight: 900 }}>
-                        ✓
-                      </span>
-                    )}
-                    <p style={{ margin: "0 0 8px", fontWeight: 800, fontSize: 12 }}>{item.title}</p>
-                    <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 12, lineHeight: 1.6 }}>{item.desc}</p>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+                    <p style={{ margin: "0 0 2px", fontSize: 10.5, fontWeight: 700, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.07em" }}>
+                      {label}
+                    </p>
+                    <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "var(--text-primary)", textTransform: "capitalize" }}>
+                      {value}
+                    </p>
+                  </div>
+                ))}
+              </div>
 
-          {/* STUDY PREFERENCES SECTION */}
-          <div className="kv-card">
-            <h2 className="kv-section-title mb-4 text-2xl font-bold">Study Preferences</h2>
-            
-            {/* Learning Style */}
-            <div className="mb-4">
-              <label className="kv-label mb-2 block text-sm font-semibold">Learning Style</label>
-              <Listbox
-                value={settings.learningStyle}
-                onChange={(v) => updateSetting("learningStyle", v as Style)}
-                options={(Object.entries(STYLE_LABELS) as [Style, string][]).map(([style, label]) => ({ value: style, label }))}
-              />
-              <Link
-                href="/learning-style-quiz"
-                className="mt-2 inline-block text-sm font-semibold text-blue-600 hover:text-blue-700"
+              <button
+                type="button"
+                onClick={() => {
+                  setSidebarPlacement("left");
+                  setSidebarDensity("expanded");
+                  setSidebarLabelMode("always");
+                  persistSidebarPlacement("left");
+                  persistSidebarDensity("expanded");
+                  persistSidebarLabelMode("always");
+                }}
+                style={{
+                  padding: "9px 20px",
+                  borderRadius: 9,
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  cursor: "pointer",
+                  background: "rgba(255,255,255,0.04)",
+                  color: "var(--text-secondary)",
+                  fontWeight: 600,
+                  fontSize: 13,
+                }}
               >
-                Retake Learning Style Quiz →
-              </Link>
-            </div>
+                Reset to defaults
+              </button>
+            </>
+          )}
 
-            {/* Auto-Adapt Content */}
-            <label className="kv-card-elevated mb-4 flex items-center gap-3 rounded-lg p-4">
-              <input
-                type="checkbox"
-                checked={settings.autoAdapt}
-                onChange={(e) => updateSetting("autoAdapt", e.target.checked)}
-                className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
-              />
-              <div>
-                <p className="font-semibold">Auto-Adapt Content</p>
-                <p className="text-sm kv-secondary">Automatically transform generated notes to match your learning style</p>
-              </div>
-            </label>
-
-            {/* Default Note Format */}
-            <div className="mb-4">
-              <label className="kv-label mb-2 block text-sm font-semibold">Default Note Format</label>
-              <Listbox
-                value={settings.defaultNoteFormat}
-                onChange={(v) => updateSetting("defaultNoteFormat", v as NoteFormat)}
-                options={[
-                  { value: "summary", label: "Summary - Quick overview" },
-                  { value: "detailed", label: "Detailed Notes - Comprehensive guide" },
-                  { value: "flashcards", label: "Flashcards - Interactive cards" },
-                  { value: "questions", label: "Practice Quiz - Q&A format" },
-                ]}
-              />
-            </div>
-
-            {/* Auto-Save Notes */}
-            <label className="kv-card-elevated flex items-center gap-3 rounded-lg p-4">
-              <input
-                type="checkbox"
-                checked={settings.autoSaveNotes}
-                onChange={(e) => updateSetting("autoSaveNotes", e.target.checked)}
-                className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
-              />
-              <div>
-                <p className="font-semibold">Auto-Save Notes</p>
-                <p className="text-sm kv-secondary">Automatically save generated notes to your library</p>
-              </div>
-            </label>
-          </div>
-
-          {/* NOTIFICATIONS SECTION */}
-          <div className="kv-card">
-            <h2 className="kv-section-title mb-4 text-2xl font-bold">Notifications</h2>
-            
-            <label className="kv-card-elevated flex items-center gap-3 rounded-lg p-4">
-              <input
-                type="checkbox"
-                checked={settings.emailNotifications}
-                onChange={(e) => updateSetting("emailNotifications", e.target.checked)}
-                className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
-              />
-              <div>
-                <p className="font-semibold">Email Notifications</p>
-                <p className="text-sm kv-secondary">Receive updates about battles, study groups, and weekly summaries</p>
-              </div>
-            </label>
-          </div>
-
-          {/* ACCOUNT SECTION */}
-          <div className="kv-card">
-            <h2 className="kv-section-title mb-4 text-2xl font-bold">Account</h2>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="kv-label mb-2 block text-sm font-semibold">Name</label>
-                <input
-                  type="text"
-                  value={settings.name}
-                  onChange={(e) => updateSetting("name", e.target.value)}
-                  className="kv-input w-full p-3"
-                  placeholder="Your name"
-                />
-              </div>
-
-              <div>
-                <label className="kv-label mb-2 block text-sm font-semibold">Email</label>
-                <input
-                  type="email"
-                  value={settings.email}
-                  disabled
-                  className="kv-input w-full p-3"
-                  placeholder="your@email.com"
-                />
-                <p className="mt-1 text-xs kv-muted">Contact support to change your email</p>
-              </div>
-            </div>
-          </div>
-
-          {/* DATA & PRIVACY SECTION */}
-          <div className="kv-card">
-            <h2 className="kv-section-title mb-4 text-2xl font-bold">Data & Privacy</h2>
-            
-            <div className="space-y-3">
-              <Button
-                onClick={() => void exportData()}
-                variant="secondary"
-                fullWidth
-                className="kv-btn-secondary justify-between p-4 text-left font-semibold"
+          {/* ── STUDY ── */}
+          {activeTab === "study" && (
+            <>
+              <SectionBlock
+                title="Academic Level"
+                description="Kyvex adapts prompts and AI guidance based on your current level."
               >
-                <div className="flex items-center justify-between">
-                  <span>Export All Data</span>
-                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+                  {([
+                    { key: "HIGHSCHOOL", title: "High School", emoji: "🍁", desc: "Gr. 9–12 · Ontario curriculum · Exam prep · Credit courses" },
+                    { key: "COLLEGE",    title: "College",     emoji: "🎓", desc: "Diploma programs · Applied learning · Practical skills · Co-op ready" },
+                    { key: "UNIVERSITY", title: "University",  emoji: "🏛",  desc: "Degree programs · Research skills · Essay writing · Deep theory" },
+                  ] as { key: StudyPreset; title: string; emoji: string; desc: string }[]).map((item) => {
+                    const selected = preset === item.key;
+                    return (
+                      <button
+                        key={item.key}
+                        type="button"
+                        onClick={() => void savePreset(item.key)}
+                        disabled={savingPreset}
+                        style={{
+                          textAlign: "left",
+                          padding: "18px 16px",
+                          borderRadius: 14,
+                          border: selected ? "2px solid var(--accent-gold)" : "2px solid rgba(255,255,255,0.08)",
+                          background: selected ? "rgba(240,180,41,0.08)" : "rgba(255,255,255,0.02)",
+                          cursor: savingPreset ? "default" : "pointer",
+                          transition: "all 160ms ease",
+                          position: "relative",
+                        }}
+                      >
+                        {selected && (
+                          <span style={{ position: "absolute", right: 12, top: 12, color: "var(--accent-gold)", fontWeight: 900, fontSize: 13 }}>
+                            ✓
+                          </span>
+                        )}
+                        <span style={{ fontSize: 22, display: "block", marginBottom: 10 }}>{item.emoji}</span>
+                        <p style={{ margin: "0 0 6px", fontWeight: 800, fontSize: 13, color: "var(--text-primary)" }}>{item.title}</p>
+                        <p style={{ margin: 0, fontSize: 11.5, color: "var(--text-secondary)", lineHeight: 1.6 }}>{item.desc}</p>
+                      </button>
+                    );
+                  })}
                 </div>
-                <p className="mt-1 text-sm font-normal text-gray-600">Download all your notes, citations, and settings as JSON</p>
-              </Button>
+              </SectionBlock>
 
-              <Button
-                onClick={() => setShowDeleteConfirm(true)}
-                variant="danger"
-                fullWidth
-                className="kv-btn-danger justify-between p-4 text-left"
-              >
-                <div className="flex items-center justify-between">
-                  <span>Delete Account</span>
-                  <svg className="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <SectionBlock title="Learning Style" description="How Kyvex formats AI-generated content by default.">
+                <Listbox
+                  value={settings.learningStyle}
+                  onChange={(v) => updateSetting("learningStyle", v as Style)}
+                  options={(Object.entries(STYLE_LABELS) as [Style, string][]).map(([style, label]) => ({ value: style, label }))}
+                />
+                <Link
+                  href="/learning-style-quiz"
+                  style={{ fontSize: 13, fontWeight: 600, color: "#4f8ef7", textDecoration: "none", marginTop: 2, display: "inline-block" }}
+                >
+                  Retake Learning Style Quiz →
+                </Link>
+              </SectionBlock>
+
+              <SectionBlock title="Behaviour">
+                <ToggleRow
+                  label="Auto-Adapt Content"
+                  description="Automatically transform generated notes to match your learning style"
+                  checked={settings.autoAdapt}
+                  onChange={(v) => updateSetting("autoAdapt", v)}
+                />
+              </SectionBlock>
+
+              <SectionBlock title="Default Note Format" description="Format used when generating new notes.">
+                <Listbox
+                  value={settings.defaultNoteFormat}
+                  onChange={(v) => updateSetting("defaultNoteFormat", v as NoteFormat)}
+                  options={[
+                    { value: "summary",    label: "Summary — Quick overview" },
+                    { value: "detailed",   label: "Detailed Notes — Comprehensive guide" },
+                    { value: "flashcards", label: "Flashcards — Interactive cards" },
+                    { value: "questions",  label: "Practice Quiz — Q&A format" },
+                  ]}
+                />
+              </SectionBlock>
+
+              <SectionBlock title="Note Library">
+                <ToggleRow
+                  label="Auto-Save Notes"
+                  description="Automatically save generated notes to your library"
+                  checked={settings.autoSaveNotes}
+                  onChange={(v) => updateSetting("autoSaveNotes", v)}
+                />
+              </SectionBlock>
+
+              <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
+            </>
+          )}
+
+          {/* ── NOTIFICATIONS ── */}
+          {activeTab === "notifications" && (
+            <>
+              <SectionBlock title="Email" description="Manage email communications from Kyvex.">
+                <ToggleRow
+                  label="Email Notifications"
+                  description="Receive updates about battles, study groups, and weekly summaries"
+                  checked={settings.emailNotifications}
+                  onChange={(v) => updateSetting("emailNotifications", v)}
+                />
+              </SectionBlock>
+
+              <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
+            </>
+          )}
+
+          {/* ── DATA & PRIVACY ── */}
+          {activeTab === "data" && (
+            <>
+              <SectionBlock title="Export" description="Download a complete copy of your data at any time.">
+                <button
+                  type="button"
+                  onClick={() => void exportData()}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    padding: "14px 18px",
+                    borderRadius: 12,
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    background: "rgba(255,255,255,0.03)",
+                    cursor: "pointer",
+                    textAlign: "left",
+                    transition: "background 140ms",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <div>
+                    <p style={{ margin: 0, fontWeight: 700, fontSize: 14, color: "var(--text-primary)" }}>Export All Data</p>
+                    <p style={{ margin: "3px 0 0", fontSize: 12, color: "var(--text-secondary)" }}>
+                      Download your notes, citations, and settings as JSON
+                    </p>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "var(--text-secondary)", flexShrink: 0 }}>
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
                   </svg>
-                </div>
-                <p className="mt-1 text-sm font-normal text-red-600">Permanently delete your account and all data</p>
-              </Button>
-            </div>
-          </div>
+                </button>
+              </SectionBlock>
 
-          {/* SAVE BUTTON */}
-          <div className="flex gap-3">
-            <Button
-              onClick={() => void saveSettings()}
-              disabled={isSaving}
-              fullWidth
-              size="lg"
-              loading={isSaving}
-              className="kv-btn-primary"
-            >
-              {isSaving ? "Saving..." : "Save All Settings"}
-            </Button>
-          </div>
+              <SectionBlock title="Danger Zone" description="These actions are permanent and cannot be undone.">
+                <div
+                  style={{
+                    padding: "18px 20px",
+                    borderRadius: 14,
+                    border: "1px solid rgba(239,68,68,0.22)",
+                    background: "rgba(239,68,68,0.04)",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
+                    <div>
+                      <p style={{ margin: 0, fontWeight: 700, fontSize: 14, color: "#f87171" }}>Delete Account</p>
+                      <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                        Permanently delete your account and all data — notes, citations, battles, and study groups.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowDeleteConfirm(true)}
+                      style={{
+                        flexShrink: 0,
+                        padding: "9px 18px",
+                        borderRadius: 9,
+                        border: "1px solid rgba(239,68,68,0.35)",
+                        background: "rgba(239,68,68,0.1)",
+                        color: "#f87171",
+                        fontWeight: 700,
+                        fontSize: 13,
+                        cursor: "pointer",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      Delete Account
+                    </button>
+                  </div>
+                </div>
+              </SectionBlock>
+            </>
+          )}
+
         </div>
       </div>
 
       {/* DELETE CONFIRMATION MODAL */}
       {showDeleteConfirm && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 50,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(0,0,0,0.65)",
+            padding: 16,
+            backdropFilter: "blur(4px)",
+          }}
           role="dialog"
           aria-modal="true"
           aria-labelledby="delete-dialog-title"
+          onClick={(e) => { if (e.target === e.currentTarget) setShowDeleteConfirm(false); }}
         >
-          <div className="kv-card w-full max-w-md p-6">
-            <h3 id="delete-dialog-title" className="kv-section-title mb-3 text-xl font-bold">Delete Account?</h3>
-            <p className="mb-6 kv-secondary">
-              This action cannot be undone. All your notes, citations, battle history, and study groups will be permanently deleted.
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 420,
+              borderRadius: 20,
+              background: "var(--bg-card, #1a1a2e)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              padding: "28px 28px 24px",
+              boxShadow: "0 24px 64px rgba(0,0,0,0.5)",
+            }}
+          >
+            <div
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                background: "rgba(239,68,68,0.15)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 16,
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+              </svg>
+            </div>
+            <h3 id="delete-dialog-title" style={{ margin: "0 0 8px", fontSize: 18, fontWeight: 800, color: "var(--text-primary)" }}>
+              Delete your account?
+            </h3>
+            <p style={{ margin: "0 0 24px", fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.6 }}>
+              This cannot be undone. All your notes, citations, battle history, and study groups will be permanently deleted.
             </p>
-            <div className="flex gap-3">
-              <Button
+            <div style={{ display: "flex", gap: 10 }}>
+              <button
+                type="button"
                 onClick={() => setShowDeleteConfirm(false)}
                 disabled={isDeleting}
-                variant="secondary"
-                className="flex-1"
-                aria-label="Cancel account deletion"
+                style={{
+                  flex: 1,
+                  padding: "10px 0",
+                  borderRadius: 10,
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  background: "rgba(255,255,255,0.05)",
+                  color: "var(--text-primary)",
+                  fontWeight: 600,
+                  fontSize: 14,
+                  cursor: "pointer",
+                }}
               >
                 Cancel
-              </Button>
-              <Button
+              </button>
+              <button
+                type="button"
                 onClick={() => void deleteAccount()}
                 disabled={isDeleting}
-                variant="danger"
-                loading={isDeleting}
-                className="flex-1"
-                aria-label="Confirm account deletion"
+                style={{
+                  flex: 1,
+                  padding: "10px 0",
+                  borderRadius: 10,
+                  border: "none",
+                  background: isDeleting ? "rgba(239,68,68,0.5)" : "#ef4444",
+                  color: "#fff",
+                  fontWeight: 700,
+                  fontSize: 14,
+                  cursor: isDeleting ? "default" : "pointer",
+                  boxShadow: "0 8px 20px rgba(239,68,68,0.3)",
+                }}
               >
-                {isDeleting ? "Deleting..." : "Delete Forever"}
-              </Button>
+                {isDeleting ? "Deleting…" : "Delete Forever"}
+              </button>
             </div>
           </div>
         </div>
       )}
+
+      <style>{`
+        .settings-section {
+          animation: sec-in 200ms ease both;
+        }
+        @keyframes sec-in {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 680px) {
+          .settings-layout {
+            grid-template-columns: 1fr !important;
+          }
+          .settings-layout nav {
+            position: static !important;
+            flex-direction: row !important;
+            flex-wrap: wrap;
+            gap: 4px !important;
+          }
+        }
+      `}</style>
     </main>
   );
 }
-
-
