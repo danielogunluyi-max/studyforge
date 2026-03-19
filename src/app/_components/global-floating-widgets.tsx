@@ -4,11 +4,8 @@ import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-import { ExamWidget } from "~/app/_components/exam-widget";
-import { PomodoroWidget } from "~/app/_components/pomodoro-widget";
-import AmbientPlayer from "~/app/_components/ambient-player";
 import NovaDailyAward from "~/app/_components/nova-daily-award";
-import FocusMode from "~/app/_components/focus-mode";
+import Dock from "~/app/_components/dock";
 
 const PUBLIC_ROUTES = new Set(["/", "/login", "/register", "/signup"]);
 
@@ -32,10 +29,7 @@ export function GlobalFloatingWidgets() {
   return (
     <>
       <NovaDailyAward />
-      <AmbientPlayer />
-      <FocusMode />
-      <PomodoroWidget />
-      <ExamWidget />
+      <Dock />
     </>
   );
 }
