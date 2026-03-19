@@ -31,6 +31,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     } else {
       document.documentElement.setAttribute('data-theme', t)
     }
+    // No need for event — ThemeContext handles it
   }
 
   if (!mounted) return <>{children}</>

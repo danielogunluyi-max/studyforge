@@ -467,8 +467,8 @@ function NavigationStyleSection() {
   const select = (style: string) => {
     setCurrent(style);
     localStorage.setItem('kyvex-nav-style', style);
-    window.dispatchEvent(new Event('kyvex-nav-changed'));
-    showToast({ title: '✓ Navigation updated', variant: 'success' });
+    window.dispatchEvent(new CustomEvent('kyvex-nav-changed', { detail: style }));
+    showToast('✓ Navigation updated', 'success');
   };
 
   return (
