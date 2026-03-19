@@ -5,17 +5,17 @@
 Environment variables loaded from .env
 Prisma schema loaded from prisma\schema.prisma
 
-✔ Generated Prisma Client (v6.19.2) to .\generated\prisma in 718ms
+✔ Generated Prisma Client (v6.19.2) to .\generated\prisma in 778ms
 
 Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
 
-Tip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate
+Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
 
    ▲ Next.js 15.5.12
    - Environments: .env.local, .env.production, .env
 
    Creating an optimized production build ...
- ✓ Compiled successfully in 18.4s
+ ✓ Compiled successfully in 22.7s
    Skipping validation of types
    Skipping linting
    Collecting page data ...
@@ -26,5 +26,297 @@ Tip: Interested in query caching in just a few lines of code? Try Accelerate tod
  ✓ Generating static pages (228/228)
    Finalizing page optimization ...
    Collecting build traces ...
-Terminate batch job (Y/N)? Terminate batch job (Y/N)? Terminate batch job (Y/N)? 
-^CThe system cannot open the device or file specified.
+
+Route (app)                                       Size  First Load JS
+┌ ○ /                                          5.33 kB         111 kB
+├ ○ /_not-found                                  557 B         103 kB
+├ ○ /about                                       557 B         103 kB
+├ ○ /achievements                              5.11 kB         111 kB
+├ ○ /adaptive-notes                            1.99 kB         104 kB
+├ ƒ /api/achievements                            557 B         103 kB
+├ ƒ /api/achievements/check                      557 B         103 kB
+├ ƒ /api/adaptive-notes                          557 B         103 kB
+├ ƒ /api/anki-export                             557 B         103 kB
+├ ƒ /api/audio-to-notes                          557 B         103 kB
+├ ƒ /api/auth/[...nextauth]                      557 B         103 kB
+├ ƒ /api/auth/providers                          557 B         103 kB
+├ ƒ /api/auth/signup                             557 B         103 kB
+├ ƒ /api/auto-transform                          557 B         103 kB
+├ ƒ /api/autopsy                                 557 B         103 kB
+├ ƒ /api/battle                                  557 B         103 kB
+├ ƒ /api/battle-royale                           557 B         103 kB
+├ ƒ /api/battle-royale/[id]                      557 B         103 kB
+├ ƒ /api/battle-royale/join                      557 B         103 kB
+├ ƒ /api/battle/[id]/status                      557 B         103 kB
+├ ƒ /api/battle/[id]/submit-answer               557 B         103 kB
+├ ƒ /api/battle/create                           557 B         103 kB
+├ ƒ /api/battle/join                             557 B         103 kB
+├ ƒ /api/battle/leaderboard                      557 B         103 kB
+├ ƒ /api/battle/rooms                            557 B         103 kB
+├ ƒ /api/battle/solo                             557 B         103 kB
+├ ƒ /api/battle/tournament                       557 B         103 kB
+├ ƒ /api/build-concept-web                       557 B         103 kB
+├ ƒ /api/calendar                                557 B         103 kB
+├ ƒ /api/calendar/[id]                           557 B         103 kB
+├ ƒ /api/capture                                 557 B         103 kB
+├ ƒ /api/capture/[id]                            557 B         103 kB
+├ ƒ /api/career-path                             557 B         103 kB
+├ ƒ /api/check-answer                            557 B         103 kB
+├ ƒ /api/citations                               557 B         103 kB
+├ ƒ /api/citations/[id]                          557 B         103 kB
+├ ƒ /api/citations/metadata                      557 B         103 kB
+├ ƒ /api/classroom-import                        557 B         103 kB
+├ ƒ /api/community                               557 B         103 kB
+├ ƒ /api/community/[id]/comments                 557 B         103 kB
+├ ƒ /api/community/[id]/like                     557 B         103 kB
+├ ƒ /api/compress                                557 B         103 kB
+├ ƒ /api/concept-collision                       557 B         103 kB
+├ ƒ /api/concept-web                             557 B         103 kB
+├ ƒ /api/concept-web/shared/[shareToken]         557 B         103 kB
+├ ƒ /api/confidence                              557 B         103 kB
+├ ƒ /api/content-hub                             557 B         103 kB
+├ ƒ /api/contract                                557 B         103 kB
+├ ƒ /api/contract/checkin                        557 B         103 kB
+├ ƒ /api/cornell                                 557 B         103 kB
+├ ƒ /api/counterargument                         557 B         103 kB
+├ ƒ /api/crossover                               557 B         103 kB
+├ ƒ /api/curriculum                              557 B         103 kB
+├ ƒ /api/curriculum/[code]                       557 B         103 kB
+├ ƒ /api/curriculum/[code]/learn                 557 B         103 kB
+├ ƒ /api/curriculum/[code]/progress              557 B         103 kB
+├ ƒ /api/curriculum/admin/seed                   557 B         103 kB
+├ ƒ /api/curriculum/admin/status                 557 B         103 kB
+├ ƒ /api/curriculum/search                       557 B         103 kB
+├ ƒ /api/debate-judge                            557 B         103 kB
+├ ƒ /api/debate/generate                         557 B         103 kB
+├ ƒ /api/decay-alerts                            557 B         103 kB
+├ ƒ /api/decks                                   557 B         103 kB
+├ ƒ /api/decks/[id]                              557 B         103 kB
+├ ƒ /api/decks/[id]/cards                        557 B         103 kB
+├ ƒ /api/decks/[id]/cards/[cardId]               557 B         103 kB
+├ ƒ /api/decks/[id]/generate                     557 B         103 kB
+├ ƒ /api/detect-subject                          557 B         103 kB
+├ ƒ /api/diagrams                                557 B         103 kB
+├ ƒ /api/diagrams/generate                       557 B         103 kB
+├ ƒ /api/eli5                                    557 B         103 kB
+├ ƒ /api/essay-grade                             557 B         103 kB
+├ ƒ /api/exam-predictions                        557 B         103 kB
+├ ƒ /api/exam-predictions/[id]                   557 B         103 kB
+├ ƒ /api/exams                                   557 B         103 kB
+├ ƒ /api/exams/[id]                              557 B         103 kB
+├ ƒ /api/export-pdf                              557 B         103 kB
+├ ƒ /api/extension/exams                         557 B         103 kB
+├ ƒ /api/extension/generate                      557 B         103 kB
+├ ƒ /api/extract-image                           557 B         103 kB
+├ ƒ /api/extract-pdf                             557 B         103 kB
+├ ƒ /api/feature-preferences                     557 B         103 kB
+├ ƒ /api/fetch-metadata                          557 B         103 kB
+├ ƒ /api/feynman                                 557 B         103 kB
+├ ƒ /api/focus                                   557 B         103 kB
+├ ƒ /api/focus-score                             557 B         103 kB
+├ ƒ /api/focus/[id]                              557 B         103 kB
+├ ƒ /api/focus/stats                             557 B         103 kB
+├ ƒ /api/folders                                 557 B         103 kB
+├ ƒ /api/generate                                557 B         103 kB
+├ ƒ /api/grade-calc                              557 B         103 kB
+├ ƒ /api/grammar                                 557 B         103 kB
+├ ƒ /api/habits                                  557 B         103 kB
+├ ƒ /api/habits/check                            557 B         103 kB
+├ ƒ /api/handwriting                             557 B         103 kB
+├ ƒ /api/health                                  557 B         103 kB
+├ ƒ /api/interleave                              557 B         103 kB
+├ ƒ /api/knowledge-map                           557 B         103 kB
+├ ƒ /api/kyvex-iq                                557 B         103 kB
+├ ƒ /api/leaderboard                             557 B         103 kB
+├ ƒ /api/learning-style/result                   557 B         103 kB
+├ ƒ /api/learning-style/shared/[userId]          557 B         103 kB
+├ ƒ /api/lecture                                 557 B         103 kB
+├ ƒ /api/mastery                                 557 B         103 kB
+├ ƒ /api/memory-simulation                       557 B         103 kB
+├ ƒ /api/micro-lessons                           557 B         103 kB
+├ ƒ /api/mock-exam                               557 B         103 kB
+├ ƒ /api/mock-exam/[id]/attempt                  557 B         103 kB
+├ ƒ /api/mock-exam/generate                      557 B         103 kB
+├ ƒ /api/narrative/generate                      557 B         103 kB
+├ ƒ /api/note-evolution                          557 B         103 kB
+├ ƒ /api/notes                                   557 B         103 kB
+├ ƒ /api/notes/bulk                              557 B         103 kB
+├ ƒ /api/notifications                           557 B         103 kB
+├ ƒ /api/nova                                    557 B         103 kB
+├ ƒ /api/pdfs                                    557 B         103 kB
+├ ƒ /api/pdfs/[id]                               557 B         103 kB
+├ ƒ /api/pdfs/[id]/annotations                   557 B         103 kB
+├ ƒ /api/pdfs/[id]/annotations/[annotationId]    557 B         103 kB
+├ ƒ /api/pdfs/[id]/search                        557 B         103 kB
+├ ƒ /api/peer-review                             557 B         103 kB
+├ ƒ /api/photo-quiz/extract                      557 B         103 kB
+├ ƒ /api/photo-quiz/generate                     557 B         103 kB
+├ ƒ /api/plagiarism                              557 B         103 kB
+├ ƒ /api/planner                                 557 B         103 kB
+├ ƒ /api/planner/generate                        557 B         103 kB
+├ ƒ /api/podcast                                 557 B         103 kB
+├ ƒ /api/podcast/generate                        557 B         103 kB
+├ ƒ /api/predict-exam                            557 B         103 kB
+├ ƒ /api/predictor                               557 B         103 kB
+├ ƒ /api/presentation/download                   557 B         103 kB
+├ ƒ /api/presentation/generate                   557 B         103 kB
+├ ƒ /api/preset                                  557 B         103 kB
+├ ƒ /api/quizlet-import                          557 B         103 kB
+├ ƒ /api/reading-speed                           557 B         103 kB
+├ ƒ /api/referral                                557 B         103 kB
+├ ƒ /api/rooms                                   557 B         103 kB
+├ ƒ /api/rooms/[id]                              557 B         103 kB
+├ ƒ /api/rooms/[id]/events                       557 B         103 kB
+├ ƒ /api/rooms/[id]/heartbeat                    557 B         103 kB
+├ ƒ /api/rooms/[id]/join                         557 B         103 kB
+├ ƒ /api/rooms/[id]/leave                        557 B         103 kB
+├ ƒ /api/rooms/[id]/pomodoro                     557 B         103 kB
+├ ƒ /api/scan-handwriting                        557 B         103 kB
+├ ƒ /api/scan-handwritten                        557 B         103 kB
+├ ƒ /api/search                                  557 B         103 kB
+├ ƒ /api/send-to                                 557 B         103 kB
+├ ƒ /api/shared-decks                            557 B         103 kB
+├ ƒ /api/shared-decks/[id]/download              557 B         103 kB
+├ ƒ /api/sip                                     557 B         103 kB
+├ ƒ /api/smart-upload                            557 B         103 kB
+├ ƒ /api/study-buddy                             557 B         103 kB
+├ ƒ /api/study-dna                               557 B         103 kB
+├ ƒ /api/study-ghost                             557 B         103 kB
+├ ƒ /api/study-groups                            557 B         103 kB
+├ ƒ /api/study-groups/[id]                       557 B         103 kB
+├ ƒ /api/study-groups/[id]/ai-moderate           557 B         103 kB
+├ ƒ /api/study-groups/[id]/flashcards            557 B         103 kB
+├ ƒ /api/study-groups/[id]/leaderboard           557 B         103 kB
+├ ƒ /api/study-groups/[id]/members               557 B         103 kB
+├ ƒ /api/study-groups/[id]/messages              557 B         103 kB
+├ ƒ /api/study-groups/[id]/notes                 557 B         103 kB
+├ ƒ /api/study-groups/[id]/pomodoro              557 B         103 kB
+├ ƒ /api/study-groups/[id]/quiz                  557 B         103 kB
+├ ƒ /api/study-groups/[id]/resources             557 B         103 kB
+├ ƒ /api/study-groups/[id]/schedule              557 B         103 kB
+├ ƒ /api/study-groups/[id]/settings              557 B         103 kB
+├ ƒ /api/study-groups/create                     557 B         103 kB
+├ ƒ /api/study-groups/join                       557 B         103 kB
+├ ƒ /api/study-mode                              557 B         103 kB
+├ ƒ /api/syllabus                                557 B         103 kB
+├ ƒ /api/tags                                    557 B         103 kB
+├ ƒ /api/transcribe                              557 B         103 kB
+├ ƒ /api/transform-content                       557 B         103 kB
+├ ƒ /api/trpc/[trpc]                             557 B         103 kB
+├ ƒ /api/tutor                                   557 B         103 kB
+├ ƒ /api/user/delete                             557 B         103 kB
+├ ƒ /api/user/export                             557 B         103 kB
+├ ƒ /api/user/preferences                        557 B         103 kB
+├ ƒ /api/user/settings                           557 B         103 kB
+├ ƒ /api/wellness                                557 B         103 kB
+├ ƒ /api/wrapped                                 557 B         103 kB
+├ ƒ /api/youtube-import                          557 B         103 kB
+├ ○ /audio                                     9.11 kB         115 kB
+├ ○ /autopsy                                   2.71 kB         105 kB
+├ ○ /battle                                    6.36 kB         112 kB
+├ ○ /battle-royale                             3.91 kB         106 kB
+├ ƒ /battle/[battleId]                         8.13 kB         114 kB
+├ ○ /calendar                                  5.93 kB         111 kB
+├ ○ /capture                                   1.96 kB         104 kB
+├ ○ /career-path                               1.62 kB         104 kB
+├ ○ /citations                                 8.44 kB         117 kB
+├ ○ /classroom-import                          2.14 kB         111 kB
+├ ○ /community                                  6.4 kB         115 kB
+├ ○ /compress                                  1.44 kB         103 kB
+├ ○ /concept-collision                         1.81 kB         104 kB
+├ ○ /concept-web                               7.64 kB         113 kB
+├ ƒ /concept-web/shared/[shareToken]             557 B         103 kB
+├ ○ /content-hub                               2.71 kB         108 kB
+├ ○ /contract                                  2.61 kB         105 kB
+├ ○ /cornell                                   1.75 kB         104 kB
+├ ○ /counterargument                           2.18 kB         104 kB
+├ ○ /crossover                                  2.1 kB         104 kB
+├ ○ /curriculum                                1.82 kB         107 kB
+├ ƒ /curriculum/[code]                         2.43 kB         104 kB
+├ ○ /curriculum/admin                          1.78 kB         104 kB
+├ ○ /dashboard                                 13.5 kB         119 kB
+├ ○ /debate                                    1.66 kB         104 kB
+├ ○ /debate-judge                              2.26 kB         104 kB
+├ ○ /decay-alerts                              1.86 kB         104 kB
+├ ○ /diagrams                                  5.83 kB         108 kB
+├ ○ /error                                       170 B         106 kB
+├ ○ /essay-grade                               1.98 kB         104 kB
+├ ○ /exam-predictor                              10 kB         115 kB
+├ ○ /features                                  3.93 kB         106 kB
+├ ○ /feynman                                   7.92 kB         113 kB
+├ ƒ /flashcards                                2.75 kB         105 kB
+├ ƒ /flashcards/[id]                           2.88 kB         108 kB
+├ ƒ /flashcards/[id]/study                     5.71 kB         108 kB
+├ ƒ /focus                                       362 B         102 kB
+├ ○ /focus-score                               1.94 kB         104 kB
+├ ○ /games                                     6.12 kB         108 kB
+├ ○ /generator                                 15.2 kB         199 kB
+├ ○ /grade-calc                                2.38 kB         104 kB
+├ ○ /grammar                                   1.77 kB         104 kB
+├ ○ /habits                                    2.74 kB         108 kB
+├ ○ /handwriting                               1.82 kB         104 kB
+├ ○ /interleave                                1.57 kB         104 kB
+├ ○ /knowledge-map                             5.32 kB         111 kB
+├ ○ /kyvex-iq                                  3.12 kB         109 kB
+├ ○ /learning-style-quiz                       12.2 kB         118 kB
+├ ƒ /learning-style/shared/[userId]              557 B         103 kB
+├ ○ /lecture                                   3.56 kB         106 kB
+├ ○ /library                                   3.39 kB         109 kB
+├ ƒ /listen                                      170 B         106 kB
+├ ƒ /listen/[noteId]                             789 B         111 kB
+├ ○ /login                                     2.71 kB         111 kB
+├ ○ /mastery                                    4.2 kB         110 kB
+├ ○ /match                                     1.97 kB         107 kB
+├ ○ /memory-sim                                2.14 kB         108 kB
+├ ○ /micro-lessons                             2.34 kB         104 kB
+├ ○ /mock-exam                                 2.69 kB         105 kB
+├ ○ /my-notes                                  11.6 kB         200 kB
+├ ○ /my-predictions                            2.32 kB         108 kB
+├ ○ /narrative                                  1.6 kB         104 kB
+├ ○ /note-evolution                            2.02 kB         104 kB
+├ ƒ /notes/shared/[id]                           557 B         103 kB
+├ ○ /pdfs                                      4.28 kB         106 kB
+├ ƒ /pdfs/[id]                                 6.79 kB         109 kB
+├ ○ /peer-review                               2.02 kB         104 kB
+├ ○ /photo-quiz                                7.39 kB         112 kB
+├ ○ /plagiarism                                1.91 kB         104 kB
+├ ○ /planner                                   7.17 kB         109 kB
+├ ○ /podcast                                   5.09 kB         107 kB
+├ ○ /predictor                                 1.73 kB         104 kB
+├ ○ /presentation                              6.64 kB         112 kB
+├ ○ /privacy                                     557 B         103 kB
+├ ƒ /profile                                     166 B         106 kB
+├ ○ /quizlet-import                            1.61 kB         104 kB
+├ ○ /reading-speed                             3.01 kB         105 kB
+├ ○ /referral                                  1.59 kB         104 kB
+├ ○ /register                                    170 B         111 kB
+├ ƒ /results                                   1.78 kB         104 kB
+├ ○ /rooms                                     3.17 kB         105 kB
+├ ƒ /rooms/[id]                                4.38 kB         109 kB
+├ ○ /scan                                      6.58 kB         115 kB
+├ ○ /search                                     1.6 kB         107 kB
+├ ○ /settings                                  10.6 kB         119 kB
+├ ○ /signup                                      169 B         111 kB
+├ ○ /smart-upload                              3.39 kB         109 kB
+├ ○ /study-dna                                 2.32 kB         104 kB
+├ ○ /study-ghost                                1.5 kB         104 kB
+├ ○ /study-groups                              4.69 kB         110 kB
+├ ƒ /study-groups/[id]                         5.52 kB         111 kB
+├ ○ /study-mode                                4.06 kB         109 kB
+├ ○ /syllabus                                  3.04 kB         105 kB
+├ ○ /terms                                       557 B         103 kB
+├ ○ /tutor                                     8.43 kB         190 kB
+├ ○ /upload                                    7.71 kB         116 kB
+├ ○ /voice-tutor                               5.46 kB         111 kB
+├ ○ /wellness                                  2.18 kB         104 kB
+├ ○ /wrapped                                      6 kB         111 kB
+└ ○ /youtube-import                            3.42 kB         105 kB
++ First Load JS shared by all                   102 kB
+  ├ chunks/1255-ad409e5887c155b0.js            45.7 kB
+  ├ chunks/4bd1b696-100b9d70ed4e49c1.js        54.2 kB
+  └ other shared chunks (total)                 2.1 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
