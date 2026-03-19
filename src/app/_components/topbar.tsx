@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import CommandPalette from "./command-palette";
+import NavTopNav from "./nav-topnav";
 
 type TopbarProps = {
   title: string;
@@ -19,6 +21,16 @@ function getInitials(name: string | null | undefined, email: string | null | und
 export function Topbar({ title, onToggleSidebar }: TopbarProps) {
   const { data: session } = useSession();
   const initials = getInitials(session?.user?.name, session?.user?.email);
+  const [navStyle, setNavStyle] = useState('minimal');
+
+  useEffect(() => {
+    setNavStyle(localStorage.getItem('kyvex-nav-style') || 'minimal');
+    const handler = () => {
+      setNavStyle(localStorage.getItem('kyvex-nav-style') || 'minimal');
+    };
+    window.addEventListener('kyvex-nav-changed', handler);
+    return () => window.removeEventListener('kyvex-nav-changed', handler);
+  }, []);
 
   return (
     <header className="topbar-shell sticky top-0 z-30 flex h-14 items-center justify-between border-b border-white/10 px-3 md:h-12 md:px-4">
@@ -33,6 +45,12 @@ export function Topbar({ title, onToggleSidebar }: TopbarProps) {
         </button>
         <p className="text-[15px] font-semibold tracking-tight text-[#e8e8f0]">{title}</p>
       </div>
+
+      {navStyle === 'topnav' && (
+        <div className="hidden md:flex flex-1 justify-center overflow-hidden mx-4">
+          <NavTopNav />
+        </div>
+      )}
 
       <div className="flex items-center gap-1.5">
         <button

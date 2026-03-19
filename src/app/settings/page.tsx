@@ -417,6 +417,139 @@ function DockSettingsSection() {
   );
 }
 
+const NAV_STYLE_OPTIONS = [
+  {
+    key: 'minimal' as const,
+    label: 'Minimal',
+    icon: '📌',
+    desc: 'Command palette + 8 pinned items',
+    best: 'keyboard users, power users',
+    recommended: true,
+    preview: ['🏠', '📝', '🃏', '🤖', '🎯', '📋', '🏆', '🌍'],
+  },
+  {
+    key: 'icons' as const,
+    label: 'Icons',
+    icon: '🎨',
+    desc: 'Icon rail + slide-out panel',
+    best: 'compact, clean workspace',
+    recommended: false,
+    preview: ['🏠', '✨', '📚', '🧠', '📋', '📊', '📅', '🌍', '🧬', '🛠'],
+  },
+  {
+    key: 'bottom' as const,
+    label: 'Bottom Bar',
+    icon: '📱',
+    desc: 'Mobile-style bottom tabs + More sheet',
+    best: 'trackpad/touch users, minimal clutter',
+    recommended: false,
+    preview: ['🏠', '📚', '📋', '📊', '⋯'],
+  },
+  {
+    key: 'topnav' as const,
+    label: 'Top Nav',
+    icon: '🌐',
+    desc: 'Horizontal menus with dropdowns',
+    best: 'traditional web navigation',
+    recommended: false,
+    preview: ['🏠', '✨', '📚', '🧠', '📋', '📊'],
+  },
+];
+
+function NavigationStyleSection() {
+  const { showToast } = useToast();
+  const [current, setCurrent] = useState('minimal');
+
+  useEffect(() => {
+    setCurrent(localStorage.getItem('kyvex-nav-style') || 'minimal');
+  }, []);
+
+  const select = (style: string) => {
+    setCurrent(style);
+    localStorage.setItem('kyvex-nav-style', style);
+    window.dispatchEvent(new Event('kyvex-nav-changed'));
+    showToast({ title: '✓ Navigation updated', variant: 'success' });
+  };
+
+  return (
+    <SectionBlock title="🧭 Navigation Style" description="Choose how you navigate Kyvex.">
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        {NAV_STYLE_OPTIONS.map((opt) => {
+          const active = current === opt.key;
+          return (
+            <button
+              key={opt.key}
+              type="button"
+              onClick={() => select(opt.key)}
+              style={{
+                padding: '16px',
+                borderRadius: 14,
+                border: active
+                  ? '2px solid rgba(240,180,41,0.5)'
+                  : '2px solid rgba(255,255,255,0.08)',
+                background: active
+                  ? 'rgba(240,180,41,0.08)'
+                  : 'rgba(255,255,255,0.02)',
+                cursor: 'pointer',
+                textAlign: 'left',
+                fontFamily: 'inherit',
+                transition: 'all 0.15s ease',
+                position: 'relative',
+              }}
+            >
+              {opt.recommended && (
+                <span style={{
+                  position: 'absolute', top: 8, right: 8,
+                  fontSize: 10, fontWeight: 800,
+                  color: '#f0b429',
+                  background: 'rgba(240,180,41,0.12)',
+                  padding: '2px 8px', borderRadius: 6,
+                  letterSpacing: '0.04em',
+                }}>
+                  ⭐ RECOMMENDED
+                </span>
+              )}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                <span style={{ fontSize: 20 }}>{opt.icon}</span>
+                <span style={{
+                  fontSize: 14, fontWeight: 700,
+                  color: active ? '#f0b429' : 'var(--text-primary)',
+                }}>
+                  {opt.label}
+                </span>
+              </div>
+              {/* Preview row */}
+              <div style={{
+                display: 'flex', gap: 4, marginBottom: 8,
+                padding: '6px 8px', borderRadius: 8,
+                background: 'rgba(255,255,255,0.03)',
+              }}>
+                {opt.preview.map((emoji, i) => (
+                  <span key={i} style={{ fontSize: 14 }}>{emoji}</span>
+                ))}
+              </div>
+              <p style={{ margin: 0, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+                {opt.desc}
+              </p>
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--text-muted)' }}>
+                Best for: {opt.best}
+              </p>
+              {active && (
+                <div style={{
+                  marginTop: 8, fontSize: 11, fontWeight: 700,
+                  color: '#2dd4bf',
+                }}>
+                  ✓ Active
+                </div>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </SectionBlock>
+  );
+}
+
 export default function SettingsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -860,6 +993,8 @@ export default function SettingsPage() {
           {/* ── WORKSPACE ── */}
           {activeTab === "workspace" && (
             <>
+              <NavigationStyleSection />
+
               <SectionBlock
                 title="Sidebar Position"
                 description="Dock the sidebar on any edge. You can also drag the Dock handle in the sidebar to snap it live."

@@ -5,14 +5,8 @@ import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-import { Sidebar } from "~/app/_components/sidebar";
+import NavController from "~/app/_components/nav-controller";
 import { Topbar } from "~/app/_components/topbar";
-import {
-  type SidebarPlacement,
-  SIDEBAR_LAYOUT_EVENT,
-  readSidebarPlacement,
-  persistSidebarPlacement,
-} from "~/app/_components/sidebar-layout";
 
 function titleFromPath(pathname: string) {
   const path = pathname.split("?")[0] ?? "";
@@ -53,46 +47,54 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { status } = useSession();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [sidebarPlacement, setSidebarPlacement] = useState<SidebarPlacement>("left");
+  const [navStyle, setNavStyle] = useState('minimal');
 
   const pageTitle = useMemo(() => titleFromPath(pathname ?? "/"), [pathname]);
-  const shellDirection = useMemo(() => {
-    if (sidebarPlacement === "right") return "row-reverse" as const;
-    if (sidebarPlacement === "top") return "column" as const;
-    if (sidebarPlacement === "bottom") return "column-reverse" as const;
-    return "row" as const;
-  }, [sidebarPlacement]);
   const isLandingPage = pathname === "/";
   const shouldUseAppShell = status === "authenticated" && !isLandingPage;
 
   useEffect(() => {
-    setSidebarPlacement(readSidebarPlacement());
-
-    const syncPlacement = () => {
-      setSidebarPlacement(readSidebarPlacement());
+    setNavStyle(localStorage.getItem('kyvex-nav-style') || 'minimal');
+    const handler = () => {
+      setNavStyle(localStorage.getItem('kyvex-nav-style') || 'minimal');
     };
-
-    window.addEventListener(SIDEBAR_LAYOUT_EVENT, syncPlacement as EventListener);
-    return () => {
-      window.removeEventListener(SIDEBAR_LAYOUT_EVENT, syncPlacement as EventListener);
-    };
+    window.addEventListener('kyvex-nav-changed', handler);
+    return () => window.removeEventListener('kyvex-nav-changed', handler);
   }, []);
 
   if (!shouldUseAppShell) {
     return <>{children}</>;
   }
 
+  // Bottom nav: no sidebar, add bottom padding for the fixed bar
+  if (navStyle === 'bottom') {
+    return (
+      <div className="flex h-screen flex-col overflow-hidden bg-[#0a0a0f]">
+        <Topbar title={pageTitle} onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} />
+        <main className="flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5" style={{ paddingBottom: '80px' }}>
+          <div className="mx-auto w-full max-w-[1220px]">{children}</div>
+        </main>
+        <NavController />
+      </div>
+    );
+  }
+
+  // Top nav: no sidebar, nav is in the topbar
+  if (navStyle === 'topnav') {
+    return (
+      <div className="flex h-screen flex-col overflow-hidden bg-[#0a0a0f]">
+        <Topbar title={pageTitle} onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} />
+        <main className="flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5">
+          <div className="mx-auto w-full max-w-[1220px]">{children}</div>
+        </main>
+      </div>
+    );
+  }
+
+  // Minimal / Icons: sidebar on left
   return (
-    <div className="flex h-screen overflow-hidden bg-[#0a0a0f]" style={{ flexDirection: shellDirection }}>
-      <Sidebar
-        mobileOpen={mobileSidebarOpen}
-        onCloseMobile={() => setMobileSidebarOpen(false)}
-        placement={sidebarPlacement}
-        onPlacementChange={(next) => {
-          setSidebarPlacement(next);
-          persistSidebarPlacement(next);
-        }}
-      />
+    <div className="flex h-screen overflow-hidden bg-[#0a0a0f]">
+      <NavController />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Topbar title={pageTitle} onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} />
         <main className="flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5">
