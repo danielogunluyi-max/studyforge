@@ -16,6 +16,7 @@ import { ToastContainer } from "~/app/_components/toast";
 import ErrorBoundary from "~/app/_components/error-boundary";
 import { UnhandledRejectionListener } from "~/app/_components/unhandled-rejection-listener";
 import { SmartSuggestionBar } from "~/app/_components/smart-suggestion-bar";
+import ThemeProvider from "~/app/_components/theme-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -70,6 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
+        <ThemeProvider>
             <SessionProvider>
               {/* Removed global Listbox guard — prefer component-level guards. */}
               <AppearanceSync />
@@ -92,6 +94,7 @@ export default function RootLayout({
               </TRPCReactProvider>
                         <OnboardingTour />
             </SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

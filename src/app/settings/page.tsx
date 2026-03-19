@@ -7,6 +7,7 @@ import { useSession, signOut } from "next-auth/react";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
+import { useTheme } from "~/app/_components/theme-provider";
 import {
   type SidebarDensity,
   type SidebarLabelMode,
@@ -281,6 +282,139 @@ function syncAppearance(next: UserSettings) {
 
   window.localStorage.setItem(APPEARANCE_STORAGE_KEY, JSON.stringify(payload));
   window.dispatchEvent(new CustomEvent("kyvex:appearance-updated", { detail: payload }));
+}
+
+const THEME_OPTIONS: { key: string; label: string; desc: string; gradient: string }[] = [
+  { key: "midnight", label: "Midnight", desc: "Dark navy · Gold + Teal", gradient: "linear-gradient(135deg,#080d1a 50%,#f0b429 100%)" },
+  { key: "focus",    label: "Focus",    desc: "Pure black · Emerald green", gradient: "linear-gradient(135deg,#0a0a0a 50%,#10b981 100%)" },
+  { key: "arcade",   label: "Arcade",   desc: "Black + Neon purple", gradient: "linear-gradient(135deg,#000 50%,#a855f7 100%)" },
+  { key: "velocity", label: "Velocity", desc: "Black + Electric blue", gradient: "linear-gradient(135deg,#000 50%,#4f8ef7 100%)" },
+  { key: "campus",   label: "Campus",   desc: "Warm brown · Amber", gradient: "linear-gradient(135deg,#0d0a07 50%,#f59e0b 100%)" },
+  { key: "light",    label: "Light",    desc: "Clean white · Warm gold", gradient: "linear-gradient(135deg,#f8f9ff 50%,#d97706 100%)" },
+];
+
+function AppearanceThemeSection() {
+  const { theme, setTheme } = useTheme();
+  return (
+    <SectionBlock title="🎨 Appearance" description="Choose a personality theme for Kyvex.">
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+        {THEME_OPTIONS.map((t) => {
+          const active = theme === t.key;
+          return (
+            <div
+              key={t.key}
+              onClick={() => setTheme(t.key as Parameters<typeof setTheme>[0])}
+              style={{
+                border: active ? "2px solid #f0b429" : "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 16,
+                padding: 16,
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                background: active ? "rgba(240,180,41,0.06)" : "rgba(255,255,255,0.02)",
+              }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setTheme(t.key as Parameters<typeof setTheme>[0]); }}
+            >
+              <div style={{ height: 60, borderRadius: 10, background: t.gradient, marginBottom: 12 }} />
+              <p style={{ fontWeight: 700, fontSize: 14, color: "var(--text-primary)", margin: 0 }}>
+                {t.label} {active && "✓"}
+              </p>
+              <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 3 }}>{t.desc}</p>
+            </div>
+          );
+        })}
+      </div>
+    </SectionBlock>
+  );
+}
+
+const DOCK_ITEMS: { key: string; icon: string; label: string; desc: string }[] = [
+  { key: "pomodoro", icon: "🍅", label: "Pomodoro Timer", desc: "25-minute focus sessions with circular progress" },
+  { key: "ambient",  icon: "🎵", label: "Ambient Sounds", desc: "Background sounds for better focus" },
+  { key: "exams",    icon: "📋", label: "Exam Countdown", desc: "Quick view of your upcoming exams" },
+  { key: "focus",    icon: "🎯", label: "Focus Mode",     desc: "Full-screen distraction-free study mode" },
+];
+
+function DockSettingsSection() {
+  const [dockSettings, setDockSettings] = useState<Record<string, boolean>>({
+    pomodoro: true,
+    ambient: true,
+    exams: true,
+    focus: true,
+  });
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("kyvex-dock-settings");
+      if (saved) setDockSettings(JSON.parse(saved) as Record<string, boolean>);
+    } catch { /* ignore */ }
+  }, []);
+
+  const toggle = (key: string) => {
+    setDockSettings((prev) => {
+      const next = { ...prev, [key]: !prev[key] };
+      localStorage.setItem("kyvex-dock-settings", JSON.stringify(next));
+      return next;
+    });
+  };
+
+  return (
+    <SectionBlock title="⚓ Study Dock" description="Control what appears in your bottom dock.">
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {DOCK_ITEMS.map((item) => (
+          <div
+            key={item.key}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 16,
+              padding: "14px 16px",
+              borderRadius: 12,
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.07)",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <span style={{ fontSize: 20 }}>{item.icon}</span>
+              <div>
+                <p style={{ margin: 0, fontWeight: 600, fontSize: 14, color: "var(--text-primary)" }}>{item.label}</p>
+                <p style={{ margin: "2px 0 0", fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>{item.desc}</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => toggle(item.key)}
+              className={`dock-toggle-switch ${dockSettings[item.key] ? "on" : ""}`}
+              aria-label={`Toggle ${item.label}`}
+            />
+          </div>
+        ))}
+      </div>
+      <style>{`
+        .dock-toggle-switch {
+          width: 44px; height: 24px; border-radius: 12px;
+          background: var(--bg-elevated); border: none;
+          cursor: pointer; position: relative;
+          transition: background 0.2s ease;
+          flex-shrink: 0;
+        }
+        .dock-toggle-switch.on {
+          background: linear-gradient(135deg, #f0b429, #2dd4bf);
+        }
+        .dock-toggle-switch::after {
+          content: '';
+          position: absolute; top: 3px; left: 3px;
+          width: 18px; height: 18px; border-radius: 50%;
+          background: white; transition: transform 0.2s ease;
+        }
+        .dock-toggle-switch.on::after {
+          transform: translateX(20px);
+        }
+      `}</style>
+    </SectionBlock>
+  );
 }
 
 export default function SettingsPage() {
@@ -652,17 +786,7 @@ export default function SettingsPage() {
           {/* ── APPEARANCE ── */}
           {activeTab === "appearance" && (
             <>
-              <SectionBlock title="Theme" description="Choose how Kyvex looks on your device.">
-                <Listbox
-                  value={settings.theme}
-                  onChange={(v) => updateSetting("theme", v as Theme)}
-                  options={[
-                    { value: "light", label: "Light" },
-                    { value: "dark", label: "Dark" },
-                    { value: "auto", label: "Auto (System)" },
-                  ]}
-                />
-              </SectionBlock>
+              <AppearanceThemeSection />
 
               <SectionBlock title="Accent Color" description="Personalize the highlight color throughout the interface.">
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 10 }}>
@@ -728,6 +852,8 @@ export default function SettingsPage() {
               </SectionBlock>
 
               <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
+
+              <DockSettingsSection />
             </>
           )}
 
