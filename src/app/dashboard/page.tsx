@@ -540,9 +540,52 @@ export default function DashboardPage() {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.6; }
         }
+        @keyframes float {
+          0%,100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+        @keyframes count-up {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .count-up-number { animation: count-up 0.4s ease both; }
       `}</style>
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', marginBottom: '100px', padding: '36px 24px 80px' }}>
+        {/* Nova greeting */}
+        {(() => {
+          const hour = new Date().getHours()
+          const greeting = hour < 12 ? '☀️ Good morning'
+            : hour < 17 ? '⚡ Good afternoon'
+            : '🌙 Good evening'
+          return (
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '12px',
+              marginBottom: '24px',
+            }}>
+              <div style={{
+                width: '40px', height: '40px', borderRadius: '50%',
+                background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
+                display: 'flex', alignItems: 'center',
+                justifyContent: 'center', fontSize: '20px',
+                boxShadow: '0 0 16px rgba(240,180,41,0.4)',
+                animation: 'float 3s ease-in-out infinite',
+                flexShrink: 0,
+              }}>
+                🤖
+              </div>
+              <div>
+                <p style={{ fontSize: '13px', color: '#f0b429', fontWeight: 700, margin: 0 }}>
+                  Nova says:
+                </p>
+                <p style={{ fontSize: '15px', color: '#e8eaf6', fontWeight: 600, margin: 0 }}>
+                  {greeting}, Daniel. Ready to get smarter today?
+                </p>
+              </div>
+            </div>
+          )
+        })()}
+
         <section style={{ marginBottom: '24px' }}>
           <div style={{
             display: 'inline-flex',
@@ -678,7 +721,7 @@ export default function DashboardPage() {
                 <p style={{ fontSize: '14px', fontWeight: 700, color: '#8892b0', marginBottom: '6px' }}>
                   {subjectIcon(nextExam.subject)} {nextExam.subject}
                 </p>
-                <p className="kv-bounce-in" style={{ fontSize: '32px', fontWeight: 900, letterSpacing: '-0.04em', color: '#f8fbff' }}>
+                <p className="count-up-number" style={{ fontSize: '32px', fontWeight: 900, letterSpacing: '-0.04em', color: '#f8fbff' }}>
                   {formatCountdown(nextExam.examDate)}
                 </p>
                 <p style={{ fontSize: '12px', color: '#8892b0', marginTop: '4px' }}>
@@ -687,11 +730,14 @@ export default function DashboardPage() {
               </>
             ) : (
               <>
-                <p className="kv-bounce-in" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+                <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
                   0 days
                 </p>
-                <p style={{ fontSize: '12px', color: '#8892b0', marginTop: '4px' }}>
-                  No upcoming exams yet.
+                <p style={{ fontSize: '13px', color: '#f0b429', marginTop: '6px' }}>
+                  No exams added yet 🎉{' '}
+                  <Link href="/exam-predictor" style={{ color: '#f0b429', textDecoration: 'underline', fontWeight: 600 }}>
+                    Add your first exam →
+                  </Link>
                 </p>
               </>
             )}
@@ -703,7 +749,8 @@ export default function DashboardPage() {
             onMouseLeave={clearCardHover}
             style={{
               background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
-              border: '1px solid rgba(255,255,255,0.07)',
+              border: '1px solid rgba(45,212,191,0.25)',
+              borderLeft: '3px solid #2dd4bf',
               borderRadius: '18px',
               padding: '22px 24px',
               boxShadow: '0 12px 32px rgba(4,8,18,0.3)',
@@ -720,7 +767,7 @@ export default function DashboardPage() {
             }}>
               Exams This Month
             </p>
-            <p className="kv-bounce-in" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+            <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
               {totalExamsThisMonth}
             </p>
             <p style={{ fontSize: '12px', color: '#8892b0' }}>scheduled</p>
@@ -732,8 +779,8 @@ export default function DashboardPage() {
             onMouseLeave={clearCardHover}
             style={{
               background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
-              border: '1px solid rgba(45,212,191,0.25)',
-              borderLeft: '3px solid #2dd4bf',
+              border: '1px solid rgba(139,92,246,0.25)',
+              borderLeft: '3px solid #8b5cf6',
               borderRadius: '18px',
               padding: '22px 24px',
               boxShadow: '0 12px 32px rgba(4,8,18,0.35)',
@@ -750,10 +797,16 @@ export default function DashboardPage() {
             }}>
               Study Streak
             </p>
-            <p className="kv-bounce-in" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
-              {studyStreak}
+            <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+              {studyStreak}{studyStreak > 2 ? ' 🔥' : ''}
             </p>
-            <p style={{ fontSize: '12px', color: '#8892b0' }}>days</p>
+            <p style={{ fontSize: '12px', color: '#8892b0' }}>
+              {studyStreak === 1 ? (
+                <span style={{ color: '#2dd4bf' }}>Day 1 — the best day to start 🚀</span>
+              ) : (
+                'days'
+              )}
+            </p>
           </div>
         </div>
 
@@ -775,7 +828,7 @@ export default function DashboardPage() {
               </p>
             </div>
             <div style={{ width: '320px', maxWidth: '100%' }}>
-              <div style={{ height: '6px', borderRadius: '999px', background: '#12192e', overflow: 'hidden' }}>
+              <div style={{ height: '8px', borderRadius: '999px', background: '#12192e', overflow: 'hidden' }}>
                 <div
                   style={{
                     height: '100%',
@@ -783,6 +836,7 @@ export default function DashboardPage() {
                     borderRadius: '999px',
                     background: 'linear-gradient(90deg, #f0b429, #2dd4bf)',
                     transition: 'width 0.3s ease',
+                    boxShadow: '0 0 8px rgba(240,180,41,0.4)',
                   }}
                 />
               </div>
