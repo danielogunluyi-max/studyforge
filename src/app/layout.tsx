@@ -17,6 +17,7 @@ import ErrorBoundary from "~/app/_components/error-boundary";
 import { UnhandledRejectionListener } from "~/app/_components/unhandled-rejection-listener";
 import { SmartSuggestionBar } from "~/app/_components/smart-suggestion-bar";
 import ThemeProvider from "~/app/_components/theme-provider";
+import CommandPalette from "~/app/_components/command-palette";
 
 export const metadata: Metadata = {
   title: {
@@ -88,6 +89,7 @@ export default function RootLayout({
                   <PresetGate />
                   <GlobalFloatingWidgets />
                   <SmartSuggestionBar />
+              <CommandPalette showTrigger={false} />
                   <ToastViewport />
                                 <ToastContainer />
                 </ToastProvider>

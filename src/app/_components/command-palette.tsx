@@ -92,7 +92,7 @@ const ALL_ROUTES = [
   { label: 'My Results', href: '/results', icon: '📊', category: 'Personal', keywords: ['results', 'grades', 'history', 'scores'] },
 ]
 
-export default function CommandPalette() {
+export default function CommandPalette({ showTrigger = true }: { showTrigger?: boolean }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -150,7 +150,9 @@ export default function CommandPalette() {
     return acc
   }, {} as Record<string, typeof ALL_ROUTES>)
 
-  if (!open) return (
+  if (!open) {
+    if (!showTrigger) return null
+    return (
     <button
       onClick={() => setOpen(true)}
       style={{
@@ -186,6 +188,7 @@ export default function CommandPalette() {
       </span>
     </button>
   )
+  }
 
   return (
     <>
