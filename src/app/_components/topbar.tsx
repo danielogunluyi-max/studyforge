@@ -47,7 +47,7 @@ export function Topbar({ title, onToggleSidebar }: TopbarProps) {
       </div>
 
       {navStyle === 'topnav' && (
-        <div className="hidden md:flex flex-1 justify-center overflow-hidden mx-4">
+        <div className="mx-4 hidden flex-1 justify-center overflow-visible md:flex">
           <NavTopNav />
         </div>
       )}

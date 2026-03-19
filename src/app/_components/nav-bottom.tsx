@@ -27,6 +27,7 @@ export default function NavBottom() {
             style={{
               position: 'fixed', inset: 0, zIndex: 998,
               background: 'rgba(5,8,16,0.7)',
+              pointerEvents: 'auto',
             }}
           />
           <div style={{
@@ -36,6 +37,7 @@ export default function NavBottom() {
             borderTop: '1px solid var(--border-default)',
             borderRadius: '20px 20px 0 0',
             padding: '16px',
+            pointerEvents: 'auto',
           }}>
             {moreSection === null ? (
               <div style={{
@@ -44,6 +46,7 @@ export default function NavBottom() {
                 {NAV_SECTIONS.map(s => (
                   <button
                     key={s.key}
+                    type="button"
                     onClick={() => setMoreSection(s.key)}
                     style={{
                       padding: '16px 8px', borderRadius: '12px',
@@ -70,6 +73,7 @@ export default function NavBottom() {
                 return (
                   <div>
                     <button
+                      type="button"
                       onClick={() => setMoreSection(null)}
                       style={{
                         background: 'none', border: 'none',
@@ -165,6 +169,7 @@ export default function NavBottom() {
           ) : (
             <button
               key={tab.key}
+              type="button"
               onClick={() => setMoreOpen(o => !o)}
               style={{
                 display: 'flex', flexDirection: 'column',

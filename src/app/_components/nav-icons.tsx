@@ -31,6 +31,7 @@ export default function NavIcons() {
           return (
             <button
               key={section.key}
+              type="button"
               onClick={() => setActiveSection(
                 activeSection === section.key ? null : section.key
               )}

@@ -154,6 +154,7 @@ export default function CommandPalette({ showTrigger = true }: { showTrigger?: b
     if (!showTrigger) return null
     return (
     <button
+      type="button"
       onClick={() => setOpen(true)}
       style={{
         display: 'flex', alignItems: 'center', gap: '8px',
@@ -205,6 +206,8 @@ export default function CommandPalette({ showTrigger = true }: { showTrigger?: b
           padding: 10px 14px; border-radius: 10px;
           cursor: pointer; transition: background 0.1s ease;
           border: 1px solid transparent;
+          width: 100%; background: none; text-align: left;
+          font-family: inherit;
         }
         .palette-item.selected {
           background: rgba(240,180,41,0.08);
@@ -223,6 +226,7 @@ export default function CommandPalette({ showTrigger = true }: { showTrigger?: b
           background: 'rgba(5,8,16,0.8)',
           backdropFilter: 'blur(4px)',
           animation: 'overlay-in 0.15s ease both',
+          pointerEvents: 'auto',
         }}
       />
 
@@ -239,6 +243,7 @@ export default function CommandPalette({ showTrigger = true }: { showTrigger?: b
         boxShadow: '0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(240,180,41,0.05)',
         overflow: 'hidden',
         animation: 'palette-in 0.2s ease both',
+        pointerEvents: 'auto',
       }}>
 
         {/* SEARCH INPUT */}
@@ -288,8 +293,9 @@ export default function CommandPalette({ showTrigger = true }: { showTrigger?: b
                 Popular
               </p>
               {filtered.map((route, i) => (
-                <div
+                <button
                   key={route.href}
+                  type="button"
                   className={`palette-item ${selected === i ? 'selected' : ''}`}
                   onClick={() => { router.push(route.href); setOpen(false); setQuery('') }}
                   onMouseEnter={() => setSelected(i)}
@@ -311,7 +317,7 @@ export default function CommandPalette({ showTrigger = true }: { showTrigger?: b
                     flexShrink: 0 }}>
                     {route.category}
                   </span>
-                </div>
+                </button>
               ))}
             </div>
           ) : (
@@ -326,8 +332,9 @@ export default function CommandPalette({ showTrigger = true }: { showTrigger?: b
                 {routes.map(route => {
                   const globalIndex = filtered.indexOf(route)
                   return (
-                    <div
+                    <button
                       key={route.href}
+                      type="button"
                       className={`palette-item ${selected === globalIndex ? 'selected' : ''}`}
                       onClick={() => { router.push(route.href); setOpen(false); setQuery('') }}
                       onMouseEnter={() => setSelected(globalIndex)}
@@ -353,7 +360,7 @@ export default function CommandPalette({ showTrigger = true }: { showTrigger?: b
                           ↵ Enter
                         </kbd>
                       )}
-                    </div>
+                    </button>
                   )
                 })}
               </div>

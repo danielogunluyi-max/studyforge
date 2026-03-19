@@ -26,7 +26,9 @@ export default function NavTopNav() {
         display: 'flex', alignItems: 'center', gap: '2px',
         padding: '0 8px',
         overflowX: 'auto',
+        overflowY: 'visible',
         scrollbarWidth: 'none',
+        position: 'relative',
       }}
     >
       {NAV_SECTIONS.map(section => {
@@ -34,8 +36,9 @@ export default function NavTopNav() {
         const isOpen = open === section.key
 
         return (
-          <div key={section.key} style={{ position: 'relative' }}>
+          <div key={section.key} style={{ position: 'relative', zIndex: isOpen ? 1001 : 'auto' }}>
             <button
+              type="button"
               onClick={() => setOpen(isOpen ? null : section.key)}
               style={{
                 display: 'flex', alignItems: 'center', gap: '6px',
@@ -72,7 +75,7 @@ export default function NavTopNav() {
               <div style={{
                 position: 'absolute', top: 'calc(100% + 8px)',
                 left: '50%', transform: 'translateX(-50%)',
-                zIndex: 500,
+                zIndex: 1002,
                 background: 'rgba(8,13,26,0.98)',
                 border: '1px solid rgba(240,180,41,0.15)',
                 borderRadius: '16px',
@@ -80,6 +83,7 @@ export default function NavTopNav() {
                 boxShadow: '0 16px 48px rgba(0,0,0,0.5)',
                 backdropFilter: 'blur(20px)',
                 minWidth: '200px',
+                pointerEvents: 'auto',
               }}>
                 {section.items.map(item => (
                   <Link

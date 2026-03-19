@@ -301,8 +301,9 @@ function AppearanceThemeSection() {
         {THEME_OPTIONS.map((t) => {
           const active = theme === t.key;
           return (
-            <div
+            <button
               key={t.key}
+              type="button"
               onClick={() => setTheme(t.key as Parameters<typeof setTheme>[0])}
               style={{
                 border: active ? "2px solid #f0b429" : "1px solid rgba(255,255,255,0.08)",
@@ -311,17 +312,16 @@ function AppearanceThemeSection() {
                 cursor: "pointer",
                 transition: "all 0.2s ease",
                 background: active ? "rgba(240,180,41,0.06)" : "rgba(255,255,255,0.02)",
+                textAlign: "left",
+                fontFamily: "inherit",
               }}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setTheme(t.key as Parameters<typeof setTheme>[0]); }}
             >
               <div style={{ height: 60, borderRadius: 10, background: t.gradient, marginBottom: 12 }} />
               <p style={{ fontWeight: 700, fontSize: 14, color: "var(--text-primary)", margin: 0 }}>
                 {t.label} {active && "✓"}
               </p>
               <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 3 }}>{t.desc}</p>
-            </div>
+            </button>
           );
         })}
       </div>
@@ -457,7 +457,6 @@ const NAV_STYLE_OPTIONS = [
 ];
 
 function NavigationStyleSection() {
-  const { showToast } = useToast();
   const [current, setCurrent] = useState('minimal');
 
   useEffect(() => {
@@ -468,7 +467,6 @@ function NavigationStyleSection() {
     setCurrent(style);
     localStorage.setItem('kyvex-nav-style', style);
     window.dispatchEvent(new CustomEvent('kyvex-nav-changed', { detail: style }));
-    showToast('✓ Navigation updated', 'success');
   };
 
   return (
