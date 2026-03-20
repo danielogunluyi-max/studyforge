@@ -1588,10 +1588,11 @@ textarea:focus {
 }
 
 .kv-page-title {
-  font-size: 22px;
-  font-weight: 900;
+  font-size: var(--kv-heading-page-size);
+  font-weight: var(--kv-heading-page-weight);
+  color: var(--kv-heading-page-color);
+  opacity: var(--kv-heading-page-opacity);
   letter-spacing: -0.025em;
-  color: var(--text-primary);
   margin-bottom: 4px;
 }
 

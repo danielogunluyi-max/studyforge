@@ -605,12 +605,10 @@ export default function DashboardPage() {
             Study Command Center
           </div>
 
-          <h1 style={{
+          <h1 className="kv-heading-page" style={{
             fontSize: 'clamp(28px, 4.4vw, 44px)',
-            fontWeight: 800,
             letterSpacing: '-0.04em',
             fontFamily: '"Space Grotesk", var(--font-inter), sans-serif',
-            color: '#f8fbff',
             lineHeight: 1.03,
             marginBottom: '10px',
           }}>

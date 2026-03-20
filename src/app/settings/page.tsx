@@ -777,10 +777,10 @@ export default function SettingsPage() {
     <main className="kv-page" style={{ minHeight: "100vh", padding: "32px 24px 80px" }}>
       {/* Page header */}
       <div style={{ maxWidth: 920, margin: "0 auto 28px" }}>
-        <p style={{ margin: "0 0 4px", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--accent-gold)", opacity: 0.85 }}>
+        <p className="kv-heading-section" style={{ margin: "0 0 4px", color: "var(--accent-gold)", opacity: 0.85 }}>
           Configuration
         </p>
-        <h1 style={{ margin: 0, fontSize: "clamp(26px, 4vw, 36px)", fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+        <h1 className="kv-heading-page" style={{ margin: 0 }}>
           Settings
         </h1>
       </div>

@@ -248,15 +248,7 @@ export default function MasteryPage() {
     <div style={{ padding: '32px', maxWidth: '1100px', margin: '0 auto' }} className="kv-animate-in">
       {error ? <div className="kv-alert-error kv-animate-in">{error}</div> : null}
       <div style={{ marginBottom: '28px' }}>
-        <h1
-          style={{
-            fontSize: '26px',
-            fontWeight: 800,
-            color: 'var(--text-primary)',
-            letterSpacing: '-0.02em',
-            marginBottom: '6px',
-          }}
-        >
+        <h1 className="kv-heading-page" style={{ marginBottom: '6px' }}>
           🗺 Mastery Chart
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>A visual map of everything you've learned across all subjects.</p>

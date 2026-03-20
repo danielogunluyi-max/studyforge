@@ -148,7 +148,7 @@ export default function ConceptCollisionPage() {
   return (
     <div style={{ padding: '32px', maxWidth: '860px', margin: '0 auto' }}>
       <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontSize: '26px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
+        <h1 className="kv-heading-page" style={{ marginBottom: '6px' }}>
           💥 Concept Collision
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>

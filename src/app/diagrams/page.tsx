@@ -171,15 +171,7 @@ export default function DiagramsPage() {
         }}
       >
         <div>
-          <h1
-            style={{
-              fontSize: '26px',
-              fontWeight: 800,
-              color: 'var(--text-primary)',
-              letterSpacing: '-0.02em',
-              marginBottom: '6px',
-            }}
-          >
+          <h1 className="kv-heading-page" style={{ marginBottom: '6px' }}>
             🗺 Diagram Generator
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>

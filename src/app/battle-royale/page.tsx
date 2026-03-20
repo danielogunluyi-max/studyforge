@@ -235,7 +235,7 @@ export default function BattleRoyalePage() {
         <>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <div style={{ fontSize: '64px', marginBottom: '16px' }}>⚔️</div>
-            <h1 style={{ fontSize: '28px', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '8px' }}>
+            <h1 className="kv-heading-page" style={{ marginBottom: '8px' }}>
               Battle Royale
             </h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>
