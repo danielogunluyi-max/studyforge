@@ -2,6 +2,30 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&display=swap");
 @import "tailwindcss";
 
+/**
+ * COPILOT: Add comprehensive text opacity scale for Kyvex app.
+ *
+ * CONTEXT: Currently, text opacity is inconsistent across the app. Feature card
+ * descriptions are at 40% opacity (barely readable), section headers at 50%
+ * (too faded), and page titles vary between 80-100% (inconsistent). This creates
+ * a poor visual hierarchy and makes important content hard to read.
+ *
+ * TASK: Create a 5-tier text opacity scale following this exact structure:
+ * - Primary: 100% opacity for titles, critical content, important information
+ * - Secondary: 85% opacity for body text, normal descriptions, standard content
+ * - Tertiary: 65% opacity for labels, metadata, supporting information
+ * - Muted: 45% opacity for subtle hints, less important info, placeholder-like text
+ * - Ghost: 25% opacity for dividers, extremely subtle elements, background text
+ *
+ * Additionally, create font weight scale and heading-specific variables.
+ *
+ * COLORS: All text uses white (255, 255, 255) with varying opacity via rgba.
+ *
+ * NAMING CONVENTION: All variables must start with --kv- prefix. Use descriptive
+ * names like --kv-text-primary, --kv-text-secondary, etc.
+ *
+ * VARIABLES TO CREATE:
+ */
 :root {
   /* -- BACKGROUNDS (midnight navy) -- */
   --bg-base:     #050810;
@@ -16,10 +40,129 @@
   --border-default: rgba(255, 255, 255, 0.08);
   --border-strong:  rgba(255, 255, 255, 0.14);
 
+  /* Text Opacity Scale - 5 tiers */
+  --kv-text-primary: rgba(255, 255, 255, 1);
+  --kv-text-secondary: rgba(255, 255, 255, 0.85);
+  --kv-text-tertiary: rgba(255, 255, 255, 0.65);
+  --kv-text-muted: rgba(255, 255, 255, 0.45);
+  --kv-text-ghost: rgba(255, 255, 255, 0.25);
+  --kv-text-disabled: rgba(255, 255, 255, 0.3);
+
+  /* Font Weights - Use these for consistent typography */
+  --kv-font-weight-normal: 400;
+  --kv-font-weight-medium: 500;
+  --kv-font-weight-semibold: 600;
+  --kv-font-weight-bold: 700;
+
+  /* Page Heading Variables - For main page titles like "Dashboard", "Mastery Chart" */
+  --kv-heading-page-size: 2rem;
+  --kv-heading-page-weight: var(--kv-font-weight-bold);
+  --kv-heading-page-color: var(--kv-text-primary);
+  --kv-heading-page-opacity: 1;
+
+  /* Section Header Variables - For labels like "STUDY TOOLS", "Main", "CONFIGURATION" */
+  --kv-heading-section-size: 0.875rem;
+  --kv-heading-section-weight: var(--kv-font-weight-semibold);
+  --kv-heading-section-color: var(--kv-text-tertiary);
+  --kv-heading-section-spacing: 0.05em;
+  --kv-heading-section-transform: uppercase;
+
+  /* Card Title Variables - For feature card titles, mastery card subjects */
+  --kv-heading-card-size: 1rem;
+  --kv-heading-card-weight: var(--kv-font-weight-semibold);
+  --kv-heading-card-color: var(--kv-text-primary);
+
+  /* Description Text Variables - CRITICAL FIX for feature card descriptions */
+  --kv-description-color: var(--kv-text-tertiary);
+  --kv-description-size: 0.875rem;
+  --kv-description-weight: var(--kv-font-weight-normal);
+  --kv-description-line-height: 1.5;
+
+  /* Card System Variables - Base card styling */
+  --kv-card-bg: rgba(255, 255, 255, 0.03);
+  --kv-card-border: rgba(255, 255, 255, 0.08);
+  --kv-card-border-radius: 12px;
+  --kv-card-padding: 1.25rem;
+  --kv-card-transition: all 0.2s ease;
+
+  /* Card Hover States */
+  --kv-card-hover-bg: rgba(255, 255, 255, 0.05);
+  --kv-card-hover-border: rgba(255, 255, 255, 0.12);
+  --kv-card-hover-transform: translateY(-2px);
+
+  /* Badge Variables - For "Enabled", "Pinned" badges */
+  --kv-badge-enabled-bg: rgba(46, 213, 115, 0.15);
+  --kv-badge-enabled-color: #2ed573;
+  --kv-badge-enabled-border: rgba(46, 213, 115, 0.3);
+  --kv-badge-pinned-bg: rgba(240, 180, 41, 0.15);
+  --kv-badge-pinned-color: #f0b429;
+  --kv-badge-pinned-border: rgba(240, 180, 41, 0.3);
+  --kv-badge-padding: 0.25rem 0.75rem;
+  --kv-badge-border-radius: 6px;
+  --kv-badge-font-size: 0.75rem;
+  --kv-badge-font-weight: var(--kv-font-weight-medium);
+
+  /* Spacing Scale - Use instead of hard-coded px values */
+  --kv-space-xs: 0.25rem;
+  --kv-space-sm: 0.5rem;
+  --kv-space-md: 1rem;
+  --kv-space-lg: 1.5rem;
+  --kv-space-xl: 2rem;
+  --kv-space-2xl: 3rem;
+
+  /* Mastery Chart Specific Variables */
+  --kv-mastery-subject-color: var(--kv-text-primary);
+  --kv-mastery-subject-weight: var(--kv-font-weight-semibold);
+  --kv-mastery-level-color: var(--kv-text-secondary);
+  --kv-mastery-level-size: 1.5rem;
+  --kv-mastery-level-weight: var(--kv-font-weight-bold);
+  --kv-mastery-status-color: var(--kv-text-tertiary);
+  --kv-mastery-status-size: 0.875rem;
+  --kv-heatmap-cell-border: rgba(255, 255, 255, 0.05);
+  --kv-heatmap-cell-size: 12px;
+  --kv-heatmap-cell-gap: 3px;
+  --kv-heatmap-cell-radius: 2px;
+
+  /* Smart Suggestion Variables - For bottom notifications */
+  --kv-suggestion-bg: rgba(255, 255, 255, 0.04);
+  --kv-suggestion-border: rgba(255, 255, 255, 0.1);
+  --kv-suggestion-padding: 1rem 1.25rem;
+  --kv-suggestion-border-radius: 10px;
+  --kv-suggestion-label-color: rgba(255, 255, 255, 0.6);
+  --kv-suggestion-label-weight: var(--kv-font-weight-medium);
+  --kv-suggestion-label-size: 0.75rem;
+  --kv-suggestion-message-color: var(--kv-text-secondary);
+  --kv-suggestion-message-weight: var(--kv-font-weight-normal);
+
+  /* Sidebar Variables */
+  --kv-sidebar-item-padding: 0.75rem 1rem;
+  --kv-sidebar-item-gap: 0.25rem;
+  --kv-sidebar-item-border-radius: 8px;
+  --kv-sidebar-pinned-bg: rgba(240, 180, 41, 0.1);
+  --kv-sidebar-pinned-border: rgba(240, 180, 41, 0.3);
+  --kv-sidebar-active-color: #f0b429;
+
+  /* Bottom Navigation Variables */
+  --kv-bottom-nav-height: 64px;
+  --kv-bottom-nav-padding: 0.75rem 0;
+  --kv-bottom-nav-icon-size: 24px;
+  --kv-bottom-nav-gap: 0.25rem;
+
+  /* Theme Colors - Your existing palette (keep these) */
+  --kv-accent-gold: #f0b429;
+  --kv-accent-gold-hover: #f5c451;
+  --kv-accent-gold-active: #d9a324;
+  --kv-accent-teal: #2dd4bf;
+  --kv-accent-teal-hover: #5eead4;
+  --kv-accent-teal-active: #14b8a6;
+  --kv-bg-primary: #0a0e1a;
+  --kv-bg-secondary: #0f1320;
+  --kv-bg-tertiary: #141826;
+
   /* -- TEXT -- */
-  --text-primary:   #e8eaf6;
-  --text-secondary: #8892b0;
-  --text-muted:     #3d4a6b;
+  --text-primary: var(--kv-text-primary);
+  --text-secondary: var(--kv-text-secondary);
+  --text-muted: var(--kv-text-muted);
   --text-inverse:   #050810;
 
   /* -- ACCENT COLORS -- */
@@ -983,10 +1126,10 @@ button:hover, .listbox-button:hover {
   --border-subtle: #1a1a26;
   --border-default: #222230;
   --border-strong: #2e2e40;
-  --text-primary: #e8e8f0;
-  --text-secondary: #8888a0;
-  --text-muted: #4a4a60;
-  --text-disabled: #333345;
+  --text-primary: var(--kv-text-primary);
+  --text-secondary: var(--kv-text-secondary);
+  --text-muted: var(--kv-text-muted);
+  --text-disabled: var(--kv-text-disabled);
   --accent-blue: #4f6ef7;
   --accent-purple: #7c3aed;
   --accent-cyan: #06b6d4;
@@ -1010,9 +1153,9 @@ body {
 .text-title { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; }
 .text-heading { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
 .text-subheading { font-size: 16px; font-weight: 600; }
-.text-body { font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
-.text-small { font-size: 12px; color: var(--text-muted); }
-.text-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+.text-body { font-size: 14px; line-height: 1.6; color: var(--kv-text-secondary); }
+.text-small { font-size: 12px; color: var(--kv-text-tertiary); }
+.text-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--kv-text-tertiary); }
 
 .card {
   background: var(--bg-card);
@@ -1165,33 +1308,117 @@ textarea:focus {
 .badge-neutral { background: rgba(148, 163, 184, 0.14); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.24); }
 
 .panel-muted {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-default);
-  border-radius: 12px;
-}
-
+  font-size: var(--kv-heading-page-size);
+  font-weight: var(--kv-heading-page-weight);
+  color: var(--kv-heading-page-color);
+  opacity: var(--kv-heading-page-opacity);
+  letter-spacing: -0.025em;
+  margin: 0 0 4px;
 .premium-tab {
   border: 1px solid transparent;
   border-radius: 8px;
-  color: var(--text-muted);
-  padding: 6px 14px;
+  font-size: var(--kv-description-size);
+  color: var(--kv-text-secondary);
   transition: all 0.15s;
-}
+  line-height: var(--kv-description-line-height);
 
 .premium-tab:hover {
-  color: var(--text-secondary);
-  background: color-mix(in srgb, var(--bg-elevated) 60%, transparent);
+/*
+ * UTILITY CLASSES - Copilot will autocomplete these based on the variables above
+ *
+ * TASK: Create utility classes that components can use for quick styling.
+ * These should directly reference the CSS variables defined above.
+ */
+.kv-heading-page {
+  font-size: var(--kv-heading-page-size);
+  font-weight: var(--kv-heading-page-weight);
+  color: var(--kv-heading-page-color);
+  opacity: var(--kv-heading-page-opacity);
+  margin: 0;
 }
 
-.premium-tab.is-active {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-strong);
+.kv-heading-section {
+  font-size: var(--kv-heading-section-size);
+  font-weight: var(--kv-heading-section-weight);
+  color: var(--kv-heading-section-color);
+  letter-spacing: var(--kv-heading-section-spacing);
+  text-transform: var(--kv-heading-section-transform);
+  margin: 0;
+}
+
+.kv-heading-card {
+  font-size: var(--kv-heading-card-size);
+  font-weight: var(--kv-heading-card-weight);
+  color: var(--kv-heading-card-color);
+  margin: 0;
+}
+
+.kv-text-description {
+  color: var(--kv-description-color);
+  font-size: var(--kv-description-size);
+  font-weight: var(--kv-description-weight);
+  line-height: var(--kv-description-line-height);
+  margin: 0;
+}
+
+  background: color-mix(in srgb, var(--bg-elevated) 60%, transparent);
+  background: var(--kv-card-bg);
+  border: 1px solid var(--kv-card-border);
+  border-radius: var(--kv-card-border-radius);
+  padding: var(--kv-card-padding);
+  transition: var(--kv-card-transition);
   border-bottom: 2px solid var(--accent-blue);
   color: #ffffff;
 }
-
-.upload-dropzone {
+  background: var(--kv-card-hover-bg);
+  border-color: var(--kv-card-hover-border);
+  transform: var(--kv-card-hover-transform);
   border: 2px dashed var(--border-strong);
+
+.kv-badge-enabled {
+  background: var(--kv-badge-enabled-bg);
+  color: var(--kv-badge-enabled-color);
+  border: 1px solid var(--kv-badge-enabled-border);
+  padding: var(--kv-badge-padding);
+  border-radius: var(--kv-badge-border-radius);
+  font-size: var(--kv-badge-font-size);
+  font-weight: var(--kv-badge-font-weight);
+  display: inline-block;
+}
+
+.kv-badge-pinned {
+  background: var(--kv-badge-pinned-bg);
+  color: var(--kv-badge-pinned-color);
+  border: 1px solid var(--kv-badge-pinned-border);
+  padding: var(--kv-badge-padding);
+  border-radius: var(--kv-badge-border-radius);
+  font-size: var(--kv-badge-font-size);
+  font-weight: var(--kv-badge-font-weight);
+  display: inline-block;
+}
+
+.kv-smart-suggestion {
+  background: var(--kv-suggestion-bg);
+  border: 1px solid var(--kv-suggestion-border);
+  padding: var(--kv-suggestion-padding);
+  border-radius: var(--kv-suggestion-border-radius);
+}
+
+.kv-smart-suggestion-label {
+  color: var(--kv-suggestion-label-color);
+  font-weight: var(--kv-suggestion-label-weight);
+  font-size: var(--kv-suggestion-label-size);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: var(--kv-space-xs);
+}
+
+.kv-smart-suggestion-message {
+  color: var(--kv-suggestion-message-color);
+  font-weight: var(--kv-suggestion-message-weight);
+  margin: 0;
+}
   border-radius: 12px;
   padding: 48px;
   text-align: center;
@@ -1428,18 +1655,18 @@ textarea:focus {
 
 /* ── SECTION HEADERS ── */
 .kv-section-label {
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
+  font-size: var(--kv-heading-section-size);
+  font-weight: var(--kv-heading-section-weight);
+  text-transform: var(--kv-heading-section-transform);
+  letter-spacing: var(--kv-heading-section-spacing);
+  color: var(--kv-heading-section-color);
   margin-bottom: 12px;
 }
 
 .kv-section-title {
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--text-primary);
+  font-size: var(--kv-heading-card-size);
+  font-weight: var(--kv-heading-card-weight);
+  color: var(--kv-heading-card-color);
   letter-spacing: -0.02em;
   margin-bottom: 4px;
 }
