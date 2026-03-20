@@ -1308,26 +1308,42 @@ textarea:focus {
 .badge-neutral { background: rgba(148, 163, 184, 0.14); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.24); }
 
 .panel-muted {
-  font-size: var(--kv-heading-page-size);
-  font-weight: var(--kv-heading-page-weight);
-  color: var(--kv-heading-page-color);
-  opacity: var(--kv-heading-page-opacity);
-  letter-spacing: -0.025em;
-  margin: 0 0 4px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+}
+
 .premium-tab {
   border: 1px solid transparent;
   border-radius: 8px;
-  font-size: var(--kv-description-size);
-  color: var(--kv-text-secondary);
+  color: var(--kv-text-muted);
+  padding: 6px 14px;
   transition: all 0.15s;
-  line-height: var(--kv-description-line-height);
+}
 
 .premium-tab:hover {
+  color: var(--kv-text-secondary);
+  background: color-mix(in srgb, var(--bg-elevated) 60%, transparent);
+}
+
+.premium-tab.is-active {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-bottom: 2px solid var(--accent-blue);
+  color: #ffffff;
+}
+
+.upload-dropzone {
+  border: 2px dashed var(--border-strong);
+  border-radius: 12px;
+  padding: 48px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
 /*
- * UTILITY CLASSES - Copilot will autocomplete these based on the variables above
- *
- * TASK: Create utility classes that components can use for quick styling.
- * These should directly reference the CSS variables defined above.
+ * UTILITY CLASSES — Token-backed helpers for consistent styling.
+ * Reference the --kv-* variables defined in :root above.
  */
 .kv-heading-page {
   font-size: var(--kv-heading-page-size);
@@ -1360,20 +1376,6 @@ textarea:focus {
   line-height: var(--kv-description-line-height);
   margin: 0;
 }
-
-  background: color-mix(in srgb, var(--bg-elevated) 60%, transparent);
-  background: var(--kv-card-bg);
-  border: 1px solid var(--kv-card-border);
-  border-radius: var(--kv-card-border-radius);
-  padding: var(--kv-card-padding);
-  transition: var(--kv-card-transition);
-  border-bottom: 2px solid var(--accent-blue);
-  color: #ffffff;
-}
-  background: var(--kv-card-hover-bg);
-  border-color: var(--kv-card-hover-border);
-  transform: var(--kv-card-hover-transform);
-  border: 2px dashed var(--border-strong);
 
 .kv-badge-enabled {
   background: var(--kv-badge-enabled-bg);
@@ -1418,11 +1420,6 @@ textarea:focus {
   color: var(--kv-suggestion-message-color);
   font-weight: var(--kv-suggestion-message-weight);
   margin: 0;
-}
-  border-radius: 12px;
-  padding: 48px;
-  text-align: center;
-  transition: all 0.2s;
 }
 
 .upload-dropzone.is-dragging,
