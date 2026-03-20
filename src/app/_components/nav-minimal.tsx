@@ -45,15 +45,13 @@ export default function NavMinimal() {
           color: '#f0b429', marginBottom: '2px' }}>
           ⌘K Search all features
         </p>
-        <p style={{ fontSize: '10px', color: 'var(--text-muted)' }}>
+        <p style={{ fontSize: '10px', color: 'var(--kv-text-muted)' }}>
           80+ tools, instant access
         </p>
       </div>
 
       {/* Pinned items */}
-      <p style={{ fontSize: '9px', fontWeight: 800,
-        color: 'var(--text-muted)', textTransform: 'uppercase',
-        letterSpacing: '0.1em', padding: '0 8px 8px' }}>
+      <p className="kv-heading-section" style={{ padding: '0 8px 8px', margin: 0 }}>
         Pinned
       </p>
       {PINNED.map(item => (
@@ -72,7 +70,7 @@ export default function NavMinimal() {
               : '1px solid transparent',
             color: pathname === item.href
               ? '#f0b429'
-              : 'var(--text-secondary)',
+              : 'var(--kv-text-secondary)',
             textDecoration: 'none',
             fontSize: '13px', fontWeight: pathname === item.href ? 700 : 500,
             transition: 'all 0.15s ease',
@@ -80,13 +78,13 @@ export default function NavMinimal() {
           onMouseEnter={e => {
             if (pathname !== item.href) {
               e.currentTarget.style.background = 'var(--bg-elevated)'
-              e.currentTarget.style.color = 'var(--text-primary)'
+              e.currentTarget.style.color = 'var(--kv-text-primary)'
             }
           }}
           onMouseLeave={e => {
             if (pathname !== item.href) {
               e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.color = 'var(--text-secondary)'
+              e.currentTarget.style.color = 'var(--kv-text-secondary)'
             }
           }}
         >
@@ -107,7 +105,7 @@ export default function NavMinimal() {
           <Link key={item.href} href={item.href} style={{
             display: 'flex', alignItems: 'center', gap: '10px',
             padding: '8px 12px', borderRadius: '10px',
-            color: 'var(--text-muted)', textDecoration: 'none',
+            color: 'var(--kv-text-muted)', textDecoration: 'none',
             fontSize: '12px', fontWeight: 600,
             transition: 'color 0.15s ease',
           }}>

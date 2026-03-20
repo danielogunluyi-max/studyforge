@@ -128,10 +128,10 @@ export function SmartSuggestionBar() {
         }}
       >
         <div style={{ minWidth: 0 }}>
-          <p style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-secondary)" }}>
+          <p className="kv-smart-suggestion-label">
             Smart Suggestion
           </p>
-          <p style={{ marginTop: 2, fontSize: 14, color: "var(--text-primary)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          <p className="kv-smart-suggestion-message" style={{ marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
             {suggestion.message}
           </p>
         </div>

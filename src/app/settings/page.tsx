@@ -526,10 +526,10 @@ function NavigationStyleSection() {
                   <span key={i} style={{ fontSize: 14 }}>{emoji}</span>
                 ))}
               </div>
-              <p style={{ margin: 0, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+              <p style={{ margin: 0, fontSize: 12, color: 'var(--kv-text-secondary)', lineHeight: 1.4 }}>
                 {opt.desc}
               </p>
-              <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--text-muted)' }}>
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--kv-text-tertiary)' }}>
                 Best for: {opt.best}
               </p>
               {active && (

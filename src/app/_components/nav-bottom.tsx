@@ -151,8 +151,8 @@ export default function NavBottom() {
               href={tab.href}
               style={{
                 display: 'flex', flexDirection: 'column',
-                alignItems: 'center', gap: '3px',
-                padding: '6px 16px', borderRadius: '12px',
+                alignItems: 'center', gap: 'var(--kv-bottom-nav-gap)',
+                padding: '8px 16px', borderRadius: '12px',
                 textDecoration: 'none',
                 background: isActive ? 'rgba(240,180,41,0.1)' : 'transparent',
                 transition: 'all 0.15s ease',
@@ -161,7 +161,7 @@ export default function NavBottom() {
               <span style={{ fontSize: '22px' }}>{tab.icon}</span>
               <span style={{
                 fontSize: '10px', fontWeight: isActive ? 700 : 500,
-                color: isActive ? '#f0b429' : 'var(--text-muted)',
+                color: isActive ? '#f0b429' : 'var(--kv-text-secondary)',
               }}>
                 {tab.label}
               </span>
@@ -173,8 +173,8 @@ export default function NavBottom() {
               onClick={() => setMoreOpen(o => !o)}
               style={{
                 display: 'flex', flexDirection: 'column',
-                alignItems: 'center', gap: '3px',
-                padding: '6px 16px', borderRadius: '12px',
+                alignItems: 'center', gap: 'var(--kv-bottom-nav-gap)',
+                padding: '8px 16px', borderRadius: '12px',
                 border: 'none', cursor: 'pointer',
                 fontFamily: 'inherit',
                 background: isActive ? 'rgba(240,180,41,0.1)' : 'transparent',
@@ -184,7 +184,7 @@ export default function NavBottom() {
               <span style={{ fontSize: '22px' }}>{tab.icon}</span>
               <span style={{
                 fontSize: '10px', fontWeight: isActive ? 700 : 500,
-                color: isActive ? '#f0b429' : 'var(--text-muted)',
+                color: isActive ? '#f0b429' : 'var(--kv-text-secondary)',
               }}>
                 {tab.label}
               </span>
