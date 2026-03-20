@@ -23,7 +23,7 @@ export default function NavIcons() {
         alignItems: 'center', gap: '4px',
         background: 'var(--bg-surface)',
         borderRight: '1px solid var(--border-subtle)',
-        padding: '8px 0',
+        padding: '8px 0 88px',
         overflowY: 'auto',
       }}>
         {NAV_SECTIONS.map(section => {
@@ -61,7 +61,9 @@ export default function NavIcons() {
         })}
 
         <div style={{ marginTop: 'auto', display: 'flex',
-          flexDirection: 'column', gap: '4px', alignItems: 'center' }}>
+          flexDirection: 'column', gap: '4px', alignItems: 'center',
+          position: 'sticky', bottom: '80px',
+          background: 'var(--bg-surface)' }}>
           <Link href="/settings" title="Settings" style={{
             width: '40px', height: '40px', borderRadius: '10px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -81,7 +83,7 @@ export default function NavIcons() {
             width: '180px', flexShrink: 0,
             background: 'var(--bg-card)',
             borderRight: '1px solid var(--border-subtle)',
-            overflowY: 'auto', padding: '12px 8px',
+            overflowY: 'auto', padding: '12px 8px 88px',
           }}>
             <p style={{ fontSize: '9px', fontWeight: 800,
               color: section.color, textTransform: 'uppercase',

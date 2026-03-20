@@ -25,7 +25,7 @@ export default function NavMinimal() {
       background: 'var(--bg-surface)',
       borderRight: '1px solid var(--border-subtle)',
       overflowY: 'auto',
-      padding: '16px 8px',
+      padding: '16px 8px 88px',
     }}>
       {/* Command palette hint */}
       <div style={{
@@ -97,7 +97,9 @@ export default function NavMinimal() {
 
       {/* Bottom links */}
       <div style={{ marginTop: 'auto', paddingTop: '16px',
-        borderTop: '1px solid var(--border-subtle)' }}>
+        borderTop: '1px solid var(--border-subtle)',
+        position: 'sticky', bottom: '80px',
+        background: 'var(--bg-surface)' }}>
         {[
           { label: 'All Features', href: '/features', icon: '⚙️' },
           { label: 'Settings', href: '/settings', icon: '⚙️' },

@@ -22,6 +22,8 @@
     "seed:all-curriculum": "npx --yes tsx src/lib/seedAllCurriculum.ts",
     "seed:curriculum-grade": "npx --yes tsx src/lib/seedAllCurriculum.ts",
     "start": "next start",
+    "test:e2e:install": "playwright install chromium",
+    "test:e2e:nav": "playwright test tests/e2e/nav-auth.spec.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -53,6 +55,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "^4.0.15",
     "@types/bcryptjs": "^2.4.6",
