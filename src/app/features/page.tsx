@@ -293,8 +293,8 @@ export default function FeaturesPage() {
   return (
     <div className="kv-stack" style={{ paddingBottom: hasChanges ? '96px' : undefined }}>
       <header className="kv-card">
-        <h1 className="kv-title">Feature Toggles</h1>
-        <p className="kv-muted">Enable only the tools you want in your learning workspace.</p>
+        <h1 className="kv-heading-page">Feature Toggles</h1>
+        <p className="kv-text-description">Enable only the tools you want in your learning workspace.</p>
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '12px' }}>
           <span className="kv-badge">Preset: {PRESET_LABELS[preset]}</span>
           <span className="kv-badge">Enabled: {enabledCount}/{ALL_FEATURES.length}</span>
@@ -303,8 +303,8 @@ export default function FeaturesPage() {
       </header>
 
       <section className="kv-card">
-        <h2 className="kv-title" style={{ fontSize: '18px' }}>Reset To Preset Defaults</h2>
-        <p className="kv-muted" style={{ marginBottom: '12px' }}>Pick a preset to restore a curated default set instantly.</p>
+        <h2 className="kv-heading-section">Reset To Preset Defaults</h2>
+        <p className="kv-text-description" style={{ marginBottom: '12px' }}>Pick a preset to restore a curated default set instantly.</p>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <button className="kv-btn" onClick={() => void resetToPreset('HIGHSCHOOL')} disabled={saving}>High School</button>
           <button className="kv-btn" onClick={() => void resetToPreset('COLLEGE')} disabled={saving}>College</button>
@@ -320,7 +320,7 @@ export default function FeaturesPage() {
 
       {categories.map(([category, features]) => (
         <section key={category} className="kv-card">
-          <h3 className="kv-title" style={{ fontSize: '18px', marginBottom: '12px' }}>{category}</h3>
+          <h3 className="kv-heading-section" style={{ marginBottom: '12px' }}>{category}</h3>
           <div className="kv-grid-3">
             {features.map((feature) => {
               const isPinned = PINNED_FEATURE_KEYS.has(feature.key)
@@ -350,39 +350,31 @@ export default function FeaturesPage() {
                 >
                   {isPinned && (
                     <span
+                      className="kv-badge-pinned"
                       style={{
                         position: 'absolute',
                         top: '10px',
                         left: '10px',
-                        fontSize: '10px',
-                        fontWeight: 700,
-                        padding: '2px 7px',
-                        borderRadius: '999px',
-                        background: 'rgba(79, 142, 247, 0.25)',
-                        color: '#bfdbfe',
                       }}
                     >
                       Pinned
                     </span>
                   )}
                   <span
+                    className={isEnabled ? 'kv-badge-enabled' : 'kv-badge'}
                     style={{
                       position: 'absolute',
                       top: '10px',
                       right: '10px',
-                      fontSize: '11px',
-                      fontWeight: 700,
-                      padding: '2px 7px',
-                      borderRadius: '999px',
-                      background: isEnabled ? 'rgba(34,197,94,0.2)' : 'rgba(100,116,139,0.25)',
-                      color: isEnabled ? '#bbf7d0' : 'var(--text-muted)',
+                      background: isEnabled ? undefined : 'rgba(100,116,139,0.25)',
+                      color: isEnabled ? undefined : 'var(--kv-text-muted)',
                     }}
                   >
                     {isEnabled ? 'Enabled' : 'Hidden'}
                   </span>
                   <div style={{ fontSize: '24px', marginBottom: '8px' }}>{feature.icon}</div>
-                  <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{feature.label}</div>
-                  <div className="kv-muted" style={{ fontSize: '12px' }}>{feature.key}</div>
+                  <div className="kv-heading-card">{feature.label}</div>
+                  <div className="kv-text-description">{feature.key}</div>
                 </button>
               )
             })}
