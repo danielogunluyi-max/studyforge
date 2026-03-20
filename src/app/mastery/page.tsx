@@ -79,6 +79,7 @@ function ActivityHeatmap({ heatmap }: { heatmap: Record<string, number> }) {
               width: 12,
               height: 12,
               borderRadius: '2px',
+              border: '1px solid var(--kv-heatmap-cell-border)',
               background: intensityColors[cell.intensity],
               cursor: 'default',
               flexShrink: 0,
@@ -87,11 +88,11 @@ function ActivityHeatmap({ heatmap }: { heatmap: Record<string, number> }) {
         ))}
       </div>
       <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginTop: '8px' }}>
-        <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Less</span>
+        <span style={{ fontSize: '11px', color: 'var(--kv-text-muted)' }}>Less</span>
         {intensityColors.map((color) => (
-          <div key={color} style={{ width: 12, height: 12, borderRadius: '2px', background: color }} />
+          <div key={color} style={{ width: 12, height: 12, borderRadius: '2px', background: color, border: '1px solid var(--kv-heatmap-cell-border)' }} />
         ))}
-        <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>More</span>
+        <span style={{ fontSize: '11px', color: 'var(--kv-text-muted)' }}>More</span>
       </div>
     </div>
   );
@@ -251,7 +252,7 @@ export default function MasteryPage() {
         <h1 className="kv-heading-page" style={{ marginBottom: '6px' }}>
           🗺 Mastery Chart
         </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>A visual map of everything you've learned across all subjects.</p>
+        <p className="kv-text-description">A visual map of everything you've learned across all subjects.</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
@@ -268,32 +269,23 @@ export default function MasteryPage() {
           <div key={stat.label} className="card" style={{ padding: '20px', textAlign: 'center' }}>
             <div style={{ fontSize: '24px', marginBottom: '6px' }}>{stat.emoji}</div>
             <div style={{ fontSize: '28px', fontWeight: 900, color: stat.color, letterSpacing: '-0.03em', marginBottom: '4px' }}>{stat.value}</div>
-            <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{stat.label}</div>
+            <div style={{ fontSize: '12px', color: 'var(--kv-text-tertiary)' }}>{stat.label}</div>
           </div>
         ))}
       </div>
 
       <div className="card" style={{ padding: '16px 20px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
-          <span
-            style={{
-              fontSize: '12px',
-              fontWeight: 700,
-              color: 'var(--text-muted)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              flexShrink: 0,
-            }}
-          >
+          <span className="kv-heading-section" style={{ flexShrink: 0 }}>
             Mastery Scale:
           </span>
 
           {MASTERY_LEVELS.map((level) => (
             <div key={level.label} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <div style={{ width: 12, height: 12, borderRadius: '3px', background: level.color, flexShrink: 0 }} />
-              <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+              <span style={{ fontSize: '12px', color: 'var(--kv-text-secondary)' }}>
                 {level.emoji} {level.label}
-                <span style={{ color: 'var(--text-muted)', marginLeft: '4px' }}>
+                <span style={{ color: 'var(--kv-text-muted)', marginLeft: '4px' }}>
                   ({level.min}-{level.max})
                 </span>
               </span>
@@ -303,7 +295,7 @@ export default function MasteryPage() {
       </div>
 
       <div className="card" style={{ padding: '20px', marginBottom: '20px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '14px' }}>📅 Study Activity (last 16 weeks)</h3>
+        <h3 className="kv-heading-section" style={{ marginBottom: '14px' }}>📅 Study Activity (last 16 weeks)</h3>
         <ActivityHeatmap heatmap={data.heatmap} />
       </div>
 
@@ -376,8 +368,8 @@ export default function MasteryPage() {
                   <h3
                     style={{
                       fontSize: '15px',
-                      fontWeight: 700,
-                      color: 'var(--text-primary)',
+                      fontWeight: 'var(--kv-mastery-subject-weight)',
+                      color: 'var(--kv-mastery-subject-color)',
                       textTransform: 'capitalize',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
@@ -392,7 +384,7 @@ export default function MasteryPage() {
                 <div style={{ marginBottom: '8px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: '4px' }}>
                     <span style={{ color: subject.color, fontWeight: 700 }}>{subject.label}</span>
-                    <span style={{ color: 'var(--text-muted)' }}>{subject.mastery}/100</span>
+                    <span style={{ color: 'var(--kv-mastery-status-color)', fontSize: 'var(--kv-mastery-status-size)' }}>{subject.mastery}/100</span>
                   </div>
 
                   <div style={{ height: '6px', background: 'var(--border-default)', borderRadius: '3px' }}>
@@ -438,7 +430,7 @@ export default function MasteryPage() {
                     style={{
                       marginTop: '8px',
                       fontSize: '11px',
-                      color: 'var(--text-muted)',
+                      color: 'var(--kv-text-muted)',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
@@ -463,7 +455,7 @@ export default function MasteryPage() {
             border: '1px solid rgba(91,127,255,0.2)',
           }}
         >
-          <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--accent-blue)', marginBottom: '12px' }}>📈 Focus here next</h3>
+          <h3 className="kv-heading-section" style={{ marginBottom: '12px' }}>📈 Focus here next</h3>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             {subjects
               .filter((subject) => subject.mastery < 60)
@@ -483,7 +475,7 @@ export default function MasteryPage() {
                 >
                   <span style={{ fontSize: '16px' }}>{getMasteryEmoji(subject.mastery)}</span>
                   <div>
-                    <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'capitalize' }}>{subject.subject}</div>
+                    <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--kv-mastery-subject-color)', textTransform: 'capitalize' }}>{subject.subject}</div>
                     <div style={{ fontSize: '11px', color: subject.color }}>
                       {subject.mastery}/100 - {subject.label}
                     </div>
