@@ -1,6 +1,9 @@
 import { defineConfig } from '@playwright/test'
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:3000'
+const webServerCommand = process.platform === 'win32'
+  ? 'cmd /c npm.cmd run dev'
+  : 'npm run dev'
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -21,7 +24,7 @@ export default defineConfig({
     video: 'retain-on-failure',
   },
   webServer: {
-    command: 'cmd /c npm run dev',
+    command: webServerCommand,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
