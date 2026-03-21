@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { auth } from "~/server/auth";
+import { getAuthSession } from "~/server/auth/session";
 import { db } from "~/server/db";
 import { Button } from "~/app/_components/button";
 
 export default async function ProfilePage() {
-  const session = await auth();
+  const session = await getAuthSession();
 
   if (!session?.user?.id) {
     redirect("/login");

@@ -1,4 +1,4 @@
-import { getSession } from "next-auth";
+import { getSession } from "next-auth/react";
 import { authConfig } from "~/server/auth/config";
 
 export async function getAuthSession(ctx?: any) {

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getExamResults } from "@/app/actions/examResults";
 import { ExamResultCard } from "@/components/ExamResultCard";
-import { auth } from "~/server/auth";
+import { getAuthSession } from "~/server/auth/session";
 import { ExportResultsButton } from "./export-results-button";
 
 type ResultsPageProps = {
@@ -30,7 +30,7 @@ function average(values: number[]) {
 }
 
 export default async function ResultsPage({ searchParams }: ResultsPageProps) {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) {
     redirect("/login");
   }

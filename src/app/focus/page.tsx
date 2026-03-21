@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { FocusStartButton } from "~/app/_components/focus-start-button";
-import { auth } from "~/server/auth";
+import { getAuthSession } from "~/server/auth/session";
 import { db } from "~/server/db";
 
 function startOfDay(date: Date) {
@@ -52,7 +52,7 @@ function computeStreak(completedDates: Date[]) {
 }
 
 export default async function FocusPage() {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) {
     redirect("/login");
   }
