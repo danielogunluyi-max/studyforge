@@ -1,6 +1,7 @@
+
 # Kyvex
 
-AI-powered study platform for students. Built with Next.js 14,
+AI-powered study platform for students. Built with Next.js 15,
 TypeScript, Prisma, PostgreSQL, and GROQ API.
 
 ## Features
