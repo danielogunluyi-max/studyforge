@@ -1,12 +1,13 @@
+
 import Groq from 'groq-sdk';
 import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
 import { getAuthSession } from '~/server/auth/session';
 
-const prisma = db as any;
-
+const prisma = db;
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+export async function POST(req: Request) {
   const session = await getAuthSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
