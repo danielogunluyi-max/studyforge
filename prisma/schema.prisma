@@ -63,6 +63,8 @@ model User {
     emailVerified DateTime?
     image         String?
     password      String?
+    resetToken       String?
+    resetTokenExpiry DateTime?
     learningStyle String?   @default("reading")
     autoAdapt     Boolean   @default(false)
     // Customization fields

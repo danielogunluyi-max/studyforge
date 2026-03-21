@@ -12,9 +12,12 @@ export default function LoginPage() {
   const [registered, setRegistered] = useState(false)
   const router = useRouter()
 
+  const [resetSuccess, setResetSuccess] = useState(false)
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     setRegistered(params.get('registered') === 'true')
+    setResetSuccess(params.get('reset') === 'success')
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -266,6 +269,22 @@ export default function LoginPage() {
               </Link>
             </p>
 
+            {resetSuccess && !error && (
+              <div
+                style={{
+                  padding: '12px 16px',
+                  borderRadius: '10px',
+                  background: 'rgba(45,212,191,0.08)',
+                  border: '1px solid rgba(45,212,191,0.2)',
+                  color: '#2dd4bf',
+                  fontSize: '13px',
+                  marginBottom: '20px',
+                }}
+              >
+                ✅ Password reset successful! You can now sign in.
+              </div>
+            )}
+
             {registered && !error && (
               <div
                 style={{
@@ -314,6 +333,8 @@ export default function LoginPage() {
                 <input
                   className="input-field"
                   type="email"
+                  name="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
@@ -331,7 +352,7 @@ export default function LoginPage() {
                 />
               </div>
 
-              <div style={{ marginBottom: '28px' }}>
+              <div style={{ marginBottom: '12px' }}>
                 <label
                   style={{
                     display: 'block',
@@ -346,6 +367,8 @@ export default function LoginPage() {
                 <input
                   className="input-field"
                   type="password"
+                  name="password"
+                  autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
@@ -361,6 +384,15 @@ export default function LoginPage() {
                     boxSizing: 'border-box',
                   }}
                 />
+              </div>
+
+              <div style={{ textAlign: 'right', marginBottom: '24px' }}>
+                <Link
+                  href="/forgot-password"
+                  style={{ color: '#f0b429', fontSize: '13px', textDecoration: 'none', fontWeight: 500 }}
+                >
+                  Forgot password?
+                </Link>
               </div>
 
               <button
