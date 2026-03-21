@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import { getAuthSession } from "~/server/auth/session";
+import { getServerSession } from "next-auth";
+import { authOptions } from "~/server/auth";
 import { prisma } from "@/lib/prisma";
 import { DeckLibraryClient } from "./deck-library-client";
 
@@ -24,7 +25,7 @@ export default async function FlashcardsPage({
 }: {
   searchParams?: Promise<{ generateFrom?: string }>;
 }) {
-  const session = await getAuthSession();
+  const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     redirect("/login");
   }
