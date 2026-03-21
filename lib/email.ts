@@ -12,7 +12,7 @@ export async function sendPasswordResetEmail(
     await resend.emails.send({
       from: 'Kyvex <onboarding@resend.dev>', // Resend test domain
       to: email,
-      subject: 'Reset Your Kyvex Password',
+      subject: 'Reset Your Kyvex Password (Test Update)',
       html: `
         <!DOCTYPE html>
         <html>
