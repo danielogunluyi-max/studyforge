@@ -9,6 +9,8 @@ function generateCode(): string {
   return Math.random().toString(36).substring(2, 8).toUpperCase()
 }
 
+
+export async function POST(req: Request) {
   const session = await getAuthSession()
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -51,10 +53,12 @@ Respond ONLY as JSON array:
   return NextResponse.json({ battle })
 }
 
+
+export async function GET(req: Request) {
   const session = await getAuthSession()
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { searchParams } = new URL(req.url)
-  const code = searchParams.get('code')
+  const code = searchParams.get('code') || undefined
 
   if (code) {
     const battle = await prisma.battleRoyale.findUnique({

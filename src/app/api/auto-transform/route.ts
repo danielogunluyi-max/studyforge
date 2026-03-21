@@ -24,6 +24,8 @@ function tryParseJson(raw: string): TransformResult | null {
   }
 }
 
+
+export async function POST(req: Request) {
   const session = await getAuthSession();
   const uid = session?.user?.id;
   if (!uid) {
@@ -118,7 +120,7 @@ function tryParseJson(raw: string): TransformResult | null {
 }
 
 export async function GET(req: Request) {
-  const session = await auth();
+  const session = await getAuthSession();
   const uid = session?.user?.id;
   if (!uid) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
