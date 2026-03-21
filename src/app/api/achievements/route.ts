@@ -1,4 +1,4 @@
-import { auth } from "~/server/auth";
+import { getAuthSession } from "~/server/auth/session";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -30,40 +30,46 @@ const ACHIEVEMENTS = [
   { key: "early_bird", title: "Early Bird", description: "Studied before 7am", emoji: "🐦" },
 ] as const;
 
+
 export async function GET() {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const unlocked = await prisma.achievement.findMany({
-    where: { userId: session.user.id },
-    orderBy: { unlockedAt: "desc" },
+  // Fetch user to get unlocked achievements
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { battleAchievements: true },
   });
-
-  const unlockedKeys = new Set(unlocked.map((a) => a.key));
-
+  const unlockedKeys = new Set(user?.battleAchievements ?? []);
   const all = ACHIEVEMENTS.map((a) => ({
     ...a,
     unlocked: unlockedKeys.has(a.key),
-    unlockedAt: unlocked.find((u) => u.key === a.key)?.unlockedAt || null,
+    unlockedAt: null, // No timestamp support in this model
   }));
 
-  return NextResponse.json({ achievements: all, unlockedCount: unlocked.length, total: ACHIEVEMENTS.length });
+  return NextResponse.json({ achievements: all, unlockedCount: unlockedKeys.size, total: ACHIEVEMENTS.length });
 }
 
 export async function POST(req: Request) {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { key } = (await req.json()) as { key?: string };
   const achievement = ACHIEVEMENTS.find((a) => a.key === key);
   if (!achievement) return NextResponse.json({ error: "Unknown achievement" }, { status: 400 });
 
-  try {
-    const earned = await prisma.achievement.create({
-      data: { userId: session.user.id, ...achievement },
-    });
-    return NextResponse.json({ achievement: earned, isNew: true });
-  } catch {
+  // Add achievement to user's unlocked list if not already present
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { battleAchievements: true },
+  });
+  if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
+  if (user.battleAchievements?.includes(key!)) {
     return NextResponse.json({ isNew: false });
   }
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: { battleAchievements: { push: key } },
+  });
+  return NextResponse.json({ achievement, isNew: true });
 }
