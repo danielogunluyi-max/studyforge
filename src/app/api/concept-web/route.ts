@@ -1,6 +1,7 @@
+
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
-import { auth } from "~/server/auth";
+import { getAuthSession } from "~/server/auth/session";
 import { db } from "~/server/db";
 
 type ConceptNode = {
@@ -51,7 +52,7 @@ function normalizeWeb(input: unknown): ConceptWebPayload | null {
 
 export async function GET(request: Request) {
   try {
-    const session = await auth();
+    const session = await getAuthSession();
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -64,7 +65,6 @@ export async function GET(request: Request) {
         where: { id, userId: session.user.id },
         select: { id: true, title: true, topic: true, shareToken: true, webData: true, updatedAt: true },
       });
-
       if (!web) return NextResponse.json({ error: "Concept web not found" }, { status: 404 });
       return NextResponse.json({ web });
     }
@@ -75,7 +75,6 @@ export async function GET(request: Request) {
       take: 50,
       select: { id: true, title: true, topic: true, shareToken: true, updatedAt: true },
     });
-
     return NextResponse.json({ webs });
   } catch (error) {
     console.error("Concept web get error:", error);
@@ -85,7 +84,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const session = await auth();
+    const session = await getAuthSession();
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -103,9 +102,7 @@ export async function POST(request: Request) {
 
     const topic = (body.topic ?? web.central ?? "").trim();
     const title = ((body.title ?? topic) || "Concept Web").trim();
-
     if (!topic) return NextResponse.json({ error: "Topic is required" }, { status: 400 });
-
     const isShared = typeof body.isShared === "boolean" ? body.isShared : true;
     const id = (body.id ?? "").trim();
 
@@ -119,21 +116,17 @@ export async function POST(request: Request) {
           isShared,
         },
       });
-
       if (updated.count === 0) {
         return NextResponse.json({ error: "Concept web not found" }, { status: 404 });
       }
-
       const saved = await db.conceptWeb.findFirst({
         where: { id, userId: session.user.id },
         select: { id: true, title: true, topic: true, shareToken: true, isShared: true, updatedAt: true },
       });
-
       return NextResponse.json({ web: saved });
     }
 
     const shareToken = randomUUID();
-
     const created = await db.conceptWeb.create({
       data: {
         userId: session.user.id,
@@ -145,7 +138,6 @@ export async function POST(request: Request) {
       },
       select: { id: true, title: true, topic: true, shareToken: true, isShared: true, updatedAt: true },
     });
-
     return NextResponse.json({ web: created });
   } catch (error) {
     console.error("Concept web save error:", error);

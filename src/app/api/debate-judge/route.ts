@@ -1,7 +1,7 @@
 import Groq from 'groq-sdk';
 import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
-import { auth } from '~/server/auth';
+import { getAuthSession } from '~/server/auth/session';
 
 const prisma = db as any;
 
@@ -11,8 +11,7 @@ function generateCode(): string {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
-export async function POST(req: Request) {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

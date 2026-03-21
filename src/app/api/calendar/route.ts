@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { auth } from "~/server/auth";
+import { getAuthSession } from "~/server/auth/session";
 import { db } from "~/server/db";
 
 type CalendarEventDTO = {
@@ -44,7 +44,7 @@ function toMonthRange(year: number, month: number) {
 }
 
 export async function GET(request: Request) {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -150,7 +150,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
