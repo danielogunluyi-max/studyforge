@@ -24,6 +24,8 @@ function sanitizeCitation(input: CitationInput) {
   };
 }
 
+
+export async function GET(request: Request) {
   try {
     const session = await getAuthSession();
     if (!session?.user?.id) {
@@ -42,6 +44,8 @@ function sanitizeCitation(input: CitationInput) {
   }
 }
 
+
+export async function POST(request: Request) {
   try {
     const session = await getAuthSession();
     if (!session?.user?.id) {
