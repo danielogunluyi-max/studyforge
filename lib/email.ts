@@ -9,7 +9,8 @@ export async function sendPasswordResetEmail(
   const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${resetToken}`;
 
   try {
-    await resend.emails.send({
+    console.log('=== About to send password reset email via Resend ===', { email, resetUrl });
+    const { data, error } = await resend.emails.send({
       from: 'Kyvex <onboarding@resend.dev>', // Resend test domain
       to: email,
       subject: 'Reset Your Kyvex Password (Test Update)',
@@ -69,10 +70,17 @@ export async function sendPasswordResetEmail(
         </html>
       `,
     });
-
-    console.log('✅ Password reset email sent successfully to:', email);
+    console.log('=== Resend API response ===', { data, error });
+    if (error) {
+      console.error('❌ Resend API error:', error);
+      throw new Error(`Failed to send email: ${error.message}`);
+    }
+    console.log('✅ Password reset email sent successfully');
+    console.log('   To:', email);
+    console.log('   Email ID:', data?.id);
+    console.log('   Reset URL:', resetUrl);
   } catch (error) {
     console.error('❌ Failed to send password reset email:', error);
-    throw new Error('Failed to send password reset email');
+    throw new Error('Failed to send password reset email. Please try again later.');
   }
 }
