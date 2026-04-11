@@ -5,10 +5,10 @@ import Link from 'next/link'
 import { NAV_SECTIONS } from '~/lib/nav-config'
 
 const BOTTOM_TABS = [
-  { key: 'home', label: 'Home', icon: '🏠', href: '/dashboard' },
-  { key: 'study', label: 'Study', icon: '📚', href: '/my-notes' },
-  { key: 'test', label: 'Test', icon: '📋', href: '/mock-exam' },
-  { key: 'track', label: 'Track', icon: '📊', href: '/mastery' },
+  { key: 'home', label: 'Dashboard', icon: '🏠', href: '/dashboard' },
+  { key: 'nova', label: 'Nova', icon: '🤖', href: '/tutor' },
+  { key: 'notes', label: 'Notes', icon: '📝', href: '/my-notes' },
+  { key: 'cards', label: 'Cards', icon: '🃏', href: '/flashcards' },
   { key: 'more', label: 'More', icon: '⋯', href: null as string | null },
 ]
 

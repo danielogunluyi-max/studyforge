@@ -117,7 +117,14 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   '/plagiarism': 'plagiarism',
 }
 
-const ALWAYS_VISIBLE_FEATURE_KEYS = new Set<string>(['dashboard', 'results'])
+const ALWAYS_VISIBLE_FEATURE_KEYS = new Set<string>([
+  'dashboard',
+  'tutor',
+  'my-notes',
+  'flashcards',
+  'curriculum',
+  'capture',
+])
 
 function withFeatureKeys(items: NavItem[]): FilterableNavItem[] {
   return items.map((item) => {
@@ -721,21 +728,31 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     return items.filter((item) => item.alwaysVisible || enabledFeatureKeys.has(item.key))
   }
 
-  const filteredMainItems = filterNavItems(mainItemsWithKeys)
-  const filteredStudyToolItems = filterNavItems(studyToolItemsWithKeys)
-  const filteredTrainItems = filterNavItems(trainItemsWithKeys)
-  const filteredCreateItems = filterNavItems(createItemsWithKeys)
-  const filteredFlashcardItems = filterNavItems(flashcardItemsWithKeys)
-  const filteredAiToolItems = filterNavItems(aiToolItemsWithKeys)
-  const filteredResearchItems = filterNavItems(researchItemsWithKeys)
-  const filteredDiscoverItems = filterNavItems(discoverItemsWithKeys)
-  const filteredChallengeItems = filterNavItems(challengeItemsWithKeys)
-  const filteredAnalyticsItems = filterNavItems(analyticsItemsWithKeys)
-  const filteredIntelligenceItems = filterNavItems(intelligenceItemsWithKeys)
-  const filteredNotesItems = filterNavItems(notesItemsWithKeys)
-  const filteredSocialItems = filterNavItems(socialItemsWithKeys)
-  const filteredPersonalItems = filterNavItems(personalItemsWithKeys)
-  const filteredToolsItems = filterNavItems(toolsItemsWithKeys)
+  const filteredMainItems = filterNavItems(mainItemsWithKeys).filter((item) =>
+    ['/dashboard', '/curriculum'].includes(item.href),
+  )
+  const filteredStudyToolItems = filterNavItems(studyToolItemsWithKeys).filter((item) =>
+    ['/my-notes'].includes(item.href),
+  )
+  const filteredTrainItems: FilterableNavItem[] = []
+  const filteredCreateItems: FilterableNavItem[] = []
+  const filteredFlashcardItems = filterNavItems(flashcardItemsWithKeys).filter((item) =>
+    ['/flashcards'].includes(item.href),
+  )
+  const filteredAiToolItems = filterNavItems(aiToolItemsWithKeys).filter((item) =>
+    ['/tutor'].includes(item.href),
+  )
+  const filteredResearchItems = filterNavItems(researchItemsWithKeys).filter((item) =>
+    ['/capture'].includes(item.href),
+  )
+  const filteredDiscoverItems: FilterableNavItem[] = []
+  const filteredChallengeItems: FilterableNavItem[] = []
+  const filteredAnalyticsItems: FilterableNavItem[] = []
+  const filteredIntelligenceItems: FilterableNavItem[] = []
+  const filteredNotesItems: FilterableNavItem[] = []
+  const filteredSocialItems: FilterableNavItem[] = []
+  const filteredPersonalItems: FilterableNavItem[] = []
+  const filteredToolsItems: FilterableNavItem[] = []
 
   const handleSignOut = async () => {
     try {
@@ -800,7 +817,10 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
     window.addEventListener('pointerup', stop)
   }
 
-  const renderNavGroup = (label: string, items: NavItem[]) => (
+  const renderNavGroup = (label: string, items: NavItem[]) => {
+    if (!items.length) return null
+
+    return (
     <div style={{ position: 'relative' }}>
       {!effectiveCollapsed && (
         <p style={{
@@ -892,7 +912,8 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
         })}
       </div>
     </div>
-  )
+    )
+  }
 
   return (
     <>

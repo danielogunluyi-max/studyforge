@@ -17,30 +17,24 @@ export function AppNav() {
 
   const primaryLinks = [
     { href: "/dashboard", label: "Dashboard" },
-    { href: "/generator", label: "Generator" },
-    { href: "/upload", label: "Upload File" },
+    { href: "/tutor", label: "Nova AI Tutor" },
     { href: "/my-notes", label: "My Notes" },
-    { href: "/citations", label: "Citations" },
+    { href: "/flashcards", label: "Flashcards" },
+    { href: "/curriculum", label: "Curriculum" },
+    { href: "/capture", label: "Capture" },
   ];
 
   const featureLinks = [
-    { href: "/dashboard", label: "Exam Dashboard", description: "Track countdowns, pressure, and daily plans", icon: "spark", section: "Study Tools" },
-    { href: "/generator", label: "Generator", description: "Turn notes into study formats", icon: "doc", section: "Study Tools" },
-    { href: "/scan", label: "Scan Notes", description: "Scan handwritten notes with AI", icon: "camera", section: "Study Tools" },
-    { href: "/upload", label: "Upload File", description: "Extract text from PDFs and images", icon: "upload", section: "Study Tools" },
-    { href: "/my-notes", label: "My Notes", description: "Manage your saved study library", icon: "stack", section: "Study Tools" },
-    { href: "/citations", label: "Citations", description: "Generate academic citations quickly", icon: "book", section: "Study Tools" },
-    { href: "/exam-predictor", label: "AI Exam Predictor", description: "Predict likely exam questions", icon: "spark", section: "Unique Features" },
-    { href: "/battle", label: "Study Battle Arena", description: "Compete with friends in quiz duels", icon: "shield", section: "Unique Features" },
-    { href: "/learning-style-quiz", label: "Learning Style Quiz", description: "Discover and optimize your style", icon: "puzzle", section: "Unique Features" },
-    { href: "/study-groups", label: "AI Study Groups", description: "Collaborate with AI moderation", icon: "group", section: "Unique Features" },
-    { href: "/concept-web", label: "Concept Web Builder", description: "Visualize concept relationships", icon: "nodes", section: "Unique Features" },
-    { href: "/tutor", label: "Nova AI Tutor", description: "Chat with your AI study coach", icon: "star", section: "Unique Features" },
+    { href: "/dashboard", label: "Dashboard", description: "Main home page with your study stats", icon: "spark", section: "Core Features" },
+    { href: "/tutor", label: "Nova AI Tutor", description: "Chat with your Ontario curriculum AI tutor", icon: "spark", section: "Core Features" },
+    { href: "/my-notes", label: "My Notes", description: "Create, edit, and organize notes", icon: "stack", section: "Core Features" },
+    { href: "/flashcards", label: "Flashcards", description: "Study your decks with spaced repetition", icon: "doc", section: "Core Features" },
+    { href: "/curriculum", label: "Ontario Curriculum", description: "Browse Ontario high school courses", icon: "book", section: "Core Features" },
+    { href: "/capture", label: "Capture", description: "Save quick screenshots and study snippets", icon: "camera", section: "Core Features" },
   ];
 
   const groupedFeatureLinks = {
-    "Study Tools": featureLinks.filter((item) => item.section === "Study Tools"),
-    "Unique Features": featureLinks.filter((item) => item.section === "Unique Features"),
+    "Core Features": featureLinks,
   };
 
   const featureIcon = (icon: string) => {
