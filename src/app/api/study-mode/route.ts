@@ -48,10 +48,9 @@ const PHASE_FEATURES: Record<PhaseDef["phase"], Array<{ label: string; href: str
     { label: "Mock Exam", href: "/mock-exam", icon: "📋" },
     { label: "Battle Arena", href: "/battle", icon: "⚔️" },
   ],
-  reflect: [
-    { label: "Wellness Check", href: "/wellness", icon: "💚" },
-    { label: "Focus Score", href: "/focus-score", icon: "🎯" },
-  ],
+    reflect: [
+      { label: "Wellness Check", href: "/wellness", icon: "💚" },
+    ],
 };
 
 function normalizeMinutes(totalMinutes: number): 30 | 60 | 90 | 120 {
@@ -125,7 +124,9 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "Invalid phaseIndex" }, { status: 400 });
     }
 
-    phases[phaseIndex] = { ...phases[phaseIndex], completed: true };
+    if (phases[phaseIndex]) {
+      phases[phaseIndex] = { ...phases[phaseIndex], completed: true };
+    }
     const nextPhase = phaseIndex + 1;
     const allDone = nextPhase >= phases.length;
 

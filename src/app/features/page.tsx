@@ -89,11 +89,6 @@ const ALL_FEATURES: Feature[] = [
   { key: 'crossover', label: 'Crossover Challenge', icon: '\u{1F500}', category: 'Challenges' },
   { key: 'debate-judge', label: 'Debate Judge', icon: '\u{1F9D1}\u200D\u2696\uFE0F', category: 'Challenges' },
 
-  { key: 'study-dna', label: 'Study DNA', icon: '\u{1F9EC}', category: 'Analytics' },
-  { key: 'autopsy', label: 'Exam Autopsy', icon: '\u{1F52C}', category: 'Analytics' },
-  { key: 'decay-alerts', label: 'Decay Alerts', icon: '\u{1F514}', category: 'Analytics' },
-  { key: 'concept-collision', label: 'Concept Collision', icon: '\u{1F4A5}', category: 'Analytics' },
-  { key: 'grade-calc', label: 'Grade Calc', icon: '\u{1F4C9}', category: 'Analytics' },
 
   { key: 'kyvex-iq', label: 'Kyvex IQ', icon: '\u{1F9EC}', category: 'Intelligence' },
   { key: 'memory-sim', label: 'Memory Sim', icon: '\u{1F9E0}', category: 'Intelligence' },

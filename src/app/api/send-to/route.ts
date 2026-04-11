@@ -18,13 +18,11 @@ const SEND_TO_MAP: Record<string, Array<{ label: string; href: string; icon: str
     { label: "Boss Battle", href: "/games", icon: "🎮", param: "fromDeck" },
     { label: "Battle Arena", href: "/battle", icon: "⚔️", param: "fromDeck" },
     { label: "Battle Royale", href: "/battle-royale", icon: "👑", param: "fromDeck" },
-    { label: "Memory Simulation", href: "/memory-sim", icon: "🧠", param: "fromDeck" },
     { label: "Build Mock Exam", href: "/mock-exam", icon: "📋", param: "fromDeck" },
     { label: "Share to Library", href: "/library", icon: "📚", param: "fromDeck" },
     { label: "Export to Anki", href: "/api/anki-export", icon: "📤", param: "deckId" },
   ],
   exam: [
-    { label: "Exam Autopsy", href: "/autopsy", icon: "🔬", param: "fromExam" },
     { label: "Predict Next Score", href: "/predictor", icon: "📊", param: "fromExam" },
     { label: "Make Flashcards from Weak Areas", href: "/generator", icon: "🃏", param: "fromExam" },
   ],

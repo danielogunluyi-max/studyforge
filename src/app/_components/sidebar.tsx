@@ -79,11 +79,7 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   '/battle-royale': 'battle-royale',
   '/study-groups': 'study-groups',
   '/rooms': 'rooms',
-  '/study-dna': 'study-dna',
-  '/autopsy': 'autopsy',
-  '/decay-alerts': 'decay-alerts',
-  '/concept-collision': 'concept-collision',
-  '/grade-calc': 'grade-calc',
+  // Batch 2 features removed
   '/reading-speed': 'reading-speed',
   '/micro-lessons': 'micro-lessons',
   '/lecture': 'lecture',
@@ -91,11 +87,7 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   '/adaptive-notes': 'adaptive-notes',
   '/crossover': 'crossover',
   '/debate-judge': 'debate-judge',
-  '/kyvex-iq': 'kyvex-iq',
-  '/memory-sim': 'memory-sim',
-  '/career-path': 'career-path',
-  '/contract': 'contract',
-  '/focus-score': 'focus-score',
+  // Batch 2 features removed
   '/note-evolution': 'note-evolution',
   '/community': 'community',
   '/match': 'match',
@@ -494,33 +486,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   ]
 
   // ANALYTICS
-  const analyticsItems: NavItem[] = [
-    {
-      href: '/study-dna',
-      label: 'Study DNA',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 3c0 3 3 3 3 6s-3 3-3 6M15 3c0 3-3 3-3 6s3 3 3 6M6 8h12M6 16h12" /></svg>,
-    },
-    {
-      href: '/autopsy',
-      label: 'Exam Autopsy',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
-    },
-    {
-      href: '/decay-alerts',
-      label: 'Decay Alerts',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
-    },
-    {
-      href: '/concept-collision',
-      label: 'Concept Collision',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>,
-    },
-    {
-      href: '/grade-calc',
-      label: 'Grade Calc',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm2.25-4.5h.008v.008H10.5v-.008zm0 2.25h.008v.008H10.5V13.5zm0 2.25h.008v.008H10.5v-.008zm2.25-4.5h.008v.008H12.75v-.008zm0 2.25h.008v.008H12.75V13.5zm0 2.25h.008v.008H12.75v-.008zm2.25-4.5h.008v.008H15v-.008zm0 2.25h.008v.008H15V13.5zm6-3V18a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18V8.25a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 8.25zm-6-3H9V4.5a.75.75 0 01.75-.75h4.5a.75.75 0 01.75.75V5.25z" /></svg>,
-    },
-  ]
+  // analyticsItems removed (Batch 2 features)
 
   // TRAIN
   const trainItems: NavItem[] = [
@@ -566,33 +532,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   ]
 
   // INTELLIGENCE
-  const intelligenceItems: NavItem[] = [
-    {
-      href: '/kyvex-iq',
-      label: '🧬 Kyvex IQ',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3.75v16.5M8.25 7.5c0 2.07 1.68 3.75 3.75 3.75s3.75 1.68 3.75 3.75" /></svg>,
-    },
-    {
-      href: '/memory-sim',
-      label: '🧠 Memory Sim',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 4.5a3 3 0 016 0v.4a2.75 2.75 0 012.25 2.7v.9a2.5 2.5 0 011.5 2.3 2.5 2.5 0 01-1.5 2.3v.9a2.75 2.75 0 01-2.25 2.7v.4a3 3 0 01-6 0v-.4A2.75 2.75 0 016.75 14v-.9a2.5 2.5 0 01-1.5-2.3 2.5 2.5 0 011.5-2.3v-.9A2.75 2.75 0 019 4.9v-.4Z" /></svg>,
-    },
-    {
-      href: '/career-path',
-      label: '🗺️ Career Path',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75 9 4.5l6 2.25 5.25-2.25v12.75L15 19.5 9 17.25l-5.25 2.25V6.75z" /></svg>,
-    },
-    {
-      href: '/contract',
-      label: '📜 Study Contract',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 3.75h9l3 3v13.5a1.5 1.5 0 01-1.5 1.5H6a1.5 1.5 0 01-1.5-1.5V5.25A1.5 1.5 0 016 3.75z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 10.5h6M9 14.25h6" /></svg>,
-    },
-    {
-      href: '/focus-score',
-      label: '🎯 Focus Score',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="8.25" /><circle cx="12" cy="12" r="4.25" /><circle cx="12" cy="12" r="1.25" /></svg>,
-    },
-  ]
+  // intelligenceItems removed (Batch 2 features)
 
   // NOTES
   const notesItems: NavItem[] = [

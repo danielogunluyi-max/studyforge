@@ -16,12 +16,9 @@ export default function LandingPage() {
     { icon: '✨', label: 'AI Note Generator' },
     { icon: '🃏', label: 'Spaced Repetition' },
     { icon: '🍁', label: 'Ontario Curriculum' },
-    { icon: '🧬', label: 'Study DNA' },
     { icon: '👑', label: 'Battle Royale' },
     { icon: '🎮', label: 'Boss Battle' },
     { icon: '👻', label: 'Study Ghost' },
-    { icon: '🔬', label: 'Exam Autopsy' },
-    { icon: '🎯', label: 'Kyvex IQ' },
     { icon: '🎙', label: 'Notes → Podcast' },
     { icon: '🗺', label: 'Knowledge Map' },
     { icon: '📖', label: 'Micro-Lessons' },
@@ -468,11 +465,8 @@ export default function LandingPage() {
             gap: '16px',
           }}>
             {[
-              { icon: '🧬', title: 'Study DNA', desc: 'AI analyzes how YOUR brain learns best. Visual, auditory, read-write, kinesthetic — customized for you.', badge: 'Exclusive' },
               { icon: '👻', title: 'Study Ghost', desc: 'See a letter from your past self showing exactly how much you\'ve grown. The most emotional feature in EdTech.', badge: 'Exclusive' },
               { icon: '👑', title: 'Battle Royale', desc: '100 students. One quiz. Last one standing wins. Study battles have never been this intense.', badge: 'Exclusive' },
-              { icon: '🔬', title: 'Exam Autopsy', desc: 'Failed an exam? AI diagnoses exactly what went wrong, why, and gives you a 48-hour recovery plan.', badge: 'Exclusive' },
-              { icon: '🎯', title: 'Kyvex IQ', desc: 'A composite score across mastery, consistency, velocity, and depth. Updates daily. Watch yourself get smarter.', badge: 'Exclusive' },
               { icon: '🍁', title: 'Ontario Curriculum', desc: '136 Ontario courses, Gr.9-12, all subjects. Every expectation mapped. No other app has this.', badge: 'Canada Only' },
             ].map((f, i) => (
               <div
@@ -560,7 +554,6 @@ export default function LandingPage() {
               ['Real SM-2 Spaced Rep', true, false, false],
               ['Battle Royale Mode', true, false, false],
               ['Study DNA Profile', true, false, false],
-              ['Exam Autopsy', true, false, false],
               ['Kyvex IQ Score', true, false, false],
               ['AI Tutor', true, true, true],
               ['Flashcards', true, true, true],
@@ -714,7 +707,6 @@ export default function LandingPage() {
               { label: 'Privacy', href: '/privacy' },
               { label: 'Terms', href: '/terms' },
               { label: 'About', href: '/about' },
-              { label: 'Grade Calculator', href: '/grade-calc' },
             ].map(link => (
               <Link key={link.label} href={link.href} style={{
                 fontSize: '12px', color: '#3d4a6b',

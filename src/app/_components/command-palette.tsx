@@ -30,7 +30,6 @@ const ALL_ROUTES = [
   { label: 'AI Debate', href: '/debate', icon: '⚔️', category: 'Deep Learn', keywords: ['debate', 'argue', 'both sides'] },
   { label: 'Counterargument', href: '/counterargument', icon: '🗡', category: 'Deep Learn', keywords: ['counter', 'attack', 'argument', 'critique'] },
   { label: 'Concept Web', href: '/concept-web', icon: '🕸', category: 'Deep Learn', keywords: ['concept', 'web', 'map', 'connections'] },
-  { label: 'Concept Collision', href: '/concept-collision', icon: '💥', category: 'Deep Learn', keywords: ['collision', 'connect', 'subjects', 'cross'] },
   // TEST
   { label: 'Mock Exam', href: '/mock-exam', icon: '📋', category: 'Test', keywords: ['mock', 'exam', 'test', 'practice'] },
   { label: 'Battle Arena', href: '/battle', icon: '⚔️', category: 'Test', keywords: ['battle', 'arena', '1v1', 'pvp'] },
@@ -41,19 +40,11 @@ const ALL_ROUTES = [
   { label: 'Exam Predictor', href: '/predictor', icon: '📊', category: 'Test', keywords: ['predict', 'score', 'forecast', 'exam'] },
   // TRACK
   { label: 'Mastery Chart', href: '/mastery', icon: '🏆', category: 'Track', keywords: ['mastery', 'chart', 'progress', 'subjects'] },
-  { label: 'Kyvex IQ', href: '/kyvex-iq', icon: '🧬', category: 'Track', keywords: ['iq', 'score', 'intelligence', 'kyvex'] },
-  { label: 'Study DNA', href: '/study-dna', icon: '🧬', category: 'Track', keywords: ['dna', 'learning style', 'profile', 'how you learn'] },
-  { label: 'Exam Autopsy', href: '/autopsy', icon: '🔬', category: 'Track', keywords: ['autopsy', 'exam', 'failed', 'diagnose'] },
-  { label: 'Decay Alerts', href: '/decay-alerts', icon: '⏳', category: 'Track', keywords: ['decay', 'forget', 'overdue', 'review'] },
-  { label: 'Memory Simulation', href: '/memory-sim', icon: '🧠', category: 'Track', keywords: ['memory', 'simulation', 'retention', 'future'] },
   { label: 'Note Evolution', href: '/note-evolution', icon: '📈', category: 'Track', keywords: ['evolution', 'note', 'growth', 'history'] },
-  { label: 'Focus Score', href: '/focus-score', icon: '🎯', category: 'Track', keywords: ['focus', 'score', 'quality', 'session'] },
   // PLAN
   { label: 'Calendar', href: '/calendar', icon: '📆', category: 'Plan', keywords: ['calendar', 'events', 'deadlines', 'timetable'] },
   { label: 'Syllabus Scanner', href: '/syllabus', icon: '📄', category: 'Plan', keywords: ['syllabus', 'semester', 'scan', 'course'] },
-  { label: 'Study Contract', href: '/contract', icon: '📜', category: 'Plan', keywords: ['contract', 'commitment', 'accountability', 'habit'] },
   { label: 'Interleaving', href: '/interleave', icon: '🔀', category: 'Plan', keywords: ['interleave', 'mix', 'subjects', 'schedule'] },
-  { label: 'Grade Calculator', href: '/grade-calc', icon: '🎯', category: 'Plan', keywords: ['grade', 'final', 'calculate', 'need'] },
   // SOCIAL
   { label: 'Community', href: '/community', icon: '🌍', category: 'Social', keywords: ['community', 'post', 'students', 'social'] },
   { label: 'Study Rooms', href: '/rooms', icon: '🏠', category: 'Social', keywords: ['rooms', 'study', 'together', 'co-study'] },
@@ -64,7 +55,6 @@ const ALL_ROUTES = [
   { label: 'Achievements', href: '/achievements', icon: '🏆', category: 'Grow', keywords: ['achievements', 'badges', 'unlock', 'rewards'] },
   { label: 'Study Ghost', href: '/study-ghost', icon: '👻', category: 'Grow', keywords: ['ghost', 'past', 'growth', 'history'] },
   { label: 'Kyvex Wrapped', href: '/wrapped', icon: '🎬', category: 'Grow', keywords: ['wrapped', 'stats', 'semester', 'review'] },
-  { label: 'Career Path', href: '/career-path', icon: '🗺️', category: 'Grow', keywords: ['career', 'path', 'ontario', 'university'] },
   { label: 'Wellness Check', href: '/wellness', icon: '💚', category: 'Grow', keywords: ['wellness', 'mood', 'burnout', 'mental health'] },
   { label: 'Habits', href: '/habits', icon: '✅', category: 'Grow', keywords: ['habits', 'streak', 'daily', 'routine'] },
   // TOOLS
