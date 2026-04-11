@@ -500,7 +500,6 @@ export default function UploadPage() {
                     <option key={option} value={option}>{option}</option>
                   ))}
                 </select>
-                <Button href="/scan" variant="secondary" size="sm">Open Full Scanner</Button>
               </>
             )}
 

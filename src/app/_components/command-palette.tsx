@@ -11,15 +11,12 @@ const ALL_ROUTES = [
   // CREATE
   { label: 'Note Generator', href: '/generator', icon: '✨', category: 'Create', keywords: ['ai', 'generate', 'create', 'notes'] },
   { label: 'Smart Upload', href: '/smart-upload', icon: '⚡', category: 'Create', keywords: ['upload', 'file', 'pdf', 'everything'] },
-  { label: 'Audio to Notes', href: '/audio', icon: '🎙', category: 'Create', keywords: ['audio', 'voice', 'record', 'transcribe'] },
   { label: 'YouTube Import', href: '/youtube-import', icon: '🎬', category: 'Create', keywords: ['youtube', 'video', 'import'] },
   { label: 'Handwriting Scan', href: '/handwriting', icon: '✍️', category: 'Create', keywords: ['handwriting', 'scan', 'photo'] },
   { label: 'Live Lecture Mode', href: '/lecture', icon: '🎤', category: 'Create', keywords: ['lecture', 'live', 'class', 'record'] },
-  { label: 'Classroom Import', href: '/classroom-import', icon: '🎓', category: 'Create', keywords: ['classroom', 'canvas', 'google', 'import'] },
   // STUDY
   { label: 'My Notes', href: '/my-notes', icon: '📝', category: 'Study', keywords: ['notes', 'library', 'folders'] },
   { label: 'Flashcards', href: '/flashcards', icon: '🃏', category: 'Study', keywords: ['cards', 'flash', 'review', 'spaced'] },
-  { label: 'Feynman Technique', href: '/feynman', icon: '🔬', category: 'Study', keywords: ['feynman', 'explain', 'teach', 'understand'] },
   { label: 'Micro-Lessons', href: '/micro-lessons', icon: '📖', category: 'Study', keywords: ['micro', 'lesson', 'bite', 'quick'] },
   { label: 'Adaptive Notes', href: '/adaptive-notes', icon: '🎯', category: 'Study', keywords: ['adaptive', 'difficulty', 'levels'] },
   { label: 'Cornell Notes', href: '/cornell', icon: '📋', category: 'Study', keywords: ['cornell', 'format', 'notes'] },
@@ -42,7 +39,6 @@ const ALL_ROUTES = [
   { label: 'Debate Judge', href: '/debate-judge', icon: '🧑‍⚖️', category: 'Test', keywords: ['judge', 'debate', '1v1', 'argument'] },
   { label: 'Crossover Challenge', href: '/crossover', icon: '🔀', category: 'Test', keywords: ['crossover', 'challenge', 'daily', 'two subjects'] },
   { label: 'Exam Predictor', href: '/predictor', icon: '📊', category: 'Test', keywords: ['predict', 'score', 'forecast', 'exam'] },
-  { label: 'Photo Quiz', href: '/photo-quiz', icon: '📸', category: 'Test', keywords: ['photo', 'image', 'quiz', 'picture'] },
   // TRACK
   { label: 'Mastery Chart', href: '/mastery', icon: '🏆', category: 'Track', keywords: ['mastery', 'chart', 'progress', 'subjects'] },
   { label: 'Kyvex IQ', href: '/kyvex-iq', icon: '🧬', category: 'Track', keywords: ['iq', 'score', 'intelligence', 'kyvex'] },
@@ -53,7 +49,6 @@ const ALL_ROUTES = [
   { label: 'Note Evolution', href: '/note-evolution', icon: '📈', category: 'Track', keywords: ['evolution', 'note', 'growth', 'history'] },
   { label: 'Focus Score', href: '/focus-score', icon: '🎯', category: 'Track', keywords: ['focus', 'score', 'quality', 'session'] },
   // PLAN
-  { label: 'AI Planner', href: '/planner', icon: '📅', category: 'Plan', keywords: ['planner', 'weekly', 'schedule', 'plan'] },
   { label: 'Calendar', href: '/calendar', icon: '📆', category: 'Plan', keywords: ['calendar', 'events', 'deadlines', 'timetable'] },
   { label: 'Syllabus Scanner', href: '/syllabus', icon: '📄', category: 'Plan', keywords: ['syllabus', 'semester', 'scan', 'course'] },
   { label: 'Study Contract', href: '/contract', icon: '📜', category: 'Plan', keywords: ['contract', 'commitment', 'accountability', 'habit'] },
@@ -73,16 +68,12 @@ const ALL_ROUTES = [
   { label: 'Wellness Check', href: '/wellness', icon: '💚', category: 'Grow', keywords: ['wellness', 'mood', 'burnout', 'mental health'] },
   { label: 'Habits', href: '/habits', icon: '✅', category: 'Grow', keywords: ['habits', 'streak', 'daily', 'routine'] },
   // TOOLS
-  { label: 'Diagram Generator', href: '/diagrams', icon: '🗺', category: 'Tools', keywords: ['diagram', 'visual', 'flowchart', 'mindmap'] },
-  { label: 'Presentations', href: '/presentation', icon: '📊', category: 'Tools', keywords: ['presentation', 'slides', 'pptx', 'powerpoint'] },
   { label: 'Citations', href: '/citations', icon: '📚', category: 'Tools', keywords: ['citation', 'apa', 'mla', 'chicago', 'reference'] },
-  { label: 'Notes to Podcast', href: '/podcast', icon: '🎙', category: 'Tools', keywords: ['podcast', 'audio', 'listen', 'notes'] },
   { label: 'Essay Grader', href: '/essay-grade', icon: '📝', category: 'Tools', keywords: ['essay', 'grade', 'ontario', 'rubric'] },
   { label: 'Grammar Check', href: '/grammar', icon: '✍️', category: 'Tools', keywords: ['grammar', 'spelling', 'style', 'writing'] },
   { label: 'Originality Check', href: '/plagiarism', icon: '🔍', category: 'Tools', keywords: ['originality', 'plagiarism', 'check', 'ai detection'] },
   { label: 'Quizlet Import', href: '/quizlet-import', icon: '📥', category: 'Tools', keywords: ['quizlet', 'import', 'transfer', 'cards'] },
   { label: 'Ontario Curriculum', href: '/curriculum', icon: '🍁', category: 'Tools', keywords: ['ontario', 'curriculum', 'courses', 'gr9', 'gr12'] },
-  { label: 'Listen to Notes', href: '/listen', icon: '🔊', category: 'Tools', keywords: ['listen', 'audio', 'tts', 'text to speech'] },
   { label: 'Knowledge Map', href: '/knowledge-map', icon: '🗺', category: 'Tools', keywords: ['map', 'knowledge', 'visual', 'graph', 'connections'] },
   // PERSONAL
   { label: 'Quick Capture', href: '/capture', icon: '⚡', category: 'Personal', keywords: ['capture', 'quick', 'brain dump', 'idea'] },

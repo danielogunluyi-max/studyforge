@@ -5,11 +5,8 @@ const SEND_TO_MAP: Record<string, Array<{ label: string; href: string; icon: str
   note: [
     { label: "Make Flashcards", href: "/generator", icon: "🃏", param: "fromNote" },
     { label: "Build Mock Exam", href: "/mock-exam", icon: "📋", param: "fromNote" },
-    { label: "Turn into Podcast", href: "/podcast", icon: "🎙", param: "fromNote" },
     { label: "Start Battle Arena", href: "/battle", icon: "⚔️", param: "fromNote" },
-    { label: "Generate Diagram", href: "/diagrams", icon: "🗺", param: "fromNote" },
     { label: "Create Micro-lessons", href: "/micro-lessons", icon: "📖", param: "fromNote" },
-    { label: "Feynman This", href: "/feynman", icon: "🔬", param: "fromNote" },
     { label: "Cornell Format", href: "/cornell", icon: "📋", param: "fromNote" },
     { label: "Narrative Memory", href: "/narrative", icon: "📖", param: "fromNote" },
     { label: "Compress It", href: "/compress", icon: "🗜", param: "fromNote" },
@@ -35,7 +32,6 @@ const SEND_TO_MAP: Record<string, Array<{ label: string; href: string; icon: str
     { label: "Generate Notes", href: "/generator", icon: "📝", param: "fromTranscript" },
     { label: "Make Flashcards", href: "/generator", icon: "🃏", param: "fromTranscript" },
     { label: "Build Mock Exam", href: "/mock-exam", icon: "📋", param: "fromTranscript" },
-    { label: "Turn into Podcast", href: "/podcast", icon: "🎙", param: "fromTranscript" },
   ],
   essay: [
     { label: "Grade My Essay", href: "/essay-grade", icon: "📝", param: "fromEssay" },

@@ -17,13 +17,7 @@ function titleFromPath(pathname: string) {
   if (path.startsWith("/generator")) return "Generator";
   if (path.startsWith("/upload")) return "Upload File";
   if (path.startsWith("/my-notes")) return "My Notes";
-  if (path.startsWith("/listen")) return "Listen to Notes";
-  if (path.startsWith("/feynman")) return "Feynman Technique";
-  if (path.startsWith("/planner")) return "Study Planner";
-  if (path.startsWith("/podcast")) return "Podcast";
-  if (path.startsWith("/diagrams")) return "Diagram Generator";
   if (path.startsWith("/citations")) return "Citations";
-  if (path.startsWith("/scan")) return "Scan Notes";
   if (path.startsWith("/tutor")) return "Nova AI Tutor";
   if (path.startsWith("/battle")) return "Battle Arena";
   if (path.startsWith("/study-groups")) return "Study Groups";

@@ -42,7 +42,7 @@ const PHASE_FEATURES: Record<PhaseDef["phase"], Array<{ label: string; href: str
   ],
   encode: [
     { label: "Flashcard Review", href: "/flashcards", icon: "🃏" },
-    { label: "Feynman Technique", href: "/feynman", icon: "🔬" },
+    { label: "Review My Notes", href: "/my-notes", icon: "📝" },
   ],
   test: [
     { label: "Mock Exam", href: "/mock-exam", icon: "📋" },

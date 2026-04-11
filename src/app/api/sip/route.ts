@@ -159,7 +159,7 @@ export async function POST() {
     suggestions.push({ type: "review", message: "Your retention is low — review your flashcards", href: "/flashcards", priority: 1 });
   }
   if (depthScore < 70 && notes.length > 0) {
-    suggestions.push({ type: "feynman", message: "Deepen your understanding with Feynman technique", href: "/feynman", priority: 2 });
+    suggestions.push({ type: "review", message: "Deepen your understanding by reviewing your notes with Nova", href: "/tutor", priority: 2 });
   }
   if (consistencyScore < 30) {
     suggestions.push({ type: "contract", message: "Build consistency with a Study Contract", href: "/contract", priority: 3 });
