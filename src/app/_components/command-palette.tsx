@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 const ALL_ROUTES = [
   // HOME
   { label: 'Dashboard', href: '/dashboard', icon: '🏠', category: 'Home', keywords: ['home', 'dash', 'main'] },
-  { label: 'Content Hub', href: '/content-hub', icon: '📦', category: 'Home', keywords: ['all', 'content', 'hub'] },
   { label: 'Study Mode', href: '/study-mode', icon: '🎯', category: 'Home', keywords: ['focus', 'session', 'study'] },
   { label: 'Smart Search', href: '/search', icon: '🔍', category: 'Home', keywords: ['find', 'search'] },
   // CREATE
@@ -27,34 +26,25 @@ const ALL_ROUTES = [
   // DEEP LEARN
   { label: 'AI Tutor (Nova)', href: '/tutor', icon: '🤖', category: 'Deep Learn', keywords: ['tutor', 'nova', 'chat', 'ai', 'ask'] },
   { label: 'Voice Tutor', href: '/voice-tutor', icon: '🗣', category: 'Deep Learn', keywords: ['voice', 'talk', 'speak', 'tutor'] },
-  { label: 'AI Debate', href: '/debate', icon: '⚔️', category: 'Deep Learn', keywords: ['debate', 'argue', 'both sides'] },
-  { label: 'Counterargument', href: '/counterargument', icon: '🗡', category: 'Deep Learn', keywords: ['counter', 'attack', 'argument', 'critique'] },
   { label: 'Concept Web', href: '/concept-web', icon: '🕸', category: 'Deep Learn', keywords: ['concept', 'web', 'map', 'connections'] },
   // TEST
   { label: 'Mock Exam', href: '/mock-exam', icon: '📋', category: 'Test', keywords: ['mock', 'exam', 'test', 'practice'] },
   { label: 'Battle Arena', href: '/battle', icon: '⚔️', category: 'Test', keywords: ['battle', 'arena', '1v1', 'pvp'] },
   { label: 'Boss Battle', href: '/games', icon: '🎮', category: 'Test', keywords: ['boss', 'game', 'fight', 'flashcard'] },
   { label: 'Battle Royale', href: '/battle-royale', icon: '👑', category: 'Test', keywords: ['royale', '100', 'multiplayer', 'battle'] },
-  { label: 'Debate Judge', href: '/debate-judge', icon: '🧑‍⚖️', category: 'Test', keywords: ['judge', 'debate', '1v1', 'argument'] },
-  { label: 'Crossover Challenge', href: '/crossover', icon: '🔀', category: 'Test', keywords: ['crossover', 'challenge', 'daily', 'two subjects'] },
   { label: 'Exam Predictor', href: '/predictor', icon: '📊', category: 'Test', keywords: ['predict', 'score', 'forecast', 'exam'] },
   // TRACK
   { label: 'Mastery Chart', href: '/mastery', icon: '🏆', category: 'Track', keywords: ['mastery', 'chart', 'progress', 'subjects'] },
-  { label: 'Note Evolution', href: '/note-evolution', icon: '📈', category: 'Track', keywords: ['evolution', 'note', 'growth', 'history'] },
   // PLAN
   { label: 'Calendar', href: '/calendar', icon: '📆', category: 'Plan', keywords: ['calendar', 'events', 'deadlines', 'timetable'] },
   { label: 'Syllabus Scanner', href: '/syllabus', icon: '📄', category: 'Plan', keywords: ['syllabus', 'semester', 'scan', 'course'] },
   { label: 'Interleaving', href: '/interleave', icon: '🔀', category: 'Plan', keywords: ['interleave', 'mix', 'subjects', 'schedule'] },
   // SOCIAL
-  { label: 'Community', href: '/community', icon: '🌍', category: 'Social', keywords: ['community', 'post', 'students', 'social'] },
   { label: 'Study Rooms', href: '/rooms', icon: '🏠', category: 'Social', keywords: ['rooms', 'study', 'together', 'co-study'] },
-  { label: 'Peer Review', href: '/peer-review', icon: '🤝', category: 'Social', keywords: ['peer', 'review', 'feedback', 'essay'] },
   { label: 'Study Library', href: '/library', icon: '📚', category: 'Social', keywords: ['library', 'share', 'decks', 'public'] },
-  { label: 'Study Buddy', href: '/match', icon: '👥', category: 'Social', keywords: ['buddy', 'match', 'partner', 'find'] },
   // GROW
   { label: 'Achievements', href: '/achievements', icon: '🏆', category: 'Grow', keywords: ['achievements', 'badges', 'unlock', 'rewards'] },
   { label: 'Study Ghost', href: '/study-ghost', icon: '👻', category: 'Grow', keywords: ['ghost', 'past', 'growth', 'history'] },
-  { label: 'Kyvex Wrapped', href: '/wrapped', icon: '🎬', category: 'Grow', keywords: ['wrapped', 'stats', 'semester', 'review'] },
   { label: 'Wellness Check', href: '/wellness', icon: '💚', category: 'Grow', keywords: ['wellness', 'mood', 'burnout', 'mental health'] },
   { label: 'Habits', href: '/habits', icon: '✅', category: 'Grow', keywords: ['habits', 'streak', 'daily', 'routine'] },
   // TOOLS

@@ -73,7 +73,7 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   '/capture': 'capture',
   '/narrative': 'narrative',
   '/knowledge-map': 'knowledge-map',
-  '/content-hub': 'content-hub',
+  // '/content-hub': 'content-hub',
   '/games': 'games',
   '/battle': 'battle',
   '/battle-royale': 'battle-royale',
@@ -83,17 +83,17 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   '/reading-speed': 'reading-speed',
   '/micro-lessons': 'micro-lessons',
   '/lecture': 'lecture',
-  '/counterargument': 'counterargument',
+  // '/counterargument': 'counterargument',
   '/adaptive-notes': 'adaptive-notes',
-  '/crossover': 'crossover',
-  '/debate-judge': 'debate-judge',
+  // '/crossover': 'crossover',
+  // '/debate-judge': 'debate-judge',
   // Batch 2 features removed
-  '/note-evolution': 'note-evolution',
-  '/community': 'community',
+  // '/note-evolution': 'note-evolution',
+  // '/community': 'community',
   '/match': 'match',
-  '/peer-review': 'peer-review',
+  // '/peer-review': 'peer-review',
   '/achievements': 'achievements',
-  '/wrapped': 'wrapped',
+  // '/wrapped': 'wrapped',
   '/study-ghost': 'study-ghost',
   '/referral': 'referral',
   '/wellness': 'wellness',
@@ -103,7 +103,7 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   '/essay-grade': 'essay-grade',
   '/handwriting': 'handwriting',
   '/compress': 'compress',
-  '/debate': 'debate',
+  // '/debate': 'debate',
   '/smart-upload': 'smart-upload',
   '/grammar': 'grammar',
   '/plagiarism': 'plagiarism',
@@ -454,7 +454,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75 9 4.5l6 2.25 5.25-2.25v12.75L15 19.5 9 17.25l-5.25 2.25V6.75z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 4.5v12.75M15 6.75V19.5" /></svg>,
     },
     {
-      href: '/content-hub',
+      // href: '/content-hub',
       label: '📦 Content Hub',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 7.5h16.5v9a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 16.5v-9z" /><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5V5.25A1.5 1.5 0 019.75 3.75h4.5a1.5 1.5 0 011.5 1.5V7.5" /></svg>,
     },
@@ -506,8 +506,8 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19 10.5V12a7 7 0 11-14 0v-1.5" /></svg>,
     },
     {
-      href: '/counterargument',
-      label: '⚔️ Counterargument',
+      // href: '/counterargument',
+      // label: '⚔️ Counterargument',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="m7 5 5 5M5.5 7.5 9 4M4 9l4-4M17 5l-5 5m6.5-2.5L15 4m5 5-4-4" /></svg>,
     },
     {
@@ -520,13 +520,13 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   // CHALLENGES
   const challengeItems: NavItem[] = [
     {
-      href: '/crossover',
-      label: '🔀 Crossover Challenge',
+      // href: '/crossover',
+      // label: '🔀 Crossover Challenge',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5h4.5v4.5H7.5V7.5zM12 12h4.5v4.5H12V12z" /></svg>,
     },
     {
-      href: '/debate-judge',
-      label: '🧑‍⚖️ Debate Judge',
+      // href: '/debate-judge',
+      // label: '🧑‍⚖️ Debate Judge',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15M6.75 8.25h10.5M8.25 8.25l-2.25 4.5h4.5l-2.25-4.5zm9.75 0-2.25 4.5h4.5L18 8.25z" /></svg>,
     },
   ]
@@ -537,7 +537,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   // NOTES
   const notesItems: NavItem[] = [
     {
-      href: '/note-evolution',
+      // href: '/note-evolution',
       label: '📈 Note Evolution',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5V4.5m0 15h15" /><path strokeLinecap="round" strokeLinejoin="round" d="m7.5 15 3-3 2.25 2.25L18 9" /></svg>,
     },
@@ -546,8 +546,8 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   // SOCIAL
   const socialItems: NavItem[] = [
     {
-      href: '/community',
-      label: 'Community',
+      // href: '/community',
+      // label: 'Community',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75A2.25 2.25 0 016 4.5h12a2.25 2.25 0 012.25 2.25v7.5A2.25 2.25 0 0118 16.5H9.75L6 19.5v-3H6a2.25 2.25 0 01-2.25-2.25v-7.5z" /></svg>,
     },
     {
@@ -556,7 +556,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>,
     },
     {
-      href: '/peer-review',
+      // href: '/peer-review',
       label: '🤝 Peer Review',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75v-1.5a3.75 3.75 0 00-7.5 0v1.5M12 12a3 3 0 100-6 3 3 0 000 6z" /></svg>,
     },
@@ -570,8 +570,8 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75v-1.5a3.375 3.375 0 00-3.375-3.375h-1.5A3.375 3.375 0 008.25 17.25v1.5M12 3.75l1.5 3h3l-2.5 2 1 3L12 10.25 9 11.75l1-3L7.5 6.75h3L12 3.75z" /></svg>,
     },
     {
-      href: '/wrapped',
-      label: 'Wrapped',
+      // href: '/wrapped',
+      // label: 'Wrapped',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>,
     },
     {
@@ -620,8 +620,8 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 6h9M7.5 12h9M7.5 18h5.25" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 6 16.5 9 19.5 12" /></svg>,
     },
     {
-      href: '/debate',
-      label: 'Debate',
+      // href: '/debate',
+      // label: 'Debate',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5h6v6h-6zM10.5 16.5h6v6h-6z" /><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5h3m-6 9h-3" /></svg>,
     },
   ]

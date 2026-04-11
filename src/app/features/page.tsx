@@ -73,7 +73,6 @@ const ALL_FEATURES: Feature[] = [
   { key: 'narrative', label: 'Narrative', icon: '\u{1F4D6}', category: 'Research' },
 
   { key: 'knowledge-map', label: 'Knowledge Map', icon: '\u{1F5FA}\uFE0F', category: 'Discover' },
-  { key: 'content-hub', label: 'Content Hub', icon: '\u{1F4E6}', category: 'Discover' },
   { key: 'games', label: 'Games', icon: '\u{1F3AE}', category: 'Discover' },
   { key: 'battle', label: 'Battle Arena', icon: '\u2694', category: 'Discover' },
   { key: 'battle-royale', label: 'Battle Royale', icon: '\u{1F3C6}', category: 'Discover' },
@@ -83,11 +82,8 @@ const ALL_FEATURES: Feature[] = [
   { key: 'reading-speed', label: 'Reading Speed', icon: '\u26A1', category: 'Train' },
   { key: 'micro-lessons', label: 'Micro-Lessons', icon: '\u{1F4D6}', category: 'Train' },
   { key: 'lecture', label: 'Live Lecture', icon: '\u{1F3A4}', category: 'Train' },
-  { key: 'counterargument', label: 'Counterargument', icon: '\u2694', category: 'Train' },
   { key: 'adaptive-notes', label: 'Adaptive Notes', icon: '\u{1F3AF}', category: 'Train' },
 
-  { key: 'crossover', label: 'Crossover Challenge', icon: '\u{1F500}', category: 'Challenges' },
-  { key: 'debate-judge', label: 'Debate Judge', icon: '\u{1F9D1}\u200D\u2696\uFE0F', category: 'Challenges' },
 
 
   { key: 'kyvex-iq', label: 'Kyvex IQ', icon: '\u{1F9EC}', category: 'Intelligence' },
@@ -96,14 +92,9 @@ const ALL_FEATURES: Feature[] = [
   { key: 'contract', label: 'Study Contract', icon: '\u{1F4DC}', category: 'Intelligence' },
   { key: 'focus-score', label: 'Focus Score', icon: '\u{1F3AF}', category: 'Intelligence' },
 
-  { key: 'note-evolution', label: 'Note Evolution', icon: '\u{1F4C8}', category: 'Notes' },
 
-  { key: 'community', label: 'Community', icon: '\u{1F465}', category: 'Social' },
-  { key: 'match', label: 'Study Buddy', icon: '\u{1F91D}', category: 'Social' },
-  { key: 'peer-review', label: 'Peer Review', icon: '\u{1F91D}', category: 'Social' },
 
   { key: 'achievements', label: 'Achievements', icon: '\u{1F3C5}', category: 'Personal' },
-  { key: 'wrapped', label: 'Wrapped', icon: '\u{1F381}', category: 'Personal' },
   { key: 'study-ghost', label: 'Study Ghost', icon: '\u{1F47B}', category: 'Personal' },
   { key: 'referral', label: 'Referral', icon: '\u{1F4E3}', category: 'Personal' },
   { key: 'wellness', label: 'Wellness', icon: '\u{1F9D8}', category: 'Personal' },
@@ -112,7 +103,6 @@ const ALL_FEATURES: Feature[] = [
   { key: 'essay-grade', label: 'Essay Grader', icon: '\u{1F4DD}', category: 'Personal' },
   { key: 'handwriting', label: 'Handwriting Scan', icon: '\u270D\uFE0F', category: 'Personal' },
   { key: 'compress', label: 'Compress', icon: '\u{1F5DC}\uFE0F', category: 'Personal' },
-  { key: 'debate', label: 'Debate', icon: '\u{1F5E3}\uFE0F', category: 'Personal' },
 
   { key: 'grammar', label: 'Grammar Check', icon: '\u270D\uFE0F', category: 'Tools' },
   { key: 'plagiarism', label: 'Originality Check', icon: '\u{1F50D}', category: 'Tools' },
