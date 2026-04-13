@@ -1129,22 +1129,22 @@ export default function DashboardPage() {
                   ))}
               </div>
             )}
+            {selectedExamForResult && (
+              <RecordResultModal
+                exam={selectedExamForResult}
+                onClose={() => {
+                  setSelectedExamForResult(null)
+                }}
+                onSuccess={() => {
+                  setSelectedExamForResult(null)
+                  trackNovaEvent('EXAM_RESULT_SAVED')
+                  void fetchExams()
+                }}
+              />
+            )}
           </>
         )}
       </div>
-      {selectedExamForResult && (
-        <RecordResultModal
-          exam={selectedExamForResult}
-          onClose={() => {
-            setSelectedExamForResult(null)
-          }}
-          onSuccess={() => {
-            setSelectedExamForResult(null)
-            trackNovaEvent('EXAM_RESULT_SAVED')
-            void fetchExams()
-          }}
-        />
-      )}
     </main>
   )
 }
