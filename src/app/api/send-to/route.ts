@@ -7,10 +7,6 @@ const SEND_TO_MAP: Record<string, Array<{ label: string; href: string; icon: str
     { label: "Build Mock Exam", href: "/mock-exam", icon: "📋", param: "fromNote" },
     { label: "Start Battle Arena", href: "/battle", icon: "⚔️", param: "fromNote" },
     { label: "Create Micro-lessons", href: "/micro-lessons", icon: "📖", param: "fromNote" },
-    { label: "Cornell Format", href: "/cornell", icon: "📋", param: "fromNote" },
-    { label: "Narrative Memory", href: "/narrative", icon: "📖", param: "fromNote" },
-    { label: "Compress It", href: "/compress", icon: "🗜", param: "fromNote" },
-    { label: "Adaptive Versions", href: "/adaptive-notes", icon: "🎯", param: "fromNote" },
     { label: "Battle Royale", href: "/battle-royale", icon: "👑", param: "fromNote" },
   ],
   deck: [
@@ -23,7 +19,6 @@ const SEND_TO_MAP: Record<string, Array<{ label: string; href: string; icon: str
     { label: "Export to Anki", href: "/api/anki-export", icon: "📤", param: "deckId" },
   ],
   exam: [
-    { label: "Predict Next Score", href: "/predictor", icon: "📊", param: "fromExam" },
     { label: "Make Flashcards from Weak Areas", href: "/generator", icon: "🃏", param: "fromExam" },
   ],
   transcript: [

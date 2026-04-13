@@ -21,7 +21,6 @@ function titleFromPath(pathname: string) {
   if (path.startsWith("/tutor")) return "Nova AI Tutor";
   if (path.startsWith("/battle")) return "Battle Arena";
   if (path.startsWith("/study-groups")) return "Study Groups";
-  if (path.startsWith("/exam-predictor")) return "Exam Predictor";
   if (path.startsWith("/learning-style-quiz")) return "Learning Style";
   if (path.startsWith("/concept-web")) return "Concept Web";
   if (path.startsWith("/settings")) return "Settings";

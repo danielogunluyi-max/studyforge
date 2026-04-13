@@ -212,8 +212,6 @@ export default function DashboardPage() {
   const [studyStreak, setStudyStreak] = useState(0)
   const [clockTick, setClockTick] = useState(0)
   const [noteTitles, setNoteTitles] = useState<string[]>([])
-  const [isScanningNotes, setIsScanningNotes] = useState(false)
-  const [scanConfidence, setScanConfidence] = useState<number | null>(null)
 
   const [subject, setSubject] = useState('')
   const [examDate, setExamDate] = useState('')
@@ -226,7 +224,6 @@ export default function DashboardPage() {
     examDate: string
     board: string | null
   } | null>(null)
-  const scanFileInputRef = useRef<HTMLInputElement>(null)
 
   const { showToast } = useToast()
 
@@ -433,64 +430,6 @@ export default function DashboardPage() {
     }
   }
 
-  const openScanPicker = () => {
-    scanFileInputRef.current?.click()
-  }
-
-  const handleScanFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    event.target.value = ''
-    if (!file) return
-
-    if (!file.type.startsWith('image/')) {
-      showToast('Please select an image for handwritten scanning', 'error')
-      return
-    }
-
-    setIsScanningNotes(true)
-    setScanConfidence(null)
-
-    try {
-      const formData = new FormData()
-      formData.append('image', file)
-
-      const response = await fetch('/api/scan-handwritten', {
-        method: 'POST',
-        body: formData,
-      })
-
-      const data = (await response.json().catch(() => ({}))) as {
-        text?: string
-        confidence?: number
-        error?: string
-      }
-
-      if (!response.ok) {
-        showToast(data.error ?? 'Failed to scan handwritten notes', 'error')
-        return
-      }
-
-      const text = String(data.text ?? '').trim()
-      if (!text) {
-        showToast('No readable handwritten text found', 'error')
-        return
-      }
-
-      if (typeof data.confidence === 'number') {
-        setScanConfidence(data.confidence)
-      }
-
-      sessionStorage.setItem('kyvex:prefillText', text)
-      sessionStorage.setItem('kyvex:prefillFormat', 'summary')
-      showToast('Handwritten notes ready in generator', 'success')
-      router.push('/generator?source=dashboard-scan')
-    } catch {
-      showToast('Failed to scan handwritten notes', 'error')
-    } finally {
-      setIsScanningNotes(false)
-    }
-  }
-
   const baseCardStyle: React.CSSProperties = {
     background: 'linear-gradient(165deg, rgba(18,25,46,0.86), rgba(13,20,36,0.88))',
     border: '1px solid rgba(255,255,255,0.08)',
@@ -635,68 +574,11 @@ export default function DashboardPage() {
           >
             Open My Notes
           </Link>
-          <button
-            type="button"
-            onClick={openScanPicker}
-            disabled={isScanningNotes}
-            style={{
-              borderRadius: '12px',
-              border: '1px solid rgba(240,180,41,0.42)',
-              background: 'rgba(240,180,41,0.14)',
-              color: '#fde68a',
-              padding: '10px 14px',
-              fontSize: '12px',
-              fontWeight: 700,
-              cursor: isScanningNotes ? 'not-allowed' : 'pointer',
-              opacity: isScanningNotes ? 0.7 : 1,
-              fontFamily: 'inherit',
-            }}
-          >
-            {isScanningNotes ? 'Scanning...' : 'Scan Handwritten Notes'}
-          </button>
         </div>
 
-        <input
-          ref={scanFileInputRef}
-          type="file"
-          accept="image/png,image/jpeg,.jpg,.jpeg"
-          style={{ display: 'none' }}
-          onChange={(event) => {
-            void handleScanFile(event)
-          }}
-        />
-
-        {scanConfidence !== null && (
-          <div style={{
-            marginBottom: '16px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            borderRadius: '10px',
-            border: '1px solid rgba(79,142,247,0.45)',
-            background: 'rgba(79,142,247,0.15)',
-            padding: '8px 12px',
-            fontSize: '12px',
-            fontWeight: 700,
-            color: '#93c5fd',
-          }}>
-            Latest handwritten scan confidence: {scanConfidence}%
-          </div>
-        )}
-
-        <div style={{
-          marginBottom: '28px',
-          display: 'grid',
-          gap: '14px',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-        }}>
-          <div
-            className="kv-card-hover"
-            onMouseEnter={applyCardHover}
-            onMouseLeave={clearCardHover}
-            style={{
-              background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
-              border: '1px solid rgba(240,180,41,0.26)',
+        <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{
+              background: 'linear-gradient(165deg, rgba(16,24,40,0.92), rgba(10,14,26,0.86))',
+              border: '1px solid rgba(240,180,41,0.18)',
               borderLeft: '3px solid #f0b429',
               borderRadius: '18px',
               padding: '22px 24px',
@@ -733,7 +615,7 @@ export default function DashboardPage() {
                 </p>
                 <p style={{ fontSize: '13px', color: '#f0b429', marginTop: '6px' }}>
                   No exams added yet 🎉{' '}
-                  <Link href="/exam-predictor" style={{ color: '#f0b429', textDecoration: 'underline', fontWeight: 600 }}>
+                  <Link href="/calendar" style={{ color: '#f0b429', textDecoration: 'underline', fontWeight: 600 }}>
                     Add your first exam →
                   </Link>
                 </p>
@@ -1250,7 +1132,6 @@ export default function DashboardPage() {
           </>
         )}
       </div>
-
       {selectedExamForResult && (
         <RecordResultModal
           exam={selectedExamForResult}

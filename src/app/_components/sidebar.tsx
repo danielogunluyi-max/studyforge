@@ -43,7 +43,6 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   '/study-mode': 'study-mode',
   '/my-notes': 'my-notes',
   '/classroom-import': 'classroom-import',
-  '/upload': 'smart-upload',
   '/audio': 'audio',
   '/scan': 'scan',
   '/feynman': 'feynman',
@@ -55,9 +54,7 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   '/presentation': 'presentations',
   '/photo-quiz': 'photo-quiz',
   '/podcast': 'podcast',
-  '/cornell': 'cornell',
   '/flashcards': 'flashcards',
-  '/exam-predictor': 'predictor',
   '/mock-exam': 'mock-exam',
   '/quizlet-import': 'quizlet-import',
   '/tutor': 'tutor',
@@ -66,12 +63,9 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   '/learning-style-quiz': 'learning-style-quiz',
   '/focus': 'focus',
   '/citations': 'citations',
-  '/syllabus': 'syllabus',
-  '/youtube-import': 'youtube-import',
   '/library': 'library',
   '/search': 'search',
   '/capture': 'capture',
-  '/narrative': 'narrative',
   '/knowledge-map': 'knowledge-map',
   // '/content-hub': 'content-hub',
   '/games': 'games',
@@ -82,9 +76,7 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   // Batch 2 features removed
   '/reading-speed': 'reading-speed',
   '/micro-lessons': 'micro-lessons',
-  '/lecture': 'lecture',
   // '/counterargument': 'counterargument',
-  '/adaptive-notes': 'adaptive-notes',
   // '/crossover': 'crossover',
   // '/debate-judge': 'debate-judge',
   // Batch 2 features removed
@@ -94,17 +86,12 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   // '/peer-review': 'peer-review',
   '/achievements': 'achievements',
   // '/wrapped': 'wrapped',
-  '/study-ghost': 'study-ghost',
   '/referral': 'referral',
   '/wellness': 'wellness',
   '/habits': 'habits',
   '/interleave': 'interleave',
-  '/predictor': 'predictor',
   '/essay-grade': 'essay-grade',
-  '/handwriting': 'handwriting',
-  '/compress': 'compress',
   // '/debate': 'debate',
-  '/smart-upload': 'smart-upload',
   '/grammar': 'grammar',
   '/plagiarism': 'plagiarism',
 }
@@ -284,11 +271,6 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5 3.75 9 12 13.5 20.25 9 12 4.5Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 11.25v3.75c0 1.243 2.015 2.25 4.5 2.25s4.5-1.007 4.5-2.25v-3.75" /></svg>,
     },
     {
-      href: '/upload',
-      label: 'Upload File',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V6m0 0 3.75 3.75M12 6 8.25 9.75" /><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 16.5v1.5A2.25 2.25 0 006.75 20.25h10.5A2.25 2.25 0 0019.5 18v-1.5" /></svg>,
-    },
-    {
       href: '/audio',
       label: 'Audio to Notes',
       icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>,
@@ -347,11 +329,6 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       label: 'Podcast',
       icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>,
     },
-    {
-      href: '/cornell',
-      label: 'Cornell Notes',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 4.5h10.5v15H6.75V4.5z" /><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 16.5h10.5M9 4.5v12" /></svg>,
-    },
   ]
 
   // FLASHCARDS & EXAMS
@@ -360,11 +337,6 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       href: '/flashcards',
       label: 'Flashcards',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><rect x="4" y="6" width="16" height="12" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M8 10h8M8 14h5" /></svg>,
-    },
-    {
-      href: '/exam-predictor',
-      label: 'Exam Predictor',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="8.25" /><circle cx="12" cy="12" r="4.25" /><circle cx="12" cy="12" r="1.25" /></svg>,
     },
     {
       href: '/mock-exam',
@@ -415,16 +387,6 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 5.25A2.25 2.25 0 016.75 3h10.5v16.5H6.75A2.25 2.25 0 014.5 17.25V5.25z" /></svg>,
     },
     {
-      href: '/syllabus',
-      label: 'Syllabus Scan',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z" /></svg>,
-    },
-    {
-      href: '/youtube-import',
-      label: 'YouTube Import',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" /></svg>,
-    },
-    {
       href: '/library',
       label: 'Study Library',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>,
@@ -438,11 +400,6 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       href: '/capture',
       label: 'Quick Capture',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 4.5h12a1.5 1.5 0 011.5 1.5v12A1.5 1.5 0 0118 19.5H6A1.5 1.5 0 014.5 18V6A1.5 1.5 0 016 4.5z" /><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9h7.5M8.25 12.75h7.5M8.25 16.5h4.5" /></svg>,
-    },
-    {
-      href: '/narrative',
-      label: 'Narrative',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 4.5h11.25A2.25 2.25 0 0118 6.75V19.5l-2.25-1.5-2.25 1.5-2.25-1.5-2.25 1.5-2.25-1.5-2.25 1.5V6.75A2.25 2.25 0 014.5 4.5z" /><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 9h7.5M7.5 12.75h7.5" /></svg>,
     },
   ]
 
@@ -501,19 +458,9 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 5.25h6.75v13.5H4.5V5.25zM12.75 5.25h6.75v13.5h-6.75V5.25z" /></svg>,
     },
     {
-      href: '/lecture',
-      label: '🎤 Live Lecture',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19 10.5V12a7 7 0 11-14 0v-1.5" /></svg>,
-    },
-    {
       // href: '/counterargument',
       // label: '⚔️ Counterargument',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="m7 5 5 5M5.5 7.5 9 4M4 9l4-4M17 5l-5 5m6.5-2.5L15 4m5 5-4-4" /></svg>,
-    },
-    {
-      href: '/adaptive-notes',
-      label: '🎯 Adaptive Notes',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="8.25" /><circle cx="12" cy="12" r="4.25" /><circle cx="12" cy="12" r="1.25" /></svg>,
     },
   ]
 
@@ -575,11 +522,6 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>,
     },
     {
-      href: '/study-ghost',
-      label: 'Study Ghost',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3C9.24 3 7 5.24 7 8v8l-1.5 1.5A1 1 0 006.5 19h11a1 1 0 00.71-1.71L16 16V8c0-2.76-2.24-5-4-5z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 21h6" /></svg>,
-    },
-    {
       href: '/referral',
       label: 'Referral',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>,
@@ -600,24 +542,9 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 7.5h15M4.5 12h15M4.5 16.5h15" /><path strokeLinecap="round" strokeLinejoin="round" d="m8.25 6 2.25 1.5L8.25 9M13.5 10.5l2.25 1.5-2.25 1.5M6.75 15l2.25 1.5L6.75 18" /></svg>,
     },
     {
-      href: '/predictor',
-      label: 'Predictor',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5V4.5m0 15h15" /><path strokeLinecap="round" strokeLinejoin="round" d="m7.5 15 3-3 2.25 2.25L18 9" /></svg>,
-    },
-    {
       href: '/essay-grade',
       label: 'Essay Grader',
       icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>,
-    },
-    {
-      href: '/handwriting',
-      label: 'Handwriting Scan',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" /></svg>,
-    },
-    {
-      href: '/compress',
-      label: 'Compress',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 6h9M7.5 12h9M7.5 18h5.25" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 6 16.5 9 19.5 12" /></svg>,
     },
     {
       // href: '/debate',
@@ -627,11 +554,6 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
   ]
 
   const toolsItems: NavItem[] = [
-    {
-      href: '/smart-upload',
-      label: '⚡ SmartUpload',
-      icon: <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V6m0 0 3.75 3.75M12 6 8.25 9.75" /><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 16.5v1.5A2.25 2.25 0 006.75 20.25h10.5A2.25 2.25 0 0019.5 18v-1.5" /></svg>,
-    },
     {
       href: '/grammar',
       label: '✍️ Grammar Check',

@@ -178,7 +178,7 @@ const STYLE_THEME: Record<
     bestFeatures: [
       { label: "Study Groups", href: "/study-groups" },
       { label: "Battle Arena", href: "/battle" },
-      { label: "Exam Predictor", href: "/exam-predictor" },
+      { label: "Mock Exam", href: "/mock-exam" },
     ],
     avoid: "Avoid silent passive review for long periods.",
     toolkit: [
@@ -221,7 +221,7 @@ const STYLE_THEME: Record<
     techniques: ["Practice with timed drills", "Build mini-projects from theory", "Use movement-based review cycles"],
     bestFeatures: [
       { label: "Practice Quiz Arena", href: "/battle" },
-      { label: "Exam Predictor", href: "/exam-predictor" },
+      { label: "Mock Exam", href: "/mock-exam" },
       { label: "Study Groups", href: "/study-groups" },
     ],
     avoid: "Avoid passive reading — you need active engagement.",

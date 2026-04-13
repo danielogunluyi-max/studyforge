@@ -38,7 +38,6 @@ const PHASE_CONFIGS: Record<30 | 60 | 90 | 120, PhaseDef[]> = {
 const PHASE_FEATURES: Record<PhaseDef["phase"], Array<{ label: string; href: string; icon: string }>> = {
   learn: [
     { label: "Micro-lessons", href: "/micro-lessons", icon: "📖" },
-    { label: "Adaptive Notes", href: "/adaptive-notes", icon: "🎯" },
   ],
   encode: [
     { label: "Flashcard Review", href: "/flashcards", icon: "🃏" },

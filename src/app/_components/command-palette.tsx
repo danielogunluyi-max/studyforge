@@ -9,18 +9,9 @@ const ALL_ROUTES = [
   { label: 'Smart Search', href: '/search', icon: '🔍', category: 'Home', keywords: ['find', 'search'] },
   // CREATE
   { label: 'Note Generator', href: '/generator', icon: '✨', category: 'Create', keywords: ['ai', 'generate', 'create', 'notes'] },
-  { label: 'Smart Upload', href: '/smart-upload', icon: '⚡', category: 'Create', keywords: ['upload', 'file', 'pdf', 'everything'] },
-  { label: 'YouTube Import', href: '/youtube-import', icon: '🎬', category: 'Create', keywords: ['youtube', 'video', 'import'] },
-  { label: 'Handwriting Scan', href: '/handwriting', icon: '✍️', category: 'Create', keywords: ['handwriting', 'scan', 'photo'] },
-  { label: 'Live Lecture Mode', href: '/lecture', icon: '🎤', category: 'Create', keywords: ['lecture', 'live', 'class', 'record'] },
-  // STUDY
   { label: 'My Notes', href: '/my-notes', icon: '📝', category: 'Study', keywords: ['notes', 'library', 'folders'] },
   { label: 'Flashcards', href: '/flashcards', icon: '🃏', category: 'Study', keywords: ['cards', 'flash', 'review', 'spaced'] },
   { label: 'Micro-Lessons', href: '/micro-lessons', icon: '📖', category: 'Study', keywords: ['micro', 'lesson', 'bite', 'quick'] },
-  { label: 'Adaptive Notes', href: '/adaptive-notes', icon: '🎯', category: 'Study', keywords: ['adaptive', 'difficulty', 'levels'] },
-  { label: 'Cornell Notes', href: '/cornell', icon: '📋', category: 'Study', keywords: ['cornell', 'format', 'notes'] },
-  { label: 'Narrative Memory', href: '/narrative', icon: '📖', category: 'Study', keywords: ['narrative', 'story', 'memory'] },
-  { label: 'Compress Notes', href: '/compress', icon: '🗜', category: 'Study', keywords: ['compress', 'summarize', 'shorten'] },
   { label: 'Reading Trainer', href: '/reading-speed', icon: '⚡', category: 'Study', keywords: ['reading', 'speed', 'wpm', 'comprehension'] },
   { label: 'PDF Library', href: '/pdfs', icon: '📄', category: 'Study', keywords: ['pdf', 'document', 'annotate'] },
   // DEEP LEARN
@@ -32,19 +23,16 @@ const ALL_ROUTES = [
   { label: 'Battle Arena', href: '/battle', icon: '⚔️', category: 'Test', keywords: ['battle', 'arena', '1v1', 'pvp'] },
   { label: 'Boss Battle', href: '/games', icon: '🎮', category: 'Test', keywords: ['boss', 'game', 'fight', 'flashcard'] },
   { label: 'Battle Royale', href: '/battle-royale', icon: '👑', category: 'Test', keywords: ['royale', '100', 'multiplayer', 'battle'] },
-  { label: 'Exam Predictor', href: '/predictor', icon: '📊', category: 'Test', keywords: ['predict', 'score', 'forecast', 'exam'] },
   // TRACK
   { label: 'Mastery Chart', href: '/mastery', icon: '🏆', category: 'Track', keywords: ['mastery', 'chart', 'progress', 'subjects'] },
   // PLAN
   { label: 'Calendar', href: '/calendar', icon: '📆', category: 'Plan', keywords: ['calendar', 'events', 'deadlines', 'timetable'] },
-  { label: 'Syllabus Scanner', href: '/syllabus', icon: '📄', category: 'Plan', keywords: ['syllabus', 'semester', 'scan', 'course'] },
   { label: 'Interleaving', href: '/interleave', icon: '🔀', category: 'Plan', keywords: ['interleave', 'mix', 'subjects', 'schedule'] },
   // SOCIAL
   { label: 'Study Rooms', href: '/rooms', icon: '🏠', category: 'Social', keywords: ['rooms', 'study', 'together', 'co-study'] },
   { label: 'Study Library', href: '/library', icon: '📚', category: 'Social', keywords: ['library', 'share', 'decks', 'public'] },
   // GROW
   { label: 'Achievements', href: '/achievements', icon: '🏆', category: 'Grow', keywords: ['achievements', 'badges', 'unlock', 'rewards'] },
-  { label: 'Study Ghost', href: '/study-ghost', icon: '👻', category: 'Grow', keywords: ['ghost', 'past', 'growth', 'history'] },
   { label: 'Wellness Check', href: '/wellness', icon: '💚', category: 'Grow', keywords: ['wellness', 'mood', 'burnout', 'mental health'] },
   { label: 'Habits', href: '/habits', icon: '✅', category: 'Grow', keywords: ['habits', 'streak', 'daily', 'routine'] },
   // TOOLS

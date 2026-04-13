@@ -38,7 +38,6 @@ const ALL_FEATURES: Feature[] = [
   { key: 'study-mode', label: 'Study Mode', icon: '\u{1F3AF}', category: 'Study Tools' },
   { key: 'my-notes', label: 'My Notes', icon: '\u{1F4DD}', category: 'Study Tools' },
   { key: 'classroom-import', label: 'Classroom Import', icon: '\u{1F3EB}', category: 'Study Tools' },
-  { key: 'smart-upload', label: 'Upload File', icon: '\u{1F4E4}', category: 'Study Tools' },
   { key: 'audio', label: 'Audio to Notes', icon: '\u{1F3A4}', category: 'Study Tools' },
   { key: 'scan', label: 'Scan Notes', icon: '\u{1F4F7}', category: 'Study Tools' },
   { key: 'feynman', label: 'Feynman Technique', icon: '\u{1F9E0}', category: 'Study Tools' },
@@ -51,10 +50,8 @@ const ALL_FEATURES: Feature[] = [
   { key: 'presentations', label: 'Presentations', icon: '\u{1F3A8}', category: 'Create' },
   { key: 'photo-quiz', label: 'Photo Quiz', icon: '\u{1F4F8}', category: 'Create' },
   { key: 'podcast', label: 'Podcast', icon: '\u{1F3A7}', category: 'Create' },
-  { key: 'cornell', label: 'Cornell Notes', icon: '\u{1F4DD}', category: 'Create' },
 
   { key: 'flashcards', label: 'Flashcards', icon: '\u{1F0CF}', category: 'Flashcards & Exams' },
-  { key: 'predictor', label: 'Exam Predictor', icon: '\u{1F4CA}', category: 'Flashcards & Exams' },
   { key: 'mock-exam', label: 'Mock Exam', icon: '\u{1F4DD}', category: 'Flashcards & Exams' },
   { key: 'quizlet-import', label: 'Quizlet Import', icon: '\u{1F504}', category: 'Flashcards & Exams' },
 
@@ -65,12 +62,9 @@ const ALL_FEATURES: Feature[] = [
   { key: 'focus', label: 'Focus Mode', icon: '\u{1F3AF}', category: 'AI Tools' },
 
   { key: 'citations', label: 'Citations', icon: '\u{1F4DA}', category: 'Research' },
-  { key: 'syllabus', label: 'Syllabus Scan', icon: '\u{1F4D8}', category: 'Research' },
-  { key: 'youtube-import', label: 'YouTube Import', icon: '\u{1F3AC}', category: 'Research' },
   { key: 'library', label: 'Study Library', icon: '\u{1F50D}', category: 'Research' },
   { key: 'search', label: 'Search', icon: '\u{1F310}', category: 'Research' },
   { key: 'capture', label: 'Quick Capture', icon: '\u{1F4CC}', category: 'Research' },
-  { key: 'narrative', label: 'Narrative', icon: '\u{1F4D6}', category: 'Research' },
 
   { key: 'knowledge-map', label: 'Knowledge Map', icon: '\u{1F5FA}\uFE0F', category: 'Discover' },
   { key: 'games', label: 'Games', icon: '\u{1F3AE}', category: 'Discover' },
@@ -81,9 +75,6 @@ const ALL_FEATURES: Feature[] = [
 
   { key: 'reading-speed', label: 'Reading Speed', icon: '\u26A1', category: 'Train' },
   { key: 'micro-lessons', label: 'Micro-Lessons', icon: '\u{1F4D6}', category: 'Train' },
-  { key: 'lecture', label: 'Live Lecture', icon: '\u{1F3A4}', category: 'Train' },
-  { key: 'adaptive-notes', label: 'Adaptive Notes', icon: '\u{1F3AF}', category: 'Train' },
-
 
 
   { key: 'kyvex-iq', label: 'Kyvex IQ', icon: '\u{1F9EC}', category: 'Intelligence' },
@@ -93,16 +84,12 @@ const ALL_FEATURES: Feature[] = [
   { key: 'focus-score', label: 'Focus Score', icon: '\u{1F3AF}', category: 'Intelligence' },
 
 
-
   { key: 'achievements', label: 'Achievements', icon: '\u{1F3C5}', category: 'Personal' },
-  { key: 'study-ghost', label: 'Study Ghost', icon: '\u{1F47B}', category: 'Personal' },
   { key: 'referral', label: 'Referral', icon: '\u{1F4E3}', category: 'Personal' },
   { key: 'wellness', label: 'Wellness', icon: '\u{1F9D8}', category: 'Personal' },
   { key: 'habits', label: 'Habits', icon: '\u{1F4AA}', category: 'Personal' },
   { key: 'interleave', label: 'Interleave', icon: '\u{1F500}', category: 'Personal' },
   { key: 'essay-grade', label: 'Essay Grader', icon: '\u{1F4DD}', category: 'Personal' },
-  { key: 'handwriting', label: 'Handwriting Scan', icon: '\u270D\uFE0F', category: 'Personal' },
-  { key: 'compress', label: 'Compress', icon: '\u{1F5DC}\uFE0F', category: 'Personal' },
 
   { key: 'grammar', label: 'Grammar Check', icon: '\u270D\uFE0F', category: 'Tools' },
   { key: 'plagiarism', label: 'Originality Check', icon: '\u{1F50D}', category: 'Tools' },

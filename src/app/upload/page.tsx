@@ -24,9 +24,7 @@ const OCR_LANGUAGE_LABELS: Record<string, string> = {
   "eng+por": "English + Portuguese",
 };
 
-const HANDWRITING_SUBJECTS = ["Math", "Science", "English", "History", "Chemistry", "Physics", "General"] as const;
-
-type UploadTab = "pdf" | "image" | "handwritten";
+type UploadTab = "pdf" | "image";
 
 export default function UploadPage() {
   const { data: session, status } = useSession();
@@ -44,24 +42,11 @@ export default function UploadPage() {
   const [processingStage, setProcessingStage] = useState<"idle" | "uploading" | "extracting" | "analyzing" | "done">("idle");
   const [dragActive, setDragActive] = useState(false);
   const [activeTab, setActiveTab] = useState<UploadTab>("pdf");
-  const [isScanningHandwritten, setIsScanningHandwritten] = useState(false);
-  const [scanConfidence, setScanConfidence] = useState<number | null>(null);
-  const [scanPasses, setScanPasses] = useState<number | null>(null);
-  const [handwritingSubject, setHandwritingSubject] = useState<(typeof HANDWRITING_SUBJECTS)[number]>("General");
-  const [handwritingPreviewUrl, setHandwritingPreviewUrl] = useState<string | null>(null);
   const [error, setError] = useState("");
   const { showToast } = useToast();
 
   const pdfInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const handwrittenInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (!handwritingPreviewUrl) return;
-    return () => {
-      URL.revokeObjectURL(handwritingPreviewUrl);
-    };
-  }, [handwritingPreviewUrl]);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -112,8 +97,6 @@ export default function UploadPage() {
     setWordCount(0);
     setEstimatedReadMinutes(0);
     setPdfPageCount(null);
-    setScanConfidence(null);
-    setScanPasses(null);
 
     try {
       const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
@@ -198,83 +181,6 @@ export default function UploadPage() {
     setDetectedSubject(subjectResult);
   };
 
-  const scanHandwrittenFile = async (file: File) => {
-    const validationError = validateFile(file);
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
-
-    if (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
-      setError("Handwritten scanner supports image files only.");
-      return;
-    }
-
-    setIsScanningHandwritten(true);
-    setError("");
-    setProcessingStage("uploading");
-    setUploadedFileName(file.name);
-    setPdfPageCount(null);
-
-    try {
-      if (handwritingPreviewUrl) {
-        URL.revokeObjectURL(handwritingPreviewUrl);
-      }
-      setHandwritingPreviewUrl(URL.createObjectURL(file));
-
-      const processed = await preprocessHandwritingImage(file);
-      setProcessingStage("extracting");
-
-      const response = await fetch("/api/scan-handwriting", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          imageBase64: processed.base64,
-          mimeType: processed.mimeType,
-          subject: handwritingSubject,
-        }),
-      });
-
-      const data = (await response.json().catch(() => ({}))) as {
-        text?: string;
-        confidence?: number;
-        passes?: number;
-        error?: string;
-      };
-
-      if (!response.ok) {
-        setError(data.error ?? "Failed to scan handwritten notes.");
-        setProcessingStage("idle");
-        return;
-      }
-
-      const text = String(data.text ?? "").trim();
-      if (!text) {
-        setError("No readable handwritten text found.");
-        setProcessingStage("idle");
-        return;
-      }
-
-      setExtractedText(text);
-      setScanConfidence(typeof data.confidence === "number" ? data.confidence : null);
-  setScanPasses(typeof data.passes === "number" ? data.passes : null);
-
-      const words = text.split(/\s+/).filter(Boolean).length;
-      setWordCount(words);
-      setEstimatedReadMinutes(Math.max(1, Math.ceil(words / 200)));
-
-  setProcessingStage((typeof data.passes === "number" && data.passes >= 3) ? "analyzing" : "extracting");
-      await analyzeExtractedText(text);
-      setProcessingStage("done");
-      showToast("Handwritten notes scanned", "success");
-    } catch {
-      setError("Failed to scan handwritten notes.");
-      setProcessingStage("idle");
-    } finally {
-      setIsScanningHandwritten(false);
-    }
-  };
-
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (!selectedFile) {
@@ -294,22 +200,7 @@ export default function UploadPage() {
       return;
     }
 
-    if (activeTab === "handwritten") {
-      await scanHandwrittenFile(droppedFile);
-      return;
-    }
-
     await extractTextFromFile(droppedFile);
-  };
-
-  const handleHandwrittenSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
-    if (!selectedFile) {
-      return;
-    }
-
-    await scanHandwrittenFile(selectedFile);
-    event.target.value = "";
   };
 
   const handleUseText = (format: "summary" | "flashcards" | "questions" | "detailed") => {
@@ -326,15 +217,11 @@ export default function UploadPage() {
 
   const stageLabel =
     processingStage === "uploading"
-      ? isScanningHandwritten ? "Preprocessing image..." : "Uploading..."
+      ? "Uploading..."
       : processingStage === "extracting"
-        ? isScanningHandwritten ? "Reading handwriting (Pass 1)..." : "Extracting text..."
+        ? "Extracting text..."
         : processingStage === "analyzing"
-          ? isScanningHandwritten
-            ? scanPasses && scanPasses >= 3
-              ? "Improving unclear sections (Pass 2)..."
-              : "Cleaning and structuring..."
-            : "Analyzing document..."
+          ? "Analyzing document..."
           : processingStage === "done"
             ? "Done!"
             : "";
@@ -389,7 +276,7 @@ export default function UploadPage() {
                 <h2 className="text-sm font-semibold text-white">Upload & Scan</h2>
               </div>
               <p className="mt-1 text-sm text-gray-500">
-                PDF (10MB), image OCR (5MB), handwritten scanner (15MB)
+                PDF (10MB) or image OCR (5MB)
               </p>
             </div>
 
@@ -420,13 +307,6 @@ export default function UploadPage() {
             >
               Image
             </button>
-            <button
-              type="button"
-              className={`premium-tab ${activeTab === "handwritten" ? "is-active" : ""}`}
-              onClick={() => setActiveTab("handwritten")}
-            >
-              Handwritten Notes
-            </button>
           </div>
 
           {(activeTab === "pdf" || activeTab === "image") && (
@@ -451,7 +331,7 @@ export default function UploadPage() {
               <Button
                 type="button"
                 onClick={() => pdfInputRef.current?.click()}
-                disabled={isExtracting || isScanningHandwritten}
+                disabled={isExtracting}
                 variant="secondary"
                 size="sm"
               >
@@ -464,7 +344,7 @@ export default function UploadPage() {
                 <Button
                   type="button"
                   onClick={() => imageInputRef.current?.click()}
-                  disabled={isExtracting || isScanningHandwritten}
+                  disabled={isExtracting}
                   variant="secondary"
                   size="sm"
                 >
@@ -480,52 +360,22 @@ export default function UploadPage() {
               </>
             )}
 
-            {activeTab === "handwritten" && (
-              <>
-                <Button
-                  type="button"
-                  onClick={() => handwrittenInputRef.current?.click()}
-                  disabled={isExtracting || isScanningHandwritten}
-                  variant="secondary"
-                  size="sm"
-                >
-                  {isScanningHandwritten ? "Scanning..." : "Scan Handwritten Notes"}
-                </Button>
-                <select
-                  value={handwritingSubject}
-                  onChange={(event) => setHandwritingSubject(event.target.value as (typeof HANDWRITING_SUBJECTS)[number])}
-                  className="input text-white"
-                >
-                  {HANDWRITING_SUBJECTS.map((option) => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
-                </select>
-              </>
-            )}
-
-            {(isExtracting || isScanningHandwritten) && (
+            {(isExtracting) && (
               <span className="inline-flex items-center gap-2 text-sm font-medium text-blue-700">
                 <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                {isScanningHandwritten ? (stageLabel || "Scanning handwritten notes...") : (stageLabel || "Processing file...")}
+                {stageLabel || "Processing file..."}
               </span>
             )}
           </div>
-
-          {activeTab === "handwritten" && handwritingPreviewUrl && (
-            <div className="mt-4 card">
-              <p className="mb-2 text-xs font-semibold text-gray-700">Handwritten preview</p>
-              <img src={handwritingPreviewUrl} alt="Handwritten preview" className="max-h-60 w-full rounded object-contain" />
-            </div>
-          )}
 
           {(isExtracting || processingStage === "done") && (
             <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
               <div className="font-medium">{stageLabel || "Ready"}</div>
               <div className="mt-1 text-xs text-blue-700">
-                Preprocessing image... → Reading handwriting (Pass 1)... → Improving unclear sections (Pass 2)... → Cleaning and structuring... → Done!
+                Uploading and extracting text from your chosen file.
               </div>
             </div>
           )}
@@ -548,15 +398,6 @@ export default function UploadPage() {
               void handleFileSelect(event);
             }}
           />
-          <input
-            ref={handwrittenInputRef}
-            type="file"
-            accept="image/png,image/jpeg,.jpg,.jpeg"
-            className="hidden"
-            onChange={(event) => {
-              void handleHandwrittenSelect(event);
-            }}
-          />
         </div>
 
         <div className="card p-6">
@@ -567,12 +408,6 @@ export default function UploadPage() {
             </div>
             <span className="text-sm text-gray-500">{extractedText.length} characters</span>
           </div>
-
-          {scanConfidence !== null && (
-            <div className="mb-3 inline-flex items-center gap-2 badge badge-premium px-3 py-2 text-xs font-semibold">
-              Handwritten confidence: {scanConfidence}%
-            </div>
-          )}
 
           <textarea
             value={extractedText}
@@ -605,7 +440,7 @@ export default function UploadPage() {
           <div className="mt-4 flex flex-wrap gap-2 rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-2">
             <Button
               onClick={() => handleUseText("summary")}
-              disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
+              disabled={!extractedText.trim() || isExtracting}
               size="lg"
               className="flex-1"
             >
@@ -613,7 +448,7 @@ export default function UploadPage() {
             </Button>
             <Button
               onClick={() => handleUseText("flashcards")}
-              disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
+              disabled={!extractedText.trim() || isExtracting}
               variant="secondary"
               className="flex-1"
             >
@@ -621,7 +456,7 @@ export default function UploadPage() {
             </Button>
             <Button
               onClick={() => handleUseText("questions")}
-              disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
+              disabled={!extractedText.trim() || isExtracting}
               variant="secondary"
               className="flex-1"
             >
@@ -629,7 +464,7 @@ export default function UploadPage() {
             </Button>
             <Button
               onClick={() => handleUseText("detailed")}
-              disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
+              disabled={!extractedText.trim() || isExtracting}
               variant="secondary"
               className="flex-1"
             >
@@ -637,7 +472,7 @@ export default function UploadPage() {
             </Button>
             <Button
               onClick={() => setExtractedText("")}
-              disabled={!extractedText.trim() || isExtracting || isScanningHandwritten}
+              disabled={!extractedText.trim() || isExtracting}
               variant="secondary"
               className="flex-1"
             >

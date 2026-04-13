@@ -10,11 +10,10 @@ const PRESET_FEATURES = {
       "tutor", "rooms", "mock-exam", "audio", "scan", "photo-quiz",
       "my-notes", "mastery", "achievements", "habits", "community",
       "search", "capture", "listen", "diagrams", "podcast",
-      "battle-royale", "study-ghost", "wrapped",
-      "predictor", "interleave", "narrative",
-      "compress", "debate", "crossover", "reading-speed",
-      "micro-lessons", "lecture", "smart-upload",
-      "cornell", "quizlet-import", "library", "study-mode",
+      "battle-royale", "wrapped",
+      "interleave", "debate", "crossover", "reading-speed",
+      "micro-lessons",
+      "quizlet-import", "library", "study-mode",
       "content-hub", "knowledge-map",
     ],
     hidden: ["career-path", "peer-review", "essay-grade", "counterargument", "debate-judge"],
@@ -25,12 +24,12 @@ const PRESET_FEATURES = {
       "wellness", "tutor", "mock-exam", "audio", "my-notes",
       "mastery", "achievements", "habits", "community", "search",
       "capture", "diagrams", "essay-grade",
-      "peer-review", "cornell", "syllabus", "classroom-import",
+      "peer-review", "classroom-import",
       "presentations", "citations", "grammar", "plagiarism",
-      "study-ghost", "wrapped",
-      "reading-speed", "micro-lessons", "lecture",
-      "smart-upload", "library", "study-mode", "content-hub",
-      "knowledge-map", "adaptive-notes",
+      "wrapped",
+      "reading-speed", "micro-lessons",
+      "library", "study-mode", "content-hub",
+      "knowledge-map",
       "counterargument", "debate-judge", "crossover",
     ],
     hidden: ["curriculum", "grade-calc", "games", "battle-royale", "boss-battle"],
@@ -40,15 +39,15 @@ const PRESET_FEATURES = {
       "generator", "flashcards", "feynman", "planner", "calendar",
       "tutor", "voice-tutor", "my-notes", "mastery", "community",
       "search", "capture", "diagrams", "essay-grade",
-      "peer-review", "cornell", "syllabus", "classroom-import",
+      "peer-review", "classroom-import",
       "presentations", "citations", "grammar", "plagiarism",
-      "study-ghost", "wrapped",
-      "reading-speed", "micro-lessons", "lecture",
-      "smart-upload", "library", "study-mode", "content-hub",
-      "knowledge-map", "adaptive-notes",
+      "wrapped",
+      "reading-speed", "micro-lessons",
+      "library", "study-mode", "content-hub",
+      "knowledge-map",
       "counterargument", "debate-judge", "debate",
       "note-evolution", "crossover",
-      "compress", "narrative", "interleave", "pdf-library",
+      "interleave", "pdf-library",
     ],
     hidden: ["curriculum", "grade-calc", "games", "battle-royale", "battle", "photo-quiz"],
   },
@@ -59,10 +58,8 @@ const REQUIRED_FEATURE_KEYS = [
   "focus",
   "learning-style-quiz",
   "study-groups",
-  "youtube-import",
   "match",
   "referral",
-  "handwriting",
 ] as const;
 
 const UNIVERSAL_FEATURE_KEYS = Array.from(
@@ -73,6 +70,10 @@ const UNIVERSAL_FEATURE_KEYS = Array.from(
     ...REQUIRED_FEATURE_KEYS,
   ]),
 );
+
+const REMOVED_FEATURE_KEYS = new Set([
+  'study-ghost',
+]);
 
 type PresetKey = keyof typeof PRESET_FEATURES;
 
@@ -93,8 +94,16 @@ function reconcileFeatureLists(
   hiddenFeatures: unknown,
   options: { forceEnableAll: boolean },
 ) {
-  const enabled = Array.isArray(enabledFeatures) ? enabledFeatures.filter((value): value is string => typeof value === "string") : [];
-  const hidden = Array.isArray(hiddenFeatures) ? hiddenFeatures.filter((value): value is string => typeof value === "string") : [];
+  const enabled = Array.isArray(enabledFeatures)
+    ? enabledFeatures
+        .filter((value): value is string => typeof value === "string")
+        .filter((key) => !REMOVED_FEATURE_KEYS.has(key))
+    : [];
+  const hidden = Array.isArray(hiddenFeatures)
+    ? hiddenFeatures
+        .filter((value): value is string => typeof value === "string")
+        .filter((key) => !REMOVED_FEATURE_KEYS.has(key))
+    : [];
 
   const enabledSet = new Set<string>(enabled);
   const hiddenSet = new Set<string>(hidden);
