@@ -1,4 +1,4 @@
-import { auth } from "~/server/auth"
+import { getAuthSession } from "~/server/auth/session"
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
@@ -6,7 +6,7 @@ import Groq from 'groq-sdk'
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
 export async function POST(req: Request) {
-  const session = await auth()
+  const session = await getAuthSession()
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { subject, score, totalMarks, wrongAnswers, examId } = await req.json()
@@ -65,7 +65,7 @@ Respond ONLY in JSON:
 }
 
 export async function GET(req: Request) {
-  const session = await auth()
+  const session = await getAuthSession()
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const autopsies = await prisma.examAutopsy.findMany({
     where: { userId: session.user.id },

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
 import { prisma } from "@/lib/prisma";
-import { auth } from "~/server/auth";
+import { getAuthSession } from "~/server/auth/session";
 
 type TransformResult = {
   flashcards?: Array<{ question: string; answer: string }>;
@@ -24,8 +24,9 @@ function tryParseJson(raw: string): TransformResult | null {
   }
 }
 
+
 export async function POST(req: Request) {
-  const session = await auth();
+  const session = await getAuthSession();
   const uid = session?.user?.id;
   if (!uid) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -119,7 +120,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
-  const session = await auth();
+  const session = await getAuthSession();
   const uid = session?.user?.id;
   if (!uid) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

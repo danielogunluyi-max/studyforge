@@ -1,7 +1,7 @@
 "use server";
 
 import { type Exam } from "../../../generated/prisma";
-import { auth } from "~/server/auth";
+import { getAuthSession } from "~/server/auth/session";
 import { calculateOntarioOverall } from "@/lib/gradeUtils";
 import { prisma } from "@/lib/prisma";
 
@@ -35,7 +35,7 @@ function clampPercent(value: number): number {
 }
 
 export async function recordExamResult(input: RecordExamResultInput): Promise<RecordExamResultResponse> {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) {
     return { success: false, error: "Unauthorized" };
   }

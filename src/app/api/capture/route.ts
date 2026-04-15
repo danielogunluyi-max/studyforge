@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { auth } from "~/server/auth";
+import { getAuthSession } from "~/server/auth/session";
 import { db } from "~/server/db";
 
-export async function GET() {
-  const session = await auth();
+export async function GET(req: Request) {
+  const session = await getAuthSession();
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const captures = await db.quickCapture.findMany({
@@ -16,7 +16,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { content, tags } = (await req.json()) as { content?: string; tags?: string[] };

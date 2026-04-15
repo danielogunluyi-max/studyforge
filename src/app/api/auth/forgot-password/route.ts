@@ -12,6 +12,7 @@ export async function POST(request: Request) {
     const email = body.email?.toLowerCase().trim();
 
     if (!email || !email.includes("@")) {
+      console.log("[forgot-password] Invalid or missing email:", email);
       return NextResponse.json(
         { error: "Valid email address is required" },
         { status: 400 },
@@ -24,7 +25,10 @@ export async function POST(request: Request) {
     });
 
     const user = await db.user.findUnique({ where: { email } });
-    if (!user) return successResponse;
+    if (!user) {
+      console.log("[forgot-password] No user found for email:", email);
+      return successResponse;
+    }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
     const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
@@ -33,11 +37,13 @@ export async function POST(request: Request) {
       where: { id: user.id },
       data: { resetToken, resetTokenExpiry },
     });
+    console.log("[forgot-password] Updated user with resetToken, about to call sendPasswordResetEmail", { email, resetToken });
 
     try {
       await sendPasswordResetEmail(email, resetToken);
+      console.log("[forgot-password] sendPasswordResetEmail completed");
     } catch (emailError) {
-      console.error("Failed to send reset email:", emailError);
+      console.error("[forgot-password] Failed to send reset email:", emailError);
     }
 
     return successResponse;

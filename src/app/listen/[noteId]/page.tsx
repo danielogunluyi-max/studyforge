@@ -1,4 +1,4 @@
-import { auth } from '~/server/auth'
+import { getAuthSession } from '~/server/auth/session'
 import { db } from '~/server/db'
 import { notFound, redirect } from 'next/navigation'
 import ListenClient from './ListenClient'
@@ -12,7 +12,7 @@ export default async function ListenPage({
 }: {
   params: Promise<{ noteId: string }>
 }) {
-  const session = await auth()
+  const session = await getAuthSession()
   if (!session?.user?.id) redirect('/login')
 
   const { noteId } = await params

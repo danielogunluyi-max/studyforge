@@ -1,4 +1,4 @@
-import { auth } from "~/server/auth";
+import { getAuthSession } from "~/server/auth/session";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -22,8 +22,9 @@ const ACHIEVEMENTS = [
   { key: "first_wellness", title: "Self-Aware", description: "Completed your first wellness check-in", emoji: "💚" },
 ] as const;
 
-function pickAchievement(count: number, keys: readonly string[]): string[] {
-  const out: string[] = [];
+type AchievementKey = typeof ACHIEVEMENTS[number]["key"];
+function pickAchievement(count: number, keys: readonly AchievementKey[]): AchievementKey[] {
+  const out: AchievementKey[] = [];
   if (count > 0 && keys[0]) out.push(keys[0]);
   if (count >= 10 && keys[1]) out.push(keys[1]);
   if (count >= 50 && keys[2]) out.push(keys[2]);
@@ -31,7 +32,7 @@ function pickAchievement(count: number, keys: readonly string[]): string[] {
 }
 
 export async function POST() {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const userId = session.user.id;
@@ -49,7 +50,7 @@ export async function POST() {
     prisma.user.findUnique({ where: { id: userId }, select: { studyStreak: true } }),
   ]);
 
-  const shouldUnlock = new Set<string>();
+  const shouldUnlock = new Set<AchievementKey>();
 
   pickAchievement(noteCount, ["first_note", "notes_10", "notes_50"]).forEach((k) => shouldUnlock.add(k));
   if (deckCount > 0) shouldUnlock.add("first_flashcard");
@@ -70,19 +71,20 @@ export async function POST() {
   const catalog = new Map(ACHIEVEMENTS.map((item) => [item.key, item]));
   const created: Array<{ key: string; title: string; emoji: string }> = [];
 
+  // Fetch user's current unlocked achievements
+  const userRecord = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { battleAchievements: true },
+  });
+  const alreadyUnlocked = new Set(userRecord?.battleAchievements ?? []);
   for (const key of shouldUnlock) {
-    const item = catalog.get(key);
-    if (!item) continue;
-
-    try {
-      const earned = await prisma.achievement.create({
-        data: { userId, ...item },
-      });
-      created.push({ key: earned.key, title: earned.title, emoji: earned.emoji });
-    } catch {
-      // Ignore duplicates from unique(userId,key).
-    }
+    if (!catalog.has(key) || alreadyUnlocked.has(key)) continue;
+    await prisma.user.update({
+      where: { id: userId },
+      data: { battleAchievements: { push: key } },
+    });
+    const item = catalog.get(key)!;
+    created.push({ key: item.key, title: item.title, emoji: item.emoji });
   }
-
   return NextResponse.json({ unlocked: created, count: created.length });
 }

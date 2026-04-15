@@ -1,4 +1,4 @@
-import { auth } from "~/server/auth"
+import { getAuthSession } from "~/server/auth/session"
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
@@ -9,8 +9,9 @@ function generateCode(): string {
   return Math.random().toString(36).substring(2, 8).toUpperCase()
 }
 
+
 export async function POST(req: Request) {
-  const session = await auth()
+  const session = await getAuthSession()
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { subject, sourceText } = await req.json()
@@ -52,11 +53,12 @@ Respond ONLY as JSON array:
   return NextResponse.json({ battle })
 }
 
+
 export async function GET(req: Request) {
-  const session = await auth()
+  const session = await getAuthSession()
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { searchParams } = new URL(req.url)
-  const code = searchParams.get('code')
+  const code = searchParams.get('code') || undefined
 
   if (code) {
     const battle = await prisma.battleRoyale.findUnique({

@@ -1,6 +1,6 @@
 import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
-import { auth } from "~/server/auth";
+import { getAuthSession } from "~/server/auth/session";
 
 type NoteType = "summary" | "detailed" | "flashcards" | "quiz";
 
@@ -20,7 +20,7 @@ function normalizeTitle(rawTitle: string, subject: string) {
 
 export async function POST(request: Request) {
   try {
-    const session = await auth();
+    const session = await getAuthSession();
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

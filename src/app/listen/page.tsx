@@ -1,4 +1,4 @@
-import { auth } from '~/server/auth'
+import { getAuthSession } from '~/server/auth/session'
 import { db } from '~/server/db'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -8,7 +8,7 @@ export const metadata = {
 }
 
 export default async function ListenIndexPage() {
-  const session = await auth()
+  const session = await getAuthSession()
   if (!session?.user?.id) redirect('/login')
 
   const notes = await db.note.findMany({

@@ -1,7 +1,7 @@
 import Groq from 'groq-sdk';
 import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
-import { auth } from '~/server/auth';
+import { getAuthSession } from '~/server/auth/session';
 
 const prisma = db as any;
 
@@ -14,8 +14,9 @@ function inferSubjectsFromTags(tags: string[]): string[] {
     .filter((tag) => /math|bio|chem|phys|english|history|geo|cs|computer|business|accounting|science/i.test(tag));
 }
 
+
 export async function POST() {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -94,7 +95,7 @@ Respond ONLY in JSON:
 }
 
 export async function GET() {
-  const session = await auth();
+  const session = await getAuthSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
