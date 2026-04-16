@@ -9,7 +9,10 @@ if (!process.env.NEXTAUTH_SECRET && process.env.AUTH_SECRET) {
   process.env.NEXTAUTH_SECRET = process.env.AUTH_SECRET;
 }
 
-// v5: Only export the handler, do not destructure
-const handler = NextAuth(authConfig);
-export { handler as GET, handler as POST };
+const nextAuth = NextAuth(authConfig);
+const { handlers, auth } = nextAuth;
+
+export const { GET, POST } = handlers;
+export { auth };
+export { authConfig as authOptions };
 
