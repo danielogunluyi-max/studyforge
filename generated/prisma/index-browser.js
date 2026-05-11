@@ -21,11 +21,11 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.19.2
+ * Prisma Client JS version: 6.19.3
  * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
  */
 Prisma.prismaVersion = {
-  client: "6.19.2",
+  client: "6.19.3",
   engine: "c2990dca591cba766e3b7ef5d9e8a84796e47ab7"
 }
 
@@ -812,8 +812,11 @@ exports.Prisma.QuickCaptureScalarFieldEnum = {
 exports.Prisma.MockExamScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  noteId: 'noteId',
   title: 'title',
   subject: 'subject',
+  curriculumCode: 'curriculumCode',
+  instructions: 'instructions',
   timeLimit: 'timeLimit',
   createdAt: 'createdAt'
 };
@@ -826,7 +829,12 @@ exports.Prisma.MockExamQuestionScalarFieldEnum = {
   answer: 'answer',
   explanation: 'explanation',
   type: 'type',
-  points: 'points'
+  points: 'points',
+  orderIndex: 'orderIndex',
+  correctIndex: 'correctIndex',
+  modelAnswer: 'modelAnswer',
+  rubric: 'rubric',
+  unit: 'unit'
 };
 
 exports.Prisma.MockExamAttemptScalarFieldEnum = {
@@ -835,6 +843,9 @@ exports.Prisma.MockExamAttemptScalarFieldEnum = {
   userId: 'userId',
   answers: 'answers',
   score: 'score',
+  earnedPoints: 'earnedPoints',
+  totalPoints: 'totalPoints',
+  breakdown: 'breakdown',
   timeTaken: 'timeTaken',
   createdAt: 'createdAt'
 };
@@ -1266,6 +1277,37 @@ exports.Prisma.FeaturePreferenceScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ScreenshotScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  subject: 'subject',
+  userId: 'userId',
+  imageData: 'imageData',
+  noteId: 'noteId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ConversationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  subject: 'subject',
+  curriculumCode: 'curriculumCode',
+  noteId: 'noteId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  role: 'role',
+  content: 'content',
+  command: 'command',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1398,7 +1440,10 @@ exports.Prisma.ModelName = {
   SmartSuggestion: 'SmartSuggestion',
   StudyModeSession: 'StudyModeSession',
   ContentConnection: 'ContentConnection',
-  FeaturePreference: 'FeaturePreference'
+  FeaturePreference: 'FeaturePreference',
+  Screenshot: 'Screenshot',
+  Conversation: 'Conversation',
+  Message: 'Message'
 };
 
 /**

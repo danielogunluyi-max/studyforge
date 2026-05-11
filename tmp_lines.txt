@@ -1,0 +1,676 @@
+481:         }
+482:         @keyframes float {
+483:           0%,100% { transform: translateY(0); }
+484:           50% { transform: translateY(-6px); }
+485:         }
+486:         @keyframes count-up {
+487:           from { opacity: 0; transform: translateY(8px); }
+488:           to { opacity: 1; transform: translateY(0); }
+489:         }
+490:         .count-up-number { animation: count-up 0.4s ease both; }
+491:       `}</style>
+492: 
+493:       <div style={{ maxWidth: '1280px', margin: '0 auto', marginBottom: '100px', padding: '36px 24px 80px' }}>
+494:         {/* Nova greeting */}
+495:         {(() => {
+496:           const hour = new Date().getHours()
+497:           const greeting = hour < 12 ? '☀️ Good morning'
+498:             : hour < 17 ? '⚡ Good afternoon'
+499:             : '🌙 Good evening'
+500:           return (
+501:             <div style={{
+502:               display: 'flex', alignItems: 'center', gap: '12px',
+503:               marginBottom: '24px',
+504:             }}>
+505:               <div style={{
+506:                 width: '40px', height: '40px', borderRadius: '50%',
+507:                 background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
+508:                 display: 'flex', alignItems: 'center',
+509:                 justifyContent: 'center', fontSize: '20px',
+510:                 boxShadow: '0 0 16px rgba(240,180,41,0.4)',
+511:                 animation: 'float 3s ease-in-out infinite',
+512:                 flexShrink: 0,
+513:               }}>
+514:                 🤖
+515:               </div>
+516:               <div>
+517:                 <p style={{ fontSize: '13px', color: '#f0b429', fontWeight: 700, margin: 0 }}>
+518:                   Nova says:
+519:                 </p>
+520:                 <p style={{ fontSize: '15px', color: '#e8eaf6', fontWeight: 600, margin: 0 }}>
+521:                   {greeting}, Daniel. Ready to get smarter today?
+522:                 </p>
+523:               </div>
+524:             </div>
+525:           )
+526:         })()}
+527: 
+528:         <section style={{ marginBottom: '24px' }}>
+529:           <div style={{
+530:             display: 'inline-flex',
+531:             alignItems: 'center',
+532:             gap: '8px',
+533:             borderRadius: '999px',
+534:             border: '1px solid rgba(45,212,191,0.35)',
+535:             background: 'rgba(45,212,191,0.1)',
+536:             color: '#5eead4',
+537:             padding: '6px 12px',
+538:             fontSize: '11px',
+539:             fontWeight: 700,
+540:             letterSpacing: '0.07em',
+541:             textTransform: 'uppercase',
+542:             marginBottom: '12px',
+543:           }}>
+544:             Study Command Center
+545:           </div>
+546: 
+547:           <h1 className="kv-heading-page" style={{
+548:             fontSize: 'clamp(28px, 4.4vw, 44px)',
+549:             letterSpacing: '-0.04em',
+550:             fontFamily: '"Space Grotesk", var(--font-inter), sans-serif',
+551:             lineHeight: 1.03,
+552:             marginBottom: '10px',
+553:           }}>
+554:             Build Exam Momentum Every Day
+555:           </h1>
+556:           <p style={{ fontSize: '14px', color: '#9ba7c8', marginBottom: '0', maxWidth: '760px', lineHeight: 1.55 }}>
+557:             Own the timeline: track countdown pressure, turn topics into daily execution plans, and keep your study streak alive with less friction.
+558:           </p>
+559:         </section>
+560: 
+561:         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
+562:           <Link
+563:             href="/my-notes"
+564:             style={{
+565:               textDecoration: 'none',
+566:               borderRadius: '12px',
+567:               border: '1px solid rgba(79,142,247,0.42)',
+568:               background: 'rgba(79,142,247,0.14)',
+569:               color: '#bfdbfe',
+570:               padding: '10px 14px',
+571:               fontSize: '12px',
+572:               fontWeight: 700,
+573:             }}
+574:           >
+575:             Open My Notes
+576:           </Link>
+577:         </div>
+578: 
+579:         <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{
+580:               background: 'linear-gradient(165deg, rgba(16,24,40,0.92), rgba(10,14,26,0.86))',
+581:               border: '1px solid rgba(240,180,41,0.18)',
+582:               borderLeft: '3px solid #f0b429',
+583:               borderRadius: '18px',
+584:               padding: '22px 24px',
+585:               boxShadow: '0 12px 32px rgba(4,8,18,0.35)',
+586:               transition: 'all 0.2s ease',
+587:             }}
+588:           >
+589:             <p style={{
+590:               fontSize: '11px',
+591:               fontWeight: 800,
+592:               textTransform: 'uppercase',
+593:               letterSpacing: '0.09em',
+594:               color: '#7a88af',
+595:               marginBottom: '10px',
+596:             }}>
+597:               Next Exam Countdown
+598:             </p>
+599:             {nextExam ? (
+600:               <>
+601:                 <p style={{ fontSize: '14px', fontWeight: 700, color: '#8892b0', marginBottom: '6px' }}>
+602:                   {subjectIcon(nextExam.subject)} {nextExam.subject}
+603:                 </p>
+604:                 <p className="count-up-number" style={{ fontSize: '32px', fontWeight: 900, letterSpacing: '-0.04em', color: '#f8fbff' }}>
+605:                   {formatCountdown(nextExam.examDate)}
+606:                 </p>
+607:                 <p style={{ fontSize: '12px', color: '#8892b0', marginTop: '4px' }}>
+608:                   {new Date(nextExam.examDate).toLocaleString()}
+609:                 </p>
+610:               </>
+611:             ) : (
+612:               <>
+613:                 <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+614:                   0 days
+615:                 </p>
+616:                 <p style={{ fontSize: '13px', color: '#f0b429', marginTop: '6px' }}>
+617:                   No exams added yet 🎉{' '}
+618:                   <Link href="/calendar" style={{ color: '#f0b429', textDecoration: 'underline', fontWeight: 600 }}>
+619:                     Add your first exam →
+620:                   </Link>
+621:                 </p>
+622:               </>
+623:             )}
+624:           </div>
+625: 
+626:           <div
+627:             className="kv-card-hover"
+628:             onMouseEnter={applyCardHover}
+629:             onMouseLeave={clearCardHover}
+630:             style={{
+631:               background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
+632:               border: '1px solid rgba(45,212,191,0.25)',
+633:               borderLeft: '3px solid #2dd4bf',
+634:               borderRadius: '18px',
+635:               padding: '22px 24px',
+636:               boxShadow: '0 12px 32px rgba(4,8,18,0.3)',
+637:               transition: 'all 0.2s ease',
+638:             }}
+639:           >
+640:             <p style={{
+641:               fontSize: '10px',
+642:               fontWeight: 800,
+643:               textTransform: 'uppercase',
+644:               letterSpacing: '0.08em',
+645:               color: '#3d4a6b',
+646:               marginBottom: '8px',
+647:             }}>
+648:               Exams This Month
+649:             </p>
+650:             <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+651:               {totalExamsThisMonth}
+652:             </p>
+653:             <p style={{ fontSize: '12px', color: '#8892b0' }}>scheduled</p>
+654:           </div>
+655: 
+656:           <div
+657:             className="kv-card-hover"
+658:             onMouseEnter={applyCardHover}
+659:             onMouseLeave={clearCardHover}
+660:             style={{
+661:               background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
+662:               border: '1px solid rgba(139,92,246,0.25)',
+663:               borderLeft: '3px solid #8b5cf6',
+664:               borderRadius: '18px',
+665:               padding: '22px 24px',
+666:               boxShadow: '0 12px 32px rgba(4,8,18,0.35)',
+667:               transition: 'all 0.2s ease',
+668:             }}
+669:           >
+670:             <p style={{
+671:               fontSize: '10px',
+672:               fontWeight: 800,
+673:               textTransform: 'uppercase',
+674:               letterSpacing: '0.08em',
+675:               color: '#3d4a6b',
+676:               marginBottom: '8px',
+677:             }}>
+678:               Study Streak
+679:             </p>
+680:             <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+681:               {studyStreak}{studyStreak > 2 ? ' 🔥' : ''}
+682:             </p>
+683:             <p style={{ fontSize: '12px', color: '#8892b0' }}>
+684:               {studyStreak === 1 ? (
+685:                 <span style={{ color: '#2dd4bf' }}>Day 1 — the best day to start 🚀</span>
+686:               ) : (
+687:                 'days'
+688:               )}
+689:             </p>
+690:           </div>
+691:         </div>
+692: 
+693:         <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
+694:           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px', flexWrap: 'wrap' }}>
+695:             <div>
+696:               <p style={{
+697:                 fontSize: '11px',
+698:                 fontWeight: 800,
+699:                 textTransform: 'uppercase',
+700:                 letterSpacing: '0.08em',
+701:                 color: '#3d4a6b',
+702:                 marginBottom: '8px',
+703:               }}>
+704:                 Overall Readiness Score
+705:               </p>
+706:               <p style={{ fontSize: '30px', fontWeight: 900, color: '#f0b429', letterSpacing: '-0.03em' }}>
+707:                 {upcomingExams.length === 0 ? 'All caught up!' : `${readinessScore}%`}
+708:               </p>
+709:             </div>
+710:             <div style={{ width: '320px', maxWidth: '100%' }}>
+711:               <div style={{ height: '8px', borderRadius: '999px', background: '#12192e', overflow: 'hidden' }}>
+712:                 <div
+713:                   style={{
+714:                     height: '100%',
+715:                     width: `${readinessScore}%`,
+716:                     borderRadius: '999px',
+717:                     background: 'linear-gradient(90deg, #f0b429, #2dd4bf)',
+718:                     transition: 'width 0.3s ease',
+719:                     boxShadow: '0 0 8px rgba(240,180,41,0.4)',
+720:                   }}
+721:                 />
+722:               </div>
+723:             </div>
+724:           </div>
+725:         </div>
+726: 
+727:         <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
+728:           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+729:             <div>
+730:               <p style={{
+731:                 fontSize: '11px',
+732:                 fontWeight: 800,
+733:                 textTransform: 'uppercase',
+734:                 letterSpacing: '0.08em',
+735:                 color: '#3d4a6b',
+736:                 marginBottom: '8px',
+737:               }}>
+738:                 Ontario Curriculum
+739:               </p>
+740:               <p style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#e8eaf6' }}>
+741:                 Plan study by official Grade 11 expectations
+742:               </p>
+743:               <p style={{ marginTop: '6px', fontSize: '13px', color: '#8892b0' }}>
+744:                 Open course units, track completion, and generate targeted lessons.
+745:               </p>
+746:             </div>
+747:             <Link
+748:               href="/curriculum"
+749:               className="kv-pulse-gold"
+750:               style={{
+751:                 textDecoration: 'none',
+752:                 background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
+753:                 color: '#050810',
+754:                 fontWeight: 700,
+755:                 borderRadius: '10px',
+756:                 padding: '10px 20px',
+757:                 border: 'none',
+758:                 cursor: 'pointer',
+759:                 boxShadow: '0 4px 16px rgba(240,180,41,0.3)',
+760:                 fontSize: '13px',
+761:               }}
+762:             >
+763:               Open Curriculum Hub
+764:             </Link>
+765:           </div>
+766:         </div>
+767: 
+768:         <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '28px' }}>
+769:           <p style={{
+770:             fontSize: '11px',
+771:             fontWeight: 800,
+772:             textTransform: 'uppercase',
+773:             letterSpacing: '0.08em',
+774:             color: '#3d4a6b',
+775:             marginBottom: '16px',
+776:           }}>
+777:             Add Upcoming Exam
+778:           </p>
+779:           <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
+780:             <input
+781:               value={subject}
+782:               onChange={(event) => setSubject(event.target.value)}
+783:               placeholder="Subject name"
+784:               style={inputStyle}
+785:             />
+786:             <input
+787:               value={examDate}
+788:               onChange={(event) => setExamDate(event.target.value)}
+789:               type="datetime-local"
+790:               style={inputStyle}
+791:             />
+792:             <input
+793:               value={board}
+794:               onChange={(event) => setBoard(event.target.value)}
+795:               placeholder="Exam board (APA, IB, Ontario...)"
+796:               style={inputStyle}
+797:             />
+798:             <select
+799:               value={difficulty}
+800:               onChange={(event) => setDifficulty(event.target.value)}
+801:               style={inputStyle}
+802:             >
+803:               {DIFFICULTY_OPTIONS.map((option) => (
+804:                 <option key={option} value={option}>{option}</option>
+805:               ))}
+806:             </select>
+807:             <input
+808:               value={topics}
+809:               onChange={(event) => setTopics(event.target.value)}
+810:               placeholder="Topics (comma separated)"
+811:               style={inputStyle}
+812:             />
+813:             <LoadingButton
+814:               loading={isSaving}
+815:               onClick={() => {
+816:                 void createExam()
+817:               }}
+818:               type="button"
+819:               fullWidth
+820:             >
+821:               Save Exam
+822:             </LoadingButton>
+823:           </div>
+824:         </div>
+825: 
+826:         {isLoading ? (
+827:           <Skeleton variant="card" count={3} />
+828:         ) : exams.length === 0 ? (
+829:           <EmptyState
+830:             icon="🚀"
+831:             title="Your dashboard is empty"
+832:             description="Start by creating a note or importing a flashcard deck"
+833:             action={{ label: 'Create your first note', href: '/generator' }}
+834:           />
+835:         ) : (
+836:           <div>
+837:             {upcomingExams.length === 0 ? (
+838:               <EmptyState
+839:                 icon="📅"
+840:                 title="No events scheduled"
+841:                 description="Add your exams, assignments, and deadlines"
+842:               />
+843:             ) : (
+844:               <div>
+845:                 <p style={{
+846:                   fontSize: '11px',
+847:                   fontWeight: 800,
+848:                   textTransform: 'uppercase',
+849:                   letterSpacing: '0.08em',
+850:                   color: '#3d4a6b',
+851:                   marginBottom: '16px',
+852:                 }}>
+853:                   Upcoming Exams
+854:                 </p>
+855:                 <div className="kv-stagger kv-animate-in" style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+856:                   {[...upcomingExams]
+857:                     .sort((a, b) => new Date(a.examDate).getTime() - new Date(b.examDate).getTime())
+858:                     .map((exam) => {
+859:                       const days = safeDaysUntil(exam.examDate)
+860:                       const urgencyTier = urgencyFromDays(days)
+861:                       const urgency = urgencyClasses(urgencyTier)
+862:                       const panic = panicData(exam)
+863:                       const planDays = parseStudyPlan(exam.studyPlan)
+864: 
+865:                       return (
+866:                         <div
+867:                           key={exam.id}
+868:                           className="kv-card-hover kv-animate-in"
+869:                           onMouseEnter={applyCardHover}
+870:                           onMouseLeave={clearCardHover}
+871:                           style={baseCardStyle}
+872:                         >
+873:                           <div style={{ marginBottom: '12px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+874:                             <p style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: '#e8eaf6' }}>
+875:                               {subjectIcon(exam.subject)} {exam.subject}
+876:                             </p>
+877:                             <span style={{
+878:                               borderRadius: '999px',
+879:                               border: `1px solid ${urgency.badgeBorder}`,
+880:                               background: urgency.badgeBg,
+881:                               padding: '4px 10px',
+882:                               fontSize: '11px',
+883:                               fontWeight: 700,
+884:                               color: urgency.badgeText,
+885:                               animation: urgency.pulse ? 'dashboard-pulse 1.2s ease infinite' : 'none',
+886:                             }}>
+887:                               {urgencyTier.toUpperCase()} URGENCY
+888:                             </span>
+889:                           </div>
+890: 
+891:                           <p style={{ fontSize: '12px', color: '#8892b0', margin: 0 }}>
+892:                             {new Date(exam.examDate).toLocaleString()} • {exam.board || 'No board'} • {exam.difficulty || 'Medium'}
+893:                           </p>
+894: 
+895:                           <p style={{
+896:                             marginTop: '14px',
+897:                             marginBottom: '0',
+898:                             fontSize: '34px',
+899:                             fontWeight: 900,
+900:                             letterSpacing: '-0.03em',
+901:                             color: '#e8eaf6',
+902:                             animation: urgency.pulse ? 'dashboard-pulse 1.2s ease infinite' : 'none',
+903:                           }}>
+904:                             {formatCountdown(exam.examDate)}
+905:                           </p>
+906: 
+907:                           <div style={{ marginTop: '14px' }}>
+908:                             <div style={{ marginBottom: '6px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: '#8892b0' }}>
+909:                               <span>Panic meter</span>
+910:                               <span>{urgencyProgress(days)}%</span>
+911:                             </div>
+912:                             <div style={{ height: '8px', borderRadius: '999px', overflow: 'hidden', background: '#12192e' }}>
+913:                               <div style={{ height: '100%', width: `${urgencyProgress(days)}%`, background: urgency.bar }} />
+914:                             </div>
+915:                           </div>
+916: 
+917:                           <div style={{
+918:                             marginTop: '12px',
+919:                             borderRadius: '12px',
+920:                             border: '1px solid rgba(255,255,255,0.07)',
+921:                             background: '#12192e',
+922:                             padding: '12px',
+923:                             fontSize: '13px',
+924:                           }}>
+925:                             <p style={{ margin: 0, fontWeight: 700, color: panic.tier.color }}>{panic.tier.label}</p>
+926:                             <p style={{ margin: '6px 0 0', fontSize: '12px', color: '#8892b0' }}>
+927:                               Topics: {panic.totalTopics} • Days available: {panic.daysAvailable} • Topics/day needed: {panic.topicsPerDay.toFixed(2)}
+928:                             </p>
+929:                           </div>
+930: 
+931:                           <div style={{ marginTop: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+932:                             <button
+933:                               type="button"
+934:                               onClick={() => {
+935:                                 void generateStudyPlan(exam.id)
+936:                               }}
+937:                               disabled={generatingExamId === exam.id}
+938:                               style={{
+939:                                 borderRadius: '10px',
+940:                                 border: 'none',
+941:                                 background: '#4f8ef7',
+942:                                 color: '#050810',
+943:                                 fontWeight: 700,
+944:                                 fontSize: '12px',
+945:                                 padding: '9px 12px',
+946:                                 cursor: generatingExamId === exam.id ? 'not-allowed' : 'pointer',
+947:                                 opacity: generatingExamId === exam.id ? 0.75 : 1,
+948:                                 fontFamily: 'inherit',
+949:                               }}
+950:                             >
+951:                               {generatingExamId === exam.id ? 'Generating...' : 'Generate Study Plan'}
+952:                             </button>
+953:                           </div>
+954: 
+955:                           {planDays.length > 0 && (
+956:                             <div style={{ marginTop: '16px' }}>
+957:                               <p style={{ margin: '0 0 8px', fontSize: '13px', fontWeight: 700, color: '#e8eaf6' }}>Study Timeline</p>
+958:                               <div style={{ display: 'grid', gap: '8px' }}>
+959:                                 {planDays.map((day, index) => {
+960:                                   const completed = Boolean(day.completed)
+961:                                   const today = isTodayLabel(day.date)
+962: 
+963:                                   let dayBg = '#12192e'
+964:                                   let dayBorder = 'rgba(255,255,255,0.07)'
+965:                                   if (completed) {
+966:                                     dayBg = 'rgba(16,185,129,0.12)'
+967:                                     dayBorder = 'rgba(16,185,129,0.4)'
+968:                                   } else if (today) {
+969:                                     dayBg = 'rgba(79,142,247,0.14)'
+970:                                     dayBorder = 'rgba(79,142,247,0.4)'
+971:                                   }
+972: 
+973:                                   return (
+974:                                     <div
+975:                                       key={`${exam.id}-${index}`}
+976:                                       style={{ borderRadius: '10px', border: `1px solid ${dayBorder}`, background: dayBg, padding: '12px' }}
+977:                                     >
+978:                                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+979:                                         <input
+980:                                           type="checkbox"
+981:                                           checked={completed}
+982:                                           disabled={savingPlanExamId === exam.id}
+983:                                           onChange={() => {
+984:                                             void togglePlanDay(exam, index)
+985:                                           }}
+986:                                           style={{ marginTop: '2px', accentColor: '#2dd4bf' }}
+987:                                         />
+988:                                         <div style={{ minWidth: 0 }}>
+989:                                           <p style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#e8eaf6' }}>
+990:                                             Day {index + 1} ({day.date}): {day.title}
+991:                                           </p>
+992:                                           {day.tasks.length > 0 && (
+993:                                             <ul style={{ margin: '6px 0 0', paddingLeft: '16px', color: '#8892b0', fontSize: '12px' }}>
+994:                                               {day.tasks.map((task, taskIndex) => (
+995:                                                 <li key={`${exam.id}-${index}-${taskIndex}`} style={{ marginBottom: '3px' }}>{task}</li>
+996:                                               ))}
+997:                                             </ul>
+998:                                           )}
+999:                                         </div>
+1000:                                       </div>
+1001:                                     </div>
+1002:                                   )
+1003:                                 })}
+1004:                               </div>
+1005:                             </div>
+1006:                           )}
+1007:                         </div>
+1008:                       )
+1009:                     })}
+1010:                 </div>
+1011:               </div>
+1012:             )}
+1013: 
+1014:             {pastExams.length > 0 && (
+1015:               <div style={{ marginTop: '48px' }}>
+1016:                 <p style={{
+1017:                   fontSize: '11px',
+1018:                   fontWeight: 800,
+1019:                   textTransform: 'uppercase',
+1020:                   letterSpacing: '0.08em',
+1021:                   color: '#3d4a6b',
+1022:                   marginBottom: '16px',
+1023:                 }}>
+1024:                   Past Exams
+1025:                 </p>
+1026:                 <div style={{ display: 'grid', gap: '12px' }}>
+1027:                   {[...pastExams]
+1028:                     .sort((a, b) => new Date(b.examDate).getTime() - new Date(a.examDate).getTime())
+1029:                     .map((exam) => (
+1030:                       <div
+1031:                         key={exam.id}
+1032:                         onMouseEnter={applyCardHover}
+1033:                         onMouseLeave={clearCardHover}
+1034:                         style={{
+1035:                           ...baseCardStyle,
+1036:                           opacity: 0.62,
+1037:                           marginBottom: '12px',
+1038:                           display: 'flex',
+1039:                           alignItems: 'center',
+1040:                           justifyContent: 'space-between',
+1041:                           padding: '16px 20px',
+1042:                         }}
+1043:                       >
+1044:                         <div>
+1045:                           <p style={{
+1046:                             fontWeight: 600,
+1047:                             color: '#8892b0',
+1048:                             textDecoration: 'line-through',
+1049:                             fontSize: '15px',
+1050:                             margin: 0,
+1051:                           }}>
+1052:                             {exam.subject}
+1053:                           </p>
+1054:                           <p style={{ fontSize: '12px', color: '#3d4a6b', marginTop: '2px', marginBottom: 0 }}>
+1055:                             Completed — {new Date(exam.examDate).toLocaleDateString('en-CA', {
+1056:                               month: 'short', day: 'numeric', year: 'numeric',
+1057:                             })}
+1058:                           </p>
+1059:                           {exam.board && (
+1060:                             <p style={{ fontSize: '11px', color: '#3d4a6b', marginTop: '2px', marginBottom: 0 }}>{exam.board}</p>
+1061:                           )}
+1062:                         </div>
+1063: 
+1064:                         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+1065:                           {!exam.resultRecorded ? (
+1066:                             <button
+1067:                               type="button"
+1068:                               onClick={() => {
+1069:                                 setSelectedExamForResult({
+1070:                                   id: exam.id,
+1071:                                   subject: exam.subject,
+1072:                                   examDate: exam.examDate,
+1073:                                   board: exam.board,
+1074:                                 });
+1075:                               }}
+1076:                               style={{
+1077:                                 border: '1px solid #4f8ef7',
+1078:                                 borderRadius: '8px',
+1079:                                 background: 'transparent',
+1080:                                 color: '#4f8ef7',
+1081:                                 padding: '6px 10px',
+1082:                                 fontSize: '12px',
+1083:                                 fontWeight: 600,
+1084:                                 cursor: 'pointer',
+1085:                                 fontFamily: 'inherit',
+1086:                               }}
+1087:                             >
+1088:                               Record Result
+1089:                             </button>
+1090:                           ) : (
+1091:                             <button
+1092:                               type="button"
+1093:                               onClick={() => {
+1094:                                 void router.push('/results')
+1095:                               }}
+1096:                               style={{
+1097:                                 border: 'none',
+1098:                                 borderRadius: '20px',
+1099:                                 background: getGradeColor(exam.scorePercent ?? 0),
+1100:                                 color: '#e8eaf6',
+1101:                                 padding: '6px 10px',
+1102:                                 fontSize: '12px',
+1103:                                 fontWeight: 700,
+1104:                                 cursor: 'pointer',
+1105:                                 fontFamily: 'inherit',
+1106:                               }}
+1107:                             >
+1108:                               {percentToLetter(exam.scorePercent ?? 0)} {(exam.scorePercent ?? 0).toFixed(1)}%
+1109:                             </button>
+1110:                           )}
+1111:                           <button
+1112:                             type="button"
+1113:                             onClick={() => {
+1114:                               void handleDeleteExam(exam.id)
+1115:                             }}
+1116:                             style={{
+1117:                               border: '1px solid rgba(239,68,68,0.35)',
+1118:                               background: 'rgba(239,68,68,0.1)',
+1119:                               color: '#ef4444',
+1120:                               borderRadius: '8px',
+1121:                               padding: '6px 10px',
+1122:                               fontSize: '12px',
+1123:                               fontWeight: 700,
+1124:                               cursor: 'pointer',
+1125:                               fontFamily: 'inherit',
+1126:                             }}
+1127:                           >
+1128:                             Delete
+1129:                           </button>
+1130:                         </div>
+1131:                       </div>
+1132:                     ))}
+1133:                 </div>
+1134:               </div>
+1135:             )}
+1136:           </div>
+1137:         )}
+1138:         {selectedExamForResult && (
+1139:           <RecordResultModal
+1140:             exam={selectedExamForResult}
+1141:             onClose={() => {
+1142:               setSelectedExamForResult(null);
+1143:             }}
+1144:             onSuccess={() => {
+1145:               setSelectedExamForResult(null);
+1146:               trackNovaEvent('EXAM_RESULT_SAVED');
+1147:               void fetchExams();
+1148:             }}
+1149:           />
+1150:         )}
+1151:       </div>
+1152:     </main>
+1153:   )
+1154: }
+1155: 
+1156: 

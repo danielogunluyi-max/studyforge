@@ -1,0 +1,240 @@
+.next/types/app/api/shared-decks/[id]/download/route.ts(166,7): error TS2344: Type '{ __tag__: "POST"; __param_position__: "second"; __param_type__: { params: { id: string; }; }; }' does not satisfy the constraint 'ParamCheck<RouteContext>'.
+  The types of '__param_type__.params' are incompatible between these types.
+    Type '{ id: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+.next/types/validator.ts(2394,31): error TS2344: Type 'typeof import("C:/Users/danie/kyvex/src/app/api/shared-decks/[id]/download/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/shared-decks/[id]/download">'.
+  Types of property 'POST' are incompatible.
+    Type '(req: Request, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ error: string; }> | NextResponse<{ deck: { subject: string; id: string; title: string; description: string | null; createdAt: Date; updatedAt: Date; userId: string; }; }>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+scripts/diagnose-jsx.cjs(11,36): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+scripts/diagnose-jsx.cjs(13,25): error TS18048: 'line' is possibly 'undefined'.
+scripts/diagnose-jsx.cjs(14,38): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+scripts/diagnose-jsx.cjs(14,95): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+scripts/diagnose-jsx.cjs(19,37): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+scripts/diagnose-jsx.cjs(23,58): error TS18048: 'line' is possibly 'undefined'.
+scripts/diagnose-jsx.js(12,36): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+scripts/diagnose-jsx.js(14,25): error TS18048: 'line' is possibly 'undefined'.
+scripts/diagnose-jsx.js(15,38): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+scripts/diagnose-jsx.js(15,110): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+scripts/diagnose-jsx.js(20,37): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+scripts/diagnose-jsx.js(24,58): error TS18048: 'line' is possibly 'undefined'.
+scripts/parse-dashboard.js(8,32): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+scripts/parse-dashboard.js(12,23): error TS7006: Parameter 'diag' implicitly has an 'any' type.
+scripts/scan-dashboard.js(8,32): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+src/app/api/battle-royale/[id]/route.ts(40,33): error TS2353: Object literal may only specify known properties, and 'currentQuestion' does not exist in type '(Without<BattleRoyaleUpdateInput, BattleRoyaleUncheckedUpdateInput> & BattleRoyaleUncheckedUpdateInput) | (Without<...> & BattleRoyaleUpdateInput)'.
+src/app/api/battle-royale/[id]/route.ts(48,27): error TS2339: Property 'currentQuestion' does not exist on type '{ players: { id: string; userId: string; battleId: string; score: number; joinedAt: Date; eliminated: boolean; rank: number | null; }[]; } & { subject: string; id: string; code: string; createdAt: Date; ... 5 more ...; currentQ: number; }'.
+src/app/api/battle-royale/[id]/route.ts(62,15): error TS2353: Object literal may only specify known properties, and 'currentQuestion' does not exist in type '(Without<BattleRoyaleUpdateInput, BattleRoyaleUncheckedUpdateInput> & BattleRoyaleUncheckedUpdateInput) | (Without<...> & BattleRoyaleUpdateInput)'.
+src/app/api/concept-collision/route.ts(15,28): error TS2353: Object literal may only specify known properties, and 'subject' does not exist in type 'NoteSelect<DefaultArgs>'.
+src/app/api/concept-collision/route.ts(20,49): error TS2339: Property 'subject' does not exist on type '{ tags: string[]; id: string; title: string; createdAt: Date; updatedAt: Date; userId: string; content: string; format: string; isPinned: boolean; lastViewedAt: Date | null; isShared: boolean; folderId: string | null; }'.
+src/app/api/concept-collision/route.ts(25,44): error TS2339: Property 'subject' does not exist on type '{ tags: string[]; id: string; title: string; createdAt: Date; updatedAt: Date; userId: string; content: string; format: string; isPinned: boolean; lastViewedAt: Date | null; isShared: boolean; folderId: string | null; }'.
+src/app/api/debate/generate/route.ts(40,9): error TS2322: Type 'unknown[]' is not assignable to type 'JsonNull | InputJsonValue'.
+  Type 'unknown[]' is not assignable to type 'InputJsonObject'.
+    Index signature for type 'string' is missing in type 'unknown[]'.
+src/app/api/debate/generate/route.ts(41,9): error TS2322: Type 'unknown[]' is not assignable to type 'JsonNull | InputJsonValue'.
+  Type 'unknown[]' is not assignable to type 'InputJsonObject'.
+    Index signature for type 'string' is missing in type 'unknown[]'.
+src/app/api/decay-alerts/route.ts(13,7): error TS2353: Object literal may only specify known properties, and 'flashcards' does not exist in type 'FlashcardDeckInclude<DefaultArgs>'.
+src/app/api/decay-alerts/route.ts(23,29): error TS2339: Property 'flashcards' does not exist on type '{ subject: string; id: string; title: string; description: string | null; createdAt: Date; updatedAt: Date; userId: string; }'.
+src/app/api/decay-alerts/route.ts(34,26): error TS2339: Property 'name' does not exist on type '{ subject: string; id: string; title: string; description: string | null; createdAt: Date; updatedAt: Date; userId: string; }'.
+src/app/api/essay-grade/route.ts(62,18): error TS2339: Property 'essayGrade' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+src/app/api/essay-grade/route.ts(83,31): error TS2339: Property 'essayGrade' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+src/app/api/interleave/route.ts(41,9): error TS2322: Type 'Record<string, unknown>' is not assignable to type 'JsonNull | InputJsonValue'.
+  Type 'Record<string, unknown>' is missing the following properties from type 'readonly (InputJsonValue | null)[]': length, concat, join, slice, and 20 more.
+src/app/api/predictor/route.ts(86,9): error TS2322: Type '{ predictedScore?: number | undefined; confidence?: number | undefined; factors?: unknown[] | undefined; }' is not assignable to type 'JsonNull | InputJsonValue'.
+  Type '{ predictedScore?: number | undefined; confidence?: number | undefined; factors?: unknown[] | undefined; }' is not assignable to type 'InputJsonObject'.
+    Property 'factors' is incompatible with index signature.
+      Type 'unknown[]' is not assignable to type 'InputJsonValue | null | undefined'.
+        Type 'unknown[]' is not assignable to type 'InputJsonObject'.
+          Index signature for type 'string' is missing in type 'unknown[]'.
+src/app/api/predictor/route.ts(91,9): error TS2322: Type 'unknown[]' is not assignable to type 'InputJsonValue | NullableJsonNullValueInput | undefined'.
+  Type 'unknown[]' is not assignable to type 'InputJsonObject'.
+    Index signature for type 'string' is missing in type 'unknown[]'.
+src/app/api/quizlet-import/route.ts(55,7): error TS2353: Object literal may only specify known properties, and 'name' does not exist in type 'Without<FlashcardDeckCreateInput, FlashcardDeckUncheckedCreateInput> & FlashcardDeckUncheckedCreateInput'.
+src/app/api/quizlet-import/route.ts(66,16): error TS2353: Object literal may only specify known properties, and 'flashcards' does not exist in type 'FlashcardDeckInclude<DefaultArgs>'.
+src/app/api/referral/route.ts(15,15): error TS2353: Object literal may only specify known properties, and 'referralCode' does not exist in type 'UserSelect<DefaultArgs>'.
+src/app/api/referral/route.ts(18,14): error TS2339: Property 'referralCode' does not exist on type '{ id: string; name: string | null; email: string | null; emailVerified: Date | null; image: string | null; password: string | null; resetToken: string | null; resetTokenExpiry: Date | null; ... 16 more ...; presetSet: boolean; }'.
+src/app/api/referral/route.ts(21,15): error TS2353: Object literal may only specify known properties, and 'referralCode' does not exist in type '(Without<UserUpdateInput, UserUncheckedUpdateInput> & UserUncheckedUpdateInput) | (Without<...> & UserUpdateInput)'.
+src/app/api/referral/route.ts(22,17): error TS2353: Object literal may only specify known properties, and 'referralCode' does not exist in type 'UserSelect<DefaultArgs>'.
+src/app/api/referral/route.ts(26,34): error TS2339: Property 'referral' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+src/app/api/referral/route.ts(32,17): error TS2339: Property 'referralCode' does not exist on type '{ id: string; name: string | null; email: string | null; emailVerified: Date | null; image: string | null; password: string | null; resetToken: string | null; resetTokenExpiry: Date | null; ... 16 more ...; presetSet: boolean; }'.
+src/app/api/referral/route.ts(33,38): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/app/api/referral/route.ts(34,31): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/app/api/referral/route.ts(50,14): error TS2353: Object literal may only specify known properties, and 'referralCode' does not exist in type 'UserWhereUniqueInput'.
+src/app/api/referral/route.ts(57,33): error TS2339: Property 'referral' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+src/app/api/referral/route.ts(66,16): error TS2339: Property 'referral' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+src/app/api/shared-decks/[id]/download/route.ts(11,35): error TS2353: Object literal may only specify known properties, and 'flashcards' does not exist in type 'FlashcardDeckInclude<DefaultArgs>'.
+src/app/api/shared-decks/[id]/download/route.ts(19,7): error TS2353: Object literal may only specify known properties, and 'name' does not exist in type 'Without<FlashcardDeckCreateInput, FlashcardDeckUncheckedCreateInput> & FlashcardDeckUncheckedCreateInput'.
+src/app/api/shared-decks/[id]/download/route.ts(23,24): error TS2339: Property 'deck' does not exist on type '{ subject: string; id: string; title: string; description: string | null; createdAt: Date; preset: string; userId: string; deckId: string; likes: number; downloads: number; }'.
+src/app/api/shared-decks/[id]/download/route.ts(23,45): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/app/api/shared-decks/[id]/download/route.ts(23,48): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/app/api/shared-decks/[id]/download/route.ts(30,16): error TS2353: Object literal may only specify known properties, and 'flashcards' does not exist in type 'FlashcardDeckInclude<DefaultArgs>'.
+src/app/api/study-dna/route.ts(22,74): error TS2353: Object literal may only specify known properties, and 'subject' does not exist in type 'NoteSelect<DefaultArgs>'.
+src/app/api/study-dna/route.ts(25,89): error TS2353: Object literal may only specify known properties, and 'score' does not exist in type 'ExamSelect<DefaultArgs>'.
+src/app/api/study-dna/route.ts(26,82): error TS2353: Object literal may only specify known properties, and 'duration' does not exist in type 'FocusSessionSelect<DefaultArgs>'.
+src/app/api/study-dna/route.ts(30,217): error TS2339: Property 'subject' does not exist on type '{ tags: string[]; id: string; title: string; createdAt: Date; updatedAt: Date; userId: string; content: string; format: string; isPinned: boolean; lastViewedAt: Date | null; isShared: boolean; folderId: string | null; }'.
+src/app/api/study-ghost/route.ts(15,74): error TS2353: Object literal may only specify known properties, and 'score' does not exist in type 'ExamSelect<DefaultArgs>'.
+src/app/api/study-ghost/route.ts(19,65): error TS2339: Property 'score' does not exist on type '{ subject: string; id: string; createdAt: Date; userId: string; examDate: Date; board: string | null; difficulty: string | null; topics: string | null; studyPlan: string | null; ... 7 more ...; resultRecordedAt: Date | null; }'.
+src/app/api/study-ghost/route.ts(22,37): error TS2339: Property 'studyGhost' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+src/app/api/study-ghost/route.ts(55,30): error TS2339: Property 'studyGhost' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+src/app/api/study-ghost/route.ts(84,31): error TS2339: Property 'studyGhost' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+src/app/api/study-mode/route.ts(128,5): error TS2322: Type '{ completed: true; phase?: "test" | "learn" | "encode" | "reflect" | undefined; minutes?: number | undefined; label?: string | undefined; features?: { label: string; href: string; icon: string; }[] | undefined; }' is not assignable to type 'EnrichedPhase'.
+  Type '{ completed: true; phase?: "test" | "learn" | "encode" | "reflect" | undefined; minutes?: number | undefined; label?: string | undefined; features?: { label: string; href: string; icon: string; }[] | undefined; }' is not assignable to type 'PhaseDef'.
+    Types of property 'phase' are incompatible.
+      Type '"test" | "learn" | "encode" | "reflect" | undefined' is not assignable to type '"test" | "learn" | "encode" | "reflect"'.
+        Type 'undefined' is not assignable to type '"test" | "learn" | "encode" | "reflect"'.
+src/app/api/wrapped/route.ts(17,119): error TS2353: Object literal may only specify known properties, and 'subject' does not exist in type 'NoteSelect<DefaultArgs>'.
+src/app/api/wrapped/route.ts(19,134): error TS2353: Object literal may only specify known properties, and 'score' does not exist in type 'ExamSelect<DefaultArgs>'.
+src/app/api/wrapped/route.ts(21,70): error TS2353: Object literal may only specify known properties, and 'createdAt' does not exist in type 'FocusSessionWhereInput'.
+src/app/api/wrapped/route.ts(21,127): error TS2353: Object literal may only specify known properties, and 'duration' does not exist in type 'FocusSessionSelect<DefaultArgs>'.
+src/app/api/wrapped/route.ts(28,52): error TS2339: Property 'duration' does not exist on type '{ id: string; userId: string; startedAt: Date; goal: string | null; durationMins: number; actualMins: number | null; completed: boolean; abandoned: boolean; distractions: number; endedAt: Date | null; }'.
+src/app/api/wrapped/route.ts(29,65): error TS2339: Property 'score' does not exist on type '{ subject: string; id: string; createdAt: Date; userId: string; examDate: Date; board: string | null; difficulty: string | null; topics: string | null; studyPlan: string | null; ... 7 more ...; resultRecordedAt: Date | null; }'.
+src/app/api/wrapped/route.ts(33,11): error TS2339: Property 'subject' does not exist on type '{ tags: string[]; id: string; title: string; createdAt: Date; updatedAt: Date; userId: string; content: string; format: string; isPinned: boolean; lastViewedAt: Date | null; isShared: boolean; folderId: string | null; }'.
+src/app/api/wrapped/route.ts(33,36): error TS2339: Property 'subject' does not exist on type '{ tags: string[]; id: string; title: string; createdAt: Date; updatedAt: Date; userId: string; content: string; format: string; isPinned: boolean; lastViewedAt: Date | null; isShared: boolean; folderId: string | null; }'.
+src/app/api/wrapped/route.ts(33,64): error TS2339: Property 'subject' does not exist on type '{ tags: string[]; id: string; title: string; createdAt: Date; updatedAt: Date; userId: string; content: string; format: string; isPinned: boolean; lastViewedAt: Date | null; isShared: boolean; folderId: string | null; }'.
+src/app/api/wrapped/route.ts(65,32): error TS2339: Property 'wrappedStat' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+tmp_babel_parse.cjs(2,24): error TS2307: Cannot find module '@babel/parser' or its corresponding type declarations.
+tmp_babel_parse.cjs(10,27): error TS18046: 'e' is of type 'unknown'.
+tmp_babel_parse.cjs(11,24): error TS18046: 'e' is of type 'unknown'.
+tmp_babel_parse.cjs(11,33): error TS18046: 'e' is of type 'unknown'.
+tmp_babel_parse.cjs(12,26): error TS18046: 'e' is of type 'unknown'.
+tmp_babel_parse.cjs(12,35): error TS18046: 'e' is of type 'unknown'.
+tmp_babel_parse.cjs(13,23): error TS18046: 'e' is of type 'unknown'.
+tmp_balance2.cjs(14,20): error TS18048: 'line' is possibly 'undefined'.
+tmp_count_divs.cjs(12,23): error TS18048: 'line' is possibly 'undefined'.
+tmp_count_divs.cjs(13,24): error TS18048: 'line' is possibly 'undefined'.
+tmp_count_divs.cjs(15,91): error TS18048: 'line' is possibly 'undefined'.
+tmp_div_balance_exact.cjs(12,23): error TS7006: Parameter 'idx' implicitly has an 'any' type.
+tmp_div_stack.cjs(7,21): error TS18048: 'line' is possibly 'undefined'.
+tmp_div_stack.cjs(8,22): error TS18048: 'line' is possibly 'undefined'.
+tmp_div_stack.cjs(10,37): error TS18048: 'line' is possibly 'undefined'.
+tmp_div_stack.cjs(14,48): error TS18048: 'line' is possibly 'undefined'.
+tmp_div_stack2.cjs(7,21): error TS18048: 'line' is possibly 'undefined'.
+tmp_div_stack2.cjs(8,46): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+tmp_div_stack2.cjs(9,22): error TS18048: 'line' is possibly 'undefined'.
+tmp_div_stack2.cjs(11,37): error TS18048: 'line' is possibly 'undefined'.
+tmp_div_stack2.cjs(15,48): error TS18048: 'line' is possibly 'undefined'.
+tmp_find_lines.cjs(5,7): error TS2532: Object is possibly 'undefined'.
+tmp_find_lines.cjs(6,7): error TS2532: Object is possibly 'undefined'.
+tmp_jsx_balance.cjs(14,21): error TS7006: Parameter 's' implicitly has an 'any' type.
+tmp_jsx_balance.cjs(23,34): error TS18048: 'rest' is possibly 'undefined'.
+tmp_jsx_balance.cjs(23,99): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+tmp_jsx_balance.cjs(30,11): error TS18048: 'last' is possibly 'undefined'.
+tmp_jsx_balance.cjs(33,86): error TS18048: 'last' is possibly 'undefined'.
+tmp_jsx_balance_final.cjs(20,75): error TS18048: 'tagName' is possibly 'undefined'.
+tmp_jsx_balance_final.cjs(26,11): error TS18048: 'last' is possibly 'undefined'.
+tmp_jsx_balance_final.cjs(30,87): error TS18048: 'last' is possibly 'undefined'.
+tmp_jsx_balance_final.cjs(30,119): error TS18048: 'last' is possibly 'undefined'.
+tmp_jsx_debug_out.cjs(9,28): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+tmp_jsx_stack.cjs(9,16): error TS18048: 'line' is possibly 'undefined'.
+tmp_jsx_stack.cjs(10,21): error TS18048: 'line' is possibly 'undefined'.
+tmp_jsx_stack.cjs(11,22): error TS18048: 'line' is possibly 'undefined'.
+tmp_jsx_stack.cjs(12,22): error TS18048: 'line' is possibly 'undefined'.
+tmp_jsx_stack.cjs(13,23): error TS18048: 'line' is possibly 'undefined'.
+tmp_jsx_stack.cjs(14,25): error TS18048: 'line' is possibly 'undefined'.
+tmp_jsx_stack.cjs(27,56): error TS18048: 'line' is possibly 'undefined'.
+tmp_jsx_stack.cjs(36,13): error TS7022: 'top' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+tmp_jsx_stack.cjs(39,57): error TS18048: 'line' is possibly 'undefined'.
+tmp_jsx_stack_debug.cjs(15,71): error TS18048: 'tagName' is possibly 'undefined'.
+tmp_jsx_stack_parser.cjs(66,56): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+tmp_jsx_stack_parser.cjs(108,13): error TS18048: 'last' is possibly 'undefined'.
+tmp_jsx_stack_parser.cjs(111,62): error TS18048: 'last' is possibly 'undefined'.
+tmp_jsx_tag_stack.cjs(11,15): error TS7006: Parameter 'ch' implicitly has an 'any' type.
+tmp_jsx_tag_stack.cjs(12,21): error TS7006: Parameter 'ch' implicitly has an 'any' type.
+tmp_jsx_tag_stack.cjs(27,52): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+tmp_jsx_tag_stack2.cjs(10,15): error TS7006: Parameter 'ch' implicitly has an 'any' type.
+tmp_jsx_tag_stack2.cjs(11,20): error TS7006: Parameter 'endChar' implicitly has an 'any' type.
+tmp_jsx_tag_stack2.cjs(49,55): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+tmp_jsx_tag_stack2.cjs(71,53): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+tmp_parse_dashboard.cjs(7,16): error TS7006: Parameter 'node' implicitly has an 'any' type.
+tmp_parse_dashboard.cjs(19,20): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+tmp_parse_dashboard.js(7,16): error TS7006: Parameter 'node' implicitly has an 'any' type.
+tmp_parse_dashboard.js(19,20): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+tmp_parse_file.cjs(6,28): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+tmp_parse_file.cjs(10,23): error TS7006: Parameter 'd' implicitly has an 'any' type.
+tmp_parse_js.cjs(16,56): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+tmp_parse_js.js(16,56): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+tmp_parse_tsx.cjs(8,33): error TS18048: 'd.file' is possibly 'undefined'.
+tmp_parse_tsx.cjs(8,70): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+tmp_run_diag.cjs(8,28): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+tmp_syntax_check.js(6,40): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+tmp_syntax_check.js(7,28): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+tmp_tag_balance.cjs(11,26): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+tmp_tag_balance.cjs(15,36): error TS18048: 'rest' is possibly 'undefined'.
+tmp_tag_balance.cjs(15,101): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+tmp_tag_balance.cjs(22,13): error TS2532: Object is possibly 'undefined'.
+tmp_tag_check.cjs(9,18): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.cjs(10,18): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.cjs(11,19): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.cjs(13,67): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.cjs(14,67): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.cjs(15,70): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.cjs(19,9): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(20,12): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(21,27): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(21,61): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(23,13): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(23,26): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(24,16): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(25,13): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(25,26): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(27,19): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(28,33): error TS2532: Object is possibly 'undefined'.
+tmp_tag_check.cjs(29,43): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(29,85): error TS2532: Object is possibly 'undefined'.
+tmp_tag_check.cjs(33,15): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.cjs(33,28): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(9,18): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.js(10,18): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.js(11,19): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.js(13,67): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.js(14,67): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.js(15,70): error TS18048: 'line' is possibly 'undefined'.
+tmp_tag_check.js(19,9): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(20,12): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(21,27): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(21,61): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(23,13): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(23,26): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(24,16): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(25,13): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(25,26): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(27,19): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(28,33): error TS2532: Object is possibly 'undefined'.
+tmp_tag_check.js(29,43): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(29,85): error TS2532: Object is possibly 'undefined'.
+tmp_tag_check.js(33,15): error TS18048: 'cand' is possibly 'undefined'.
+tmp_tag_check.js(33,28): error TS18048: 'cand' is possibly 'undefined'.
+tmp_test_patch.cjs(7,16): error TS7006: Parameter 'code' implicitly has an 'any' type.
+tmp_test_patch.cjs(9,21): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+tmp_test_patch.cjs(9,43): error TS7006: Parameter 'd' implicitly has an 'any' type.
+tmp_test_patch.cjs(11,15): error TS7006: Parameter 'removeRange' implicitly has an 'any' type.
+tmp_token_analysis.cjs(11,64): error TS2345: Argument of type 'string' is not assignable to parameter of type 'SourceFileLike'.
+tmp_token_scan.cjs(7,19): error TS7006: Parameter 'kind' implicitly has an 'any' type.
+tmp_ts_diagnostics.cjs(7,24): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+tmp_ts_parse2.cjs(7,32): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+tmp_ts_parse2.cjs(11,23): error TS7006: Parameter 'd' implicitly has an 'any' type.
+tmp_typescript_jsx_info.cjs(9,28): error TS2339: Property 'parseDiagnostics' does not exist on type 'SourceFile'.
+tmp_typescript_jsx_info.cjs(18,17): error TS2339: Property 'body' does not exist on type 'Statement'.
+tmp_typescript_jsx_info.cjs(18,27): error TS2339: Property 'body' does not exist on type 'Statement'.
+tmp_typescript_jsx_info.cjs(18,48): error TS7006: Parameter 's' implicitly has an 'any' type.

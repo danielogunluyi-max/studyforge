@@ -15,6 +15,21 @@ type GenerateRequestBody = {
   subject?: string;
   includeNotes?: boolean;
   curriculumCode?: string;
+  level?: "elementary" | "high_school" | "university" | "phd";
+  includeSources?: boolean;
+};
+
+const SUPPORTED_LEVELS = new Set(["elementary", "high_school", "university", "phd"]);
+
+const LEVEL_GUIDANCE: Record<string, string> = {
+  elementary:
+    "Audience: Elementary school. Use very simple language, short sentences, friendly analogies, and concrete examples a 9-year-old would understand. Avoid jargon entirely.",
+  high_school:
+    "Audience: Ontario high school student (Grade 11–12). Use clear precise language tied to the Ontario curriculum where applicable. Define new terms inline; assume basic prerequisites.",
+  university:
+    "Audience: University undergraduate. Use accurate academic vocabulary, formal tone, and connect concepts to broader theory. Include nuance and edge cases.",
+  phd:
+    "Audience: Doctoral / expert level. Use precise technical terminology, reference debates and open questions in the field, and assume deep prior knowledge.",
 };
 
 const SUPPORTED_STYLES = new Set(["academic", "minimal", "creative", "professional"]);
@@ -65,6 +80,20 @@ function normalizeSlide(slide: Partial<SlideData>, index: number, total: number)
   if (typeof slide.quote === "string" && slide.quote.trim()) normalized.quote = slide.quote.trim();
   if (typeof slide.attribution === "string" && slide.attribution.trim()) normalized.attribution = slide.attribution.trim();
   if (typeof slide.notes === "string" && slide.notes.trim()) normalized.notes = slide.notes.trim();
+  if (Array.isArray(slide.sources)) {
+    normalized.sources = slide.sources
+      .filter((s): s is string => typeof s === "string")
+      .map((s) => s.replace(/\s+/g, " ").trim())
+      .filter(Boolean)
+      .slice(0, 8);
+    if (normalized.sources.length === 0) delete normalized.sources;
+  }
+  if (typeof slide.imagePrompt === "string" && slide.imagePrompt.trim()) {
+    normalized.imagePrompt = slide.imagePrompt.replace(/\s+/g, " ").trim().slice(0, 200);
+  }
+  if (typeof slide.imageUrl === "string" && /^https?:\/\//.test(slide.imageUrl)) {
+    normalized.imageUrl = slide.imageUrl.trim();
+  }
 
   return normalized;
 }
@@ -122,6 +151,8 @@ export async function POST(req: Request) {
       subject: rawBody.subject?.trim() ?? "General Study Topic",
       includeNotes: rawBody.includeNotes !== false,
       curriculumCode: rawBody.curriculumCode?.trim().toUpperCase() ?? "",
+      level: rawBody.level && SUPPORTED_LEVELS.has(rawBody.level) ? rawBody.level : "high_school",
+      includeSources: rawBody.includeSources === true,
     };
 
     const parsedBody = generatePresentationRequestSchema.safeParse(body);
@@ -129,9 +160,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid request payload" }, { status: 400 });
     }
 
-    const { input, inputType, slideCount, style, subject, includeNotes } = parsedBody.data;
+    const { input, inputType, slideCount, style, subject, includeNotes, level, includeSources } = parsedBody.data;
     const curriculumContext = await getCurriculumContext(rawBody.curriculumCode);
     const curriculumPrompt = curriculumContextToPrompt(curriculumContext);
+    const levelPrompt = LEVEL_GUIDANCE[level ?? "high_school"] ?? "";
+    const sourcesPrompt = includeSources
+      ? `\nCITATIONS: For every key fact, append an inline tag in the form "[Source: <book/site/author>]" within the bullet. Also populate a "sources" array on each slide with 1–4 plain-text citation strings (e.g. "Khan Academy — Functions", "Stewart, Calculus 8e p.214", "https://example.org/article"). Do NOT fabricate URLs you are not confident exist; prefer book/author refs when unsure.`
+      : "";
+    const imagePrompt = `\nIMAGES: For every non-title slide, include an "imagePrompt" field (≤120 chars) with concrete visual keywords suitable for an Unsplash search (e.g. "abstract neon graph mathematics", "biology cell mitochondria microscope"). Do NOT include "imageUrl" — the user will generate or upload images.`;
 
     const system = "You are a presentation expert who creates clear, well-structured slide decks for students. Create engaging presentations that teach concepts clearly. Always return valid JSON only - no markdown, no backticks, no explanation.";
 
@@ -141,6 +177,7 @@ Input type: ${inputType}
 ${inputType === "notes" ? "Based on these notes:" : "Topic to cover:"}
 ${input}
 ${curriculumPrompt}
+${levelPrompt}${sourcesPrompt}${imagePrompt}
 Return ONLY this exact JSON structure:
 {
 "title": "Presentation title",
@@ -163,7 +200,9 @@ Return ONLY this exact JSON structure:
 "Second key point",
 "Third key point"
 ],
-"notes": "Speaker notes explaining this slide in detail"
+"notes": "Speaker notes explaining this slide in detail",
+"imagePrompt": "concrete visual keywords for an Unsplash image search",
+"sources": ["Author, Book Title (year), p.X", "https://example.org/article"]
 },
 {
 "id": "3",

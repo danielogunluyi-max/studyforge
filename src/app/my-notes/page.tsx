@@ -4,9 +4,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import {
+  Search, Plus, Folder, Tag, Pin, Trash2, Copy, Share2, MoreHorizontal,
+  X, FileText, Edit3, Bold, Italic, Heading1, Heading2, Heading3,
+  List, ListOrdered, Save, Filter, Flame,
+  Image as ImageIcon, ZoomIn,
+} from "lucide-react";
 import { Button } from "~/app/_components/button";
 import AudioPlayer from "~/app/_components/AudioPlayer";
-import { PageHero } from "~/app/_components/page-hero";
 import EmptyState from "@/app/_components/empty-state";
 import Skeleton, { SkeletonList } from "@/app/_components/skeleton";
 import Listbox from "~/app/_components/Listbox";
@@ -22,6 +27,7 @@ type Note = {
   content: string;
   format: string;
   createdAt: string;
+  updatedAt: string;
   tags: string[];
   isPinned: boolean;
   lastViewedAt: string | null;
@@ -42,12 +48,12 @@ type Folder = {
 };
 
 const TAG_COLOR_CLASSES = [
-  "badge-blue",
-  "badge-green",
-  "badge-purple",
-  "badge-orange",
-  "bg-pink-100 text-pink-700",
-  "bg-indigo-100 text-indigo-700",
+  "bg-blue-500/10 text-blue-400",
+  "bg-emerald-500/10 text-emerald-400",
+  "bg-purple-500/10 text-purple-400",
+  "bg-orange-500/10 text-orange-400",
+  "bg-pink-500/10 text-pink-400",
+  "bg-indigo-500/10 text-indigo-400",
 ];
 
 function getTagColor(tag: string): string {
@@ -97,7 +103,7 @@ function HighlightText({ text, query }: { text: string; query: string }) {
     <>
       {parts.map((part, index) =>
         part.toLowerCase() === query.toLowerCase() ? (
-          <mark key={`${part}-${index}`} className="rounded bg-yellow-200 px-0.5">
+          <mark key={`${part}-${index}`} className="rounded bg-amber-400/20 px-0.5 text-amber-200">
             {part}
           </mark>
         ) : (
@@ -147,8 +153,19 @@ export default function MyNotes() {
   const [eli5Loading, setEli5Loading] = useState(false);
   const [eli5Result, setEli5Result] = useState("");
   const [eli5ModalOpen, setEli5ModalOpen] = useState(false);
+  const [mockExamLoadingId, setMockExamLoadingId] = useState<string | null>(null);
   const evolutionSnapshotCacheRef = useRef<Record<string, string>>({});
   const { showToast } = useToast();
+
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [editTitle, setEditTitle] = useState("");
+  const editorRef = useRef<HTMLDivElement>(null);
+
+  // Media Gallery (screenshots linked to selected note)
+  type NoteMedia = { id: string; title: string; imageData: string; createdAt: string };
+  const [noteMedia, setNoteMedia] = useState<NoteMedia[]>([]);
+  const [mediaLoading, setMediaLoading] = useState(false);
+  const [mediaViewer, setMediaViewer] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -203,14 +220,15 @@ export default function MyNotes() {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (selectedNote) setSelectedNote(null);
+        if (editorOpen) { setEditorOpen(false); setSelectedNote(null); setEditTitle(""); }
+        else if (selectedNote) setSelectedNote(null);
         else if (tagModalOpen) setTagModalOpen(false);
       }
     };
 
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [selectedNote, tagModalOpen]);
+  }, [editorOpen, selectedNote, tagModalOpen]);
 
   const fetchNotes = async () => {
     setIsLoading(true);
@@ -352,8 +370,10 @@ export default function MyNotes() {
     });
   };
 
-  const openNote = async (note: Note) => {
+  const openEditor = async (note: Note) => {
     setSelectedNote(note);
+    setEditTitle(note.title);
+    setEditorOpen(true);
 
     try {
       const response = await fetch("/api/notes", {
@@ -408,6 +428,37 @@ export default function MyNotes() {
 
   const openFlashcardsFromNote = (noteId: string) => {
     router.push(`/flashcards?generateFrom=${encodeURIComponent(noteId)}`);
+  };
+
+  const generateMockExam = async (noteId: string) => {
+    if (mockExamLoadingId) return;
+    setMockExamLoadingId(noteId);
+    try {
+      const res = await fetch("/api/mock-exam/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          noteId,
+          numMultipleChoice: 10,
+          numShortAnswer: 5,
+          timeLimitMinutes: 45,
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        exam?: { id: string };
+        error?: string;
+      };
+      if (!res.ok || !data.exam?.id) {
+        showToast(data.error ?? "Failed to generate mock exam", "error");
+        return;
+      }
+      showToast("Mock exam ready", "success");
+      router.push(`/mock-exam/${data.exam.id}`);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Network error", "error");
+    } finally {
+      setMockExamLoadingId(null);
+    }
   };
 
   const createFolder = async () => {
@@ -632,6 +683,93 @@ export default function MyNotes() {
     await Promise.all([fetchTagStats(), fetchNotes()]);
   };
 
+  const closeEditor = () => {
+    setEditorOpen(false);
+    setSelectedNote(null);
+    setEditTitle("");
+  };
+
+  const saveNoteEdit = async () => {
+    if (!selectedNote) return;
+    const content = editorRef.current?.innerHTML ?? selectedNote.content;
+    try {
+      const response = await fetch("/api/notes", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: selectedNote.id, title: editTitle, content }),
+      });
+      if (!response.ok) {
+        setError("Failed to save note");
+        return;
+      }
+      const data = (await response.json().catch(() => ({}))) as { note?: Note };
+      if (data.note) {
+        setNotes((prev) => prev.map((n) => (n.id === data.note!.id ? { ...n, title: data.note!.title, content: data.note!.content } : n)));
+        showToast("Note saved", "success");
+      }
+      closeEditor();
+    } catch {
+      setError("Failed to save note");
+    }
+  };
+
+  const execEditor = (command: string, value?: string) => {
+    document.execCommand(command, false, value);
+    editorRef.current?.focus();
+  };
+
+  // Fetch screenshots attached to the open note
+  useEffect(() => {
+    if (!editorOpen || !selectedNote) {
+      setNoteMedia([]);
+      return;
+    }
+    let cancelled = false;
+    const load = async () => {
+      setMediaLoading(true);
+      try {
+        const r = await fetch(`/api/screenshots?noteId=${encodeURIComponent(selectedNote.id)}`);
+        if (!r.ok) return;
+        const data = (await r.json()) as NoteMedia[];
+        if (!cancelled) setNoteMedia(Array.isArray(data) ? data : []);
+      } finally {
+        if (!cancelled) setMediaLoading(false);
+      }
+    };
+    void load();
+    return () => { cancelled = true; };
+  }, [editorOpen, selectedNote]);
+
+  const insertImageIntoEditor = (dataUrl: string, altText: string) => {
+    if (!editorRef.current) return;
+    editorRef.current.focus();
+    const safeAlt = altText.replace(/"/g, '&quot;');
+    // Inline image; max-width keeps it responsive inside the editor
+    const html = `<p><img src="${dataUrl}" alt="${safeAlt}" style="max-width:100%;height:auto;border-radius:8px;" /></p><p><br/></p>`;
+    document.execCommand("insertHTML", false, html);
+    showToast("Image inserted into note", "success");
+  };
+
+  const unlinkMediaFromNote = async (id: string) => {
+    if (!selectedNote) return;
+    const prev = noteMedia;
+    setNoteMedia((items) => items.filter((m) => m.id !== id));
+    try {
+      const r = await fetch(`/api/screenshots?id=${encodeURIComponent(id)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ noteId: null }),
+      });
+      if (!r.ok) {
+        setNoteMedia(prev);
+        showToast("Failed to remove media", "error");
+      }
+    } catch {
+      setNoteMedia(prev);
+      showToast("Failed to remove media", "error");
+    }
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -646,15 +784,15 @@ export default function MyNotes() {
   const getFormatBadgeColor = (format: string) => {
     switch (format) {
       case "summary":
-        return "badge-blue";
+        return "bg-blue-500/10 text-blue-400";
       case "detailed":
-        return "badge-purple";
+        return "bg-purple-500/10 text-purple-400";
       case "flashcards":
-        return "badge-green";
+        return "bg-emerald-500/10 text-emerald-400";
       case "questions":
-        return "badge-orange";
+        return "bg-orange-500/10 text-orange-400";
       default:
-        return "badge-neutral";
+        return "bg-zinc-500/10 text-zinc-400";
     }
   };
 
@@ -680,7 +818,7 @@ export default function MyNotes() {
 
   if (status === "loading") {
     return (
-      <main className="app-premium-dark min-h-screen bg-gray-950 p-6">
+      <main className="min-h-screen bg-black p-6">
         <SkeletonList count={6} />
       </main>
     );
@@ -691,19 +829,24 @@ export default function MyNotes() {
   }
 
   return (
-    <main className="app-premium-dark min-h-screen bg-gray-950 kv-animate-in">
-
-      <div className="kv-page container mx-auto mb-[100px] max-w-7xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
-        <PageHero
-          title="My Notes"
-          description={`All your saved study notes in one place • 🔥 ${studyStreak} day streak`}
-          actions={
-            <div className="flex gap-2">
-              <Button onClick={exportAllNotes} variant="secondary" size="sm" disabled={!notes.length}>Export All Notes</Button>
-              <Button onClick={() => setTagModalOpen(true)} variant="secondary" size="sm">Manage Tags</Button>
-            </div>
-          }
-        />
+    <main className="min-h-screen bg-black text-white">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-white">My Notes</h1>
+            <p className="mt-1 text-base text-zinc-400">
+              All your saved study notes in one place · <span className="inline-flex items-center gap-1 text-amber-400"><Flame size={14} aria-hidden="true" /> {studyStreak} day streak</span>
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Button onClick={exportAllNotes} variant="secondary" size="sm" disabled={!notes.length} className="active:scale-95">
+              Export All
+            </Button>
+            <Button onClick={() => setTagModalOpen(true)} variant="secondary" size="sm" className="active:scale-95">
+              Manage Tags
+            </Button>
+          </div>
+        </div>
 
         <div className="mb-4 lg:hidden">
           <Button
@@ -711,22 +854,28 @@ export default function MyNotes() {
             variant="secondary"
             fullWidth
             size="sm"
+            className="rounded-lg border-white/10 bg-white/5 py-2.5 text-sm text-zinc-300 hover:bg-white/10 active:scale-95"
           >
+            <Filter size={14} className="mr-2" aria-hidden="true" />
             {showMobileFilters ? "Hide Filters" : "Show Filters"}
           </Button>
         </div>
 
-        <div className="mb-6 kv-card">
+        <div className="mb-6 rounded-xl border border-white/10 bg-zinc-900/50 p-4 backdrop-blur-sm">
           <div className="grid gap-3 md:grid-cols-4">
-            <input
-              type="text"
-              placeholder="Search title and content..."
-              value={searchInput}
-              onChange={(event) => setSearchInput(event.target.value)}
-              className="md:col-span-2 w-full kv-input"
-              aria-label="Search notes"
-            />
-            <div className="w-full sm:w-48">
+            <div className="relative md:col-span-2">
+              <label htmlFor="note-search" className="sr-only">Search notes</label>
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" aria-hidden="true" />
+              <input
+                id="note-search"
+                type="text"
+                placeholder="Search title and content..."
+                value={searchInput}
+                onChange={(event) => setSearchInput(event.target.value)}
+                className="w-full rounded-lg border border-white/10 bg-black/40 py-2.5 pl-10 pr-4 text-base text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+              />
+            </div>
+            <div className="w-full">
               <Listbox
                 value={activePeriod}
                 onChange={(v) => setActivePeriod(v)}
@@ -737,7 +886,7 @@ export default function MyNotes() {
                 ]}
               />
             </div>
-            <div className="w-full sm:w-48">
+            <div className="w-full">
               <Listbox
                 value={sortBy}
                 onChange={(v) => setSortBy(v)}
@@ -763,7 +912,7 @@ export default function MyNotes() {
                 onClick={() => setActiveFormat(option.value)}
                 variant={activeFormat === option.value ? "primary" : "secondary"}
                 size="sm"
-                className="px-3 py-1 text-xs"
+                className={`rounded-full px-3 py-1 text-xs active:scale-95 ${activeFormat === option.value ? "bg-white text-black" : "border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10"}`}
               >
                 {option.label}
               </Button>
@@ -771,7 +920,7 @@ export default function MyNotes() {
           </div>
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
-            <span className="text-sm text-gray-500">{resultLabel}</span>
+            <span className="text-sm text-zinc-400">{resultLabel}</span>
             {(activeTag || activeFolder || activeFormat || activePeriod || debouncedSearch) && (
               <Button
                 onClick={() => {
@@ -784,7 +933,7 @@ export default function MyNotes() {
                 }}
                 variant="secondary"
                 size="sm"
-                className="rounded-full px-3 py-1 text-xs"
+                className="rounded-full border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300 hover:bg-white/10 active:scale-95"
               >
                 Clear filters
               </Button>
@@ -793,22 +942,22 @@ export default function MyNotes() {
         </div>
 
         {recentlyViewed.length > 0 && (
-          <div className="mb-6 kv-card">
+          <div className="mb-6 rounded-xl border border-white/10 bg-zinc-900/50 p-4 backdrop-blur-sm">
             <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-white">Recently Viewed</h2>
-              <span className="text-xs text-gray-500">Last 3 notes accessed</span>
+              <h2 className="text-lg font-semibold text-white">Recently Viewed</h2>
+              <span className="text-sm text-zinc-400">Last 3 notes accessed</span>
             </div>
-            <div className="stagger-grid kv-stagger kv-animate-in grid gap-3 md:grid-cols-3">
+            <div className="grid gap-3 md:grid-cols-3">
               {recentlyViewed.slice(0, 3).map((note) => (
                 <button
                   key={`recent-${note.id}`}
                   type="button"
-                  onClick={() => void openNote(note)}
-                  className="stagger-card kv-card kv-card-hover kv-animate-in text-left transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:bg-blue-50"
+                  onClick={() => void openEditor(note)}
+                  className="rounded-xl border border-white/10 bg-black/40 p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-black/60 active:scale-95"
                 >
-                  <p className="line-clamp-1 text-sm font-semibold text-white">{note.title}</p>
-                  <p className="mt-1 line-clamp-2 text-xs text-gray-600">{note.content}</p>
-                  <p className="mt-2 text-[11px] text-gray-500">
+                  <p className="line-clamp-1 text-base font-semibold text-white">{note.title}</p>
+                  <p className="mt-1 line-clamp-2 text-sm text-zinc-400">{note.content}</p>
+                  <p className="mt-2 text-xs text-zinc-500">
                     {note.lastViewedAt ? formatDate(note.lastViewedAt) : "Recently viewed"}
                   </p>
                 </button>
@@ -818,55 +967,61 @@ export default function MyNotes() {
         )}
 
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-          <aside className={`${showMobileFilters ? "block" : "hidden"} kv-card kv-hide-mobile lg:block`}>
-            <div className="mb-3 flex items-center justify-between lg:hidden">
-              <p className="text-sm font-semibold text-white">Filters</p>
-              <Button size="sm" variant="secondary" onClick={() => setShowMobileFilters(false)}>
-                Close
-              </Button>
-            </div>
-            <div className="mb-4 rounded-lg border border-gray-100 p-3">
-              <div className="mb-2 flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-white">Folders</h2>
-                <Button onClick={() => setNewFolderOpen((prev) => !prev)} variant="secondary" size="sm" className="px-2 py-1 text-xs">
+          <aside className={`${showMobileFilters ? "block" : "hidden"} space-y-6 lg:block`}>
+            <Link
+              href="/generator"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white px-4 py-3 text-sm font-semibold text-black transition-all hover:bg-zinc-100 active:scale-95"
+            >
+              <Plus size={16} aria-hidden="true" />
+              New Note
+            </Link>
+
+            <div className="rounded-xl border border-white/10 bg-zinc-900/50 p-4 backdrop-blur-sm">
+              <div className="mb-3 flex items-center justify-between">
+                <h2 className="text-base font-semibold text-white">Folders</h2>
+                <Button onClick={() => setNewFolderOpen((prev) => !prev)} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 px-2 py-1 text-xs text-zinc-300 hover:bg-white/10 active:scale-95">
                   New Folder
                 </Button>
               </div>
 
               {newFolderOpen && (
-                <div className="mb-3 rounded-lg border border-[var(--border-default)] bg-[var(--bg-card)] p-2">
+                <div className="mb-3 rounded-lg border border-white/10 bg-black/40 p-3">
+                  <label htmlFor="folder-name" className="sr-only">Folder name</label>
                   <input
+                    id="folder-name"
                     value={newFolderName}
                     onChange={(event) => setNewFolderName(event.target.value)}
                     placeholder="Folder name"
-                    className="kv-input mb-2"
+                    className="mb-2 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
                   />
                   <div className="mb-2 flex items-center justify-between gap-2">
-                    <span className="text-xs text-gray-500">Color</span>
+                    <span className="text-xs text-zinc-400">Color</span>
                     <input
                       type="color"
                       value={newFolderColor}
                       onChange={(event) => setNewFolderColor(event.target.value)}
-                      className="h-8 w-12 cursor-pointer rounded border border-[var(--border-default)] bg-transparent p-0"
+                      className="h-8 w-12 cursor-pointer rounded border border-white/10 bg-transparent p-0"
+                      aria-label="Folder color"
                     />
                   </div>
-                  <Button onClick={() => void createFolder()} size="sm" className="w-full px-2 py-2 text-xs">
+                  <Button onClick={() => void createFolder()} size="sm" className="w-full rounded-lg py-2 text-xs active:scale-95">
                     Create Folder
                   </Button>
                 </div>
               )}
 
-              <Button
+              <button
+                type="button"
                 onClick={() => setActiveFolder("")}
-                variant={!activeFolder ? "primary" : "secondary"}
-                fullWidth
-                size="sm"
-                className="mb-2 justify-start px-3 py-2 text-left text-sm"
+                className={`mb-1 flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition ${!activeFolder ? "bg-white/10 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
               >
-                All Folders
-              </Button>
+                <span className="flex items-center gap-2">
+                  <Folder size={14} aria-hidden="true" />
+                  All Folders
+                </span>
+              </button>
 
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {folders.map((folder) => (
                   <button
                     key={folder.id}
@@ -880,68 +1035,62 @@ export default function MyNotes() {
                         void moveNoteToFolder(noteId, folder.id);
                       }
                     }}
-                    className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left text-sm ${
-                      activeFolder === folder.id
-                        ? "border-blue-200 bg-blue-50 text-blue-700"
-                        : "border-[var(--border-default)] bg-[var(--bg-card)] text-gray-700 hover:bg-[var(--bg-surface)]"
-                    }`}
+                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition ${activeFolder === folder.id ? "bg-white/10 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
                   >
-                    <span className="truncate">{folder.name}</span>
-                    <span className="text-xs text-gray-500">{folder.noteCount}</span>
+                    <span className="flex items-center gap-2">
+                      <Folder size={14} aria-hidden="true" />
+                      <span className="truncate">{folder.name}</span>
+                    </span>
+                    <span className="text-xs text-zinc-500">{folder.noteCount}</span>
                   </button>
                 ))}
               </div>
             </div>
 
-            <h2 className="mb-3 text-sm font-semibold text-white">Tags</h2>
-            <Button
-              onClick={() => setActiveTag("")}
-              variant={!activeTag ? "primary" : "secondary"}
-              fullWidth
-              size="sm"
-              className={`mb-2 justify-start px-3 py-2 text-left text-sm font-medium ${
-                !activeTag ? "bg-blue-600 text-white" : "border border-[var(--border-default)] text-gray-700 hover:bg-[var(--bg-surface)]"
-              }`}
-            >
-              All Notes
-            </Button>
+            <div className="rounded-xl border border-white/10 bg-zinc-900/50 p-4 backdrop-blur-sm">
+              <h2 className="mb-3 text-base font-semibold text-white">Tags</h2>
+              <button
+                type="button"
+                onClick={() => setActiveTag("")}
+                className={`mb-1 flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition ${!activeTag ? "bg-white/10 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
+              >
+                <span className="flex items-center gap-2">
+                  <Tag size={14} aria-hidden="true" />
+                  All Notes
+                </span>
+              </button>
 
-            {isTagLoading ? (
-              <Skeleton variant="text" count={4} />
-            ) : tagStats.length === 0 ? (
-              <p className="text-xs text-gray-500">No tags yet.</p>
-            ) : (
-              <div className="space-y-2">
-                {tagStats.map((tag) => (
-                  <Button
-                    key={tag.name}
-                    onClick={() => setActiveTag(tag.name)}
-                    variant="secondary"
-                    fullWidth
-                    size="sm"
-                    className={`flex justify-between px-3 py-2 text-sm ${
-                      activeTag === tag.name
-                        ? "border-blue-200 bg-blue-50 text-blue-700"
-                        : "border-[var(--border-default)] text-gray-700 hover:bg-[var(--bg-surface)]"
-                    }`}
-                  >
-                    <span className="truncate">{tag.name}</span>
-                    <span className="text-xs text-gray-500">{tag.count}</span>
-                  </Button>
-                ))}
-              </div>
-            )}
+              {isTagLoading ? (
+                <Skeleton variant="text" count={4} />
+              ) : tagStats.length === 0 ? (
+                <p className="text-sm text-zinc-500">No tags yet.</p>
+              ) : (
+                <div className="space-y-1">
+                  {tagStats.map((tag) => (
+                    <button
+                      key={tag.name}
+                      type="button"
+                      onClick={() => setActiveTag(tag.name)}
+                      className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition ${activeTag === tag.name ? "bg-white/10 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
+                    >
+                      <span className="truncate">{tag.name}</span>
+                      <span className="text-xs text-zinc-500">{tag.count}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </aside>
 
           <section>
             {selectedNoteIds.length > 0 && (
-              <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-3">
+              <div className="mb-4 rounded-xl border border-amber-500/20 bg-amber-500/5 p-3">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-sm font-medium text-blue-800">{selectedNoteIds.length} selected</span>
-                  <Button onClick={bulkDeleteSelected} variant="danger" size="sm" className="px-3 py-1 text-xs">
+                  <span className="text-sm font-medium text-amber-300">{selectedNoteIds.length} selected</span>
+                  <Button onClick={bulkDeleteSelected} variant="danger" size="sm" className="rounded-lg px-3 py-1 text-xs active:scale-95">
                     Delete Selected
                   </Button>
-                  <Button onClick={bulkExportSelected} variant="secondary" size="sm" className="px-3 py-1 text-xs">
+                  <Button onClick={bulkExportSelected} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300 hover:bg-white/10 active:scale-95">
                     Export Selected
                   </Button>
                   <div className="w-44">
@@ -954,10 +1103,10 @@ export default function MyNotes() {
                       ]}
                     />
                   </div>
-                  <Button onClick={bulkMoveSelected} variant="secondary" size="sm" className="px-3 py-1 text-xs">
+                  <Button onClick={bulkMoveSelected} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300 hover:bg-white/10 active:scale-95">
                     Move to Folder
                   </Button>
-                  <Button onClick={selectAllVisible} variant="secondary" size="sm" className="px-3 py-1 text-xs">
+                  <Button onClick={selectAllVisible} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300 hover:bg-white/10 active:scale-95">
                     {selectedNoteIds.length === notes.length ? "Unselect All" : "Select All"}
                   </Button>
                 </div>
@@ -978,98 +1127,81 @@ export default function MyNotes() {
                 action={{ label: 'Create your first note', href: '/generator' }}
               />
             ) : (
-              <div className="stagger-grid kv-stagger kv-animate-in grid gap-6 md:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {notes.map((note) => (
-                  <div
+                  <article
                     key={note.id}
                     draggable
                     onDragStart={(event) => event.dataTransfer.setData("text/note-id", note.id)}
                     onMouseEnter={() => setHoveredNoteId(note.id)}
                     onMouseLeave={() => setHoveredNoteId("")}
-                    className="stagger-card group relative kv-card kv-card-hover kv-animate-in transition-all duration-200 hover:-translate-y-1"
+                    className="group relative flex flex-col rounded-xl border border-white/10 bg-zinc-900/50 p-5 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20"
                   >
-                    <div className="mb-3 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
+                    <div className="mb-3 flex items-start justify-between gap-2">
+                      <div className="flex flex-1 flex-wrap items-center gap-2">
                         <input
                           type="checkbox"
                           checked={selectedNoteIds.includes(note.id)}
                           onChange={() => toggleNoteSelected(note.id)}
-                          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                          aria-label="Select note"
+                          className="h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-amber-500 focus:ring-amber-500/20"
+                          aria-label={`Select note ${note.title}`}
                         />
-                        {note.isPinned && <span className="badge badge-warning px-2 py-1 text-[10px] font-semibold">Pinned</span>}
-                        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getFormatBadgeColor(note.format)}`}>
+                        {note.isPinned && <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400">Pinned</span>}
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${getFormatBadgeColor(note.format)}`}>
                           {getFormatLabel(note.format)}
                         </span>
-                        {note.isShared && <span className="badge badge-success px-2 py-1 text-[10px] font-semibold">Shared</span>}
+                        {note.isShared && <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-400">Shared</span>}
                       </div>
                       <div className="flex items-center gap-1">
-                        <Button
+                        <button
+                          type="button"
                           onClick={() => void togglePin(note)}
-                          variant="ghost"
-                          size="sm"
-                          className={`p-2 transition ${note.isPinned ? "text-yellow-600" : "text-gray-400 hover:text-yellow-600"}`}
-                          title={note.isPinned ? "Unpin note" : "Pin note"}
+                          className={`rounded-lg p-1.5 transition ${note.isPinned ? "text-amber-400" : "text-zinc-500 hover:text-amber-400"}`}
                           aria-label={note.isPinned ? "Unpin note" : "Pin note"}
+                          title={note.isPinned ? "Unpin note" : "Pin note"}
                         >
-                          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path d="M10 1l2.4 4.86L18 6.69l-4 3.9.94 5.48L10 13.77l-4.94 2.3L6 10.6 2 6.7l5.6-.83L10 1z" />
-                          </svg>
-                        </Button>
-                        <Button
+                          <Pin size={14} aria-hidden="true" />
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => void shareNote(note)}
-                          variant="ghost"
-                          size="sm"
-                          className="p-2 text-gray-400 transition hover:text-emerald-600"
-                          title="Share note link"
+                          className="rounded-lg p-1.5 text-zinc-500 transition hover:text-emerald-400"
                           aria-label="Share note link"
+                          title="Share note link"
                         >
-                          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C9.886 14.544 11.544 15.25 13.25 15.25s3.364-.706 4.566-1.908l1.768-1.768a4.75 4.75 0 00-6.717-6.717l-1.012 1.012m-.77 7.274l-1.012 1.012a4.75 4.75 0 01-6.717-6.717l1.768-1.768a4.75 4.75 0 016.717 0" />
-                          </svg>
-                        </Button>
-                        <Button
+                          <Share2 size={14} aria-hidden="true" />
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => setMenuOpenNoteId((prev) => (prev === note.id ? "" : note.id))}
-                          variant="ghost"
-                          size="sm"
-                          className="p-2 text-gray-400 transition hover:text-gray-700"
-                          title="More actions"
+                          className="rounded-lg p-1.5 text-zinc-500 transition hover:text-white"
                           aria-label="More actions"
+                          title="More actions"
                         >
-                          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path d="M10 4a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 7a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 7a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-                          </svg>
-                        </Button>
-                        <Button
+                          <MoreHorizontal size={14} aria-hidden="true" />
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => void deleteNote(note.id)}
-                          variant="ghost"
-                          size="sm"
-                          className="p-2 text-gray-400 opacity-0 transition hover:text-red-600 group-hover:opacity-100"
-                          title="Delete note"
+                          className="rounded-lg p-1.5 text-zinc-500 opacity-0 transition hover:text-red-400 group-hover:opacity-100"
                           aria-label="Delete note"
+                          title="Delete note"
                         >
-                          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            />
-                          </svg>
-                        </Button>
+                          <Trash2 size={14} aria-hidden="true" />
+                        </button>
                       </div>
                     </div>
 
-                    <h3 className="mb-2 line-clamp-2 text-[20px] font-semibold text-white">
+                    <h3 className="mb-2 line-clamp-2 text-xl font-bold text-white">
                       <HighlightText text={note.title} query={debouncedSearch} />
                     </h3>
 
                     <div
-                      className="mb-3 line-clamp-3 text-sm text-gray-600"
+                      className="mb-3 line-clamp-3 text-base leading-relaxed text-zinc-400"
                       dangerouslySetInnerHTML={{ __html: renderMath(note.content) }}
                     />
 
-                    <div style={{ marginTop: "12px", marginBottom: "12px" }}>
+                    <div className="mb-3">
                       <AudioPlayer
                         noteId={note.id}
                         noteTitle={note.title}
@@ -1079,88 +1211,80 @@ export default function MyNotes() {
                     </div>
 
                     {note.tags.length > 0 && (
-                      <div className="mb-3 flex flex-wrap gap-2">
+                      <div className="mb-3 flex flex-wrap gap-1.5">
                         {note.tags.map((tag) => (
-                          <Button
+                          <button
                             key={`${note.id}-${tag}`}
+                            type="button"
                             onClick={() => setActiveTag(tag)}
-                            variant="secondary"
-                            size="sm"
-                            className={`rounded-full px-2 py-1 text-xs ${getTagColor(tag)}`}
+                            className={`rounded-full px-2 py-0.5 text-xs transition hover:opacity-80 ${getTagColor(tag)}`}
                           >
                             <HighlightText text={tag} query={debouncedSearch} />
-                          </Button>
+                          </button>
                         ))}
                       </div>
                     )}
 
-                    <p className="text-xs text-gray-500">{formatDate(note.createdAt)}</p>
-                    <p className="mt-1 text-xs text-gray-500">
-                      {getWordCount(note.content).toLocaleString()} words • {getReadTime(note.content)} min read
-                    </p>
+                    <div className="mt-auto border-t border-white/5 pt-3">
+                      <p className="text-xs text-zinc-500">{formatDate(note.updatedAt ?? note.createdAt)}</p>
+                      <p className="mt-0.5 text-xs text-zinc-500">
+                        {getWordCount(note.content).toLocaleString()} words · {getReadTime(note.content)} min read
+                      </p>
+                    </div>
 
                     {menuOpenNoteId === note.id && (
-                      <div className="mt-3 kv-card p-2">
-                        <Button
+                      <div className="absolute right-12 top-8 z-20 rounded-lg border border-white/10 bg-zinc-900 p-2 shadow-xl">
+                        <button
+                          type="button"
                           onClick={() => {
                             void duplicateNote(note);
                             setMenuOpenNoteId("");
                           }}
-                          variant="secondary"
-                          size="sm"
-                          className="w-full justify-start px-3 py-2 text-xs"
+                          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-xs text-zinc-300 transition hover:bg-white/5 hover:text-white"
                         >
+                          <Copy size={14} aria-hidden="true" />
                           Duplicate
-                        </Button>
-                      </div>
-                    )}
-
-                    {hoveredNoteId === note.id && (
-                      <div className="pointer-events-none absolute left-full top-0 z-30 ml-3 hidden w-80 kv-card md:block">
-                        <p className="mb-2 text-sm font-semibold text-white">Preview</p>
-                        <div
-                          className="max-h-72 overflow-y-auto text-xs text-gray-700"
-                          dangerouslySetInnerHTML={{ __html: renderMath(note.content) }}
-                        />
+                        </button>
                       </div>
                     )}
 
                     <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
                       <Button
-                        onClick={() => void openNote(note)}
+                        onClick={() => void openEditor(note)}
                         variant="secondary"
                         size="sm"
-                        className="py-2"
+                        className="rounded-lg border-white/10 bg-white/5 py-2 text-xs text-zinc-300 hover:bg-white/10 active:scale-95"
                       >
-                        View
+                        <Edit3 size={14} className="mr-1.5" aria-hidden="true" />
+                        Edit
                       </Button>
                       <Button
                         onClick={() => continueStudying(note)}
                         variant="secondary"
                         size="sm"
-                        className="py-2"
+                        className="rounded-lg border-white/10 bg-white/5 py-2 text-xs text-zinc-300 hover:bg-white/10 active:scale-95"
                       >
-                        Continue Studying
+                        Continue
                       </Button>
                       <Button
                         onClick={() => openFlashcardsFromNote(note.id)}
                         variant="secondary"
                         size="sm"
-                        className="py-2"
+                        className="rounded-lg border-white/10 bg-white/5 py-2 text-xs text-zinc-300 hover:bg-white/10 active:scale-95"
                       >
-                        -&gt; Flashcards
+                        Flashcards
                       </Button>
                       <Button
                         onClick={() => void exportNotePdf(note.id)}
                         disabled={exportingNoteId === note.id}
                         loading={exportingNoteId === note.id}
                         size="sm"
-                        className="py-2"
+                        className="rounded-lg py-2 text-xs active:scale-95"
                       >
                         {exportingNoteId === note.id ? "Exporting..." : "Export PDF"}
                       </Button>
                     </div>
-                  </div>
+                  </article>
                 ))}
               </div>
             )}
@@ -1168,138 +1292,180 @@ export default function MyNotes() {
         </div>
       </div>
 
-      {selectedNote && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" 
-          onClick={() => setSelectedNote(null)}
+      {editorOpen && selectedNote && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 p-4 backdrop-blur-sm sm:items-center"
+          onClick={(e) => { if (e.target === e.currentTarget) closeEditor(); }}
           role="dialog"
           aria-modal="true"
-          aria-labelledby="note-title"
+          aria-labelledby="editor-title"
         >
           <div
-            className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-xl bg-[var(--bg-card)] p-8"
-            onClick={(event) => event.stopPropagation()}
+            className="flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
           >
-            <div className="mb-6 flex items-start justify-between">
-              <div>
-                <span className={`mb-3 inline-block rounded-full px-3 py-1 text-xs font-semibold ${getFormatBadgeColor(selectedNote.format)}`}>
-                  {getFormatLabel(selectedNote.format)}
-                </span>
-                <h2 id="note-title" className="text-2xl font-bold text-white">{selectedNote.title}</h2>
-                <p className="mt-1 text-sm text-gray-500">{formatDate(selectedNote.createdAt)}</p>
-                {(() => {
-                  const fk = fleschKincaid(selectedNote.content);
-                  return (
-                    <span
-                      title={`Flesch-Kincaid readability score: ${fk.score}/100`}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 5,
-                        marginTop: 8,
-                        padding: '3px 10px',
-                        borderRadius: 999,
-                        border: `1px solid ${fk.color}44`,
-                        background: `${fk.color}18`,
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: fk.color,
-                        letterSpacing: '0.03em',
-                      }}
-                    >
-                      📖 {fk.label} · {fk.score}/100
-                    </span>
-                  );
-                })()}
-                {selectedNote.tags.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {selectedNote.tags.map((tag) => (
-                      <span key={`modal-${tag}`} className={`rounded-full px-2 py-1 text-xs font-semibold ${getTagColor(tag)}`}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                <div className="mt-3 flex items-center gap-2">
-                  <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">Move to folder</span>
-                  <div className="w-44">
-                    <Listbox
-                      value={selectedNote.folderId ?? ""}
-                      onChange={(value) => {
-                        const nextFolderId = value || null;
-                        void moveNoteToFolder(selectedNote.id, nextFolderId);
-                        setSelectedNote((prev) => (prev ? { ...prev, folderId: nextFolderId } : prev));
-                      }}
-                      options={[
-                        { value: "", label: "No Folder" },
-                        ...folders.map((folder) => ({ value: folder.id, label: folder.name })),
-                      ]}
-                    />
-                  </div>
-                </div>
+            <div className="flex flex-wrap items-center gap-1 border-b border-white/10 bg-zinc-900/80 p-2">
+              <div className="flex items-center gap-1">
+                <button type="button" onClick={() => execEditor('bold')} className="rounded-md p-2 text-zinc-300 transition hover:bg-white/10 hover:text-white" aria-label="Bold"><Bold size={16} /></button>
+                <button type="button" onClick={() => execEditor('italic')} className="rounded-md p-2 text-zinc-300 transition hover:bg-white/10 hover:text-white" aria-label="Italic"><Italic size={16} /></button>
               </div>
-
-              <Button
-                onClick={() => setSelectedNote(null)}
-                variant="ghost"
-                size="sm"
-                className="p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
-                aria-label="Close modal"
-              >
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </Button>
+              <div className="h-5 w-px bg-white/10" />
+              <div className="flex items-center gap-1">
+                <button type="button" onClick={() => execEditor('formatBlock', 'H1')} className="rounded-md p-2 text-zinc-300 transition hover:bg-white/10 hover:text-white" aria-label="Heading 1"><Heading1 size={16} /></button>
+                <button type="button" onClick={() => execEditor('formatBlock', 'H2')} className="rounded-md p-2 text-zinc-300 transition hover:bg-white/10 hover:text-white" aria-label="Heading 2"><Heading2 size={16} /></button>
+                <button type="button" onClick={() => execEditor('formatBlock', 'H3')} className="rounded-md p-2 text-zinc-300 transition hover:bg-white/10 hover:text-white" aria-label="Heading 3"><Heading3 size={16} /></button>
+              </div>
+              <div className="h-5 w-px bg-white/10" />
+              <div className="flex items-center gap-1">
+                <button type="button" onClick={() => execEditor('insertUnorderedList')} className="rounded-md p-2 text-zinc-300 transition hover:bg-white/10 hover:text-white" aria-label="Bullet list"><List size={16} /></button>
+                <button type="button" onClick={() => execEditor('insertOrderedList')} className="rounded-md p-2 text-zinc-300 transition hover:bg-white/10 hover:text-white" aria-label="Numbered list"><ListOrdered size={16} /></button>
+              </div>
+              <div className="ml-auto flex items-center gap-2">
+                <Button onClick={closeEditor} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10 active:scale-95">
+                  Cancel
+                </Button>
+                <Button onClick={() => void saveNoteEdit()} size="sm" className="rounded-lg active:scale-95">
+                  <Save size={14} className="mr-1.5" aria-hidden="true" />
+                  Save
+                </Button>
+              </div>
             </div>
 
-            <div
-              className="prose kv-card max-w-none text-gray-700"
-              dangerouslySetInnerHTML={{ __html: renderMath(selectedNote.content) }}
-            />
+            <div className="flex flex-1 overflow-hidden">
+              <div className="flex-1 overflow-y-auto p-6">
+                <div className="mb-4">
+                  <label htmlFor="editor-title-input" className="sr-only">Note title</label>
+                  <input
+                    id="editor-title-input"
+                    type="text"
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    className="w-full border-b border-white/10 bg-transparent pb-2 text-2xl font-bold text-white placeholder-zinc-600 outline-none transition focus:border-amber-500/50"
+                    placeholder="Note title"
+                  />
+                </div>
+                <div
+                  ref={editorRef}
+                  contentEditable
+                  suppressContentEditableWarning
+                  className="min-h-[300px] text-base leading-relaxed text-zinc-200 outline-none"
+                  dangerouslySetInnerHTML={{ __html: selectedNote.content }}
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    const text = e.clipboardData.getData('text/plain');
+                    document.execCommand('insertText', false, text);
+                  }}
+                />
+              </div>
 
-            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-4">
-              <Button
-                onClick={() => {
-                  void navigator.clipboard.writeText(selectedNote.content);
-                }}
-                variant="secondary"
-                size="md"
-              >
-                Copy
-              </Button>
-              <Button
-                onClick={() => void eli5Note(selectedNote.content)}
-                variant="secondary"
-                size="md"
-                loading={eli5Loading}
-                disabled={eli5Loading}
-              >
-                ELI5 this
-              </Button>
-              <Button
-                onClick={() => openFlashcardsFromNote(selectedNote.id)}
-                variant="secondary"
-                size="md"
-              >
-                -&gt; Flashcards
-              </Button>
-              <Button
-                onClick={() => void exportNotePdf(selectedNote.id)}
-                disabled={exportingNoteId === selectedNote.id}
-                loading={exportingNoteId === selectedNote.id}
-                size="md"
-              >
-                {exportingNoteId === selectedNote.id ? "Exporting..." : "Export as PDF"}
-              </Button>
-              <Button
-                onClick={() => {
-                  void deleteNote(selectedNote.id);
-                  setSelectedNote(null);
-                }}
-                variant="danger"
-                size="md"
-              >
+              {/* Media Gallery sidebar */}
+              <aside className="hidden w-64 shrink-0 flex-col border-l border-white/10 bg-black/30 md:flex">
+                <div className="flex items-center justify-between border-b border-white/10 px-3 py-2.5">
+                  <div className="flex items-center gap-1.5">
+                    <ImageIcon size={13} className="text-amber-400" aria-hidden="true" />
+                    <h3 className="text-[11px] font-semibold uppercase tracking-wider text-zinc-300">Media</h3>
+                    <span className="text-[10px] text-zinc-500">({noteMedia.length})</span>
+                  </div>
+                  <Link
+                    href="/capture-studio"
+                    className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-medium text-zinc-300 transition hover:bg-white/10 hover:text-white"
+                    title="Add via Capture Studio"
+                  >
+                    + Add
+                  </Link>
+                </div>
+                <div className="flex-1 overflow-y-auto p-3">
+                  {mediaLoading ? (
+                    <p className="px-1 py-4 text-center text-[11px] text-zinc-500">Loading…</p>
+                  ) : noteMedia.length === 0 ? (
+                    <div className="rounded-lg border border-dashed border-white/10 bg-black/20 p-3 text-center text-[11px] text-zinc-500">
+                      No media yet. Snap one in the
+                      {" "}
+                      <Link href="/capture-studio" className="text-amber-400 underline-offset-2 hover:underline">Capture Studio</Link>
+                      {" "}and save it to this note.
+                    </div>
+                  ) : (
+                    <ul className="space-y-2">
+                      {noteMedia.map((m) => (
+                        <li key={m.id} className="group overflow-hidden rounded-lg border border-white/10 bg-zinc-900/60">
+                          <button
+                            type="button"
+                            onClick={() => insertImageIntoEditor(m.imageData, m.title)}
+                            className="block w-full text-left"
+                            title="Click to insert into note"
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={m.imageData}
+                              alt={m.title}
+                              loading="lazy"
+                              className="block w-full transition group-hover:brightness-110"
+                            />
+                          </button>
+                          <div className="flex items-center justify-between gap-1 border-t border-white/10 bg-black/40 px-2 py-1.5">
+                            <p className="truncate text-[10px] text-zinc-400" title={m.title}>{m.title}</p>
+                            <div className="flex shrink-0 gap-0.5">
+                              <button
+                                type="button"
+                                onClick={() => setMediaViewer(m.imageData)}
+                                className="rounded p-1 text-zinc-400 transition hover:bg-white/10 hover:text-white"
+                                aria-label="View full size"
+                                title="View"
+                              >
+                                <ZoomIn size={11} aria-hidden="true" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => void unlinkMediaFromNote(m.id)}
+                                className="rounded p-1 text-zinc-400 transition hover:bg-red-500/15 hover:text-red-300"
+                                aria-label="Remove from note"
+                                title="Unlink from note"
+                              >
+                                <X size={11} aria-hidden="true" />
+                              </button>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </aside>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 bg-zinc-900/80 p-4">
+              <div className="flex flex-wrap gap-2">
+                <Button onClick={() => { void navigator.clipboard.writeText(selectedNote.content); showToast("Copied to clipboard", "success"); }} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 text-xs text-zinc-300 hover:bg-white/10 active:scale-95">
+                  Copy
+                </Button>
+                <Button onClick={() => void eli5Note(selectedNote.content)} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 text-xs text-zinc-300 hover:bg-white/10 active:scale-95" loading={eli5Loading} disabled={eli5Loading}>
+                  ELI5
+                </Button>
+                <Button onClick={() => openFlashcardsFromNote(selectedNote.id)} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 text-xs text-zinc-300 hover:bg-white/10 active:scale-95">
+                  Flashcards
+                </Button>
+                <Button
+                  onClick={() => router.push(`/split?left=nova&right=notes&noteId=${encodeURIComponent(selectedNote.id)}&focus=1`)}
+                  variant="secondary"
+                  size="sm"
+                  className="rounded-lg border-amber-300/30 bg-gradient-to-r from-amber-300/10 to-teal-300/10 text-xs text-amber-100 hover:from-amber-300/20 hover:to-teal-300/20 active:scale-95"
+                >
+                  Open in Split View
+                </Button>
+                <Button
+                  onClick={() => void generateMockExam(selectedNote.id)}
+                  loading={mockExamLoadingId === selectedNote.id}
+                  disabled={mockExamLoadingId !== null}
+                  size="sm"
+                  className="rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-xs font-semibold text-black hover:brightness-110 active:scale-95"
+                >
+                  {mockExamLoadingId === selectedNote.id ? "Building exam…" : "Generate Mock Exam"}
+                </Button>
+                <Button onClick={() => void exportNotePdf(selectedNote.id)} disabled={exportingNoteId === selectedNote.id} loading={exportingNoteId === selectedNote.id} size="sm" className="rounded-lg text-xs active:scale-95">
+                  {exportingNoteId === selectedNote.id ? "Exporting..." : "Export PDF"}
+                </Button>
+              </div>
+              <Button onClick={() => { void deleteNote(selectedNote.id); closeEditor(); }} variant="danger" size="sm" className="rounded-lg text-xs active:scale-95">
                 Delete
               </Button>
             </div>
@@ -1307,132 +1473,146 @@ export default function MyNotes() {
         </div>
       )}
 
+      {mediaViewer && (
+        <div
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 p-6 backdrop-blur-sm"
+          onClick={() => setMediaViewer(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Media viewer"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={mediaViewer}
+            alt="Linked media"
+            className="max-h-full max-w-full rounded-xl border border-white/10 shadow-2xl"
+          />
+          <button
+            type="button"
+            onClick={() => setMediaViewer(null)}
+            className="absolute right-4 top-4 rounded-md bg-black/60 p-2 text-zinc-200 transition hover:bg-black/80"
+            aria-label="Close viewer"
+          >
+            <X size={16} aria-hidden="true" />
+          </button>
+        </div>
+      )}
+
       {eli5ModalOpen && (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
           onClick={() => setEli5ModalOpen(false)}
           role="dialog"
           aria-modal="true"
           aria-label="ELI5 explanation"
         >
           <div
-            className="kv-card-gold w-full max-w-xl overflow-y-auto rounded-2xl p-6 shadow-2xl"
-            style={{ maxHeight: "70vh", background: "var(--bg-elevated)", border: "1px solid rgba(240,180,41,0.3)" }}
+            className="w-full max-w-xl overflow-y-auto rounded-2xl border border-amber-500/20 bg-zinc-950 p-6 shadow-2xl"
+            style={{ maxHeight: "70vh" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold text-[var(--accent-gold)]">🧠 ELI5 Explanation</h2>
-              <Button onClick={() => setEli5ModalOpen(false)} variant="ghost" size="sm" aria-label="Close ELI5 modal">✕</Button>
+              <h2 className="text-lg font-bold text-amber-400">ELI5 Explanation</h2>
+              <button type="button" onClick={() => setEli5ModalOpen(false)} className="rounded-lg p-1 text-zinc-400 transition hover:text-white" aria-label="Close ELI5 modal">
+                <X size={18} />
+              </button>
             </div>
             {eli5Loading ? (
-              <div className="flex items-center gap-2 py-4 text-sm text-[var(--text-secondary)]">
-                <span className="h-2 w-2 animate-bounce rounded-full bg-[var(--accent-gold)] [animation-delay:-0.3s]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-[var(--accent-gold)] [animation-delay:-0.15s]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-[var(--accent-gold)]" />
+              <div className="flex items-center gap-2 py-4 text-sm text-zinc-400">
+                <span className="h-2 w-2 animate-bounce rounded-full bg-amber-400 [animation-delay:-0.3s]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-amber-400 [animation-delay:-0.15s]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-amber-400" />
                 <span className="ml-2">Getting simple explanation...</span>
               </div>
             ) : (
-              <p className="whitespace-pre-wrap text-sm leading-relaxed text-[var(--text-primary)]">{eli5Result}</p>
+              <p className="whitespace-pre-wrap text-base leading-relaxed text-zinc-200">{eli5Result}</p>
             )}
           </div>
         </div>
       )}
 
       {tagModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setTagModalOpen(false)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setTagModalOpen(false)} role="dialog" aria-modal="true" aria-label="Manage tags">
           <div
-            className="w-full max-w-xl rounded-xl bg-[var(--bg-card)] p-6"
+            className="w-full max-w-xl overflow-y-auto rounded-2xl border border-white/10 bg-zinc-950 p-6 shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
+            <div className="mb-5 flex items-center justify-between">
+              <h2 className="text-lg font-bold text-white">Manage Tags</h2>
+              <button type="button" onClick={() => setTagModalOpen(false)} className="rounded-lg p-1 text-zinc-400 transition hover:text-white" aria-label="Close tag modal">
+                <X size={18} />
+              </button>
+            </div>
 
             <div className="space-y-5">
-              <div className="rounded-lg border border-[var(--border-default)] p-4">
-                <p className="mb-2 text-sm font-semibold text-gray-800">Rename tag</p>
+              <div className="rounded-lg border border-white/10 bg-zinc-900/50 p-4">
+                <p className="mb-2 text-sm font-semibold text-white">Rename tag</p>
                 <div className="grid gap-2 sm:grid-cols-2">
+                  <label htmlFor="rename-old" className="sr-only">Current tag name</label>
                   <input
+                    id="rename-old"
                     value={renameOldTag}
                     onChange={(event) => setRenameOldTag(event.target.value)}
                     placeholder="Current tag"
-                    className="kv-input"
+                    className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
                   />
+                  <label htmlFor="rename-new" className="sr-only">New tag name</label>
                   <input
+                    id="rename-new"
                     value={renameNewTag}
                     onChange={(event) => setRenameNewTag(event.target.value)}
                     placeholder="New tag"
-                    className="kv-input"
+                    className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
                   />
                 </div>
-                <Button
-                  onClick={() =>
-                    void updateTags({
-                      action: "rename",
-                      oldTag: renameOldTag,
-                      newTag: renameNewTag,
-                    })
-                  }
-                  size="sm"
-                  className="mt-2 px-3 py-2 text-xs"
-                >
+                <Button onClick={() => void updateTags({ action: "rename", oldTag: renameOldTag, newTag: renameNewTag })} size="sm" className="mt-2 rounded-lg px-3 py-2 text-xs active:scale-95">
                   Rename
                 </Button>
               </div>
 
-              <div className="rounded-lg border border-[var(--border-default)] p-4">
-                <p className="mb-2 text-sm font-semibold text-gray-800">Delete tag</p>
+              <div className="rounded-lg border border-white/10 bg-zinc-900/50 p-4">
+                <p className="mb-2 text-sm font-semibold text-white">Delete tag</p>
+                <label htmlFor="delete-tag" className="sr-only">Tag to delete</label>
                 <input
+                  id="delete-tag"
                   value={deleteTagName}
                   onChange={(event) => setDeleteTagName(event.target.value)}
                   placeholder="Tag to delete"
-                  className="w-full kv-input"
+                  className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
                 />
-                <Button
-                  onClick={() => void updateTags({ action: "delete", tag: deleteTagName })}
-                  variant="danger"
-                  size="sm"
-                  className="mt-2 px-3 py-2 text-xs"
-                >
+                <Button onClick={() => void updateTags({ action: "delete", tag: deleteTagName })} variant="danger" size="sm" className="mt-2 rounded-lg px-3 py-2 text-xs active:scale-95">
                   Delete
                 </Button>
               </div>
 
-              <div className="rounded-lg border border-[var(--border-default)] p-4">
-                <p className="mb-2 text-sm font-semibold text-gray-800">Merge tags</p>
+              <div className="rounded-lg border border-white/10 bg-zinc-900/50 p-4">
+                <p className="mb-2 text-sm font-semibold text-white">Merge tags</p>
                 <div className="grid gap-2 sm:grid-cols-2">
+                  <label htmlFor="merge-source" className="sr-only">Source tag</label>
                   <input
+                    id="merge-source"
                     value={mergeSourceTag}
                     onChange={(event) => setMergeSourceTag(event.target.value)}
                     placeholder="Source tag"
-                    className="kv-input"
+                    className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
                   />
+                  <label htmlFor="merge-target" className="sr-only">Target tag</label>
                   <input
+                    id="merge-target"
                     value={mergeTargetTag}
                     onChange={(event) => setMergeTargetTag(event.target.value)}
                     placeholder="Target tag"
-                    className="kv-input"
+                    className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
                   />
                 </div>
-                <Button
-                  onClick={() =>
-                    void updateTags({
-                      action: "merge",
-                      sourceTag: mergeSourceTag,
-                      targetTag: mergeTargetTag,
-                    })
-                  }
-                  size="sm"
-                  className="mt-2 px-3 py-2 text-xs"
-                >
+                <Button onClick={() => void updateTags({ action: "merge", sourceTag: mergeSourceTag, targetTag: mergeTargetTag })} size="sm" className="mt-2 rounded-lg px-3 py-2 text-xs active:scale-95">
                   Merge
                 </Button>
               </div>
             </div>
 
             <div className="mt-5 flex justify-end">
-              <Button
-                onClick={() => setTagModalOpen(false)}
-                variant="secondary"
-                size="sm"
-              >
+              <Button onClick={() => setTagModalOpen(false)} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10 active:scale-95">
                 Close
               </Button>
             </div>

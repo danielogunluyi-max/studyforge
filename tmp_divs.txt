@@ -1,0 +1,81 @@
+OPEN 493 <div style={{ maxWidth: '1280px', margin: '0 auto', marginBottom: '100px', padding: '36px 24px 80px' }}>
+OPEN 501 <div style={{
+OPEN 505 <div style={{
+CLOSE 515 </div>
+OPEN 516 <div>
+CLOSE 523 </div>
+CLOSE 524 </div>
+OPEN 529 <div style={{
+CLOSE 545 </div>
+OPEN 561 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
+CLOSE 577 </div>
+OPEN 579 <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{
+CLOSE 624 </div>
+OPEN 626 <div
+CLOSE 654 </div>
+OPEN 656 <div
+CLOSE 690 </div>
+CLOSE 691 </div>
+OPEN 693 <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
+OPEN 694 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px', flexWrap: 'wrap' }}>
+OPEN 695 <div>
+CLOSE 709 </div>
+OPEN 710 <div style={{ width: '320px', maxWidth: '100%' }}>
+OPEN 711 <div style={{ height: '8px', borderRadius: '999px', background: '#12192e', overflow: 'hidden' }}>
+OPEN 712 <div
+CLOSE 722 </div>
+CLOSE 723 </div>
+CLOSE 724 </div>
+CLOSE 725 </div>
+OPEN 727 <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
+OPEN 728 <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+OPEN 729 <div>
+CLOSE 746 </div>
+CLOSE 765 </div>
+CLOSE 766 </div>
+OPEN 768 <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '28px' }}>
+OPEN 779 <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
+CLOSE 823 </div>
+CLOSE 824 </div>
+OPEN 836 <div>
+OPEN 844 <div>
+OPEN 855 <div className="kv-stagger kv-animate-in" style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+OPEN 866 <div
+OPEN 873 <div style={{ marginBottom: '12px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+CLOSE 889 </div>
+OPEN 907 <div style={{ marginTop: '14px' }}>
+OPEN 908 <div style={{ marginBottom: '6px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: '#8892b0' }}>
+CLOSE 911 </div>
+OPEN 912 <div style={{ height: '8px', borderRadius: '999px', overflow: 'hidden', background: '#12192e' }}>
+OPEN 913 <div style={{ height: '100%', width: `${urgencyProgress(days)}%`, background: urgency.bar }} />
+CLOSE 914 </div>
+CLOSE 915 </div>
+OPEN 917 <div style={{
+CLOSE 929 </div>
+OPEN 931 <div style={{ marginTop: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+CLOSE 953 </div>
+OPEN 956 <div style={{ marginTop: '16px' }}>
+OPEN 958 <div style={{ display: 'grid', gap: '8px' }}>
+OPEN 974 <div
+OPEN 978 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+OPEN 988 <div style={{ minWidth: 0 }}>
+CLOSE 999 </div>
+CLOSE 1000 </div>
+CLOSE 1001 </div>
+CLOSE 1004 </div>
+CLOSE 1005 </div>
+CLOSE 1007 </div>
+CLOSE 1010 </div>
+CLOSE 1011 </div>
+OPEN 1015 <div style={{ marginTop: '48px' }}>
+OPEN 1026 <div style={{ display: 'grid', gap: '12px' }}>
+OPEN 1030 <div
+OPEN 1044 <div>
+CLOSE 1062 </div>
+OPEN 1064 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+CLOSE 1130 </div>
+CLOSE 1131 </div>
+CLOSE 1133 </div>
+CLOSE 1134 </div>
+CLOSE 1136 </div>
+CLOSE 1151 </div>

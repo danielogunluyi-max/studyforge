@@ -36,11 +36,11 @@ export const authConfig = {
   },
   trustHost: true,
   secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  debug: true,
   // TEMPORARY: use JWT sessions and avoid initializing the Prisma adapter here.
   // The adapter was causing initialization-time DB errors in production (500s).
   // We'll restore `adapter: PrismaAdapter(db)` and `session.strategy = 'database'`
   // after the DB / env issues are resolved.
-  basePath: "/api/auth",
   providers: [
     CredentialsProvider({
       name: "Credentials",

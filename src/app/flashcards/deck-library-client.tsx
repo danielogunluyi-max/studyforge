@@ -2,6 +2,16 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  Plus,
+  Sparkles,
+  Layers,
+  Flame,
+  CheckCircle2,
+  X,
+  PencilLine,
+  Play,
+} from "lucide-react";
 
 type DeckSummary = {
   id: string;
@@ -29,6 +39,7 @@ type Props = {
   studiedToday: number;
   notes: NoteOption[];
   initialGenerateFrom: string;
+  studyStreak?: number;
 };
 
 type CreateDeckResponse = {
@@ -43,7 +54,44 @@ type CreateDeckResponse = {
   error?: string;
 };
 
-export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGenerateFrom }: Props) {
+function MasteryRing({ percent, size = 64, stroke = 6 }: { percent: number; size?: number; stroke?: number }) {
+  const radius = (size - stroke) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percent / 100) * circumference;
+  const color = percent >= 80 ? "#22c55e" : percent >= 40 ? "#f0b429" : "#ef4444";
+
+  return (
+    <div className="relative" style={{ width: size, height: size }} aria-label={`Mastery ${percent}%`}>
+      <svg width={size} height={size} className="-rotate-90">
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="rgba(255,255,255,0.08)"
+          strokeWidth={stroke}
+          fill="none"
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke={color}
+          strokeWidth={stroke}
+          strokeLinecap="round"
+          fill="none"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          style={{ transition: "stroke-dashoffset 600ms ease, stroke 300ms ease" }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-sm font-bold text-white">{percent}%</span>
+      </div>
+    </div>
+  );
+}
+
+export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGenerateFrom, studyStreak = 0 }: Props) {
   const router = useRouter();
   const [decks, setDecks] = useState<DeckSummary[]>(initialDecks);
   const [showCreateModal, setShowCreateModal] = useState(Boolean(initialGenerateFrom));
@@ -60,6 +108,9 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
 
   const totalDecks = decks.length;
   const totalDue = useMemo(() => decks.reduce((sum, deck) => sum + deck.dueCards, 0), [decks]);
+  const totalCards = useMemo(() => decks.reduce((sum, d) => sum + d.totalCards, 0), [decks]);
+  const totalMastered = useMemo(() => decks.reduce((sum, d) => sum + (d.totalCards - d.dueCards), 0), [decks]);
+  const overallMastery = totalCards > 0 ? Math.round((totalMastered / totalCards) * 100) : 0;
 
   const [curriculumCode, setCurriculumCode] = useState("");
   const [curriculumOptions, setCurriculumOptions] = useState<CurriculumOption[]>([]);
@@ -73,12 +124,19 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
     })();
   }, []);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && showCreateModal) setShowCreateModal(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [showCreateModal]);
+
   const submitCreate = async () => {
     if (!title.trim() || !subject.trim()) {
       setError("Title and subject are required");
       return;
     }
-
     if (useAiGenerate && !selectedNoteId && !topic.trim()) {
       setError("Provide a topic or select a note to generate cards");
       return;
@@ -139,95 +197,125 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
   };
 
   return (
-    <main style={{ minHeight: "100vh", background: "var(--bg-base)", color: "var(--text-primary)", padding: "28px 16px 100px" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "32px" }}>
+    <main className="min-h-screen bg-black px-4 py-8 pb-24 text-white md:px-6">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="text-title">Flashcard Decks 🗂️</h1>
-            <p style={{ color: "var(--text-secondary)", marginTop: "4px" }}>
-              Spaced repetition - study smarter, not longer
-            </p>
+            <div className="mb-2 flex items-center gap-2">
+              <Layers size={24} className="text-amber-400" aria-hidden="true" />
+              <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Flashcard Decks</h1>
+            </div>
+            <p className="text-base text-zinc-400">Spaced repetition · study smarter, not longer</p>
           </div>
-          <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}>
-            + New Deck
-          </button>
+          <div className="flex items-center gap-3">
+            {studyStreak > 0 && (
+              <div className="flex items-center gap-2 rounded-xl border border-amber-500/20 bg-amber-500/10 px-3 py-2" aria-label={`Current study streak: ${studyStreak} days`}>
+                <Flame size={16} className="text-amber-400" aria-hidden="true" />
+                <span className="text-sm font-semibold text-amber-300">{studyStreak} day streak</span>
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => setShowCreateModal(true)}
+              className="flex items-center gap-2 rounded-xl border border-white/10 bg-white px-4 py-2.5 text-sm font-semibold text-black transition-all hover:bg-zinc-100 active:scale-95"
+              aria-label="Create a new flashcard deck"
+            >
+              <Plus size={16} aria-hidden="true" />
+              New Deck
+            </button>
+          </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginBottom: 32 }}>
-          <div className="card" style={{ padding: 16 }}>
-            <p className="text-label">Total Decks</p>
-            <p style={{ fontSize: 28, fontWeight: 800, marginTop: 6 }}>{totalDecks}</p>
-          </div>
-          <div className="card" style={{ padding: 16 }}>
-            <p className="text-label">Cards Due Today</p>
-            <p style={{ fontSize: 28, fontWeight: 800, marginTop: 6 }}>{totalDue}</p>
-          </div>
-          <div className="card" style={{ padding: 16 }}>
-            <p className="text-label">Studied Today</p>
-            <p style={{ fontSize: 28, fontWeight: 800, marginTop: 6 }}>{studiedToday}</p>
-          </div>
+        <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <StatCard label="Total Decks" value={totalDecks} accent="text-white" />
+          <StatCard label="Cards Due Today" value={totalDue} accent={totalDue > 0 ? "text-red-400" : "text-emerald-400"} />
+          <StatCard label="Studied Today" value={studiedToday} accent="text-amber-400" />
+          <StatCard label="Overall Mastery" value={`${overallMastery}%`} accent="text-emerald-400" />
         </div>
 
         {decks.length === 0 ? (
-          <div className="card" style={{ textAlign: "center", padding: "80px 24px" }}>
-            <div style={{ fontSize: "64px", marginBottom: "16px" }}>🗂️</div>
-            <p style={{ fontSize: 22, fontWeight: 700 }}>No decks yet</p>
-            <p style={{ color: "var(--text-muted)", marginTop: "8px" }}>
-              Create your first deck or generate cards from your notes
-            </p>
-            <button className="btn btn-primary" style={{ marginTop: "24px" }} onClick={() => setShowCreateModal(true)}>
+          <div className="rounded-2xl border border-white/10 bg-zinc-900/50 px-6 py-20 text-center backdrop-blur-sm">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-500/10">
+              <Layers size={32} className="text-amber-400" aria-hidden="true" />
+            </div>
+            <p className="text-2xl font-bold text-white">No decks yet</p>
+            <p className="mt-2 text-base text-zinc-400">Create your first deck or generate cards from your notes.</p>
+            <button
+              type="button"
+              onClick={() => setShowCreateModal(true)}
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-black transition-all hover:bg-zinc-100 active:scale-95"
+            >
+              <Plus size={16} aria-hidden="true" />
               Create First Deck
             </button>
           </div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {decks.map((deck) => {
-              const mastery = deck.totalCards > 0 ? Math.round(((deck.totalCards - deck.dueCards) / deck.totalCards) * 100) : 0;
+              const mastered = Math.max(0, deck.totalCards - deck.dueCards);
+              const mastery = deck.totalCards > 0 ? Math.round((mastered / deck.totalCards) * 100) : 0;
+
               return (
-                <div key={deck.id} className="card" style={{ padding: 16 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                    <p style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>{deck.title}</p>
-                    <span className="badge badge-blue">{deck.subject}</span>
-                  </div>
+                <div key={deck.id} className="group relative">
+                  {/* Stacked card layers behind */}
+                  <div className="pointer-events-none absolute inset-0 translate-x-1.5 translate-y-1.5 rounded-2xl border border-white/5 bg-zinc-900/40 transition-all duration-200 group-hover:translate-x-2 group-hover:translate-y-2" aria-hidden="true" />
+                  <div className="pointer-events-none absolute inset-0 translate-x-0.5 translate-y-0.5 rounded-2xl border border-white/8 bg-zinc-900/60 transition-all duration-200 group-hover:translate-x-1 group-hover:translate-y-1" aria-hidden="true" />
 
-                  <p style={{ marginTop: 8, color: "var(--text-secondary)", fontSize: 13 }}>{deck.totalCards} cards</p>
+                  {/* Top card */}
+                  <article className="relative flex flex-col rounded-2xl border border-white/10 bg-zinc-900/80 p-5 backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-white/20 hover:shadow-2xl hover:shadow-amber-500/5">
+                    <div className="mb-4 flex items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <span className="inline-block rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-zinc-300">
+                          {deck.subject}
+                        </span>
+                        <h3 className="mt-2 truncate text-xl font-bold text-white">{deck.title}</h3>
+                      </div>
+                      <MasteryRing percent={mastery} />
+                    </div>
 
-                  <span
-                    className="badge"
-                    style={{
-                      marginTop: 8,
-                      display: "inline-flex",
-                      background: deck.dueCards > 0 ? "rgba(239, 68, 68, 0.16)" : "rgba(34, 197, 94, 0.16)",
-                      color: deck.dueCards > 0 ? "var(--accent-red)" : "var(--accent-green)",
-                    }}
-                  >
-                    {deck.dueCards > 0 ? `🔥 ${deck.dueCards} due` : "✓ Up to date"}
-                  </span>
+                    <div className="mb-4 flex flex-wrap items-center gap-2 text-xs">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1 text-zinc-300">
+                        <Layers size={12} aria-hidden="true" />
+                        {deck.totalCards} cards
+                      </span>
+                      {deck.dueCards > 0 ? (
+                        <span className="inline-flex items-center gap-1 rounded-full border border-red-500/30 bg-red-500/10 px-2 py-1 font-semibold text-red-300">
+                          <Flame size={12} aria-hidden="true" />
+                          {deck.dueCards} due
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-1 font-semibold text-emerald-300">
+                          <CheckCircle2 size={12} aria-hidden="true" />
+                          Up to date
+                        </span>
+                      )}
+                    </div>
 
-                  <div style={{ marginTop: 10, height: 8, borderRadius: 99, background: "var(--bg-elevated)", overflow: "hidden" }}>
-                    <div style={{ height: "100%", width: `${mastery}%`, background: "var(--accent-blue)" }} />
-                  </div>
+                    {deck.description && (
+                      <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-zinc-400">{deck.description}</p>
+                    )}
 
-                  {deck.description && (
-                    <p
-                      style={{
-                        marginTop: 10,
-                        color: "var(--text-muted)",
-                        fontSize: 13,
-                        overflow: "hidden",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                      }}
-                    >
-                      {deck.description}
-                    </p>
-                  )}
-
-                  <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
-                    <button className="btn btn-primary" onClick={() => router.push(`/flashcards/${deck.id}/study`)}>Study</button>
-                    <button className="btn btn-ghost" onClick={() => router.push(`/flashcards/${deck.id}`)}>Edit</button>
-                  </div>
+                    <div className="mt-auto flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => router.push(`/flashcards/${deck.id}/study`)}
+                        className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-white px-3 py-2 text-xs font-semibold text-black transition-all hover:bg-zinc-100 active:scale-95"
+                        aria-label={`Study deck ${deck.title}`}
+                      >
+                        <Play size={12} aria-hidden="true" />
+                        Study
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => router.push(`/flashcards/${deck.id}`)}
+                        className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-300 transition-all hover:bg-white/10 hover:text-white active:scale-95"
+                        aria-label={`Edit deck ${deck.title}`}
+                      >
+                        <PencilLine size={12} aria-hidden="true" />
+                        Edit
+                      </button>
+                    </div>
+                  </article>
                 </div>
               );
             })}
@@ -237,78 +325,159 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
 
       {showCreateModal && (
         <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.6)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 100,
-            padding: 16,
-          }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          onClick={(e) => { if (e.target === e.currentTarget) setShowCreateModal(false); }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="create-deck-title"
         >
-          <div className="card" style={{ width: "100%", maxWidth: 560, padding: 16 }}>
-            <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700 }}>Create Deck</h2>
+          <div className="w-full max-w-xl overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+              <h2 id="create-deck-title" className="text-lg font-bold text-white">Create Deck</h2>
+              <button
+                type="button"
+                onClick={() => setShowCreateModal(false)}
+                className="rounded-lg p-1 text-zinc-400 transition hover:bg-white/5 hover:text-white"
+                aria-label="Close create deck modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
 
-            <div style={{ display: "grid", gap: 10, marginTop: 12 }}>
-              <input className="input" placeholder="Deck title" value={title} onChange={(event) => setTitle(event.target.value)} />
-              <input className="input" placeholder="Subject" value={subject} onChange={(event) => setSubject(event.target.value)} />
-              <textarea className="input" placeholder="Description (optional)" value={description} onChange={(event) => setDescription(event.target.value)} rows={3} />
+            <div className="space-y-3 px-6 py-5">
+              <div>
+                <label htmlFor="deck-title" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Title</label>
+                <input
+                  id="deck-title"
+                  className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                  placeholder="Deck title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="deck-subject" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Subject</label>
+                <input
+                  id="deck-subject"
+                  className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                  placeholder="Subject"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="deck-desc" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Description (optional)</label>
+                <textarea
+                  id="deck-desc"
+                  className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                  placeholder="Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={2}
+                />
+              </div>
 
-              <label style={{ display: "flex", alignItems: "center", gap: 8, color: "var(--text-secondary)" }}>
-                <input type="checkbox" checked={useAiGenerate} onChange={(event) => setUseAiGenerate(event.target.checked)} />
+              <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-zinc-200 transition hover:bg-white/10">
+                <input
+                  type="checkbox"
+                  checked={useAiGenerate}
+                  onChange={(e) => setUseAiGenerate(e.target.checked)}
+                  className="h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-amber-500 focus:ring-amber-500/20"
+                />
+                <Sparkles size={14} className="text-amber-400" aria-hidden="true" />
                 Generate with AI
               </label>
 
               {useAiGenerate && (
-                <div className="card" style={{ padding: 12, border: "1px solid var(--border-default)" }}>
-                  <input className="input" placeholder="What topic should the cards cover?" value={topic} onChange={(event) => setTopic(event.target.value)} />
-
-                  <div style={{ marginTop: 10 }}>
-                    <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 12 }}>Card count: {count}</p>
+                <div className="space-y-3 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+                  <div>
+                    <label htmlFor="deck-topic" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Topic</label>
                     <input
+                      id="deck-topic"
+                      className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                      placeholder="What topic should the cards cover?"
+                      value={topic}
+                      onChange={(e) => setTopic(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="deck-count" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Card count: {count}</label>
+                    <input
+                      id="deck-count"
                       type="range"
                       min={10}
                       max={50}
                       step={1}
                       value={count}
-                      onChange={(event) => setCount(Number(event.target.value))}
-                      style={{ width: "100%" }}
+                      onChange={(e) => setCount(Number(e.target.value))}
+                      className="w-full accent-amber-500"
+                      aria-label="Number of cards to generate"
                     />
                   </div>
-
-                  <div style={{ marginTop: 10 }}>
-                    <p style={{ margin: "0 0 6px", color: "var(--text-secondary)", fontSize: 12 }}>Generate from one of my notes (optional)</p>
-                    <select className="input" value={selectedNoteId} onChange={(event) => setSelectedNoteId(event.target.value)}>
+                  <div>
+                    <label htmlFor="deck-note" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">From a note (optional)</label>
+                    <select
+                      id="deck-note"
+                      className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                      value={selectedNoteId}
+                      onChange={(e) => setSelectedNoteId(e.target.value)}
+                    >
                       <option value="">No note selected</option>
                       {notes.map((note) => (
                         <option key={note.id} value={note.id}>{note.title}</option>
                       ))}
                     </select>
                   </div>
-
-                  <select className="input" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)} style={{ marginTop: 8 }}>
-                    <option value="">Ontario course (optional)</option>
-                    {curriculumOptions.map((course) => (
-                      <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
-                    ))}
-                  </select>
+                  <div>
+                    <label htmlFor="deck-curriculum" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Ontario course (optional)</label>
+                    <select
+                      id="deck-curriculum"
+                      className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                      value={curriculumCode}
+                      onChange={(e) => setCurriculumCode(e.target.value)}
+                    >
+                      <option value="">No course</option>
+                      {curriculumOptions.map((course) => (
+                        <option key={course.code} value={course.code}>{course.code} – {course.title}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               )}
 
-              {error && <p style={{ margin: 0, color: "var(--accent-red)", fontSize: 13 }}>{error}</p>}
+              {error && <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300" role="alert">{error}</p>}
             </div>
 
-            <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 14 }}>
-              <button className="btn btn-ghost" onClick={() => setShowCreateModal(false)} disabled={isSubmitting}>Cancel</button>
-              <button className="btn btn-primary" onClick={() => void submitCreate()} disabled={isSubmitting}>
-                {isSubmitting ? "Working..." : useAiGenerate ? "Create & Generate Cards" : "Create Deck"}
+            <div className="flex justify-end gap-2 border-t border-white/10 px-6 py-4">
+              <button
+                type="button"
+                onClick={() => setShowCreateModal(false)}
+                disabled={isSubmitting}
+                className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-300 transition hover:bg-white/10 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => void submitCreate()}
+                disabled={isSubmitting}
+                className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-zinc-100 active:scale-95 disabled:opacity-50"
+              >
+                {isSubmitting ? "Working..." : useAiGenerate ? "Create & Generate" : "Create Deck"}
               </button>
             </div>
           </div>
         </div>
       )}
     </main>
+  );
+}
+
+function StatCard({ label, value, accent }: { label: string; value: number | string; accent: string }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-zinc-900/50 p-4 backdrop-blur-sm">
+      <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">{label}</p>
+      <p className={`mt-1 text-3xl font-bold ${accent}`}>{value}</p>
+    </div>
   );
 }

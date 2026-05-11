@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 import NovaDailyAward from "~/app/_components/nova-daily-award";
-import Dock from "~/app/_components/dock";
 
 const PUBLIC_ROUTES = new Set(["/", "/login", "/register", "/signup"]);
 
@@ -29,7 +28,6 @@ export function GlobalFloatingWidgets() {
   return (
     <>
       <NovaDailyAward />
-      <Dock />
     </>
   );
 }

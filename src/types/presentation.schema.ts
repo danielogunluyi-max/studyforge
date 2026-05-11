@@ -15,6 +15,9 @@ export const slideDataSchema = z.object({
   quote: z.string().optional(),
   attribution: z.string().optional(),
   notes: z.string().optional(),
+  sources: z.array(z.string().min(1)).max(8).optional(),
+  imagePrompt: z.string().optional(),
+  imageUrl: z.string().url().optional(),
 });
 
 export const presentationDataSchema = z.object({
@@ -40,6 +43,8 @@ export const generatePresentationRequestSchema = z.object({
   style: z.enum(["academic", "minimal", "creative", "professional"]),
   subject: z.string().min(1),
   includeNotes: z.boolean(),
+  level: z.enum(["elementary", "high_school", "university", "phd"]).optional(),
+  includeSources: z.boolean().optional(),
 });
 
 export const downloadPresentationRequestSchema = z.object({

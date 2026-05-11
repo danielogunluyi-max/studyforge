@@ -11,6 +11,12 @@ export interface SlideData {
   quote?: string;
   attribution?: string;
   notes?: string;
+  /** Citations / source tags for this slide */
+  sources?: string[];
+  /** Hint for image generation (Unsplash-style keywords or description) */
+  imagePrompt?: string;
+  /** Resolved image URL once the user clicks "Generate Image" or uploads */
+  imageUrl?: string;
 }
 
 export interface PresentationData {

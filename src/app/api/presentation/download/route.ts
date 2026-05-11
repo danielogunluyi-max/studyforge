@@ -289,6 +289,40 @@ function addContentSlide(pptx: PptxGenJS, slide: SlideData, theme: ThemeConfig) 
     });
   }
 
+  // Optional: stock image (only if a usable URL was supplied)
+  if (slide.imageUrl && /^https?:\/\//.test(slide.imageUrl) && slide.type !== "title" && slide.type !== "end") {
+    try {
+      pptSlide.addImage({
+        path: slide.imageUrl,
+        x: 6.6,
+        y: 1.4,
+        w: 3.0,
+        h: 2.0,
+        sizing: { type: "cover", w: 3.0, h: 2.0 },
+      });
+    } catch {
+      // pptxgenjs is forgiving; ignore image failure so the deck still renders
+    }
+  }
+
+  // Optional: citations footer
+  if (slide.sources && slide.sources.length > 0) {
+    const citationLine = slide.sources
+      .slice(0, 4)
+      .map((s, i) => `${i + 1}. ${s}`)
+      .join("   ");
+    pptSlide.addText(citationLine, {
+      x: 0.3,
+      y: 5.05,
+      w: 9.4,
+      h: 0.4,
+      fontSize: 8,
+      italic: true,
+      color: theme.secondary,
+      fontFace: "Inter",
+    });
+  }
+
   if (slide.notes && slide.notes.trim()) {
     pptSlide.addNotes(slide.notes);
   }

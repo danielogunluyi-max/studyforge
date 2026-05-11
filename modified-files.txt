@@ -1,0 +1,4 @@
+warning: in the working copy of 'src/app/dashboard/page.tsx', LF will be replaced by CRLF the next time Git touches it
+src/app/_components/command-palette.tsx
+src/app/dashboard/page.tsx
+src/app/features/page.tsx

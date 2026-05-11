@@ -46,17 +46,7 @@ const ALL_FEATURES: Feature[] = [
   { key: 'pdf-library', label: 'PDF Library', icon: '\u{1F4C4}', category: 'Study Tools' },
   { key: 'listen', label: 'Listen to Notes', icon: '\u{1F50A}', category: 'Study Tools' },
 
-  { key: 'generator', label: 'Generator', icon: '\u26A1', category: 'Create' },
-  { key: 'diagrams', label: 'Diagram Generator', icon: '\u{1F5FA}\uFE0F', category: 'Create' },
-  { key: 'presentations', label: 'Presentations', icon: '\u{1F3A8}', category: 'Create' },
-  { key: 'photo-quiz', label: 'Photo Quiz', icon: '\u{1F4F8}', category: 'Create' },
-  { key: 'podcast', label: 'Podcast', icon: '\u{1F3A7}', category: 'Create' },
-  { key: 'cornell', label: 'Cornell Notes', icon: '\u{1F4DD}', category: 'Create' },
-
   { key: 'flashcards', label: 'Flashcards', icon: '\u{1F0CF}', category: 'Flashcards & Exams' },
-  { key: 'predictor', label: 'Exam Predictor', icon: '\u{1F4CA}', category: 'Flashcards & Exams' },
-  { key: 'mock-exam', label: 'Mock Exam', icon: '\u{1F4DD}', category: 'Flashcards & Exams' },
-  { key: 'quizlet-import', label: 'Quizlet Import', icon: '\u{1F504}', category: 'Flashcards & Exams' },
 
   { key: 'tutor', label: 'Nova AI Tutor', icon: '\u{1F9D1}\u{1F3EB}', category: 'AI Tools' },
   { key: 'voice-tutor', label: 'Voice Tutor', icon: '\u{1F399}\uFE0F', category: 'AI Tools' },
@@ -130,6 +120,17 @@ const PRESET_LABELS: Record<Preset, string> = {
 }
 
 const PINNED_FEATURE_KEYS = new Set(['dashboard', 'results'])
+const DELETED_FEATURE_KEYS = new Set([
+  'generator',
+  'diagrams',
+  'presentations',
+  'photo-quiz',
+  'podcast',
+  'cornell',
+  'predictor',
+  'mock-exam',
+  'quizlet-import',
+])
 
 export default function FeaturesPage() {
   const [loading, setLoading] = useState(true)
@@ -147,16 +148,18 @@ export default function FeaturesPage() {
 
   const mergedFeatures = useMemo(() => {
     const mergedKeys = new Set<string>([...ALL_FEATURES.map((feature) => feature.key), ...apiFeatureKeys])
-    return Array.from(mergedKeys).map((key) => {
-      const known = featureLookup.get(key)
-      if (known) return known
-      return {
-        key,
-        label: humanizeFeatureKey(key),
-        icon: '\u2728',
-        category: 'All Features',
-      }
-    })
+    return Array.from(mergedKeys)
+      .filter((key) => !DELETED_FEATURE_KEYS.has(key))
+      .map((key) => {
+        const known = featureLookup.get(key)
+        if (known) return known
+        return {
+          key,
+          label: humanizeFeatureKey(key),
+          icon: '\u2728',
+          category: 'All Features',
+        }
+      })
   }, [apiFeatureKeys, featureLookup])
 
   const allKeys = useMemo(() => mergedFeatures.map((feature) => feature.key), [mergedFeatures])
@@ -188,12 +191,16 @@ export default function FeaturesPage() {
       const hiddenFromApi = Array.isArray(data.prefs?.hiddenFeatures) ? data.prefs?.hiddenFeatures : []
       const allFeatureKeysFromApi = Array.isArray(data.allFeatureKeys) ? data.allFeatureKeys : []
 
+      const filteredEnabledFromApi = enabledFromApi.filter((key) => !DELETED_FEATURE_KEYS.has(key))
+      const filteredHiddenFromApi = hiddenFromApi.filter((key) => !DELETED_FEATURE_KEYS.has(key))
+      const filteredAllFeatureKeysFromApi = allFeatureKeysFromApi.filter((key) => !DELETED_FEATURE_KEYS.has(key))
+
       setPreset(presetFromApi)
-      const normalizedEnabled = new Set([...enabledFromApi, ...Array.from(PINNED_FEATURE_KEYS)])
+      const normalizedEnabled = new Set([...filteredEnabledFromApi, ...Array.from(PINNED_FEATURE_KEYS)])
       setSavedEnabled(normalizedEnabled)
       setEnabled(normalizedEnabled)
       setCustomized(Boolean(data.prefs?.customized))
-      setApiFeatureKeys(Array.from(new Set([...allFeatureKeysFromApi, ...enabledFromApi, ...hiddenFromApi])))
+      setApiFeatureKeys(Array.from(new Set([...filteredAllFeatureKeysFromApi, ...filteredEnabledFromApi, ...filteredHiddenFromApi])))
     } catch {
       setError('Could not load your feature preferences. Showing last known state.')
     } finally {
@@ -297,7 +304,7 @@ export default function FeaturesPage() {
         <p className="kv-text-description">Enable only the tools you want in your learning workspace.</p>
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '12px' }}>
           <span className="kv-badge">Preset: {PRESET_LABELS[preset]}</span>
-          <span className="kv-badge">Enabled: {enabledCount}/{ALL_FEATURES.length}</span>
+          <span className="kv-badge">Enabled: {enabledCount}/{allKeys.length}</span>
           {customized && <span className="kv-badge">Customized</span>}
         </div>
       </header>

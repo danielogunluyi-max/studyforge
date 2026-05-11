@@ -1,7 +1,7 @@
 import { getAuthSession } from '~/server/auth/session'
 import { db } from '~/server/db'
 import { notFound, redirect } from 'next/navigation'
-import ListenClient from './ListenClient'
+import ListenClient from './ListenClient.tsx'
 
 export const metadata = {
   title: 'Listen',

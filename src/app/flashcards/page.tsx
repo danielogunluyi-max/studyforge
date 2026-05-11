@@ -32,7 +32,7 @@ export default async function FlashcardsPage({
   const now = new Date();
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-  const [rawDecks, studiedToday, noteOptions] = await Promise.all([
+  const [rawDecks, studiedToday, noteOptions, userRecord] = await Promise.all([
     prisma.flashcardDeck.findMany({
       where: { userId: session.user.id },
       orderBy: { updatedAt: "desc" },
@@ -49,6 +49,10 @@ export default async function FlashcardsPage({
       select: { id: true, title: true },
       orderBy: { createdAt: "desc" },
       take: 120,
+    }),
+    prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { studyStreak: true },
     }),
   ]);
 
@@ -84,6 +88,7 @@ export default async function FlashcardsPage({
         studiedToday={studiedToday}
         notes={notes}
         initialGenerateFrom={params.generateFrom ?? ""}
+        studyStreak={userRecord?.studyStreak ?? 0}
       />
     </div>
   );

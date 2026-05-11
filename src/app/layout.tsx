@@ -15,7 +15,6 @@ import OnboardingTour from "~/app/_components/onboarding-tour";
 import { ToastContainer } from "~/app/_components/toast";
 import ErrorBoundary from "~/app/_components/error-boundary";
 import { UnhandledRejectionListener } from "~/app/_components/unhandled-rejection-listener";
-import { SmartSuggestionBar } from "~/app/_components/smart-suggestion-bar";
 import ThemeProvider from "~/app/_components/theme-provider";
 import CommandPalette from "~/app/_components/command-palette";
 
@@ -88,10 +87,9 @@ export default function RootLayout({
                   </AppShell>
                   <PresetGate />
                   <GlobalFloatingWidgets />
-                  <SmartSuggestionBar />
-              <CommandPalette showTrigger={false} />
+                  <CommandPalette showTrigger={false} />
                   <ToastViewport />
-                                <ToastContainer />
+                  <ToastContainer />
                 </ToastProvider>
               </TRPCReactProvider>
                         <OnboardingTour />

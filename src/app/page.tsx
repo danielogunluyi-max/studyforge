@@ -3,13 +3,12 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 export default function LandingPage() {
-  const [scrollY, setScrollY] = useState(0)
-  const [hoveredFeature, setHoveredFeature] = useState<number | null>(null)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   const features = [
@@ -34,6 +33,45 @@ export default function LandingPage() {
     { value: '∞', label: 'Possibilities' },
   ]
 
+  const bentoFeatures = [
+    {
+      icon: '🧬',
+      title: 'Study DNA',
+      desc: 'AI analyzes how YOUR brain learns best. Visual, auditory, read-write, kinesthetic — customized for you.',
+      badge: 'Exclusive',
+    },
+    {
+      icon: '👻',
+      title: 'Study Ghost',
+      desc: "See a letter from your past self showing exactly how much you've grown. The most emotional feature in EdTech.",
+      badge: 'Exclusive',
+    },
+    {
+      icon: '👑',
+      title: 'Battle Royale',
+      desc: '100 students. One quiz. Last one standing wins. Study battles have never been this intense.',
+      badge: 'Exclusive',
+    },
+    {
+      icon: '🔬',
+      title: 'Exam Autopsy',
+      desc: 'Failed an exam? AI diagnoses exactly what went wrong, why, and gives you a 48-hour recovery plan.',
+      badge: 'Exclusive',
+    },
+    {
+      icon: '🎯',
+      title: 'Kyvex IQ',
+      desc: 'A composite score across mastery, consistency, velocity, and depth. Updates daily. Watch yourself get smarter.',
+      badge: 'Exclusive',
+    },
+    {
+      icon: '🍁',
+      title: 'Ontario Curriculum',
+      desc: '136 Ontario courses, Gr.9-12, all subjects. Every expectation mapped. No other app has this.',
+      badge: 'Canada Only',
+    },
+  ]
+
   const testimonials = [
     {
       quote: 'I went from a 68 to an 84 in Grade 11 Functions using Kyvex. Nothing else comes close.',
@@ -52,686 +90,324 @@ export default function LandingPage() {
     },
   ]
 
+  const comparison = [
+    ['Ontario Curriculum', true, false, false],
+    ['Real SM-2 Spaced Rep', true, false, false],
+    ['Battle Royale Mode', true, false, false],
+    ['Study DNA Profile', true, false, false],
+    ['Exam Autopsy', true, false, false],
+    ['Kyvex IQ Score', true, false, false],
+    ['AI Tutor', true, true, true],
+    ['Flashcards', true, true, true],
+    ['Price', '$1/mo', '$7.99/mo', '$11.99/mo'],
+  ]
+
   return (
-    <>
-      <style>{`
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-        }
-        @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(240,180,41,0.4); }
-          50% { box-shadow: 0 0 0 12px rgba(240,180,41,0); }
-        }
-        @keyframes shimmer {
-          0% { background-position: -200% center; }
-          100% { background-position: 200% center; }
-        }
-        @keyframes fade-up {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes spin-slow {
-          to { transform: rotate(360deg); }
-        }
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes scale-in {
-          from { opacity: 0; transform: scale(0.9); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        
-        .hero-title {
-          font-size: clamp(48px, 8vw, 96px);
-          font-weight: 900;
-          letter-spacing: -0.04em;
-          line-height: 0.95;
-          color: #e8eaf6;
-          animation: fade-up 0.6s ease both;
-        }
-        .gradient-word {
-          background: linear-gradient(100deg, #f0b429 0%, #2dd4bf 60%, #f0b429 100%);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: shimmer 3s linear infinite;
-        }
-        .hero-sub {
-          font-size: clamp(16px, 2vw, 20px);
-          color: #8892b0;
-          line-height: 1.6;
-          max-width: 480px;
-          animation: fade-up 0.6s 0.1s ease both;
-        }
-        .cta-primary {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 14px 28px;
-          background: linear-gradient(135deg, #f0b429, #2dd4bf);
-          color: #050810;
-          font-size: 15px;
-          font-weight: 800;
-          border: none;
-          border-radius: 12px;
-          cursor: pointer;
-          text-decoration: none;
-          font-family: inherit;
-          transition: all 0.2s ease;
-          box-shadow: 0 4px 24px rgba(240,180,41,0.4);
-          animation: fade-up 0.6s 0.2s ease both;
-        }
-        .cta-primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 32px rgba(240,180,41,0.5);
-        }
-        .cta-secondary {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 14px 28px;
-          background: rgba(255,255,255,0.05);
-          color: #e8eaf6;
-          font-size: 15px;
-          font-weight: 600;
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 12px;
-          cursor: pointer;
-          text-decoration: none;
-          font-family: inherit;
-          transition: all 0.2s ease;
-          animation: fade-up 0.6s 0.25s ease both;
-        }
-        .cta-secondary:hover {
-          background: rgba(255,255,255,0.08);
-          border-color: rgba(240,180,41,0.3);
-        }
-        .feature-pill {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 10px 18px;
-          border-radius: 999px;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          font-size: 13px;
-          font-weight: 600;
-          color: #8892b0;
-          transition: all 0.2s ease;
-          cursor: default;
-          white-space: nowrap;
-        }
-        .feature-pill:hover {
-          background: rgba(240,180,41,0.08);
-          border-color: rgba(240,180,41,0.25);
-          color: #f0b429;
-          transform: translateY(-2px);
-        }
-        .stat-card {
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 16px;
-          padding: 24px;
-          text-align: center;
-          transition: all 0.2s ease;
-        }
-        .stat-card:hover {
-          border-color: rgba(240,180,41,0.2);
-          background: rgba(240,180,41,0.04);
-          transform: translateY(-3px);
-        }
-        .testimonial-card {
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 20px;
-          padding: 28px;
-          transition: all 0.2s ease;
-        }
-        .testimonial-card:hover {
-          border-color: rgba(240,180,41,0.2);
-          transform: translateY(-3px);
-          box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-        }
-        .comparison-row {
-          display: grid;
-          grid-template-columns: 2fr 1fr 1fr 1fr;
-          gap: 0;
-          border-bottom: 1px solid rgba(255,255,255,0.06);
-          padding: 14px 20px;
-          align-items: center;
-          font-size: 14px;
-          transition: background 0.15s ease;
-        }
-        .comparison-row:hover {
-          background: rgba(255,255,255,0.02);
-        }
-        .check { color: #f0b429; font-size: 16px; }
-        .cross { color: #3d4a6b; font-size: 16px; }
-        
-        @media (max-width: 768px) {
-          .hero-title { font-size: 44px; }
-          .desktop-only { display: none; }
-          .mobile-stack { flex-direction: column !important; }
-          .stats-grid { grid-template-columns: 1fr 1fr !important; }
-          .testimonials-grid { grid-template-columns: 1fr !important; }
-          .comparison-row { grid-template-columns: 2fr 1fr 1fr 1fr; font-size: 12px; }
-        }
-      `}</style>
+    <div className="min-h-screen bg-black font-sans text-white antialiased">
+      {/* ── NAVBAR ── */}
+      <nav
+        className={`sticky top-0 z-50 flex h-16 items-center justify-between border-b px-5 transition-all duration-300 md:px-10 ${
+          scrolled
+            ? 'border-white/10 bg-black/80 backdrop-blur-md'
+            : 'border-transparent bg-transparent'
+        }`}
+      >
+        <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center">
+            <img
+              src="/Kyvex-logo.png"
+              alt="Kyvex"
+              className="h-10 w-auto min-w-[150px] object-contain"
+            />
+          </Link>
+          <span className="hidden rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-zinc-400 sm:inline-block">
+            Beta
+          </span>
+        </div>
+        <div className="flex items-center gap-3 md:gap-4">
+          <Link
+            href="/login"
+            className="text-sm font-medium text-zinc-400 transition-colors hover:text-white"
+          >
+            Log in
+          </Link>
+          <Link
+            href="/register"
+            className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black transition-all hover:bg-zinc-200"
+          >
+            Start free
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+            </svg>
+          </Link>
+        </div>
+      </nav>
 
-      <div style={{
-        minHeight: '100vh',
-        background: '#050810',
-        fontFamily: "'Inter', -apple-system, sans-serif",
-        color: '#e8eaf6',
-        overflowX: 'hidden',
-      }}>
+      {/* ── HERO ── */}
+      <section className="relative flex flex-col items-center justify-center overflow-hidden px-6 pb-20 pt-24 text-center md:pb-28 md:pt-32">
+        {/* Background orbs */}
+        <div className="pointer-events-none absolute left-1/2 top-[15%] h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.06)_0%,transparent_70%)] md:h-[600px] md:w-[600px]" />
+        <div className="pointer-events-none absolute left-[15%] top-[25%] h-[250px] w-[250px] animate-[float_6s_ease-in-out_infinite] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.04)_0%,transparent_70%)]" />
+        <div className="pointer-events-none absolute right-[10%] top-[20%] h-[200px] w-[200px] animate-[float_8s_ease-in-out_infinite_reverse] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)]" />
 
-        {/* ── NAVBAR ── */}
-        <nav style={{
-          position: 'sticky', top: 0, zIndex: 100,
-          padding: '0 32px',
-          height: '60px',
-          display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between',
-          background: scrollY > 20
-            ? 'rgba(5,8,16,0.95)'
-            : 'transparent',
-          backdropFilter: scrollY > 20 ? 'blur(12px)' : 'none',
-          borderBottom: scrollY > 20
-            ? '1px solid rgba(255,255,255,0.06)'
-            : '1px solid transparent',
-          transition: 'all 0.3s ease',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{
-              width: '32px', height: '32px', borderRadius: '9px',
-              background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 0 16px rgba(240,180,41,0.4)',
-            }}>
-              <img src="/kyvex-logo.png" alt="K"
-                style={{ width: '20px', objectFit: 'contain' }} />
-            </div>
-            <span style={{
-              fontWeight: 900, fontSize: '17px',
-              letterSpacing: '-0.03em', color: '#e8eaf6',
-            }}>
-              Kyvex
-            </span>
-            <span style={{
-              fontSize: '10px', fontWeight: 700,
-              color: '#f0b429', letterSpacing: '0.06em',
-              textTransform: 'uppercase', opacity: 0.8,
-            }}>
-              beta
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Link href="/login" style={{
-              fontSize: '14px', fontWeight: 600,
-              color: '#8892b0', textDecoration: 'none',
-              transition: 'color 0.15s ease',
-            }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#e8eaf6')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#8892b0')}
-            >
-              Log in
-            </Link>
-            <Link href="/register" className="cta-primary"
-              style={{ padding: '9px 20px', fontSize: '13px', animation: 'none' }}>
-              Start free →
-            </Link>
-          </div>
-        </nav>
-
-        {/* ── HERO ── */}
-        <section style={{
-          minHeight: '92vh',
-          display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center',
-          textAlign: 'center',
-          padding: '80px 24px 60px',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          {/* Background orbs */}
-          <div style={{
-            position: 'absolute', top: '15%', left: '50%',
-            transform: 'translateX(-50%)',
-            width: '600px', height: '600px', borderRadius: '50%',
-            background: 'radial-gradient(ellipse, rgba(240,180,41,0.07) 0%, transparent 65%)',
-            pointerEvents: 'none',
-          }} />
-          <div style={{
-            position: 'absolute', top: '30%', left: '15%',
-            width: '300px', height: '300px', borderRadius: '50%',
-            background: 'radial-gradient(ellipse, rgba(45,212,191,0.05) 0%, transparent 65%)',
-            pointerEvents: 'none',
-            animation: 'float 6s ease-in-out infinite',
-          }} />
-          <div style={{
-            position: 'absolute', top: '25%', right: '10%',
-            width: '250px', height: '250px', borderRadius: '50%',
-            background: 'radial-gradient(ellipse, rgba(240,180,41,0.06) 0%, transparent 65%)',
-            pointerEvents: 'none',
-            animation: 'float 8s ease-in-out infinite reverse',
-          }} />
-          {/* Dot grid */}
-          <div style={{
-            position: 'absolute', inset: 0,
+        {/* Dot grid */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-40"
+          style={{
             backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)',
             backgroundSize: '28px 28px',
-            pointerEvents: 'none',
-          }} />
+          }}
+        />
 
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            {/* Badge */}
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              padding: '6px 16px', borderRadius: '999px',
-              background: 'rgba(240,180,41,0.08)',
-              border: '1px solid rgba(240,180,41,0.2)',
-              marginBottom: '32px',
-              animation: 'fade-up 0.5s ease both',
-            }}>
-              <span style={{
-                width: '6px', height: '6px', borderRadius: '50%',
-                background: '#f0b429',
-                animation: 'pulse-glow 2s ease-in-out infinite',
-              }} />
-              <span style={{ fontSize: '12px', fontWeight: 700, color: '#f0b429', letterSpacing: '0.04em' }}>
-                Built for Ontario Students · Gr 9–12 · College · University
+        <div className="relative z-10 max-w-4xl">
+          {/* Badge */}
+          <div className="animate-fade-in-up mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-white" />
+            <span className="text-xs font-semibold tracking-wide text-zinc-400">
+              Built for Ontario Students · Gr 9–12 · College · University
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h1 className="animate-fade-in-up animate-delay-100 text-4xl font-semibold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl">
+            The AI study app
+            <br />
+            <span className="bg-gradient-to-b from-white to-zinc-500 bg-clip-text text-transparent">
+              that actually wins.
+            </span>
+          </h1>
+
+          {/* Sub */}
+          <p className="animate-fade-in-up animate-delay-200 mx-auto mt-6 max-w-xl text-base leading-relaxed text-zinc-400 md:text-lg">
+            85+ AI tools. Ontario curriculum built in. Battle your friends. Track
+            your intelligence. All for{' '}
+            <span className="font-semibold text-white">$1/month</span>.
+          </p>
+
+          {/* CTAs */}
+          <div className="animate-fade-in-up animate-delay-300 mt-10 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/register"
+              className="inline-flex items-center gap-2 rounded-xl bg-white px-7 py-3.5 text-sm font-semibold text-black transition-all hover:bg-zinc-200 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+            >
+              Start free — no card needed
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+              </svg>
+            </Link>
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-7 py-3.5 text-sm font-medium text-white transition-all hover:border-white/20 hover:bg-white/[0.06]"
+            >
+              I have an account
+            </Link>
+          </div>
+
+          {/* Trust line */}
+          <p className="animate-fade-in-up animate-delay-400 mt-8 text-xs font-medium text-zinc-600">
+            Free to start · $1/month after · No ads ever
+          </p>
+        </div>
+      </section>
+
+      {/* ── STATS ── */}
+      <section className="mx-auto max-w-5xl px-5 py-16 md:px-10">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+          {stats.map((s, i) => (
+            <div
+              key={i}
+              className="group flex flex-col items-center rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 text-center transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.05)] md:p-8"
+            >
+              <span className="bg-gradient-to-b from-white to-zinc-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-5xl">
+                {s.value}
+              </span>
+              <span className="mt-2 text-sm font-medium text-zinc-500">
+                {s.label}
               </span>
             </div>
+          ))}
+        </div>
+      </section>
 
-            {/* Headline */}
-            <h1 className="hero-title" style={{ marginBottom: '24px' }}>
-              The AI study app<br />
-              <span className="gradient-word">that actually wins.</span>
-            </h1>
-
-            {/* Sub */}
-            <p className="hero-sub" style={{ margin: '0 auto 40px' }}>
-              85+ AI tools. Ontario curriculum built in.
-              Battle your friends. Track your intelligence.
-              All for $1/month.
-            </p>
-
-            {/* CTAs */}
-            <div style={{
-              display: 'flex', gap: '12px',
-              justifyContent: 'center', flexWrap: 'wrap',
-              marginBottom: '60px',
-            }}>
-              <Link href="/register" className="cta-primary">
-                Start free — no card needed →
-              </Link>
-              <Link href="/login" className="cta-secondary">
-                I have an account
-              </Link>
+      {/* ── FEATURE MARQUEE ── */}
+      <section className="overflow-hidden border-y border-white/5 py-6">
+        <p className="mb-5 text-center text-[11px] font-bold uppercase tracking-[0.15em] text-zinc-600">
+          85+ features including
+        </p>
+        <div className="flex animate-marquee">
+          {[...features, ...features].map((f, i) => (
+            <div
+              key={i}
+              className="mx-1.5 flex flex-shrink-0 items-center gap-2 rounded-full border border-white/10 bg-[#0a0a0a] px-4 py-2 text-sm font-medium text-zinc-400"
+            >
+              <span>{f.icon}</span>
+              <span>{f.label}</span>
             </div>
+          ))}
+        </div>
+      </section>
 
-            {/* Trust line */}
-            <p style={{
-              fontSize: '12px', color: '#3d4a6b',
-              animation: 'fade-up 0.6s 0.35s ease both',
-            }}>
-              Free to start · $1/month after · No ads ever
-            </p>
-          </div>
-        </section>
-
-        {/* ── FEATURE MARQUEE ── */}
-        <section style={{
-          padding: '20px 0 40px',
-          borderTop: '1px solid rgba(255,255,255,0.05)',
-          borderBottom: '1px solid rgba(255,255,255,0.05)',
-          overflow: 'hidden',
-          background: 'rgba(255,255,255,0.01)',
-        }}>
-          <p style={{
-            textAlign: 'center',
-            fontSize: '11px', fontWeight: 700,
-            color: '#3d4a6b', letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            marginBottom: '20px',
-          }}>
-            85+ features including
+      {/* ── BENTO FEATURES ── */}
+      <section className="mx-auto max-w-6xl px-5 py-24 md:px-10">
+        <div className="mb-16 text-center">
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-zinc-500">
+            What makes Kyvex different
           </p>
-          <div style={{ display: 'flex', animation: 'marquee 20s linear infinite' }}>
-            {[...features, ...features].map((f, i) => (
-              <div key={i} className="feature-pill" style={{ margin: '0 6px', flexShrink: 0 }}>
-                <span>{f.icon}</span>
-                <span>{f.label}</span>
+          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+            Features your competitors
+            <br />
+            <span className="text-zinc-500">don&apos;t have.</span>
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {bentoFeatures.map((f, i) => (
+            <div
+              key={i}
+              className="group relative flex flex-col rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.07)] md:p-8"
+            >
+              <div className="mb-6 flex items-start justify-between">
+                <span className="text-3xl">{f.icon}</span>
+                <span className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                  {f.badge}
+                </span>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── STATS ── */}
-        <section style={{ padding: '80px 32px', maxWidth: '1000px', margin: '0 auto' }}>
-          <div className="stats-grid" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '16px',
-          }}>
-            {stats.map((s, i) => (
-              <div key={i} className="stat-card">
-                <div style={{
-                  fontSize: '48px', fontWeight: 900,
-                  letterSpacing: '-0.04em',
-                  background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  marginBottom: '8px',
-                }}>
-                  {s.value}
-                </div>
-                <div style={{ fontSize: '13px', color: '#3d4a6b', fontWeight: 600 }}>
-                  {s.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── FEATURES SHOWCASE ── */}
-        <section style={{ padding: '40px 32px 80px', maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <p style={{
-              fontSize: '11px', fontWeight: 800,
-              color: '#f0b429', letterSpacing: '0.1em',
-              textTransform: 'uppercase', marginBottom: '14px',
-            }}>
-              What makes Kyvex different
-            </p>
-            <h2 style={{
-              fontSize: 'clamp(32px, 5vw, 52px)',
-              fontWeight: 900, letterSpacing: '-0.03em',
-              color: '#e8eaf6', lineHeight: 1.1,
-            }}>
-              Features your competitors<br />
-              <span style={{ color: '#f0b429' }}>don't have.</span>
-            </h2>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '16px',
-          }}>
-            {[
-              { icon: '🧬', title: 'Study DNA', desc: 'AI analyzes how YOUR brain learns best. Visual, auditory, read-write, kinesthetic — customized for you.', badge: 'Exclusive' },
-              { icon: '👻', title: 'Study Ghost', desc: 'See a letter from your past self showing exactly how much you\'ve grown. The most emotional feature in EdTech.', badge: 'Exclusive' },
-              { icon: '👑', title: 'Battle Royale', desc: '100 students. One quiz. Last one standing wins. Study battles have never been this intense.', badge: 'Exclusive' },
-              { icon: '🔬', title: 'Exam Autopsy', desc: 'Failed an exam? AI diagnoses exactly what went wrong, why, and gives you a 48-hour recovery plan.', badge: 'Exclusive' },
-              { icon: '🎯', title: 'Kyvex IQ', desc: 'A composite score across mastery, consistency, velocity, and depth. Updates daily. Watch yourself get smarter.', badge: 'Exclusive' },
-              { icon: '🍁', title: 'Ontario Curriculum', desc: '136 Ontario courses, Gr.9-12, all subjects. Every expectation mapped. No other app has this.', badge: 'Canada Only' },
-            ].map((f, i) => (
-              <div
-                key={i}
-                style={{
-                  background: hoveredFeature === i
-                    ? 'rgba(240,180,41,0.06)'
-                    : 'rgba(255,255,255,0.02)',
-                  border: hoveredFeature === i
-                    ? '1px solid rgba(240,180,41,0.25)'
-                    : '1px solid rgba(255,255,255,0.06)',
-                  borderRadius: '20px',
-                  padding: '28px',
-                  transition: 'all 0.2s ease',
-                  cursor: 'default',
-                  transform: hoveredFeature === i ? 'translateY(-4px)' : 'none',
-                  boxShadow: hoveredFeature === i ? '0 12px 40px rgba(0,0,0,0.3)' : 'none',
-                }}
-                onMouseEnter={() => setHoveredFeature(i)}
-                onMouseLeave={() => setHoveredFeature(null)}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                  <span style={{ fontSize: '32px' }}>{f.icon}</span>
-                  <span style={{
-                    padding: '3px 10px', borderRadius: '999px',
-                    background: 'rgba(240,180,41,0.12)',
-                    border: '1px solid rgba(240,180,41,0.2)',
-                    fontSize: '10px', fontWeight: 700,
-                    color: '#f0b429', letterSpacing: '0.04em',
-                    height: 'fit-content',
-                  }}>
-                    {f.badge}
-                  </span>
-                </div>
-                <h3 style={{
-                  fontSize: '17px', fontWeight: 800,
-                  color: '#e8eaf6', marginBottom: '8px',
-                  letterSpacing: '-0.02em',
-                }}>
-                  {f.title}
-                </h3>
-                <p style={{ fontSize: '13px', color: '#8892b0', lineHeight: 1.6 }}>
-                  {f.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── COMPARISON TABLE ── */}
-        <section style={{
-          padding: '40px 32px 80px',
-          maxWidth: '800px', margin: '0 auto',
-        }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <h2 style={{
-              fontSize: 'clamp(28px, 4vw, 44px)',
-              fontWeight: 900, letterSpacing: '-0.03em',
-              color: '#e8eaf6',
-            }}>
-              Kyvex vs everyone else.
-            </h2>
-          </div>
-
-          <div style={{
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.07)',
-            borderRadius: '20px',
-            overflow: 'hidden',
-          }}>
-            {/* Header */}
-            <div className="comparison-row" style={{
-              background: 'rgba(255,255,255,0.03)',
-              fontWeight: 700, fontSize: '12px',
-              letterSpacing: '0.04em', textTransform: 'uppercase',
-              color: '#8892b0',
-            }}>
-              <div>Feature</div>
-              <div style={{ textAlign: 'center', color: '#f0b429' }}>Kyvex</div>
-              <div style={{ textAlign: 'center' }}>Quizlet</div>
-              <div style={{ textAlign: 'center' }}>StudyFetch</div>
+              <h3 className="text-lg font-semibold text-white">{f.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-500">
+                {f.desc}
+              </p>
             </div>
-            {[
-              ['Ontario Curriculum', true, false, false],
-              ['Real SM-2 Spaced Rep', true, false, false],
-              ['Battle Royale Mode', true, false, false],
-              ['Study DNA Profile', true, false, false],
-              ['Exam Autopsy', true, false, false],
-              ['Kyvex IQ Score', true, false, false],
-              ['AI Tutor', true, true, true],
-              ['Flashcards', true, true, true],
-              ['Price', '$1/mo', '$7.99/mo', '$11.99/mo'],
-            ].map((row, i) => (
-              <div key={i} className="comparison-row">
-                <div style={{ color: '#e8eaf6', fontWeight: 500 }}>{row[0]}</div>
-                {[1, 2, 3].map(col => (
-                  <div key={col} style={{ textAlign: 'center' }}>
-                    {typeof row[col] === 'boolean' ? (
-                      <span className={row[col] ? 'check' : 'cross'}>
-                        {row[col] ? '✓' : '✗'}
-                      </span>
-                    ) : (
-                      <span style={{
-                        fontSize: '13px', fontWeight: 700,
-                        color: col === 1 ? '#f0b429' : '#8892b0',
-                      }}>
-                        {row[col]}
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </section>
+          ))}
+        </div>
+      </section>
 
-        {/* ── TESTIMONIALS ── */}
-        <section style={{ padding: '40px 32px 80px', maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <p style={{
-              fontSize: '11px', fontWeight: 800,
-              color: '#2dd4bf', letterSpacing: '0.1em',
-              textTransform: 'uppercase', marginBottom: '14px',
-            }}>
-              From Ontario students
-            </p>
-            <h2 style={{
-              fontSize: 'clamp(28px, 4vw, 44px)',
-              fontWeight: 900, letterSpacing: '-0.03em',
-              color: '#e8eaf6',
-            }}>
-              Real results. Real grades.
-            </h2>
-          </div>
+      {/* ── COMPARISON ── */}
+      <section className="mx-auto max-w-3xl px-5 py-20 md:px-10">
+        <h2 className="mb-12 text-center text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+          Kyvex vs everyone else.
+        </h2>
 
-          <div className="testimonials-grid" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '16px',
-          }}>
-            {testimonials.map((t, i) => (
-              <div key={i} className="testimonial-card">
-                <div style={{
-                  fontSize: '28px', color: '#f0b429',
-                  fontWeight: 900, lineHeight: 1,
-                  marginBottom: '16px',
-                  fontFamily: 'Georgia, serif',
-                }}>
-                  "
+        <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a]">
+          <div className="grid grid-cols-[2fr_1fr_1fr_1fr] border-b border-white/10 bg-white/[0.03] px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-zinc-500 md:px-6">
+            <div>Feature</div>
+            <div className="text-center text-white">Kyvex</div>
+            <div className="text-center">Quizlet</div>
+            <div className="text-center">StudyFetch</div>
+          </div>
+          {comparison.map((row, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center border-b border-white/[0.04] px-5 py-3.5 text-sm transition-colors hover:bg-white/[0.02] md:px-6"
+            >
+              <div className="font-medium text-zinc-300">{row[0]}</div>
+              {[1, 2, 3].map((col) => (
+                <div key={col} className="text-center">
+                  {typeof row[col] === 'boolean' ? (
+                    <span className={`text-base ${row[col] ? 'text-white' : 'text-zinc-700'}`}>
+                      {row[col] ? '✓' : '✗'}
+                    </span>
+                  ) : (
+                    <span className={`text-sm font-bold ${col === 1 ? 'text-white' : 'text-zinc-500'}`}>
+                      {row[col]}
+                    </span>
+                  )}
                 </div>
-                <p style={{
-                  fontSize: '14px', color: '#e8eaf6',
-                  lineHeight: 1.7, marginBottom: '20px',
-                  fontStyle: 'italic',
-                }}>
-                  {t.quote}
-                </p>
-                <div>
-                  <p style={{ fontSize: '13px', fontWeight: 700, color: '#e8eaf6' }}>
-                    {t.name}
-                  </p>
-                  <p style={{ fontSize: '12px', color: '#3d4a6b', marginTop: '2px' }}>
-                    {t.school}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          ))}
+        </div>
+      </section>
 
-        {/* ── FINAL CTA ── */}
-        <section style={{
-          padding: '80px 32px',
-          textAlign: 'center',
-          borderTop: '1px solid rgba(255,255,255,0.05)',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          <div style={{
-            position: 'absolute', top: '50%', left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '600px', height: '300px', borderRadius: '50%',
-            background: 'radial-gradient(ellipse, rgba(240,180,41,0.06) 0%, transparent 65%)',
-            pointerEvents: 'none',
-          }} />
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <h2 style={{
-              fontSize: 'clamp(36px, 6vw, 64px)',
-              fontWeight: 900, letterSpacing: '-0.04em',
-              color: '#e8eaf6', lineHeight: 1.05,
-              marginBottom: '20px',
-            }}>
-              Your exams aren't going to<br />
-              <span className="gradient-word">ace themselves.</span>
-            </h2>
-            <p style={{
-              fontSize: '16px', color: '#8892b0',
-              marginBottom: '40px', maxWidth: '400px', margin: '0 auto 40px',
-            }}>
-              Join and get instant access to every AI tool Kyvex has.
-              Free forever to start.
-            </p>
-            <Link href="/register" className="cta-primary" style={{
-              fontSize: '16px', padding: '16px 36px',
-              animation: 'none',
-            }}>
-              Create your free account →
+      {/* ── TESTIMONIALS ── */}
+      <section className="mx-auto max-w-6xl px-5 py-20 md:px-10">
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-zinc-500">
+            From Ontario students
+          </p>
+          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+            Real results. Real grades.
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {testimonials.map((t, i) => (
+            <div
+              key={i}
+              className="flex flex-col rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.05)] md:p-8"
+            >
+              <span className="mb-4 text-2xl font-bold text-zinc-600">&quot;</span>
+              <p className="flex-1 text-sm leading-relaxed text-zinc-300 italic">
+                {t.quote}
+              </p>
+              <div className="mt-6">
+                <p className="text-sm font-semibold text-white">{t.name}</p>
+                <p className="mt-0.5 text-xs text-zinc-600">{t.school}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FINAL CTA ── */}
+      <section className="relative overflow-hidden border-t border-white/5 px-5 py-24 text-center md:px-10">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05)_0%,transparent_70%)]" />
+        <div className="relative z-10">
+          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-5xl md:text-6xl">
+            Your exams aren&apos;t going to
+            <br />
+            <span className="bg-gradient-to-b from-white to-zinc-500 bg-clip-text text-transparent">
+              ace themselves.
+            </span>
+          </h2>
+          <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-zinc-400">
+            Join and get instant access to every AI tool Kyvex has. Free forever
+            to start.
+          </p>
+          <div className="mt-10">
+            <Link
+              href="/register"
+              className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-4 text-base font-semibold text-black transition-all hover:bg-zinc-200 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+            >
+              Create your free account
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+              </svg>
             </Link>
-            <p style={{
-              fontSize: '12px', color: '#3d4a6b',
-              marginTop: '20px',
-            }}>
-              No credit card · No ads · Cancel anytime
-            </p>
           </div>
-        </section>
+          <p className="mt-6 text-xs font-medium text-zinc-600">
+            No credit card · No ads · Cancel anytime
+          </p>
+        </div>
+      </section>
 
-        {/* ── FOOTER ── */}
-        <footer style={{
-          padding: '32px',
-          borderTop: '1px solid rgba(255,255,255,0.05)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '16px',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '14px', fontWeight: 800,
-              color: '#e8eaf6', letterSpacing: '-0.02em' }}>
+      {/* ── FOOTER ── */}
+      <footer className="border-t border-white/5 px-5 py-8 md:px-10">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 sm:flex-row">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-bold tracking-tight text-white">
               Kyvex
             </span>
-            <span style={{ fontSize: '12px', color: '#3d4a6b' }}>
-              · Built in Toronto 🍁
-            </span>
+            <span className="text-xs text-zinc-600">· Built in Toronto 🍁</span>
           </div>
-          <div style={{ display: 'flex', gap: '24px' }}>
+          <div className="flex flex-wrap justify-center gap-6">
             {[
               { label: 'Privacy', href: '/privacy' },
               { label: 'Terms', href: '/terms' },
               { label: 'About', href: '/about' },
               { label: 'Grade Calculator', href: '/grade-calc' },
-            ].map(link => (
-              <Link key={link.label} href={link.href} style={{
-                fontSize: '12px', color: '#3d4a6b',
-                textDecoration: 'none', transition: 'color 0.15s ease',
-              }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#8892b0')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#3d4a6b')}
+            ].map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-xs text-zinc-600 transition-colors hover:text-zinc-400"
               >
                 {link.label}
               </Link>
             ))}
           </div>
-          <p style={{ fontSize: '12px', color: '#3d4a6b' }}>
-            © 2026 Kyvex
-          </p>
-        </footer>
-      </div>
-    </>
+          <p className="text-xs text-zinc-700">© 2026 Kyvex</p>
+        </div>
+      </footer>
+    </div>
   )
 }

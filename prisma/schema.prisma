@@ -174,6 +174,8 @@ model User {
     studyModeSessions    StudyModeSession[]
     contentConnections   ContentConnection[]
     featurePreference    FeaturePreference?
+    screenshots          Screenshot[]
+    conversations        Conversation[]
 }
 
 model OntarioCurriculumCourse {
@@ -280,6 +282,8 @@ model Note {
         sharedInGroups GroupSharedNote[]
         adaptiveNote AdaptiveNote?
         evolutions   NoteEvolution[]
+        screenshots Screenshot[]
+        mockExams   MockExam[]   @relation("NoteMockExams")
 
   @@index([createdAt])
   @@index([userId])
@@ -1116,39 +1120,61 @@ model QuickCapture {
 }
 
 model MockExam {
-    id          String   @id @default(cuid())
-    userId      String
-    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    title       String
-    subject     String
-    questions   MockExamQuestion[]
-    attempts    MockExamAttempt[]
-    timeLimit   Int
-    createdAt   DateTime @default(now())
+    id             String             @id @default(cuid())
+    userId         String
+    user           User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+    noteId         String?
+    note           Note?              @relation("NoteMockExams", fields: [noteId], references: [id], onDelete: SetNull)
+    title          String
+    subject        String
+    curriculumCode String?
+    instructions   String?            @db.Text
+    questions      MockExamQuestion[]
+    attempts       MockExamAttempt[]
+    timeLimit      Int
+    createdAt      DateTime           @default(now())
+
+    @@index([userId])
+    @@index([noteId])
+    @@index([createdAt])
 }
 
 model MockExamQuestion {
-    id          String   @id @default(cuid())
-    examId      String
-    exam        MockExam @relation(fields: [examId], references: [id], onDelete: Cascade)
-    question    String   @db.Text
-    options     Json
-    answer      String
-    explanation String   @db.Text
-    type        String   @default("mcq")
-    points      Int      @default(1)
+    id           String   @id @default(cuid())
+    examId       String
+    exam         MockExam @relation(fields: [examId], references: [id], onDelete: Cascade)
+    question     String   @db.Text
+    options      Json
+    answer       String
+    explanation  String   @db.Text
+    type         String   @default("mcq")
+    points       Int      @default(1)
+    orderIndex   Int      @default(0)
+    correctIndex Int?
+    modelAnswer  String?  @db.Text
+    rubric       String?  @db.Text
+    unit         String?
+
+    @@index([examId])
 }
 
 model MockExamAttempt {
-    id          String   @id @default(cuid())
-    examId      String
-    exam        MockExam @relation(fields: [examId], references: [id], onDelete: Cascade)
-    userId      String
-    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    answers     Json
-    score       Float
-    timeTaken   Int
-    createdAt   DateTime @default(now())
+    id           String   @id @default(cuid())
+    examId       String
+    exam         MockExam @relation(fields: [examId], references: [id], onDelete: Cascade)
+    userId       String
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    answers      Json
+    score        Float
+    earnedPoints Int?
+    totalPoints  Int?
+    breakdown    Json?
+    timeTaken    Int
+    createdAt    DateTime @default(now())
+
+    @@index([userId])
+    @@index([examId])
+    @@index([createdAt])
 }
 
 model SharedDeck {
@@ -1639,3 +1665,52 @@ model FeaturePreference {
     updatedAt       DateTime @updatedAt
     createdAt       DateTime @default(now())
 }
+
+model Screenshot {
+    id        String   @id @default(cuid())
+    title     String
+    subject   String
+    userId    String
+    imageData String   @db.Text // base64 encoded image
+    noteId    String?  // Optional link to a note
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    note Note? @relation(fields: [noteId], references: [id], onDelete: SetNull)
+
+    @@index([userId])
+    @@index([subject])
+    @@index([createdAt])
+    @@index([noteId])
+}
+
+model Conversation {
+    id             String    @id @default(cuid())
+    userId         String
+    user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    title          String    @default("New Chat")
+    subject        String?
+    curriculumCode String?
+    noteId         String?
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+    messages       Message[]
+
+    @@index([userId])
+    @@index([updatedAt])
+}
+
+model Message {
+    id             String       @id @default(cuid())
+    conversationId String
+    conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+    role           String
+    content        String       @db.Text
+    command        String?
+    createdAt      DateTime     @default(now())
+
+    @@index([conversationId])
+    @@index([createdAt])
+}
+

@@ -1,0 +1,16 @@
+mismatch close style at 491:9, expected <none>
+mismatch close div at 539:13, expected 
+mismatch close div at 794:9, expected 
+mismatch close div at 984:11, expected input
+mismatch close div at 985:9, expected input
+mismatch close div at 1223:39, expected input
+mismatch close div at 1224:37, expected input
+mismatch close div at 1227:31, expected input
+mismatch close div at 1228:29, expected input
+mismatch close div at 1230:25, expected input
+mismatch close div at 1233:17, expected input
+mismatch close div at 1234:15, expected input
+mismatch close div at 1391:11, expected input
+mismatch close div at 1408:7, expected RecordResultModal
+mismatch close main at 1409:5, expected RecordResultModal
+remaining stack div@493:7 | @497:33 | div@796:9 | div@910:9 | div@928:11 | input@929:13 | input@937:13 | input@945:13 | input@964:13 | div@1038:17 | div@1049:25 | div@1113:27 | div@1172:29 | div@1174:31 | div@1190:37 | div@1197:39 | input@1198:41 | RecordResultModal@1394:11

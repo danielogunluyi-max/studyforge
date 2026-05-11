@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
+import { AuthSplitShell } from '../_components/auth-split-shell'
 
 export default function RegisterPage() {
   const [name, setName] = useState('')
@@ -45,449 +46,155 @@ export default function RegisterPage() {
     }
   }
 
-  const stats = [
-    { value: '85+', label: 'Features' },
-    { value: '136', label: 'Courses' },
-    { value: '$1', label: '/mo' },
-  ]
+  const handleGoogle = () => {
+    setLoading(true)
+    signIn('google', { callbackUrl: '/dashboard' })
+  }
+
+  const handleGitHub = () => {
+    setLoading(true)
+    signIn('github', { callbackUrl: '/dashboard' })
+  }
 
   return (
-    <>
-      <style>{`
-        @keyframes float {
-          0%,100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
-        }
-        @keyframes float-slow {
-          0%,100% { transform: translateY(0); }
-          50% { transform: translateY(-5px); }
-        }
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .input-field { transition: border-color 0.15s ease, box-shadow 0.15s ease; }
-        .input-field:focus {
-          outline: none;
-          border-color: rgba(240,180,41,0.4) !important;
-          box-shadow: 0 0 0 3px rgba(240,180,41,0.08) !important;
-        }
-        .submit-btn { transition: all 0.2s ease; }
-        .submit-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 8px 28px rgba(240,180,41,0.45) !important;
-        }
-        .submit-btn:active { transform: translateY(1px); }
-        @media (max-width: 768px) {
-          .register-left-panel { display: none !important; }
-          .register-right-panel {
-            width: 100% !important;
-            padding: 32px 24px !important;
-          }
-          .mobile-logo { display: block !important; }
-        }
-      `}</style>
-
-      <div style={{ display: 'flex', minHeight: '100vh', background: '#060608' }}>
-        {/* LEFT PANEL — 60% */}
-        <div
-          className="register-left-panel"
-          style={{
-            width: '60%',
-            background: '#080d1a',
-            position: 'relative',
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '48px',
-          }}
-        >
-          {/* Dot grid */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: 'radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)',
-              backgroundSize: '24px 24px',
-              pointerEvents: 'none',
-            }}
-          />
-          {/* Gold radial glow */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '500px',
-              height: '500px',
-              background: 'radial-gradient(circle, rgba(240,180,41,0.08) 0%, transparent 70%)',
-              pointerEvents: 'none',
-            }}
-          />
-
-          {/* Logo top-left */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '28px',
-              left: '32px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              zIndex: 2,
-            }}
+    <AuthSplitShell
+      title="Create your account"
+      subtitle={
+        <>
+          Already have one?{' '}
+          <Link
+            href="/login"
+            className="font-medium text-white underline underline-offset-4 transition-colors hover:text-zinc-300"
           >
-            <div
-              style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '8px',
-                background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '16px',
-                fontWeight: 900,
-                color: '#080d1a',
-              }}
-            >
-              K
-            </div>
-            <span style={{ color: '#e8eaf6', fontWeight: 700, fontSize: '18px', letterSpacing: '-0.3px' }}>
-              Kyvex
-            </span>
-          </div>
+            Sign in
+          </Link>
+        </>
+      }
+      alternateHref="/login"
+      alternateLabel="Sign in"
+    >
+      {/* Error banner */}
+      {error && (
+        <div className="mb-5 flex items-center gap-2.5 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+          <svg className="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+          </svg>
+          {error}
+        </div>
+      )}
 
-          {/* Center content */}
-          <div style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
-            {/* Big "Join 🚀" with orbiting stars */}
-            <div style={{ position: 'relative', display: 'inline-block', marginBottom: '24px' }}>
-              <h1 style={{ fontSize: '52px', fontWeight: 800, color: '#fff', margin: 0 }}>
-                Join 🚀
-              </h1>
-              {/* Orbiting stars */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  width: '140px',
-                  height: '140px',
-                  marginTop: '-70px',
-                  marginLeft: '-70px',
-                  animation: 'spin-slow 8s linear infinite',
-                  pointerEvents: 'none',
-                }}
-              >
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '0',
-                    left: '50%',
-                    width: '6px',
-                    height: '6px',
-                    borderRadius: '50%',
-                    background: '#f0b429',
-                    boxShadow: '0 0 8px rgba(240,180,41,0.6)',
-                    transform: 'translateX(-50%)',
-                  }}
-                />
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '10px',
-                    left: '10px',
-                    width: '5px',
-                    height: '5px',
-                    borderRadius: '50%',
-                    background: '#f0b429',
-                    boxShadow: '0 0 8px rgba(240,180,41,0.6)',
-                  }}
-                />
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '10px',
-                    right: '10px',
-                    width: '4px',
-                    height: '4px',
-                    borderRadius: '50%',
-                    background: '#f0b429',
-                    boxShadow: '0 0 8px rgba(240,180,41,0.6)',
-                  }}
-                />
-              </div>
-            </div>
-
-            <p style={{ fontSize: '28px', fontWeight: 700, color: '#e8eaf6', margin: '0 0 40px' }}>
-              Your AI study workspace awaits.
-            </p>
-
-            {/* Stats row */}
-            <div
-              style={{
-                display: 'flex',
-                gap: '32px',
-                justifyContent: 'center',
-              }}
-            >
-              {stats.map((stat) => (
-                <div key={stat.label} style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '28px', fontWeight: 800, color: '#f0b429' }}>
-                    {stat.value}
-                  </div>
-                  <div style={{ fontSize: '13px', color: '#8892b0', marginTop: '2px' }}>
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-zinc-500">
+            Name
+          </label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name"
+            required
+            className="w-full rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-zinc-600 focus:border-white/20 focus:ring-1 focus:ring-white/20"
+          />
         </div>
 
-        {/* RIGHT PANEL — 40% */}
-        <div
-          className="register-right-panel"
-          style={{
-            width: '40%',
-            background: '#060608',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '48px 40px',
-          }}
+        <div>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-zinc-500">
+            Email
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            required
+            className="w-full rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-zinc-600 focus:border-white/20 focus:ring-1 focus:ring-white/20"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-zinc-500">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="At least 6 characters"
+            minLength={6}
+            required
+            className="w-full rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-zinc-600 focus:border-white/20 focus:ring-1 focus:ring-white/20"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full rounded-xl bg-white px-4 py-3 text-sm font-semibold text-black transition-all hover:scale-[1.02] hover:bg-zinc-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <div style={{ width: '100%', maxWidth: '380px', animation: 'fade-in 0.5s ease' }}>
-            {/* Mobile-only logo */}
-            <div className="mobile-logo" style={{ display: 'none', marginBottom: '32px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center' }}>
-                <div
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '8px',
-                    background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '16px',
-                    fontWeight: 900,
-                    color: '#080d1a',
-                  }}
-                >
-                  K
-                </div>
-                <span style={{ color: '#e8eaf6', fontWeight: 700, fontSize: '18px' }}>Kyvex</span>
-              </div>
-            </div>
+          {loading ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+              </svg>
+              Creating account...
+            </span>
+          ) : (
+            'Create account'
+          )}
+        </button>
+      </form>
 
-            <h2 style={{ fontSize: '22px', fontWeight: 900, color: '#e8eaf6', margin: '0 0 8px' }}>
-              Create account
-            </h2>
-            <p style={{ fontSize: '13px', color: '#8892b0', margin: '0 0 28px' }}>
-              Already have one?{' '}
-              <Link href="/login" style={{ color: '#f0b429', textDecoration: 'none', fontWeight: 500 }}>
-                Sign in →
-              </Link>
-            </p>
-
-            {error && (
-              <div
-                style={{
-                  padding: '12px 16px',
-                  borderRadius: '10px',
-                  background: 'rgba(239,68,68,0.08)',
-                  border: '1px solid rgba(239,68,68,0.2)',
-                  color: '#ef4444',
-                  fontSize: '13px',
-                  marginBottom: '20px',
-                }}
-              >
-                {error}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit}>
-              <div style={{ marginBottom: '20px' }}>
-                <label
-                  style={{
-                    display: 'block',
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    color: '#8892b0',
-                    marginBottom: '6px',
-                  }}
-                >
-                  Name
-                </label>
-                <input
-                  className="input-field"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Your name"
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '12px 14px',
-                    borderRadius: '10px',
-                    border: '1px solid rgba(255,255,255,0.07)',
-                    background: 'rgba(255,255,255,0.03)',
-                    color: '#e8eaf6',
-                    fontSize: '14px',
-                    boxSizing: 'border-box',
-                  }}
-                />
-              </div>
-
-              <div style={{ marginBottom: '20px' }}>
-                <label
-                  style={{
-                    display: 'block',
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    color: '#8892b0',
-                    marginBottom: '6px',
-                  }}
-                >
-                  Email
-                </label>
-                <input
-                  className="input-field"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '12px 14px',
-                    borderRadius: '10px',
-                    border: '1px solid rgba(255,255,255,0.07)',
-                    background: 'rgba(255,255,255,0.03)',
-                    color: '#e8eaf6',
-                    fontSize: '14px',
-                    boxSizing: 'border-box',
-                  }}
-                />
-              </div>
-
-              <div style={{ marginBottom: '28px' }}>
-                <label
-                  style={{
-                    display: 'block',
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    color: '#8892b0',
-                    marginBottom: '6px',
-                  }}
-                >
-                  Password
-                </label>
-                <input
-                  className="input-field"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="At least 6 characters"
-                  minLength={6}
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '12px 14px',
-                    borderRadius: '10px',
-                    border: '1px solid rgba(255,255,255,0.07)',
-                    background: 'rgba(255,255,255,0.03)',
-                    color: '#e8eaf6',
-                    fontSize: '14px',
-                    boxSizing: 'border-box',
-                  }}
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="submit-btn"
-                style={{
-                  width: '100%',
-                  padding: '14px',
-                  borderRadius: '12px',
-                  border: 'none',
-                  background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
-                  color: '#080d1a',
-                  fontSize: '15px',
-                  fontWeight: 700,
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  opacity: loading ? 0.7 : 1,
-                  boxShadow: '0 4px 20px rgba(240,180,41,0.35)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                }}
-              >
-                {loading ? (
-                  <>
-                    <svg width="16" height="16" viewBox="0 0 24 24" style={{ animation: 'spin 1s linear infinite' }}>
-                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" fill="none" strokeDasharray="31.4 31.4" strokeLinecap="round" />
-                    </svg>
-                    Creating account...
-                  </>
-                ) : (
-                  'Create account →'
-                )}
-              </button>
-            </form>
-
-            {/* Perks below button */}
-            <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {[
-                'Free forever on core features',
-                'No credit card required',
-                'Ontario curriculum included 🍁',
-              ].map((perk) => (
-                <div
-                  key={perk}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    fontSize: '12px',
-                    color: '#8892b0',
-                  }}
-                >
-                  <span style={{ color: '#22c55e', fontSize: '14px' }}>✓</span>
-                  {perk}
-                </div>
-              ))}
-            </div>
-
-            <p
-              style={{
-                textAlign: 'center',
-                fontSize: '12px',
-                color: '#3d4a6b',
-                marginTop: '36px',
-              }}
-            >
-              © 2026 Kyvex · Made in Toronto 🍁
-            </p>
-          </div>
-        </div>
+      {/* Divider */}
+      <div className="my-6 flex items-center gap-3">
+        <div className="h-px flex-1 bg-white/10" />
+        <span className="text-xs text-zinc-600">or continue with</span>
+        <div className="h-px flex-1 bg-white/10" />
       </div>
-    </>
+
+      {/* Social buttons */}
+      <div className="grid grid-cols-2 gap-3">
+        <button
+          onClick={handleGoogle}
+          disabled={loading}
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-300 transition-all hover:border-white/20 hover:bg-zinc-800 disabled:opacity-60"
+        >
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+          </svg>
+          Google
+        </button>
+        <button
+          onClick={handleGitHub}
+          disabled={loading}
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-300 transition-all hover:border-white/20 hover:bg-zinc-800 disabled:opacity-60"
+        >
+          <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          </svg>
+          GitHub
+        </button>
+      </div>
+
+      {/* Perks */}
+      <div className="mt-6 space-y-2">
+        {[
+          'Free forever on core features',
+          'No credit card required',
+          'Ontario curriculum included 🍁',
+        ].map((perk) => (
+          <div key={perk} className="flex items-center gap-2 text-xs text-zinc-600">
+            <svg className="h-3.5 w-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            {perk}
+          </div>
+        ))}
+      </div>
+    </AuthSplitShell>
   )
 }

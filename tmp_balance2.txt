@@ -1,0 +1,693 @@
+464: paren=1 brace=0 bracket=0   return (
+465: paren=1 brace=0 bracket=0     <main
+466: paren=1 brace=0 bracket=0       className="kv-animate-in"
+467: paren=1 brace=2 bracket=0       style={{
+468: paren=1 brace=2 bracket=0         minHeight: '100vh',
+469: paren=1 brace=2 bracket=1         background: [
+470: paren=1 brace=2 bracket=1           'radial-gradient(1200px 520px at -15% -10%, rgba(45,212,191,0.12), transparent 60%)',
+471: paren=1 brace=2 bracket=1           'radial-gradient(900px 440px at 115% 0%, rgba(240,180,41,0.12), transparent 60%)',
+472: paren=1 brace=2 bracket=1           '#050810',
+473: paren=1 brace=2 bracket=0         ].join(', '),
+474: paren=1 brace=2 bracket=0         color: '#e8eaf6',
+475: paren=1 brace=0 bracket=0       }}
+476: paren=1 brace=0 bracket=0     >
+477: paren=1 brace=1 bracket=0       <style>{`
+478: paren=1 brace=2 bracket=0         @keyframes dashboard-pulse {
+479: paren=1 brace=2 bracket=0           0%, 100% { opacity: 1; }
+480: paren=1 brace=2 bracket=0           50% { opacity: 0.6; }
+481: paren=1 brace=1 bracket=0         }
+482: paren=1 brace=2 bracket=0         @keyframes float {
+483: paren=1 brace=2 bracket=0           0%,100% { transform: translateY(0); }
+484: paren=1 brace=2 bracket=0           50% { transform: translateY(-6px); }
+485: paren=1 brace=1 bracket=0         }
+486: paren=1 brace=2 bracket=0         @keyframes count-up {
+487: paren=1 brace=2 bracket=0           from { opacity: 0; transform: translateY(8px); }
+488: paren=1 brace=2 bracket=0           to { opacity: 1; transform: translateY(0); }
+489: paren=1 brace=1 bracket=0         }
+490: paren=1 brace=1 bracket=0         .count-up-number { animation: count-up 0.4s ease both; }
+491: paren=1 brace=1 bracket=0       `}</style>
+492: paren=1 brace=1 bracket=0 
+493: paren=1 brace=1 bracket=0       <div style={{ maxWidth: '1280px', margin: '0 auto', marginBottom: '100px', padding: '36px 24px 80px' }}>
+494: paren=1 brace=1 bracket=0         {/* Nova greeting */}
+495: paren=2 brace=3 bracket=0         {(() => {
+496: paren=2 brace=3 bracket=0           const hour = new Date().getHours()
+497: paren=2 brace=3 bracket=0           const greeting = hour < 12 ? '☀️ Good morning'
+498: paren=2 brace=3 bracket=0             : hour < 17 ? '⚡ Good afternoon'
+499: paren=2 brace=3 bracket=0             : '🌙 Good evening'
+500: paren=3 brace=3 bracket=0           return (
+501: paren=3 brace=5 bracket=0             <div style={{
+502: paren=3 brace=5 bracket=0               display: 'flex', alignItems: 'center', gap: '12px',
+503: paren=3 brace=5 bracket=0               marginBottom: '24px',
+504: paren=3 brace=3 bracket=0             }}>
+505: paren=3 brace=5 bracket=0               <div style={{
+506: paren=3 brace=5 bracket=0                 width: '40px', height: '40px', borderRadius: '50%',
+507: paren=3 brace=5 bracket=0                 background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
+508: paren=3 brace=5 bracket=0                 display: 'flex', alignItems: 'center',
+509: paren=3 brace=5 bracket=0                 justifyContent: 'center', fontSize: '20px',
+510: paren=3 brace=5 bracket=0                 boxShadow: '0 0 16px rgba(240,180,41,0.4)',
+511: paren=3 brace=5 bracket=0                 animation: 'float 3s ease-in-out infinite',
+512: paren=3 brace=5 bracket=0                 flexShrink: 0,
+513: paren=3 brace=3 bracket=0               }}>
+514: paren=3 brace=3 bracket=0                 🤖
+515: paren=3 brace=3 bracket=0               </div>
+516: paren=3 brace=3 bracket=0               <div>
+517: paren=3 brace=3 bracket=0                 <p style={{ fontSize: '13px', color: '#f0b429', fontWeight: 700, margin: 0 }}>
+518: paren=3 brace=3 bracket=0                   Nova says:
+519: paren=3 brace=3 bracket=0                 </p>
+520: paren=3 brace=3 bracket=0                 <p style={{ fontSize: '15px', color: '#e8eaf6', fontWeight: 600, margin: 0 }}>
+521: paren=3 brace=3 bracket=0                   {greeting}, Daniel. Ready to get smarter today?
+522: paren=3 brace=3 bracket=0                 </p>
+523: paren=3 brace=3 bracket=0               </div>
+524: paren=3 brace=3 bracket=0             </div>
+525: paren=2 brace=3 bracket=0           )
+526: paren=1 brace=1 bracket=0         })()}
+527: paren=1 brace=1 bracket=0 
+528: paren=1 brace=1 bracket=0         <section style={{ marginBottom: '24px' }}>
+529: paren=1 brace=3 bracket=0           <div style={{
+530: paren=1 brace=3 bracket=0             display: 'inline-flex',
+531: paren=1 brace=3 bracket=0             alignItems: 'center',
+532: paren=1 brace=3 bracket=0             gap: '8px',
+533: paren=1 brace=3 bracket=0             borderRadius: '999px',
+534: paren=1 brace=3 bracket=0             border: '1px solid rgba(45,212,191,0.35)',
+535: paren=1 brace=3 bracket=0             background: 'rgba(45,212,191,0.1)',
+536: paren=1 brace=3 bracket=0             color: '#5eead4',
+537: paren=1 brace=3 bracket=0             padding: '6px 12px',
+538: paren=1 brace=3 bracket=0             fontSize: '11px',
+539: paren=1 brace=3 bracket=0             fontWeight: 700,
+540: paren=1 brace=3 bracket=0             letterSpacing: '0.07em',
+541: paren=1 brace=3 bracket=0             textTransform: 'uppercase',
+542: paren=1 brace=3 bracket=0             marginBottom: '12px',
+543: paren=1 brace=1 bracket=0           }}>
+544: paren=1 brace=1 bracket=0             Study Command Center
+545: paren=1 brace=1 bracket=0           </div>
+546: paren=1 brace=1 bracket=0 
+547: paren=1 brace=3 bracket=0           <h1 className="kv-heading-page" style={{
+548: paren=1 brace=3 bracket=0             fontSize: 'clamp(28px, 4.4vw, 44px)',
+549: paren=1 brace=3 bracket=0             letterSpacing: '-0.04em',
+550: paren=1 brace=3 bracket=0             fontFamily: '"Space Grotesk", var(--font-inter), sans-serif',
+551: paren=1 brace=3 bracket=0             lineHeight: 1.03,
+552: paren=1 brace=3 bracket=0             marginBottom: '10px',
+553: paren=1 brace=1 bracket=0           }}>
+554: paren=1 brace=1 bracket=0             Build Exam Momentum Every Day
+555: paren=1 brace=1 bracket=0           </h1>
+556: paren=1 brace=1 bracket=0           <p style={{ fontSize: '14px', color: '#9ba7c8', marginBottom: '0', maxWidth: '760px', lineHeight: 1.55 }}>
+557: paren=1 brace=1 bracket=0             Own the timeline: track countdown pressure, turn topics into daily execution plans, and keep your study streak alive with less friction.
+558: paren=1 brace=1 bracket=0           </p>
+559: paren=1 brace=1 bracket=0         </section>
+560: paren=1 brace=1 bracket=0 
+561: paren=1 brace=1 bracket=0         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
+562: paren=1 brace=1 bracket=0           <Link
+563: paren=1 brace=1 bracket=0             href="/my-notes"
+564: paren=1 brace=3 bracket=0             style={{
+565: paren=1 brace=3 bracket=0               textDecoration: 'none',
+566: paren=1 brace=3 bracket=0               borderRadius: '12px',
+567: paren=1 brace=3 bracket=0               border: '1px solid rgba(79,142,247,0.42)',
+568: paren=1 brace=3 bracket=0               background: 'rgba(79,142,247,0.14)',
+569: paren=1 brace=3 bracket=0               color: '#bfdbfe',
+570: paren=1 brace=3 bracket=0               padding: '10px 14px',
+571: paren=1 brace=3 bracket=0               fontSize: '12px',
+572: paren=1 brace=3 bracket=0               fontWeight: 700,
+573: paren=1 brace=1 bracket=0             }}
+574: paren=1 brace=1 bracket=0           >
+575: paren=1 brace=1 bracket=0             Open My Notes
+576: paren=1 brace=1 bracket=0           </Link>
+577: paren=1 brace=1 bracket=0         </div>
+578: paren=1 brace=1 bracket=0 
+579: paren=1 brace=3 bracket=0         <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{
+580: paren=1 brace=3 bracket=0               background: 'linear-gradient(165deg, rgba(16,24,40,0.92), rgba(10,14,26,0.86))',
+581: paren=1 brace=3 bracket=0               border: '1px solid rgba(240,180,41,0.18)',
+582: paren=1 brace=3 bracket=0               borderLeft: '3px solid #f0b429',
+583: paren=1 brace=3 bracket=0               borderRadius: '18px',
+584: paren=1 brace=3 bracket=0               padding: '22px 24px',
+585: paren=1 brace=3 bracket=0               boxShadow: '0 12px 32px rgba(4,8,18,0.35)',
+586: paren=1 brace=3 bracket=0               transition: 'all 0.2s ease',
+587: paren=1 brace=1 bracket=0             }}
+588: paren=1 brace=1 bracket=0           >
+589: paren=1 brace=3 bracket=0             <p style={{
+590: paren=1 brace=3 bracket=0               fontSize: '11px',
+591: paren=1 brace=3 bracket=0               fontWeight: 800,
+592: paren=1 brace=3 bracket=0               textTransform: 'uppercase',
+593: paren=1 brace=3 bracket=0               letterSpacing: '0.09em',
+594: paren=1 brace=3 bracket=0               color: '#7a88af',
+595: paren=1 brace=3 bracket=0               marginBottom: '10px',
+596: paren=1 brace=1 bracket=0             }}>
+597: paren=1 brace=1 bracket=0               Next Exam Countdown
+598: paren=1 brace=1 bracket=0             </p>
+599: paren=2 brace=2 bracket=0             {nextExam ? (
+600: paren=2 brace=2 bracket=0               <>
+601: paren=2 brace=2 bracket=0                 <p style={{ fontSize: '14px', fontWeight: 700, color: '#8892b0', marginBottom: '6px' }}>
+602: paren=2 brace=2 bracket=0                   {subjectIcon(nextExam.subject)} {nextExam.subject}
+603: paren=2 brace=2 bracket=0                 </p>
+604: paren=2 brace=2 bracket=0                 <p className="count-up-number" style={{ fontSize: '32px', fontWeight: 900, letterSpacing: '-0.04em', color: '#f8fbff' }}>
+605: paren=2 brace=2 bracket=0                   {formatCountdown(nextExam.examDate)}
+606: paren=2 brace=2 bracket=0                 </p>
+607: paren=2 brace=2 bracket=0                 <p style={{ fontSize: '12px', color: '#8892b0', marginTop: '4px' }}>
+608: paren=2 brace=2 bracket=0                   {new Date(nextExam.examDate).toLocaleString()}
+609: paren=2 brace=2 bracket=0                 </p>
+610: paren=2 brace=2 bracket=0               </>
+611: paren=2 brace=2 bracket=0             ) : (
+612: paren=2 brace=2 bracket=0               <>
+613: paren=2 brace=2 bracket=0                 <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+614: paren=2 brace=2 bracket=0                   0 days
+615: paren=2 brace=2 bracket=0                 </p>
+616: paren=2 brace=2 bracket=0                 <p style={{ fontSize: '13px', color: '#f0b429', marginTop: '6px' }}>
+617: paren=2 brace=2 bracket=0                   No exams added yet 🎉{' '}
+618: paren=2 brace=2 bracket=0                   <Link href="/calendar" style={{ color: '#f0b429', textDecoration: 'underline', fontWeight: 600 }}>
+619: paren=2 brace=2 bracket=0                     Add your first exam →
+620: paren=2 brace=2 bracket=0                   </Link>
+621: paren=2 brace=2 bracket=0                 </p>
+622: paren=2 brace=2 bracket=0               </>
+623: paren=1 brace=1 bracket=0             )}
+624: paren=1 brace=1 bracket=0           </div>
+625: paren=1 brace=1 bracket=0 
+626: paren=1 brace=1 bracket=0           <div
+627: paren=1 brace=1 bracket=0             className="kv-card-hover"
+628: paren=1 brace=1 bracket=0             onMouseEnter={applyCardHover}
+629: paren=1 brace=1 bracket=0             onMouseLeave={clearCardHover}
+630: paren=1 brace=3 bracket=0             style={{
+631: paren=1 brace=3 bracket=0               background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
+632: paren=1 brace=3 bracket=0               border: '1px solid rgba(45,212,191,0.25)',
+633: paren=1 brace=3 bracket=0               borderLeft: '3px solid #2dd4bf',
+634: paren=1 brace=3 bracket=0               borderRadius: '18px',
+635: paren=1 brace=3 bracket=0               padding: '22px 24px',
+636: paren=1 brace=3 bracket=0               boxShadow: '0 12px 32px rgba(4,8,18,0.3)',
+637: paren=1 brace=3 bracket=0               transition: 'all 0.2s ease',
+638: paren=1 brace=1 bracket=0             }}
+639: paren=1 brace=1 bracket=0           >
+640: paren=1 brace=3 bracket=0             <p style={{
+641: paren=1 brace=3 bracket=0               fontSize: '10px',
+642: paren=1 brace=3 bracket=0               fontWeight: 800,
+643: paren=1 brace=3 bracket=0               textTransform: 'uppercase',
+644: paren=1 brace=3 bracket=0               letterSpacing: '0.08em',
+645: paren=1 brace=3 bracket=0               color: '#3d4a6b',
+646: paren=1 brace=3 bracket=0               marginBottom: '8px',
+647: paren=1 brace=1 bracket=0             }}>
+648: paren=1 brace=1 bracket=0               Exams This Month
+649: paren=1 brace=1 bracket=0             </p>
+650: paren=1 brace=1 bracket=0             <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+651: paren=1 brace=1 bracket=0               {totalExamsThisMonth}
+652: paren=1 brace=1 bracket=0             </p>
+653: paren=1 brace=1 bracket=0             <p style={{ fontSize: '12px', color: '#8892b0' }}>scheduled</p>
+654: paren=1 brace=1 bracket=0           </div>
+655: paren=1 brace=1 bracket=0 
+656: paren=1 brace=1 bracket=0           <div
+657: paren=1 brace=1 bracket=0             className="kv-card-hover"
+658: paren=1 brace=1 bracket=0             onMouseEnter={applyCardHover}
+659: paren=1 brace=1 bracket=0             onMouseLeave={clearCardHover}
+660: paren=1 brace=3 bracket=0             style={{
+661: paren=1 brace=3 bracket=0               background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
+662: paren=1 brace=3 bracket=0               border: '1px solid rgba(139,92,246,0.25)',
+663: paren=1 brace=3 bracket=0               borderLeft: '3px solid #8b5cf6',
+664: paren=1 brace=3 bracket=0               borderRadius: '18px',
+665: paren=1 brace=3 bracket=0               padding: '22px 24px',
+666: paren=1 brace=3 bracket=0               boxShadow: '0 12px 32px rgba(4,8,18,0.35)',
+667: paren=1 brace=3 bracket=0               transition: 'all 0.2s ease',
+668: paren=1 brace=1 bracket=0             }}
+669: paren=1 brace=1 bracket=0           >
+670: paren=1 brace=3 bracket=0             <p style={{
+671: paren=1 brace=3 bracket=0               fontSize: '10px',
+672: paren=1 brace=3 bracket=0               fontWeight: 800,
+673: paren=1 brace=3 bracket=0               textTransform: 'uppercase',
+674: paren=1 brace=3 bracket=0               letterSpacing: '0.08em',
+675: paren=1 brace=3 bracket=0               color: '#3d4a6b',
+676: paren=1 brace=3 bracket=0               marginBottom: '8px',
+677: paren=1 brace=1 bracket=0             }}>
+678: paren=1 brace=1 bracket=0               Study Streak
+679: paren=1 brace=1 bracket=0             </p>
+680: paren=1 brace=1 bracket=0             <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>
+681: paren=1 brace=1 bracket=0               {studyStreak}{studyStreak > 2 ? ' 🔥' : ''}
+682: paren=1 brace=1 bracket=0             </p>
+683: paren=1 brace=1 bracket=0             <p style={{ fontSize: '12px', color: '#8892b0' }}>
+684: paren=2 brace=2 bracket=0               {studyStreak === 1 ? (
+685: paren=2 brace=2 bracket=0                 <span style={{ color: '#2dd4bf' }}>Day 1 — the best day to start 🚀</span>
+686: paren=2 brace=2 bracket=0               ) : (
+687: paren=2 brace=2 bracket=0                 'days'
+688: paren=1 brace=1 bracket=0               )}
+689: paren=1 brace=1 bracket=0             </p>
+690: paren=1 brace=1 bracket=0           </div>
+691: paren=1 brace=1 bracket=0         </div>
+692: paren=1 brace=1 bracket=0 
+693: paren=1 brace=1 bracket=0         <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
+694: paren=1 brace=1 bracket=0           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px', flexWrap: 'wrap' }}>
+695: paren=1 brace=1 bracket=0             <div>
+696: paren=1 brace=3 bracket=0               <p style={{
+697: paren=1 brace=3 bracket=0                 fontSize: '11px',
+698: paren=1 brace=3 bracket=0                 fontWeight: 800,
+699: paren=1 brace=3 bracket=0                 textTransform: 'uppercase',
+700: paren=1 brace=3 bracket=0                 letterSpacing: '0.08em',
+701: paren=1 brace=3 bracket=0                 color: '#3d4a6b',
+702: paren=1 brace=3 bracket=0                 marginBottom: '8px',
+703: paren=1 brace=1 bracket=0               }}>
+704: paren=1 brace=1 bracket=0                 Overall Readiness Score
+705: paren=1 brace=1 bracket=0               </p>
+706: paren=1 brace=1 bracket=0               <p style={{ fontSize: '30px', fontWeight: 900, color: '#f0b429', letterSpacing: '-0.03em' }}>
+707: paren=1 brace=1 bracket=0                 {upcomingExams.length === 0 ? 'All caught up!' : `${readinessScore}%`}
+708: paren=1 brace=1 bracket=0               </p>
+709: paren=1 brace=1 bracket=0             </div>
+710: paren=1 brace=1 bracket=0             <div style={{ width: '320px', maxWidth: '100%' }}>
+711: paren=1 brace=1 bracket=0               <div style={{ height: '8px', borderRadius: '999px', background: '#12192e', overflow: 'hidden' }}>
+712: paren=1 brace=1 bracket=0                 <div
+713: paren=1 brace=3 bracket=0                   style={{
+714: paren=1 brace=3 bracket=0                     height: '100%',
+715: paren=1 brace=3 bracket=0                     width: `${readinessScore}%`,
+716: paren=1 brace=3 bracket=0                     borderRadius: '999px',
+717: paren=1 brace=3 bracket=0                     background: 'linear-gradient(90deg, #f0b429, #2dd4bf)',
+718: paren=1 brace=3 bracket=0                     transition: 'width 0.3s ease',
+719: paren=1 brace=3 bracket=0                     boxShadow: '0 0 8px rgba(240,180,41,0.4)',
+720: paren=1 brace=1 bracket=0                   }}
+721: paren=1 brace=1 bracket=0                 />
+722: paren=1 brace=1 bracket=0               </div>
+723: paren=1 brace=1 bracket=0             </div>
+724: paren=1 brace=1 bracket=0           </div>
+725: paren=1 brace=1 bracket=0         </div>
+726: paren=1 brace=1 bracket=0 
+727: paren=1 brace=1 bracket=0         <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>
+728: paren=1 brace=1 bracket=0           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+729: paren=1 brace=1 bracket=0             <div>
+730: paren=1 brace=3 bracket=0               <p style={{
+731: paren=1 brace=3 bracket=0                 fontSize: '11px',
+732: paren=1 brace=3 bracket=0                 fontWeight: 800,
+733: paren=1 brace=3 bracket=0                 textTransform: 'uppercase',
+734: paren=1 brace=3 bracket=0                 letterSpacing: '0.08em',
+735: paren=1 brace=3 bracket=0                 color: '#3d4a6b',
+736: paren=1 brace=3 bracket=0                 marginBottom: '8px',
+737: paren=1 brace=1 bracket=0               }}>
+738: paren=1 brace=1 bracket=0                 Ontario Curriculum
+739: paren=1 brace=1 bracket=0               </p>
+740: paren=1 brace=1 bracket=0               <p style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#e8eaf6' }}>
+741: paren=1 brace=1 bracket=0                 Plan study by official Grade 11 expectations
+742: paren=1 brace=1 bracket=0               </p>
+743: paren=1 brace=1 bracket=0               <p style={{ marginTop: '6px', fontSize: '13px', color: '#8892b0' }}>
+744: paren=1 brace=1 bracket=0                 Open course units, track completion, and generate targeted lessons.
+745: paren=1 brace=1 bracket=0               </p>
+746: paren=1 brace=1 bracket=0             </div>
+747: paren=1 brace=1 bracket=0             <Link
+748: paren=1 brace=1 bracket=0               href="/curriculum"
+749: paren=1 brace=1 bracket=0               className="kv-pulse-gold"
+750: paren=1 brace=3 bracket=0               style={{
+751: paren=1 brace=3 bracket=0                 textDecoration: 'none',
+752: paren=1 brace=3 bracket=0                 background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
+753: paren=1 brace=3 bracket=0                 color: '#050810',
+754: paren=1 brace=3 bracket=0                 fontWeight: 700,
+755: paren=1 brace=3 bracket=0                 borderRadius: '10px',
+756: paren=1 brace=3 bracket=0                 padding: '10px 20px',
+757: paren=1 brace=3 bracket=0                 border: 'none',
+758: paren=1 brace=3 bracket=0                 cursor: 'pointer',
+759: paren=1 brace=3 bracket=0                 boxShadow: '0 4px 16px rgba(240,180,41,0.3)',
+760: paren=1 brace=3 bracket=0                 fontSize: '13px',
+761: paren=1 brace=1 bracket=0               }}
+762: paren=1 brace=1 bracket=0             >
+763: paren=1 brace=1 bracket=0               Open Curriculum Hub
+764: paren=1 brace=1 bracket=0             </Link>
+765: paren=1 brace=1 bracket=0           </div>
+766: paren=1 brace=1 bracket=0         </div>
+767: paren=1 brace=1 bracket=0 
+768: paren=1 brace=1 bracket=0         <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '28px' }}>
+769: paren=1 brace=3 bracket=0           <p style={{
+770: paren=1 brace=3 bracket=0             fontSize: '11px',
+771: paren=1 brace=3 bracket=0             fontWeight: 800,
+772: paren=1 brace=3 bracket=0             textTransform: 'uppercase',
+773: paren=1 brace=3 bracket=0             letterSpacing: '0.08em',
+774: paren=1 brace=3 bracket=0             color: '#3d4a6b',
+775: paren=1 brace=3 bracket=0             marginBottom: '16px',
+776: paren=1 brace=1 bracket=0           }}>
+777: paren=1 brace=1 bracket=0             Add Upcoming Exam
+778: paren=1 brace=1 bracket=0           </p>
+779: paren=1 brace=1 bracket=0           <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
+780: paren=1 brace=1 bracket=0             <input
+781: paren=1 brace=1 bracket=0               value={subject}
+782: paren=1 brace=1 bracket=0               onChange={(event) => setSubject(event.target.value)}
+783: paren=1 brace=1 bracket=0               placeholder="Subject name"
+784: paren=1 brace=1 bracket=0               style={inputStyle}
+785: paren=1 brace=1 bracket=0             />
+786: paren=1 brace=1 bracket=0             <input
+787: paren=1 brace=1 bracket=0               value={examDate}
+788: paren=1 brace=1 bracket=0               onChange={(event) => setExamDate(event.target.value)}
+789: paren=1 brace=1 bracket=0               type="datetime-local"
+790: paren=1 brace=1 bracket=0               style={inputStyle}
+791: paren=1 brace=1 bracket=0             />
+792: paren=1 brace=1 bracket=0             <input
+793: paren=1 brace=1 bracket=0               value={board}
+794: paren=1 brace=1 bracket=0               onChange={(event) => setBoard(event.target.value)}
+795: paren=1 brace=1 bracket=0               placeholder="Exam board (APA, IB, Ontario...)"
+796: paren=1 brace=1 bracket=0               style={inputStyle}
+797: paren=1 brace=1 bracket=0             />
+798: paren=1 brace=1 bracket=0             <select
+799: paren=1 brace=1 bracket=0               value={difficulty}
+800: paren=1 brace=1 bracket=0               onChange={(event) => setDifficulty(event.target.value)}
+801: paren=1 brace=1 bracket=0               style={inputStyle}
+802: paren=1 brace=1 bracket=0             >
+803: paren=3 brace=2 bracket=0               {DIFFICULTY_OPTIONS.map((option) => (
+804: paren=3 brace=2 bracket=0                 <option key={option} value={option}>{option}</option>
+805: paren=1 brace=1 bracket=0               ))}
+806: paren=1 brace=1 bracket=0             </select>
+807: paren=1 brace=1 bracket=0             <input
+808: paren=1 brace=1 bracket=0               value={topics}
+809: paren=1 brace=1 bracket=0               onChange={(event) => setTopics(event.target.value)}
+810: paren=1 brace=1 bracket=0               placeholder="Topics (comma separated)"
+811: paren=1 brace=1 bracket=0               style={inputStyle}
+812: paren=1 brace=1 bracket=0             />
+813: paren=1 brace=1 bracket=0             <LoadingButton
+814: paren=1 brace=1 bracket=0               loading={isSaving}
+815: paren=1 brace=3 bracket=0               onClick={() => {
+816: paren=1 brace=3 bracket=0                 void createExam()
+817: paren=1 brace=1 bracket=0               }}
+818: paren=1 brace=1 bracket=0               type="button"
+819: paren=1 brace=1 bracket=0               fullWidth
+820: paren=1 brace=1 bracket=0             >
+821: paren=1 brace=1 bracket=0               Save Exam
+822: paren=1 brace=1 bracket=0             </LoadingButton>
+823: paren=1 brace=1 bracket=0           </div>
+824: paren=1 brace=1 bracket=0         </div>
+825: paren=1 brace=1 bracket=0 
+826: paren=2 brace=2 bracket=0         {isLoading ? (
+827: paren=2 brace=2 bracket=0           <Skeleton variant="card" count={3} />
+828: paren=2 brace=2 bracket=0         ) : exams.length === 0 ? (
+829: paren=2 brace=2 bracket=0           <EmptyState
+830: paren=2 brace=2 bracket=0             icon="🚀"
+831: paren=2 brace=2 bracket=0             title="Your dashboard is empty"
+832: paren=2 brace=2 bracket=0             description="Start by creating a note or importing a flashcard deck"
+833: paren=2 brace=2 bracket=0             action={{ label: 'Create your first note', href: '/generator' }}
+834: paren=2 brace=2 bracket=0           />
+835: paren=2 brace=2 bracket=0         ) : (
+836: paren=2 brace=2 bracket=0           <div>
+837: paren=3 brace=3 bracket=0             {upcomingExams.length === 0 ? (
+838: paren=3 brace=3 bracket=0               <EmptyState
+839: paren=3 brace=3 bracket=0                 icon="📅"
+840: paren=3 brace=3 bracket=0                 title="No events scheduled"
+841: paren=3 brace=3 bracket=0                 description="Add your exams, assignments, and deadlines"
+842: paren=3 brace=3 bracket=0               />
+843: paren=3 brace=3 bracket=0             ) : (
+844: paren=3 brace=3 bracket=0               <div>
+845: paren=3 brace=5 bracket=0                 <p style={{
+846: paren=3 brace=5 bracket=0                   fontSize: '11px',
+847: paren=3 brace=5 bracket=0                   fontWeight: 800,
+848: paren=3 brace=5 bracket=0                   textTransform: 'uppercase',
+849: paren=3 brace=5 bracket=0                   letterSpacing: '0.08em',
+850: paren=3 brace=5 bracket=0                   color: '#3d4a6b',
+851: paren=3 brace=5 bracket=0                   marginBottom: '16px',
+852: paren=3 brace=3 bracket=0                 }}>
+853: paren=3 brace=3 bracket=0                   Upcoming Exams
+854: paren=3 brace=3 bracket=0                 </p>
+855: paren=3 brace=3 bracket=0                 <div className="kv-stagger kv-animate-in" style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+856: paren=3 brace=4 bracket=0                   {[...upcomingExams]
+857: paren=3 brace=4 bracket=0                     .sort((a, b) => new Date(a.examDate).getTime() - new Date(b.examDate).getTime())
+858: paren=4 brace=5 bracket=0                     .map((exam) => {
+859: paren=4 brace=5 bracket=0                       const days = safeDaysUntil(exam.examDate)
+860: paren=4 brace=5 bracket=0                       const urgencyTier = urgencyFromDays(days)
+861: paren=4 brace=5 bracket=0                       const urgency = urgencyClasses(urgencyTier)
+862: paren=4 brace=5 bracket=0                       const panic = panicData(exam)
+863: paren=4 brace=5 bracket=0                       const planDays = parseStudyPlan(exam.studyPlan)
+864: paren=4 brace=5 bracket=0 
+865: paren=5 brace=5 bracket=0                       return (
+866: paren=5 brace=5 bracket=0                         <div
+867: paren=5 brace=5 bracket=0                           key={exam.id}
+868: paren=5 brace=5 bracket=0                           className="kv-card-hover kv-animate-in"
+869: paren=5 brace=5 bracket=0                           onMouseEnter={applyCardHover}
+870: paren=5 brace=5 bracket=0                           onMouseLeave={clearCardHover}
+871: paren=5 brace=5 bracket=0                           style={baseCardStyle}
+872: paren=5 brace=5 bracket=0                         >
+873: paren=5 brace=5 bracket=0                           <div style={{ marginBottom: '12px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+874: paren=5 brace=5 bracket=0                             <p style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: '#e8eaf6' }}>
+875: paren=5 brace=5 bracket=0                               {subjectIcon(exam.subject)} {exam.subject}
+876: paren=5 brace=5 bracket=0                             </p>
+877: paren=5 brace=7 bracket=0                             <span style={{
+878: paren=5 brace=7 bracket=0                               borderRadius: '999px',
+879: paren=5 brace=7 bracket=0                               border: `1px solid ${urgency.badgeBorder}`,
+880: paren=5 brace=7 bracket=0                               background: urgency.badgeBg,
+881: paren=5 brace=7 bracket=0                               padding: '4px 10px',
+882: paren=5 brace=7 bracket=0                               fontSize: '11px',
+883: paren=5 brace=7 bracket=0                               fontWeight: 700,
+884: paren=5 brace=7 bracket=0                               color: urgency.badgeText,
+885: paren=5 brace=7 bracket=0                               animation: urgency.pulse ? 'dashboard-pulse 1.2s ease infinite' : 'none',
+886: paren=5 brace=5 bracket=0                             }}>
+887: paren=5 brace=5 bracket=0                               {urgencyTier.toUpperCase()} URGENCY
+888: paren=5 brace=5 bracket=0                             </span>
+889: paren=5 brace=5 bracket=0                           </div>
+890: paren=5 brace=5 bracket=0 
+891: paren=5 brace=5 bracket=0                           <p style={{ fontSize: '12px', color: '#8892b0', margin: 0 }}>
+892: paren=5 brace=5 bracket=0                             {new Date(exam.examDate).toLocaleString()} • {exam.board || 'No board'} • {exam.difficulty || 'Medium'}
+893: paren=5 brace=5 bracket=0                           </p>
+894: paren=5 brace=5 bracket=0 
+895: paren=5 brace=7 bracket=0                           <p style={{
+896: paren=5 brace=7 bracket=0                             marginTop: '14px',
+897: paren=5 brace=7 bracket=0                             marginBottom: '0',
+898: paren=5 brace=7 bracket=0                             fontSize: '34px',
+899: paren=5 brace=7 bracket=0                             fontWeight: 900,
+900: paren=5 brace=7 bracket=0                             letterSpacing: '-0.03em',
+901: paren=5 brace=7 bracket=0                             color: '#e8eaf6',
+902: paren=5 brace=7 bracket=0                             animation: urgency.pulse ? 'dashboard-pulse 1.2s ease infinite' : 'none',
+903: paren=5 brace=5 bracket=0                           }}>
+904: paren=5 brace=5 bracket=0                             {formatCountdown(exam.examDate)}
+905: paren=5 brace=5 bracket=0                           </p>
+906: paren=5 brace=5 bracket=0 
+907: paren=5 brace=5 bracket=0                           <div style={{ marginTop: '14px' }}>
+908: paren=5 brace=5 bracket=0                             <div style={{ marginBottom: '6px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: '#8892b0' }}>
+909: paren=5 brace=5 bracket=0                               <span>Panic meter</span>
+910: paren=5 brace=5 bracket=0                               <span>{urgencyProgress(days)}%</span>
+911: paren=5 brace=5 bracket=0                             </div>
+912: paren=5 brace=5 bracket=0                             <div style={{ height: '8px', borderRadius: '999px', overflow: 'hidden', background: '#12192e' }}>
+913: paren=5 brace=5 bracket=0                               <div style={{ height: '100%', width: `${urgencyProgress(days)}%`, background: urgency.bar }} />
+914: paren=5 brace=5 bracket=0                             </div>
+915: paren=5 brace=5 bracket=0                           </div>
+916: paren=5 brace=5 bracket=0 
+917: paren=5 brace=7 bracket=0                           <div style={{
+918: paren=5 brace=7 bracket=0                             marginTop: '12px',
+919: paren=5 brace=7 bracket=0                             borderRadius: '12px',
+920: paren=5 brace=7 bracket=0                             border: '1px solid rgba(255,255,255,0.07)',
+921: paren=5 brace=7 bracket=0                             background: '#12192e',
+922: paren=5 brace=7 bracket=0                             padding: '12px',
+923: paren=5 brace=7 bracket=0                             fontSize: '13px',
+924: paren=5 brace=5 bracket=0                           }}>
+925: paren=5 brace=5 bracket=0                             <p style={{ margin: 0, fontWeight: 700, color: panic.tier.color }}>{panic.tier.label}</p>
+926: paren=5 brace=5 bracket=0                             <p style={{ margin: '6px 0 0', fontSize: '12px', color: '#8892b0' }}>
+927: paren=5 brace=5 bracket=0                               Topics: {panic.totalTopics} • Days available: {panic.daysAvailable} • Topics/day needed: {panic.topicsPerDay.toFixed(2)}
+928: paren=5 brace=5 bracket=0                             </p>
+929: paren=5 brace=5 bracket=0                           </div>
+930: paren=5 brace=5 bracket=0 
+931: paren=5 brace=5 bracket=0                           <div style={{ marginTop: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+932: paren=5 brace=5 bracket=0                             <button
+933: paren=5 brace=5 bracket=0                               type="button"
+934: paren=5 brace=7 bracket=0                               onClick={() => {
+935: paren=5 brace=7 bracket=0                                 void generateStudyPlan(exam.id)
+936: paren=5 brace=5 bracket=0                               }}
+937: paren=5 brace=5 bracket=0                               disabled={generatingExamId === exam.id}
+938: paren=5 brace=7 bracket=0                               style={{
+939: paren=5 brace=7 bracket=0                                 borderRadius: '10px',
+940: paren=5 brace=7 bracket=0                                 border: 'none',
+941: paren=5 brace=7 bracket=0                                 background: '#4f8ef7',
+942: paren=5 brace=7 bracket=0                                 color: '#050810',
+943: paren=5 brace=7 bracket=0                                 fontWeight: 700,
+944: paren=5 brace=7 bracket=0                                 fontSize: '12px',
+945: paren=5 brace=7 bracket=0                                 padding: '9px 12px',
+946: paren=5 brace=7 bracket=0                                 cursor: generatingExamId === exam.id ? 'not-allowed' : 'pointer',
+947: paren=5 brace=7 bracket=0                                 opacity: generatingExamId === exam.id ? 0.75 : 1,
+948: paren=5 brace=7 bracket=0                                 fontFamily: 'inherit',
+949: paren=5 brace=5 bracket=0                               }}
+950: paren=5 brace=5 bracket=0                             >
+951: paren=5 brace=5 bracket=0                               {generatingExamId === exam.id ? 'Generating...' : 'Generate Study Plan'}
+952: paren=5 brace=5 bracket=0                             </button>
+953: paren=5 brace=5 bracket=0                           </div>
+954: paren=5 brace=5 bracket=0 
+955: paren=6 brace=6 bracket=0                           {planDays.length > 0 && (
+956: paren=6 brace=6 bracket=0                             <div style={{ marginTop: '16px' }}>
+957: paren=6 brace=6 bracket=0                               <p style={{ margin: '0 0 8px', fontSize: '13px', fontWeight: 700, color: '#e8eaf6' }}>Study Timeline</p>
+958: paren=6 brace=6 bracket=0                               <div style={{ display: 'grid', gap: '8px' }}>
+959: paren=7 brace=8 bracket=0                                 {planDays.map((day, index) => {
+960: paren=7 brace=8 bracket=0                                   const completed = Boolean(day.completed)
+961: paren=7 brace=8 bracket=0                                   const today = isTodayLabel(day.date)
+962: paren=7 brace=8 bracket=0 
+963: paren=7 brace=8 bracket=0                                   let dayBg = '#12192e'
+964: paren=7 brace=8 bracket=0                                   let dayBorder = 'rgba(255,255,255,0.07)'
+965: paren=7 brace=9 bracket=0                                   if (completed) {
+966: paren=7 brace=9 bracket=0                                     dayBg = 'rgba(16,185,129,0.12)'
+967: paren=7 brace=9 bracket=0                                     dayBorder = 'rgba(16,185,129,0.4)'
+968: paren=7 brace=9 bracket=0                                   } else if (today) {
+969: paren=7 brace=9 bracket=0                                     dayBg = 'rgba(79,142,247,0.14)'
+970: paren=7 brace=9 bracket=0                                     dayBorder = 'rgba(79,142,247,0.4)'
+971: paren=7 brace=8 bracket=0                                   }
+972: paren=7 brace=8 bracket=0 
+973: paren=8 brace=8 bracket=0                                   return (
+974: paren=8 brace=8 bracket=0                                     <div
+975: paren=8 brace=8 bracket=0                                       key={`${exam.id}-${index}`}
+976: paren=8 brace=8 bracket=0                                       style={{ borderRadius: '10px', border: `1px solid ${dayBorder}`, background: dayBg, padding: '12px' }}
+977: paren=8 brace=8 bracket=0                                     >
+978: paren=8 brace=8 bracket=0                                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+979: paren=8 brace=8 bracket=0                                         <input
+980: paren=8 brace=8 bracket=0                                           type="checkbox"
+981: paren=8 brace=8 bracket=0                                           checked={completed}
+982: paren=8 brace=8 bracket=0                                           disabled={savingPlanExamId === exam.id}
+983: paren=8 brace=10 bracket=0                                           onChange={() => {
+984: paren=8 brace=10 bracket=0                                             void togglePlanDay(exam, index)
+985: paren=8 brace=8 bracket=0                                           }}
+986: paren=8 brace=8 bracket=0                                           style={{ marginTop: '2px', accentColor: '#2dd4bf' }}
+987: paren=8 brace=8 bracket=0                                         />
+988: paren=8 brace=8 bracket=0                                         <div style={{ minWidth: 0 }}>
+989: paren=8 brace=8 bracket=0                                           <p style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#e8eaf6' }}>
+990: paren=8 brace=8 bracket=0                                             Day {index + 1} ({day.date}): {day.title}
+991: paren=8 brace=8 bracket=0                                           </p>
+992: paren=9 brace=9 bracket=0                                           {day.tasks.length > 0 && (
+993: paren=9 brace=9 bracket=0                                             <ul style={{ margin: '6px 0 0', paddingLeft: '16px', color: '#8892b0', fontSize: '12px' }}>
+994: paren=11 brace=10 bracket=0                                               {day.tasks.map((task, taskIndex) => (
+995: paren=11 brace=10 bracket=0                                                 <li key={`${exam.id}-${index}-${taskIndex}`} style={{ marginBottom: '3px' }}>{task}</li>
+996: paren=9 brace=9 bracket=0                                               ))}
+997: paren=9 brace=9 bracket=0                                             </ul>
+998: paren=8 brace=8 bracket=0                                           )}
+999: paren=8 brace=8 bracket=0                                         </div>
+1000: paren=8 brace=8 bracket=0                                       </div>
+1001: paren=8 brace=8 bracket=0                                     </div>
+1002: paren=7 brace=8 bracket=0                                   )
+1003: paren=6 brace=6 bracket=0                                 })}
+1004: paren=6 brace=6 bracket=0                               </div>
+1005: paren=6 brace=6 bracket=0                             </div>
+1006: paren=5 brace=5 bracket=0                           )}
+1007: paren=5 brace=5 bracket=0                         </div>
+1008: paren=4 brace=5 bracket=0                       )
+1009: paren=3 brace=3 bracket=0                     })}
+1010: paren=3 brace=3 bracket=0                 </div>
+1011: paren=3 brace=3 bracket=0               </div>
+1012: paren=2 brace=2 bracket=0             )}
+1013: paren=2 brace=2 bracket=0 
+1014: paren=3 brace=3 bracket=0             {pastExams.length > 0 && (
+1015: paren=3 brace=3 bracket=0               <div style={{ marginTop: '48px' }}>
+1016: paren=3 brace=5 bracket=0                 <p style={{
+1017: paren=3 brace=5 bracket=0                   fontSize: '11px',
+1018: paren=3 brace=5 bracket=0                   fontWeight: 800,
+1019: paren=3 brace=5 bracket=0                   textTransform: 'uppercase',
+1020: paren=3 brace=5 bracket=0                   letterSpacing: '0.08em',
+1021: paren=3 brace=5 bracket=0                   color: '#3d4a6b',
+1022: paren=3 brace=5 bracket=0                   marginBottom: '16px',
+1023: paren=3 brace=3 bracket=0                 }}>
+1024: paren=3 brace=3 bracket=0                   Past Exams
+1025: paren=3 brace=3 bracket=0                 </p>
+1026: paren=3 brace=3 bracket=0                 <div style={{ display: 'grid', gap: '12px' }}>
+1027: paren=3 brace=4 bracket=0                   {[...pastExams]
+1028: paren=3 brace=4 bracket=0                     .sort((a, b) => new Date(b.examDate).getTime() - new Date(a.examDate).getTime())
+1029: paren=5 brace=4 bracket=0                     .map((exam) => (
+1030: paren=5 brace=4 bracket=0                       <div
+1031: paren=5 brace=4 bracket=0                         key={exam.id}
+1032: paren=5 brace=4 bracket=0                         onMouseEnter={applyCardHover}
+1033: paren=5 brace=4 bracket=0                         onMouseLeave={clearCardHover}
+1034: paren=5 brace=6 bracket=0                         style={{
+1035: paren=5 brace=6 bracket=0                           ...baseCardStyle,
+1036: paren=5 brace=6 bracket=0                           opacity: 0.62,
+1037: paren=5 brace=6 bracket=0                           marginBottom: '12px',
+1038: paren=5 brace=6 bracket=0                           display: 'flex',
+1039: paren=5 brace=6 bracket=0                           alignItems: 'center',
+1040: paren=5 brace=6 bracket=0                           justifyContent: 'space-between',
+1041: paren=5 brace=6 bracket=0                           padding: '16px 20px',
+1042: paren=5 brace=4 bracket=0                         }}
+1043: paren=5 brace=4 bracket=0                       >
+1044: paren=5 brace=4 bracket=0                         <div>
+1045: paren=5 brace=6 bracket=0                           <p style={{
+1046: paren=5 brace=6 bracket=0                             fontWeight: 600,
+1047: paren=5 brace=6 bracket=0                             color: '#8892b0',
+1048: paren=5 brace=6 bracket=0                             textDecoration: 'line-through',
+1049: paren=5 brace=6 bracket=0                             fontSize: '15px',
+1050: paren=5 brace=6 bracket=0                             margin: 0,
+1051: paren=5 brace=4 bracket=0                           }}>
+1052: paren=5 brace=4 bracket=0                             {exam.subject}
+1053: paren=5 brace=4 bracket=0                           </p>
+1054: paren=5 brace=4 bracket=0                           <p style={{ fontSize: '12px', color: '#3d4a6b', marginTop: '2px', marginBottom: 0 }}>
+1055: paren=6 brace=6 bracket=0                             Completed — {new Date(exam.examDate).toLocaleDateString('en-CA', {
+1056: paren=6 brace=6 bracket=0                               month: 'short', day: 'numeric', year: 'numeric',
+1057: paren=5 brace=4 bracket=0                             })}
+1058: paren=5 brace=4 bracket=0                           </p>
+1059: paren=6 brace=5 bracket=0                           {exam.board && (
+1060: paren=6 brace=5 bracket=0                             <p style={{ fontSize: '11px', color: '#3d4a6b', marginTop: '2px', marginBottom: 0 }}>{exam.board}</p>
+1061: paren=5 brace=4 bracket=0                           )}
+1062: paren=5 brace=4 bracket=0                         </div>
+1063: paren=5 brace=4 bracket=0 
+1064: paren=5 brace=4 bracket=0                         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+1065: paren=6 brace=5 bracket=0                           {!exam.resultRecorded ? (
+1066: paren=6 brace=5 bracket=0                             <button
+1067: paren=6 brace=5 bracket=0                               type="button"
+1068: paren=6 brace=7 bracket=0                               onClick={() => {
+1069: paren=7 brace=8 bracket=0                                 setSelectedExamForResult({
+1070: paren=7 brace=8 bracket=0                                   id: exam.id,
+1071: paren=7 brace=8 bracket=0                                   subject: exam.subject,
+1072: paren=7 brace=8 bracket=0                                   examDate: exam.examDate,
+1073: paren=7 brace=8 bracket=0                                   board: exam.board,
+1074: paren=6 brace=7 bracket=0                                 });
+1075: paren=6 brace=5 bracket=0                               }}
+1076: paren=6 brace=7 bracket=0                               style={{
+1077: paren=6 brace=7 bracket=0                                 border: '1px solid #4f8ef7',
+1078: paren=6 brace=7 bracket=0                                 borderRadius: '8px',
+1079: paren=6 brace=7 bracket=0                                 background: 'transparent',
+1080: paren=6 brace=7 bracket=0                                 color: '#4f8ef7',
+1081: paren=6 brace=7 bracket=0                                 padding: '6px 10px',
+1082: paren=6 brace=7 bracket=0                                 fontSize: '12px',
+1083: paren=6 brace=7 bracket=0                                 fontWeight: 600,
+1084: paren=6 brace=7 bracket=0                                 cursor: 'pointer',
+1085: paren=6 brace=7 bracket=0                                 fontFamily: 'inherit',
+1086: paren=6 brace=5 bracket=0                               }}
+1087: paren=6 brace=5 bracket=0                             >
+1088: paren=6 brace=5 bracket=0                               Record Result
+1089: paren=6 brace=5 bracket=0                             </button>
+1090: paren=6 brace=5 bracket=0                           ) : (
+1091: paren=6 brace=5 bracket=0                             <button
+1092: paren=6 brace=5 bracket=0                               type="button"
+1093: paren=6 brace=7 bracket=0                               onClick={() => {
+1094: paren=6 brace=7 bracket=0                                 void router.push('/results')
+1095: paren=6 brace=5 bracket=0                               }}
+1096: paren=6 brace=7 bracket=0                               style={{
+1097: paren=6 brace=7 bracket=0                                 border: 'none',
+1098: paren=6 brace=7 bracket=0                                 borderRadius: '20px',
+1099: paren=6 brace=7 bracket=0                                 background: getGradeColor(exam.scorePercent ?? 0),
+1100: paren=6 brace=7 bracket=0                                 color: '#e8eaf6',
+1101: paren=6 brace=7 bracket=0                                 padding: '6px 10px',
+1102: paren=6 brace=7 bracket=0                                 fontSize: '12px',
+1103: paren=6 brace=7 bracket=0                                 fontWeight: 700,
+1104: paren=6 brace=7 bracket=0                                 cursor: 'pointer',
+1105: paren=6 brace=7 bracket=0                                 fontFamily: 'inherit',
+1106: paren=6 brace=5 bracket=0                               }}
+1107: paren=6 brace=5 bracket=0                             >
+1108: paren=6 brace=5 bracket=0                               {percentToLetter(exam.scorePercent ?? 0)} {(exam.scorePercent ?? 0).toFixed(1)}%
+1109: paren=6 brace=5 bracket=0                             </button>
+1110: paren=5 brace=4 bracket=0                           )}
+1111: paren=5 brace=4 bracket=0                           <button
+1112: paren=5 brace=4 bracket=0                             type="button"
+1113: paren=5 brace=6 bracket=0                             onClick={() => {
+1114: paren=5 brace=6 bracket=0                               void handleDeleteExam(exam.id)
+1115: paren=5 brace=4 bracket=0                             }}
+1116: paren=5 brace=6 bracket=0                             style={{
+1117: paren=5 brace=6 bracket=0                               border: '1px solid rgba(239,68,68,0.35)',
+1118: paren=5 brace=6 bracket=0                               background: 'rgba(239,68,68,0.1)',
+1119: paren=5 brace=6 bracket=0                               color: '#ef4444',
+1120: paren=5 brace=6 bracket=0                               borderRadius: '8px',
+1121: paren=5 brace=6 bracket=0                               padding: '6px 10px',
+1122: paren=5 brace=6 bracket=0                               fontSize: '12px',
+1123: paren=5 brace=6 bracket=0                               fontWeight: 700,
+1124: paren=5 brace=6 bracket=0                               cursor: 'pointer',
+1125: paren=5 brace=6 bracket=0                               fontFamily: 'inherit',
+1126: paren=5 brace=4 bracket=0                             }}
+1127: paren=5 brace=4 bracket=0                           >
+1128: paren=5 brace=4 bracket=0                             Delete
+1129: paren=5 brace=4 bracket=0                           </button>
+1130: paren=5 brace=4 bracket=0                         </div>
+1131: paren=5 brace=4 bracket=0                       </div>
+1132: paren=3 brace=3 bracket=0                     ))}
+1133: paren=3 brace=3 bracket=0                 </div>
+1134: paren=3 brace=3 bracket=0               </div>
+1135: paren=2 brace=2 bracket=0             )}
+1136: paren=2 brace=2 bracket=0           </div>
+1137: paren=1 brace=1 bracket=0         )}
+1138: paren=2 brace=2 bracket=0         {selectedExamForResult && (
+1139: paren=2 brace=2 bracket=0           <RecordResultModal
+1140: paren=2 brace=2 bracket=0             exam={selectedExamForResult}
+1141: paren=2 brace=4 bracket=0             onClose={() => {
+1142: paren=2 brace=4 bracket=0               setSelectedExamForResult(null);
+1143: paren=2 brace=2 bracket=0             }}
+1144: paren=2 brace=4 bracket=0             onSuccess={() => {
+1145: paren=2 brace=4 bracket=0               setSelectedExamForResult(null);
+1146: paren=2 brace=4 bracket=0               trackNovaEvent('EXAM_RESULT_SAVED');
+1147: paren=2 brace=4 bracket=0               void fetchExams();
+1148: paren=2 brace=2 bracket=0             }}
+1149: paren=2 brace=2 bracket=0           />
+1150: paren=1 brace=1 bracket=0         )}
+1151: paren=1 brace=1 bracket=0       </div>
+1152: paren=1 brace=1 bracket=0     </main>
+1153: paren=0 brace=1 bracket=0   )
+1154: paren=0 brace=0 bracket=0 }
+1155: paren=0 brace=0 bracket=0 
+1156: paren=0 brace=0 bracket=0 

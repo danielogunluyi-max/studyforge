@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 import NavController from "~/app/_components/nav-controller";
+import SidebarGlass from "~/app/_components/sidebar-glass";
 import { Topbar } from "~/app/_components/topbar";
 
 function titleFromPath(pathname: string) {
@@ -45,13 +46,16 @@ function titleFromPath(pathname: string) {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { status } = useSession();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [navStyle, setNavStyle] = useState('minimal');
 
   const pageTitle = useMemo(() => titleFromPath(pathname ?? "/"), [pathname]);
   const isLandingPage = pathname === "/";
-  const shouldUseAppShell = status === "authenticated" && !isLandingPage;
+  // Iframes inside SplitView pass ?embed=1 — render chromeless so the inner page doesn't show its own sidebar/topbar
+  const isEmbedded = searchParams?.get("embed") === "1";
+  const shouldUseAppShell = status === "authenticated" && !isLandingPage && !isEmbedded;
 
   useEffect(() => {
     setNavStyle(localStorage.getItem('kyvex-nav-style') || 'minimal');
@@ -94,7 +98,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   // Minimal / Icons: sidebar on left
   return (
     <div className="flex h-screen overflow-hidden bg-[#0a0a0f]">
-      <NavController />
+      <SidebarGlass />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Topbar title={pageTitle} onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} />
         <main className="flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5">

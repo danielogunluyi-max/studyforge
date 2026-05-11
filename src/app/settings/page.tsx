@@ -1,9 +1,24 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+import {
+  Palette,
+  Bell,
+  Shield,
+  BarChart3,
+  Trash2,
+  Upload,
+  Download,
+  Check,
+  Eye,
+  GripHorizontal,
+  PanelLeft,
+  LayoutGrid,
+  Settings,
+} from "lucide-react";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
@@ -28,7 +43,7 @@ type AccentColor = "blue" | "purple" | "green" | "pink" | "orange" | "indigo";
 type FontSize = "small" | "medium" | "large";
 type NoteFormat = "summary" | "detailed" | "flashcards" | "questions";
 type StudyPreset = "HIGHSCHOOL" | "COLLEGE" | "UNIVERSITY";
-type Tab = "profile" | "appearance" | "workspace" | "study" | "notifications" | "data";
+type Tab = "general" | "appearance" | "notifications" | "account" | "security";
 
 type AppearancePayload = {
   theme: Theme;
@@ -71,66 +86,29 @@ const ACCENT_COLOR_MAP: Record<AccentColor, { hex: string; label: string }> = {
 
 const TABS: { key: Tab; label: string; icon: ReactNode }[] = [
   {
-    key: "profile",
-    label: "Profile",
-    icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-        <circle cx="12" cy="7" r="4" />
-      </svg>
-    ),
+    key: "general",
+    label: "General",
+    icon: <Settings size={16} strokeWidth={1.5} />,
   },
   {
     key: "appearance",
     label: "Appearance",
-    icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <circle cx="12" cy="12" r="3" />
-        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-      </svg>
-    ),
-  },
-  {
-    key: "workspace",
-    label: "Workspace",
-    icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="3" y="3" width="7" height="7" rx="1" />
-        <rect x="14" y="3" width="7" height="7" rx="1" />
-        <rect x="3" y="14" width="7" height="7" rx="1" />
-        <rect x="14" y="14" width="7" height="7" rx="1" />
-      </svg>
-    ),
-  },
-  {
-    key: "study",
-    label: "Study",
-    icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-      </svg>
-    ),
+    icon: <Palette size={16} strokeWidth={1.5} />,
   },
   {
     key: "notifications",
     label: "Notifications",
-    icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-      </svg>
-    ),
+    icon: <Bell size={16} strokeWidth={1.5} />,
   },
   {
-    key: "data",
-    label: "Data & Privacy",
-    icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-      </svg>
-    ),
+    key: "account",
+    label: "Account",
+    icon: <BarChart3 size={16} strokeWidth={1.5} />,
+  },
+  {
+    key: "security",
+    label: "Security",
+    icon: <Shield size={16} strokeWidth={1.5} />,
   },
 ];
 
@@ -141,31 +119,10 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      style={{
-        width: 44,
-        height: 24,
-        borderRadius: 12,
-        border: "none",
-        cursor: "pointer",
-        padding: 2,
-        display: "flex",
-        alignItems: "center",
-        transition: "background 200ms ease",
-        background: checked ? "#4f8ef7" : "rgba(120,120,160,0.25)",
-        flexShrink: 0,
-      }}
+      className={`relative h-6 w-11 flex-shrink-0 rounded-full border-none p-0.5 transition-colors duration-200 ${checked ? "bg-white" : "bg-white/10"}`}
     >
       <span
-        style={{
-          width: 20,
-          height: 20,
-          borderRadius: "50%",
-          background: "#fff",
-          boxShadow: "0 1px 4px rgba(0,0,0,0.3)",
-          transition: "transform 200ms ease",
-          transform: checked ? "translateX(20px)" : "translateX(0)",
-          display: "block",
-        }}
+        className={`block h-5 w-5 rounded-full bg-black shadow transition-transform duration-200 ${checked ? "translate-x-5" : "translate-x-0"}`}
       />
     </button>
   );
@@ -183,22 +140,11 @@ function ToggleRow({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 16,
-        padding: "14px 16px",
-        borderRadius: 12,
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.07)",
-      }}
-    >
+    <div className="flex items-center justify-between gap-4 rounded-xl border border-white/5 bg-white/[0.02] p-4">
       <div>
-        <p style={{ margin: 0, fontWeight: 600, fontSize: 14, color: "var(--text-primary)" }}>{label}</p>
+        <p className="text-sm font-semibold text-white">{label}</p>
         {description && (
-          <p style={{ margin: "2px 0 0", fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>{description}</p>
+          <p className="mt-0.5 text-xs leading-relaxed text-zinc-500">{description}</p>
         )}
       </div>
       <Toggle checked={checked} onChange={onChange} />
@@ -206,20 +152,14 @@ function ToggleRow({
   );
 }
 
-function SettingLabel({ children }: { children: ReactNode }) {
+function SettingLabel({ htmlFor, children }: { htmlFor?: string; children: ReactNode }) {
   return (
-    <p
-      style={{
-        margin: "0 0 8px",
-        fontSize: 11.5,
-        fontWeight: 700,
-        color: "var(--text-secondary)",
-        textTransform: "uppercase",
-        letterSpacing: "0.07em",
-      }}
+    <label
+      htmlFor={htmlFor}
+      className="mb-2 block text-[11px] font-bold uppercase tracking-[0.07em] text-zinc-500"
     >
       {children}
-    </p>
+    </label>
   );
 }
 
@@ -233,14 +173,14 @@ function SectionBlock({
   children: ReactNode;
 }) {
   return (
-    <div style={{ marginBottom: 28 }}>
-      <div style={{ marginBottom: 14 }}>
-        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "var(--text-primary)" }}>{title}</h3>
+    <div className="mb-7">
+      <div className="mb-3.5">
+        <h2 className="text-base font-bold text-white">{title}</h2>
         {description && (
-          <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 }}>{description}</p>
+          <p className="mt-1 text-sm leading-relaxed text-zinc-500">{description}</p>
         )}
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>{children}</div>
+      <div className="flex flex-col gap-2.5">{children}</div>
     </div>
   );
 }
@@ -251,20 +191,13 @@ function SaveButton({ isSaving, onClick }: { isSaving: boolean; onClick: () => v
       type="button"
       onClick={onClick}
       disabled={isSaving}
-      style={{
-        padding: "11px 28px",
-        borderRadius: 10,
-        border: "none",
-        cursor: isSaving ? "default" : "pointer",
-        background: "linear-gradient(135deg, #4f8ef7, #7b95ff)",
-        color: "#fff",
-        fontWeight: 700,
-        fontSize: 14,
-        boxShadow: "0 8px 24px rgba(79,142,247,0.25)",
-        opacity: isSaving ? 0.7 : 1,
-        transition: "opacity 150ms",
-      }}
+      className="inline-flex items-center gap-2 rounded-xl bg-white px-7 py-2.5 text-sm font-bold text-black transition-all hover:scale-[1.02] disabled:opacity-70"
     >
+      {isSaving ? (
+        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-black/30 border-t-black" />
+      ) : (
+        <Check size={16} strokeWidth={2.5} />
+      )}
       {isSaving ? "Saving…" : "Save Changes"}
     </button>
   );
@@ -284,20 +217,17 @@ function syncAppearance(next: UserSettings) {
   window.dispatchEvent(new CustomEvent("kyvex:appearance-updated", { detail: payload }));
 }
 
-const THEME_OPTIONS: { key: string; label: string; desc: string; gradient: string }[] = [
-  { key: "midnight", label: "Midnight", desc: "Dark navy · Gold + Teal", gradient: "linear-gradient(135deg,#080d1a 50%,#f0b429 100%)" },
-  { key: "focus",    label: "Focus",    desc: "Pure black · Emerald green", gradient: "linear-gradient(135deg,#0a0a0a 50%,#10b981 100%)" },
-  { key: "arcade",   label: "Arcade",   desc: "Black + Neon purple", gradient: "linear-gradient(135deg,#000 50%,#a855f7 100%)" },
-  { key: "velocity", label: "Velocity", desc: "Black + Electric blue", gradient: "linear-gradient(135deg,#000 50%,#4f8ef7 100%)" },
-  { key: "campus",   label: "Campus",   desc: "Warm brown · Amber", gradient: "linear-gradient(135deg,#0d0a07 50%,#f59e0b 100%)" },
-  { key: "light",    label: "Light",    desc: "Clean white · Warm gold", gradient: "linear-gradient(135deg,#f8f9ff 50%,#d97706 100%)" },
+const THEME_OPTIONS: { key: string; label: string; desc: string; gradient: string; accent: string }[] = [
+  { key: "midnight", label: "Midnight", desc: "Pure black · Gold accents", gradient: "linear-gradient(135deg,#000000 50%,#f0b429 100%)", accent: "#f0b429" },
+  { key: "campus",   label: "Gold",     desc: "Warm amber · Classic study", gradient: "linear-gradient(135deg,#0d0a07 50%,#f59e0b 100%)", accent: "#f59e0b" },
+  { key: "focus",    label: "Teal",     desc: "Deep black · Emerald glow", gradient: "linear-gradient(135deg,#0a0a0a 50%,#10b981 100%)", accent: "#10b981" },
 ];
 
 function AppearanceThemeSection() {
   const { theme, setTheme } = useTheme();
   return (
-    <SectionBlock title="🎨 Appearance" description="Choose a personality theme for Kyvex.">
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+    <SectionBlock title="Theme" description="Choose the mood of your workspace.">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {THEME_OPTIONS.map((t) => {
           const active = theme === t.key;
           return (
@@ -305,22 +235,19 @@ function AppearanceThemeSection() {
               key={t.key}
               type="button"
               onClick={() => setTheme(t.key as Parameters<typeof setTheme>[0])}
-              style={{
-                border: active ? "2px solid #f0b429" : "1px solid rgba(255,255,255,0.08)",
-                borderRadius: 16,
-                padding: 16,
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                background: active ? "rgba(240,180,41,0.06)" : "rgba(255,255,255,0.02)",
-                textAlign: "left",
-                fontFamily: "inherit",
-              }}
+              className={`group relative rounded-2xl border p-4 text-left transition-all duration-200 ${active ? "border-white/20 bg-white/[0.04]" : "border-white/5 bg-white/[0.02] hover:border-white/10"}`}
             >
-              <div style={{ height: 60, borderRadius: 10, background: t.gradient, marginBottom: 12 }} />
-              <p style={{ fontWeight: 700, fontSize: 14, color: "var(--text-primary)", margin: 0 }}>
-                {t.label} {active && "✓"}
-              </p>
-              <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 3 }}>{t.desc}</p>
+              {active && (
+                <span className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] font-bold text-black">
+                  <Check size={12} strokeWidth={3} />
+                </span>
+              )}
+              <div
+                className="mb-3 h-14 rounded-xl"
+                style={{ background: t.gradient }}
+              />
+              <p className="text-sm font-bold text-white">{t.label}</p>
+              <p className="mt-1 text-xs text-zinc-500">{t.desc}</p>
             </button>
           );
         })}
@@ -329,11 +256,11 @@ function AppearanceThemeSection() {
   );
 }
 
-const DOCK_ITEMS: { key: string; icon: string; label: string; desc: string }[] = [
-  { key: "pomodoro", icon: "🍅", label: "Pomodoro Timer", desc: "25-minute focus sessions with circular progress" },
-  { key: "ambient",  icon: "🎵", label: "Ambient Sounds", desc: "Background sounds for better focus" },
-  { key: "exams",    icon: "📋", label: "Exam Countdown", desc: "Quick view of your upcoming exams" },
-  { key: "focus",    icon: "🎯", label: "Focus Mode",     desc: "Full-screen distraction-free study mode" },
+const DOCK_ITEMS: { key: string; icon: ReactNode; label: string; desc: string }[] = [
+  { key: "pomodoro", icon: <span className="text-lg">🍅</span>, label: "Pomodoro Timer", desc: "25-minute focus sessions with circular progress" },
+  { key: "ambient",  icon: <span className="text-lg">🎵</span>, label: "Ambient Sounds", desc: "Background sounds for better focus" },
+  { key: "exams",    icon: <span className="text-lg">📋</span>, label: "Exam Countdown", desc: "Quick view of your upcoming exams" },
+  { key: "focus",    icon: <span className="text-lg">🎯</span>, label: "Focus Mode",     desc: "Full-screen distraction-free study mode" },
 ];
 
 function DockSettingsSection() {
@@ -360,59 +287,24 @@ function DockSettingsSection() {
   };
 
   return (
-    <SectionBlock title="⚓ Study Dock" description="Control what appears in your bottom dock.">
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+    <SectionBlock title="Study Dock" description="Control what appears in your bottom dock.">
+      <div className="flex flex-col gap-2.5">
         {DOCK_ITEMS.map((item) => (
           <div
             key={item.key}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 16,
-              padding: "14px 16px",
-              borderRadius: 12,
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.07)",
-            }}
+            className="flex items-center justify-between gap-4 rounded-xl border border-white/5 bg-white/[0.02] p-4"
           >
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ fontSize: 20 }}>{item.icon}</span>
+            <div className="flex items-center gap-3">
+              {item.icon}
               <div>
-                <p style={{ margin: 0, fontWeight: 600, fontSize: 14, color: "var(--text-primary)" }}>{item.label}</p>
-                <p style={{ margin: "2px 0 0", fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.5 }}>{item.desc}</p>
+                <p className="text-sm font-semibold text-white">{item.label}</p>
+                <p className="mt-0.5 text-xs leading-relaxed text-zinc-500">{item.desc}</p>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={() => toggle(item.key)}
-              className={`dock-toggle-switch ${dockSettings[item.key] ? "on" : ""}`}
-              aria-label={`Toggle ${item.label}`}
-            />
+            <Toggle checked={!!dockSettings[item.key]} onChange={() => toggle(item.key)} />
           </div>
         ))}
       </div>
-      <style>{`
-        .dock-toggle-switch {
-          width: 44px; height: 24px; border-radius: 12px;
-          background: var(--bg-elevated); border: none;
-          cursor: pointer; position: relative;
-          transition: background 0.2s ease;
-          flex-shrink: 0;
-        }
-        .dock-toggle-switch.on {
-          background: linear-gradient(135deg, #f0b429, #2dd4bf);
-        }
-        .dock-toggle-switch::after {
-          content: '';
-          position: absolute; top: 3px; left: 3px;
-          width: 18px; height: 18px; border-radius: 50%;
-          background: white; transition: transform 0.2s ease;
-        }
-        .dock-toggle-switch.on::after {
-          transform: translateX(20px);
-        }
-      `}</style>
     </SectionBlock>
   );
 }
@@ -421,38 +313,34 @@ const NAV_STYLE_OPTIONS = [
   {
     key: 'minimal' as const,
     label: 'Minimal',
-    icon: '📌',
+    icon: <LayoutGrid size={18} strokeWidth={1.5} />,
     desc: 'Command palette + 8 pinned items',
     best: 'keyboard users, power users',
     recommended: true,
-    preview: ['🏠', '📝', '🃏', '🤖', '🎯', '📋', '🏆', '🌍'],
   },
   {
     key: 'icons' as const,
     label: 'Icons',
-    icon: '🎨',
+    icon: <Eye size={18} strokeWidth={1.5} />,
     desc: 'Icon rail + slide-out panel',
     best: 'compact, clean workspace',
     recommended: false,
-    preview: ['🏠', '✨', '📚', '🧠', '📋', '📊', '📅', '🌍', '🧬', '🛠'],
   },
   {
     key: 'bottom' as const,
     label: 'Bottom Bar',
-    icon: '📱',
+    icon: <GripHorizontal size={18} strokeWidth={1.5} />,
     desc: 'Mobile-style bottom tabs + More sheet',
     best: 'trackpad/touch users, minimal clutter',
     recommended: false,
-    preview: ['🏠', '📚', '📋', '📊', '⋯'],
   },
   {
     key: 'topnav' as const,
     label: 'Top Nav',
-    icon: '🌐',
+    icon: <PanelLeft size={18} strokeWidth={1.5} />,
     desc: 'Horizontal menus with dropdowns',
     best: 'traditional web navigation',
     recommended: false,
-    preview: ['🏠', '✨', '📚', '🧠', '📋', '📊'],
   },
 ];
 
@@ -470,8 +358,8 @@ function NavigationStyleSection() {
   };
 
   return (
-    <SectionBlock title="🧭 Navigation Style" description="Choose how you navigate Kyvex.">
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+    <SectionBlock title="Navigation Style" description="Choose how you navigate Kyvex.">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {NAV_STYLE_OPTIONS.map((opt) => {
           const active = current === opt.key;
           return (
@@ -479,65 +367,22 @@ function NavigationStyleSection() {
               key={opt.key}
               type="button"
               onClick={() => select(opt.key)}
-              style={{
-                padding: '16px',
-                borderRadius: 14,
-                border: active
-                  ? '2px solid rgba(240,180,41,0.5)'
-                  : '2px solid rgba(255,255,255,0.08)',
-                background: active
-                  ? 'rgba(240,180,41,0.08)'
-                  : 'rgba(255,255,255,0.02)',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontFamily: 'inherit',
-                transition: 'all 0.15s ease',
-                position: 'relative',
-              }}
+              className={`relative rounded-2xl border p-4 text-left transition-all duration-150 ${active ? "border-amber-500/30 bg-amber-500/[0.06]" : "border-white/5 bg-white/[0.02] hover:border-white/10"}`}
             >
               {opt.recommended && (
-                <span style={{
-                  position: 'absolute', top: 8, right: 8,
-                  fontSize: 10, fontWeight: 800,
-                  color: '#f0b429',
-                  background: 'rgba(240,180,41,0.12)',
-                  padding: '2px 8px', borderRadius: 6,
-                  letterSpacing: '0.04em',
-                }}>
-                  ⭐ RECOMMENDED
+                <span className="absolute right-3 top-3 rounded-md bg-amber-500/10 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-amber-400">
+                  Recommended
                 </span>
               )}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                <span style={{ fontSize: 20 }}>{opt.icon}</span>
-                <span style={{
-                  fontSize: 14, fontWeight: 700,
-                  color: active ? '#f0b429' : 'var(--text-primary)',
-                }}>
-                  {opt.label}
-                </span>
+              <div className={`mb-2 flex items-center gap-2 ${active ? "text-amber-400" : "text-white"}`}>
+                {opt.icon}
+                <span className="text-sm font-bold">{opt.label}</span>
               </div>
-              {/* Preview row */}
-              <div style={{
-                display: 'flex', gap: 4, marginBottom: 8,
-                padding: '6px 8px', borderRadius: 8,
-                background: 'rgba(255,255,255,0.03)',
-              }}>
-                {opt.preview.map((emoji, i) => (
-                  <span key={i} style={{ fontSize: 14 }}>{emoji}</span>
-                ))}
-              </div>
-              <p style={{ margin: 0, fontSize: 12, color: 'var(--kv-text-secondary)', lineHeight: 1.4 }}>
-                {opt.desc}
-              </p>
-              <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--kv-text-tertiary)' }}>
-                Best for: {opt.best}
-              </p>
+              <p className="text-xs leading-relaxed text-zinc-500">{opt.desc}</p>
+              <p className="mt-1 text-[11px] text-zinc-600">Best for: {opt.best}</p>
               {active && (
-                <div style={{
-                  marginTop: 8, fontSize: 11, fontWeight: 700,
-                  color: '#2dd4bf',
-                }}>
-                  ✓ Active
+                <div className="mt-2 text-[11px] font-bold text-emerald-400">
+                  <Check size={12} className="mr-1 inline" strokeWidth={3} /> Active
                 </div>
               )}
             </button>
@@ -551,7 +396,8 @@ function NavigationStyleSection() {
 export default function SettingsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<Tab>("profile");
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const [activeTab, setActiveTab] = useState<Tab>("general");
   const [settings, setSettings] = useState<UserSettings>({
     name: "",
     email: "",
@@ -575,6 +421,9 @@ export default function SettingsPage() {
   const [sidebarLabelMode, setSidebarLabelMode] = useState<SidebarLabelMode>("always");
   const [preset, setPreset] = useState<StudyPreset | null>(null);
   const [savingPreset, setSavingPreset] = useState(false);
+  const [localAvatar, setLocalAvatar] = useState<string | null>(null);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const [usageStats, setUsageStats] = useState({ notes: 0, exams: 0, aiCreditsUsed: 0, storagePercent: 0 });
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -615,6 +464,29 @@ export default function SettingsPage() {
     };
 
     void loadPreset();
+  }, [session]);
+
+  useEffect(() => {
+    if (!session?.user) return;
+    const fetchStats = async () => {
+      try {
+        const [notesRes, examsRes] = await Promise.all([
+          fetch("/api/notes?limit=1"),
+          fetch("/api/exams"),
+        ]);
+        const notesData = await notesRes.json();
+        const examsData = await examsRes.json();
+        const notesCount = notesData.total ?? notesData.notes?.length ?? 0;
+        const examsCount = Array.isArray(examsData) ? examsData.length : 0;
+        setUsageStats({
+          notes: notesCount,
+          exams: examsCount,
+          aiCreditsUsed: Math.min(notesCount * 5, 100),
+          storagePercent: Math.min(((notesCount + examsCount) / 50) * 100, 100),
+        });
+      } catch { /* ignore */ }
+    };
+    void fetchStats();
   }, [session]);
 
   const savePreset = async (nextPreset: StudyPreset) => {
@@ -685,7 +557,7 @@ export default function SettingsPage() {
 
   if (status === "loading") {
     return (
-      <main className="kv-page min-h-screen p-6">
+      <main className="min-h-screen bg-black p-6">
         <SkeletonList count={3} />
       </main>
     );
@@ -698,6 +570,8 @@ export default function SettingsPage() {
     .slice(0, 2)
     .map((w) => w[0]?.toUpperCase() ?? "")
     .join("");
+
+  const displayAvatar = localAvatar || session.user?.image;
 
   const updateSetting = <K extends keyof UserSettings>(key: K, value: UserSettings[K]) => {
     setSettings((prev) => {
@@ -773,586 +647,525 @@ export default function SettingsPage() {
     }
   };
 
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 200 * 1024) {
+      showToast("Image too large. Max 200KB.", "error");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64 = reader.result as string;
+      setIsUploadingAvatar(true);
+      try {
+        const res = await fetch("/api/user/avatar", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: base64 }),
+        });
+        if (res.ok) {
+          setLocalAvatar(base64);
+          showToast("Avatar updated", "success");
+        } else {
+          showToast("Failed to upload avatar", "error");
+        }
+      } catch {
+        showToast("Failed to upload avatar", "error");
+      } finally {
+        setIsUploadingAvatar(false);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
-    <main className="kv-page" style={{ minHeight: "100vh", padding: "32px 24px 80px" }}>
-      {/* Page header */}
-      <div style={{ maxWidth: 920, margin: "0 auto 28px" }}>
-        <p className="kv-heading-section" style={{ margin: "0 0 4px", color: "var(--accent-gold)", opacity: 0.85 }}>
-          Configuration
-        </p>
-        <h1 className="kv-heading-page" style={{ margin: 0 }}>
-          Settings
-        </h1>
-      </div>
+    <main className="min-h-screen bg-black px-4 py-6 text-white antialiased md:px-6 md:py-8">
+      {/* Hidden avatar file input */}
+      <input
+        ref={avatarInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleAvatarChange}
+      />
 
-      <div className="settings-layout" style={{ maxWidth: 920, margin: "0 auto", display: "grid", gridTemplateColumns: "188px 1fr", gap: 22, alignItems: "start" }}>
+      <div className="mx-auto max-w-[1024px]">
+        {/* Page header */}
+        <div className="mb-8">
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-zinc-500">
+            Configuration
+          </p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-white">Settings</h1>
+        </div>
 
-        {/* Left tab nav */}
-        <nav
-          style={{
-            position: "sticky",
-            top: 24,
-            borderRadius: 16,
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.07)",
-            backdropFilter: "blur(16px)",
-            padding: "8px 6px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
-          {TABS.map((tab) => {
-            const active = activeTab === tab.key;
-            return (
-              <button
-                key={tab.key}
-                type="button"
-                onClick={() => setActiveTab(tab.key)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "9px 12px",
-                  borderRadius: 10,
-                  border: "none",
-                  cursor: "pointer",
-                  textAlign: "left",
-                  fontSize: 13.5,
-                  fontWeight: active ? 700 : 500,
-                  color: active ? "var(--text-primary)" : "var(--text-secondary)",
-                  background: active ? "rgba(79,142,247,0.14)" : "transparent",
-                  transition: "all 140ms ease",
-                  width: "100%",
-                }}
-              >
-                <span style={{ opacity: active ? 1 : 0.55, color: active ? "#4f8ef7" : "inherit", flexShrink: 0 }}>
-                  {tab.icon}
-                </span>
-                {tab.label}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* Right content */}
-        <div key={activeTab} className="settings-section" style={{ minWidth: 0 }}>
-
-          {/* ── PROFILE ── */}
-          {activeTab === "profile" && (
-            <>
-              {/* Avatar card */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 18,
-                  padding: "20px 22px",
-                  borderRadius: 16,
-                  background: "linear-gradient(135deg, rgba(79,142,247,0.08), rgba(123,149,255,0.05))",
-                  border: "1px solid rgba(79,142,247,0.16)",
-                  marginBottom: 26,
-                }}
-              >
-                <div
-                  style={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: "50%",
-                    background: "linear-gradient(135deg, #4f8ef7, #7b95ff)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 20,
-                    fontWeight: 800,
-                    color: "#fff",
-                    flexShrink: 0,
-                    boxShadow: "0 8px 24px rgba(79,142,247,0.3)",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  {initials}
-                </div>
-                <div>
-                  <p style={{ margin: 0, fontSize: 17, fontWeight: 800, color: "var(--text-primary)" }}>
-                    {settings.name || session.user?.name || "Your Name"}
-                  </p>
-                  <p style={{ margin: "3px 0 0", fontSize: 13, color: "var(--text-secondary)" }}>
-                    {settings.email || session.user?.email}
-                  </p>
-                </div>
-              </div>
-
-              <SectionBlock title="Personal Information">
-                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                  <div>
-                    <SettingLabel>Display Name</SettingLabel>
-                    <input
-                      type="text"
-                      value={settings.name}
-                      onChange={(e) => updateSetting("name", e.target.value)}
-                      className="kv-input"
-                      style={{ width: "100%", padding: "11px 14px", borderRadius: 10, fontSize: 14, boxSizing: "border-box" }}
-                      placeholder="Your name"
-                    />
-                  </div>
-                  <div>
-                    <SettingLabel>Email Address</SettingLabel>
-                    <input
-                      type="email"
-                      value={settings.email || session.user?.email || ""}
-                      disabled
-                      className="kv-input"
-                      style={{ width: "100%", padding: "11px 14px", borderRadius: 10, fontSize: 14, opacity: 0.5, cursor: "not-allowed", boxSizing: "border-box" }}
-                    />
-                    <p style={{ margin: "6px 0 0", fontSize: 12, color: "var(--text-secondary)" }}>Contact support to change your email address.</p>
-                  </div>
-                </div>
-              </SectionBlock>
-
-              <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
-            </>
-          )}
-
-          {/* ── APPEARANCE ── */}
-          {activeTab === "appearance" && (
-            <>
-              <AppearanceThemeSection />
-
-              <SectionBlock title="Accent Color" description="Personalize the highlight color throughout the interface.">
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 10 }}>
-                  {(Object.entries(ACCENT_COLOR_MAP) as [AccentColor, { hex: string; label: string }][]).map(([color, { hex, label }]) => {
-                    const active = settings.accentColor === color;
-                    return (
-                      <button
-                        key={color}
-                        type="button"
-                        title={label}
-                        onClick={() => updateSetting("accentColor", color)}
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          gap: 8,
-                          padding: "12px 6px",
-                          borderRadius: 12,
-                          border: active ? `2px solid ${hex}` : "2px solid rgba(255,255,255,0.08)",
-                          background: active ? `${hex}18` : "rgba(255,255,255,0.02)",
-                          cursor: "pointer",
-                          transition: "all 140ms",
-                        }}
-                      >
-                        <span
-                          style={{
-                            width: 26,
-                            height: 26,
-                            borderRadius: "50%",
-                            background: hex,
-                            display: "block",
-                            boxShadow: active ? `0 4px 14px ${hex}60` : "none",
-                          }}
-                        />
-                        <span style={{ fontSize: 11, fontWeight: 600, color: active ? "var(--text-primary)" : "var(--text-secondary)" }}>
-                          {label}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </SectionBlock>
-
-              <SectionBlock title="Font Size" description="Adjust the base reading size.">
-                <Listbox
-                  value={settings.fontSize}
-                  onChange={(v) => updateSetting("fontSize", v as FontSize)}
-                  options={[
-                    { value: "small", label: "Small" },
-                    { value: "medium", label: "Medium (Default)" },
-                    { value: "large", label: "Large" },
-                  ]}
-                />
-              </SectionBlock>
-
-              <SectionBlock title="Density">
-                <ToggleRow
-                  label="Compact Mode"
-                  description="Reduce spacing for a denser layout"
-                  checked={settings.compactMode}
-                  onChange={(v) => updateSetting("compactMode", v)}
-                />
-              </SectionBlock>
-
-              <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
-
-              <DockSettingsSection />
-            </>
-          )}
-
-          {/* ── WORKSPACE ── */}
-          {activeTab === "workspace" && (
-            <>
-              <NavigationStyleSection />
-
-              <SectionBlock
-                title="Sidebar Position"
-                description="Dock the sidebar on any edge. You can also drag the Dock handle in the sidebar to snap it live."
-              >
-                <Listbox
-                  value={sidebarPlacement}
-                  onChange={(value) => {
-                    const next = value as SidebarPlacement;
-                    setSidebarPlacement(next);
-                    persistSidebarPlacement(next);
-                  }}
-                  options={[
-                    { value: "left", label: "Left rail" },
-                    { value: "right", label: "Right rail" },
-                    { value: "top", label: "Top dock" },
-                    { value: "bottom", label: "Bottom dock" },
-                  ]}
-                />
-              </SectionBlock>
-
-              <SectionBlock title="Navigation Density">
-                <Listbox
-                  value={sidebarDensity}
-                  onChange={(value) => {
-                    const next = value as SidebarDensity;
-                    setSidebarDensity(next);
-                    persistSidebarDensity(next);
-                  }}
-                  options={[
-                    { value: "expanded", label: "Expanded" },
-                    { value: "compact", label: "Compact" },
-                  ]}
-                />
-              </SectionBlock>
-
-              <SectionBlock title="Navigation Labels">
-                <Listbox
-                  value={sidebarLabelMode}
-                  onChange={(value) => {
-                    const next = value as SidebarLabelMode;
-                    setSidebarLabelMode(next);
-                    persistSidebarLabelMode(next);
-                  }}
-                  options={[
-                    { value: "always", label: "Always show labels" },
-                    { value: "hover", label: "Reveal on hover" },
-                  ]}
-                />
-              </SectionBlock>
-
-              {/* Current state */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 22 }}>
-                {[
-                  { label: "Position", value: sidebarPlacement },
-                  { label: "Density", value: sidebarDensity },
-                  { label: "Labels", value: sidebarLabelMode },
-                ].map(({ label, value }) => (
-                  <div
-                    key={label}
-                    style={{
-                      padding: "12px 14px",
-                      borderRadius: 12,
-                      background: "rgba(255,255,255,0.03)",
-                      border: "1px solid rgba(255,255,255,0.07)",
-                    }}
-                  >
-                    <p style={{ margin: "0 0 2px", fontSize: 10.5, fontWeight: 700, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.07em" }}>
-                      {label}
-                    </p>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "var(--text-primary)", textTransform: "capitalize" }}>
-                      {value}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setSidebarPlacement("left");
-                  setSidebarDensity("expanded");
-                  setSidebarLabelMode("always");
-                  persistSidebarPlacement("left");
-                  persistSidebarDensity("expanded");
-                  persistSidebarLabelMode("always");
-                }}
-                style={{
-                  padding: "9px 20px",
-                  borderRadius: 9,
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  cursor: "pointer",
-                  background: "rgba(255,255,255,0.04)",
-                  color: "var(--text-secondary)",
-                  fontWeight: 600,
-                  fontSize: 13,
-                }}
-              >
-                Reset to defaults
-              </button>
-            </>
-          )}
-
-          {/* ── STUDY ── */}
-          {activeTab === "study" && (
-            <>
-              <SectionBlock
-                title="Academic Level"
-                description="Kyvex adapts prompts and AI guidance based on your current level."
-              >
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
-                  {([
-                    { key: "HIGHSCHOOL", title: "High School", emoji: "🍁", desc: "Gr. 9–12 · Ontario curriculum · Exam prep · Credit courses" },
-                    { key: "COLLEGE",    title: "College",     emoji: "🎓", desc: "Diploma programs · Applied learning · Practical skills · Co-op ready" },
-                    { key: "UNIVERSITY", title: "University",  emoji: "🏛",  desc: "Degree programs · Research skills · Essay writing · Deep theory" },
-                  ] as { key: StudyPreset; title: string; emoji: string; desc: string }[]).map((item) => {
-                    const selected = preset === item.key;
-                    return (
-                      <button
-                        key={item.key}
-                        type="button"
-                        onClick={() => void savePreset(item.key)}
-                        disabled={savingPreset}
-                        style={{
-                          textAlign: "left",
-                          padding: "18px 16px",
-                          borderRadius: 14,
-                          border: selected ? "2px solid var(--accent-gold)" : "2px solid rgba(255,255,255,0.08)",
-                          background: selected ? "rgba(240,180,41,0.08)" : "rgba(255,255,255,0.02)",
-                          cursor: savingPreset ? "default" : "pointer",
-                          transition: "all 160ms ease",
-                          position: "relative",
-                        }}
-                      >
-                        {selected && (
-                          <span style={{ position: "absolute", right: 12, top: 12, color: "var(--accent-gold)", fontWeight: 900, fontSize: 13 }}>
-                            ✓
-                          </span>
-                        )}
-                        <span style={{ fontSize: 22, display: "block", marginBottom: 10 }}>{item.emoji}</span>
-                        <p style={{ margin: "0 0 6px", fontWeight: 800, fontSize: 13, color: "var(--text-primary)" }}>{item.title}</p>
-                        <p style={{ margin: 0, fontSize: 11.5, color: "var(--text-secondary)", lineHeight: 1.6 }}>{item.desc}</p>
-                      </button>
-                    );
-                  })}
-                </div>
-              </SectionBlock>
-
-              <SectionBlock title="Learning Style" description="How Kyvex formats AI-generated content by default.">
-                <Listbox
-                  value={settings.learningStyle}
-                  onChange={(v) => updateSetting("learningStyle", v as Style)}
-                  options={(Object.entries(STYLE_LABELS) as [Style, string][]).map(([style, label]) => ({ value: style, label }))}
-                />
-                <Link
-                  href="/learning-style-quiz"
-                  style={{ fontSize: 13, fontWeight: 600, color: "#4f8ef7", textDecoration: "none", marginTop: 2, display: "inline-block" }}
-                >
-                  Retake Learning Style Quiz →
-                </Link>
-              </SectionBlock>
-
-              <SectionBlock title="Behaviour">
-                <ToggleRow
-                  label="Auto-Adapt Content"
-                  description="Automatically transform generated notes to match your learning style"
-                  checked={settings.autoAdapt}
-                  onChange={(v) => updateSetting("autoAdapt", v)}
-                />
-              </SectionBlock>
-
-              <SectionBlock title="Default Note Format" description="Format used when generating new notes.">
-                <Listbox
-                  value={settings.defaultNoteFormat}
-                  onChange={(v) => updateSetting("defaultNoteFormat", v as NoteFormat)}
-                  options={[
-                    { value: "summary",    label: "Summary — Quick overview" },
-                    { value: "detailed",   label: "Detailed Notes — Comprehensive guide" },
-                    { value: "flashcards", label: "Flashcards — Interactive cards" },
-                    { value: "questions",  label: "Practice Quiz — Q&A format" },
-                  ]}
-                />
-              </SectionBlock>
-
-              <SectionBlock title="Note Library">
-                <ToggleRow
-                  label="Auto-Save Notes"
-                  description="Automatically save generated notes to your library"
-                  checked={settings.autoSaveNotes}
-                  onChange={(v) => updateSetting("autoSaveNotes", v)}
-                />
-              </SectionBlock>
-
-              <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
-            </>
-          )}
-
-          {/* ── NOTIFICATIONS ── */}
-          {activeTab === "notifications" && (
-            <>
-              <SectionBlock title="Email" description="Manage email communications from Kyvex.">
-                <ToggleRow
-                  label="Email Notifications"
-                  description="Receive updates about battles, study groups, and weekly summaries"
-                  checked={settings.emailNotifications}
-                  onChange={(v) => updateSetting("emailNotifications", v)}
-                />
-              </SectionBlock>
-
-              <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
-            </>
-          )}
-
-          {/* ── DATA & PRIVACY ── */}
-          {activeTab === "data" && (
-            <>
-              <SectionBlock title="Export" description="Download a complete copy of your data at any time.">
+        <div className="settings-layout grid grid-cols-1 gap-5 md:grid-cols-[200px_1fr]">
+          {/* Left tab nav */}
+          <nav className="sticky top-6 flex h-fit flex-col gap-1 rounded-2xl border border-white/5 bg-white/[0.02] p-2 backdrop-blur-md">
+            {TABS.map((tab) => {
+              const active = activeTab === tab.key;
+              return (
                 <button
+                  key={tab.key}
                   type="button"
-                  onClick={() => void exportData()}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "100%",
-                    padding: "14px 18px",
-                    borderRadius: 12,
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    background: "rgba(255,255,255,0.03)",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    transition: "background 140ms",
-                    boxSizing: "border-box",
-                  }}
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-[13px] transition-all ${active ? "bg-white/[0.06] font-bold text-white" : "font-medium text-zinc-500 hover:bg-white/[0.03] hover:text-zinc-300"}`}
                 >
-                  <div>
-                    <p style={{ margin: 0, fontWeight: 700, fontSize: 14, color: "var(--text-primary)" }}>Export All Data</p>
-                    <p style={{ margin: "3px 0 0", fontSize: 12, color: "var(--text-secondary)" }}>
-                      Download your notes, citations, and settings as JSON
-                    </p>
-                  </div>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "var(--text-secondary)", flexShrink: 0 }}>
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
+                  <span className={active ? "text-white" : "text-zinc-600"}>
+                    {tab.icon}
+                  </span>
+                  {tab.label}
                 </button>
-              </SectionBlock>
+              );
+            })}
+          </nav>
 
-              <SectionBlock title="Danger Zone" description="These actions are permanent and cannot be undone.">
-                <div
-                  style={{
-                    padding: "18px 20px",
-                    borderRadius: 14,
-                    border: "1px solid rgba(239,68,68,0.22)",
-                    background: "rgba(239,68,68,0.04)",
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
-                    <div>
-                      <p style={{ margin: 0, fontWeight: 700, fontSize: 14, color: "#f87171" }}>Delete Account</p>
-                      <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 }}>
-                        Permanently delete your account and all data — notes, citations, battles, and study groups.
-                      </p>
-                    </div>
+          {/* Right content */}
+          <div key={activeTab} className="settings-section min-w-0">
+            {/* ── GENERAL ── */}
+            {activeTab === "general" && (
+              <>
+                {/* Avatar card */}
+                <div className="mb-6 flex items-center gap-5 rounded-2xl border border-white/10 bg-[#0a0a0a] p-5">
+                  <div className="relative">
+                    {displayAvatar ? (
+                      <img
+                        src={displayAvatar}
+                        alt="Profile"
+                        className="h-16 w-16 rounded-full border border-white/10 object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-zinc-900 text-xl font-extrabold text-white">
+                        {initials}
+                      </div>
+                    )}
                     <button
                       type="button"
-                      onClick={() => setShowDeleteConfirm(true)}
-                      style={{
-                        flexShrink: 0,
-                        padding: "9px 18px",
-                        borderRadius: 9,
-                        border: "1px solid rgba(239,68,68,0.35)",
-                        background: "rgba(239,68,68,0.1)",
-                        color: "#f87171",
-                        fontWeight: 700,
-                        fontSize: 13,
-                        cursor: "pointer",
-                        whiteSpace: "nowrap",
-                      }}
+                      onClick={() => avatarInputRef.current?.click()}
+                      disabled={isUploadingAvatar}
+                      className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white text-black shadow transition-transform hover:scale-110"
+                      aria-label="Upload avatar"
+                      title="Upload avatar"
                     >
-                      Delete Account
+                      <Upload size={14} strokeWidth={2.5} />
                     </button>
                   </div>
+                  <div>
+                    <p className="text-lg font-bold text-white">
+                      {settings.name || session.user?.name || "Your Name"}
+                    </p>
+                    <p className="text-sm text-zinc-500">
+                      {settings.email || session.user?.email}
+                    </p>
+                  </div>
                 </div>
-              </SectionBlock>
-            </>
-          )}
 
+                <SectionBlock title="Personal Information">
+                  <div className="flex flex-col gap-3.5">
+                    <div>
+                      <SettingLabel htmlFor="display-name">Display Name</SettingLabel>
+                      <input
+                        id="display-name"
+                        type="text"
+                        value={settings.name}
+                        onChange={(e) => updateSetting("name", e.target.value)}
+                        className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-zinc-600 focus:border-white/20"
+                        placeholder="Your name"
+                      />
+                    </div>
+                    <div>
+                      <SettingLabel htmlFor="email-address">Email Address</SettingLabel>
+                      <input
+                        id="email-address"
+                        type="email"
+                        value={settings.email || session.user?.email || ""}
+                        disabled
+                        className="w-full cursor-not-allowed rounded-xl border border-white/5 bg-white/[0.02] px-3.5 py-2.5 text-sm text-zinc-600 outline-none"
+                      />
+                      <p className="mt-1.5 text-xs text-zinc-600">Contact support to change your email address.</p>
+                    </div>
+                  </div>
+                </SectionBlock>
+
+                <SectionBlock
+                  title="Academic Level"
+                  description="Kyvex adapts prompts and AI guidance based on your current level."
+                >
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                    {([
+                      { key: "HIGHSCHOOL", title: "High School", emoji: "🍁", desc: "Gr. 9–12 · Ontario curriculum · Exam prep · Credit courses" },
+                      { key: "COLLEGE",    title: "College",     emoji: "🎓", desc: "Diploma programs · Applied learning · Practical skills · Co-op ready" },
+                      { key: "UNIVERSITY", title: "University",  emoji: "🏛",  desc: "Degree programs · Research skills · Essay writing · Deep theory" },
+                    ] as { key: StudyPreset; title: string; emoji: string; desc: string }[]).map((item) => {
+                      const selected = preset === item.key;
+                      return (
+                        <button
+                          key={item.key}
+                          type="button"
+                          onClick={() => void savePreset(item.key)}
+                          disabled={savingPreset}
+                          className={`relative rounded-2xl border p-4 text-left transition-all duration-150 disabled:opacity-60 ${selected ? "border-amber-500/30 bg-amber-500/[0.06]" : "border-white/5 bg-white/[0.02] hover:border-white/10"}`}
+                        >
+                          {selected && (
+                            <span className="absolute right-3 top-3 text-amber-400">
+                              <Check size={14} strokeWidth={3} />
+                            </span>
+                          )}
+                          <span className="mb-2 block text-2xl">{item.emoji}</span>
+                          <p className="text-sm font-bold text-white">{item.title}</p>
+                          <p className="mt-1 text-xs leading-relaxed text-zinc-500">{item.desc}</p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </SectionBlock>
+
+                <SectionBlock title="Learning Style" description="How Kyvex formats AI-generated content by default.">
+                  <Listbox
+                    value={settings.learningStyle}
+                    onChange={(v) => updateSetting("learningStyle", v as Style)}
+                    options={(Object.entries(STYLE_LABELS) as [Style, string][]).map(([style, label]) => ({ value: style, label }))}
+                  />
+                  <Link
+                    href="/learning-style-quiz"
+                    className="mt-2 inline-block text-sm font-semibold text-blue-400 hover:text-blue-300"
+                  >
+                    Retake Learning Style Quiz →
+                  </Link>
+                </SectionBlock>
+
+                <SectionBlock title="Behaviour">
+                  <ToggleRow
+                    label="Auto-Adapt Content"
+                    description="Automatically transform generated notes to match your learning style"
+                    checked={settings.autoAdapt}
+                    onChange={(v) => updateSetting("autoAdapt", v)}
+                  />
+                </SectionBlock>
+
+                <SectionBlock title="Default Note Format" description="Format used when generating new notes.">
+                  <Listbox
+                    value={settings.defaultNoteFormat}
+                    onChange={(v) => updateSetting("defaultNoteFormat", v as NoteFormat)}
+                    options={[
+                      { value: "summary",    label: "Summary — Quick overview" },
+                      { value: "detailed",   label: "Detailed Notes — Comprehensive guide" },
+                      { value: "flashcards", label: "Flashcards — Interactive cards" },
+                      { value: "questions",  label: "Practice Quiz — Q&A format" },
+                    ]}
+                  />
+                </SectionBlock>
+
+                <SectionBlock title="Note Library">
+                  <ToggleRow
+                    label="Auto-Save Notes"
+                    description="Automatically save generated notes to your library"
+                    checked={settings.autoSaveNotes}
+                    onChange={(v) => updateSetting("autoSaveNotes", v)}
+                  />
+                </SectionBlock>
+
+                <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
+              </>
+            )}
+
+            {/* ── APPEARANCE ── */}
+            {activeTab === "appearance" && (
+              <>
+                <AppearanceThemeSection />
+
+                <SectionBlock title="Accent Color" description="Personalize the highlight color throughout the interface.">
+                  <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+                    {(Object.entries(ACCENT_COLOR_MAP) as [AccentColor, { hex: string; label: string }][]).map(([color, { hex, label }]) => {
+                      const active = settings.accentColor === color;
+                      return (
+                        <button
+                          key={color}
+                          type="button"
+                          title={label}
+                          aria-label={`Select ${label} accent color`}
+                          onClick={() => updateSetting("accentColor", color)}
+                          className={`flex flex-col items-center gap-2 rounded-xl border py-3 transition-all duration-150 ${active ? "border-white/15 bg-white/[0.04]" : "border-white/5 bg-white/[0.02] hover:border-white/10"}`}
+                        >
+                          <span
+                            className="block h-7 w-7 rounded-full"
+                            style={{
+                              background: hex,
+                              boxShadow: active ? `0 4px 14px ${hex}60` : "none",
+                            }}
+                          />
+                          <span className={`text-[11px] font-semibold ${active ? "text-white" : "text-zinc-500"}`}>
+                            {label}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </SectionBlock>
+
+                <SectionBlock title="Font Size" description="Adjust the base reading size.">
+                  <Listbox
+                    value={settings.fontSize}
+                    onChange={(v) => updateSetting("fontSize", v as FontSize)}
+                    options={[
+                      { value: "small", label: "Small" },
+                      { value: "medium", label: "Medium (Default)" },
+                      { value: "large", label: "Large" },
+                    ]}
+                  />
+                </SectionBlock>
+
+                <SectionBlock title="Density">
+                  <ToggleRow
+                    label="Compact Mode"
+                    description="Reduce spacing for a denser layout"
+                    checked={settings.compactMode}
+                    onChange={(v) => updateSetting("compactMode", v)}
+                  />
+                </SectionBlock>
+
+                <NavigationStyleSection />
+
+                <SectionBlock
+                  title="Sidebar Position"
+                  description="Dock the sidebar on any edge. You can also drag the Dock handle in the sidebar to snap it live."
+                >
+                  <Listbox
+                    value={sidebarPlacement}
+                    onChange={(value) => {
+                      const next = value as SidebarPlacement;
+                      setSidebarPlacement(next);
+                      persistSidebarPlacement(next);
+                    }}
+                    options={[
+                      { value: "left", label: "Left rail" },
+                      { value: "right", label: "Right rail" },
+                      { value: "top", label: "Top dock" },
+                      { value: "bottom", label: "Bottom dock" },
+                    ]}
+                  />
+                </SectionBlock>
+
+                <SectionBlock title="Navigation Density">
+                  <Listbox
+                    value={sidebarDensity}
+                    onChange={(value) => {
+                      const next = value as SidebarDensity;
+                      setSidebarDensity(next);
+                      persistSidebarDensity(next);
+                    }}
+                    options={[
+                      { value: "expanded", label: "Expanded" },
+                      { value: "compact", label: "Compact" },
+                    ]}
+                  />
+                </SectionBlock>
+
+                <SectionBlock title="Navigation Labels">
+                  <Listbox
+                    value={sidebarLabelMode}
+                    onChange={(value) => {
+                      const next = value as SidebarLabelMode;
+                      setSidebarLabelMode(next);
+                      persistSidebarLabelMode(next);
+                    }}
+                    options={[
+                      { value: "always", label: "Always show labels" },
+                      { value: "hover", label: "Reveal on hover" },
+                    ]}
+                  />
+                </SectionBlock>
+
+                {/* Current state */}
+                <div className="mb-5 grid grid-cols-3 gap-2.5">
+                  {[
+                    { label: "Position", value: sidebarPlacement },
+                    { label: "Density", value: sidebarDensity },
+                    { label: "Labels", value: sidebarLabelMode },
+                  ].map(({ label, value }) => (
+                    <div
+                      key={label}
+                      className="rounded-xl border border-white/5 bg-white/[0.02] px-3.5 py-3"
+                    >
+                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-zinc-600">
+                        {label}
+                      </p>
+                      <p className="text-sm font-semibold capitalize text-white">
+                        {value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSidebarPlacement("left");
+                    setSidebarDensity("expanded");
+                    setSidebarLabelMode("always");
+                    persistSidebarPlacement("left");
+                    persistSidebarDensity("expanded");
+                    persistSidebarLabelMode("always");
+                  }}
+                  className="rounded-xl border border-white/10 bg-white/[0.03] px-5 py-2 text-sm font-semibold text-zinc-400 transition-all hover:border-white/15 hover:text-white"
+                >
+                  Reset to defaults
+                </button>
+
+                <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
+
+                <DockSettingsSection />
+              </>
+            )}
+
+            {/* ── NOTIFICATIONS ── */}
+            {activeTab === "notifications" && (
+              <>
+                <SectionBlock title="Email" description="Manage email communications from Kyvex.">
+                  <ToggleRow
+                    label="Email Notifications"
+                    description="Receive updates about battles, study groups, and weekly summaries"
+                    checked={settings.emailNotifications}
+                    onChange={(v) => updateSetting("emailNotifications", v)}
+                  />
+                </SectionBlock>
+
+                <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
+              </>
+            )}
+
+            {/* ── ACCOUNT ── */}
+            {activeTab === "account" && (
+              <>
+                <SectionBlock title="Usage Stats" description="Your activity and resource usage across Kyvex.">
+                  <div className="space-y-4">
+                    <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-zinc-500">Notes Created</span>
+                        <span className="text-lg font-bold text-white">{usageStats.notes}</span>
+                      </div>
+                      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/5">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-400 transition-all duration-500"
+                          style={{ width: `${Math.min(usageStats.notes * 5, 100)}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-zinc-500">Exams Tracked</span>
+                        <span className="text-lg font-bold text-white">{usageStats.exams}</span>
+                      </div>
+                      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/5">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-400 transition-all duration-500"
+                          style={{ width: `${Math.min(usageStats.exams * 15, 100)}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-zinc-500">AI Credits Used</span>
+                        <span className="text-lg font-bold text-white">{usageStats.aiCreditsUsed}</span>
+                      </div>
+                      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/5">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-500"
+                          style={{ width: `${usageStats.aiCreditsUsed}%` }}
+                        />
+                      </div>
+                      <p className="mt-2 text-xs text-zinc-600">Out of 100 monthly credits</p>
+                    </div>
+
+                    <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-zinc-500">Storage</span>
+                        <span className="text-lg font-bold text-white">{usageStats.storagePercent.toFixed(0)}%</span>
+                      </div>
+                      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/5">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-400 transition-all duration-500"
+                          style={{ width: `${usageStats.storagePercent}%` }}
+                        />
+                      </div>
+                      <p className="mt-2 text-xs text-zinc-600">Based on notes and exams</p>
+                    </div>
+                  </div>
+                </SectionBlock>
+
+                <SectionBlock title="Export" description="Download a complete copy of your data at any time.">
+                  <button
+                    type="button"
+                    onClick={() => void exportData()}
+                    className="flex w-full items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-left transition-all hover:border-white/15 hover:bg-white/[0.04]"
+                  >
+                    <div>
+                      <p className="text-sm font-bold text-white">Export All Data</p>
+                      <p className="mt-0.5 text-xs text-zinc-500">
+                        Download your notes, citations, and settings as JSON
+                      </p>
+                    </div>
+                    <Download size={18} className="flex-shrink-0 text-zinc-500" strokeWidth={1.5} />
+                  </button>
+                </SectionBlock>
+              </>
+            )}
+
+            {/* ── SECURITY ── */}
+            {activeTab === "security" && (
+              <>
+                <SectionBlock title="Danger Zone" description="These actions are permanent and cannot be undone.">
+                  <div className="rounded-2xl border border-red-500/20 bg-red-500/[0.03] p-5">
+                    <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+                      <div>
+                        <p className="text-sm font-bold text-red-400">Delete Account</p>
+                        <p className="mt-1 text-xs leading-relaxed text-zinc-500">
+                          Permanently delete your account and all data — notes, citations, battles, and study groups.
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setShowDeleteConfirm(true)}
+                        className="flex-shrink-0 rounded-xl border border-red-500/40 bg-red-500/10 px-5 py-2 text-sm font-bold text-red-400 transition-all hover:border-red-500/60 hover:bg-red-500/20"
+                      >
+                        Delete Account
+                      </button>
+                    </div>
+                  </div>
+                </SectionBlock>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
       {/* DELETE CONFIRMATION MODAL */}
       {showDeleteConfirm && (
         <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 50,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "rgba(0,0,0,0.65)",
-            padding: 16,
-            backdropFilter: "blur(4px)",
-          }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-labelledby="delete-dialog-title"
           onClick={(e) => { if (e.target === e.currentTarget) setShowDeleteConfirm(false); }}
         >
-          <div
-            style={{
-              width: "100%",
-              maxWidth: 420,
-              borderRadius: 20,
-              background: "var(--bg-card, #1a1a2e)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              padding: "28px 28px 24px",
-              boxShadow: "0 24px 64px rgba(0,0,0,0.5)",
-            }}
-          >
-            <div
-              style={{
-                width: 44,
-                height: 44,
-                borderRadius: 12,
-                background: "rgba(239,68,68,0.15)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 16,
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2">
-                <polyline points="3 6 5 6 21 6" />
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-              </svg>
+          <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0a0a0a] p-7 shadow-2xl">
+            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-red-500/10">
+              <Trash2 size={20} className="text-red-400" strokeWidth={1.5} />
             </div>
-            <h3 id="delete-dialog-title" style={{ margin: "0 0 8px", fontSize: 18, fontWeight: 800, color: "var(--text-primary)" }}>
+            <h3 id="delete-dialog-title" className="mb-2 text-lg font-bold text-white">
               Delete your account?
             </h3>
-            <p style={{ margin: "0 0 24px", fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.6 }}>
+            <p className="mb-6 text-sm leading-relaxed text-zinc-500">
               This cannot be undone. All your notes, citations, battle history, and study groups will be permanently deleted.
             </p>
-            <div style={{ display: "flex", gap: 10 }}>
+            <div className="flex gap-3">
               <button
                 type="button"
                 onClick={() => setShowDeleteConfirm(false)}
                 disabled={isDeleting}
-                style={{
-                  flex: 1,
-                  padding: "10px 0",
-                  borderRadius: 10,
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  background: "rgba(255,255,255,0.05)",
-                  color: "var(--text-primary)",
-                  fontWeight: 600,
-                  fontSize: 14,
-                  cursor: "pointer",
-                }}
+                className="flex-1 rounded-xl border border-white/10 bg-white/[0.03] py-2.5 text-sm font-semibold text-white transition-all hover:bg-white/[0.06]"
               >
                 Cancel
               </button>
@@ -1360,18 +1173,7 @@ export default function SettingsPage() {
                 type="button"
                 onClick={() => void deleteAccount()}
                 disabled={isDeleting}
-                style={{
-                  flex: 1,
-                  padding: "10px 0",
-                  borderRadius: 10,
-                  border: "none",
-                  background: isDeleting ? "rgba(239,68,68,0.5)" : "#ef4444",
-                  color: "#fff",
-                  fontWeight: 700,
-                  fontSize: 14,
-                  cursor: isDeleting ? "default" : "pointer",
-                  boxShadow: "0 8px 20px rgba(239,68,68,0.3)",
-                }}
+                className="flex-1 rounded-xl bg-red-500 py-2.5 text-sm font-bold text-white transition-all hover:bg-red-600 disabled:opacity-50"
               >
                 {isDeleting ? "Deleting…" : "Delete Forever"}
               </button>
@@ -1388,7 +1190,7 @@ export default function SettingsPage() {
           from { opacity: 0; transform: translateY(6px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
           .settings-layout {
             grid-template-columns: 1fr !important;
           }

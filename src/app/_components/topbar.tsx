@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Columns2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import CommandPalette from "./command-palette";
 import NavTopNav from "./nav-topnav";
@@ -60,6 +62,16 @@ export function Topbar({ title, onToggleSidebar }: TopbarProps) {
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.311 6.022 23.848 23.848 0 005.454 1.31m5.714 0a3 3 0 11-5.714 0" /></svg>
         </button>
+
+        <Link
+          href="/split?left=nova&right=notes&focus=1"
+          className="hidden items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-300/15 to-teal-300/15 px-3 py-1.5 text-xs font-semibold text-white/85 ring-1 ring-white/10 transition hover:from-amber-300/25 hover:to-teal-300/25 hover:text-white md:inline-flex"
+          aria-label="Enter focus mode"
+          title="Focus Mode — split view"
+        >
+          <Columns2 className="h-3.5 w-3.5" />
+          <span>Focus</span>
+        </Link>
 
         <CommandPalette />
 

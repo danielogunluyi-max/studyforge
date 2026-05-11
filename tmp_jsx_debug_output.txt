@@ -1,0 +1,283 @@
+68: opening <Exam[]>, stack now Exam
+75: opening <string[]>, stack now Exam,string
+304: opening <HTMLDivElement>, stack now Exam,string,HTMLDivElement
+309: opening <HTMLDivElement>, stack now Exam,string,HTMLDivElement,HTMLDivElement
+326: opening <main
+      className="kv-animate-in"
+      style={{
+        minHeight: '100vh',
+        background: [
+          'radial-gradient(1200px 520px at -15% -10%, rgba(45,212,191,0.12), transparent 60%)',
+          'radial-gradient(900px 440px at 115% 0%, rgba(240,180,41,0.12), transparent 60%)',
+          '#050810',
+        ].join(', '),
+        color: '#e8eaf6',
+      }}
+    >, stack now Exam,string,HTMLDivElement,HTMLDivElement,main
+338: opening <style>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,style
+352: closing </style>, matched style, stack now Exam,string,HTMLDivElement,HTMLDivElement,main
+354: opening <div style={{ maxWidth: '1280px', margin: '0 auto', marginBottom: '100px', padding: '36px 24px 80px' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div
+362: opening <div style={{
+              display: 'flex', alignItems: 'center', gap: '12px',
+              marginBottom: '24px',
+            }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,div
+366: opening <div style={{
+                width: '40px', height: '40px', borderRadius: '50%',
+                background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
+                display: 'flex', alignItems: 'center',
+                justifyContent: 'center', fontSize: '20px',
+                boxShadow: '0 0 16px rgba(240,180,41,0.4)',
+                animation: 'float 3s ease-in-out infinite',
+                flexShrink: 0,
+              }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,div,div
+376: closing </div>, matched div, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,div
+377: opening <div>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,div,div
+378: opening <p style={{ fontSize: '13px', color: '#f0b429', fontWeight: 700, margin: 0 }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,div,div,p
+380: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,div,div
+381: opening <p style={{ fontSize: '15px', color: '#e8eaf6', fontWeight: 600, margin: 0 }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,div,div,p
+383: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,div,div
+384: closing </div>, matched div, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,div
+385: closing </div>, matched div, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div
+389: opening <section style={{ marginBottom: '24px' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,section
+390: opening <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            borderRadius: '999px',
+            border: '1px solid rgba(45,212,191,0.35)',
+            background: 'rgba(45,212,191,0.1)',
+            color: '#5eead4',
+            padding: '6px 12px',
+            fontSize: '11px',
+            fontWeight: 700,
+            letterSpacing: '0.07em',
+            textTransform: 'uppercase',
+            marginBottom: '12px',
+          }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,section,div
+406: closing </div>, matched div, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,section
+408: opening <h1 className="kv-heading-page" style={{
+            fontSize: 'clamp(28px, 4.4vw, 44px)',
+            letterSpacing: '-0.04em',
+            fontFamily: '"Space Grotesk", var(--font-inter), sans-serif',
+            lineHeight: 1.03,
+            marginBottom: '10px',
+          }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,section,h1
+416: closing </h1>, matched h1, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,section
+417: opening <p style={{ fontSize: '14px', color: '#9ba7c8', marginBottom: '0', maxWidth: '760px', lineHeight: 1.55 }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,section,p
+419: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,section
+420: closing </section>, matched section, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div
+422: opening <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,div
+423: self-closing <Link
+            href="/my-notes"
+            style={{
+              textDecoration: 'none',
+              borderRadius: '12px',
+              border: '1px solid rgba(79,142,247,0.42)',
+              background: 'rgba(79,142,247,0.14)',
+              color: '#bfdbfe',
+              padding: '10px 14px',
+              fontSize: '12px',
+              fontWeight: 700,
+            }}
+          >, stack unchanged Exam,string,HTMLDivElement,HTMLDivElement,main,div,div
+437: closing </Link>, expected </div> but top was div, stack before pop Exam,string,HTMLDivElement,HTMLDivElement,main,div,div
+438: closing </div>, matched div, stack now Exam,string,HTMLDivElement,HTMLDivElement,main
+440: opening <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{
+              background: 'linear-gradient(165deg, rgba(16,24,40,0.92), rgba(10,14,26,0.86))',
+              border: '1px solid rgba(240,180,41,0.18)',
+              borderLeft: '3px solid #f0b429',
+              borderRadius: '18px',
+              padding: '22px 24px',
+              boxShadow: '0 12px 32px rgba(4,8,18,0.35)',
+              transition: 'all 0.2s ease',
+            }}
+          >, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div
+450: opening <p style={{
+              fontSize: '11px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.09em',
+              color: '#7a88af',
+              marginBottom: '10px',
+            }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,p
+459: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div
+462: opening <p style={{ fontSize: '14px', fontWeight: 700, color: '#8892b0', marginBottom: '6px' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,p
+464: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div
+465: opening <p className="count-up-number" style={{ fontSize: '32px', fontWeight: 900, letterSpacing: '-0.04em', color: '#f8fbff' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,p
+467: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div
+468: opening <p style={{ fontSize: '12px', color: '#8892b0', marginTop: '4px' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,p
+470: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div
+474: opening <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,p
+476: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div
+477: opening <p style={{ fontSize: '13px', color: '#f0b429', marginTop: '6px' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,main,div,p
+479: self-closing <Link href="/calendar" style={{ color: '#f0b429', textDecoration: 'underline', fontWeight: 600 }}>, stack unchanged Exam,string,HTMLDivElement,HTMLDivElement,main,div,p
+481: closing </Link>, expected </p> but top was p, stack before pop Exam,string,HTMLDivElement,HTMLDivElement,main,div,p
+482: closing </p>, expected </div> but top was div, stack before pop Exam,string,HTMLDivElement,HTMLDivElement,main,div
+485: closing </div>, expected </main> but top was main, stack before pop Exam,string,HTMLDivElement,HTMLDivElement,main
+487: opening <div
+            className="kv-card-hover"
+            onMouseEnter={applyCardHover}
+            onMouseLeave={clearCardHover}
+            style={{
+              background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
+              border: '1px solid rgba(45,212,191,0.25)',
+              borderLeft: '3px solid #2dd4bf',
+              borderRadius: '18px',
+              padding: '22px 24px',
+              boxShadow: '0 12px 32px rgba(4,8,18,0.3)',
+              transition: 'all 0.2s ease',
+            }}
+          >, stack now Exam,string,HTMLDivElement,HTMLDivElement,div
+501: opening <p style={{
+              fontSize: '10px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: '#3d4a6b',
+              marginBottom: '8px',
+            }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,div,p
+510: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,div
+511: opening <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,div,p
+513: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,div
+514: opening <p style={{ fontSize: '12px', color: '#8892b0' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,div,p
+514: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,div
+515: closing </div>, matched div, stack now Exam,string,HTMLDivElement,HTMLDivElement
+517: opening <div
+            className="kv-card-hover"
+            onMouseEnter={applyCardHover}
+            onMouseLeave={clearCardHover}
+            style={{
+              background: 'linear-gradient(170deg, rgba(13,20,36,0.92), rgba(18,25,46,0.85))',
+              border: '1px solid rgba(139,92,246,0.25)',
+              borderLeft: '3px solid #8b5cf6',
+              borderRadius: '18px',
+              padding: '22px 24px',
+              boxShadow: '0 12px 32px rgba(4,8,18,0.35)',
+              transition: 'all 0.2s ease',
+            }}
+          >, stack now Exam,string,HTMLDivElement,HTMLDivElement,div
+531: opening <p style={{
+              fontSize: '10px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: '#3d4a6b',
+              marginBottom: '8px',
+            }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,div,p
+540: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,div
+541: opening <p className="count-up-number" style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.03em', color: '#e8eaf6' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,div,p
+543: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,div
+544: opening <p style={{ fontSize: '12px', color: '#8892b0' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,div,p
+546: opening <span style={{ color: '#2dd4bf' }}>, stack now Exam,string,HTMLDivElement,HTMLDivElement,div,p,span
+546: closing </span>, matched span, stack now Exam,string,HTMLDivElement,HTMLDivElement,div,p
+550: closing </p>, matched p, stack now Exam,string,HTMLDivElement,HTMLDivElement,div
+551: closing </div>, matched div, stack now Exam,string,HTMLDivElement,HTMLDivElement
+552: closing </div>, expected </HTMLDivElement> but top was HTMLDivElement, stack before pop Exam,string,HTMLDivElement,HTMLDivElement
+554: opening <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>, stack now Exam,string,HTMLDivElement,div
+555: opening <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px', flexWrap: 'wrap' }}>, stack now Exam,string,HTMLDivElement,div,div
+556: opening <div>, stack now Exam,string,HTMLDivElement,div,div,div
+557: opening <p style={{
+                fontSize: '11px',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                color: '#3d4a6b',
+                marginBottom: '8px',
+              }}>, stack now Exam,string,HTMLDivElement,div,div,div,p
+566: closing </p>, matched p, stack now Exam,string,HTMLDivElement,div,div,div
+567: opening <p style={{ fontSize: '30px', fontWeight: 900, color: '#f0b429', letterSpacing: '-0.03em' }}>, stack now Exam,string,HTMLDivElement,div,div,div,p
+569: closing </p>, matched p, stack now Exam,string,HTMLDivElement,div,div,div
+570: closing </div>, matched div, stack now Exam,string,HTMLDivElement,div,div
+571: opening <div style={{ width: '320px', maxWidth: '100%' }}>, stack now Exam,string,HTMLDivElement,div,div,div
+572: opening <div style={{ height: '8px', borderRadius: '999px', background: '#12192e', overflow: 'hidden' }}>, stack now Exam,string,HTMLDivElement,div,div,div,div
+573: self-closing <div
+                  style={{
+                    height: '100%',
+                    width: `${readinessScore}%`,
+                    borderRadius: '999px',
+                    background: 'linear-gradient(90deg, #f0b429, #2dd4bf)',
+                    transition: 'width 0.3s ease',
+                    boxShadow: '0 0 8px rgba(240,180,41,0.4)',
+                  }}
+                />, stack unchanged Exam,string,HTMLDivElement,div,div,div,div
+583: closing </div>, matched div, stack now Exam,string,HTMLDivElement,div,div,div
+584: closing </div>, matched div, stack now Exam,string,HTMLDivElement,div,div
+585: closing </div>, matched div, stack now Exam,string,HTMLDivElement,div
+586: closing </div>, matched div, stack now Exam,string,HTMLDivElement
+588: opening <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '24px' }}>, stack now Exam,string,HTMLDivElement,div
+589: opening <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>, stack now Exam,string,HTMLDivElement,div,div
+590: opening <div>, stack now Exam,string,HTMLDivElement,div,div,div
+591: opening <p style={{
+                fontSize: '11px',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                color: '#3d4a6b',
+                marginBottom: '8px',
+              }}>, stack now Exam,string,HTMLDivElement,div,div,div,p
+600: closing </p>, matched p, stack now Exam,string,HTMLDivElement,div,div,div
+601: opening <p style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#e8eaf6' }}>, stack now Exam,string,HTMLDivElement,div,div,div,p
+603: closing </p>, matched p, stack now Exam,string,HTMLDivElement,div,div,div
+604: opening <p style={{ marginTop: '6px', fontSize: '13px', color: '#8892b0' }}>, stack now Exam,string,HTMLDivElement,div,div,div,p
+606: closing </p>, matched p, stack now Exam,string,HTMLDivElement,div,div,div
+607: closing </div>, matched div, stack now Exam,string,HTMLDivElement,div,div
+608: self-closing <Link
+              href="/curriculum"
+              className="kv-pulse-gold"
+              style={{
+                textDecoration: 'none',
+                background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
+                color: '#050810',
+                fontWeight: 700,
+                borderRadius: '10px',
+                padding: '10px 20px',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 4px 16px rgba(240,180,41,0.3)',
+                fontSize: '13px',
+              }}
+            >, stack unchanged Exam,string,HTMLDivElement,div,div
+625: closing </Link>, expected </div> but top was div, stack before pop Exam,string,HTMLDivElement,div,div
+626: closing </div>, matched div, stack now Exam,string,HTMLDivElement
+627: closing </div>, expected </HTMLDivElement> but top was HTMLDivElement, stack before pop Exam,string,HTMLDivElement
+629: opening <div className="kv-card-hover" onMouseEnter={applyCardHover} onMouseLeave={clearCardHover} style={{ ...baseCardStyle, marginBottom: '28px' }}>, stack now Exam,string,div
+630: opening <p style={{
+            fontSize: '11px',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            color: '#3d4a6b',
+            marginBottom: '16px',
+          }}>, stack now Exam,string,div,p
+639: closing </p>, matched p, stack now Exam,string,div
+640: opening <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>, stack now Exam,string,div,div
+641: self-closing <input
+              value={subject}
+              onChange={(event) =>, stack unchanged Exam,string,div,div
+647: self-closing <input
+              value={examDate}
+              onChange={(event) =>, stack unchanged Exam,string,div,div
+653: self-closing <input
+              value={board}
+              onChange={(event) =>, stack unchanged Exam,string,div,div
+659: opening <select
+              value={difficulty}
+              onChange={(event) =>, stack now Exam,string,div,div,select
+665: opening <option key={option} value={option}>, stack now Exam,string,div,div,select,option
+665: closing </option>, matched option, stack now Exam,string,div,div,select
+667: closing </select>, matched select, stack now Exam,string,div,div
+668: self-closing <input
+              value={topics}
+              onChange={(event) =>, stack unchanged Exam,string,div,div
+674: opening <LoadingButton
+              loading={isSaving}
+              onClick={() =>, stack now Exam,string,div,div,LoadingButton
+683: closing </LoadingButton>, matched LoadingButton, stack now Exam,string,div,div
+684: closing </div>, matched div, stack now Exam,string,div
+685: closing </div>, matched div, stack now Exam,string
+689: opening <RecordResultModal
+            exam={selectedExamForResult}
+            onClose={() =>, stack now Exam,string,RecordResultModal
+701: closing </div>, expected </RecordResultModal> but top was RecordResultModal, stack before pop Exam,string,RecordResultModal
+702: closing </main>, expected </string> but top was string, stack before pop Exam,string
+final stack length 1 68:Exam

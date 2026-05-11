@@ -13,6 +13,8 @@ type NotePayload = {
 
 type NotePatchPayload = {
   id?: string;
+  title?: string;
+  content?: string;
   isPinned?: boolean;
   markViewed?: boolean;
   isShared?: boolean;
@@ -214,6 +216,7 @@ export async function GET(request: Request) {
           title: true,
           format: true,
           createdAt: true,
+          updatedAt: true,
           content: true,
           tags: true,
           isPinned: true,
@@ -234,6 +237,7 @@ export async function GET(request: Request) {
           title: true,
           format: true,
           createdAt: true,
+          updatedAt: true,
           content: true,
           tags: true,
           isPinned: true,
@@ -336,7 +340,7 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, isPinned, markViewed, isShared, folderId, duplicate } = (await request.json()) as NotePatchPayload;
+    const { id, title, content, isPinned, markViewed, isShared, folderId, duplicate } = (await request.json()) as NotePatchPayload;
 
     if (!id) {
       return NextResponse.json({ error: "Note ID required" }, { status: 400 });
@@ -375,7 +379,13 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ note: copied });
     }
 
-    const data: { isPinned?: boolean; lastViewedAt?: Date; isShared?: boolean; folderId?: string | null } = {};
+    const data: { title?: string; content?: string; isPinned?: boolean; lastViewedAt?: Date; isShared?: boolean; folderId?: string | null } = {};
+    if (typeof title === "string" && title.trim().length > 0) {
+      data.title = title.trim();
+    }
+    if (typeof content === "string") {
+      data.content = content;
+    }
     if (typeof isPinned === "boolean") {
       data.isPinned = isPinned;
     }
