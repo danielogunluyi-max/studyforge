@@ -1,5 +1,6 @@
 import "~/styles/globals.css";
 
+import { Suspense } from "react";
 import { type Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 
@@ -80,11 +81,13 @@ export default function RootLayout({
               <KeyboardShortcuts />
               <TRPCReactProvider>
                 <ToastProvider>
-                  <AppShell>
-                    <ErrorBoundary>
-                      <div className="page-enter">{children}</div>
-                    </ErrorBoundary>
-                  </AppShell>
+                  <Suspense fallback={null}>
+                    <AppShell>
+                      <ErrorBoundary>
+                        <div className="page-enter">{children}</div>
+                      </ErrorBoundary>
+                    </AppShell>
+                  </Suspense>
                   <PresetGate />
                   <GlobalFloatingWidgets />
                   <CommandPalette showTrigger={false} />
