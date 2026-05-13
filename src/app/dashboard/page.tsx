@@ -19,7 +19,9 @@ import {
   Plus,
   Bot,
   Compass,
+  Inbox,
 } from 'lucide-react'
+import { EmptyState } from '~/app/_components/EmptyState'
 
 /* ─── Types ─────────────────────────────────────────────────── */
 
@@ -325,22 +327,13 @@ export default function DashboardPage() {
                   </Link>
                 </div>
               ) : (
-                <div className="flex flex-1 flex-col items-center justify-center py-10 text-center">
-                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-zinc-500">
-                    <FileText size={28} strokeWidth={1} />
-                  </div>
-                  <h3 className="text-lg font-bold text-white">Start your first note</h3>
-                  <p className="mt-2 max-w-xs text-sm text-zinc-500">
-                    Generate AI-powered notes, flashcards, or practice quizzes from any topic.
-                  </p>
-                  <Link
-                    href="/generator"
-                    className="mt-4 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-bold text-black transition-all hover:scale-[1.02] active:scale-95"
-                  >
-                    <Plus size={16} strokeWidth={2.5} />
-                    Create Note
-                  </Link>
-                </div>
+                <EmptyState
+                  icon={Inbox}
+                  title="Start your first note"
+                  description="Generate AI-powered notes, flashcards, or practice quizzes from any topic."
+                  buttonText="Create Note"
+                  onButtonClick={() => router.push('/generator')}
+                />
               )}
             </section>
 
