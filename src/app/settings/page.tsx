@@ -18,50 +18,49 @@ import {
   PanelLeft,
   LayoutGrid,
   Settings,
+  Sun,
+  Moon,
 } from "lucide-react";
 
-// Sun and Moon SVGs (inline, no external deps)
-const SunIcon = (
-  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="5" />
-    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-  </svg>
-);
-const MoonIcon = (
-  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-    <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/>
-  </svg>
-);
-
-function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    setIsDark(document.documentElement.getAttribute('data-theme') === 'dark');
-  }, []);
+function ThemeToggle({
+  theme,
+  onChange,
+}: {
+  theme: Theme;
+  onChange: (t: Theme) => void;
+}) {
+  const isDark = theme === "dark" || (theme === "auto" && typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   const toggleTheme = () => {
-    const next = !isDark;
-    setIsDark(next);
-    document.documentElement.setAttribute('data-theme', next ? 'dark' : 'light');
-    localStorage.setItem('theme', next ? 'dark' : 'light');
+    const next = theme === "dark" ? "light" : "dark";
+    onChange(next);
   };
 
   return (
-    <div className="flex items-center gap-4 py-4">
-      <span>{SunIcon}</span>
-      <button
-        aria-label="Toggle dark mode"
-        role="switch"
-        aria-checked={isDark}
-        onClick={toggleTheme}
-        className={`relative h-7 w-14 rounded-full transition-colors duration-200 ${isDark ? "bg-zinc-800" : "bg-zinc-200"}`}
-      >
-        <span
-          className={`absolute left-1 top-1 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${isDark ? "translate-x-7" : ""}`}
-        />
-      </button>
-      <span>{MoonIcon}</span>
+    <div className="flex items-center justify-between rounded-2xl border border-white/5 bg-white/[0.02] px-5 py-4">
+      <div className="flex flex-col gap-0.5">
+        <span className="text-sm font-semibold text-white">
+          {theme === "dark" ? "Dark Mode" : theme === "light" ? "Light Mode" : "System"}
+        </span>
+        <span className="text-xs text-zinc-500">
+          {theme === "auto" ? "Follows your OS preference" : theme === "dark" ? "Easier on the eyes at night" : "Clean white workspace"}
+        </span>
+      </div>
+      <div className="flex items-center gap-3">
+        <Sun size={18} className={theme === "light" || (theme === "auto" && !isDark) ? "text-amber-400" : "text-zinc-600"} />
+        <button
+          aria-label="Toggle dark mode"
+          role="switch"
+          aria-checked={isDark}
+          onClick={toggleTheme}
+          className={`relative h-7 w-14 rounded-full transition-colors duration-200 ${isDark ? "bg-indigo-500" : "bg-zinc-300"}`}
+        >
+          <span
+            className={`absolute left-1 top-1 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${isDark ? "translate-x-7" : ""}`}
+          />
+        </button>
+        <Moon size={18} className={isDark ? "text-indigo-300" : "text-zinc-600"} />
+      </div>
     </div>
   );
 }
@@ -919,7 +918,9 @@ export default function SettingsPage() {
 
             {activeTab === "appearance" && (
               <>
-                <ThemeToggle />
+                <SectionBlock title="Theme Mode" description="Switch between light and dark workspace.">
+                  <ThemeToggle theme={settings.theme} onChange={(t) => updateSetting("theme", t)} />
+                </SectionBlock>
                 <AppearanceThemeSection />
 
                 <SectionBlock title="Accent Color" description="Personalize the highlight color throughout the interface.">

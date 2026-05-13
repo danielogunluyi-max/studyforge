@@ -74,7 +74,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `\n(function() {\n  try {\n    var t = localStorage.getItem('theme');\n    if (t === 'dark') {\n      document.documentElement.setAttribute('data-theme', 'dark');\n    } else {\n      document.documentElement.setAttribute('data-theme', 'light');\n    }\n  } catch(e) {}\n})();\n            `,
+            __html: `(function(){try{var raw=localStorage.getItem('kyvex:appearance');var theme='light';if(raw){var parsed=JSON.parse(raw);if(parsed.theme==='dark'||(parsed.theme==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches)) theme='dark';}document.documentElement.classList.toggle('dark',theme==='dark');document.documentElement.style.colorScheme=theme;}catch(e){}})();`,
           }}
         />
       </head>
