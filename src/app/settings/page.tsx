@@ -65,7 +65,6 @@ function ThemeToggle() {
     </div>
   );
 }
-} from "lucide-react";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
