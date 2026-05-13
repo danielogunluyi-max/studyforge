@@ -71,6 +71,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `\n(function() {\n  try {\n    var t = localStorage.getItem('theme');\n    if (t === 'dark') {\n      document.documentElement.setAttribute('data-theme', 'dark');\n    } else {\n      document.documentElement.setAttribute('data-theme', 'light');\n    }\n  } catch(e) {}\n})();\n            `,
+          }}
+        />
+      </head>
       <body suppressHydrationWarning>
         <ThemeProvider>
             <SessionProvider>
