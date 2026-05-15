@@ -1,12 +1,80 @@
+type SkeletonVariant = 'card' | 'text' | 'title' | 'avatar' | 'list';
+
 interface SkeletonProps {
   className?: string;
+  variant?: SkeletonVariant;
+  count?: number;
 }
 
-export function Skeleton({ className = '' }: SkeletonProps) {
+export function Skeleton({ className = '', variant, count = 1 }: SkeletonProps) {
+  const base = 'animate-pulse rounded-md bg-gray-200 dark:bg-gray-700';
+
+  if (variant === 'list') {
+    return <SkeletonList count={count} />;
+  }
+
+  if (variant === 'text') {
+    return (
+      <div className="flex flex-col gap-2">
+        {Array.from({ length: count }).map((_, i) => (
+          <div
+            key={i}
+            className={`${base} h-3 ${i === count - 1 ? 'w-3/5' : 'w-full'} ${className}`.trim()}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  if (variant === 'title') {
+    return <div className={`${base} h-5 w-2/5 ${className}`.trim()} />;
+  }
+
+  if (variant === 'avatar') {
+    return <div className={`${base} h-10 w-10 rounded-full ${className}`.trim()} />;
+  }
+
+  if (variant === 'card' && count > 1) {
+    return (
+      <div className="flex flex-col gap-4">
+        {Array.from({ length: count }).map((_, i) => (
+          <div key={i} className={`${base} h-32 w-full ${className}`.trim()} />
+        ))}
+      </div>
+    );
+  }
+
+  return <div className={`${base} ${className}`.trim()} />;
+}
+
+export default Skeleton;
+
+export function SkeletonList({ count = 4 }: { count?: number }) {
   return (
-    <div
-      className={`animate-pulse rounded-md bg-gray-200 dark:bg-gray-700 ${className}`.trim()}
-    />
+    <div className="flex flex-col gap-3">
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="flex items-center gap-3">
+          <Skeleton className="h-10 w-10 rounded-full" />
+          <div className="flex-1">
+            <Skeleton className="mb-2 h-4 w-2/5" />
+            <Skeleton className="h-3 w-3/4" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function SkeletonCard({ lines = 3 }: { lines?: number }) {
+  return (
+    <div className="flex flex-col gap-2">
+      {Array.from({ length: lines }).map((_, i) => (
+        <Skeleton
+          key={i}
+          className={`h-3 ${i === lines - 1 ? 'w-3/5' : 'w-full'}`}
+        />
+      ))}
+    </div>
   );
 }
 
