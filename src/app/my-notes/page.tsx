@@ -7,9 +7,10 @@ import { useSession } from "next-auth/react";
 import {
   Search, Plus, Folder, Tag, Pin, Trash2, Copy, Share2, MoreHorizontal,
   X, FileText, Edit3, Bold, Italic, Heading1, Heading2, Heading3,
-  List, ListOrdered, Save, Filter, Flame,
+  List, ListOrdered, Save, Filter, Flame, BookOpen,
   Image as ImageIcon, ZoomIn,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "~/app/_components/button";
 import AudioPlayer from "~/app/_components/AudioPlayer";
 import EmptyState from "@/app/_components/empty-state";
@@ -55,6 +56,88 @@ const TAG_COLOR_CLASSES = [
   "bg-pink-500/10 text-pink-400",
   "bg-indigo-500/10 text-indigo-400",
 ];
+
+/* ─── Ontario Grade 12 Subjects ─────────────────────────────── */
+
+type Subject = {
+  code: string;
+  label: string;
+  hex: string;
+  glow: string;
+  ring: string;
+  badge: string;
+  dot: string;
+};
+
+const SUBJECTS: Subject[] = [
+  {
+    code: "SCH4U",
+    label: "Chemistry",
+    hex: "#f0b429",
+    glow: "rgba(240, 180, 41, 0.30)",
+    ring: "ring-amber-400/30 shadow-[0_0_24px_-4px_rgba(240,180,41,0.55)]",
+    badge: "bg-amber-400/10 text-amber-300 border-amber-300/20",
+    dot: "bg-amber-400",
+  },
+  {
+    code: "MCV4U",
+    label: "Calculus",
+    hex: "#60a5fa",
+    glow: "rgba(96, 165, 250, 0.30)",
+    ring: "ring-blue-400/30 shadow-[0_0_24px_-4px_rgba(96,165,250,0.55)]",
+    badge: "bg-blue-400/10 text-blue-300 border-blue-300/20",
+    dot: "bg-blue-400",
+  },
+  {
+    code: "ENG4U",
+    label: "English",
+    hex: "#a78bfa",
+    glow: "rgba(167, 139, 250, 0.30)",
+    ring: "ring-purple-400/30 shadow-[0_0_24px_-4px_rgba(167,139,250,0.55)]",
+    badge: "bg-purple-400/10 text-purple-300 border-purple-300/20",
+    dot: "bg-purple-400",
+  },
+  {
+    code: "SPH4U",
+    label: "Physics",
+    hex: "#2dd4bf",
+    glow: "rgba(45, 212, 191, 0.30)",
+    ring: "ring-teal-400/30 shadow-[0_0_24px_-4px_rgba(45,212,191,0.55)]",
+    badge: "bg-teal-400/10 text-teal-300 border-teal-300/20",
+    dot: "bg-teal-400",
+  },
+];
+
+function detectSubject(note: { tags: string[] }): Subject | null {
+  const lower = note.tags.map((t) => t.toLowerCase());
+  return (
+    SUBJECTS.find((s) => lower.includes(s.code.toLowerCase()) || lower.includes(s.label.toLowerCase())) ??
+    null
+  );
+}
+
+/* ─── Motion variants (opacity + transform only for perf) ──── */
+
+const gridContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05, delayChildren: 0.04 },
+  },
+};
+
+const cardVariants = {
+  hidden: { scale: 0.9, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: { type: "spring" as const, stiffness: 300, damping: 24 },
+  },
+  saved: {
+    scale: [1, 1.05, 1],
+    transition: { duration: 0.42, ease: "easeOut" as const },
+  },
+};
 
 function getTagColor(tag: string): string {
   const sum = tag.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
@@ -135,7 +218,6 @@ export default function MyNotes() {
   const [studyStreak, setStudyStreak] = useState(0);
   const [selectedNoteIds, setSelectedNoteIds] = useState<string[]>([]);
   const [bulkMoveFolderId, setBulkMoveFolderId] = useState("");
-  const [hoveredNoteId, setHoveredNoteId] = useState("");
   const [menuOpenNoteId, setMenuOpenNoteId] = useState("");
   const [error, setError] = useState("");
   const [exportingNoteId, setExportingNoteId] = useState("");
@@ -147,6 +229,9 @@ export default function MyNotes() {
   const [mergeSourceTag, setMergeSourceTag] = useState("");
   const [mergeTargetTag, setMergeTargetTag] = useState("");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [activeSubject, setActiveSubject] = useState<string>("");
+  const [savedNoteId, setSavedNoteId] = useState<string>("");
+  const [searchFocused, setSearchFocused] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
   const [newFolderColor, setNewFolderColor] = useState("#f0b429");
   const [newFolderOpen, setNewFolderOpen] = useState(false);
@@ -705,6 +790,8 @@ export default function MyNotes() {
       const data = (await response.json().catch(() => ({}))) as { note?: Note };
       if (data.note) {
         setNotes((prev) => prev.map((n) => (n.id === data.note!.id ? { ...n, title: data.note!.title, content: data.note!.content } : n)));
+        setSavedNoteId(data.note.id);
+        setTimeout(() => setSavedNoteId((prev) => (prev === data.note!.id ? "" : prev)), 600);
         showToast("Note saved", "success");
       }
       closeEditor();
@@ -811,10 +898,30 @@ export default function MyNotes() {
     }
   };
 
+  const displayNotes = useMemo(() => {
+    if (!activeSubject) return notes;
+    return notes.filter((n) => {
+      const lower = n.tags.map((t) => t.toLowerCase());
+      const subj = SUBJECTS.find((s) => s.code === activeSubject);
+      if (!subj) return true;
+      return lower.includes(subj.code.toLowerCase()) || lower.includes(subj.label.toLowerCase());
+    });
+  }, [notes, activeSubject]);
+
+  const subjectCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const s of SUBJECTS) counts[s.code] = 0;
+    for (const n of notes) {
+      const subj = detectSubject(n);
+      if (subj) counts[subj.code] = (counts[subj.code] ?? 0) + 1;
+    }
+    return counts;
+  }, [notes]);
+
   const resultLabel = useMemo(() => {
     if (isLoading) return "Loading...";
-    return `${notes.length} result${notes.length === 1 ? "" : "s"}`;
-  }, [isLoading, notes.length]);
+    return `${displayNotes.length} result${displayNotes.length === 1 ? "" : "s"}`;
+  }, [isLoading, displayNotes.length]);
 
   if (status === "loading") {
     return (
@@ -829,77 +936,117 @@ export default function MyNotes() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <main className="relative min-h-screen overflow-hidden bg-black text-zinc-100">
+      {/* Ambient background glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 left-1/4 h-[480px] w-[480px] rounded-full bg-amber-500/10 blur-[140px]" />
+        <div className="absolute top-1/3 right-0 h-[420px] w-[420px] rounded-full bg-teal-500/10 blur-[140px]" />
+        <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-purple-500/10 blur-[140px]" />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+        {/* Header */}
+        <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">My Notes</h1>
-            <p className="mt-1 text-base text-zinc-400">
-              All your saved study notes in one place · <span className="inline-flex items-center gap-1 text-amber-400"><Flame size={14} aria-hidden="true" /> {studyStreak} day streak</span>
+            <h1 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">My Notes</h1>
+            <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-zinc-400">
+              <span className="inline-flex items-center gap-1.5">
+                <Flame size={14} className="text-amber-400" aria-hidden="true" />
+                {studyStreak} day streak
+              </span>
+              <span className="h-1 w-1 rounded-full bg-zinc-700" />
+              <span>{notes.length} notes total</span>
+              {activeSubject && (
+                <>
+                  <span className="h-1 w-1 rounded-full bg-zinc-700" />
+                  <span>Filtering by {activeSubject}</span>
+                </>
+              )}
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button onClick={exportAllNotes} variant="secondary" size="sm" disabled={!notes.length} className="active:scale-95">
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={exportAllNotes}
+              disabled={!notes.length}
+              className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-200 backdrop-blur-xl transition-colors duration-200 hover:border-white/25 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50 will-change-transform"
+            >
               Export All
-            </Button>
-            <Button onClick={() => setTagModalOpen(true)} variant="secondary" size="sm" className="active:scale-95">
+            </button>
+            <button
+              type="button"
+              onClick={() => setTagModalOpen(true)}
+              className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-200 backdrop-blur-xl transition-colors duration-200 hover:border-white/25 hover:bg-white/10 will-change-transform"
+            >
               Manage Tags
-            </Button>
+            </button>
           </div>
-        </div>
+        </header>
 
-        <div className="mb-4 lg:hidden">
-          <Button
-            onClick={() => setShowMobileFilters((prev) => !prev)}
-            variant="secondary"
-            fullWidth
-            size="sm"
-            className="rounded-lg border-white/10 bg-white/5 py-2.5 text-sm text-zinc-300 hover:bg-white/10 active:scale-95"
+        {/* Glass Search Bar */}
+        <div className="mb-6">
+          <div
+            className={`relative flex items-center gap-3 rounded-2xl border bg-white/5 px-5 py-3 backdrop-blur-xl transition-colors duration-200 ${
+              searchFocused
+                ? "border-teal-500/50 shadow-[0_0_24px_-6px_rgba(45,212,191,0.45)]"
+                : "border-white/10"
+            }`}
           >
-            <Filter size={14} className="mr-2" aria-hidden="true" />
-            {showMobileFilters ? "Hide Filters" : "Show Filters"}
-          </Button>
-        </div>
-
-        <div className="mb-6 rounded-xl border border-white/10 bg-zinc-900/50 p-4 backdrop-blur-sm">
-          <div className="grid gap-3 md:grid-cols-4">
-            <div className="relative md:col-span-2">
-              <label htmlFor="note-search" className="sr-only">Search notes</label>
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" aria-hidden="true" />
-              <input
-                id="note-search"
-                type="text"
-                placeholder="Search title and content..."
-                value={searchInput}
-                onChange={(event) => setSearchInput(event.target.value)}
-                className="w-full rounded-lg border border-white/10 bg-black/40 py-2.5 pl-10 pr-4 text-base text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
-              />
-            </div>
-            <div className="w-full">
-              <Listbox
-                value={activePeriod}
-                onChange={(v) => setActivePeriod(v)}
-                options={[
-                  { value: "", label: "All dates" },
-                  { value: "7d", label: "Last 7 days" },
-                  { value: "month", label: "This month" },
-                ]}
-              />
-            </div>
-            <div className="w-full">
-              <Listbox
-                value={sortBy}
-                onChange={(v) => setSortBy(v)}
-                options={[
-                  { value: "newest", label: "Sort: Newest" },
-                  { value: "oldest", label: "Sort: Oldest" },
-                  { value: "a-z", label: "Sort: A-Z" },
-                ]}
-              />
+            <Search
+              size={18}
+              className={`transition-colors duration-200 ${searchFocused ? "text-teal-300" : "text-zinc-400"}`}
+              aria-hidden="true"
+            />
+            <label htmlFor="note-search" className="sr-only">Search notes</label>
+            <input
+              id="note-search"
+              type="text"
+              placeholder="Search notes by title, content, or tag…"
+              value={searchInput}
+              onChange={(event) => setSearchInput(event.target.value)}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setSearchFocused(false)}
+              className="flex-1 bg-transparent text-base text-zinc-100 placeholder-zinc-500 outline-none"
+            />
+            {searchInput && (
+              <button
+                type="button"
+                onClick={() => { setSearchInput(""); setDebouncedSearch(""); }}
+                className="rounded-lg p-1 text-zinc-400 transition-colors duration-200 hover:text-zinc-100"
+                aria-label="Clear search"
+              >
+                <X size={14} />
+              </button>
+            )}
+            <div className="hidden h-6 w-px bg-white/10 sm:block" />
+            <div className="hidden gap-2 sm:flex">
+              <div className="w-[140px]">
+                <Listbox
+                  value={activePeriod}
+                  onChange={(v) => setActivePeriod(v)}
+                  options={[
+                    { value: "", label: "All dates" },
+                    { value: "7d", label: "Last 7 days" },
+                    { value: "month", label: "This month" },
+                  ]}
+                />
+              </div>
+              <div className="w-[130px]">
+                <Listbox
+                  value={sortBy}
+                  onChange={(v) => setSortBy(v)}
+                  options={[
+                    { value: "newest", label: "Newest" },
+                    { value: "oldest", label: "Oldest" },
+                    { value: "a-z", label: "A-Z" },
+                  ]}
+                />
+              </div>
             </div>
           </div>
 
-          <div className="mt-3 flex flex-wrap gap-2">
+          {/* Format pills */}
+          <div className="mt-3 flex flex-wrap items-center gap-2">
             {[
               { value: "", label: "All" },
               { value: "summary", label: "Summary" },
@@ -907,92 +1054,130 @@ export default function MyNotes() {
               { value: "questions", label: "Quiz" },
               { value: "detailed", label: "Detailed" },
             ].map((option) => (
-              <Button
+              <button
                 key={option.label}
+                type="button"
                 onClick={() => setActiveFormat(option.value)}
-                variant={activeFormat === option.value ? "primary" : "secondary"}
-                size="sm"
-                className={`rounded-full px-3 py-1 text-xs active:scale-95 ${activeFormat === option.value ? "bg-white text-black" : "border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10"}`}
+                className={`rounded-full border px-3 py-1 text-xs font-semibold transition-colors duration-200 will-change-transform ${
+                  activeFormat === option.value
+                    ? "border-teal-300/30 bg-teal-400/10 text-teal-200"
+                    : "border-white/10 bg-white/5 text-zinc-300 hover:border-white/20 hover:bg-white/10"
+                }`}
               >
                 {option.label}
-              </Button>
+              </button>
             ))}
-          </div>
 
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <span className="text-sm text-zinc-400">{resultLabel}</span>
-            {(activeTag || activeFolder || activeFormat || activePeriod || debouncedSearch) && (
-              <Button
-                onClick={() => {
-                  setActiveTag("");
-                  setActiveFolder("");
-                  setActiveFormat("");
-                  setActivePeriod("");
-                  setSearchInput("");
-                  setDebouncedSearch("");
-                }}
-                variant="secondary"
-                size="sm"
-                className="rounded-full border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300 hover:bg-white/10 active:scale-95"
-              >
-                Clear filters
-              </Button>
-            )}
+            <div className="ml-auto flex items-center gap-3 text-xs text-zinc-400">
+              <span>{resultLabel}</span>
+              {(activeTag || activeFolder || activeFormat || activePeriod || activeSubject || debouncedSearch) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTag("");
+                    setActiveFolder("");
+                    setActiveFormat("");
+                    setActivePeriod("");
+                    setActiveSubject("");
+                    setSearchInput("");
+                    setDebouncedSearch("");
+                  }}
+                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-semibold text-zinc-300 transition-colors duration-200 hover:border-white/20 hover:bg-white/10"
+                >
+                  Clear filters
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
-        {recentlyViewed.length > 0 && (
-          <div className="mb-6 rounded-xl border border-white/10 bg-zinc-900/50 p-4 backdrop-blur-sm">
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-white">Recently Viewed</h2>
-              <span className="text-sm text-zinc-400">Last 3 notes accessed</span>
-            </div>
-            <div className="grid gap-3 md:grid-cols-3">
-              {recentlyViewed.slice(0, 3).map((note) => (
-                <button
-                  key={`recent-${note.id}`}
-                  type="button"
-                  onClick={() => void openEditor(note)}
-                  className="rounded-xl border border-white/10 bg-black/40 p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-black/60 active:scale-95"
-                >
-                  <p className="line-clamp-1 text-base font-semibold text-white">{note.title}</p>
-                  <p className="mt-1 line-clamp-2 text-sm text-zinc-400">{note.content}</p>
-                  <p className="mt-2 text-xs text-zinc-500">
-                    {note.lastViewedAt ? formatDate(note.lastViewedAt) : "Recently viewed"}
-                  </p>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Mobile filter toggle */}
+        <div className="mb-4 lg:hidden">
+          <button
+            type="button"
+            onClick={() => setShowMobileFilters((prev) => !prev)}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-zinc-200 backdrop-blur-xl transition-colors duration-200 hover:bg-white/10"
+          >
+            <Filter size={14} aria-hidden="true" />
+            {showMobileFilters ? "Hide Subject Rail" : "Show Subject Rail"}
+          </button>
+        </div>
 
         <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-          <aside className={`${showMobileFilters ? "block" : "hidden"} space-y-6 lg:block`}>
-            <Link
-              href="/generator"
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white px-4 py-3 text-sm font-semibold text-black transition-all hover:bg-zinc-100 active:scale-95"
-            >
-              <Plus size={16} aria-hidden="true" />
-              New Note
-            </Link>
+          {/* ─── Subject Rail ─────────────────────────────── */}
+          <aside className={`${showMobileFilters ? "block" : "hidden"} space-y-5 lg:block`}>
+            {/* Subjects */}
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
+              <h2 className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+                <BookOpen size={11} aria-hidden="true" /> Subjects
+              </h2>
+              <button
+                type="button"
+                onClick={() => setActiveSubject("")}
+                className={`mb-1 flex w-full items-center justify-between rounded-xl border px-3 py-2.5 text-left text-sm font-medium transition-colors duration-200 will-change-transform ${
+                  !activeSubject
+                    ? "border-white/15 bg-white/10 text-zinc-100"
+                    : "border-transparent text-zinc-400 hover:bg-white/5 hover:text-zinc-100"
+                }`}
+              >
+                <span className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-zinc-400" aria-hidden="true" />
+                  All Notes
+                </span>
+                <span className="text-xs text-zinc-500">{notes.length}</span>
+              </button>
+              <div className="space-y-1">
+                {SUBJECTS.map((subj) => {
+                  const isActive = activeSubject === subj.code;
+                  return (
+                    <button
+                      key={subj.code}
+                      type="button"
+                      onClick={() => setActiveSubject(isActive ? "" : subj.code)}
+                      className={`flex w-full items-center justify-between rounded-xl border px-3 py-2.5 text-left transition-all duration-200 will-change-transform ${
+                        isActive
+                          ? `border-white/20 bg-white/[0.07] text-zinc-100 ring-1 ${subj.ring}`
+                          : "border-transparent text-zinc-300 hover:bg-white/5 hover:text-zinc-100"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <span className={`h-2 w-2 rounded-full ${subj.dot}`} aria-hidden="true" />
+                        <span className="flex flex-col leading-tight">
+                          <span className="text-xs font-bold text-zinc-100">{subj.code}</span>
+                          <span className="text-[10px] text-zinc-500">{subj.label}</span>
+                        </span>
+                      </span>
+                      <span className="text-xs text-zinc-500">{subjectCounts[subj.code] ?? 0}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-            <div className="rounded-xl border border-white/10 bg-zinc-900/50 p-4 backdrop-blur-sm">
+            {/* Folders */}
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
               <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-base font-semibold text-white">Folders</h2>
-                <Button onClick={() => setNewFolderOpen((prev) => !prev)} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 px-2 py-1 text-xs text-zinc-300 hover:bg-white/10 active:scale-95">
-                  New Folder
-                </Button>
+                <h2 className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+                  <Folder size={11} aria-hidden="true" /> Folders
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setNewFolderOpen((prev) => !prev)}
+                  className="rounded-lg border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-semibold text-zinc-300 transition-colors duration-200 hover:border-white/20 hover:bg-white/10"
+                >
+                  + New
+                </button>
               </div>
 
               {newFolderOpen && (
-                <div className="mb-3 rounded-lg border border-white/10 bg-black/40 p-3">
+                <div className="mb-3 rounded-xl border border-white/10 bg-black/40 p-3">
                   <label htmlFor="folder-name" className="sr-only">Folder name</label>
                   <input
                     id="folder-name"
                     value={newFolderName}
                     onChange={(event) => setNewFolderName(event.target.value)}
                     placeholder="Folder name"
-                    className="mb-2 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                    className="mb-2 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 outline-none ring-teal-500/20 transition focus:border-teal-500/40 focus:ring-2"
                   />
                   <div className="mb-2 flex items-center justify-between gap-2">
                     <span className="text-xs text-zinc-400">Color</span>
@@ -1000,23 +1185,27 @@ export default function MyNotes() {
                       type="color"
                       value={newFolderColor}
                       onChange={(event) => setNewFolderColor(event.target.value)}
-                      className="h-8 w-12 cursor-pointer rounded border border-white/10 bg-transparent p-0"
+                      className="h-7 w-12 cursor-pointer rounded border border-white/10 bg-transparent p-0"
                       aria-label="Folder color"
                     />
                   </div>
-                  <Button onClick={() => void createFolder()} size="sm" className="w-full rounded-lg py-2 text-xs active:scale-95">
+                  <button
+                    type="button"
+                    onClick={() => void createFolder()}
+                    className="w-full rounded-lg bg-gradient-to-r from-teal-400 to-blue-500 py-2 text-xs font-semibold text-white transition-transform duration-200 hover:scale-[1.02] active:scale-95"
+                  >
                     Create Folder
-                  </Button>
+                  </button>
                 </div>
               )}
 
               <button
                 type="button"
                 onClick={() => setActiveFolder("")}
-                className={`mb-1 flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition ${!activeFolder ? "bg-white/10 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
+                className={`mb-1 flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm font-medium transition-colors duration-200 ${!activeFolder ? "bg-white/10 text-zinc-100" : "text-zinc-400 hover:bg-white/5 hover:text-zinc-100"}`}
               >
                 <span className="flex items-center gap-2">
-                  <Folder size={14} aria-hidden="true" />
+                  <Folder size={13} aria-hidden="true" />
                   All Folders
                 </span>
               </button>
@@ -1031,14 +1220,12 @@ export default function MyNotes() {
                     onDrop={(event) => {
                       event.preventDefault();
                       const noteId = event.dataTransfer.getData("text/note-id");
-                      if (noteId) {
-                        void moveNoteToFolder(noteId, folder.id);
-                      }
+                      if (noteId) void moveNoteToFolder(noteId, folder.id);
                     }}
-                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition ${activeFolder === folder.id ? "bg-white/10 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
+                    className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm font-medium transition-colors duration-200 ${activeFolder === folder.id ? "bg-white/10 text-zinc-100" : "text-zinc-400 hover:bg-white/5 hover:text-zinc-100"}`}
                   >
-                    <span className="flex items-center gap-2">
-                      <Folder size={14} aria-hidden="true" />
+                    <span className="flex items-center gap-2 truncate">
+                      <Folder size={13} aria-hidden="true" />
                       <span className="truncate">{folder.name}</span>
                     </span>
                     <span className="text-xs text-zinc-500">{folder.noteCount}</span>
@@ -1047,31 +1234,32 @@ export default function MyNotes() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-zinc-900/50 p-4 backdrop-blur-sm">
-              <h2 className="mb-3 text-base font-semibold text-white">Tags</h2>
+            {/* Tags */}
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
+              <h2 className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+                <Tag size={11} aria-hidden="true" /> Tags
+              </h2>
               <button
                 type="button"
                 onClick={() => setActiveTag("")}
-                className={`mb-1 flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition ${!activeTag ? "bg-white/10 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
+                className={`mb-1 flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium transition-colors duration-200 ${!activeTag ? "bg-white/10 text-zinc-100" : "text-zinc-400 hover:bg-white/5 hover:text-zinc-100"}`}
               >
-                <span className="flex items-center gap-2">
-                  <Tag size={14} aria-hidden="true" />
-                  All Notes
-                </span>
+                <Tag size={13} aria-hidden="true" />
+                All
               </button>
 
               {isTagLoading ? (
                 <Skeleton variant="text" count={4} />
               ) : tagStats.length === 0 ? (
-                <p className="text-sm text-zinc-500">No tags yet.</p>
+                <p className="text-xs text-zinc-500">No tags yet.</p>
               ) : (
                 <div className="space-y-1">
-                  {tagStats.map((tag) => (
+                  {tagStats.slice(0, 10).map((tag) => (
                     <button
                       key={tag.name}
                       type="button"
                       onClick={() => setActiveTag(tag.name)}
-                      className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition ${activeTag === tag.name ? "bg-white/10 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
+                      className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm font-medium transition-colors duration-200 ${activeTag === tag.name ? "bg-white/10 text-zinc-100" : "text-zinc-400 hover:bg-white/5 hover:text-zinc-100"}`}
                     >
                       <span className="truncate">{tag.name}</span>
                       <span className="text-xs text-zinc-500">{tag.count}</span>
@@ -1082,215 +1270,301 @@ export default function MyNotes() {
             </div>
           </aside>
 
+          {/* ─── Note Grid ────────────────────────────────── */}
           <section>
-            {selectedNoteIds.length > 0 && (
-              <div className="mb-4 rounded-xl border border-amber-500/20 bg-amber-500/5 p-3">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-sm font-medium text-amber-300">{selectedNoteIds.length} selected</span>
-                  <Button onClick={bulkDeleteSelected} variant="danger" size="sm" className="rounded-lg px-3 py-1 text-xs active:scale-95">
-                    Delete Selected
-                  </Button>
-                  <Button onClick={bulkExportSelected} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300 hover:bg-white/10 active:scale-95">
-                    Export Selected
-                  </Button>
-                  <div className="w-44">
-                    <Listbox
-                      value={bulkMoveFolderId}
-                      onChange={(v) => setBulkMoveFolderId(v)}
-                      options={[
-                        { value: "", label: "No Folder" },
-                        ...folders.map((folder) => ({ value: folder.id, label: folder.name })),
-                      ]}
-                    />
+            {/* Bulk action bar */}
+            <AnimatePresence>
+              {selectedNoteIds.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2 }}
+                  className="mb-4 rounded-2xl border border-teal-300/20 bg-teal-400/[0.06] p-3 backdrop-blur-xl will-change-transform"
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-semibold text-teal-200">{selectedNoteIds.length} selected</span>
+                    <button
+                      type="button"
+                      onClick={bulkDeleteSelected}
+                      className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs font-semibold text-red-300 transition-colors duration-200 hover:bg-red-500/20"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      type="button"
+                      onClick={bulkExportSelected}
+                      className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-zinc-300 transition-colors duration-200 hover:bg-white/10"
+                    >
+                      Export
+                    </button>
+                    <div className="w-40">
+                      <Listbox
+                        value={bulkMoveFolderId}
+                        onChange={(v) => setBulkMoveFolderId(v)}
+                        options={[
+                          { value: "", label: "No Folder" },
+                          ...folders.map((folder) => ({ value: folder.id, label: folder.name })),
+                        ]}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={bulkMoveSelected}
+                      className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-zinc-300 transition-colors duration-200 hover:bg-white/10"
+                    >
+                      Move
+                    </button>
+                    <button
+                      type="button"
+                      onClick={selectAllVisible}
+                      className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-zinc-300 transition-colors duration-200 hover:bg-white/10"
+                    >
+                      {selectedNoteIds.length === notes.length ? "Unselect All" : "Select All"}
+                    </button>
                   </div>
-                  <Button onClick={bulkMoveSelected} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300 hover:bg-white/10 active:scale-95">
-                    Move to Folder
-                  </Button>
-                  <Button onClick={selectAllVisible} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300 hover:bg-white/10 active:scale-95">
-                    {selectedNoteIds.length === notes.length ? "Unselect All" : "Select All"}
-                  </Button>
-                </div>
-              </div>
-            )}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {isLoading ? (
               <SkeletonList count={6} />
-            ) : notes.length === 0 ? (
+            ) : displayNotes.length === 0 ? (
               <EmptyState
                 icon="📝"
-                title={debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat ? "No notes found" : "No notes yet"}
+                title={debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat || activeSubject ? "No notes found" : "No notes yet"}
                 description={
-                  debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat
+                  debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat || activeSubject
                     ? "Try adjusting your search or removing filters to see more results."
                     : "Generate your first AI note from any topic"
                 }
-                action={{ label: 'Create your first note', href: '/generator' }}
+                action={{ label: "Create your first note", href: "/generator" }}
               />
             ) : (
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                {notes.map((note) => (
-                  <article
-                    key={note.id}
-                    draggable
-                    onDragStart={(event) => event.dataTransfer.setData("text/note-id", note.id)}
-                    onMouseEnter={() => setHoveredNoteId(note.id)}
-                    onMouseLeave={() => setHoveredNoteId("")}
-                    className="group relative flex flex-col rounded-xl border border-white/10 bg-zinc-900/50 p-5 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20"
-                  >
-                    <div className="mb-3 flex items-start justify-between gap-2">
-                      <div className="flex flex-1 flex-wrap items-center gap-2">
-                        <input
-                          type="checkbox"
-                          checked={selectedNoteIds.includes(note.id)}
-                          onChange={() => toggleNoteSelected(note.id)}
-                          className="h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-amber-500 focus:ring-amber-500/20"
-                          aria-label={`Select note ${note.title}`}
-                        />
-                        {note.isPinned && <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400">Pinned</span>}
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${getFormatBadgeColor(note.format)}`}>
-                          {getFormatLabel(note.format)}
-                        </span>
-                        {note.isShared && <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-400">Shared</span>}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <button
-                          type="button"
-                          onClick={() => void togglePin(note)}
-                          className={`rounded-lg p-1.5 transition ${note.isPinned ? "text-amber-400" : "text-zinc-500 hover:text-amber-400"}`}
-                          aria-label={note.isPinned ? "Unpin note" : "Pin note"}
-                          title={note.isPinned ? "Unpin note" : "Pin note"}
-                        >
-                          <Pin size={14} aria-hidden="true" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => void shareNote(note)}
-                          className="rounded-lg p-1.5 text-zinc-500 transition hover:text-emerald-400"
-                          aria-label="Share note link"
-                          title="Share note link"
-                        >
-                          <Share2 size={14} aria-hidden="true" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setMenuOpenNoteId((prev) => (prev === note.id ? "" : note.id))}
-                          className="rounded-lg p-1.5 text-zinc-500 transition hover:text-white"
-                          aria-label="More actions"
-                          title="More actions"
-                        >
-                          <MoreHorizontal size={14} aria-hidden="true" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => void deleteNote(note.id)}
-                          className="rounded-lg p-1.5 text-zinc-500 opacity-0 transition hover:text-red-400 group-hover:opacity-100"
-                          aria-label="Delete note"
-                          title="Delete note"
-                        >
-                          <Trash2 size={14} aria-hidden="true" />
-                        </button>
-                      </div>
-                    </div>
+              <motion.div
+                key={`grid-${activeSubject}-${debouncedSearch}-${activeFolder}-${activeTag}-${activeFormat}-${activePeriod}-${sortBy}`}
+                variants={gridContainerVariants}
+                initial="hidden"
+                animate="visible"
+                className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3"
+              >
+                {displayNotes.map((note) => {
+                  const subj = detectSubject(note);
+                  const spotColor = subj?.glow ?? "rgba(45, 212, 191, 0.18)";
+                  const handleCardMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+                    e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
+                  };
 
-                    <h3 className="mb-2 line-clamp-2 text-xl font-bold text-white">
-                      <HighlightText text={note.title} query={debouncedSearch} />
-                    </h3>
-
-                    <div
-                      className="mb-3 line-clamp-3 text-base leading-relaxed text-zinc-400"
-                      dangerouslySetInnerHTML={{ __html: renderMath(note.content) }}
-                    />
-
-                    <div className="mb-3">
-                      <AudioPlayer
-                        noteId={note.id}
-                        noteTitle={note.title}
-                        noteContent={note.content}
-                        compact={true}
+                  return (
+                    <motion.article
+                      key={note.id}
+                      variants={cardVariants}
+                      animate={savedNoteId === note.id ? "saved" : "visible"}
+                      whileHover={{ y: -4 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                      draggable
+                      onDragStart={(event) =>
+                        (event as unknown as React.DragEvent<HTMLElement>).dataTransfer?.setData(
+                          "text/note-id",
+                          note.id,
+                        )
+                      }
+                      onMouseMove={handleCardMouseMove}
+                      className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-colors duration-200 hover:border-white/25 will-change-transform"
+                      style={{
+                        // @ts-expect-error CSS custom property
+                        "--mx": "50%",
+                        "--my": "50%",
+                      }}
+                    >
+                      {/* Mouse-follow spotlight */}
+                      <div
+                        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        style={{
+                          background: `radial-gradient(420px circle at var(--mx) var(--my), ${spotColor}, transparent 60%)`,
+                        }}
                       />
-                    </div>
 
-                    {note.tags.length > 0 && (
-                      <div className="mb-3 flex flex-wrap gap-1.5">
-                        {note.tags.map((tag) => (
+                      {/* Top row: badges + hover actions */}
+                      <div className="relative mb-3 flex items-start justify-between gap-2">
+                        <div className="flex flex-1 flex-wrap items-center gap-1.5">
+                          <input
+                            type="checkbox"
+                            checked={selectedNoteIds.includes(note.id)}
+                            onChange={() => toggleNoteSelected(note.id)}
+                            className="h-4 w-4 rounded border-white/20 bg-white/10 text-teal-500 focus:ring-teal-500/30"
+                            aria-label={`Select note ${note.title}`}
+                          />
+                          {subj && (
+                            <span className={`rounded-md border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${subj.badge}`}>
+                              {subj.code}
+                            </span>
+                          )}
+                          {note.isPinned && (
+                            <span className="rounded-md border border-amber-300/20 bg-amber-400/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-200">
+                              Pinned
+                            </span>
+                          )}
+                          <span className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${getFormatBadgeColor(note.format)}`}>
+                            {getFormatLabel(note.format)}
+                          </span>
+                          {note.isShared && (
+                            <span className="rounded-md border border-emerald-300/20 bg-emerald-400/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-200">
+                              Shared
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Hover actions: Pin + Delete + More */}
+                        <div className="flex shrink-0 items-center gap-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                           <button
-                            key={`${note.id}-${tag}`}
                             type="button"
-                            onClick={() => setActiveTag(tag)}
-                            className={`rounded-full px-2 py-0.5 text-xs transition hover:opacity-80 ${getTagColor(tag)}`}
+                            onClick={() => void togglePin(note)}
+                            className={`rounded-lg p-1.5 backdrop-blur-md transition-colors duration-200 ${note.isPinned ? "bg-amber-500/15 text-amber-300" : "bg-white/5 text-zinc-300 hover:bg-white/10 hover:text-amber-300"}`}
+                            aria-label={note.isPinned ? "Unpin" : "Pin"}
+                            title={note.isPinned ? "Unpin note" : "Pin note"}
                           >
-                            <HighlightText text={tag} query={debouncedSearch} />
+                            <Pin size={13} aria-hidden="true" />
                           </button>
-                        ))}
+                          <button
+                            type="button"
+                            onClick={() => void deleteNote(note.id)}
+                            className="rounded-lg bg-white/5 p-1.5 text-zinc-300 backdrop-blur-md transition-colors duration-200 hover:bg-red-500/15 hover:text-red-300"
+                            aria-label="Delete"
+                            title="Delete note"
+                          >
+                            <Trash2 size={13} aria-hidden="true" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setMenuOpenNoteId((prev) => (prev === note.id ? "" : note.id))}
+                            className="rounded-lg bg-white/5 p-1.5 text-zinc-300 backdrop-blur-md transition-colors duration-200 hover:bg-white/10 hover:text-zinc-100"
+                            aria-label="More"
+                            title="More actions"
+                          >
+                            <MoreHorizontal size={13} aria-hidden="true" />
+                          </button>
+                        </div>
                       </div>
-                    )}
 
-                    <div className="mt-auto border-t border-white/5 pt-3">
-                      <p className="text-xs text-zinc-500">{formatDate(note.updatedAt ?? note.createdAt)}</p>
-                      <p className="mt-0.5 text-xs text-zinc-500">
-                        {getWordCount(note.content).toLocaleString()} words · {getReadTime(note.content)} min read
-                      </p>
-                    </div>
+                      {/* Title — high contrast */}
+                      <h3 className="relative mb-2 line-clamp-2 text-lg font-bold leading-snug text-zinc-100">
+                        <HighlightText text={note.title} query={debouncedSearch} />
+                      </h3>
 
-                    {menuOpenNoteId === note.id && (
-                      <div className="absolute right-12 top-8 z-20 rounded-lg border border-white/10 bg-zinc-900 p-2 shadow-xl">
+                      {/* Body */}
+                      <div
+                        className="relative mb-3 line-clamp-3 text-sm leading-relaxed text-zinc-400"
+                        dangerouslySetInnerHTML={{ __html: renderMath(note.content) }}
+                      />
+
+                      {/* Audio */}
+                      <div className="relative mb-3">
+                        <AudioPlayer
+                          noteId={note.id}
+                          noteTitle={note.title}
+                          noteContent={note.content}
+                          compact
+                        />
+                      </div>
+
+                      {/* Tags */}
+                      {note.tags.length > 0 && (
+                        <div className="relative mb-3 flex flex-wrap gap-1.5">
+                          {note.tags.slice(0, 4).map((tag) => (
+                            <button
+                              key={`${note.id}-${tag}`}
+                              type="button"
+                              onClick={() => setActiveTag(tag)}
+                              className={`rounded-full px-2 py-0.5 text-[10px] font-semibold transition-colors duration-200 hover:opacity-80 ${getTagColor(tag)}`}
+                            >
+                              <HighlightText text={tag} query={debouncedSearch} />
+                            </button>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Footer: last edited */}
+                      <div className="relative mt-auto flex items-center justify-between gap-2 border-t border-white/5 pt-3 text-xs text-zinc-400">
+                        <span>Last edited {formatDate(note.updatedAt ?? note.createdAt)}</span>
+                        <span className="text-zinc-500">{getReadTime(note.content)} min</span>
+                      </div>
+
+                      {/* Action row */}
+                      <div className="relative mt-3 grid grid-cols-3 gap-2">
                         <button
                           type="button"
-                          onClick={() => {
-                            void duplicateNote(note);
-                            setMenuOpenNoteId("");
-                          }}
-                          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-xs text-zinc-300 transition hover:bg-white/5 hover:text-white"
+                          onClick={() => void openEditor(note)}
+                          className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2 py-2 text-xs font-semibold text-zinc-200 transition-colors duration-200 hover:border-white/20 hover:bg-white/10"
                         >
-                          <Copy size={14} aria-hidden="true" />
-                          Duplicate
+                          <Edit3 size={12} aria-hidden="true" />
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => continueStudying(note)}
+                          className="rounded-lg border border-white/10 bg-white/5 px-2 py-2 text-xs font-semibold text-zinc-200 transition-colors duration-200 hover:border-white/20 hover:bg-white/10"
+                        >
+                          Continue
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => openFlashcardsFromNote(note.id)}
+                          className="rounded-lg border border-white/10 bg-white/5 px-2 py-2 text-xs font-semibold text-zinc-200 transition-colors duration-200 hover:border-white/20 hover:bg-white/10"
+                        >
+                          Cards
                         </button>
                       </div>
-                    )}
 
-                    <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-                      <Button
-                        onClick={() => void openEditor(note)}
-                        variant="secondary"
-                        size="sm"
-                        className="rounded-lg border-white/10 bg-white/5 py-2 text-xs text-zinc-300 hover:bg-white/10 active:scale-95"
-                      >
-                        <Edit3 size={14} className="mr-1.5" aria-hidden="true" />
-                        Edit
-                      </Button>
-                      <Button
-                        onClick={() => continueStudying(note)}
-                        variant="secondary"
-                        size="sm"
-                        className="rounded-lg border-white/10 bg-white/5 py-2 text-xs text-zinc-300 hover:bg-white/10 active:scale-95"
-                      >
-                        Continue
-                      </Button>
-                      <Button
-                        onClick={() => openFlashcardsFromNote(note.id)}
-                        variant="secondary"
-                        size="sm"
-                        className="rounded-lg border-white/10 bg-white/5 py-2 text-xs text-zinc-300 hover:bg-white/10 active:scale-95"
-                      >
-                        Flashcards
-                      </Button>
-                      <Button
-                        onClick={() => void exportNotePdf(note.id)}
-                        disabled={exportingNoteId === note.id}
-                        loading={exportingNoteId === note.id}
-                        size="sm"
-                        className="rounded-lg py-2 text-xs active:scale-95"
-                      >
-                        {exportingNoteId === note.id ? "Exporting..." : "Export PDF"}
-                      </Button>
-                    </div>
-                  </article>
-                ))}
-              </div>
+                      {/* More menu */}
+                      {menuOpenNoteId === note.id && (
+                        <div className="absolute right-3 top-12 z-20 w-40 rounded-xl border border-white/10 bg-zinc-900/95 p-1 shadow-2xl backdrop-blur-xl">
+                          <button
+                            type="button"
+                            onClick={() => { void duplicateNote(note); setMenuOpenNoteId(""); }}
+                            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs text-zinc-200 transition-colors duration-200 hover:bg-white/10"
+                          >
+                            <Copy size={12} aria-hidden="true" /> Duplicate
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => { void shareNote(note); setMenuOpenNoteId(""); }}
+                            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs text-zinc-200 transition-colors duration-200 hover:bg-white/10"
+                          >
+                            <Share2 size={12} aria-hidden="true" /> Share
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => { void exportNotePdf(note.id); setMenuOpenNoteId(""); }}
+                            disabled={exportingNoteId === note.id}
+                            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs text-zinc-200 transition-colors duration-200 hover:bg-white/10 disabled:opacity-60"
+                          >
+                            <FileText size={12} aria-hidden="true" />
+                            {exportingNoteId === note.id ? "Exporting…" : "Export PDF"}
+                          </button>
+                        </div>
+                      )}
+                    </motion.article>
+                  );
+                })}
+              </motion.div>
             )}
           </section>
         </div>
       </div>
+
+      {/* ─── Floating Action Button ──────────────────────── */}
+      <Link
+        href="/generator"
+        className="group fixed bottom-6 right-6 z-30 inline-flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-teal-400 to-blue-500 shadow-xl shadow-teal-500/40 transition-transform duration-200 hover:scale-110 active:scale-95 will-change-transform"
+        aria-label="New Note"
+        title="New Note"
+      >
+        <span className="absolute -inset-1 -z-10 rounded-full bg-gradient-to-br from-teal-400 to-blue-500 opacity-40 blur-md" aria-hidden="true" />
+        <Plus size={22} strokeWidth={2.5} className="text-white transition-transform duration-200 group-hover:rotate-90" aria-hidden="true" />
+      </Link>
 
       {editorOpen && selectedNote && (
         <div
