@@ -1,27 +1,25 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
 import { useToast } from '~/app/_components/toast'
+import { DashboardSkeleton } from '~/app/_components/skeleton'
 import {
   FileText,
   Layers,
-  BookOpen,
-  Zap,
-  Flame,
-  Clock,
-  TrendingUp,
-  ArrowRight,
-  AlertTriangle,
-  Sparkles,
-  ScanLine,
-  Plus,
   Bot,
-  Compass,
-  Inbox,
+  Camera,
+  Plus,
+  Sparkles,
+  BatteryMedium,
+  Pin,
+  PinOff,
+  Flame,
+  Brain,
+  Clock,
+  ArrowRight,
 } from 'lucide-react'
-import { EmptyState } from '~/app/_components/EmptyState'
 
 /* ─── Types ─────────────────────────────────────────────────── */
 
@@ -30,21 +28,6 @@ type NoteItem = {
   title: string
   format: string
   createdAt: string
-}
-
-type ExamItem = {
-  id: string
-  subject: string
-  examDate: string
-  board: string | null
-  daysUntil: number
-}
-
-type Recommendation = {
-  type: string
-  message: string
-  action: { label: string; href: string }
-  urgency: 'high' | 'medium' | 'low'
 }
 
 type DashboardStats = {
@@ -60,111 +43,323 @@ type DashboardStats = {
     total: number
   }
   exams: {
-    upcoming: ExamItem[]
     total: number
     thisMonth: number
   }
   readiness: number
-  recommendations: Recommendation[]
 }
 
-/* ─── Helpers ───────────────────────────────────────────────── */
+type FeatureKey = 'notes' | 'nova' | 'flashcards' | 'screenshot'
 
-function timeAgo(dateStr: string): string {
-  const diff = Date.now() - new Date(dateStr).getTime()
-  const minutes = Math.floor(diff / (1000 * 60))
-  if (minutes < 1) return 'Just now'
-  if (minutes < 60) return `${minutes}m ago`
-  const hours = Math.floor(minutes / 60)
-  if (hours < 24) return `${hours}h ago`
-  const days = Math.floor(hours / 24)
-  if (days < 7) return `${days}d ago`
-  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+type Feature = {
+  key: FeatureKey
+  label: string
+  description: string
+  href: string
+  icon: typeof FileText
+  accent: string
+  glow: string
+  iconBg: string
 }
 
-function formatLabel(type: string): string {
-  switch (type) {
-    case 'exam': return 'Exam Alert'
-    case 'review': return 'Review Needed'
-    case 'streak': return 'Streak'
-    case 'readiness': return 'Readiness'
-    default: return 'Tip'
+const FEATURES: Feature[] = [
+  {
+    key: 'notes',
+    label: 'My Notes',
+    description: 'Library, drafts, and shared decks',
+    href: '/my-notes',
+    icon: FileText,
+    accent: 'rgba(240, 180, 41, 0.35)',
+    glow: 'rgba(240, 180, 41, 0.18)',
+    iconBg: 'from-amber-400/20 to-amber-500/5 text-amber-300',
+  },
+  {
+    key: 'nova',
+    label: 'Nova AI',
+    description: 'Tutor, planner, and study coach',
+    href: '/tutor',
+    icon: Bot,
+    accent: 'rgba(45, 212, 191, 0.35)',
+    glow: 'rgba(45, 212, 191, 0.18)',
+    iconBg: 'from-teal-400/20 to-emerald-500/5 text-teal-300',
+  },
+  {
+    key: 'flashcards',
+    label: 'Flashcards',
+    description: 'Spaced repetition + active recall',
+    href: '/flashcards',
+    icon: Layers,
+    accent: 'rgba(168, 85, 247, 0.35)',
+    glow: 'rgba(168, 85, 247, 0.18)',
+    iconBg: 'from-purple-400/20 to-fuchsia-500/5 text-purple-300',
+  },
+  {
+    key: 'screenshot',
+    label: 'Screenshot Tool',
+    description: 'Capture, annotate, and convert',
+    href: '/upload',
+    icon: Camera,
+    accent: 'rgba(226, 232, 240, 0.35)',
+    glow: 'rgba(226, 232, 240, 0.18)',
+    iconBg: 'from-zinc-200/15 to-zinc-400/5 text-zinc-200',
+  },
+]
+
+const HIDDEN_KEY = 'kyvex:dashboard:hidden'
+
+/* ─── Greeting + date helpers ───────────────────────────────── */
+
+function getGreeting(): string {
+  const h = new Date().getHours()
+  if (h < 12) return 'Good Morning'
+  if (h < 18) return 'Good Afternoon'
+  return 'Good Evening'
+}
+
+function formatToday(): string {
+  return new Date().toLocaleDateString('en-CA', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  })
+}
+
+/* ─── Battery hook (graceful fallback) ──────────────────────── */
+
+type NavigatorBattery = Navigator & {
+  getBattery?: () => Promise<{
+    level: number
+    charging: boolean
+    addEventListener: (type: string, listener: () => void) => void
+    removeEventListener: (type: string, listener: () => void) => void
+  }>
+}
+
+function useBatteryLevel(): number {
+  const [level, setLevel] = useState<number>(20)
+
+  useEffect(() => {
+    const nav = navigator as NavigatorBattery
+    if (!nav.getBattery) return
+
+    let battery: Awaited<ReturnType<NonNullable<NavigatorBattery['getBattery']>>> | null = null
+    let cancelled = false
+
+    const update = () => {
+      if (battery && !cancelled) setLevel(Math.round(battery.level * 100))
+    }
+
+    void nav.getBattery().then((b) => {
+      if (cancelled) return
+      battery = b
+      update()
+      b.addEventListener('levelchange', update)
+    })
+
+    return () => {
+      cancelled = true
+      if (battery) battery.removeEventListener('levelchange', update)
+    }
+  }, [])
+
+  return level
+}
+
+/* ─── Count-up animated number ──────────────────────────────── */
+
+function CountUp({ to, duration = 1.5, suffix = '' }: { to: number; duration?: number; suffix?: string }) {
+  const count = useMotionValue(0)
+  const rounded = useTransform(count, (latest) => Math.round(latest))
+  const [display, setDisplay] = useState(0)
+
+  useEffect(() => {
+    const controls = animate(count, to, { duration, ease: [0.16, 1, 0.3, 1] })
+    const unsub = rounded.on('change', (v) => setDisplay(v))
+    return () => {
+      controls.stop()
+      unsub()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [to, duration])
+
+  return (
+    <span className="will-change-transform" style={{ fontVariantNumeric: 'tabular-nums' }}>
+      {display}
+      {suffix}
+    </span>
+  )
+}
+
+/* ─── Stat card ─────────────────────────────────────────────── */
+
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+  suffix,
+  accent,
+  caption,
+}: {
+  icon: typeof Flame
+  label: string
+  value: number
+  suffix?: string
+  accent: string
+  caption: string
+}) {
+  return (
+    <motion.div
+      variants={cardVariants}
+      className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition-colors duration-200 hover:border-white/20 will-change-transform"
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-60"
+        style={{
+          background: `radial-gradient(circle at 100% 0%, ${accent}, transparent 60%)`,
+        }}
+      />
+      <div className="relative flex items-start justify-between">
+        <span
+          className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 backdrop-blur-md"
+          style={{ color: accent.replace('0.35', '0.95') }}
+        >
+          <Icon size={20} strokeWidth={1.75} />
+        </span>
+        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-400">
+          {caption}
+        </span>
+      </div>
+      <div className="relative mt-6 flex items-baseline gap-1">
+        <span className="text-5xl font-extrabold leading-none tracking-tight text-zinc-50">
+          <CountUp to={value} suffix={suffix} />
+        </span>
+      </div>
+      <p className="relative mt-2 text-sm font-medium text-zinc-400">{label}</p>
+    </motion.div>
+  )
+}
+
+/* ─── Feature glow card ─────────────────────────────────────── */
+
+function FeatureCard({
+  feature,
+  isHidden,
+  onTogglePin,
+}: {
+  feature: Feature
+  isHidden: boolean
+  onTogglePin: (key: FeatureKey) => void
+}) {
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    e.currentTarget.style.setProperty('--mx', `${x}px`)
+    e.currentTarget.style.setProperty('--my', `${y}px`)
   }
-}
 
-function urgencyColor(u: 'high' | 'medium' | 'low'): string {
-  if (u === 'high') return 'border-red-500/20 bg-red-500/[0.04] text-red-400'
-  if (u === 'medium') return 'border-amber-500/20 bg-amber-500/[0.04] text-amber-400'
-  return 'border-emerald-500/20 bg-emerald-500/[0.04] text-emerald-400'
-}
-
-function urgencyBadge(u: 'high' | 'medium' | 'low'): string {
-  if (u === 'high') return 'bg-red-500/10 text-red-400'
-  if (u === 'medium') return 'bg-amber-500/10 text-amber-400'
-  return 'bg-emerald-500/10 text-emerald-400'
-}
-
-/* ─── Circular Progress Ring ────────────────────────────────── */
-
-function CircularRing({ value, max, label, sublabel }: { value: number; max: number; label: string; sublabel: string }) {
-  const pct = Math.min(value / max, 1)
-  const r = 42
-  const c = 2 * Math.PI * r
-  const offset = c * (1 - pct)
+  const Icon = feature.icon
 
   return (
-    <div className="relative mx-auto h-32 w-32">
-      <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r={r} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
-        <circle
-          cx="50" cy="50" r={r} fill="none"
-          stroke="url(#ringGrad)"
-          strokeWidth="6"
-          strokeLinecap="round"
-          strokeDasharray={c}
-          strokeDashoffset={offset}
-          className="transition-all duration-1000"
+    <motion.div
+      variants={cardVariants}
+      className="group relative will-change-transform"
+    >
+      <Link
+        href={feature.href}
+        onMouseMove={handleMouseMove}
+        className={`relative block overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition-colors duration-200 hover:border-white/25 ${isHidden ? 'opacity-40' : ''}`}
+        style={{
+          // @ts-expect-error CSS custom properties
+          '--mx': '50%',
+          '--my': '50%',
+        }}
+      >
+        <div
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{
+            background: `radial-gradient(420px circle at var(--mx) var(--my), ${feature.glow}, transparent 60%)`,
+          }}
         />
-        <defs>
-          <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#f0b429" />
-            <stop offset="100%" stopColor="#f97316" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-3xl font-bold text-white">{value}</span>
-        <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-600">{sublabel}</span>
-      </div>
-      <p className="mt-3 text-center text-xs font-semibold text-zinc-400">{label}</p>
-    </div>
+        <div className="relative flex items-start justify-between">
+          <span
+            className={`flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br backdrop-blur-md ${feature.iconBg}`}
+          >
+            <Icon size={22} strokeWidth={1.75} />
+          </span>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              onTogglePin(feature.key)
+            }}
+            aria-label={isHidden ? `Show ${feature.label}` : `Hide ${feature.label}`}
+            className="rounded-lg border border-white/10 bg-white/5 p-1.5 text-zinc-400 opacity-0 transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-zinc-100 group-hover:opacity-100"
+          >
+            {isHidden ? <PinOff size={14} strokeWidth={2} /> : <Pin size={14} strokeWidth={2} />}
+          </button>
+        </div>
+        <div className="relative mt-6">
+          <h3 className="text-lg font-bold text-zinc-50">{feature.label}</h3>
+          <p className="mt-1 text-sm text-zinc-400">{feature.description}</p>
+        </div>
+        <div className="relative mt-5 inline-flex items-center gap-1 text-xs font-semibold text-zinc-300 transition-colors duration-200 group-hover:text-white">
+          Open
+          <ArrowRight size={12} strokeWidth={2.5} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+        </div>
+      </Link>
+    </motion.div>
   )
 }
 
-/* ─── Stat Row ──────────────────────────────────────────────── */
+/* ─── Motion variants ───────────────────────────────────────── */
 
-function StatRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) {
-  return (
-    <div className="flex items-center justify-between border-t border-white/5 py-3">
-      <div className="flex items-center gap-2.5 text-zinc-500">
-        {icon}
-        <span className="text-xs font-medium">{label}</span>
-      </div>
-      <span className="text-sm font-bold text-white">{value}</span>
-    </div>
-  )
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.04,
+    },
+  },
 }
 
-/* ─── Main Page ───────────────────────────────────────────── */
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: 'spring' as const, stiffness: 280, damping: 26 },
+  },
+}
+
+/* ─── Main Page ─────────────────────────────────────────────── */
 
 export default function DashboardPage() {
-  const router = useRouter()
   const { showToast } = useToast()
-  const scanFileInputRef = useRef<HTMLInputElement>(null)
 
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [isScanningNotes, setIsScanningNotes] = useState(false)
+  const [hidden, setHidden] = useState<Record<FeatureKey, boolean>>({
+    notes: false,
+    nova: false,
+    flashcards: false,
+    screenshot: false,
+  })
+  const battery = useBatteryLevel()
+
+  /* Load hidden feature preferences */
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(HIDDEN_KEY)
+      if (raw) setHidden({ ...hidden, ...(JSON.parse(raw) as Record<FeatureKey, boolean>) })
+    } catch {
+      /* ignore */
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   /* Fetch consolidated stats */
   useEffect(() => {
@@ -174,7 +369,7 @@ export default function DashboardPage() {
         if (!res.ok) throw new Error('Failed to load stats')
         const data = (await res.json()) as DashboardStats
         setStats(data)
-      } catch (err) {
+      } catch {
         showToast('Failed to load dashboard stats', 'error')
       } finally {
         setIsLoading(false)
@@ -183,315 +378,194 @@ export default function DashboardPage() {
     void load()
   }, [showToast])
 
-  /* Handwritten scan (preserved from original) */
-  const openScanPicker = () => scanFileInputRef.current?.click()
-
-  const handleScanFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    event.target.value = ''
-    if (!file) return
-    if (!file.type.startsWith('image/')) {
-      showToast('Please select an image for handwritten scanning', 'error')
-      return
-    }
-    setIsScanningNotes(true)
-    try {
-      const formData = new FormData()
-      formData.append('image', file)
-      const response = await fetch('/api/scan-handwritten', { method: 'POST', body: formData })
-      const data = (await response.json().catch(() => ({}))) as {
-        text?: string
-        confidence?: number
-        error?: string
+  const togglePin = (key: FeatureKey) => {
+    setHidden((prev) => {
+      const next = { ...prev, [key]: !prev[key] }
+      try {
+        localStorage.setItem(HIDDEN_KEY, JSON.stringify(next))
+      } catch {
+        /* ignore */
       }
-      if (!response.ok) {
-        showToast(data.error ?? 'Failed to scan handwritten notes', 'error')
-        return
-      }
-      const text = String(data.text ?? '').trim()
-      if (!text) {
-        showToast('No readable handwritten text found', 'error')
-        return
-      }
-      sessionStorage.setItem('kyvex:prefillText', text)
-      sessionStorage.setItem('kyvex:prefillFormat', 'summary')
-      showToast('Handwritten notes ready in generator', 'success')
-      router.push('/generator?source=dashboard-scan')
-    } catch {
-      showToast('Failed to scan handwritten notes', 'error')
-    } finally {
-      setIsScanningNotes(false)
-    }
+      return next
+    })
   }
 
   const userName = stats?.user.name?.split(' ')[0] ?? 'Student'
+  const greeting = getGreeting()
+  const today = formatToday()
+
+  /* Derived stat values */
+  const streak = stats?.user.studyStreak ?? 0
+  const readiness = stats?.readiness ?? 0
+  const battleXp = stats?.user.battleXp ?? 0
+  const soloSessions = stats?.user.soloSessions ?? 0
+  const kyvexIQ = Math.round(100 + readiness * 1.4 + battleXp / 40 + streak * 1.5)
+  const hoursFocused = Math.round(soloSessions * 0.42)
 
   return (
-    <main className="min-h-screen bg-black px-4 py-6 text-white antialiased md:px-6 md:py-8">
-      {/* Hidden scan input */}
-      <input
-        ref={scanFileInputRef}
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={handleScanFile}
-      />
+    <main className="relative min-h-screen overflow-hidden bg-black text-zinc-100 antialiased">
+      {/* Ambient background glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 left-1/4 h-[480px] w-[480px] rounded-full bg-amber-500/10 blur-[140px]" />
+        <div className="absolute top-1/2 right-0 h-[420px] w-[420px] rounded-full bg-teal-500/10 blur-[140px]" />
+        <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-purple-500/10 blur-[140px]" />
+      </div>
 
-      <div className="mx-auto max-w-[1280px]">
-        {/* Header */}
-        <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-zinc-500">
-              Welcome back, {userName}
-            </p>
-            <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-white" style={{ fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif' }}>
-              COMMAND CENTER
-            </h1>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-zinc-400">
-              Your mission control for exams, notes, and daily study momentum.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={openScanPicker}
-              disabled={isScanningNotes}
-              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-300 transition-all hover:border-white/20 hover:bg-zinc-800 active:scale-95 disabled:opacity-60"
-            >
-              <ScanLine size={16} strokeWidth={1.5} />
-              {isScanningNotes ? 'Scanning…' : 'Scan Notes'}
-            </button>
-            <Link
-              href="/generator"
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-black transition-all hover:scale-[1.02] active:scale-95"
-            >
-              <Plus size={16} strokeWidth={2.5} />
-              New Note
-            </Link>
-          </div>
-        </div>
-
+      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
         {isLoading || !stats ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-            {[...Array(4)].map((_, i) => (
-              <div
-                key={i}
-                className={`rounded-2xl border border-white/5 bg-zinc-900/50 ${i === 0 ? 'md:col-span-2 md:row-span-2 min-h-[340px]' : i === 1 ? 'md:col-span-1 md:row-span-2 min-h-[340px]' : i === 2 ? 'md:col-span-1 min-h-[160px]' : 'md:col-span-4 min-h-[140px]'}`}
-              >
-                <div className="animate-pulse p-6">
-                  <div className="mb-4 h-3 w-24 rounded bg-white/5" />
-                  <div className="h-4 w-3/4 rounded bg-white/5" />
+          <DashboardSkeleton />
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col gap-8"
+          >
+            {/* ─── Header ─────────────────────────────────── */}
+            <motion.header
+              variants={cardVariants}
+              className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between will-change-transform"
+            >
+              <div>
+                <h1 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
+                  {greeting}, <span className="text-white">{userName}</span>
+                </h1>
+                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-zinc-400">
+                  <span>{today}</span>
+                  <span className="h-1 w-1 rounded-full bg-zinc-700" />
+                  <span>Ontario Grade 12</span>
+                  <span className="h-1 w-1 rounded-full bg-zinc-700" />
+                  <span className="inline-flex items-center gap-1.5">
+                    <BatteryMedium size={14} strokeWidth={1.75} className="text-emerald-400" />
+                    <span style={{ fontVariantNumeric: 'tabular-nums' }}>{battery}% Battery</span>
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
 
-            {/* ═══════════════════════════════════════════════════
-                CARD 1 — CURRENT FOCUS (Wide, 2 cols, 2 rows)
-            ═══════════════════════════════════════════════════ */}
-            <section className="group relative flex flex-col rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 transition-all duration-300 hover:border-white/20 md:col-span-2 md:row-span-2">
-              <div className="mb-4 flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                <h2 className="text-[11px] font-bold uppercase tracking-[0.15em] text-zinc-500">Current Focus</h2>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/generator"
+                  className="group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-zinc-100 backdrop-blur-xl transition-colors duration-200 hover:border-white/25 hover:bg-white/10 will-change-transform"
+                >
+                  <Plus size={16} strokeWidth={2.25} className="transition-transform duration-200 group-hover:rotate-90" />
+                  New Note
+                </Link>
+                <Link
+                  href="/tutor"
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 py-2.5 text-sm font-semibold text-teal-100 backdrop-blur-xl transition-colors duration-200 hover:border-teal-300/40 hover:bg-teal-400/15 will-change-transform"
+                >
+                  <span className="absolute inset-0 -z-10 animate-pulse-glow rounded-xl bg-teal-400/20" />
+                  <Sparkles size={16} strokeWidth={2.25} className="text-teal-200" />
+                  Ask Nova
+                </Link>
               </div>
+            </motion.header>
 
-              {stats.notes.recent.length > 0 ? (
-                <div className="flex flex-1 flex-col">
-                  <p className="mb-4 text-sm text-zinc-500">
-                    Your last {stats.notes.recent.length} activity
-                  </p>
-                  <div className="flex flex-1 flex-col gap-2">
-                    {stats.notes.recent.map((note) => (
-                      <div
-                        key={note.id}
-                        className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3"
-                      >
-                        <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-white/5 text-zinc-500">
-                          <FileText size={16} strokeWidth={1.5} />
-                        </span>
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-semibold text-white">{note.title}</p>
-                          <p className="text-[11px] text-zinc-600 capitalize">{note.format}</p>
-                        </div>
-                        <span className="flex-shrink-0 text-[11px] text-zinc-600">{timeAgo(note.createdAt)}</span>
-                      </div>
-                    ))}
+            {/* ─── Stats Row ──────────────────────────────── */}
+            <section>
+              <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                Today&apos;s Flex
+              </h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <StatCard
+                  icon={Flame}
+                  label="Study Streak"
+                  value={streak}
+                  suffix=" days"
+                  caption="Daily"
+                  accent="rgba(240, 180, 41, 0.35)"
+                />
+                <StatCard
+                  icon={Brain}
+                  label="Kyvex IQ Score"
+                  value={kyvexIQ}
+                  caption="Ranking"
+                  accent="rgba(45, 212, 191, 0.35)"
+                />
+                <StatCard
+                  icon={Clock}
+                  label="Hours Focused"
+                  value={hoursFocused}
+                  suffix="h"
+                  caption="This Term"
+                  accent="rgba(168, 85, 247, 0.35)"
+                />
+              </div>
+            </section>
+
+            {/* ─── Feature Grid ───────────────────────────── */}
+            <section>
+              <div className="mb-3 flex items-end justify-between">
+                <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                  Workspace
+                </h2>
+                <span className="text-xs text-zinc-600">Hover a card to pin or hide</span>
+              </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {FEATURES.map((feature) => (
+                  <FeatureCard
+                    key={feature.key}
+                    feature={feature}
+                    isHidden={hidden[feature.key]}
+                    onTogglePin={togglePin}
+                  />
+                ))}
+              </div>
+            </section>
+
+            {/* ─── Recent Activity ────────────────────────── */}
+            {stats.notes.recent.length > 0 && (
+              <motion.section
+                variants={cardVariants}
+                className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl will-change-transform"
+              >
+                <div className="mb-4 flex items-center justify-between">
+                  <div>
+                    <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                      Recent Notes
+                    </h2>
+                    <p className="mt-1 text-sm text-zinc-400">Pick up where you left off</p>
                   </div>
                   <Link
                     href="/my-notes"
-                    className="mt-4 inline-flex items-center gap-1.5 self-start text-xs font-bold text-amber-400 transition-colors hover:text-amber-300"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-300 transition-colors duration-200 hover:text-white"
                   >
-                    View all {stats.notes.total} notes <ArrowRight size={12} strokeWidth={2.5} />
+                    View all {stats.notes.total}
+                    <ArrowRight size={12} strokeWidth={2.5} />
                   </Link>
                 </div>
-              ) : (
-                <EmptyState
-                  icon={Inbox}
-                  title="Start your first note"
-                  description="Generate AI-powered notes, flashcards, or practice quizzes from any topic."
-                  buttonText="Create Note"
-                  onButtonClick={() => router.push('/generator')}
-                />
-              )}
-            </section>
-
-            {/* ═══════════════════════════════════════════════════
-                CARD 2 — STUDY STATS (Tall, 1 col, 2 rows)
-            ═══════════════════════════════════════════════════ */}
-            <section className="relative flex flex-col rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 transition-all duration-300 hover:border-white/20 md:col-span-1 md:row-span-2">
-              <div className="mb-4 flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-orange-500" />
-                <h2 className="text-[11px] font-bold uppercase tracking-[0.15em] text-zinc-500">Study Stats</h2>
-              </div>
-
-              <div className="mt-2 flex flex-col">
-                <CircularRing
-                  value={stats.user.studyStreak}
-                  max={30}
-                  label={stats.user.studyStreak > 0 ? 'Keep it up!' : 'Start today'}
-                  sublabel="Days"
-                />
-
-                <div className="mt-4">
-                  <StatRow
-                    icon={<Layers size={14} strokeWidth={1.5} />}
-                    label="Total Notes"
-                    value={stats.notes.total}
-                  />
-                  <StatRow
-                    icon={<BookOpen size={14} strokeWidth={1.5} />}
-                    label="Exams Tracked"
-                    value={stats.exams.total}
-                  />
-                  <StatRow
-                    icon={<TrendingUp size={14} strokeWidth={1.5} />}
-                    label="Readiness"
-                    value={`${stats.readiness}%`}
-                  />
-                  <StatRow
-                    icon={<Zap size={14} strokeWidth={1.5} />}
-                    label="Battle XP"
-                    value={stats.user.battleXp}
-                  />
-                  <StatRow
-                    icon={<Clock size={14} strokeWidth={1.5} />}
-                    label="Solo Sessions"
-                    value={stats.user.soloSessions}
-                  />
-                </div>
-              </div>
-            </section>
-
-            {/* ═══════════════════════════════════════════════════
-                CARD 3 — QUICK ACTIONS (Square, 1 col)
-            ═══════════════════════════════════════════════════ */}
-            <section className="relative flex flex-col rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 transition-all duration-300 hover:border-white/20 md:col-span-1">
-              <div className="mb-4 flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                <h2 className="text-[11px] font-bold uppercase tracking-[0.15em] text-zinc-500">Quick Actions</h2>
-              </div>
-
-              <div className="mt-2 grid grid-cols-2 gap-3">
-                <Link
-                  href="/generator"
-                  className="flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-center transition-all hover:border-amber-500/30 hover:bg-amber-500/[0.04] hover:shadow-[0_0_20px_-5px_rgba(240,180,41,0.15)] active:scale-95"
-                >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400">
-                    <FileText size={18} strokeWidth={1.5} />
-                  </span>
-                  <span className="text-[11px] font-bold text-white">Create Note</span>
-                </Link>
-
-                <Link
-                  href="/flashcards"
-                  className="flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-center transition-all hover:border-blue-500/30 hover:bg-blue-500/[0.04] hover:shadow-[0_0_20px_-5px_rgba(59,130,246,0.15)] active:scale-95"
-                >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400">
-                    <Layers size={18} strokeWidth={1.5} />
-                  </span>
-                  <span className="text-[11px] font-bold text-white">Flashcards</span>
-                </Link>
-
-                <Link
-                  href="/tutor"
-                  className="flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-center transition-all hover:border-emerald-500/30 hover:bg-emerald-500/[0.04] hover:shadow-[0_0_20px_-5px_rgba(16,185,129,0.15)] active:scale-95"
-                >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
-                    <Bot size={18} strokeWidth={1.5} />
-                  </span>
-                  <span className="text-[11px] font-bold text-white">Ask Nova</span>
-                </Link>
-
-                <Link
-                  href="/features"
-                  className="flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-center transition-all hover:border-purple-500/30 hover:bg-purple-500/[0.04] hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.15)] active:scale-95"
-                >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400">
-                    <Compass size={18} strokeWidth={1.5} />
-                  </span>
-                  <span className="text-[11px] font-bold text-white">Curriculum</span>
-                </Link>
-              </div>
-            </section>
-
-            {/* ═══════════════════════════════════════════════════
-                CARD 4 — STUDY RECOMMENDATIONS (Wide, 4 cols)
-            ═══════════════════════════════════════════════════ */}
-            <section className="rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 transition-all duration-300 hover:border-white/20 md:col-span-4">
-              <div className="mb-5 flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-                <h2 className="text-[11px] font-bold uppercase tracking-[0.15em] text-zinc-500">Study Recommendations</h2>
-              </div>
-
-              {stats.recommendations.length > 0 ? (
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                  {stats.recommendations.map((rec, i) => (
-                    <div
-                      key={i}
-                      className={`flex flex-col justify-between rounded-xl border p-4 ${urgencyColor(rec.urgency)}`}
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {stats.notes.recent.slice(0, 6).map((note) => (
+                    <Link
+                      key={note.id}
+                      href={`/my-notes?note=${note.id}`}
+                      className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 transition-colors duration-200 hover:border-white/15 hover:bg-white/[0.06]"
                     >
-                      <div>
-                        <div className="mb-2 flex items-center gap-2">
-                          {rec.urgency === 'high' ? (
-                            <AlertTriangle size={14} strokeWidth={2} />
-                          ) : rec.urgency === 'medium' ? (
-                            <Sparkles size={14} strokeWidth={2} />
-                          ) : (
-                            <Flame size={14} strokeWidth={2} />
-                          )}
-                          <span className={`rounded px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider ${urgencyBadge(rec.urgency)}`}>
-                            {formatLabel(rec.type)}
-                          </span>
-                        </div>
-                        <p className="text-sm font-semibold leading-snug text-white">{rec.message}</p>
+                      <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-white/5 text-zinc-300">
+                        <FileText size={15} strokeWidth={1.5} />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-semibold text-zinc-100">{note.title}</p>
+                        <p className="text-[11px] capitalize text-zinc-500">{note.format}</p>
                       </div>
-                      <Link
-                        href={rec.action.href}
-                        className="mt-3 inline-flex items-center gap-1 self-start rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-bold text-white transition-all hover:bg-white/[0.06] active:scale-95"
-                      >
-                        {rec.action.label} <ArrowRight size={12} strokeWidth={2.5} />
-                      </Link>
-                    </div>
+                    </Link>
                   ))}
                 </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center py-10 text-center">
-                  <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-zinc-500">
-                    <Sparkles size={24} strokeWidth={1} />
-                  </div>
-                  <h3 className="text-base font-bold text-white">All caught up</h3>
-                  <p className="mt-1 max-w-sm text-sm text-zinc-500">
-                    You are on track. Explore the curriculum or generate new notes to keep learning.
-                  </p>
-                </div>
-              )}
-            </section>
-
-          </div>
+              </motion.section>
+            )}
+          </motion.div>
         )}
       </div>
+
+      <style jsx>{`
+        @keyframes pulse-glow {
+          0%, 100% { opacity: 0.4; transform: scale(1); }
+          50%      { opacity: 0.7; transform: scale(1.04); }
+        }
+        :global(.animate-pulse-glow) {
+          animation: pulse-glow 2.6s ease-in-out infinite;
+        }
+      `}</style>
     </main>
   )
 }
