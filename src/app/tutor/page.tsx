@@ -16,7 +16,12 @@ import {
   Loader2,
   MessageSquare,
   Trash2,
+  Mic,
+  Paperclip,
+  Compass,
+  Target,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "~/app/_components/toast";
 import { renderMath } from "@/lib/mathRenderer";
 
@@ -177,10 +182,20 @@ export default function TutorPage() {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [conversations, setConversations] = useState<ConversationSummary[]>([]);
   const [loadingConversation, setLoadingConversation] = useState(false);
+  // AI Lab redesign state
+  const [teachingStyle, setTeachingStyle] = useState<"direct" | "socratic">("direct");
+  const [inputFocused, setInputFocused] = useState(false);
+  const [showScanLine, setShowScanLine] = useState(true);
+  const [flyingMessage, setFlyingMessage] = useState<{
+    id: string;
+    from: { x: number; y: number; width: number; height: number };
+    to: { x: number; y: number };
+  } | null>(null);
   const { showToast } = useToast();
 
   const endRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const messageBubbleRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const isLoading = isThinking || isTypingResponse;
   const trimmedInput = input.trim();
@@ -341,6 +356,7 @@ export default function TutorPage() {
           command,
           curriculumCode: curriculumCode || undefined,
           conversationId: conversationId || undefined,
+          teachingStyle,
         }),
       });
 
@@ -448,6 +464,31 @@ export default function TutorPage() {
   const clearLoadedNote = () => {
     setLoadedNote(null);
     setSelectedNoteId("");
+  };
+
+  const triggerSaveWithFlight = (message: ChatMessage) => {
+    if (message.role !== "assistant") return;
+    // Capture rects for the flying ghost animation
+    const bubble = messageBubbleRefs.current[message.id];
+    const notesIcon = document.querySelector<HTMLElement>('a[href="/my-notes"]');
+    if (bubble && notesIcon) {
+      const fromRect = bubble.getBoundingClientRect();
+      const toRect = notesIcon.getBoundingClientRect();
+      setFlyingMessage({
+        id: message.id,
+        from: {
+          x: fromRect.left,
+          y: fromRect.top,
+          width: fromRect.width,
+          height: Math.min(fromRect.height, 120),
+        },
+        to: {
+          x: toRect.left + toRect.width / 2 - 14,
+          y: toRect.top + toRect.height / 2 - 14,
+        },
+      });
+    }
+    void saveAssistantMessage(message);
   };
 
   const saveAssistantMessage = async (message: ChatMessage) => {
@@ -563,41 +604,75 @@ export default function TutorPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <div className="mx-auto flex h-[100dvh] w-full max-w-7xl flex-col px-4 sm:px-6">
-        {/* Header */}
-        <header className="flex items-center justify-between gap-3 py-5">
-          <div className="flex items-center gap-3">
-            <div className="relative flex h-9 w-9 items-center justify-center">
-              <span className="absolute inset-0 animate-ping rounded-full bg-amber-400/30" aria-hidden="true" />
-              <span className="absolute inset-1 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-[0_0_20px_rgba(240,180,41,0.6)]" aria-hidden="true" />
-              <Sparkles size={14} className="relative z-10 text-black" aria-hidden="true" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">Nova AI</h1>
-              <p className="text-xs text-zinc-500">Ontario Grade 11–12 tutor · {subject}</p>
-            </div>
+    <main className="relative min-h-screen overflow-hidden bg-black text-white">
+      {/* Ambient lab background: faint grid that's only visible during the scan */}
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(45,212,191,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(45,212,191,0.5) 1px, transparent 1px)",
+          backgroundSize: "44px 44px",
+          maskImage: "radial-gradient(ellipse at 50% 35%, black 30%, transparent 75%)",
+          WebkitMaskImage: "radial-gradient(ellipse at 50% 35%, black 30%, transparent 75%)",
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showScanLine ? 0.06 : 0 }}
+        transition={{ duration: 1.2 }}
+      />
+
+      {/* Soft ambient glow behind the orb (cheap perf) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed left-1/2 top-0 z-0 h-[420px] w-[680px] -translate-x-1/2 -translate-y-1/4"
+        style={{
+          background: isLoading
+            ? "radial-gradient(ellipse at center, rgba(45,212,191,0.18), transparent 60%)"
+            : "radial-gradient(ellipse at center, rgba(245,158,11,0.12), transparent 60%)",
+          transition: "background 600ms ease",
+        }}
+      />
+
+      <div className="relative z-10 mx-auto flex h-[100dvh] w-full max-w-7xl flex-col px-4 sm:px-6">
+        {/* Top utility bar (kept minimal so the Nova Core stays focal) */}
+        <div className="flex items-center justify-end gap-2 pt-4">
+          <button
+            type="button"
+            onClick={newChat}
+            className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-zinc-300 backdrop-blur-xl transition hover:bg-white/10 hover:text-white active:scale-95"
+            aria-label="Start a new chat"
+          >
+            New Chat
+          </button>
+          <button
+            type="button"
+            onClick={() => setContextOpen((p) => !p)}
+            className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-zinc-300 backdrop-blur-xl transition hover:bg-white/10 hover:text-white active:scale-95 lg:flex"
+            aria-label={contextOpen ? "Hide context panel" : "Show context panel"}
+            aria-expanded={contextOpen}
+          >
+            {contextOpen ? <PanelRightClose size={14} aria-hidden="true" /> : <PanelRightOpen size={14} aria-hidden="true" />}
+            Context
+          </button>
+        </div>
+
+        {/* Centered Nova Core orb header */}
+        <header className="flex flex-col items-center justify-center pb-4 pt-3">
+          <div className={`kv-orb ${isLoading ? "kv-orb--active" : ""}`} aria-hidden="true">
+            <span className="kv-orb-ring kv-orb-ring--1" />
+            <span className="kv-orb-ring kv-orb-ring--2" />
+            <span className="kv-orb-ring kv-orb-ring--3" />
+            <span className="kv-orb-core" />
+            <Sparkles size={20} className="kv-orb-icon" aria-hidden="true" />
           </div>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={newChat}
-              className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-zinc-300 transition hover:bg-white/10 hover:text-white active:scale-95"
-              aria-label="Start a new chat"
-            >
-              New Chat
-            </button>
-            <button
-              type="button"
-              onClick={() => setContextOpen((p) => !p)}
-              className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-zinc-300 transition hover:bg-white/10 hover:text-white active:scale-95 lg:flex"
-              aria-label={contextOpen ? "Hide context panel" : "Show context panel"}
-              aria-expanded={contextOpen}
-            >
-              {contextOpen ? <PanelRightClose size={14} aria-hidden="true" /> : <PanelRightOpen size={14} aria-hidden="true" />}
-              Context
-            </button>
-          </div>
+          <h1 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl">Nova</h1>
+          <p className="mt-0.5 text-xs text-zinc-500">
+            {isLoading ? (
+              <span className="text-teal-300">Thinking…</span>
+            ) : (
+              <>Ontario Grade 11–12 tutor · {subject}</>
+            )}
+          </p>
         </header>
 
         {/* Main grid: chat + context sidebar */}
@@ -606,90 +681,180 @@ export default function TutorPage() {
           <section className="relative flex min-h-0 flex-col">
             <div className="flex-1 overflow-y-auto pr-1">
               <div className="space-y-6 pb-40">
-                {messages.map((message) =>
-                  message.role === "user" ? (
-                    <div key={message.id} className="flex justify-end">
-                      <div className="max-w-[85%] rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-base leading-relaxed text-zinc-100 sm:max-w-[70%]">
-                        <p className="whitespace-pre-wrap break-words">{message.content}</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <article key={message.id} className="flex gap-3">
-                      <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-300 to-amber-500 text-sm font-bold text-black shadow-[0_0_15px_rgba(240,180,41,0.4)]" aria-hidden="true">
-                        N
-                      </div>
-                      <div className="min-w-0 flex-1">
+                <AnimatePresence initial={false}>
+                  {messages.map((message) =>
+                    message.role === "user" ? (
+                      <motion.div
+                        key={message.id}
+                        layout="position"
+                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ type: "spring", stiffness: 320, damping: 28 }}
+                        className="flex justify-end will-change-transform"
+                      >
+                        <div className="max-w-[85%] rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-base leading-relaxed text-zinc-100 shadow-[0_0_28px_-10px_rgba(96,165,250,0.55)] backdrop-blur-xl sm:max-w-[70%]">
+                          <p className="whitespace-pre-wrap break-words">{message.content}</p>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.article
+                        key={message.id}
+                        layout="position"
+                        initial={{ opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ type: "spring", stiffness: 260, damping: 26 }}
+                        className="flex gap-3 will-change-transform"
+                      >
                         <div
-                          className="kv-prose break-words text-base leading-relaxed text-zinc-100"
-                          dangerouslySetInnerHTML={{ __html: formatNova(message.content) }}
-                        />
-
-                        {message.content && !isLoading && (
-                          <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                            <button
-                              type="button"
-                              onClick={() => void saveAssistantMessage(message)}
-                              disabled={savingId === message.id}
-                              className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-transparent px-2.5 py-1 text-xs text-zinc-400 transition hover:border-white/20 hover:bg-white/5 hover:text-white disabled:opacity-50"
-                              aria-label="Save this response to your notes"
-                            >
-                              {savingId === message.id ? <Loader2 size={12} className="animate-spin" aria-hidden="true" /> : <Save size={12} aria-hidden="true" />}
-                              Save to Notes
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => void generateFlashcards()}
-                              disabled={flashcardsLoading || messages.length < 2}
-                              className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-transparent px-2.5 py-1 text-xs text-zinc-400 transition hover:border-white/20 hover:bg-white/5 hover:text-white disabled:opacity-50"
-                              aria-label="Create flashcards from this conversation"
-                            >
-                              {flashcardsLoading ? <Loader2 size={12} className="animate-spin" aria-hidden="true" /> : <Layers size={12} aria-hidden="true" />}
-                              Create Flashcards
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => void eli5Message(message)}
-                              disabled={eli5Loading && eli5MessageId === message.id}
-                              className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-transparent px-2.5 py-1 text-xs text-zinc-400 transition hover:border-white/20 hover:bg-white/5 hover:text-white disabled:opacity-50"
-                              aria-label="Ask Nova to explain this in simpler language"
-                            >
-                              {eli5Loading && eli5MessageId === message.id ? <Loader2 size={12} className="animate-spin" aria-hidden="true" /> : <Wand2 size={12} aria-hidden="true" />}
-                              Explain Simpler
-                            </button>
+                          className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold transition-all duration-500 ${
+                            isLoading
+                              ? "bg-gradient-to-br from-teal-300 to-cyan-500 text-black shadow-[0_0_18px_rgba(45,212,191,0.55)]"
+                              : "bg-gradient-to-br from-amber-300 to-amber-500 text-black shadow-[0_0_15px_rgba(240,180,41,0.4)]"
+                          }`}
+                          aria-hidden="true"
+                        >
+                          N
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div
+                            ref={(el) => {
+                              messageBubbleRefs.current[message.id] = el;
+                            }}
+                            className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 shadow-[0_0_28px_-10px_rgba(45,212,191,0.5)] backdrop-blur-xl"
+                          >
+                            <motion.div
+                              key={`prose-${message.content.length}`}
+                              initial={{ opacity: 0.92 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ duration: 0.18 }}
+                              className="kv-prose kv-prose--manifest break-words text-base leading-relaxed text-zinc-100"
+                              dangerouslySetInnerHTML={{ __html: formatNova(message.content) }}
+                            />
                           </div>
-                        )}
 
-                        {eli5Results[message.id] && (
-                          <div className="mt-3 rounded-xl border border-amber-500/20 bg-amber-500/5 p-3">
-                            <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-amber-400">Simpler</p>
-                            <p className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-200">{eli5Results[message.id]}</p>
-                          </div>
-                        )}
-                      </div>
-                    </article>
-                  ),
-                )}
+                          {message.content && !isLoading && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 4 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.18, duration: 0.3 }}
+                              className="mt-3 flex flex-wrap items-center gap-1.5"
+                            >
+                              <button
+                                type="button"
+                                onClick={() => triggerSaveWithFlight(message)}
+                                disabled={savingId === message.id}
+                                title="Send to Notes"
+                                className="group inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-400 backdrop-blur-xl transition hover:border-teal-300/40 hover:bg-teal-400/10 hover:text-teal-200 hover:shadow-[0_0_18px_rgba(45,212,191,0.35)] disabled:opacity-50"
+                                aria-label="Send this response to your notes"
+                              >
+                                {savingId === message.id ? (
+                                  <Loader2 size={14} className="animate-spin" aria-hidden="true" />
+                                ) : (
+                                  <Save size={14} aria-hidden="true" />
+                                )}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => void generateFlashcards()}
+                                disabled={flashcardsLoading || messages.length < 2}
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-zinc-400 backdrop-blur-xl transition hover:border-white/20 hover:bg-white/10 hover:text-white disabled:opacity-50"
+                                aria-label="Create flashcards from this conversation"
+                              >
+                                {flashcardsLoading ? <Loader2 size={12} className="animate-spin" aria-hidden="true" /> : <Layers size={12} aria-hidden="true" />}
+                                Flashcards
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => void eli5Message(message)}
+                                disabled={eli5Loading && eli5MessageId === message.id}
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-zinc-400 backdrop-blur-xl transition hover:border-white/20 hover:bg-white/10 hover:text-white disabled:opacity-50"
+                                aria-label="Ask Nova to explain this in simpler language"
+                              >
+                                {eli5Loading && eli5MessageId === message.id ? <Loader2 size={12} className="animate-spin" aria-hidden="true" /> : <Wand2 size={12} aria-hidden="true" />}
+                                Explain Simpler
+                              </button>
+                            </motion.div>
+                          )}
+
+                          {eli5Results[message.id] && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 6 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="mt-3 rounded-xl border border-amber-500/20 bg-amber-500/5 p-3 backdrop-blur-xl"
+                            >
+                              <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-amber-400">Simpler</p>
+                              <p className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-200">{eli5Results[message.id]}</p>
+                            </motion.div>
+                          )}
+                        </div>
+                      </motion.article>
+                    ),
+                  )}
+                </AnimatePresence>
 
                 {isLoading && (
-                  <div className="flex gap-3">
-                    <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-300 to-amber-500 text-sm font-bold text-black" aria-hidden="true">N</div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex gap-3"
+                  >
+                    <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-teal-300 to-cyan-500 text-sm font-bold text-black shadow-[0_0_18px_rgba(45,212,191,0.55)]" aria-hidden="true">N</div>
                     <div className="flex items-center gap-1 pt-2.5">
-                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-amber-400 [animation-delay:-0.3s]" />
-                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-amber-400 [animation-delay:-0.15s]" />
-                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-amber-400" />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-teal-300 [animation-delay:-0.3s]" />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-teal-300 [animation-delay:-0.15s]" />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-teal-300" />
                     </div>
-                  </div>
+                  </motion.div>
                 )}
 
                 <div ref={endRef} />
               </div>
             </div>
 
-            {/* Floating pill input */}
+            {/* Floating glass input bar */}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 pb-4 pt-8">
               <div className="pointer-events-auto mx-auto max-w-3xl">
+                {/* Teaching Style toggle */}
+                <div className="mb-3 flex items-center justify-center">
+                  <div
+                    role="radiogroup"
+                    aria-label="Teaching style"
+                    className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur-xl"
+                  >
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked={teachingStyle === "direct"}
+                      onClick={() => setTeachingStyle("direct")}
+                      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all ${
+                        teachingStyle === "direct"
+                          ? "bg-amber-400/15 text-amber-200 shadow-[0_0_16px_rgba(240,180,41,0.3)]"
+                          : "text-zinc-400 hover:text-zinc-200"
+                      }`}
+                    >
+                      <Target size={12} aria-hidden="true" />
+                      Direct Answer
+                    </button>
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked={teachingStyle === "socratic"}
+                      onClick={() => setTeachingStyle("socratic")}
+                      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all ${
+                        teachingStyle === "socratic"
+                          ? "bg-teal-400/15 text-teal-200 shadow-[0_0_16px_rgba(45,212,191,0.3)]"
+                          : "text-zinc-400 hover:text-zinc-200"
+                      }`}
+                    >
+                      <Compass size={12} aria-hidden="true" />
+                      Socratic Mentor
+                    </button>
+                  </div>
+                </div>
+
                 {slashSuggestions.length > 0 && (
-                  <div className="mb-2 overflow-hidden rounded-xl border border-amber-500/20 bg-zinc-950/95 shadow-2xl backdrop-blur-md" role="listbox" aria-label="Slash command suggestions">
+                  <div className="mb-2 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-2xl" role="listbox" aria-label="Slash command suggestions">
                     {slashSuggestions.map((c) => (
                       <button
                         key={c.cmd}
@@ -698,20 +863,45 @@ export default function TutorPage() {
                           setInput(c.cmd + " ");
                           inputRef.current?.focus();
                         }}
-                        className="flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left transition hover:bg-amber-500/10"
+                        className="flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left transition hover:bg-teal-400/10"
                       >
-                        <span className="font-mono text-sm font-semibold text-amber-400">{c.cmd}</span>
+                        <span className="font-mono text-sm font-semibold text-teal-300">{c.cmd}</span>
                         <span className="text-xs text-zinc-400">{c.description}</span>
                       </button>
                     ))}
                   </div>
                 )}
 
-                <div className={`flex items-end gap-2 rounded-full border bg-zinc-950/95 p-1.5 pl-5 shadow-2xl backdrop-blur-md transition-all ${
-                  matchedCommand ? "border-amber-500/40 shadow-[0_0_30px_rgba(240,180,41,0.15)]" : "border-white/10"
-                }`}>
+                <div
+                  className={`flex items-end gap-1 rounded-2xl border bg-white/5 p-1.5 pl-2 shadow-2xl backdrop-blur-2xl transition-all duration-300 will-change-transform ${
+                    inputFocused
+                      ? "border-blue-400/50 shadow-[0_0_36px_rgba(96,165,250,0.35)]"
+                      : matchedCommand
+                        ? "border-teal-400/40 shadow-[0_0_28px_rgba(45,212,191,0.2)]"
+                        : "border-white/10"
+                  }`}
+                >
+                  <button
+                    type="button"
+                    title="Voice input (coming soon)"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-zinc-400 transition hover:bg-white/10 hover:text-white active:scale-90"
+                    aria-label="Voice input (coming soon)"
+                    onClick={() => showToast("Voice input is coming soon", "info")}
+                  >
+                    <Mic size={16} aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    title="Attach file (coming soon)"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-zinc-400 transition hover:bg-white/10 hover:text-white active:scale-90"
+                    aria-label="Attach file (coming soon)"
+                    onClick={() => showToast("File scan is coming soon", "info")}
+                  >
+                    <Paperclip size={16} aria-hidden="true" />
+                  </button>
+
                   {matchedCommand && (
-                    <span className="flex shrink-0 items-center gap-1 rounded-full bg-amber-500/15 px-2 py-1 font-mono text-xs font-bold text-amber-300">
+                    <span className="flex shrink-0 items-center gap-1 self-center rounded-full bg-teal-400/15 px-2 py-1 font-mono text-xs font-bold text-teal-200">
                       {matchedCommand.cmd}
                     </span>
                   )}
@@ -720,6 +910,8 @@ export default function TutorPage() {
                     ref={inputRef}
                     id="nova-input"
                     value={input}
+                    onFocus={() => setInputFocused(true)}
+                    onBlur={() => setInputFocused(false)}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
@@ -729,16 +921,16 @@ export default function TutorPage() {
                     }}
                     placeholder={matchedCommand ? matchedCommand.description : "Ask Nova anything…  try / for commands"}
                     rows={1}
-                    className="max-h-32 flex-1 resize-none bg-transparent py-2.5 text-base text-white placeholder-zinc-500 outline-none"
+                    className="max-h-32 flex-1 resize-none bg-transparent px-2 py-2.5 text-base text-white placeholder-zinc-500 outline-none"
                     style={{ minHeight: 24 }}
                   />
                   <button
                     type="button"
                     onClick={() => void sendMessage()}
                     disabled={!input.trim() || isThinking}
-                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all active:scale-90 disabled:opacity-30 ${
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all active:scale-90 disabled:opacity-30 ${
                       input.trim() && !isThinking
-                        ? "bg-amber-400 text-black shadow-[0_0_20px_rgba(240,180,41,0.5)] hover:bg-amber-300 hover:shadow-[0_0_30px_rgba(240,180,41,0.7)]"
+                        ? "bg-gradient-to-br from-amber-300 to-amber-500 text-black shadow-[0_0_20px_rgba(240,180,41,0.5)] hover:shadow-[0_0_30px_rgba(240,180,41,0.7)]"
                         : "bg-white/10 text-zinc-500"
                     }`}
                     aria-label="Send message to Nova"
@@ -761,7 +953,7 @@ export default function TutorPage() {
                         }}
                         className={`rounded-full border px-2.5 py-1 font-mono text-[11px] transition-all ${
                           active
-                            ? "border-amber-500/50 bg-amber-500/15 text-amber-300 shadow-[0_0_12px_rgba(240,180,41,0.3)]"
+                            ? "border-teal-400/50 bg-teal-400/15 text-teal-200 shadow-[0_0_12px_rgba(45,212,191,0.3)]"
                             : "border-white/10 bg-white/5 text-zinc-500 hover:border-white/20 hover:bg-white/10 hover:text-zinc-300"
                         }`}
                         aria-label={`Insert command ${c.cmd}: ${c.description}`}
@@ -932,6 +1124,63 @@ export default function TutorPage() {
         </div>
       </div>
 
+      {/* One-shot scanning line on first mount */}
+      <AnimatePresence>
+        {showScanLine && (
+          <motion.div
+            aria-hidden="true"
+            className="pointer-events-none fixed inset-x-0 top-0 z-30 h-[100dvh] overflow-hidden"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="absolute inset-x-0 h-px will-change-transform"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent 0%, rgba(45,212,191,0.85) 50%, transparent 100%)",
+                boxShadow: "0 0 18px 2px rgba(45,212,191,0.55)",
+              }}
+              initial={{ y: -8 }}
+              animate={{ y: "100dvh" }}
+              transition={{ duration: 2.4, ease: [0.2, 0.8, 0.4, 1] }}
+              onAnimationComplete={() => setShowScanLine(false)}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Flying ghost: animates a glass copy of the bubble toward the sidebar Notes icon */}
+      <AnimatePresence>
+        {flyingMessage && (
+          <motion.div
+            aria-hidden="true"
+            className="pointer-events-none fixed z-50 will-change-transform"
+            initial={{
+              left: flyingMessage.from.x,
+              top: flyingMessage.from.y,
+              width: flyingMessage.from.width,
+              height: flyingMessage.from.height,
+              opacity: 1,
+              scale: 1,
+              rotate: 0,
+            }}
+            animate={{
+              left: flyingMessage.to.x,
+              top: flyingMessage.to.y,
+              width: 28,
+              height: 28,
+              opacity: 0,
+              scale: 0.25,
+              rotate: -8,
+            }}
+            transition={{ duration: 0.85, ease: [0.32, 0.72, 0, 1] }}
+            onAnimationComplete={() => setFlyingMessage(null)}
+          >
+            <div className="h-full w-full rounded-2xl border border-teal-300/50 bg-white/10 shadow-[0_0_28px_rgba(45,212,191,0.55)] backdrop-blur-xl" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <style jsx global>{`
         .kv-prose h1.kv-h1 { font-size: 1.5rem; font-weight: 800; color: #fff; margin: 1rem 0 0.5rem; letter-spacing: -0.01em; }
         .kv-prose h2.kv-h2 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 0.875rem 0 0.5rem; letter-spacing: -0.01em; }
@@ -969,6 +1218,93 @@ export default function TutorPage() {
           font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         }
         .kv-prose .math-block { margin: 0.5rem 0; overflow-x: auto; }
+
+        /* Nova Core ambient orb */
+        .kv-orb {
+          position: relative;
+          width: 84px;
+          height: 84px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          will-change: transform;
+        }
+        .kv-orb-core {
+          position: absolute;
+          inset: 30%;
+          border-radius: 9999px;
+          background: radial-gradient(circle at 30% 30%, #fde68a 0%, #f59e0b 55%, #b45309 100%);
+          box-shadow:
+            0 0 32px rgba(245, 158, 11, 0.55),
+            inset 0 0 12px rgba(255, 255, 255, 0.35);
+          animation: kv-orb-breath 4.2s ease-in-out infinite;
+          transition: background 600ms ease, box-shadow 600ms ease;
+        }
+        .kv-orb-ring {
+          position: absolute;
+          inset: 0;
+          border-radius: 9999px;
+          border: 1.5px solid rgba(245, 158, 11, 0.35);
+          opacity: 0;
+          animation: kv-orb-pulse 3.4s ease-out infinite;
+          transition: border-color 600ms ease;
+        }
+        .kv-orb-ring--1 { animation-delay: 0s; }
+        .kv-orb-ring--2 { animation-delay: 1.13s; }
+        .kv-orb-ring--3 { animation-delay: 2.26s; }
+        .kv-orb-icon {
+          position: relative;
+          z-index: 2;
+          color: rgba(255, 255, 255, 0.92);
+          filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4));
+        }
+        .kv-orb--active .kv-orb-core {
+          background: radial-gradient(circle at 30% 30%, #99f6e4 0%, #14b8a6 55%, #0f766e 100%);
+          box-shadow:
+            0 0 40px rgba(20, 184, 166, 0.65),
+            inset 0 0 14px rgba(255, 255, 255, 0.45);
+          animation-duration: 1.8s;
+        }
+        .kv-orb--active .kv-orb-ring {
+          border-color: rgba(20, 184, 166, 0.45);
+          animation-duration: 1.6s;
+        }
+        @keyframes kv-orb-breath {
+          0%, 100% { transform: scale(0.95); }
+          50% { transform: scale(1.06); }
+        }
+        @keyframes kv-orb-pulse {
+          0%   { transform: scale(0.85); opacity: 0.55; }
+          70%  { opacity: 0.0; }
+          100% { transform: scale(1.45); opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .kv-orb-core,
+          .kv-orb-ring { animation: none !important; }
+        }
+
+        /* Subtle manifestation stagger for Nova prose paragraphs */
+        .kv-prose--manifest > p,
+        .kv-prose--manifest > ul,
+        .kv-prose--manifest > ol,
+        .kv-prose--manifest > h1,
+        .kv-prose--manifest > h2,
+        .kv-prose--manifest > h3 {
+          animation: kv-manifest 420ms cubic-bezier(0.2, 0.8, 0.4, 1) both;
+        }
+        .kv-prose--manifest > *:nth-child(1) { animation-delay: 30ms; }
+        .kv-prose--manifest > *:nth-child(2) { animation-delay: 90ms; }
+        .kv-prose--manifest > *:nth-child(3) { animation-delay: 150ms; }
+        .kv-prose--manifest > *:nth-child(4) { animation-delay: 210ms; }
+        .kv-prose--manifest > *:nth-child(5) { animation-delay: 260ms; }
+        .kv-prose--manifest > *:nth-child(n+6) { animation-delay: 310ms; }
+        @keyframes kv-manifest {
+          from { opacity: 0; transform: translateY(6px); filter: blur(4px); }
+          to   { opacity: 1; transform: translateY(0);  filter: blur(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .kv-prose--manifest > * { animation: none !important; }
+        }
       `}</style>
     </main>
   );
