@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles,
@@ -12,7 +12,13 @@ import {
   RotateCcw,
   ExternalLink,
   FileText,
-  MonitorPlay,
+  PlayCircle,
+  Cpu,
+  Brain,
+  Layers,
+  HelpCircle,
+  ChevronRight,
+  Terminal,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useToast } from "~/app/_components/toast";
@@ -24,7 +30,73 @@ type ImportResponse = {
   author: string;
   transcriptLength: number;
   transcriptPreview: string;
+  transcript?: string;
   notes: string;
+};
+
+type ActionKey = "notes" | "flashcards" | "quiz";
+
+const ACTIONS: Array<{
+  key: ActionKey;
+  title: string;
+  description: string;
+  accent: "cyan" | "purple" | "red";
+  icon: React.ReactNode;
+}> = [
+  {
+    key: "notes",
+    title: "AI Notes Matrix",
+    description: "Structured Ontario-style study notes ready to revise.",
+    accent: "cyan",
+    icon: <Brain size={18} aria-hidden="true" />,
+  },
+  {
+    key: "flashcards",
+    title: "Smart Flashcard Batch",
+    description: "Q&A cards optimized for spaced repetition.",
+    accent: "purple",
+    icon: <Layers size={18} aria-hidden="true" />,
+  },
+  {
+    key: "quiz",
+    title: "Nova Interactive Quiz",
+    description: "Practice questions with full step-by-step answers.",
+    accent: "red",
+    icon: <HelpCircle size={18} aria-hidden="true" />,
+  },
+];
+
+const ACCENT_STYLES: Record<
+  "cyan" | "purple" | "red",
+  {
+    spotlight: string;
+    border: string;
+    icon: string;
+    glow: string;
+    chip: string;
+  }
+> = {
+  cyan: {
+    spotlight: "rgba(34,211,238,0.28)",
+    border: "hover:border-cyan-400/40",
+    icon: "text-cyan-200",
+    glow: "shadow-[0_0_28px_rgba(34,211,238,0.35)]",
+    chip: "border-cyan-400/30 bg-cyan-400/10 text-cyan-200",
+  },
+  purple: {
+    spotlight: "rgba(168,85,247,0.28)",
+    border: "hover:border-purple-400/40",
+    icon: "text-purple-200",
+    glow: "shadow-[0_0_28px_rgba(168,85,247,0.35)]",
+    chip: "border-purple-400/30 bg-purple-400/10 text-purple-200",
+  },
+  red: {
+    spotlight: "rgba(239,68,68,0.28)",
+    border: "hover:border-red-400/40",
+    icon: "text-red-200",
+    glow: "shadow-[0_0_28px_rgba(239,68,68,0.35)]",
+    chip: "border-red-400/30 bg-red-400/10 text-red-200",
+  },
 };
 
 const SUBJECTS = ["General", "Math", "Science", "English", "History", "Chemistry", "Physics", "Biology"];
@@ -82,57 +154,176 @@ function renderMarkdown(md: string): string {
   return html;
 }
 
-// ---------- "video frame -> text lines" loader ----------
-function TranscribingAnimation({ stage }: { stage: string }) {
+// ---------- Terminal-style Processing Feed with downward laser sweep ----------
+function ProcessingFeed({
+  stage,
+  transcript,
+  accent = "red",
+  label = "processing.feed",
+}: {
+  stage: string;
+  transcript?: string | null;
+  accent?: "red" | "cyan" | "purple";
+  label?: string;
+}) {
+  const laserColor =
+    accent === "cyan"
+      ? "via-cyan-400"
+      : accent === "purple"
+        ? "via-purple-400"
+        : "via-red-500";
+
+  const lines = useMemo(() => {
+    if (!transcript) {
+      return [
+        "$ kyvex transcribe --source youtube",
+        "> handshaking with captions server…",
+        "> awaiting transcript stream…",
+      ];
+    }
+    // Break the transcript into visually readable chunks
+    return transcript
+      .split(/(?<=[.!?])\s+/)
+      .slice(0, 18)
+      .map((s, i) => `[${String(i + 1).padStart(2, "0")}] ${s.trim()}`)
+      .filter(Boolean);
+  }, [transcript]);
+
   return (
-    <div className="relative mx-auto flex w-full max-w-2xl flex-col items-center gap-6 rounded-3xl border border-white/10 bg-white/[0.04] p-10 backdrop-blur-xl">
-      <div className="relative h-44 w-72 overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-red-500/30 via-purple-500/20 to-amber-400/20 shadow-[0_0_40px_rgba(239,68,68,0.35)]">
-        {/* fake video scanlines */}
-        <motion.div
-          className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px]"
-          animate={{ opacity: [0.3, 0.6, 0.3] }}
-          transition={{ duration: 1.4, repeat: Infinity }}
+    <motion.div
+      initial={{ opacity: 0, y: 8, scale: 0.99 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -4, scale: 0.99 }}
+      transition={{ duration: 0.2 }}
+      className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/60 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
+    >
+      {/* Terminal title bar */}
+      <div className="flex items-center justify-between border-b border-white/5 px-4 py-2">
+        <div className="flex items-center gap-3">
+          <div className="flex gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-red-400/80" />
+            <span className="h-2 w-2 rounded-full bg-yellow-400/70" />
+            <span className="h-2 w-2 rounded-full bg-green-400/70" />
+          </div>
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-500">
+            <Terminal size={11} className="mr-1 inline align-text-bottom" aria-hidden="true" />
+            {label}
+          </span>
+        </div>
+        <span className="flex items-center gap-1.5 font-mono text-[10px] text-zinc-500">
+          <Loader2 size={10} className="animate-spin text-zinc-400" aria-hidden="true" />
+          {stage}
+        </span>
+      </div>
+
+      {/* Body: transcript-style monospace with sweeping laser */}
+      <div className="relative max-h-56 overflow-hidden p-4">
+        <div
+          aria-hidden="true"
+          className={`kv-laser-sweep pointer-events-none absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent ${laserColor} to-transparent`}
+          style={{ ["--kv-laser-distance" as never]: "224px" }}
         />
-        {/* play icon pulses then dissolves */}
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center"
-          animate={{ opacity: [1, 0.4, 1], scale: [1, 1.08, 1] }}
-          transition={{ duration: 1.6, repeat: Infinity }}
+        <pre className="whitespace-pre-wrap break-words font-mono text-xs leading-relaxed text-zinc-400">
+          {lines.join("\n")}
+        </pre>
+        {/* fade-out at bottom */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/80 to-transparent"
+        />
+      </div>
+    </motion.div>
+  );
+}
+
+// ---------- Action Node with cursor-tracked radial spotlight ----------
+function ActionNode({
+  icon,
+  title,
+  description,
+  accent,
+  loading,
+  done,
+  onClick,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  accent: "cyan" | "purple" | "red";
+  loading: boolean;
+  done: boolean;
+  onClick: () => void;
+}) {
+  const ref = useRef<HTMLButtonElement | null>(null);
+  const styles = ACCENT_STYLES[accent];
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  };
+
+  return (
+    <motion.button
+      ref={ref}
+      type="button"
+      onClick={onClick}
+      onMouseMove={handleMouseMove}
+      disabled={loading}
+      whileHover={loading ? undefined : { y: -4 }}
+      whileTap={loading ? undefined : { scale: 0.97 }}
+      transition={{ type: "spring", stiffness: 280, damping: 22 }}
+      className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 text-left backdrop-blur-xl transition-colors will-change-transform ${styles.border} ${
+        loading ? "cursor-progress" : "cursor-pointer"
+      } disabled:opacity-90`}
+      aria-label={title}
+    >
+      {/* Cursor-tracked spotlight */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background: `radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), ${styles.spotlight}, transparent 55%)`,
+        }}
+      />
+      {/* Subtle inner highlight */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background: "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 40%)",
+        }}
+      />
+
+      <div className="relative flex items-start gap-3">
+        <div
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${styles.icon} transition-shadow group-hover:${styles.glow}`}
         >
-          <MonitorPlay className="h-14 w-14 text-white drop-shadow-[0_0_18px_rgba(255,255,255,0.7)]" />
-        </motion.div>
-        {/* "transcribed text" lines escaping the frame */}
-        <div className="absolute -bottom-2 left-0 right-0 px-4">
-          {[0, 1, 2].map((i) => (
-            <motion.div
-              key={i}
-              className="my-1 h-1.5 rounded-full bg-white/70"
-              initial={{ width: "20%", opacity: 0 }}
-              animate={{ width: ["20%", "85%", "60%"], opacity: [0, 1, 0.6] }}
-              transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.25 }}
-            />
-          ))}
+          {icon}
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-zinc-100">{title}</h3>
+            {done && (
+              <span className={`inline-flex items-center gap-0.5 rounded-full border px-1.5 py-0 text-[9px] font-bold uppercase tracking-wide ${styles.chip}`}>
+                <CheckCircle2 size={9} aria-hidden="true" />
+                Ready
+              </span>
+            )}
+          </div>
+          <p className="mt-0.5 line-clamp-2 text-xs text-zinc-400">{description}</p>
+        </div>
+        <div className="shrink-0 self-center text-zinc-500 transition-transform group-hover:translate-x-0.5">
+          {loading ? (
+            <Loader2 size={14} className="animate-spin text-zinc-300" aria-hidden="true" />
+          ) : (
+            <ChevronRight size={14} aria-hidden="true" />
+          )}
         </div>
       </div>
-
-      {/* "text lines being written" outside the frame */}
-      <div className="w-full space-y-2">
-        {[0, 1, 2, 3].map((i) => (
-          <motion.div
-            key={i}
-            className="h-2 rounded-full bg-gradient-to-r from-amber-300/80 via-white/60 to-transparent"
-            initial={{ width: "10%", opacity: 0.2 }}
-            animate={{ width: ["10%", "95%", "70%"], opacity: [0.2, 1, 0.5] }}
-            transition={{ duration: 2.2, repeat: Infinity, delay: i * 0.18 }}
-          />
-        ))}
-      </div>
-
-      <div className="flex items-center gap-2 text-sm text-white/70">
-        <Loader2 className="h-4 w-4 animate-spin text-amber-300" />
-        <span>{stage}</span>
-      </div>
-    </div>
+    </motion.button>
   );
 }
 
@@ -152,25 +343,51 @@ export default function YouTubeImportPage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState<{ id: string } | null>(null);
 
+  // Action / pipeline state
+  const [generating, setGenerating] = useState<ActionKey | null>(null);
+  const [genStage, setGenStage] = useState("Booting Nova model…");
+  const [generated, setGenerated] = useState<Record<ActionKey, string | null>>({
+    notes: null,
+    flashcards: null,
+    quiz: null,
+  });
+  const [activeAction, setActiveAction] = useState<ActionKey | null>(null);
+  const [pipeline, setPipeline] = useState<ActionKey[]>(["notes"]);
+
   const valid = useMemo(() => isValidYouTubeUrl(url), [url]);
 
-  const renderedNotes = useMemo(
-    () => (result ? renderMarkdown(result.notes) : ""),
-    [result],
-  );
+  // Sync notes content as soon as the initial fetch returns
+  useEffect(() => {
+    if (result?.notes) {
+      setGenerated((prev) => ({ ...prev, notes: result.notes }));
+      setActiveAction((prev) => prev ?? "notes");
+    }
+  }, [result?.notes]);
 
-  async function handleImport() {
+  const renderedResult = useMemo(() => {
+    if (!activeAction) return "";
+    const content = generated[activeAction];
+    return content ? renderMarkdown(content) : "";
+  }, [activeAction, generated]);
+
+  const togglePipeline = (key: ActionKey) => {
+    setPipeline((prev) => (prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]));
+  };
+
+  async function handleFetch() {
     if (!valid || loading) return;
     setError(null);
     setResult(null);
     setSaved(null);
+    setActiveAction(null);
+    setGenerated({ notes: null, flashcards: null, quiz: null });
     setLoading(true);
-    setStage("Fetching transcript from YouTube…");
+    setStage("Establishing capture stream…");
 
-    // soft staged messaging while we wait
     const stageTimers = [
-      setTimeout(() => setStage("Cleaning up captions…"), 2500),
-      setTimeout(() => setStage("Asking Nova to summarise into Ontario-style notes…"), 5000),
+      setTimeout(() => setStage("Pulling captions from YouTube…"), 1500),
+      setTimeout(() => setStage("Cleaning up transcript…"), 3500),
+      setTimeout(() => setStage("Asking Nova to summarise into Ontario-style notes…"), 5500),
       setTimeout(() => setStage("Polishing headings and bullet points…"), 11000),
     ];
 
@@ -196,7 +413,7 @@ export default function YouTubeImportPage() {
         return;
       }
       setResult(data as ImportResponse);
-      showToast("Notes generated", "success");
+      showToast("Video staged · notes ready", "success");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Network error");
     } finally {
@@ -205,12 +422,73 @@ export default function YouTubeImportPage() {
     }
   }
 
+  async function handleAction(key: ActionKey) {
+    if (!result) return;
+    // If already generated, just switch the active panel
+    if (generated[key]) {
+      setActiveAction(key);
+      return;
+    }
+    // Notes are auto-populated from the fetch — defensive fallback
+    if (key === "notes") {
+      setActiveAction("notes");
+      return;
+    }
+
+    setGenerating(key);
+    setActiveAction(key);
+    setGenStage(
+      key === "flashcards"
+        ? "Designing flashcard batch…"
+        : "Composing interactive quiz…",
+    );
+
+    const format = key === "flashcards" ? "flashcards" : "questions";
+    const text =
+      result.transcript ??
+      result.transcriptPreview ??
+      result.notes ??
+      "";
+
+    try {
+      const res = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text,
+          format,
+          subject,
+          curriculumCode: curriculumCode.trim() || undefined,
+          quizQuestionCount: key === "quiz" ? 8 : undefined,
+          quizDifficulty: key === "quiz" ? "balanced" : undefined,
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { notes?: string; error?: string };
+      if (!res.ok || !data.notes) {
+        showToast(data.error ?? `Generation failed (HTTP ${res.status}).`, "error");
+        setActiveAction(null);
+        return;
+      }
+      setGenerated((prev) => ({ ...prev, [key]: data.notes ?? "" }));
+      showToast(
+        key === "flashcards" ? "Flashcard batch ready" : "Interactive quiz ready",
+        "success",
+      );
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Generation failed", "error");
+      setActiveAction(null);
+    } finally {
+      setGenerating(null);
+    }
+  }
+
   async function handleSaveToNotes() {
     if (!result || saving) return;
     setSaving(true);
     try {
       const tags = [subject, "YouTube Import"].filter((t) => t && t !== "General");
-      const contentWithSource = `> Imported from [${result.title}](${result.videoUrl}) — ${result.author}\n\n${result.notes}`;
+      const notesContent = generated.notes ?? result.notes;
+      const contentWithSource = `> Imported from [${result.title}](${result.videoUrl}) — ${result.author}\n\n${notesContent}`;
 
       const res = await fetch("/api/notes", {
         method: "POST",
@@ -241,160 +519,139 @@ export default function YouTubeImportPage() {
     setResult(null);
     setError(null);
     setSaved(null);
+    setActiveAction(null);
+    setGenerated({ notes: null, flashcards: null, quiz: null });
   }
 
+  const activeAccent: "cyan" | "purple" | "red" =
+    activeAction === "flashcards" ? "purple" : activeAction === "quiz" ? "red" : "cyan";
+
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-[#0a0e1f] via-[#0d1228] to-[#0a0e1f] px-4 py-10 text-white">
-      <div className="mx-auto w-full max-w-4xl">
+    <div className="relative min-h-screen w-full overflow-hidden bg-black text-white">
+      {/* Ambient red/purple glow at top */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-0 h-[420px]"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 0%, rgba(239,68,68,0.16), transparent 60%), radial-gradient(ellipse at 80% 0%, rgba(168,85,247,0.10), transparent 55%)",
+        }}
+      />
+
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
           className="mb-8 flex items-center gap-3"
         >
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/40 to-amber-500/30 ring-1 ring-white/15 shadow-[0_0_25px_rgba(239,68,68,0.35)]">
-            <MonitorPlay className="h-6 w-6 text-white" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-gradient-to-br from-red-500/30 to-purple-500/20 backdrop-blur-xl shadow-[0_0_28px_rgba(239,68,68,0.35)]">
+            <PlayCircle className="h-6 w-6 text-white" aria-hidden="true" />
           </div>
           <div>
-            <h1 className="text-2xl font-extrabold tracking-tight">YouTube Import</h1>
-            <p className="text-sm text-white/60">
-              Paste a lecture link → get exam-ready Ontario-style study notes in seconds.
+            <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+              YouTube Import
+            </h1>
+            <p className="text-sm text-zinc-500">
+              Stream a lecture link into Nova&apos;s data engine. Generate notes, flashcards, and quizzes from a single transcript.
             </p>
           </div>
         </motion.div>
 
-        {/* Input card */}
-        <motion.section
-          initial={{ opacity: 0, y: 12 }}
+        {/* ─────────────── Stream Input Bar ─────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
+          transition={{ delay: 0.05, duration: 0.3 }}
+          className="mx-auto w-full max-w-3xl"
         >
-          <label htmlFor="yt-url" className="mb-2 block text-xs font-medium uppercase tracking-wider text-white/60">
-            YouTube URL
-          </label>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <div className="relative flex-1">
-              <Link2 className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/40" />
-              <input
-                id="yt-url"
-                type="url"
-                inputMode="url"
-                placeholder="https://www.youtube.com/watch?v=…"
-                value={url}
-                onChange={(e) => {
-                  setUrl(e.target.value);
-                  setError(null);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && valid && !loading) void handleImport();
-                }}
-                aria-label="YouTube video URL"
-                className="w-full rounded-2xl border border-white/15 bg-black/30 py-4 pl-12 pr-4 text-base text-white placeholder-white/30 outline-none transition focus:border-amber-300/60 focus:ring-2 focus:ring-amber-300/30"
-                disabled={loading}
-              />
-            </div>
+          <div className="kv-stream-pill group relative flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2 backdrop-blur-xl transition-all duration-300 focus-within:border-red-500/40 focus-within:bg-white/[0.07] focus-within:shadow-[0_0_44px_rgba(239,68,68,0.22)]">
+            <Link2
+              size={18}
+              className="shrink-0 text-zinc-500 transition-colors group-focus-within:text-red-300"
+              aria-hidden="true"
+            />
+            <input
+              id="yt-url"
+              type="url"
+              inputMode="url"
+              placeholder="Paste a YouTube link…"
+              value={url}
+              onChange={(e) => {
+                setUrl(e.target.value);
+                setError(null);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && valid && !loading) void handleFetch();
+              }}
+              aria-label="YouTube video URL"
+              disabled={loading}
+              className="min-w-0 flex-1 bg-transparent py-2 text-base text-white placeholder-zinc-500 outline-none disabled:opacity-60"
+            />
             <motion.button
               type="button"
-              onClick={() => void handleImport()}
+              onClick={() => void handleFetch()}
               disabled={!valid || loading}
-              whileHover={valid && !loading ? { scale: 1.03 } : undefined}
-              whileTap={valid && !loading ? { scale: 0.97 } : undefined}
-              animate={
+              whileHover={valid && !loading ? { scale: 1.02 } : undefined}
+              whileTap={valid && !loading ? { scale: 0.95 } : undefined}
+              transition={{ type: "spring", stiffness: 380, damping: 22 }}
+              className={`relative inline-flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2 text-xs font-semibold transition-all will-change-transform ${
                 valid && !loading
-                  ? {
-                      boxShadow: [
-                        "0 0 0 0 rgba(251,191,36,0)",
-                        "0 0 30px 6px rgba(251,191,36,0.55)",
-                        "0 0 0 0 rgba(251,191,36,0)",
-                      ],
-                    }
-                  : { boxShadow: "0 0 0 0 rgba(251,191,36,0)" }
-              }
-              transition={{ duration: 1.8, repeat: Infinity }}
-              className={`group relative flex items-center justify-center gap-2 rounded-2xl px-6 py-4 text-sm font-bold transition ${
-                valid && !loading
-                  ? "bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-black"
-                  : "cursor-not-allowed bg-white/5 text-white/30"
+                  ? "border-red-400/30 bg-gradient-to-br from-red-500/25 to-red-500/10 text-red-100 hover:border-red-400/60 hover:from-red-500/35 hover:shadow-[0_0_28px_rgba(239,68,68,0.45)]"
+                  : "cursor-not-allowed border-white/10 bg-white/5 text-zinc-500"
               }`}
-              aria-label="Generate AI notes from this video"
+              aria-label="Fetch video"
             >
               {loading ? (
                 <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Working…
+                  <Loader2 size={14} className="animate-spin" aria-hidden="true" />
+                  Fetching
                 </>
               ) : (
                 <>
-                  <Sparkles className="h-5 w-5" />
-                  Magic
+                  <Sparkles size={14} aria-hidden="true" />
+                  Fetch Video
                 </>
               )}
             </motion.button>
           </div>
 
-          {/* Subject + course code */}
-          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div>
-              <label htmlFor="yt-subject" className="mb-1 block text-xs font-medium uppercase tracking-wider text-white/60">
-                Subject
-              </label>
-              <select
-                id="yt-subject"
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-                disabled={loading}
-                className="w-full rounded-xl border border-white/15 bg-black/30 px-3 py-2.5 text-sm text-white outline-none focus:border-amber-300/60"
+          {/* Inline validation hint */}
+          <AnimatePresence>
+            {!valid && url.length > 0 && !loading && (
+              <motion.p
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                className="mt-2 flex items-center justify-center gap-2 text-xs text-amber-300/90"
               >
-                {SUBJECTS.map((s) => (
-                  <option key={s} value={s} className="bg-[#0d1228]">
-                    {s}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="yt-course" className="mb-1 block text-xs font-medium uppercase tracking-wider text-white/60">
-                Ontario course code <span className="text-white/30">(optional)</span>
-              </label>
-              <input
-                id="yt-course"
-                type="text"
-                placeholder="e.g. SCH4U, MHF4U"
-                value={curriculumCode}
-                onChange={(e) => setCurriculumCode(e.target.value.toUpperCase())}
-                disabled={loading}
-                className="w-full rounded-xl border border-white/15 bg-black/30 px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-amber-300/60"
-              />
-            </div>
-          </div>
+                <AlertTriangle size={12} aria-hidden="true" />
+                That URL doesn&apos;t look like a YouTube link.
+              </motion.p>
+            )}
+          </AnimatePresence>
+        </motion.div>
 
-          {!valid && url.length > 0 && !loading && (
-            <p className="mt-3 flex items-center gap-2 text-xs text-amber-300/90">
-              <AlertTriangle className="h-3.5 w-3.5" />
-              That URL doesn't look like a YouTube link.
-            </p>
-          )}
-        </motion.section>
-
-        {/* Error */}
+        {/* Inline error toast */}
         <AnimatePresence>
           {error && !loading && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              className="mt-6 flex items-start gap-3 rounded-2xl border border-red-400/30 bg-red-500/10 p-4 text-sm text-red-200"
+              className="mx-auto mt-6 flex max-w-3xl items-start gap-3 rounded-2xl border border-red-400/30 bg-red-500/10 p-4 text-sm text-red-200 backdrop-blur-xl"
               role="alert"
             >
-              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-red-300" />
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-red-300" aria-hidden="true" />
               <div className="flex-1">
-                <p className="font-semibold text-red-100">Couldn't import this video</p>
+                <p className="font-semibold text-red-100">Couldn&apos;t fetch this video</p>
                 <p className="mt-1 text-red-200/90">{error}</p>
               </div>
               <button
+                type="button"
                 onClick={() => setError(null)}
-                className="rounded-lg px-2 py-1 text-xs text-red-200/80 hover:bg-red-500/20"
+                className="rounded-lg px-2 py-1 text-xs text-red-200/80 transition hover:bg-red-500/20"
                 aria-label="Dismiss error"
               >
                 Dismiss
@@ -403,97 +660,350 @@ export default function YouTubeImportPage() {
           )}
         </AnimatePresence>
 
-        {/* Loading animation */}
+        {/* Initial fetch Processing Feed */}
         <AnimatePresence>
           {loading && (
             <motion.div
+              key="fetch-feed"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              className="mt-8"
+              exit={{ opacity: 0, y: -4 }}
+              className="mx-auto mt-8 max-w-3xl"
             >
-              <TranscribingAnimation stage={stage} />
+              <ProcessingFeed stage={stage} transcript={null} accent="red" label="fetch.stream" />
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Result */}
+        {/* ─────────────── Floating Video Stage ─────────────── */}
         <AnimatePresence>
           {result && !loading && (
             <motion.section
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="mt-8 rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
+              key="video-stage"
+              initial={{ scale: 0.9, opacity: 0, y: 16 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: -8 }}
+              transition={{ type: "spring", stiffness: 280, damping: 24, mass: 0.7 }}
+              className="mt-10 will-change-transform"
             >
-              <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <h2 className="truncate text-xl font-bold">{result.title}</h2>
-                  <p className="text-xs text-white/55">
-                    by {result.author} · {result.transcriptLength.toLocaleString()} chars transcribed
-                  </p>
+              {/* Stage grid */}
+              <div className="grid gap-5 lg:grid-cols-[1.25fr_1fr]">
+                {/* LEFT — premium thumbnail bezel with ambient blur */}
+                <div className="relative">
+                  <div
+                    aria-hidden="true"
+                    className="absolute -inset-6 -z-10 rounded-[2rem] blur-3xl"
+                    style={{
+                      background:
+                        "radial-gradient(ellipse at 30% 30%, rgba(239,68,68,0.35), transparent 55%), radial-gradient(ellipse at 75% 75%, rgba(168,85,247,0.28), transparent 55%), radial-gradient(ellipse at 50% 50%, rgba(245,158,11,0.18), transparent 55%)",
+                    }}
+                  />
+                  <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 backdrop-blur-2xl shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]">
+                    <div className="relative aspect-video w-full bg-black">
+                      <img
+                        src={`https://i.ytimg.com/vi/${result.videoId}/maxresdefault.jpg`}
+                        alt={result.title}
+                        className="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.02] will-change-transform"
+                        loading="lazy"
+                        draggable={false}
+                        onError={(e) => {
+                          const img = e.currentTarget;
+                          if (!img.src.includes("hqdefault")) {
+                            img.src = `https://i.ytimg.com/vi/${result.videoId}/hqdefault.jpg`;
+                          }
+                        }}
+                      />
+                      {/* Center play overlay */}
+                      <a
+                        href={result.videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/0 via-black/0 to-black/40"
+                        aria-label="Open video on YouTube"
+                      >
+                        <span className="flex h-16 w-16 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white backdrop-blur-md transition-all group-hover:scale-110 group-hover:border-red-400/60 group-hover:bg-red-500/30 group-hover:shadow-[0_0_44px_rgba(239,68,68,0.5)]">
+                          <PlayCircle size={32} aria-hidden="true" />
+                        </span>
+                      </a>
+                      {/* YouTube badge */}
+                      <div className="absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-red-400/30 bg-red-500/80 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-white backdrop-blur-md">
+                        <PlayCircle size={10} aria-hidden="true" />
+                        Live capture
+                      </div>
+                    </div>
+                    <div className="border-t border-white/5 bg-black/40 p-4">
+                      <h2 className="line-clamp-2 text-base font-semibold text-zinc-100">
+                        {result.title}
+                      </h2>
+                      <p className="mt-1 flex items-center gap-2 text-xs text-zinc-500">
+                        <span className="truncate">by {result.author}</span>
+                        <span className="text-zinc-700">·</span>
+                        <span className="font-mono">
+                          {result.transcriptLength.toLocaleString()} chars captured
+                        </span>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  <a
-                    href={result.videoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    Open video
-                  </a>
-                  <button
-                    onClick={reset}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
-                  >
-                    <RotateCcw className="h-3.5 w-3.5" />
-                    Try another
-                  </button>
-                  {saved ? (
-                    <button
-                      onClick={() => router.push("/my-notes")}
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-500/90 px-3 py-2 text-xs font-semibold text-black hover:bg-emerald-400"
+
+                {/* RIGHT — Glass Control Terminal */}
+                <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl shadow-[0_20px_60px_-10px_rgba(0,0,0,0.45)]">
+                  <div className="mb-4 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Cpu size={14} className="text-cyan-300" aria-hidden="true" />
+                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-zinc-400">
+                        Control Terminal
+                      </span>
+                    </div>
+                    <span className="font-mono text-[10px] text-zinc-500">
+                      {result.videoId}
+                    </span>
+                  </div>
+
+                  {/* Subject + course code */}
+                  <div className="space-y-3">
+                    <div>
+                      <label htmlFor="yt-subject" className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
+                        Course assignment
+                      </label>
+                      <select
+                        id="yt-subject"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
+                        className="w-full appearance-none rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white outline-none backdrop-blur-xl transition focus:border-cyan-400/40 focus:shadow-[0_0_18px_rgba(34,211,238,0.18)]"
+                      >
+                        {SUBJECTS.map((s) => (
+                          <option key={s} value={s} className="bg-zinc-900">
+                            {s}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="yt-course" className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
+                        Ontario course code <span className="text-zinc-700">(optional)</span>
+                      </label>
+                      <input
+                        id="yt-course"
+                        type="text"
+                        placeholder="SCH4U · MCV4U · ENG4U"
+                        value={curriculumCode}
+                        onChange={(e) => setCurriculumCode(e.target.value.toUpperCase().slice(0, 12))}
+                        className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 font-mono text-sm text-white placeholder-zinc-600 outline-none backdrop-blur-xl transition focus:border-cyan-400/40 focus:shadow-[0_0_18px_rgba(34,211,238,0.18)]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Pipeline toggles */}
+                  <div className="mt-4">
+                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
+                      Pipeline · what to generate
+                    </p>
+                    <div className="space-y-1.5">
+                      {ACTIONS.map((a) => {
+                        const checked = pipeline.includes(a.key);
+                        const s = ACCENT_STYLES[a.accent];
+                        return (
+                          <label
+                            key={a.key}
+                            className={`flex cursor-pointer items-center gap-2 rounded-lg border px-2.5 py-1.5 text-xs transition-colors ${
+                              checked
+                                ? `${s.chip} border-current/30`
+                                : "border-white/10 bg-white/5 text-zinc-400 hover:border-white/20 hover:bg-white/10"
+                            }`}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={checked}
+                              onChange={() => togglePipeline(a.key)}
+                              className="h-3 w-3 cursor-pointer accent-current"
+                            />
+                            <span className={s.icon}>{a.icon}</span>
+                            <span className="flex-1 font-semibold">{a.title}</span>
+                            {generated[a.key] && (
+                              <CheckCircle2 size={11} className="text-emerald-400" aria-hidden="true" />
+                            )}
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Stage actions */}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <a
+                      href={result.videoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[11px] font-semibold text-zinc-300 transition hover:bg-white/10 hover:text-white"
                     >
-                      <CheckCircle2 className="h-3.5 w-3.5" />
-                      Saved · Open My Notes
-                    </button>
-                  ) : (
+                      <ExternalLink size={11} aria-hidden="true" />
+                      Open in YouTube
+                    </a>
                     <button
-                      onClick={() => void handleSaveToNotes()}
-                      disabled={saving}
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-300 px-3 py-2 text-xs font-semibold text-black hover:brightness-110 disabled:opacity-60"
+                      type="button"
+                      onClick={reset}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[11px] font-semibold text-zinc-300 transition hover:bg-white/10 hover:text-white"
                     >
-                      {saving ? (
-                        <>
-                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                          Saving…
-                        </>
-                      ) : (
-                        <>
-                          <Save className="h-3.5 w-3.5" />
-                          Save to My Notes
-                        </>
-                      )}
+                      <RotateCcw size={11} aria-hidden="true" />
+                      New video
                     </button>
-                  )}
+                  </div>
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-black/25 p-5 ring-1 ring-white/10">
-                <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-wider text-white/50">
-                  <FileText className="h-3.5 w-3.5" />
-                  AI-generated study notes
-                </div>
-                <article
-                  className="prose-invert max-w-none text-[15px]"
-                  dangerouslySetInnerHTML={{ __html: renderedNotes }}
-                />
+              {/* ─────────────── Interactive Action Nodes ─────────────── */}
+              <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                {ACTIONS.map((a) => (
+                  <ActionNode
+                    key={a.key}
+                    icon={a.icon}
+                    title={a.title}
+                    description={a.description}
+                    accent={a.accent}
+                    loading={generating === a.key}
+                    done={Boolean(generated[a.key])}
+                    onClick={() => void handleAction(a.key)}
+                  />
+                ))}
               </div>
+
+              {/* Generation processing feed */}
+              <AnimatePresence>
+                {generating && (
+                  <motion.div
+                    key={`gen-${generating}`}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    className="mt-5"
+                  >
+                    <ProcessingFeed
+                      stage={genStage}
+                      transcript={result.transcriptPreview ?? null}
+                      accent={generating === "flashcards" ? "purple" : generating === "quiz" ? "red" : "cyan"}
+                      label={
+                        generating === "flashcards"
+                          ? "flashcards.stream"
+                          : generating === "quiz"
+                            ? "quiz.stream"
+                            : "notes.stream"
+                      }
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Result panel */}
+              <AnimatePresence mode="wait">
+                {activeAction && generated[activeAction] && !generating && (
+                  <motion.section
+                    key={`result-${activeAction}`}
+                    initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 22 }}
+                    className="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-xl shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)]"
+                  >
+                    <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${ACCENT_STYLES[activeAccent].chip}`}
+                        >
+                          {ACTIONS.find((a) => a.key === activeAction)?.icon}
+                          {ACTIONS.find((a) => a.key === activeAction)?.title}
+                        </span>
+                        <span className="font-mono text-[10px] text-zinc-500">
+                          generated.output
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {activeAction === "notes" && (
+                          <>
+                            {saved ? (
+                              <button
+                                type="button"
+                                onClick={() => router.push("/my-notes")}
+                                className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/90 px-3 py-1.5 text-[11px] font-semibold text-black transition hover:bg-emerald-400"
+                              >
+                                <CheckCircle2 size={11} aria-hidden="true" />
+                                Saved · Open My Notes
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => void handleSaveToNotes()}
+                                disabled={saving}
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-400/30 bg-cyan-400/15 px-3 py-1.5 text-[11px] font-semibold text-cyan-100 transition hover:bg-cyan-400/25 disabled:opacity-60"
+                              >
+                                {saving ? (
+                                  <>
+                                    <Loader2 size={11} className="animate-spin" aria-hidden="true" />
+                                    Saving…
+                                  </>
+                                ) : (
+                                  <>
+                                    <Save size={11} aria-hidden="true" />
+                                    Save to My Notes
+                                  </>
+                                )}
+                              </button>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="rounded-xl border border-white/5 bg-black/30 p-5">
+                      <div className="mb-3 flex items-center gap-2 text-[10px] uppercase tracking-wider text-zinc-500">
+                        <FileText size={11} aria-hidden="true" />
+                        {activeAction === "notes"
+                          ? "AI-generated study notes"
+                          : activeAction === "flashcards"
+                            ? "Smart flashcard batch"
+                            : "Nova interactive quiz"}
+                      </div>
+                      <article
+                        className="prose-invert max-w-none text-[15px]"
+                        dangerouslySetInnerHTML={{ __html: renderedResult }}
+                      />
+                    </div>
+                  </motion.section>
+                )}
+              </AnimatePresence>
             </motion.section>
           )}
         </AnimatePresence>
       </div>
+
+      {/* Scoped keyframes for the laser sweep */}
+      <style jsx global>{`
+        @keyframes kv-laser-down {
+          0% {
+            transform: translateY(0);
+            opacity: 0;
+          }
+          15% {
+            opacity: 1;
+          }
+          85% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(var(--kv-laser-distance, 224px));
+            opacity: 0;
+          }
+        }
+        .kv-laser-sweep {
+          animation: kv-laser-down 2.4s linear infinite;
+          will-change: transform, opacity;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .kv-laser-sweep {
+            animation: none !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

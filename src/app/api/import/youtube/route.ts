@@ -171,6 +171,7 @@ export async function POST(request: Request) {
       author,
       transcriptLength: fullTranscript.length,
       transcriptPreview: fullTranscript.slice(0, 500),
+      transcript: transcriptForPrompt,
       notes: trimmedNotes,
     });
   } catch (error) {
