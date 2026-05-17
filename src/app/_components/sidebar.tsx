@@ -231,8 +231,27 @@ export function Sidebar({ mobileOpen, onCloseMobile, placement, onPlacementChang
 
     void loadFeaturePreferences()
 
+    // Live update: when the customization matrix toggles a feature,
+    // it dispatches a `kyvex:feature-preferences-changed` event with
+    // the freshest enabled/hidden lists. Apply them immediately so
+    // sidebar nav items fade out/in without a page reload.
+    const handleLiveUpdate = (event: Event) => {
+      const detail = (event as CustomEvent<{ enabledFeatures?: string[] }>).detail
+      if (detail && Array.isArray(detail.enabledFeatures)) {
+        setEnabledFeatureKeys(new Set(detail.enabledFeatures))
+        setFeatureFilterFailed(false)
+        setFeatureFilterLoaded(true)
+      } else {
+        // No payload — just refetch
+        void loadFeaturePreferences()
+      }
+    }
+
+    window.addEventListener('kyvex:feature-preferences-changed', handleLiveUpdate as EventListener)
+
     return () => {
       cancelled = true
+      window.removeEventListener('kyvex:feature-preferences-changed', handleLiveUpdate as EventListener)
     }
   }, [])
 

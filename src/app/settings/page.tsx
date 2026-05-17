@@ -20,7 +20,9 @@ import {
   Settings,
   Sun,
   Moon,
+  SlidersHorizontal,
 } from "lucide-react";
+import FeatureMatrix from "./_feature-matrix";
 
 function ThemeToggle({
   theme,
@@ -88,7 +90,7 @@ type AccentColor = "blue" | "purple" | "green" | "pink" | "orange" | "indigo";
 type FontSize = "small" | "medium" | "large";
 type NoteFormat = "summary" | "detailed" | "flashcards" | "questions";
 type StudyPreset = "HIGHSCHOOL" | "COLLEGE" | "UNIVERSITY";
-type Tab = "general" | "appearance" | "notifications" | "account" | "security";
+type Tab = "general" | "workspace" | "appearance" | "notifications" | "account" | "security";
 
 type AppearancePayload = {
   theme: Theme;
@@ -134,6 +136,11 @@ const TABS: { key: Tab; label: string; icon: ReactNode }[] = [
     key: "general",
     label: "General",
     icon: <Settings size={16} strokeWidth={1.5} />,
+  },
+  {
+    key: "workspace",
+    label: "Workspace",
+    icon: <SlidersHorizontal size={16} strokeWidth={1.5} />,
   },
   {
     key: "appearance",
@@ -1081,6 +1088,11 @@ export default function SettingsPage() {
 
                 <SaveButton isSaving={isSaving} onClick={() => void saveSettings()} />
               </>
+            )}
+
+            {/* ── WORKSPACE (Customization Matrix) ── */}
+            {activeTab === "workspace" && (
+              <FeatureMatrix />
             )}
 
             {/* ── ACCOUNT ── */}
