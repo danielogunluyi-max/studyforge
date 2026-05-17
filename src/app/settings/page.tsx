@@ -22,6 +22,7 @@ import {
   Moon,
   SlidersHorizontal,
 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import FeatureMatrix from "./_feature-matrix";
 
 function ThemeToggle({
@@ -773,7 +774,16 @@ export default function SettingsPage() {
           </nav>
 
           {/* Right content */}
-          <div key={activeTab} className="settings-section min-w-0">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              className="min-w-0"
+              style={{ willChange: "transform, opacity" }}
+            >
             {/* ── GENERAL ── */}
             {activeTab === "general" && (
               <>
@@ -1198,7 +1208,8 @@ export default function SettingsPage() {
                 </SectionBlock>
               </>
             )}
-          </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 
@@ -1244,13 +1255,6 @@ export default function SettingsPage() {
       )}
 
       <style>{`
-        .settings-section {
-          animation: sec-in 200ms ease both;
-        }
-        @keyframes sec-in {
-          from { opacity: 0; transform: translateY(6px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
         @media (max-width: 768px) {
           .settings-layout {
             grid-template-columns: 1fr !important;

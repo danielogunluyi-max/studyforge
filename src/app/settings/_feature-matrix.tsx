@@ -578,14 +578,19 @@ function MatrixSlider({
   loading?: boolean;
   ariaLabel: string;
 }) {
+  // Universal Kyvex brand gradient: teal → blue.
+  // Each cluster keeps its identity through the card halo, icon tint,
+  // and active-count chip; the slider itself is a unified brand control.
   const trackStyle: CSSProperties = checked
     ? {
-        background: `linear-gradient(135deg, rgba(${cluster.glow.from}, 0.95) 0%, rgba(${cluster.glow.to}, 0.95) 100%)`,
-        boxShadow: `0 0 0 1px rgba(255,255,255,0.10) inset, 0 0 18px -2px rgba(${cluster.glow.halo}, 0.55)`,
+        background:
+          "linear-gradient(135deg, rgba(20,184,166,0.95) 0%, rgba(59,130,246,0.95) 100%)",
+        boxShadow:
+          "0 0 0 1px rgba(255,255,255,0.12) inset, 0 0 18px -2px rgba(45,212,191,0.55)",
       }
     : {
-        background: "rgba(255,255,255,0.05)",
-        boxShadow: "0 0 0 1px rgba(255,255,255,0.07) inset",
+        background: "rgba(255,255,255,0.04)",
+        boxShadow: "0 0 0 1px rgba(255,255,255,0.06) inset",
       };
 
   return (
@@ -617,14 +622,14 @@ function MatrixSlider({
         }}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.88 }}
-        transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.7 }}
+        transition={{ type: "spring", stiffness: 450, damping: 25, mass: 0.65 }}
         style={{
           willChange: "transform",
           background: checked
             ? "linear-gradient(180deg,#ffffff 0%,#e4e4e7 100%)"
-            : "rgba(255,255,255,0.55)",
+            : "rgba(255,255,255,0.5)",
           boxShadow: checked
-            ? `0 4px 14px -2px rgba(${cluster.glow.halo}, 0.6), 0 0 0 1px rgba(0,0,0,0.18)`
+            ? "0 4px 14px -2px rgba(45,212,191,0.55), 0 0 0 1px rgba(0,0,0,0.18)"
             : "0 1px 2px rgba(0,0,0,0.4)",
         }}
         className="absolute top-1/2 block h-[22px] w-[22px] -translate-y-1/2 rounded-full"
