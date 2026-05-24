@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     });
   }
 
-  if (completed && (!existing || !existing.completed)) {
+  if (completed && (!existing?.completed)) {
     await db.habit.update({
       where: { id: habitId },
       data: { streak: { increment: 1 } },

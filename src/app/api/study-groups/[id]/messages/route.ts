@@ -5,7 +5,7 @@ import { runGroqPrompt } from "~/server/groq";
 import { bumpGroupStreak, bumpMessageStats, ensureGroupMember } from "~/server/study-groups";
 
 function getLinkPreview(text: string): { title: string; url: string; host: string } | null {
-  const urlMatch = text.match(/https?:\/\/[^\s]+/i);
+  const urlMatch = /https?:\/\/[^\s]+/i.exec(text);
   if (!urlMatch?.[0]) return null;
 
   try {

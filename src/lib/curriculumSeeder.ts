@@ -280,7 +280,7 @@ Rules:
 
       return tryParseSeededCourse(content);
     } catch (error: unknown) {
-      const asRecord = error as { status?: number; headers?: { [key: string]: string | undefined } };
+      const asRecord = error as { status?: number; headers?: Record<string, string | undefined> };
       const retryAfter = Number(asRecord?.headers?.["retry-after"] ?? "0");
       const isRateLimit = asRecord?.status === 429;
 

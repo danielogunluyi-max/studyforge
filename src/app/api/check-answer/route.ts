@@ -18,7 +18,7 @@ function extractJsonObject(text: string): { correct: boolean; feedback: string }
     // ignore
   }
 
-  const match = trimmed.match(/\{[\s\S]*\}/);
+  const match = /\{[\s\S]*\}/.exec(trimmed);
   if (!match) return null;
 
   try {

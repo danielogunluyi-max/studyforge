@@ -116,7 +116,7 @@ export default function CaptureStudio() {
 
   const snap = useCallback(() => {
     const v = videoRef.current;
-    if (!v || !v.videoWidth || !v.videoHeight) return;
+    if (!v?.videoWidth || !v.videoHeight) return;
     const off = document.createElement("canvas");
     off.width = v.videoWidth; off.height = v.videoHeight;
     off.getContext("2d")?.drawImage(v, 0, 0);

@@ -96,7 +96,7 @@ function buildLineFromItems(items: Pdf2JsonTextItem[]): string {
     if (!cur) continue;
     const gap = cur.x - previousRight;
 
-    const endsWithHyphen = /-$/.test(line);
+    const endsWithHyphen = line.endsWith("-");
 
     if (endsWithHyphen) {
       // If previous token ends with a hyphen, join directly (hyphenation)

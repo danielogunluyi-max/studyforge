@@ -109,7 +109,7 @@ export default function VoiceTutorPage() {
       voices.find((voice) => /female/i.test(voice.name)) ||
       voices[0] ||
       null
-    ) as SpeechSynthesisVoiceLike | null;
+    );
   }
 
   function stopSpeaking() {

@@ -25,7 +25,7 @@ export async function GET() {
 
   const referrals = await prisma.referral.findMany({
     where: { referrerId: session.user.id },
-    include: { referred: { select: { name: true, createdAt: true } } },
+    include: { referred: { select: { name: true } } },
   });
 
   return NextResponse.json({
@@ -33,7 +33,7 @@ export async function GET() {
     referralCount: referrals.filter((r) => r.used).length,
     referrals: referrals.map((r) => ({
       name: r.referred?.name || "Anonymous",
-      joinedAt: r.referred?.createdAt,
+      joinedAt: r.createdAt,
       used: r.used,
     })),
   });

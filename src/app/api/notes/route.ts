@@ -45,7 +45,7 @@ function parseTagArray(raw: string): string[] {
     // continue
   }
 
-  const codeBlock = trimmed.match(/```json\s*([\s\S]*?)```/i)?.[1] ?? trimmed.match(/```\s*([\s\S]*?)```/i)?.[1];
+  const codeBlock = (/```json\s*([\s\S]*?)```/i.exec(trimmed))?.[1] ?? (/```\s*([\s\S]*?)```/i.exec(trimmed))?.[1];
   if (codeBlock) {
     try {
       const parsed = JSON.parse(codeBlock) as unknown;
@@ -55,7 +55,7 @@ function parseTagArray(raw: string): string[] {
     }
   }
 
-  const arrayMatch = trimmed.match(/\[[\s\S]*\]/);
+  const arrayMatch = /\[[\s\S]*\]/.exec(trimmed);
   if (arrayMatch) {
     try {
       const parsed = JSON.parse(arrayMatch[0]) as unknown;
@@ -347,7 +347,7 @@ export async function PATCH(request: Request) {
     }
 
     const note = await db.note.findUnique({ where: { id } });
-    if (!note || note.userId !== session.user.id) {
+    if (note?.userId !== session.user.id) {
       return NextResponse.json({ error: "Note not found or unauthorized" }, { status: 404 });
     }
 
@@ -445,7 +445,7 @@ export async function DELETE(request: Request) {
 
     const note = await db.note.findUnique({ where: { id } });
 
-    if (!note || note.userId !== session.user.id) {
+    if (note?.userId !== session.user.id) {
       return NextResponse.json({ error: "Note not found or unauthorized" }, { status: 404 });
     }
 

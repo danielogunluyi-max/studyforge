@@ -9,7 +9,7 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 // Since we can't install new packages easily, use a free transcript API
 async function getYouTubeTranscript(url: string): Promise<string> {
   // Extract video ID
-  const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
+  const match = /(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/.exec(url)
   const videoId = match?.[1]
   if (!videoId) throw new Error('Invalid YouTube URL')
 

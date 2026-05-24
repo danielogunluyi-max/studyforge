@@ -15,7 +15,7 @@ export async function DELETE(
     const { id } = await context.params;
     const existing = await db.examPrediction.findUnique({ where: { id } });
 
-    if (!existing || existing.userId !== session.user.id) {
+    if (existing?.userId !== session.user.id) {
       return NextResponse.json({ error: "Prediction not found" }, { status: 404 });
     }
 

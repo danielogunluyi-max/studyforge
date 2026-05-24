@@ -46,7 +46,7 @@ function extractTitle(html: string): string {
   const ogTitle = pickMetaTag(html, ["og:title", "twitter:title"]);
   if (ogTitle) return ogTitle;
 
-  const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+  const titleMatch = /<title[^>]*>([^<]+)<\/title>/i.exec(html);
   return titleMatch?.[1]?.trim() ?? "";
 }
 

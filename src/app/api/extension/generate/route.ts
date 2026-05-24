@@ -1,5 +1,5 @@
 import { getToken } from "next-auth/jwt";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 import { auth } from "~/server/auth";
 import { runGroqPrompt } from "~/server/groq";

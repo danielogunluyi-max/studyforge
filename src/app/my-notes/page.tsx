@@ -1374,7 +1374,6 @@ export default function MyNotes() {
                       onMouseMove={handleCardMouseMove}
                       className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-colors duration-200 hover:border-white/25 will-change-transform"
                       style={{
-                        // @ts-expect-error CSS custom property
                         "--mx": "50%",
                         "--my": "50%",
                       }}

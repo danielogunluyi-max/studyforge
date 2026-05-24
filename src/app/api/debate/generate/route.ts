@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
+import { type Prisma } from "@/lib/prisma";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -37,8 +38,8 @@ export async function POST(req: Request) {
       data: {
         userId: session.user.id,
         topic,
-        forArguments: parsed.for || [],
-        againstArguments: parsed.against || [],
+        forArguments: (parsed.for ?? []) as Prisma.InputJsonValue,
+        againstArguments: (parsed.against ?? []) as Prisma.InputJsonValue,
         verdict: parsed.verdict || "",
       },
     });

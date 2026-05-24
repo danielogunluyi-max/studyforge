@@ -400,16 +400,7 @@ export default function CitationsPage() {
     showToast(success, "success");
   }, [success, showToast]);
 
-  if (status === "loading") {
-    return (
-      <main className="app-premium-dark min-h-screen bg-gray-950 p-6">
-        <SkeletonList count={3} />
-      </main>
-    );
-  }
-
-  if (!session) return null;
-
+  // Hooks MUST run before any early return — see react-hooks/rules-of-hooks.
   const preview = useMemo(() => getCitationPreview(draft), [draft]);
 
   const sortedFiltered = useMemo(() => {
@@ -422,6 +413,16 @@ export default function CitationsPage() {
       `${item.author} ${item.title} ${item.citationText}`.toLowerCase().includes(needle),
     );
   }, [citations, search]);
+
+  if (status === "loading") {
+    return (
+      <main className="app-premium-dark min-h-screen bg-gray-950 p-6">
+        <SkeletonList count={3} />
+      </main>
+    );
+  }
+
+  if (!session) return null;
 
   const worksHeader = draft.style.startsWith("MLA") ? "Works Cited" : "References";
 

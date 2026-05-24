@@ -176,6 +176,12 @@ model User {
     featurePreference    FeaturePreference?
     screenshots          Screenshot[]
     conversations        Conversation[]
+    referralCode         String?              @unique
+    referralsSent        Referral[]           @relation("Referrer")
+    referralsReceived    Referral[]           @relation("Referred")
+    essayGrades          EssayGrade[]
+    studyGhosts          StudyGhost[]
+    wrappedStats         WrappedStat[]
 }
 
 model OntarioCurriculumCourse {
@@ -266,6 +272,7 @@ model VerificationToken {
 model Note {
   id        String   @id @default(cuid())
   title     String
+  subject   String?
   content   String   @db.Text
   format    String
     tags      String[] @default([])
@@ -809,6 +816,7 @@ model Exam {
     topics           String?
     studyPlan        String?
     resultRecorded   Boolean   @default(false)
+    score            Float?
     scorePercent     Float?
     gradeKU          Float?
     gradeThinking    Float?
@@ -970,15 +978,18 @@ model FocusSession {
     goal         String?
     durationMins Int
     actualMins   Int?
+    duration     Int?
     completed    Boolean  @default(false)
     abandoned    Boolean  @default(false)
     distractions Int      @default(0)
     startedAt    DateTime @default(now())
     endedAt      DateTime?
+    createdAt    DateTime @default(now())
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([userId])
     @@index([startedAt])
+    @@index([createdAt])
 }
 
 model WellnessEntry {
@@ -1298,6 +1309,7 @@ model BattleRoyale {
     players       BattleRoyalePlayer[]
     questions     Json
     currentQ      Int      @default(0)
+    currentQuestion Int?
     winnerId      String?
     createdAt     DateTime @default(now())
 }
@@ -1341,16 +1353,34 @@ model YouTubeImport {
 }
 
 model GradeCalculation {
-    id            String   @id @default(cuid())
+    id            String     @id @default(cuid())
     userId        String
-    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
     courseName    String
-    currentGrade  Float
-    currentWeight Float
-    finalWeight   Float
-    targetGrade   Float
-    neededOnFinal Float
-    createdAt     DateTime @default(now())
+    // Phase 2 — tier-aware fields. tier dictates which simulator created
+    // this row and which fields are meaningful.
+    tier          UserPreset @default(HIGHSCHOOL)
+    // High School fields (existing — required for HS rows, optional otherwise)
+    currentGrade  Float?
+    currentWeight Float?
+    finalWeight   Float?
+    targetGrade   Float?
+    neededOnFinal Float?
+    // College — 4.0 GPA scale
+    gpa           Float?
+    creditHours   Float?
+    letterGrade   String?
+    // University — % + class average + credit weighting
+    classAverage  Float?
+    weightInProgram Float?
+    // Multi-course payload (course list as JSON for College/Uni multi-row calcs)
+    courses       Json?
+    notes         String?
+    createdAt     DateTime   @default(now())
+
+    @@index([userId])
+    @@index([tier])
+    @@index([createdAt])
 }
 
 model StudyContract {
@@ -1712,5 +1742,79 @@ model Message {
 
     @@index([conversationId])
     @@index([createdAt])
+}
+
+// =========================================================================
+// Phase 1 — Relational drift fix (May 2026)
+// =========================================================================
+
+model EssayGrade {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    essay       String   @db.Text
+    subject     String
+    grade       Float
+    feedback    Json
+    suggestions String[]
+    createdAt   DateTime @default(now())
+
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model StudyGhost {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    totalNotes    Int
+    totalCards    Int
+    totalExams    Int
+    avgExamScore  Float
+    totalSessions Int
+    topSubjects   String[]
+    masteryScores Json
+    narrative     String   @db.Text
+    createdAt     DateTime @default(now())
+
+    @@index([userId])
+    @@index([createdAt])
+}
+
+model WrappedStat {
+    id            String   @id @default(cuid())
+    userId        String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    year          Int
+    month         Int?
+    totalHours    Float
+    totalNotes    Int
+    totalCards    Int
+    totalExams    Int
+    topSubject    String
+    longestStreak Int
+    avgScore      Int
+    topFeature    String
+    data          Json
+    createdAt     DateTime @default(now())
+
+    @@unique([userId, year, month])
+    @@index([userId])
+}
+
+model Referral {
+    id          String    @id @default(cuid())
+    referrerId  String
+    referrer    User      @relation("Referrer", fields: [referrerId], references: [id], onDelete: Cascade)
+    referredId  String
+    referred    User      @relation("Referred", fields: [referredId], references: [id], onDelete: Cascade)
+    code        String
+    used        Boolean   @default(false)
+    usedAt      DateTime?
+    createdAt   DateTime  @default(now())
+
+    @@unique([referrerId, referredId])
+    @@index([referrerId])
+    @@index([referredId])
 }
 

@@ -67,7 +67,7 @@ export async function POST(request: Request) {
 
     if (body.noteId) {
       const note = await db.note.findUnique({ where: { id: body.noteId } });
-      if (!note || note.userId !== session.user.id) {
+      if (note?.userId !== session.user.id) {
         return NextResponse.json({ error: "Note not found." }, { status: 404 });
       }
       noteId = note.id;

@@ -193,7 +193,7 @@ export default function DeckEditorPage() {
 
     const data = (await response.json().catch(() => ({}))) as { card?: Flashcard };
     if (data.card) {
-      setDeck((prev) => (prev ? { ...prev, cards: [...prev.cards, data.card as Flashcard] } : prev));
+      setDeck((prev) => (prev ? { ...prev, cards: [...prev.cards, data.card!] } : prev));
       setNewFront("");
       setNewBack("");
       setShowAddCard(false);

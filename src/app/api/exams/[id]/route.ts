@@ -49,7 +49,7 @@ export async function DELETE(
 
     const { id } = await context.params;
     const exam = await db.exam.findUnique({ where: { id } });
-    if (!exam || exam.userId !== session.user.id) {
+    if (exam?.userId !== session.user.id) {
       return NextResponse.json({ error: "Exam not found" }, { status: 404 });
     }
 
@@ -75,7 +75,7 @@ export async function PATCH(
     const body = (await request.json()) as PatchPayload;
 
     const exam = await db.exam.findUnique({ where: { id } });
-    if (!exam || exam.userId !== session.user.id) {
+    if (exam?.userId !== session.user.id) {
       return NextResponse.json({ error: "Exam not found" }, { status: 404 });
     }
 

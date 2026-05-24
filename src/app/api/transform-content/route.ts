@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
     const body = (await request.json()) as { content?: string; learningStyle?: LearningStyle };
     const content = (body.content ?? "").trim();
-    const learningStyle = (body.learningStyle ?? "reading") as LearningStyle;
+    const learningStyle = (body.learningStyle ?? "reading");
 
     if (!content) {
       return NextResponse.json({ error: "Content is required" }, { status: 400 });

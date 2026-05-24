@@ -1,7 +1,9 @@
 import { PrismaClient } from "../../generated/prisma/index.js";
 
+export { Prisma } from "../../generated/prisma/index.js";
+
 declare global {
-  // eslint-disable-next-line no-var
+   
   var __kyvexPrisma: PrismaClient | undefined;
 }
 

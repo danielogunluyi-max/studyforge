@@ -68,8 +68,8 @@ function SplitPageInner() {
   const router = useRouter();
   const search = useSearchParams();
 
-  const initialLeft = isToolKey(search?.get("left") ?? null) ? (search!.get("left") as ToolKey) : "nova";
-  const initialRight = isToolKey(search?.get("right") ?? null) ? (search!.get("right") as ToolKey) : "notes";
+  const initialLeft = isToolKey(search?.get("left") ?? null) ? (search.get("left") as ToolKey) : "nova";
+  const initialRight = isToolKey(search?.get("right") ?? null) ? (search.get("right") as ToolKey) : "notes";
   const noteId = search?.get("noteId") ?? null;
 
   const [leftKey, setLeftKey] = useState<ToolKey>(initialLeft);

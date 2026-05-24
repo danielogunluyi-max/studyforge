@@ -25,7 +25,7 @@ export async function PATCH(
     const { id } = await context.params;
     const existing = await db.citation.findUnique({ where: { id } });
 
-    if (!existing || existing.userId !== session.user.id) {
+    if (existing?.userId !== session.user.id) {
       return NextResponse.json({ error: "Citation not found" }, { status: 404 });
     }
 
@@ -66,7 +66,7 @@ export async function DELETE(
     const { id } = await context.params;
     const existing = await db.citation.findUnique({ where: { id } });
 
-    if (!existing || existing.userId !== session.user.id) {
+    if (existing?.userId !== session.user.id) {
       return NextResponse.json({ error: "Citation not found" }, { status: 404 });
     }
 

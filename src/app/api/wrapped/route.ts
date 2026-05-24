@@ -1,5 +1,5 @@
 import { auth } from "~/server/auth";
-import { prisma } from "@/lib/prisma";
+import { prisma, type Prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -62,24 +62,38 @@ export async function POST(req: Request) {
     subjectBreakdown: subjectCounts,
   };
 
-  const wrapped = await prisma.wrappedStat.upsert({
-    where: { userId_year_month: { userId: session.user.id, year, month: month ?? null } },
-    update: { ...data, data },
-    create: {
-      userId: session.user.id,
-      year,
-      month: month ?? null,
-      totalHours: data.totalHours,
-      totalNotes: data.totalNotes,
-      totalCards: data.totalCards,
-      topSubject: data.topSubject,
-      longestStreak: 0,
-      totalExams: data.totalExams,
-      avgScore: data.avgScore,
-      topFeature: data.topFeature,
-      data,
-    },
+  // Manual upsert because compound unique [userId, year, month] requires
+  // non-null month in Prisma's generated where type, but month is nullable
+  // (null = yearly summary).
+  const existing = await prisma.wrappedStat.findFirst({
+    where: { userId: session.user.id, year, month: month ?? null },
   });
+
+  const writeData = {
+    totalHours: data.totalHours,
+    totalNotes: data.totalNotes,
+    totalCards: data.totalCards,
+    topSubject: data.topSubject,
+    totalExams: data.totalExams,
+    avgScore: data.avgScore,
+    topFeature: data.topFeature,
+    data: data as Prisma.InputJsonValue,
+  };
+
+  const wrapped = existing
+    ? await prisma.wrappedStat.update({
+        where: { id: existing.id },
+        data: writeData,
+      })
+    : await prisma.wrappedStat.create({
+        data: {
+          userId: session.user.id,
+          year,
+          month: month ?? null,
+          longestStreak: 0,
+          ...writeData,
+        },
+      });
 
   return NextResponse.json({ wrapped, data });
 }

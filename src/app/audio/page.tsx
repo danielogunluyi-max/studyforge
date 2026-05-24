@@ -277,7 +277,7 @@ export default function AudioPage() {
       const formData = new FormData();
       const file =
         uploadedFile ||
-        new File([audioBlob as Blob], "recording.webm", { type: "audio/webm" });
+        new File([audioBlob!], "recording.webm", { type: "audio/webm" });
 
       formData.append("audio", file);
 

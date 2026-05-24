@@ -25,7 +25,7 @@ function parseDetectionJson(text: string): { subject: string; suggestedFormat: s
     // ignore
   }
 
-  const match = trimmed.match(/\{[\s\S]*\}/);
+  const match = /\{[\s\S]*\}/.exec(trimmed);
   if (!match) return null;
 
   try {

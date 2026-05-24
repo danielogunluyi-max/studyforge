@@ -100,7 +100,7 @@ Respond ONLY in JSON:
       .slice(0, 10);
 
     const difficulty = ['low', 'medium', 'high'].includes((parsed.difficulty ?? '').toLowerCase())
-      ? (parsed.difficulty as string).toLowerCase()
+      ? (parsed.difficulty!).toLowerCase()
       : 'medium';
 
     const note = await prisma.note.create({

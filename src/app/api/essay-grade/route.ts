@@ -1,5 +1,5 @@
 import { auth } from "~/server/auth";
-import { prisma } from "@/lib/prisma";
+import { prisma, type Prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
 
@@ -65,8 +65,8 @@ Respond ONLY in JSON:
         essay: essay.slice(0, 10000),
         subject: subject || "English",
         grade: overallGrade,
-        feedback: parsed,
-        suggestions: improvements,
+        feedback: parsed as Prisma.InputJsonValue,
+        suggestions: improvements as string[],
       },
     });
 

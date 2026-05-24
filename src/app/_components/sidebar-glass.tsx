@@ -101,6 +101,7 @@ export default function SidebarGlass() {
       transition={{ type: "spring", stiffness: 260, damping: 28 }}
       className="sticky top-0 z-50 flex h-screen shrink-0 flex-col border-r border-white/10 bg-black/40 backdrop-blur-xl"
       aria-label="Primary navigation"
+      data-tour="sidebar"
     >
       {/* Brand */}
       <div className="flex items-center gap-3 px-5 py-5">

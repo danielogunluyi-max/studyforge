@@ -118,9 +118,9 @@ export function AppearanceSync() {
 
         const data = (await response.json()) as Partial<AppearancePayload>;
         const payload: AppearancePayload = {
-          theme: (data.theme as Theme) ?? "light",
-          accentColor: (data.accentColor as AccentColor) ?? "blue",
-          fontSize: (data.fontSize as FontSize) ?? "medium",
+          theme: (data.theme!) ?? "light",
+          accentColor: (data.accentColor!) ?? "blue",
+          fontSize: (data.fontSize!) ?? "medium",
           compactMode: data.compactMode ?? false,
         };
 

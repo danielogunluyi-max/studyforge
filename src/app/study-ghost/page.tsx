@@ -109,7 +109,7 @@ export default function StudyGhostPage() {
             <div className="kv-grid-3" style={{ marginTop: 16 }}>
               <div className="kv-card-sm">Notes: +{active?.growth.notes} ↑</div>
               <div className="kv-card-sm">Cards: +{active?.growth.cards} ↑</div>
-              <div className="kv-card-sm">Avg Score: {active?.growth.scoreChange! >= 0 ? '+' : ''}{active?.growth.scoreChange.toFixed(1)}% ↑</div>
+              <div className="kv-card-sm">Avg Score: {active?.growth.scoreChange >= 0 ? '+' : ''}{active?.growth.scoreChange.toFixed(1)}% ↑</div>
             </div>
           ) : null}
         </div>

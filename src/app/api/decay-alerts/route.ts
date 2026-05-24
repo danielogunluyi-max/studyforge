@@ -10,8 +10,8 @@ export async function GET(req: Request) {
   const decks = await prisma.flashcardDeck.findMany({
     where: { userId: session.user.id },
     include: {
-      flashcards: {
-        select: { id: true, question: true, nextReviewAt: true, interval: true }
+      cards: {
+        select: { id: true, front: true, nextReview: true, interval: true }
       }
     }
   })
@@ -20,18 +20,18 @@ export async function GET(req: Request) {
   const alerts = []
 
   for (const deck of decks) {
-    for (const card of deck.flashcards) {
-      if (!card.nextReviewAt) continue
-      const daysOverdue = (now.getTime() - card.nextReviewAt.getTime()) / 86400000
+    for (const card of deck.cards) {
+      if (!card.nextReview) continue
+      const daysOverdue = (now.getTime() - card.nextReview.getTime()) / 86400000
       if (daysOverdue > 0) {
         const decayScore = Math.min(100, daysOverdue * 15)
         alerts.push({
           conceptId: card.id,
           conceptType: 'flashcard',
-          conceptTitle: card.question.slice(0, 60),
+          conceptTitle: card.front.slice(0, 60),
           decayScore: Math.round(decayScore),
           daysOverdue: Math.round(daysOverdue),
-          deckName: deck.name,
+          deckName: deck.title,
           deckId: deck.id,
         })
       }

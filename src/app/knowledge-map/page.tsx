@@ -228,7 +228,7 @@ export default function KnowledgeMapPage() {
         const metaMap = new Map<string, NodeMeta>();
         items.forEach((item) => {
           const words = (item.excerpt ?? '').trim().split(/\s+/).filter(Boolean).length;
-          const cards = Number((item.excerpt ?? '').match(/(\d+)/)?.[1] ?? '0');
+          const cards = Number((/(\d+)/.exec((item.excerpt ?? '')))?.[1] ?? '0');
           const statsLabel = toNodeType(item.type) === 'deck'
             ? `${cards || 0} cards`
             : `${words} words`;

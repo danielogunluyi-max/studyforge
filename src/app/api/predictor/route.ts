@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
+import { type Prisma } from "@/lib/prisma";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -83,12 +84,12 @@ export async function POST(req: Request) {
         userId: session.user.id,
         examType: "predictor",
         uploadedContent: `Auto predictor context for ${subject}`,
-        predictions: parsed,
+        predictions: parsed as Prisma.InputJsonValue,
         subject,
         examDate: new Date(examDate),
         predictedScore: parsed.predictedScore || 0,
         confidence: parsed.confidence || 0,
-        factors: parsed.factors || [],
+        factors: (parsed.factors ?? []) as Prisma.InputJsonValue,
       },
     });
 

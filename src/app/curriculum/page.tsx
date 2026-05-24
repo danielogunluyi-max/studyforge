@@ -102,7 +102,7 @@ const FALLBACK_VISUAL: SubjectVisual = {
 
 function visualFor(subject: string): SubjectVisual {
   const key = subject.toLowerCase().trim();
-  if (SUBJECT_VISUALS[key]) return SUBJECT_VISUALS[key]!;
+  if (SUBJECT_VISUALS[key]) return SUBJECT_VISUALS[key];
   // Try partial matches (e.g., "Mathematics, College" -> "mathematics")
   for (const [k, v] of Object.entries(SUBJECT_VISUALS)) {
     if (key.includes(k)) return v;

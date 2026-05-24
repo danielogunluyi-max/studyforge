@@ -323,7 +323,7 @@ function addContentSlide(pptx: PptxGenJS, slide: SlideData, theme: ThemeConfig) 
     });
   }
 
-  if (slide.notes && slide.notes.trim()) {
+  if (slide.notes?.trim()) {
     pptSlide.addNotes(slide.notes);
   }
 }

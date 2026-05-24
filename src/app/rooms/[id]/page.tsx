@@ -370,7 +370,7 @@ export default function RoomInteriorPage() {
   }, [feed]);
 
   const currentUserId = session?.user?.id ?? "";
-  const isHost = Boolean(room && room.hostId === currentUserId);
+  const isHost = Boolean(room?.hostId === currentUserId);
 
   const effectiveTimeLeft = useMemo(() => {
     void clockTick;

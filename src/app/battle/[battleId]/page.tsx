@@ -115,7 +115,7 @@ export default function BattleRoomPage() {
   }, [battleId]);
 
   useEffect(() => {
-    if (!battle || battle.status !== "active") return;
+    if (battle?.status !== "active") return;
     if (timer <= 0 || isSubmitting) return;
 
     const tick = setInterval(() => setTimer((prev) => prev - 1), 1000);
@@ -154,7 +154,7 @@ export default function BattleRoomPage() {
   }, [streakMultiplier]);
 
   useEffect(() => {
-    if (!battle || battle.status !== "completed") return;
+    if (battle?.status !== "completed") return;
     if (!currentUserId || battleWinAwardedRef.current) return;
     if (battle.result?.winnerId !== currentUserId) return;
 
@@ -177,7 +177,7 @@ export default function BattleRoomPage() {
   };
 
   const submitAnswer = async (forcedAnswer?: string) => {
-    if (!battleId || !battle || battle.status !== "active" || isSubmitting) return;
+    if (!battleId || battle?.status !== "active" || isSubmitting) return;
     const answerToSend = forcedAnswer ?? selectedAnswer;
     if (forcedAnswer === undefined && !answerToSend) return;
 

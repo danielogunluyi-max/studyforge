@@ -557,6 +557,12 @@ export default function SettingsPage() {
       setPreset(nextPreset);
       setSuccess("Study level updated");
       setTimeout(() => setSuccess(""), 3000);
+      // Broadcast for tier-aware components (grade-calc, etc.)
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("kyvex:preset-changed", { detail: { preset: nextPreset } }),
+        );
+      }
     } catch {
       setError("Failed to update study level");
     } finally {

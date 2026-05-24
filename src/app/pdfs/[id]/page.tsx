@@ -252,7 +252,7 @@ export default function PdfAnnotatorPage() {
     }
 
     setDoc(payload.document);
-    setAnnotations((payload.document.annotations ?? []).map((a) => ({ ...a, rects: (a.rects ?? []) as Rect[] })));
+    setAnnotations((payload.document.annotations ?? []).map((a) => ({ ...a, rects: (a.rects ?? []) })));
     setPageCount(payload.document.pageCount);
   };
 
@@ -407,7 +407,7 @@ export default function PdfAnnotatorPage() {
 
     const nextAnnotation = {
       ...data.annotation,
-      rects: (data.annotation.rects ?? []) as Rect[],
+      rects: (data.annotation.rects ?? []),
     };
 
     setAnnotations((prev) => [...prev, nextAnnotation]);

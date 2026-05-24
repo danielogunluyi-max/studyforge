@@ -113,7 +113,7 @@ export async function PATCH(req: Request) {
     where: { id: body.sessionId },
   });
 
-  if (!studySession || studySession.userId !== uid) {
+  if (studySession?.userId !== uid) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
@@ -125,7 +125,11 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "Invalid phaseIndex" }, { status: 400 });
     }
 
-    phases[phaseIndex] = { ...phases[phaseIndex], completed: true };
+    const currentPhaseDef = phases[phaseIndex];
+    if (!currentPhaseDef) {
+      return NextResponse.json({ error: "Invalid phaseIndex" }, { status: 400 });
+    }
+    phases[phaseIndex] = { ...currentPhaseDef, completed: true };
     const nextPhase = phaseIndex + 1;
     const allDone = nextPhase >= phases.length;
 

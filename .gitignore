@@ -84,3 +84,15 @@ generated/
 .vercel
 .env*.local
 vercel
+
+# =========================
+# Cascade scratch & diagnostic droppings
+# (do not commit JSX-balance debug scripts, build logs, or tsc captures)
+# =========================
+tmp_*
+build-err.txt
+build-error.txt
+build-out.txt
+*-check.txt
+modified-files.txt
+.tsc-out.txt

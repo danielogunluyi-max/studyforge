@@ -473,7 +473,6 @@ export default function StudyDeckPage() {
                   style={{
                     perspective: "1500px",
                     minHeight: 400,
-                    // @ts-expect-error CSS custom properties
                     "--mx": "50%",
                     "--my": "50%",
                   }}

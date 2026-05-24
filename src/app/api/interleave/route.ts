@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
+import { type Prisma } from "@/lib/prisma";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -38,7 +39,7 @@ export async function POST(req: Request) {
       data: {
         userId: session.user.id,
         subjects,
-        schedule: parsed,
+        schedule: parsed as Prisma.InputJsonValue,
         totalMinutes,
       },
     });

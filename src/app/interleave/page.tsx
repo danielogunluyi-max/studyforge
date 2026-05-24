@@ -134,7 +134,7 @@ export default function InterleavePage() {
           <h2 className="kv-section-title">Schedule Timeline</h2>
           <div style={{ display: 'grid', gap: 10, marginTop: 10, marginBottom: 12 }}>
             {(result.blocks || []).map((block, idx) => {
-              const color = ACCENTS[idx % ACCENTS.length] as string;
+              const color = ACCENTS[idx % ACCENTS.length]!;
               return (
                 <article
                   key={`${block.subject}-${idx}`}

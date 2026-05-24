@@ -30,7 +30,7 @@ export function extractJsonBlock<T>(raw: string): T | null {
     // continue
   }
 
-  const codeBlock = direct.match(/```json\s*([\s\S]*?)```/i)?.[1];
+  const codeBlock = (/```json\s*([\s\S]*?)```/i.exec(direct))?.[1];
   if (codeBlock) {
     try {
       return JSON.parse(codeBlock) as T;

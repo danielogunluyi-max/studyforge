@@ -177,7 +177,8 @@ exports.Prisma.UserScalarFieldEnum = {
   soloSessionsCompleted: 'soloSessionsCompleted',
   battleAchievements: 'battleAchievements',
   preset: 'preset',
-  presetSet: 'presetSet'
+  presetSet: 'presetSet',
+  referralCode: 'referralCode'
 };
 
 exports.Prisma.OntarioCurriculumCourseScalarFieldEnum = {
@@ -239,6 +240,7 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
 exports.Prisma.NoteScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  subject: 'subject',
   content: 'content',
   format: 'format',
   tags: 'tags',
@@ -587,6 +589,7 @@ exports.Prisma.ExamScalarFieldEnum = {
   topics: 'topics',
   studyPlan: 'studyPlan',
   resultRecorded: 'resultRecorded',
+  score: 'score',
   scorePercent: 'scorePercent',
   gradeKU: 'gradeKU',
   gradeThinking: 'gradeThinking',
@@ -699,11 +702,13 @@ exports.Prisma.FocusSessionScalarFieldEnum = {
   goal: 'goal',
   durationMins: 'durationMins',
   actualMins: 'actualMins',
+  duration: 'duration',
   completed: 'completed',
   abandoned: 'abandoned',
   distractions: 'distractions',
   startedAt: 'startedAt',
-  endedAt: 'endedAt'
+  endedAt: 'endedAt',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.WellnessEntryScalarFieldEnum = {
@@ -955,6 +960,7 @@ exports.Prisma.BattleRoyaleScalarFieldEnum = {
   maxPlayers: 'maxPlayers',
   questions: 'questions',
   currentQ: 'currentQ',
+  currentQuestion: 'currentQuestion',
   winnerId: 'winnerId',
   createdAt: 'createdAt'
 };
@@ -995,11 +1001,19 @@ exports.Prisma.GradeCalculationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   courseName: 'courseName',
+  tier: 'tier',
   currentGrade: 'currentGrade',
   currentWeight: 'currentWeight',
   finalWeight: 'finalWeight',
   targetGrade: 'targetGrade',
   neededOnFinal: 'neededOnFinal',
+  gpa: 'gpa',
+  creditHours: 'creditHours',
+  letterGrade: 'letterGrade',
+  classAverage: 'classAverage',
+  weightInProgram: 'weightInProgram',
+  courses: 'courses',
+  notes: 'notes',
   createdAt: 'createdAt'
 };
 
@@ -1308,6 +1322,58 @@ exports.Prisma.MessageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.EssayGradeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  essay: 'essay',
+  subject: 'subject',
+  grade: 'grade',
+  feedback: 'feedback',
+  suggestions: 'suggestions',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.StudyGhostScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  totalNotes: 'totalNotes',
+  totalCards: 'totalCards',
+  totalExams: 'totalExams',
+  avgExamScore: 'avgExamScore',
+  totalSessions: 'totalSessions',
+  topSubjects: 'topSubjects',
+  masteryScores: 'masteryScores',
+  narrative: 'narrative',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.WrappedStatScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  year: 'year',
+  month: 'month',
+  totalHours: 'totalHours',
+  totalNotes: 'totalNotes',
+  totalCards: 'totalCards',
+  totalExams: 'totalExams',
+  topSubject: 'topSubject',
+  longestStreak: 'longestStreak',
+  avgScore: 'avgScore',
+  topFeature: 'topFeature',
+  data: 'data',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ReferralScalarFieldEnum = {
+  id: 'id',
+  referrerId: 'referrerId',
+  referredId: 'referredId',
+  code: 'code',
+  used: 'used',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1443,7 +1509,11 @@ exports.Prisma.ModelName = {
   FeaturePreference: 'FeaturePreference',
   Screenshot: 'Screenshot',
   Conversation: 'Conversation',
-  Message: 'Message'
+  Message: 'Message',
+  EssayGrade: 'EssayGrade',
+  StudyGhost: 'StudyGhost',
+  WrappedStat: 'WrappedStat',
+  Referral: 'Referral'
 };
 
 /**

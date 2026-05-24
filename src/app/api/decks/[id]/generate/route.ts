@@ -43,7 +43,7 @@ function extractJsonArray(raw: string): GeneratedCard[] {
     // continue
   }
 
-  const codeBlock = text.match(/```json\s*([\s\S]*?)```/i)?.[1] ?? text.match(/```\s*([\s\S]*?)```/i)?.[1];
+  const codeBlock = (/```json\s*([\s\S]*?)```/i.exec(text))?.[1] ?? (/```\s*([\s\S]*?)```/i.exec(text))?.[1];
   if (codeBlock) {
     try {
       return parseArray(codeBlock);

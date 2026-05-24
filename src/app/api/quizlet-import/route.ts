@@ -14,12 +14,12 @@ export async function POST(req: Request) {
   // User pastes their Quizlet export text
 
   const lines = pastedText.split('\n').filter((l: string) => l.trim())
-  const cards: { question: string; answer: string }[] = []
+  const cards: { front: string; back: string }[] = []
 
   for (const line of lines) {
     const parts = line.split('\t')
     if (parts.length >= 2) {
-      cards.push({ question: parts[0].trim(), answer: parts[1].trim() })
+      cards.push({ front: parts[0].trim(), back: parts[1].trim() })
     }
   }
 
@@ -39,8 +39,12 @@ Respond ONLY as JSON array: [{"question":"...","answer":"..."}]`
       const parsed = JSON.parse(
         (completion.choices[0]?.message?.content || '[]')
           .replace(/```json|```/g, '').trim()
-      )
-      cards.push(...parsed)
+      ) as Array<{ question?: string; answer?: string; front?: string; back?: string }>
+      for (const item of parsed) {
+        const front = item.front ?? item.question
+        const back = item.back ?? item.answer
+        if (front && back) cards.push({ front, back })
+      }
     } catch { /* ignore */ }
   }
 
@@ -52,18 +56,17 @@ Respond ONLY as JSON array: [{"question":"...","answer":"..."}]`
   const deck = await prisma.flashcardDeck.create({
     data: {
       userId: session.user.id,
-      name: deckName || 'Imported from Quizlet',
+      title: deckName || 'Imported from Quizlet',
       description: 'Imported via Quizlet importer',
       subject: subject || 'General',
-      flashcards: {
-        create: cards.map((c, i) => ({
-          question: c.question,
-          answer: c.answer,
-          order: i,
+      cards: {
+        create: cards.map((c) => ({
+          front: c.front,
+          back: c.back,
         }))
       }
     },
-    include: { flashcards: true }
+    include: { cards: true }
   })
 
   return NextResponse.json({ deck, count: cards.length })

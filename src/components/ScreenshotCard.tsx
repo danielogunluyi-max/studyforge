@@ -61,7 +61,7 @@ function tiltFor(id: string): number {
 // Convert a base64 data URL back into a Blob so we can post to /api/extract-image
 function dataUrlToBlob(dataUrl: string): Blob {
   const [meta = '', b64 = ''] = dataUrl.split(',');
-  const mime = meta.match(/data:(.*?);base64/)?.[1] ?? 'image/png';
+  const mime = (/data:(.*?);base64/.exec(meta))?.[1] ?? 'image/png';
   const bin = atob(b64);
   const u8 = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);

@@ -270,7 +270,6 @@ function FeatureCard({
         onMouseMove={handleMouseMove}
         className={`relative block overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition-colors duration-200 hover:border-white/25 ${isHidden ? 'opacity-40' : ''}`}
         style={{
-          // @ts-expect-error CSS custom properties
           '--mx': '50%',
           '--my': '50%',
         }}
@@ -411,7 +410,7 @@ export default function DashboardPage() {
         <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-purple-500/10 blur-[140px]" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12" data-tour="dashboard">
         {isLoading || !stats ? (
           <DashboardSkeleton />
         ) : (

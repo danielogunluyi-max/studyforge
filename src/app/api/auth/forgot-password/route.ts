@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     const body = (await request.json()) as { email?: string };
     const email = body.email?.toLowerCase().trim();
 
-    if (!email || !email.includes("@")) {
+    if (!email?.includes("@")) {
       console.log("[forgot-password] Invalid or missing email:", email);
       return NextResponse.json(
         { error: "Valid email address is required" },

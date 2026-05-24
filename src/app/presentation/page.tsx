@@ -1659,7 +1659,7 @@ export default function PresentationPage() {
                     sub: v === 5 ? "Sprint" : v === 10 ? "Standard" : "Marathon",
                   }))}
                   value={slideCount}
-                  onChange={(v) => setSlideCount(v as SlideCountValue)}
+                  onChange={(v) => setSlideCount(v)}
                 />
               </Field>
 

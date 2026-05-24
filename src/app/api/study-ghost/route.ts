@@ -60,7 +60,7 @@ Write a short, emotional, motivating letter (150 words) from their past self sho
       totalExams: exams.length,
       avgExamScore: avgScore,
       totalSessions: focus,
-      topSubjects: subjects.slice(0, 5) as string[],
+      topSubjects: subjects.slice(0, 5),
       masteryScores: {},
       narrative,
     },

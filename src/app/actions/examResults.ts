@@ -45,7 +45,7 @@ export async function recordExamResult(input: RecordExamResultInput): Promise<Re
   }
 
   const exam = await prisma.exam.findUnique({ where: { id: input.examId } });
-  if (!exam || exam.userId !== session.user.id) {
+  if (exam?.userId !== session.user.id) {
     return { success: false, error: "Exam not found" };
   }
 

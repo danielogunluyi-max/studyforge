@@ -191,6 +191,52 @@ export default function Generator() {
     showToast("Note saved successfully.", "success");
   }, [saveSuccess, showToast]);
 
+  // Hoisted above the early returns to satisfy react-hooks/rules-of-hooks.
+  const parseFlashcards = (text: string): Flashcard[] => {
+    const cards: Flashcard[] = [];
+    const lines = text.split('\n');
+    let currentQ = '';
+    let currentA = '';
+    let nextId = 0;
+
+    for (const line of lines) {
+      if (line.trim().startsWith('Q:')) {
+        if (currentQ && currentA) {
+          cards.push({ id: nextId++, question: currentQ, answer: currentA });
+        }
+        currentQ = line.replace(/^Q:\s*/, '').trim();
+        currentA = '';
+      } else if (line.trim().startsWith('A:')) {
+        currentA = line.replace(/^A:\s*/, '').trim();
+      } else if (line.trim() && currentA) {
+        currentA += ' ' + line.trim();
+      } else if (line.trim() && currentQ && !currentA) {
+        currentQ += ' ' + line.trim();
+      }
+    }
+    if (currentQ && currentA) {
+      cards.push({ id: nextId++, question: currentQ, answer: currentA });
+    }
+    return cards;
+  };
+
+  useEffect(() => {
+    if (outputFormat !== "flashcards") {
+      setStudyMode(false);
+      setStudyCardIndex(0);
+      return;
+    }
+
+    const parsed = parseFlashcards(generatedNotes);
+    setShuffledCards(parsed);
+    setStudyCardIndex(0);
+    setFlippedCards(new Set());
+    setReviewedCards(new Set());
+    setKnownCards(new Set());
+    setStillLearningCards(new Set());
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- parseFlashcards is stable per render and intentionally excluded
+  }, [generatedNotes, outputFormat]);
+
   if (status === "loading") {
     return (
       <main className="app-premium-dark min-h-screen bg-gray-950 p-6">
@@ -582,49 +628,8 @@ export default function Generator() {
     return stepLines.length ? stepLines : [cleaned];
   };
 
-  const parseFlashcards = (text: string): Flashcard[] => {
-    const cards: Flashcard[] = [];
-    const lines = text.split('\n');
-    let currentQ = '';
-    let currentA = '';
-    let nextId = 0;
-    
-    for (const line of lines) {
-      if (line.trim().startsWith('Q:')) {
-        if (currentQ && currentA) {
-          cards.push({ id: nextId++, question: currentQ, answer: currentA });
-        }
-        currentQ = line.replace(/^Q:\s*/, '').trim();
-        currentA = '';
-      } else if (line.trim().startsWith('A:')) {
-        currentA = line.replace(/^A:\s*/, '').trim();
-      } else if (line.trim() && currentA) {
-        currentA += ' ' + line.trim();
-      } else if (line.trim() && currentQ && !currentA) {
-        currentQ += ' ' + line.trim();
-      }
-    }
-    if (currentQ && currentA) {
-      cards.push({ id: nextId++, question: currentQ, answer: currentA });
-    }
-    return cards;
-  };
-
-  useEffect(() => {
-    if (outputFormat !== "flashcards") {
-      setStudyMode(false);
-      setStudyCardIndex(0);
-      return;
-    }
-
-    const parsed = parseFlashcards(generatedNotes);
-    setShuffledCards(parsed);
-    setStudyCardIndex(0);
-    setFlippedCards(new Set());
-    setReviewedCards(new Set());
-    setKnownCards(new Set());
-    setStillLearningCards(new Set());
-  }, [generatedNotes, outputFormat]);
+  // parseFlashcards + its useEffect were moved above the early returns below;
+  // see the block right before `if (status === "loading")`.
 
   const shuffleFlashcards = () => {
     const baseCards = shuffledCards.length ? [...shuffledCards] : parseFlashcards(generatedNotes);
@@ -680,7 +685,7 @@ export default function Generator() {
     };
 
     for (const line of lines) {
-      const questionStartMatch = line.match(/^\d+\.\s*(.+\?)\s*$/);
+      const questionStartMatch = /^\d+\.\s*(.+\?)\s*$/.exec(line);
 
       if (questionStartMatch) {
         pushCurrent();

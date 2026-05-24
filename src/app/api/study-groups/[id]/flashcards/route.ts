@@ -50,7 +50,7 @@ export async function POST(
       const cardId = (body.cardId ?? "").trim();
       if (!cardId) return NextResponse.json({ error: "cardId required" }, { status: 400 });
       const card = await db.groupFlashcard.findUnique({ where: { id: cardId } });
-      if (!card || card.groupId !== id) return NextResponse.json({ error: "Card not found" }, { status: 404 });
+      if (card?.groupId !== id) return NextResponse.json({ error: "Card not found" }, { status: 404 });
 
       const knownBy = new Set(card.knownBy);
       const learningBy = new Set(card.learningBy);

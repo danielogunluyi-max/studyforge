@@ -62,7 +62,7 @@ export async function POST(
       if (!sharedNoteId || !comment) return NextResponse.json({ error: "sharedNoteId and comment required" }, { status: 400 });
 
       const shared = await db.groupSharedNote.findUnique({ where: { id: sharedNoteId }, select: { id: true, groupId: true } });
-      if (!shared || shared.groupId !== id) return NextResponse.json({ error: "Shared note not found" }, { status: 404 });
+      if (shared?.groupId !== id) return NextResponse.json({ error: "Shared note not found" }, { status: 404 });
 
       const created = await db.groupSharedNoteComment.create({
         data: { sharedNoteId, userId: session.user.id, comment },
@@ -76,7 +76,7 @@ export async function POST(
     if (!noteId) return NextResponse.json({ error: "noteId is required" }, { status: 400 });
 
     const note = await db.note.findUnique({ where: { id: noteId }, select: { id: true, userId: true } });
-    if (!note || note.userId !== session.user.id) return NextResponse.json({ error: "Note not found" }, { status: 404 });
+    if (note?.userId !== session.user.id) return NextResponse.json({ error: "Note not found" }, { status: 404 });
 
     const shared = await db.groupSharedNote.upsert({
       where: { groupId_noteId: { groupId: id, noteId } },

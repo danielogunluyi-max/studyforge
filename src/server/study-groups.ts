@@ -48,14 +48,14 @@ export async function bumpGroupStreak(groupId: string) {
   const today = startOfUtcDay(now);
   const last = group.lastActiveAt ? startOfUtcDay(group.lastActiveAt) : null;
 
-  if (last && today.getTime() === last.getTime()) {
+  if (today.getTime() === last?.getTime()) {
     await db.studyGroup.update({ where: { id: groupId }, data: { lastActiveAt: now } });
     return;
   }
 
   const yesterday = new Date(today);
   yesterday.setUTCDate(yesterday.getUTCDate() - 1);
-  const nextStreak = last && last.getTime() === yesterday.getTime() ? group.streakCount + 1 : 1;
+  const nextStreak = last?.getTime() === yesterday.getTime() ? group.streakCount + 1 : 1;
 
   await db.studyGroup.update({
     where: { id: groupId },

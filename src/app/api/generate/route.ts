@@ -50,13 +50,13 @@ export async function POST(request: Request) {
       ? Number(quizQuestionCount)
       : 5;
     const normalizedDifficulty = ["easy", "medium", "hard"].includes((quizDifficulty ?? "").toLowerCase())
-      ? (quizDifficulty as string).toLowerCase()
+      ? (quizDifficulty!).toLowerCase()
       : "medium";
     const normalizedQuizType = ["open-ended", "multiple-choice", "true-false", "calculation"].includes((quizType ?? "").toLowerCase())
-      ? (quizType as string).toLowerCase()
+      ? (quizType!).toLowerCase()
       : "open-ended";
     const normalizedNotesLength = ["brief", "medium", "comprehensive"].includes((notesLength ?? "").toLowerCase())
-      ? (notesLength as string).toLowerCase()
+      ? (notesLength!).toLowerCase()
       : "medium";
 
     const notesLengthInstruction = normalizedNotesLength === "brief"

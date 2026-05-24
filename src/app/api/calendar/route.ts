@@ -31,7 +31,7 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 function resolveEventColor(type: string, color?: string | null) {
-  if (color && color.trim()) return color;
+  if (color?.trim()) return color;
   return TYPE_COLORS[type] ?? TYPE_COLORS.deadline ?? "var(--accent-blue)";
 }
 

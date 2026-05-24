@@ -300,7 +300,7 @@ export function PomodoroWidget() {
       let nextTimerState: TimerState = saved.timerState;
 
       if (saved.isRunning) {
-        let elapsed = Math.max(0, Math.floor((Date.now() - saved.savedAt) / 1000));
+        const elapsed = Math.max(0, Math.floor((Date.now() - saved.savedAt) / 1000));
         let remaining = nextTimeLeft - elapsed;
 
         while (remaining <= 0) {
