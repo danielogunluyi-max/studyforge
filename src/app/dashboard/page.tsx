@@ -19,6 +19,7 @@ import {
   Brain,
   Clock,
   ArrowRight,
+  Eye,
 } from 'lucide-react'
 
 /* ─── Types ─────────────────────────────────────────────────── */
@@ -49,7 +50,7 @@ type DashboardStats = {
   readiness: number
 }
 
-type FeatureKey = 'notes' | 'nova' | 'flashcards' | 'screenshot'
+type FeatureKey = 'notes' | 'nova' | 'flashcards' | 'screenshot' | 'nova-vision'
 
 type Feature = {
   key: FeatureKey
@@ -102,6 +103,16 @@ const FEATURES: Feature[] = [
     accent: 'rgba(226, 232, 240, 0.35)',
     glow: 'rgba(226, 232, 240, 0.18)',
     iconBg: 'from-zinc-200/15 to-zinc-400/5 text-zinc-200',
+  },
+  {
+    key: 'nova-vision',
+    label: 'Nova Live Vision',
+    description: 'Camera-aware Socratic tutor',
+    href: '/dashboard/nova-vision',
+    icon: Eye,
+    accent: 'rgba(34, 211, 238, 0.35)',
+    glow: 'rgba(34, 211, 238, 0.18)',
+    iconBg: 'from-cyan-400/20 to-sky-500/5 text-cyan-300',
   },
 ]
 
@@ -346,6 +357,7 @@ export default function DashboardPage() {
     nova: false,
     flashcards: false,
     screenshot: false,
+    'nova-vision': false,
   })
   const battery = useBatteryLevel()
 

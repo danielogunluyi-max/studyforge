@@ -15,7 +15,7 @@ type SpeechRecognitionLike = {
   lang: string;
   onresult: ((event: unknown) => void) | null;
   onend: (() => void) | null;
-  onerror: (() => void) | null;
+  onerror: ((event: unknown) => void) | null;
   start: () => void;
   stop: () => void;
 };
