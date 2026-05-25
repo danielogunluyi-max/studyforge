@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
-import { prisma, Prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@/lib/prisma";
 
 /**
  * Phase 2 — Tiered Grade Calculator API
@@ -64,6 +65,11 @@ function num(value: unknown, fallback = 0): number {
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
+function nonEmpty(value: string | undefined, fallback: string): string {
+  const trimmed = value?.trim();
+  return trimmed && trimmed.length > 0 ? trimmed : fallback;
+}
+
 function asTier(value: unknown): Tier {
   if (value === "COLLEGE" || value === "UNIVERSITY") return value;
   return "HIGHSCHOOL";
@@ -107,7 +113,7 @@ export async function POST(req: Request) {
       data: {
         userId: session.user.id,
         tier: "COLLEGE",
-        courseName: payload.courseName?.trim() || "Term GPA",
+        courseName: nonEmpty(payload.courseName, "Term GPA"),
         gpa: Math.round(gpa * 100) / 100,
         creditHours: totalCredits,
         courses: rows as unknown as Prisma.InputJsonValue,
@@ -166,7 +172,7 @@ export async function POST(req: Request) {
       data: {
         userId: session.user.id,
         tier: "UNIVERSITY",
-        courseName: payload.courseName?.trim() || "Term Average",
+        courseName: nonEmpty(payload.courseName, "Term Average"),
         currentGrade: Math.round(weightedGrade * 10) / 10,
         creditHours: totalCredits,
         classAverage: weightedClassAvg !== null ? Math.round(weightedClassAvg * 10) / 10 : null,
@@ -194,7 +200,7 @@ export async function POST(req: Request) {
 
   /* ───── HIGH SCHOOL — needed on final (legacy) ──────────── */
   const payload = body as HSPayload;
-  const courseName = payload.courseName?.trim() || "Untitled course";
+  const courseName = nonEmpty(payload.courseName, "Untitled course");
   const currentGrade = num(payload.currentGrade);
   const currentWeight = num(payload.currentWeight);
   const finalWeight = num(payload.finalWeight);

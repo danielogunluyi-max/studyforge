@@ -162,8 +162,9 @@ export default function GradeCalcPage() {
       const data = (await res.json()) as { calcs?: Array<Record<string, unknown>> };
       const rows: RecentRow[] = (data.calcs ?? []).map((entry, index) => {
         const tierVal = typeof entry.tier === "string" ? entry.tier : "HIGHSCHOOL";
+        const rowId = typeof entry.id === "string" ? entry.id : `row-${index}`;
         return {
-          id: String(entry.id ?? index),
+          id: rowId,
           tier: (tierVal === "COLLEGE" || tierVal === "UNIVERSITY"
             ? tierVal
             : "HIGHSCHOOL") as UserTier,
