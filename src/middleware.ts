@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { auth } from "~/server/auth";
+import NextAuth from "next-auth";
+import { authConfig } from "~/server/auth.config";
 
 /**
  * Middleware to enforce authentication on protected routes.
+ * Uses edge-compatible auth config to avoid bundling database dependencies.
  * Unauthenticated users accessing protected routes are redirected to login.
  */
+const { auth } = NextAuth(authConfig);
+
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const isAuthPage = req.nextUrl.pathname.startsWith("/login") || 

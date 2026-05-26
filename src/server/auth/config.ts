@@ -1,46 +1,21 @@
 import bcrypt from "bcryptjs";
-import { type DefaultSession, type NextAuthConfig } from "next-auth";
+import { type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { db } from "~/server/db";
+import { authConfig as edgeAuthConfig } from "~/server/auth.config";
 
 /**
- * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
- * object and keep type safety.
- *
- * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
- */
-declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
-  }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
-}
-
-/**
- * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
+ * Server-side NextAuth configuration.
+ * This file imports the edge-safe config and adds database providers and Node.js-specific modules.
+ * This should only be imported in server-side contexts, not in Edge middleware.
  *
  * @see https://next-auth.js.org/configuration/options
  */
 export const authConfig = {
-  pages: {
-    error: "/error",
-  },
-  trustHost: true,
-  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  ...edgeAuthConfig,
   debug: true,
-  // TEMPORARY: use JWT sessions and avoid initializing the Prisma adapter here.
-  // The adapter was causing initialization-time DB errors in production (500s).
-  // We'll restore `adapter: PrismaAdapter(db)` and `session.strategy = 'database'`
-  // after the DB / env issues are resolved.
+  // Add database providers here (Node.js-specific)
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -76,27 +51,4 @@ export const authConfig = {
       },
     }),
   ],
-  session: {
-    // Use JWT sessions temporarily so NextAuth does not require DB connectivity
-    // during initialization. This allows sign-in/sign-out to work while the
-    // underlying DB/env issues are fixed. Note: server-side session invalidation
-    // on signOut will be less deterministic with JWTs.
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
-  callbacks: {
-    jwt: ({ token, user }) => {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.id as string,
-      },
-    }),
-  },
 } satisfies NextAuthConfig;
