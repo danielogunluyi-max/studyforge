@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
 import { useToast } from '~/app/_components/toast'
 import { DashboardSkeleton } from '~/app/_components/skeleton'
+import WhatIfSimulator from '~/app/_components/what-if-simulator'
 import {
   FileText,
   Layers,
@@ -503,6 +504,14 @@ export default function DashboardPage() {
                 />
               </div>
             </section>
+
+            {/* ─── What-If Simulator ───────────────────────── */}
+            <motion.section
+              variants={cardVariants}
+              className="will-change-transform"
+            >
+              <WhatIfSimulator />
+            </motion.section>
 
             {/* ─── Feature Grid ───────────────────────────── */}
             <section>
