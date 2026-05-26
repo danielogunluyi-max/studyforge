@@ -38,7 +38,6 @@ const NAV: NavLink[] = [
   { href: "/tutor", label: "Nova AI", icon: Sparkles, glow: "#2dd4bf" },
   { href: "/dashboard/nova-vision", label: "Nova Vision", icon: Eye, glow: "#22d3ee" },
   { href: "/capture-studio", label: "Capture", icon: Camera, glow: "#f97316" },
-  { href: "/import/youtube", label: "YouTube Import", icon: MonitorPlay, glow: "#ef4444" },
   { href: "/mock-exam", label: "Mock Exam", icon: GraduationCap, glow: "#34d399" },
   { href: "/presentation/create", label: "Presentations", icon: Presentation, glow: "#a78bfa" },
   { href: "/settings", label: "Settings", icon: Settings, glow: "#60a5fa" },
@@ -145,6 +144,7 @@ export default function SidebarGlass() {
                 hidden: { opacity: 0, x: -16 },
                 show: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 320, damping: 28 } },
               }}
+              style={{ willChange: "transform, opacity" }}
             >
               <Link
                 href={link.href}
@@ -219,6 +219,7 @@ export default function SidebarGlass() {
                 exit={{ opacity: 0, x: -6 }}
                 transition={{ duration: 0.18 }}
                 className="min-w-0 flex-1"
+                style={{ willChange: "transform, opacity" }}
               >
                 <p className="truncate text-xs font-semibold text-white">{userName}</p>
                 {userEmail && <p className="truncate text-[10px] text-zinc-500">{userEmail}</p>}

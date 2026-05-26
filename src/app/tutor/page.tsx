@@ -297,10 +297,12 @@ export default function TutorPage() {
     showToast(error, "error");
   }, [error, showToast]);
 
-  // Streaming typewriter effect
+  // Streaming typewriter effect with atomic ref for smooth rendering
+  const streamingContentRef = useRef<string>("");
   const typeAssistantMessage = async (content: string) => {
     const id = makeId();
     setIsTypingResponse(true);
+    streamingContentRef.current = "";
     setMessages((prev) => [
       ...prev,
       { id, role: "assistant", content: "", createdAt: new Date().toISOString() },
@@ -311,9 +313,11 @@ export default function TutorPage() {
     for (let index = 0; index < content.length; index += step) {
       await new Promise((resolve) => window.setTimeout(resolve, 12));
       const next = content.slice(0, Math.min(index + step, content.length));
+      streamingContentRef.current = next;
       setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, content: next } : m)));
     }
 
+    streamingContentRef.current = content;
     setIsTypingResponse(false);
   };
 

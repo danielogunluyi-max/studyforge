@@ -12,7 +12,6 @@ const ALL_ROUTES = [
   { label: 'Note Generator', href: '/generator', icon: '✨', category: 'Create', keywords: ['ai', 'generate', 'create', 'notes'] },
   { label: 'Smart Upload', href: '/smart-upload', icon: '⚡', category: 'Create', keywords: ['upload', 'file', 'pdf', 'everything'] },
   { label: 'Audio to Notes', href: '/audio', icon: '🎙', category: 'Create', keywords: ['audio', 'voice', 'record', 'transcribe'] },
-  { label: 'YouTube Import', href: '/youtube-import', icon: '🎬', category: 'Create', keywords: ['youtube', 'video', 'import'] },
   { label: 'Handwriting Scan', href: '/handwriting', icon: '✍️', category: 'Create', keywords: ['handwriting', 'scan', 'photo'] },
   { label: 'Live Lecture Mode', href: '/lecture', icon: '🎤', category: 'Create', keywords: ['lecture', 'live', 'class', 'record'] },
   { label: 'Classroom Import', href: '/classroom-import', icon: '🎓', category: 'Create', keywords: ['classroom', 'canvas', 'google', 'import'] },

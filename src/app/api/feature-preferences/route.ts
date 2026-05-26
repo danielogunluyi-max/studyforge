@@ -59,7 +59,6 @@ const REQUIRED_FEATURE_KEYS = [
   "focus",
   "learning-style-quiz",
   "study-groups",
-  "youtube-import",
   "match",
   "referral",
   "handwriting",

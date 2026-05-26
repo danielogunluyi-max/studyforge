@@ -80,7 +80,6 @@ const NAV_KEY_BY_HREF: Record<string, string> = {
   '/focus': 'focus',
   '/citations': 'citations',
   '/syllabus': 'syllabus',
-  '/youtube-import': 'youtube-import',
   '/library': 'library',
   '/search': 'search',
   '/capture': 'capture',

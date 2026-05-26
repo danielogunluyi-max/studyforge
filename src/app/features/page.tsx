@@ -56,7 +56,6 @@ const ALL_FEATURES: Feature[] = [
 
   { key: 'citations', label: 'Citations', icon: '\u{1F4DA}', category: 'Research' },
   { key: 'syllabus', label: 'Syllabus Scan', icon: '\u{1F4D8}', category: 'Research' },
-  { key: 'youtube-import', label: 'YouTube Import', icon: '\u{1F3AC}', category: 'Research' },
   { key: 'library', label: 'Study Library', icon: '\u{1F50D}', category: 'Research' },
   { key: 'search', label: 'Search', icon: '\u{1F310}', category: 'Research' },
   { key: 'capture', label: 'Quick Capture', icon: '\u{1F4CC}', category: 'Research' },

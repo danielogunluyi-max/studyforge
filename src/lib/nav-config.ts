@@ -19,7 +19,6 @@ export const NAV_SECTIONS = [
       { key: 'generator', label: 'Note Generator', href: '/generator', icon: '✨' },
       { key: 'smart-upload', label: 'Smart Upload', href: '/smart-upload', icon: '⚡' },
       { key: 'audio', label: 'Audio to Notes', href: '/audio', icon: '🎙' },
-      { key: 'youtube-import', label: 'YouTube Import', href: '/youtube-import', icon: '🎬' },
       { key: 'handwriting', label: 'Handwriting', href: '/handwriting', icon: '✍️' },
       { key: 'lecture', label: 'Live Lecture', href: '/lecture', icon: '🎤' },
       { key: 'classroom-import', label: 'Classroom Import', href: '/classroom-import', icon: '🎓' },

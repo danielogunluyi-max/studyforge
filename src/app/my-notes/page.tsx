@@ -8,7 +8,7 @@ import {
   Search, Plus, Folder, Tag, Pin, Trash2, Copy, Share2, MoreHorizontal,
   X, FileText, Edit3, Bold, Italic, Heading1, Heading2, Heading3,
   List, ListOrdered, Save, Filter, Flame, BookOpen,
-  Image as ImageIcon, ZoomIn,
+  Image as ImageIcon, ZoomIn, Video,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "~/app/_components/button";
@@ -18,6 +18,7 @@ import Skeleton, { SkeletonList } from "@/app/_components/skeleton";
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { renderMath } from "@/lib/mathRenderer";
+import VideoTranscriptDrawer from "~/app/_components/video-transcript-drawer";
 
 const PREFILL_STORAGE_KEY = "kyvex:prefillText";
 const PREFILL_FORMAT_KEY = "kyvex:prefillFormat";
@@ -245,6 +246,35 @@ export default function MyNotes() {
   const [editorOpen, setEditorOpen] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const editorRef = useRef<HTMLDivElement>(null);
+  const [transcriptDrawerOpen, setTranscriptDrawerOpen] = useState(false);
+
+  const handleImportTranscript = (content: string) => {
+    if (!editorRef.current) return;
+    const editor = editorRef.current;
+    
+    // Insert at cursor position or append to end
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      const span = document.createElement('span');
+      span.innerHTML = content;
+      range.insertNode(span);
+      range.setStartAfter(span);
+      range.setEndAfter(span);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    } else {
+      // Append to end
+      editor.innerHTML += `<br><br>${content}`;
+    }
+    
+    // Update the note content state
+    if (selectedNote) {
+      setSelectedNote({ ...selectedNote, content: editor.innerHTML });
+    }
+    
+    showToast("Transcript imported to notes", "success");
+  };
 
   // Media Gallery (screenshots linked to selected note)
   type NoteMedia = { id: string; title: string; imageData: string; createdAt: string };
@@ -1594,6 +1624,15 @@ export default function MyNotes() {
                 <button type="button" onClick={() => execEditor('insertOrderedList')} className="rounded-md p-2 text-zinc-300 transition hover:bg-white/10 hover:text-white" aria-label="Numbered list"><ListOrdered size={16} /></button>
               </div>
               <div className="ml-auto flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setTranscriptDrawerOpen(true)}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-zinc-300 transition hover:bg-white/10 hover:text-white"
+                  title="Import YouTube transcript"
+                >
+                  <Video size={14} />
+                  Transcript
+                </button>
                 <Button onClick={closeEditor} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10 active:scale-95">
                   Cancel
                 </Button>
@@ -1892,6 +1931,13 @@ export default function MyNotes() {
           </div>
         </div>
       )}
+
+      {/* Video Transcript Drawer */}
+      <VideoTranscriptDrawer
+        isOpen={transcriptDrawerOpen}
+        onClose={() => setTranscriptDrawerOpen(false)}
+        onImportToNotes={handleImportTranscript}
+      />
     </main>
   );
 }

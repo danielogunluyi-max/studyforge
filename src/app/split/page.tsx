@@ -2,10 +2,10 @@
 
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Sparkles, MonitorPlay, StickyNote, Layers } from "lucide-react";
+import { Sparkles, StickyNote, Layers } from "lucide-react";
 import SplitView, { type PaneDescriptor } from "~/app/_components/SplitView";
 
-type ToolKey = "nova" | "youtube" | "notes" | "flashcards" | "mock-exam";
+type ToolKey = "nova" | "notes" | "flashcards" | "mock-exam";
 
 type ToolDef = {
   key: ToolKey;
@@ -27,13 +27,6 @@ const TOOLS: Record<ToolKey, ToolDef> = {
     accent: "#2dd4bf",
     icon: Sparkles,
     buildSrc: () => withEmbed("/tutor"),
-  },
-  youtube: {
-    key: "youtube",
-    label: "YouTube Import",
-    accent: "#ef4444",
-    icon: MonitorPlay,
-    buildSrc: () => withEmbed("/import/youtube"),
   },
   notes: {
     key: "notes",

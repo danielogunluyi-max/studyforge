@@ -68,6 +68,7 @@ export default function NovaVisionDashboardPage() {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [isListening, setIsListening] = useState(false);
   const [isAudioEnabled, setIsAudioEnabled] = useState(false);
+  const streamingContentRef = useRef<string>("");
 
   /* ---- Sync stream to video element ------------------------- */
   useEffect(() => {
@@ -221,6 +222,7 @@ export default function NovaVisionDashboardPage() {
         const data = await res.json();
         const replyText = data.message || "No response from Nova.";
         if (data.conversationId) setConversationId(data.conversationId);
+        streamingContentRef.current = replyText;
 
         setMessages((prev) =>
           prev.map((m) =>

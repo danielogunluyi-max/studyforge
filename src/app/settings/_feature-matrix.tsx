@@ -177,7 +177,6 @@ const CLUSTERS: FeatureCluster[] = [
       accent: "#ef4444",
     },
     features: [
-      { key: "youtube-import", label: "YouTube Import", description: "Stream-to-notes with Nova summarizer.", icon: Video },
       { key: "smart-upload", label: "Smart Upload", description: "Drop PDF · DOCX · slides for parsing.", icon: Upload },
       { key: "audio", label: "Audio → Notes", description: "Transcribe + structure any recording.", icon: FileAudio },
       { key: "lecture", label: "Lecture Capture", description: "Live mic capture with chapter detection.", icon: Headphones },
