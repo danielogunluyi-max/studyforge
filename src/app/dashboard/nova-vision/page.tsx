@@ -12,7 +12,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, Video, VideoOff, Send, Sparkles, Eye, ArrowLeft } from "lucide-react";
+import { Camera, Video, VideoOff, Send, Sparkles, Eye, ArrowLeft, Mic, MicOff, Volume2, VolumeX } from "lucide-react";
 import Link from "next/link";
 
 import { useCameraStream } from "@/lib/hooks/useCameraStream";
@@ -37,6 +37,20 @@ function makeId() {
   return `m-${Math.random().toString(36).slice(2, 9)}-${Date.now().toString(36)}`;
 }
 
+function stripMarkdownForSpeech(text: string): string {
+  return text
+    .replace(/\$\$[\s\S]*?\$\$/g, "") // Remove $$...$$ LaTeX blocks
+    .replace(/\$[^$]+\$/g, "") // Remove $...$ inline LaTeX
+    .replace(/\*\*([^*]+)\*\*/g, "$1") // Remove **bold**
+    .replace(/\*([^*]+)\*/g, "$1") // Remove *italic*
+    .replace(/`([^`]+)`/g, "$1") // Remove `code`
+    .replace(/```[\s\S]*?```/g, "") // Remove ```code blocks```
+    .replace(/#{1,6}\s/g, "") // Remove # headers
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // Remove [text](url) links
+    .replace(/\n+/g, " ") // Replace newlines with spaces
+    .trim();
+}
+
 /* ──────────────────────────────────────────────────────────── */
 /*  Page                                                        */
 /* ──────────────────────────────────────────────────────────── */
@@ -50,6 +64,10 @@ export default function NovaVisionDashboardPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [isListening, setIsListening] = useState(false);
+  const [isAudioEnabled, setIsAudioEnabled] = useState(false);
 
   /* ---- Sync stream to video element ------------------------- */
   useEffect(() => {
@@ -71,12 +89,90 @@ export default function NovaVisionDashboardPage() {
     el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
+  /* ---- TTS: Speak new assistant messages ------------------- */
+  useEffect(() => {
+    if (!isAudioEnabled) return;
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.role === "assistant" && !lastMessage.pending && lastMessage.content) {
+      const utterance = new SpeechSynthesisUtterance(stripMarkdownForSpeech(lastMessage.content));
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    }
+  }, [messages, isAudioEnabled]);
+
+  /* ---- SpeechRecognition voice input ----------------------- */
+  const toggleListening = useCallback(() => {
+    if (typeof window === "undefined") return;
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+
+    if (isListening) {
+      setIsListening(false);
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = "en-US";
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setDraft((prev) => (prev ? `${prev} ${transcript}` : transcript));
+      setIsListening(false);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error("Speech recognition error:", event.error);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.start();
+    setIsListening(true);
+  }, [isListening]);
+
+  /* ---- Capture frame from video ----------------------------- */
+  const captureFrame = useCallback((): string | null => {
+    const video = videoRef.current;
+    if (!video || !video.videoWidth || !video.videoHeight) return null;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+    return dataUrl;
+  }, []);
+
   /* ---- Send message ----------------------------------------- */
   const send = useCallback(
     async (opts: { withSnap: boolean }) => {
       if (busy) return;
       const text = draft.trim();
       if (!text && !opts.withSnap) return;
+
+      let imageBase64: string | undefined;
+      if (opts.withSnap) {
+        const dataUrl = captureFrame();
+        if (!dataUrl) {
+          alert("Could not capture frame. Make sure the camera is active.");
+          return;
+        }
+        imageBase64 = dataUrl.replace(/^data:image\/jpeg;base64,/, "");
+        setCapturedImage(dataUrl);
+      }
 
       setBusy(true);
       const userMsg: ChatMessage = {
@@ -95,10 +191,37 @@ export default function NovaVisionDashboardPage() {
       setDraft("");
 
       try {
-        // TODO: Integrate with /api/nova-vision
-        // For now, simulate a response
-        await new Promise((resolve) => setTimeout(resolve, 1200));
-        const replyText = "I can see what you're working on. What's the first step you're stuck on?";
+        const payload = {
+          messages: [
+            ...messages.map((m) => ({
+              role: m.role as "user" | "assistant",
+              content: m.content,
+            })),
+            {
+              role: "user" as const,
+              content: text || "(snapped a photo)",
+              imageBase64,
+              mimeType: "image/jpeg",
+            },
+          ],
+          conversationId,
+        };
+
+        const res = await fetch("/api/nova-vision", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: "Request failed" }));
+          throw new Error(err.error || "Vision API error");
+        }
+
+        const data = await res.json();
+        const replyText = data.message || "No response from Nova.";
+        if (data.conversationId) setConversationId(data.conversationId);
+
         setMessages((prev) =>
           prev.map((m) =>
             m.id === placeholder.id
@@ -106,11 +229,12 @@ export default function NovaVisionDashboardPage() {
               : m,
           ),
         );
-      } catch {
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : "Network issue. Please try again.";
         setMessages((prev) =>
           prev.map((m) =>
             m.id === placeholder.id
-              ? { ...m, content: "*Network issue. Please try again.*", pending: false }
+              ? { ...m, content: `*${msg}*`, pending: false }
               : m,
           ),
         );
@@ -119,7 +243,7 @@ export default function NovaVisionDashboardPage() {
         inputRef.current?.focus();
       }
     },
-    [busy, draft, messages],
+    [busy, draft, messages, conversationId, captureFrame],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -278,6 +402,25 @@ export default function NovaVisionDashboardPage() {
               boxShadow: "0 30px 80px -20px rgba(0,0,0,0.5), 0 0 0 1px rgba(34,211,238,0.06) inset",
             }}
           >
+            {/* Chat header with TTS toggle */}
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
+              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-zinc-400">
+                Nova Tutor
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsAudioEnabled((prev) => !prev)}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-semibold transition-all ${
+                  isAudioEnabled
+                    ? "border-cyan-400/30 bg-cyan-500/10 text-cyan-300 shadow-[0_0_16px_-4px_rgba(34,211,238,0.4)]"
+                    : "border-white/10 bg-white/[0.04] text-zinc-400 hover:bg-white/[0.08] hover:text-zinc-200"
+                }`}
+              >
+                {isAudioEnabled ? <Volume2 size={12} strokeWidth={2} /> : <VolumeX size={12} strokeWidth={2} />}
+                {isAudioEnabled ? "Audio On" : "Audio Off"}
+              </button>
+            </div>
+
             {/* Chat history */}
             <div
               ref={chatScrollRef}
@@ -299,7 +442,53 @@ export default function NovaVisionDashboardPage() {
 
             {/* Input bar */}
             <div className="border-t border-white/10 px-4 py-3">
+              {/* Captured image preview */}
+              <AnimatePresence>
+                {capturedImage && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    className="mb-3 flex items-center gap-2"
+                  >
+                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-black">
+                      <img
+                        src={capturedImage}
+                        alt="Captured frame"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setCapturedImage(null)}
+                      className="text-[11px] font-semibold text-zinc-400 transition-colors hover:text-zinc-200"
+                    >
+                      Clear
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <div className="flex items-end gap-2">
+                {/* Mic button for voice input */}
+                <motion.button
+                  type="button"
+                  onClick={toggleListening}
+                  disabled={busy}
+                  whileHover={busy ? undefined : { scale: 1.02 }}
+                  whileTap={busy ? undefined : { scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 450, damping: 28 }}
+                  aria-label="Voice input"
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border transition-all disabled:cursor-not-allowed disabled:opacity-40 ${
+                    isListening
+                      ? "border-red-400/50 bg-red-500/10 text-red-300 shadow-[0_0_20px_-4px_rgba(248,113,113,0.5)] animate-pulse"
+                      : "border-white/10 bg-white/[0.06] text-zinc-400 hover:bg-white/[0.10] hover:text-zinc-200"
+                  }`}
+                  style={{ willChange: "transform" }}
+                >
+                  {isListening ? <MicOff size={14} strokeWidth={2} /> : <Mic size={14} strokeWidth={2} />}
+                </motion.button>
+
                 <textarea
                   ref={inputRef}
                   value={draft}

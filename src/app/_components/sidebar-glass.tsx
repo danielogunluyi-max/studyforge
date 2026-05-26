@@ -19,6 +19,7 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
+  Eye,
   type LucideIcon,
 } from "lucide-react";
 
@@ -35,6 +36,7 @@ const NAV: NavLink[] = [
   { href: "/my-notes", label: "Notes", icon: StickyNote, glow: "#f0b429" },
   { href: "/flashcards", label: "Flashcards", icon: Layers, glow: "#8b5cf6" },
   { href: "/tutor", label: "Nova AI", icon: Sparkles, glow: "#2dd4bf" },
+  { href: "/dashboard/nova-vision", label: "Nova Vision", icon: Eye, glow: "#22d3ee" },
   { href: "/capture-studio", label: "Capture", icon: Camera, glow: "#f97316" },
   { href: "/import/youtube", label: "YouTube Import", icon: MonitorPlay, glow: "#ef4444" },
   { href: "/mock-exam", label: "Mock Exam", icon: GraduationCap, glow: "#34d399" },
