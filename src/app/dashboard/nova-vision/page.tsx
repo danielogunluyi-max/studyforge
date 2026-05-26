@@ -12,8 +12,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, Video, VideoOff, Send, Sparkles, Eye, ArrowLeft, Mic, MicOff, Volume2, VolumeX } from "lucide-react";
+import { Camera, Video, VideoOff, Send, Sparkles, Eye, ArrowLeft, Mic, MicOff, Volume2, VolumeX, Layers } from "lucide-react";
 import Link from "next/link";
+import FlashcardDeck from "~/app/_components/flashcard-deck";
 
 import { useCameraStream } from "@/lib/hooks/useCameraStream";
 
@@ -69,6 +70,9 @@ export default function NovaVisionDashboardPage() {
   const [isListening, setIsListening] = useState(false);
   const [isAudioEnabled, setIsAudioEnabled] = useState(false);
   const streamingContentRef = useRef<string>("");
+  const [flashcards, setFlashcards] = useState<Array<{ front: string; back: string }>>([]);
+  const [flashcardModalOpen, setFlashcardModalOpen] = useState(false);
+  const [generatingFlashcards, setGeneratingFlashcards] = useState(false);
 
   /* ---- Sync stream to video element ------------------------- */
   useEffect(() => {
@@ -140,6 +144,41 @@ export default function NovaVisionDashboardPage() {
     recognition.start();
     setIsListening(true);
   }, [isListening]);
+
+  /* ---- Generate flashcards from chat history ---------------- */
+  const handleGenerateFlashcards = async () => {
+    if (messages.length === 0) {
+      alert("No conversation history to generate flashcards from.");
+      return;
+    }
+
+    const chatText = messages
+      .map((m) => `${m.role === "user" ? "Student" : "Nova"}: ${m.content}`)
+      .join("\n\n");
+
+    setGeneratingFlashcards(true);
+    try {
+      const response = await fetch("/api/flashcards/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ textContext: chatText, count: 10 }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to generate flashcards");
+      }
+
+      const data = await response.json();
+      setFlashcards(data.flashcards);
+      setFlashcardModalOpen(true);
+    } catch (error) {
+      console.error("[flashcards] Error:", error);
+      alert("Failed to generate flashcards. Please try again.");
+    } finally {
+      setGeneratingFlashcards(false);
+    }
+  };
 
   /* ---- Capture frame from video ----------------------------- */
   const captureFrame = useCallback((): string | null => {
@@ -409,18 +448,33 @@ export default function NovaVisionDashboardPage() {
               <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-zinc-400">
                 Nova Tutor
               </span>
-              <button
-                type="button"
-                onClick={() => setIsAudioEnabled((prev) => !prev)}
-                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-semibold transition-all ${
-                  isAudioEnabled
-                    ? "border-cyan-400/30 bg-cyan-500/10 text-cyan-300 shadow-[0_0_16px_-4px_rgba(34,211,238,0.4)]"
-                    : "border-white/10 bg-white/[0.04] text-zinc-400 hover:bg-white/[0.08] hover:text-zinc-200"
-                }`}
-              >
-                {isAudioEnabled ? <Volume2 size={12} strokeWidth={2} /> : <VolumeX size={12} strokeWidth={2} />}
-                {isAudioEnabled ? "Audio On" : "Audio Off"}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleGenerateFlashcards}
+                  disabled={generatingFlashcards || messages.length === 0}
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-semibold transition-all ${
+                    generatingFlashcards
+                      ? "border-cyan-400/30 bg-cyan-500/10 text-cyan-300"
+                      : "border-cyan-500/20 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20"
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                  <Layers size={12} strokeWidth={2} className={generatingFlashcards ? "animate-spin" : ""} />
+                  {generatingFlashcards ? "Generating..." : "Flashcards"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsAudioEnabled((prev) => !prev)}
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-semibold transition-all ${
+                    isAudioEnabled
+                      ? "border-cyan-400/30 bg-cyan-500/10 text-cyan-300 shadow-[0_0_16px_-4px_rgba(34,211,238,0.4)]"
+                      : "border-white/10 bg-white/[0.04] text-zinc-400 hover:bg-white/[0.08] hover:text-zinc-200"
+                  }`}
+                >
+                  {isAudioEnabled ? <Volume2 size={12} strokeWidth={2} /> : <VolumeX size={12} strokeWidth={2} />}
+                  {isAudioEnabled ? "Audio On" : "Audio Off"}
+                </button>
+              </div>
             </div>
 
             {/* Chat history */}
@@ -544,6 +598,30 @@ export default function NovaVisionDashboardPage() {
           </motion.div>
         </div>
       </div>
+
+      {/* Flashcard Modal */}
+      <AnimatePresence>
+        {flashcardModalOpen && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+            onClick={() => setFlashcardModalOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="w-full max-w-4xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <FlashcardDeck
+                flashcards={flashcards}
+                onClose={() => setFlashcardModalOpen(false)}
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
@@ -608,20 +686,9 @@ function EmptyState() {
       transition={{ duration: 0.4 }}
       className="flex h-full flex-col items-center justify-center px-4 py-10 text-center"
     >
-      <div
-        className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-500/10 text-cyan-300"
-        style={{ boxShadow: "0 0 32px -4px rgba(34,211,238,0.4)" }}
-      >
-        <Eye size={20} strokeWidth={1.7} />
-      </div>
-      <h2 className="bg-gradient-to-b from-zinc-100 to-zinc-500 bg-clip-text text-xl font-bold tracking-tight text-transparent">
-        Show Nova your page
-      </h2>
-      <p className="mt-2 max-w-sm text-[13px] leading-relaxed text-zinc-400">
-        Point the camera at homework, a textbook, or your scratch work. Tap{" "}
-        <span className="font-bold text-cyan-300">Snap &amp; Ask</span> and Nova will guide
-        you Socratically — never just hand you the answer.
-      </p>
+      <Sparkles size={32} strokeWidth={1.5} className="mb-3 text-cyan-400/60" />
+      <p className="text-sm font-semibold text-zinc-300">Start a conversation</p>
+      <p className="mt-1 text-xs text-zinc-500">Ask Nova about your homework or snap a photo</p>
     </motion.div>
   );
 }

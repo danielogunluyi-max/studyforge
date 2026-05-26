@@ -8,7 +8,7 @@ import {
   Search, Plus, Folder, Tag, Pin, Trash2, Copy, Share2, MoreHorizontal,
   X, FileText, Edit3, Bold, Italic, Heading1, Heading2, Heading3,
   List, ListOrdered, Save, Filter, Flame, BookOpen,
-  Image as ImageIcon, ZoomIn, Video,
+  Image as ImageIcon, ZoomIn, Video, Layers,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "~/app/_components/button";
@@ -19,6 +19,7 @@ import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
 import { renderMath } from "@/lib/mathRenderer";
 import VideoTranscriptDrawer from "~/app/_components/video-transcript-drawer";
+import FlashcardDeck from "~/app/_components/flashcard-deck";
 
 const PREFILL_STORAGE_KEY = "kyvex:prefillText";
 const PREFILL_FORMAT_KEY = "kyvex:prefillFormat";
@@ -247,11 +248,14 @@ export default function MyNotes() {
   const [editTitle, setEditTitle] = useState("");
   const editorRef = useRef<HTMLDivElement>(null);
   const [transcriptDrawerOpen, setTranscriptDrawerOpen] = useState(false);
+  const [flashcards, setFlashcards] = useState<Array<{ front: string; back: string }>>([]);
+  const [flashcardModalOpen, setFlashcardModalOpen] = useState(false);
+  const [generatingFlashcards, setGeneratingFlashcards] = useState(false);
 
   const handleImportTranscript = (content: string) => {
     if (!editorRef.current) return;
     const editor = editorRef.current;
-    
+
     // Insert at cursor position or append to end
     const selection = window.getSelection();
     if (selection && selection.rangeCount > 0) {
@@ -267,13 +271,44 @@ export default function MyNotes() {
       // Append to end
       editor.innerHTML += `<br><br>${content}`;
     }
-    
+
     // Update the note content state
     if (selectedNote) {
       setSelectedNote({ ...selectedNote, content: editor.innerHTML });
     }
-    
+
     showToast("Transcript imported to notes", "success");
+  };
+
+  const handleGenerateFlashcards = async () => {
+    if (!selectedNote || !selectedNote.content) {
+      showToast("Please select a note with content first", "error");
+      return;
+    }
+
+    setGeneratingFlashcards(true);
+    try {
+      const response = await fetch("/api/flashcards/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ textContext: selectedNote.content, count: 10 }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to generate flashcards");
+      }
+
+      const data = await response.json();
+      setFlashcards(data.flashcards);
+      setFlashcardModalOpen(true);
+      showToast("Flashcards generated successfully!", "success");
+    } catch (error) {
+      console.error("[flashcards] Error:", error);
+      showToast("Failed to generate flashcards. Please try again.", "error");
+    } finally {
+      setGeneratingFlashcards(false);
+    }
   };
 
   // Media Gallery (screenshots linked to selected note)
@@ -1633,6 +1668,16 @@ export default function MyNotes() {
                   <Video size={14} />
                   Transcript
                 </button>
+                <button
+                  type="button"
+                  onClick={handleGenerateFlashcards}
+                  disabled={generatingFlashcards}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-500/20 bg-cyan-500/10 px-3 py-2 text-xs font-medium text-cyan-300 transition hover:bg-cyan-500/20 hover:text-cyan-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="Generate flashcards from note"
+                >
+                  <Layers size={14} className={generatingFlashcards ? "animate-spin" : ""} />
+                  {generatingFlashcards ? "Generating..." : "Flashcards"}
+                </button>
                 <Button onClick={closeEditor} variant="secondary" size="sm" className="rounded-lg border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10 active:scale-95">
                   Cancel
                 </Button>
@@ -1931,6 +1976,30 @@ export default function MyNotes() {
           </div>
         </div>
       )}
+
+      {/* Flashcard Modal */}
+      <AnimatePresence>
+        {flashcardModalOpen && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+            onClick={() => setFlashcardModalOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="w-full max-w-4xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <FlashcardDeck
+                flashcards={flashcards}
+                onClose={() => setFlashcardModalOpen(false)}
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Video Transcript Drawer */}
       <VideoTranscriptDrawer
