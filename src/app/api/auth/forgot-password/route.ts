@@ -30,6 +30,15 @@ export async function POST(request: Request) {
       return successResponse;
     }
 
+    // Rate limiting: Check if a reset token was generated less than 2 minutes ago
+    // If resetTokenExpiry exists and is more than 58 minutes from now, it was created < 2 min ago
+    const twoMinutesAgo = new Date(Date.now() + 58 * 60 * 1000);
+    if (user.resetTokenExpiry && user.resetTokenExpiry > twoMinutesAgo) {
+      console.log("[forgot-password] Rate limited: Reset token recently generated for:", email);
+      // Return success silently to prevent spammer from knowing they're blocked
+      return successResponse;
+    }
+
     const resetToken = crypto.randomBytes(32).toString("hex");
     const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 

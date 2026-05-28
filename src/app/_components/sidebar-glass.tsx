@@ -100,7 +100,7 @@ export default function SidebarGlass() {
       initial={false}
       animate={{ width }}
       transition={{ type: "spring", stiffness: 260, damping: 28 }}
-      className="sticky top-0 z-50 flex h-screen shrink-0 flex-col border-r border-white/10 bg-black/40 backdrop-blur-xl"
+      className="sticky top-0 z-50 flex h-screen shrink-0 flex-col border-r border-white/5 bg-slate-900/40 backdrop-blur-md"
       aria-label="Primary navigation"
       data-tour="sidebar"
     >

@@ -415,12 +415,12 @@ export default function DashboardPage() {
   const hoursFocused = Math.round(soloSessions * 0.42)
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-zinc-100 antialiased">
+    <main className="relative min-h-screen overflow-hidden bg-slate-950 text-zinc-100 antialiased">
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 left-1/4 h-[480px] w-[480px] rounded-full bg-amber-500/10 blur-[140px]" />
-        <div className="absolute top-1/2 right-0 h-[420px] w-[420px] rounded-full bg-teal-500/10 blur-[140px]" />
-        <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-purple-500/10 blur-[140px]" />
+        <div className="absolute -top-40 left-1/4 h-[480px] w-[480px] rounded-full bg-cyan-500/8 blur-[140px]" />
+        <div className="absolute top-1/2 right-0 h-[420px] w-[420px] rounded-full bg-purple-500/8 blur-[140px]" />
+        <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-emerald-500/8 blur-[140px]" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12" data-tour="dashboard">

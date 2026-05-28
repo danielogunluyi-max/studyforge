@@ -73,7 +73,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   // Bottom nav: no sidebar, add bottom padding for the fixed bar
   if (navStyle === 'bottom') {
     return (
-      <div className="flex h-screen flex-col overflow-hidden bg-[#0a0a0f]">
+      <div className="flex h-screen flex-col overflow-hidden bg-slate-950">
         <Topbar title={pageTitle} onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} />
         <main className="flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5" style={{ paddingBottom: '80px' }}>
           <div className="mx-auto w-full max-w-[1220px]">{children}</div>
@@ -86,7 +86,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   // Top nav: no sidebar, nav is in the topbar
   if (navStyle === 'topnav') {
     return (
-      <div className="flex h-screen flex-col overflow-hidden bg-[#0a0a0f]">
+      <div className="flex h-screen flex-col overflow-hidden bg-slate-950">
         <Topbar title={pageTitle} onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} />
         <main className="flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5">
           <div className="mx-auto w-full max-w-[1220px]">{children}</div>
@@ -97,7 +97,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   // Minimal / Icons: sidebar on left
   return (
-    <div className="flex h-screen overflow-hidden bg-[#0a0a0f]">
+    <div className="flex h-screen overflow-hidden bg-slate-950">
       <SidebarGlass />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Topbar title={pageTitle} onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} />
