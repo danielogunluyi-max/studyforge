@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { AuthGlassShell } from '../_components/auth-glass-shell'
+import { AuthGlassShell } from '~/app/_components/auth-glass-shell'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')

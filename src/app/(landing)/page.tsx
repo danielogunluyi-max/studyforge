@@ -5,12 +5,12 @@ import { Features } from "@/components/landing-page/features"
 import { HowItWorks } from "@/components/landing-page/how-it-works"
 import { Pricing } from "@/components/landing-page/pricing"
 import { FAQ } from "@/components/landing-page/faq"
-import { FooterCTA } from "@/components/landing-page/footer-cta"
+import { FooterCTA, Footer } from "@/components/landing-page/footer-cta"
 
 export default function LandingPage() {
   return (
     <LandingBodyMarker>
-      <div className="min-h-screen bg-[#fcfcfd] text-slate-900 antialiased">
+      <div className="min-h-screen bg-[#fcfcfd] font-sans text-slate-900 antialiased">
         <Navbar />
         <main>
           <Hero />
@@ -18,8 +18,9 @@ export default function LandingPage() {
           <HowItWorks />
           <Pricing />
           <FAQ />
+          <FooterCTA />
         </main>
-        <FooterCTA />
+        <Footer />
       </div>
     </LandingBodyMarker>
   )

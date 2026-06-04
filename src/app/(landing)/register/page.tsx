@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { AuthGlassShell } from '../_components/auth-glass-shell'
+import { AuthGlassShell } from '~/app/_components/auth-glass-shell'
 
 export default function RegisterPage() {
   const [name, setName] = useState('')

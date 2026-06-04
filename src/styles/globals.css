@@ -22,6 +22,8 @@
   --input: #e2e8f0;
   --ring: #2563eb;
   --radius: 0.75rem;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme inline {

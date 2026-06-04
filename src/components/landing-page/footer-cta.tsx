@@ -1,114 +1,106 @@
-import { Sparkles } from 'lucide-react'
+import { ArrowRight, Zap } from "lucide-react"
 
-const TwitterIcon = ({ className }: { className?: string }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-)
-
-const LinkedinIcon = ({ className }: { className?: string }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-)
-
-const MailIcon = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-    <polyline points="22,6 12,13 2,6"/>
-  </svg>
-)
-
-function FinalCTA() {
+export function FooterCTA() {
   return (
-    <section className="py-20 sm:py-28 bg-gradient-to-b from-[#ffffff] to-slate-50/50">
-      <div className="mx-auto max-w-3xl px-6 lg:px-8 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5">
+    <section
+      aria-labelledby="cta-heading"
+      className="py-24 lg:py-32 bg-[#fcfcfd] border-t border-slate-100"
+    >
+      <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
+        {/* Badge */}
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 mb-6">
+          <Zap className="h-3 w-3" aria-hidden="true" />
+          Launching 2026 — be one of the first
+        </span>
+
+        <h2
+          id="cta-heading"
+          className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl text-balance"
+          style={{ fontFamily: "var(--font-heading)" }}
+        >
           Your best exam score
           <br />
-          <span className="text-[#2563eb]">starts today.</span>
+          <span className="text-primary">starts today.</span>
         </h2>
-        <button className="px-8 py-3 text-sm font-semibold bg-[#2563eb] hover:bg-[#1d4ed8] text-white rounded-lg transition-colors">
-          Get Started Now
-        </button>
+        <p className="mt-6 mx-auto max-w-xl text-lg leading-relaxed text-slate-600">
+          Get full AI-powered studying for $1.50/month — built for Ontario Grade 11–12 students.
+        </p>
+
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="/register"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 text-base font-bold text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98]"
+          >
+            Start Free — Upgrade Anytime
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </a>
+        </div>
+        <p className="mt-4 text-xs text-slate-500">No credit card required · Free to start · Cancel anytime</p>
       </div>
     </section>
   )
 }
 
-function Footer() {
-  const currentYear = new Date().getFullYear()
-
-  const footerLinks = {
-    Product: ['Features', 'Pricing', 'Security'],
-    Company: ['About', 'Blog', 'Careers'],
-    Resources: ['Contact', 'Help Center', 'Status'],
-  }
-
-  const socialLinks = [
-    { icon: TwitterIcon, href: '#', label: 'Twitter' },
-    { icon: LinkedinIcon, href: '#', label: 'LinkedIn' },
-    { icon: MailIcon, href: 'mailto:hello@kyvex.com', label: 'Email' },
-  ]
-
+export function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-400">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-12">
+    <footer className="border-t border-slate-200 bg-white" role="contentinfo">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#2563eb] text-white">
-                <Sparkles className="h-4 w-4" />
+          <div className="col-span-2 md:col-span-1">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+                <Zap className="h-4 w-4 text-white" aria-hidden="true" />
               </div>
-              <span className="text-lg font-bold text-white">Kyvex</span>
+              <span className="text-xl font-bold text-slate-900" style={{ fontFamily: "var(--font-heading)" }}>Kyvex</span>
             </div>
-            <p className="text-sm text-slate-400 max-w-xs leading-relaxed">
-              Study smarter, remember everything. Powered by AI and learning science.
+            <p className="text-sm leading-relaxed text-slate-500 max-w-[200px]">
+              The AI study platform that helps students learn faster and remember more.
             </p>
           </div>
 
-          {/* Link columns */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h4 className="text-white font-semibold text-sm mb-4">{title}</h4>
-              <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-sm text-slate-400 hover:text-white transition-colors">
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Product */}
+          <nav aria-label="Product links">
+            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-400">Product</p>
+            <ul className="space-y-2">
+              {["Features", "How It Works", "Pricing", "Changelog"].map((l) => (
+                <li key={l}>
+                  <a href="#" className="text-sm text-slate-600 hover:text-slate-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded">{l}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Resources */}
+          <nav aria-label="Resource links">
+            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-400">Resources</p>
+            <ul className="space-y-2">
+              {["Blog", "Help Center", "API Docs", "Status"].map((l) => (
+                <li key={l}>
+                  <a href="#" className="text-sm text-slate-600 hover:text-slate-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded">{l}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Legal */}
+          <nav aria-label="Legal links">
+            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-400">Legal</p>
+            <ul className="space-y-2">
+              {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((l) => (
+                <li key={l}>
+                  <a href="#" className="text-sm text-slate-600 hover:text-slate-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded">{l}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
-        <div className="border-t border-slate-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-slate-500">
-            © {currentYear} Kyvex. All rights reserved.
-          </p>
-
-          <div className="flex items-center gap-3">
-            {socialLinks.map((social, index) => (
-              <a
-                key={index}
-                href={social.href}
-                aria-label={social.label}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white transition-colors"
-              >
-                <social.icon className="h-4 w-4" />
-              </a>
-            ))}
-          </div>
+        <div className="border-t border-slate-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-slate-400">© 2026 Kyvex. All rights reserved.</p>
+          <p className="text-xs text-slate-400">Made with care for students everywhere.</p>
         </div>
       </div>
     </footer>
-  )
-}
-
-export function FooterCTA() {
-  return (
-    <>
-      <FinalCTA />
-      <Footer />
-    </>
   )
 }

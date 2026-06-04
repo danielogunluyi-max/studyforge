@@ -7,17 +7,12 @@ import { SessionProvider } from "next-auth/react";
 import { TRPCReactProvider } from "~/trpc/react";
 import { AppearanceSync } from "~/app/_components/appearance-sync";
 import { ToastProvider, ToastViewport } from "~/app/_components/toast";
-import { AppShell } from "~/app/_components/app-shell";
-import { GlobalFloatingWidgets } from "~/app/_components/global-floating-widgets";
-import PresetGate from "~/app/_components/preset-gate";
 import { NotificationManager } from "~/app/_components/notification-manager";
 import { KeyboardShortcuts } from "~/app/_components/keyboard-shortcuts";
-import OnboardingTour from "~/app/_components/onboarding-tour";
 import { ToastContainer } from "~/app/_components/toast";
 import ErrorBoundary from "~/app/_components/error-boundary";
 import { UnhandledRejectionListener } from "~/app/_components/unhandled-rejection-listener";
 import ThemeProvider from "~/app/_components/theme-provider";
-import CommandPalette from "~/app/_components/command-palette";
 
 export const metadata: Metadata = {
   title: {
@@ -92,20 +87,14 @@ export default function RootLayout({
               <TRPCReactProvider>
                 <ToastProvider>
                   <Suspense fallback={null}>
-                    <AppShell>
-                      <ErrorBoundary>
-                        <div className="page-enter">{children}</div>
-                      </ErrorBoundary>
-                    </AppShell>
+                    <ErrorBoundary>
+                      <div className="page-enter">{children}</div>
+                    </ErrorBoundary>
                   </Suspense>
-                  <PresetGate />
-                  <GlobalFloatingWidgets />
-                  <CommandPalette showTrigger={false} />
                   <ToastViewport />
                   <ToastContainer />
                 </ToastProvider>
               </TRPCReactProvider>
-                        <OnboardingTour />
             </SessionProvider>
         </ThemeProvider>
       </body>

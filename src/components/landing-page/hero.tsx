@@ -1,127 +1,211 @@
-"use client"
-
-import React, { useState } from "react"
+import { ArrowRight, Sparkles, BookOpen, Brain, FileText } from "lucide-react"
 
 export function Hero() {
-  const [dashboardTab, setDashboardTab] = useState("flashcards")
-
   return (
-    <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center relative z-10">
-      {/* Decorative Radial Lighting Glows & Subtle Grids embedded inside Section Context */}
-      <div className="absolute inset-x-0 top-0 h-[800px] bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 pointer-events-none -z-10" />
-      <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-blue-200/30 via-indigo-100/20 to-transparent rounded-full blur-[100px] pointer-events-none -z-10" />
-      <div className="absolute top-[25%] right-[-10%] w-[400px] h-[400px] bg-sky-100/40 rounded-full blur-[80px] pointer-events-none -z-10" />
+    <section
+      id="main-content"
+      aria-labelledby="hero-heading"
+      className="relative pt-32 pb-20 lg:pt-44 lg:pb-32 overflow-hidden"
+    >
+      {/* Subtle grid background */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+          maskImage: "radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%)",
+          opacity: 0.45,
+        }}
+      />
+      {/* Blue glow accent */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full"
+        style={{
+          background: "radial-gradient(ellipse at center, rgba(37,99,235,0.07) 0%, transparent 70%)",
+        }}
+      />
 
-      <div className="inline-flex items-center gap-1.5 bg-blue-50 border border-blue-200/60 rounded-full px-4 py-1.5 text-xs font-semibold text-blue-700 mb-6 shadow-sm">
-        <svg className="h-3.5 w-3.5 text-blue-500 fill-blue-200" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm12 7a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1zm-11 7a1 1 0 011 1v1h1a1 1 0 110 2H7v1a1 1 0 11-2 0v-1H4a1 1 0 110-2h1v-1a1 1 0 011-1zM14 1a1 1 0 01.707.293l3 3a1 1 0 010 1.414l-3 3A1 1 0 0113 8V7h-1a2 2 0 00-2 2v1a1 1 0 11-2 0V9a4 4 0 014-4h1V4a1 1 0 011-1z" clipRule="evenodd" />
-        </svg>
-        <span>Now optimized with adaptive memory recall engine</span>
-      </div>
-
-      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1]">
-        Study <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700">smarter</span>.<br />
-        Remember everything.
-      </h1>
-
-      <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-        Kyvex instantly transforms messy notes, massive textbook PDFs, and complex audio lectures into highly organized interactive flashcards, clear summaries, and a custom responsive AI tutor built for student minds.
-      </p>
-
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-        <a href="/register" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-4 rounded-full shadow-lg shadow-blue-500/20 hover:shadow-xl hover:-translate-y-0.5 transition-all text-base flex items-center justify-center gap-2">
-          Start studying free 
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l7-7m-7 7H3" />
-          </svg>
-        </a>
-        <a href="#how-it-works" className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-medium px-8 py-4 rounded-full shadow-sm hover:shadow-md transition-all text-base flex items-center justify-center">
-          See how it works
-        </a>
-      </div>
-
-      {/* CORE INTERACTIVE DASHBOARD PREVIEW */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.04)] text-left max-w-4xl mx-auto relative overflow-hidden group">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/50 to-transparent pointer-events-none" />
-        
-        {/* Top Window Bar */}
-        <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 relative z-10">
-          <div className="flex items-center gap-1.5">
-            <div className="h-3 w-3 rounded-full bg-slate-200" />
-            <div className="h-3 w-3 rounded-full bg-slate-200" />
-            <div className="h-3 w-3 rounded-full bg-slate-200" />
-            <span className="text-xs font-mono text-slate-400 ml-2">kyvex.app/dashboard/organic-chem</span>
-          </div>
-          <div className="flex gap-2">
-            <button onClick={() => setDashboardTab("flashcards")} className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${dashboardTab === "flashcards" ? "bg-blue-50 text-blue-600 border border-blue-100" : "text-slate-400 hover:text-slate-600"}`}>Decks</button>
-            <button onClick={() => setDashboardTab("tutor")} className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${dashboardTab === "tutor" ? "bg-blue-50 text-blue-600 border border-blue-100" : "text-slate-400 hover:text-slate-600"}`}>AI Chat</button>
-          </div>
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Badge */}
+        <div className="flex justify-center mb-8">
+          <span className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-xs font-semibold text-blue-700 shadow-sm">
+            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+            AI-Powered Study Platform · Built for Ontario Grade 11&ndash;12
+          </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
-          {/* Sidebar Mock */}
-          <div className="md:col-span-1 space-y-2 border-r border-slate-100 pr-4 hidden md:block">
-            <div className="p-2 bg-blue-50 text-blue-700 rounded-lg text-xs font-semibold flex items-center gap-2">
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-              Study Library
+        {/* Headline */}
+        <h1
+          id="hero-heading"
+          className="text-center text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl xl:text-8xl text-balance"
+          style={{ fontFamily: "var(--font-heading)" }}
+        >
+          Study Smarter.
+          <br />
+          <span className="text-primary">Remember Everything.</span>
+        </h1>
+
+        {/* Sub-headline */}
+        <p className="mx-auto mt-7 max-w-2xl text-center text-lg leading-relaxed text-slate-600 sm:text-xl">
+          Kyvex transforms your notes, lectures, and PDFs into adaptive AI flashcards,
+          intelligent summaries, and a 24/7 AI Study Partner — so you retain more and study less.
+        </p>
+
+        {/* CTAs */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="/register"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-3.5 text-base font-semibold text-white shadow-md shadow-blue-200 transition-all hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98]"
+          >
+            Start for Free
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </a>
+          <a
+            href="#features"
+            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 shadow-sm transition-all hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          >
+            Explore Features
+          </a>
+        </div>
+
+        {/* Honest positioning */}
+        <p className="mt-6 text-center text-sm text-slate-500">
+          Built for <strong className="font-semibold text-slate-700">Ontario Grade 11&ndash;12</strong> students. Free to start — no credit card required.
+        </p>
+
+        {/* Dashboard Preview */}
+        <div className="mt-20 mx-auto max-w-5xl">
+          <div
+            className="relative rounded-2xl border border-slate-200/80 bg-white shadow-[0_20px_80px_rgba(0,0,0,0.08)] overflow-hidden"
+            aria-label="Kyvex study dashboard preview"
+            role="img"
+          >
+            {/* Browser chrome */}
+            <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-4 py-3">
+              <div className="flex gap-1.5" aria-hidden="true">
+                <span className="h-3 w-3 rounded-full bg-red-300" />
+                <span className="h-3 w-3 rounded-full bg-amber-300" />
+                <span className="h-3 w-3 rounded-full bg-green-300" />
+              </div>
+              <div className="mx-auto flex h-6 w-72 items-center justify-center rounded-md bg-white border border-slate-200 px-3">
+                <span className="text-xs text-slate-400">app.kyvex.ai/dashboard</span>
+              </div>
             </div>
-            <div className="p-2 text-slate-500 hover:bg-slate-50 rounded-lg text-xs font-medium flex items-center gap-2 cursor-pointer">
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-              Spaced Recall
-            </div>
-            <div className="p-2 text-slate-500 hover:bg-slate-50 rounded-lg text-xs font-medium flex items-center gap-2 cursor-pointer">
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
-              Performance
+
+            {/* Dashboard body */}
+            <div className="grid grid-cols-[220px_1fr] min-h-[420px]">
+              {/* Sidebar */}
+              <aside className="border-r border-slate-100 bg-slate-50/80 p-4 hidden sm:block">
+                <div className="mb-5 flex items-center gap-2">
+                  <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center">
+                    <Sparkles className="h-3.5 w-3.5 text-white" aria-hidden="true" />
+                  </div>
+                  <span className="text-sm font-bold text-slate-800">Kyvex</span>
+                </div>
+                <nav aria-label="Dashboard sidebar navigation">
+                  {[
+                    { icon: BookOpen, label: "My Decks", active: true },
+                    { icon: Brain, label: "AI Partner", active: false },
+                    { icon: FileText, label: "Summaries", active: false },
+                  ].map(({ icon: Icon, label, active }) => (
+                    <div
+                      key={label}
+                      className={`mb-1 flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                        active
+                          ? "bg-blue-50 text-primary"
+                          : "text-slate-500 hover:bg-slate-100"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" aria-hidden="true" />
+                      {label}
+                    </div>
+                  ))}
+                </nav>
+                <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-3">
+                  <p className="text-xs font-semibold text-blue-700">Today&apos;s Goal</p>
+                  <p className="text-xs text-blue-600 mt-0.5">Review 40 cards</p>
+                  <div className="mt-2 h-1.5 rounded-full bg-blue-100 overflow-hidden">
+                    <div className="h-full w-[62%] rounded-full bg-primary" />
+                  </div>
+                  <p className="text-xs text-blue-500 mt-1">25 / 40 done</p>
+                </div>
+              </aside>
+
+              {/* Main content */}
+              <main className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-base font-bold text-slate-900">My Study Decks</h2>
+                  <button className="rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-white shadow-sm">
+                    + New Deck
+                  </button>
+                </div>
+
+                {/* Deck cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                  {[
+                    { title: "Biology (SBI3U)", count: 148, due: 12, color: "bg-orange-50 border-orange-100", dot: "bg-orange-400" },
+                    { title: "Functions (MCR3U)", count: 92, due: 5, color: "bg-green-50 border-green-100", dot: "bg-green-400" },
+                    { title: "Chemistry (SCH3U)", count: 201, due: 28, color: "bg-purple-50 border-purple-100", dot: "bg-purple-400" },
+                    { title: "English (ENG3U)", count: 63, due: 0, color: "bg-blue-50 border-blue-100", dot: "bg-blue-400" },
+                  ].map((deck) => (
+                    <div
+                      key={deck.title}
+                      className={`rounded-xl border p-3.5 ${deck.color} transition-shadow hover:shadow-sm`}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <span className={`h-2 w-2 rounded-full ${deck.dot}`} aria-hidden="true" />
+                            <p className="text-sm font-semibold text-slate-800">{deck.title}</p>
+                          </div>
+                          <p className="text-xs text-slate-500">{deck.count} cards</p>
+                        </div>
+                        {deck.due > 0 && (
+                          <span className="rounded-full bg-white border border-slate-200 px-2 py-0.5 text-xs font-bold text-red-500 shadow-sm">
+                            {deck.due} due
+                          </span>
+                        )}
+                      </div>
+                      <div className="mt-2.5 h-1 rounded-full bg-white/60 overflow-hidden">
+                        <div
+                          className={`h-full rounded-full ${deck.dot}`}
+                          style={{ width: `${Math.min(100, 100 - (deck.due / deck.count) * 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* AI summary strip */}
+                <div className="rounded-xl border border-slate-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-3.5 flex items-start gap-3">
+                  <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary shadow-sm">
+                    <Brain className="h-3.5 w-3.5 text-white" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-slate-800">AI Study Partner says:</p>
+                    <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                      You&apos;re 62% through today&apos;s goal! Your weakest topic is <strong>cellular respiration</strong> — want me to generate a focused drill?
+                    </p>
+                  </div>
+                  <button className="ml-auto shrink-0 rounded-lg bg-primary px-2.5 py-1.5 text-xs font-semibold text-white whitespace-nowrap shadow-sm hover:bg-blue-700 transition-colors">
+                    Let&apos;s go
+                  </button>
+                </div>
+              </main>
             </div>
           </div>
 
-          {/* Main Mock Content Area */}
-          <div className="md:col-span-3 space-y-4">
-            {dashboardTab === "flashcards" ? (
-              <>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-bold text-slate-900 text-base">Biology 201: Active Session</h4>
-                    <p className="text-xs text-slate-400">Target for tonight: 24 critical concepts</p>
-                  </div>
-                  <span className="text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-0.5">87% Retention</span>
-                </div>
-                
-                <div className="bg-slate-50 border border-slate-100 rounded-xl p-8 text-center space-y-4 shadow-inner min-h-[160px] flex flex-col justify-center items-center">
-                  <span className="text-xs uppercase tracking-widest font-bold text-blue-500">Question 4 of 24</span>
-                  <p className="text-slate-800 font-medium text-base max-w-md">What is the specific structural function of the mitochondrial cristae membrane?</p>
-                  <div className="text-xs text-slate-400 mt-2 italic">Click card structure to reveal deep neural explanation</div>
-                </div>
-
-                <div className="flex gap-2 justify-end">
-                  <div className="px-4 py-2 bg-slate-200/60 rounded-lg text-xs font-medium text-slate-600">Hard (Interval: 4h)</div>
-                  <div className="px-4 py-2 bg-blue-600 rounded-lg text-xs font-medium text-white shadow-sm shadow-blue-500/10">Good (Interval: 3d)</div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-bold text-slate-900 text-base">Kyvex AI Study Guide</h4>
-                    <p className="text-xs text-slate-400">Context: Uploaded Organic Chemistry Lecture Notes.pdf</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-3 min-h-[160px] flex flex-col justify-end">
-                  <div className="bg-slate-100 text-slate-700 rounded-2xl rounded-bl-none p-3 text-xs max-w-sm">
-                    Can you explain the difference between SN1 and SN2 reaction mechanisms simple enough for a cram session?
-                  </div>
-                  <div className="bg-blue-600 text-white rounded-2xl rounded-br-none p-3 text-xs max-w-sm ml-auto">
-                    Absolutely! Think of SN2 as a single swift displacement (backside attack, 1 step, favors primary carbons). Think of SN1 as a breakup then hookup (leaving group leaves first forming a carbocation, 2 steps).
-                  </div>
-                </div>
-                
-                <div className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 flex items-center justify-between">
-                  <span className="text-xs text-slate-400">Ask your study partner anything...</span>
-                  <svg className="h-4 w-4 text-amber-500 fill-amber-500" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" /></svg>
-                </div>
-              </>
-            )}
+          {/* Honest feature tags below preview */}
+          <div className="mt-4 flex justify-center gap-6 flex-wrap">
+            {["7 AI study tools", "Ontario Grade 11–12 curriculum", "$1.50/month — cancel anytime"].map((s) => (
+              <span key={s} className="text-xs font-medium text-slate-500">
+                <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-green-400 align-middle" aria-hidden="true" />
+                {s}
+              </span>
+            ))}
           </div>
         </div>
       </div>

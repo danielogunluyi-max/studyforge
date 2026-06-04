@@ -1,50 +1,94 @@
 "use client"
 
-import React, { useState } from "react"
+import { useState } from "react"
+import { ChevronDown } from "lucide-react"
+
+const faqs = [
+  {
+    question: "Why is Kyvex only $1.50/month?",
+    answer:
+      "We believe expensive tools shouldn't be a barrier to academic success. By optimizing our AI infrastructure and pricing at cost, we can offer full premium features at a price every student can afford. No ads. No data selling. Just a fair deal.",
+  },
+  {
+    question: "What file types does Kyvex support?",
+    answer:
+      "Kyvex supports PDF, DOCX, PPTX, TXT, images (PNG, JPG, HEIC), and MP3/MP4 audio and video for lecture capture. Scanned documents and handwritten notes are also supported via our OCR engine.",
+  },
+  {
+    question: "How accurate is the AI flashcard generation?",
+    answer:
+      "Kyvex is tuned specifically for structured academic content, so generated cards stay on-topic and exam-relevant. You can always edit, delete, or rate any card to improve future outputs for your subject area.",
+  },
+  {
+    question: "Can I export my flashcards?",
+    answer:
+      "Yes! Premium users can export decks to Anki (.apkg), Notion, CSV, and PDF formats. Free users can export up to 20 cards per deck.",
+  },
+  {
+    question: "Is this built for the Ontario curriculum?",
+    answer:
+      "Yes. Kyvex is built around the Ontario Grade 11–12 curriculum, with courses pre-loaded so your material lines up with what you actually study in class and on exams.",
+  },
+  {
+    question: "Do I need a credit card to start?",
+    answer:
+      "No. The free Starter plan needs no credit card — just sign up and start studying. You only add payment details if you choose to upgrade to Premium for $1.50/month, and you can cancel anytime.",
+  },
+]
 
 export function FAQ() {
-  const [activeFaq, setActiveFaq] = useState<number | null>(null)
+  const [openIdx, setOpenIdx] = useState<number | null>(0)
 
   return (
-    <section id="faq" className="py-20 bg-slate-50 border-t border-slate-200 relative z-10 scroll-mt-12">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-xs uppercase tracking-widest font-bold text-blue-600 mb-2">Inquiries</h2>
-          <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">Got questions? We have answers.</h3>
+    <section id="faq" aria-labelledby="faq-heading" className="py-24 lg:py-32 bg-white border-t border-slate-100">
+      <div className="mx-auto max-w-3xl px-6 lg:px-8">
+        <div className="text-center mb-14">
+          <h2
+            id="faq-heading"
+            className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl text-balance"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
+            Got questions?
+          </h2>
+          <p className="mt-4 text-lg text-slate-600">We&apos;ve got clear answers.</p>
         </div>
 
-        <div className="space-y-4">
-          {[
-            {
-              q: "Is it seriously only $1.50 per month?",
-              a: "Yes, completely serious. We believe educational software has become predatory. By building hyper-efficient infrastructure pipelines, we keep our operating expenses incredibly low and pass 100% of those cost savings directly to students."
-            },
-            {
-              q: "What types of file extensions does the AI accept?",
-              a: "We accept standard text files, Word docs (.docx), raw markdown documents, lecture slides (.pptx), textbook PDFs, clean audio lecture tracks (.mp3, .m4a), and clear smartphone images of handwritten notepad sheets."
-            },
-            {
-              q: "How does the adaptive spaced repetition algorithm work?",
-              a: "Our system combines classical SuperMemo2 interval logic with neural text embeddings. It monitors exactly which metrics you hesitate on, dynamically expanding or contracting your review cycle dates automatically."
-            },
-            {
-              q: "Can I cancel my subscription anytime?",
-              a: "Of course. There are zero binding locks, zero cancellation friction penalties, and zero surprise billing loops. You can turn off your subscription with a single button click in your profile tab."
-            }
-          ].map((faq, idx) => (
-            <div key={idx} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-2xs">
-              <button onClick={() => setActiveFaq(activeFaq === idx ? null : idx)} className="w-full px-6 py-5 flex items-center justify-between text-left font-bold text-slate-900 text-sm sm:text-base hover:bg-slate-50/60 transition-colors">
-                <span>{faq.q}</span>
-                <svg className={`h-4 w-4 text-slate-400 transition-transform duration-200 ${activeFaq === idx ? "transform rotate-180 text-blue-600" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-              </button>
-              {activeFaq === idx && (
-                <div className="px-6 pb-5 pt-1 text-sm text-slate-500 leading-relaxed border-t border-slate-50 bg-slate-50/20">
-                  {faq.a}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+        <dl className="space-y-2" role="list">
+          {faqs.map((faq, idx) => {
+            const isOpen = openIdx === idx
+            return (
+              <div
+                key={faq.question}
+                className={`rounded-xl border transition-all duration-200 ${isOpen ? "border-blue-200 bg-blue-50/50 shadow-sm" : "border-slate-200 bg-white hover:border-slate-300"}`}
+              >
+                <dt>
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-answer-${idx}`}
+                    id={`faq-question-${idx}`}
+                    onClick={() => setOpenIdx(isOpen ? null : idx)}
+                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset rounded-xl transition-colors"
+                  >
+                    <span className="text-sm font-semibold text-slate-900">{faq.question}</span>
+                    <ChevronDown
+                      className={`h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 ${isOpen ? "rotate-180 text-primary" : ""}`}
+                      aria-hidden="true"
+                    />
+                  </button>
+                </dt>
+                <dd
+                  id={`faq-answer-${idx}`}
+                  role="region"
+                  aria-labelledby={`faq-question-${idx}`}
+                  className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-48" : "max-h-0"}`}
+                >
+                  <p className="px-5 pb-4 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
+                </dd>
+              </div>
+            )
+          })}
+        </dl>
       </div>
     </section>
   )

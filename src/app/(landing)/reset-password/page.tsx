@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { AuthGlassShell } from "../_components/auth-glass-shell";
+import { AuthGlassShell } from "~/app/_components/auth-glass-shell";
 
 function ResetPasswordForm() {
   const router = useRouter();
