@@ -163,6 +163,7 @@ exports.Prisma.UserScalarFieldEnum = {
   resetTokenExpiry: 'resetTokenExpiry',
   learningStyle: 'learningStyle',
   autoAdapt: 'autoAdapt',
+  allowLearningStyleSharing: 'allowLearningStyleSharing',
   theme: 'theme',
   accentColor: 'accentColor',
   fontSize: 'fontSize',

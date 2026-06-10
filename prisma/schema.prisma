@@ -67,6 +67,7 @@ model User {
     resetTokenExpiry DateTime?
     learningStyle String?   @default("reading")
     autoAdapt     Boolean   @default(false)
+    allowLearningStyleSharing Boolean @default(false)
     // Customization fields
     theme         String?   @default("light")
     accentColor   String?   @default("blue")

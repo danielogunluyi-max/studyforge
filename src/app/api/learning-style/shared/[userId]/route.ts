@@ -18,11 +18,14 @@ export async function GET(
     const { userId } = await context.params;
 
     const [user, latestResult] = await Promise.all([
-      db.user.findUnique({ where: { id: userId }, select: { id: true, name: true, learningStyle: true } }),
+      db.user.findUnique({ where: { id: userId }, select: { id: true, name: true, learningStyle: true, allowLearningStyleSharing: true } }),
       db.learningStyleResult.findFirst({ where: { userId }, orderBy: { createdAt: "desc" } }),
     ]);
 
-    if (!user) {
+    // Privacy gate: only expose a learning-style profile when the owner has
+    // explicitly opted in to public sharing. Return 404 (not 403) so we never
+    // reveal whether the account exists to an unauthenticated visitor.
+    if (!user || !user.allowLearningStyleSharing) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 

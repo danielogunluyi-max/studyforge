@@ -15217,6 +15217,7 @@ export namespace Prisma {
     resetTokenExpiry: Date | null
     learningStyle: string | null
     autoAdapt: boolean | null
+    allowLearningStyleSharing: boolean | null
     theme: string | null
     accentColor: string | null
     fontSize: string | null
@@ -15245,6 +15246,7 @@ export namespace Prisma {
     resetTokenExpiry: Date | null
     learningStyle: string | null
     autoAdapt: boolean | null
+    allowLearningStyleSharing: boolean | null
     theme: string | null
     accentColor: string | null
     fontSize: string | null
@@ -15273,6 +15275,7 @@ export namespace Prisma {
     resetTokenExpiry: number
     learningStyle: number
     autoAdapt: number
+    allowLearningStyleSharing: number
     theme: number
     accentColor: number
     fontSize: number
@@ -15318,6 +15321,7 @@ export namespace Prisma {
     resetTokenExpiry?: true
     learningStyle?: true
     autoAdapt?: true
+    allowLearningStyleSharing?: true
     theme?: true
     accentColor?: true
     fontSize?: true
@@ -15346,6 +15350,7 @@ export namespace Prisma {
     resetTokenExpiry?: true
     learningStyle?: true
     autoAdapt?: true
+    allowLearningStyleSharing?: true
     theme?: true
     accentColor?: true
     fontSize?: true
@@ -15374,6 +15379,7 @@ export namespace Prisma {
     resetTokenExpiry?: true
     learningStyle?: true
     autoAdapt?: true
+    allowLearningStyleSharing?: true
     theme?: true
     accentColor?: true
     fontSize?: true
@@ -15490,6 +15496,7 @@ export namespace Prisma {
     resetTokenExpiry: Date | null
     learningStyle: string | null
     autoAdapt: boolean
+    allowLearningStyleSharing: boolean
     theme: string | null
     accentColor: string | null
     fontSize: string | null
@@ -15538,6 +15545,7 @@ export namespace Prisma {
     resetTokenExpiry?: boolean
     learningStyle?: boolean
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: boolean
     accentColor?: boolean
     fontSize?: boolean
@@ -15665,6 +15673,7 @@ export namespace Prisma {
     resetTokenExpiry?: boolean
     learningStyle?: boolean
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: boolean
     accentColor?: boolean
     fontSize?: boolean
@@ -15694,6 +15703,7 @@ export namespace Prisma {
     resetTokenExpiry?: boolean
     learningStyle?: boolean
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: boolean
     accentColor?: boolean
     fontSize?: boolean
@@ -15723,6 +15733,7 @@ export namespace Prisma {
     resetTokenExpiry?: boolean
     learningStyle?: boolean
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: boolean
     accentColor?: boolean
     fontSize?: boolean
@@ -15741,7 +15752,7 @@ export namespace Prisma {
     referralCode?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "resetToken" | "resetTokenExpiry" | "learningStyle" | "autoAdapt" | "theme" | "accentColor" | "fontSize" | "compactMode" | "defaultNoteFormat" | "autoSaveNotes" | "emailNotifications" | "lastActive" | "studyStreak" | "battleXp" | "battleWinStreak" | "soloSessionsCompleted" | "battleAchievements" | "preset" | "presetSet" | "referralCode", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "resetToken" | "resetTokenExpiry" | "learningStyle" | "autoAdapt" | "allowLearningStyleSharing" | "theme" | "accentColor" | "fontSize" | "compactMode" | "defaultNoteFormat" | "autoSaveNotes" | "emailNotifications" | "lastActive" | "studyStreak" | "battleXp" | "battleWinStreak" | "soloSessionsCompleted" | "battleAchievements" | "preset" | "presetSet" | "referralCode", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -15957,6 +15968,7 @@ export namespace Prisma {
       resetTokenExpiry: Date | null
       learningStyle: string | null
       autoAdapt: boolean
+      allowLearningStyleSharing: boolean
       theme: string | null
       accentColor: string | null
       fontSize: string | null
@@ -16503,6 +16515,7 @@ export namespace Prisma {
     readonly resetTokenExpiry: FieldRef<"User", 'DateTime'>
     readonly learningStyle: FieldRef<"User", 'String'>
     readonly autoAdapt: FieldRef<"User", 'Boolean'>
+    readonly allowLearningStyleSharing: FieldRef<"User", 'Boolean'>
     readonly theme: FieldRef<"User", 'String'>
     readonly accentColor: FieldRef<"User", 'String'>
     readonly fontSize: FieldRef<"User", 'String'>
@@ -133713,6 +133726,7 @@ export namespace Prisma {
     resetTokenExpiry: 'resetTokenExpiry',
     learningStyle: 'learningStyle',
     autoAdapt: 'autoAdapt',
+    allowLearningStyleSharing: 'allowLearningStyleSharing',
     theme: 'theme',
     accentColor: 'accentColor',
     fontSize: 'fontSize',
@@ -135593,6 +135607,7 @@ export namespace Prisma {
     resetTokenExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
     learningStyle?: StringNullableFilter<"User"> | string | null
     autoAdapt?: BoolFilter<"User"> | boolean
+    allowLearningStyleSharing?: BoolFilter<"User"> | boolean
     theme?: StringNullableFilter<"User"> | string | null
     accentColor?: StringNullableFilter<"User"> | string | null
     fontSize?: StringNullableFilter<"User"> | string | null
@@ -135719,6 +135734,7 @@ export namespace Prisma {
     resetTokenExpiry?: SortOrderInput | SortOrder
     learningStyle?: SortOrderInput | SortOrder
     autoAdapt?: SortOrder
+    allowLearningStyleSharing?: SortOrder
     theme?: SortOrderInput | SortOrder
     accentColor?: SortOrderInput | SortOrder
     fontSize?: SortOrderInput | SortOrder
@@ -135849,6 +135865,7 @@ export namespace Prisma {
     resetTokenExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
     learningStyle?: StringNullableFilter<"User"> | string | null
     autoAdapt?: BoolFilter<"User"> | boolean
+    allowLearningStyleSharing?: BoolFilter<"User"> | boolean
     theme?: StringNullableFilter<"User"> | string | null
     accentColor?: StringNullableFilter<"User"> | string | null
     fontSize?: StringNullableFilter<"User"> | string | null
@@ -135974,6 +135991,7 @@ export namespace Prisma {
     resetTokenExpiry?: SortOrderInput | SortOrder
     learningStyle?: SortOrderInput | SortOrder
     autoAdapt?: SortOrder
+    allowLearningStyleSharing?: SortOrder
     theme?: SortOrderInput | SortOrder
     accentColor?: SortOrderInput | SortOrder
     fontSize?: SortOrderInput | SortOrder
@@ -136011,6 +136029,7 @@ export namespace Prisma {
     resetTokenExpiry?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     learningStyle?: StringNullableWithAggregatesFilter<"User"> | string | null
     autoAdapt?: BoolWithAggregatesFilter<"User"> | boolean
+    allowLearningStyleSharing?: BoolWithAggregatesFilter<"User"> | boolean
     theme?: StringNullableWithAggregatesFilter<"User"> | string | null
     accentColor?: StringNullableWithAggregatesFilter<"User"> | string | null
     fontSize?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -144068,6 +144087,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -144194,6 +144214,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -144320,6 +144341,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -144446,6 +144468,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -144572,6 +144595,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -144601,6 +144625,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -144630,6 +144655,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -154238,6 +154264,7 @@ export namespace Prisma {
     resetTokenExpiry?: SortOrder
     learningStyle?: SortOrder
     autoAdapt?: SortOrder
+    allowLearningStyleSharing?: SortOrder
     theme?: SortOrder
     accentColor?: SortOrder
     fontSize?: SortOrder
@@ -154274,6 +154301,7 @@ export namespace Prisma {
     resetTokenExpiry?: SortOrder
     learningStyle?: SortOrder
     autoAdapt?: SortOrder
+    allowLearningStyleSharing?: SortOrder
     theme?: SortOrder
     accentColor?: SortOrder
     fontSize?: SortOrder
@@ -154302,6 +154330,7 @@ export namespace Prisma {
     resetTokenExpiry?: SortOrder
     learningStyle?: SortOrder
     autoAdapt?: SortOrder
+    allowLearningStyleSharing?: SortOrder
     theme?: SortOrder
     accentColor?: SortOrder
     fontSize?: SortOrder
@@ -167033,6 +167062,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -167158,6 +167188,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -167299,6 +167330,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -167424,6 +167456,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -167549,6 +167582,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -167674,6 +167708,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -167815,6 +167850,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -167940,6 +167976,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168065,6 +168102,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -168190,6 +168228,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -168331,6 +168370,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168456,6 +168496,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175048,6 +175089,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -175173,6 +175215,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -175355,6 +175398,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175480,6 +175524,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175652,6 +175697,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -175777,6 +175823,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -176088,6 +176135,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176213,6 +176261,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176462,6 +176511,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -176587,6 +176637,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -176728,6 +176779,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176853,6 +176905,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176978,6 +177031,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -177103,6 +177157,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -177244,6 +177299,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177369,6 +177425,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177494,6 +177551,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -177619,6 +177677,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -177760,6 +177819,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177885,6 +177945,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -178010,6 +178071,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -178135,6 +178197,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -178276,6 +178339,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -178401,6 +178465,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -178526,6 +178591,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -178651,6 +178717,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -178792,6 +178859,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -178917,6 +178985,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179042,6 +179111,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -179167,6 +179237,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -179358,6 +179429,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179483,6 +179555,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179624,6 +179697,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -179749,6 +179823,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -179890,6 +179965,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -180015,6 +180091,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -180140,6 +180217,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -180265,6 +180343,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -180406,6 +180485,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -180531,6 +180611,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -180656,6 +180737,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -180781,6 +180863,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -180911,6 +180994,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -181036,6 +181120,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -181256,6 +181341,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -181381,6 +181467,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -181517,6 +181604,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -181642,6 +181730,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182004,6 +182093,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -182129,6 +182219,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -182329,6 +182420,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182454,6 +182546,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182632,6 +182725,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -182757,6 +182851,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -182957,6 +183052,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -183082,6 +183178,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -183207,6 +183304,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -183332,6 +183430,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -183794,6 +183893,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -183919,6 +184019,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -184302,6 +184403,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -184427,6 +184529,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -184627,6 +184730,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -184752,6 +184856,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -184930,6 +185035,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -185055,6 +185161,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -185279,6 +185386,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185404,6 +185512,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185755,6 +185864,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -185880,6 +185990,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -186155,6 +186266,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186280,6 +186392,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186444,6 +186557,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -186569,6 +186683,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -186739,6 +186854,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186864,6 +186980,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187042,6 +187159,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -187167,6 +187285,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -187367,6 +187486,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187492,6 +187612,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187670,6 +187791,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -187795,6 +187917,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -188023,6 +188146,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188148,6 +188272,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188318,6 +188443,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -188443,6 +188569,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -188619,6 +188746,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188744,6 +188872,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188922,6 +189051,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -189047,6 +189177,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -189247,6 +189378,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189372,6 +189504,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189550,6 +189683,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -189675,6 +189809,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -189875,6 +190010,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -190000,6 +190136,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -190178,6 +190315,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -190303,6 +190441,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -190503,6 +190642,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -190628,6 +190768,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -190806,6 +190947,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -190931,6 +191073,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -191131,6 +191274,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -191256,6 +191400,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -191459,6 +191604,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -191584,6 +191730,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -191815,6 +191962,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -191940,6 +192088,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192065,6 +192214,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -192190,6 +192340,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -192331,6 +192482,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192456,6 +192608,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192581,6 +192734,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -192706,6 +192860,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -192847,6 +193002,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192972,6 +193128,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -193097,6 +193254,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -193222,6 +193380,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -193363,6 +193522,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -193488,6 +193648,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -193613,6 +193774,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -193738,6 +193900,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -193879,6 +194042,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -194004,6 +194168,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -194129,6 +194294,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -194254,6 +194420,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -194395,6 +194562,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -194520,6 +194688,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -194645,6 +194814,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -194770,6 +194940,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -194981,6 +195152,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -195106,6 +195278,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -195381,6 +195554,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -195506,6 +195680,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -195647,6 +195822,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -195772,6 +195948,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -195923,6 +196100,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -196048,6 +196226,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -196205,6 +196384,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196330,6 +196510,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196486,6 +196667,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -196611,6 +196793,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -196789,6 +196972,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196914,6 +197098,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -197039,6 +197224,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -197164,6 +197350,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -197341,6 +197528,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -197466,6 +197654,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -197636,6 +197825,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -197761,6 +197951,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -197937,6 +198128,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198062,6 +198254,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198187,6 +198380,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -198312,6 +198506,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -198453,6 +198648,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198578,6 +198774,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198703,6 +198900,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -198828,6 +199026,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -198969,6 +199168,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199094,6 +199294,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199219,6 +199420,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -199344,6 +199546,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -199516,6 +199719,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199641,6 +199845,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199803,6 +200008,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -199928,6 +200134,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -200069,6 +200276,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -200194,6 +200402,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -200319,6 +200528,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -200444,6 +200654,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -200585,6 +200796,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -200710,6 +200922,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -200835,6 +201048,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -200960,6 +201174,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -201101,6 +201316,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201226,6 +201442,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201351,6 +201568,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -201476,6 +201694,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -201663,6 +201882,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201788,6 +202008,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201945,6 +202166,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -202070,6 +202292,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -202234,6 +202457,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -202359,6 +202583,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -202513,6 +202738,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -202638,6 +202864,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -202802,6 +203029,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -202927,6 +203155,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -203081,6 +203310,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -203206,6 +203436,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -203347,6 +203578,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -203472,6 +203704,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -203597,6 +203830,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -203722,6 +203956,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -203863,6 +204098,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -203988,6 +204224,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -204113,6 +204350,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -204238,6 +204476,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -204379,6 +204618,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -204504,6 +204744,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -204629,6 +204870,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -204754,6 +204996,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -205014,6 +205257,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205139,6 +205383,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205465,6 +205710,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -205590,6 +205836,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -205768,6 +206015,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205893,6 +206141,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206018,6 +206267,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -206143,6 +206393,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -206311,6 +206562,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206436,6 +206688,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -206594,6 +206847,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -206719,6 +206973,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -206912,6 +207167,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207037,6 +207293,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207233,6 +207490,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -207358,6 +207616,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -207530,6 +207789,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207655,6 +207915,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207836,6 +208097,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -207961,6 +208223,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -208102,6 +208365,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -208227,6 +208491,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -208352,6 +208617,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -208477,6 +208743,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -208618,6 +208885,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -208743,6 +209011,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -208868,6 +209137,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -208993,6 +209263,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -209134,6 +209405,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -209259,6 +209531,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -209384,6 +209657,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -209509,6 +209783,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -209650,6 +209925,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -209775,6 +210051,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -209900,6 +210177,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -210025,6 +210303,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -210194,6 +210473,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -210319,6 +210599,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -210493,6 +210774,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -210618,6 +210900,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -210798,6 +211081,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -210923,6 +211207,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -211048,6 +211333,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -211173,6 +211459,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -211314,6 +211601,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -211439,6 +211727,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -211564,6 +211853,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -211689,6 +211979,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -211830,6 +212121,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -211955,6 +212247,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -212080,6 +212373,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -212205,6 +212499,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -212346,6 +212641,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -212471,6 +212767,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -212596,6 +212893,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -212721,6 +213019,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -212892,6 +213191,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -213017,6 +213317,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -213191,6 +213492,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -213316,6 +213618,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -213496,6 +213799,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -213621,6 +213925,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -213746,6 +214051,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -213871,6 +214177,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -214012,6 +214319,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -214137,6 +214445,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -214262,6 +214571,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -214387,6 +214697,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -214528,6 +214839,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -214653,6 +214965,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -214778,6 +215091,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -214903,6 +215217,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -215089,6 +215404,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -215214,6 +215530,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -215390,6 +215707,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -215515,6 +215833,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -215656,6 +215975,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -215781,6 +216101,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -215906,6 +216227,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -216031,6 +216353,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -216172,6 +216495,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -216297,6 +216621,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -216422,6 +216747,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -216547,6 +216873,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -216677,6 +217004,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -216802,6 +217130,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -216943,6 +217272,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -217068,6 +217398,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -217204,6 +217535,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -217329,6 +217661,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -217454,6 +217787,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -217579,6 +217913,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -217720,6 +218055,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -217845,6 +218181,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -217970,6 +218307,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -218095,6 +218433,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -218236,6 +218575,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -218361,6 +218701,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -218486,6 +218827,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -218611,6 +218953,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -218752,6 +219095,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -218877,6 +219221,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219002,6 +219347,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -219127,6 +219473,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -219268,6 +219615,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219393,6 +219741,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219518,6 +219867,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -219643,6 +219993,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -219784,6 +220135,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -219909,6 +220261,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -220079,6 +220432,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -220204,6 +220558,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -220396,6 +220751,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -220521,6 +220877,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -220646,6 +221003,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -220771,6 +221129,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -220901,6 +221260,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -221026,6 +221386,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -221167,6 +221528,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -221292,6 +221654,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -221428,6 +221791,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -221553,6 +221917,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -221678,6 +222043,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -221803,6 +222169,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -221944,6 +222311,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -222069,6 +222437,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -222194,6 +222563,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -222319,6 +222689,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -222460,6 +222831,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -222585,6 +222957,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -222710,6 +223083,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -222835,6 +223209,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -222976,6 +223351,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -223101,6 +223477,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -223226,6 +223603,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -223351,6 +223729,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -223492,6 +223871,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -223617,6 +223997,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -223742,6 +224123,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -223867,6 +224249,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -224008,6 +224391,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -224133,6 +224517,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -224258,6 +224643,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -224383,6 +224769,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -224524,6 +224911,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -224649,6 +225037,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -224774,6 +225163,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -224899,6 +225289,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -225085,6 +225476,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -225210,6 +225602,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -225386,6 +225779,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -225511,6 +225905,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -225678,6 +226073,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -225803,6 +226199,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -226016,6 +226413,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -226141,6 +226539,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -226282,6 +226681,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -226407,6 +226807,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -226532,6 +226933,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -226657,6 +227059,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -226798,6 +227201,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -226923,6 +227327,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -227048,6 +227453,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -227173,6 +227579,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -227314,6 +227721,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -227439,6 +227847,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -227564,6 +227973,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -227689,6 +228099,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -227819,6 +228230,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -227944,6 +228356,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     learningStyle?: string | null
     autoAdapt?: boolean
+    allowLearningStyleSharing?: boolean
     theme?: string | null
     accentColor?: string | null
     fontSize?: string | null
@@ -228085,6 +228498,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -228210,6 +228624,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -228346,6 +228761,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
@@ -228471,6 +228887,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     learningStyle?: NullableStringFieldUpdateOperationsInput | string | null
     autoAdapt?: BoolFieldUpdateOperationsInput | boolean
+    allowLearningStyleSharing?: BoolFieldUpdateOperationsInput | boolean
     theme?: NullableStringFieldUpdateOperationsInput | string | null
     accentColor?: NullableStringFieldUpdateOperationsInput | string | null
     fontSize?: NullableStringFieldUpdateOperationsInput | string | null
