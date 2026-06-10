@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { initAnalytics, identifyUser, resetAnalytics } from '~/lib/analytics'
 
 // Initializes PostHog once on the client. Renders nothing; safe no-op when
-// NEXT_PUBLIC_POSTHOG_KEY is unset. Mounted in the root layout.
+// NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN is unset. Mounted in the root layout.
 export function PostHogProvider() {
   const { data: session, status } = useSession()
 

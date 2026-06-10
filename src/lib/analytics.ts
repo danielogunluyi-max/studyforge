@@ -1,13 +1,13 @@
 // Thin, no-op-safe wrapper around posthog-js. Components import from here
 // instead of posthog-js directly, so analytics is a guaranteed no-op whenever
-// NEXT_PUBLIC_POSTHOG_KEY is unset (local dev, preview, tests).
+// NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN is unset (local dev, preview, tests).
 import posthog from 'posthog-js'
 
 let initialized = false
 
 export function initAnalytics(): void {
   if (initialized || typeof window === 'undefined') return
-  const key = process.env.NEXT_PUBLIC_POSTHOG_KEY
+  const key = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN
   if (!key) return
   posthog.init(key, {
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://us.i.posthog.com',
