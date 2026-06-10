@@ -45,16 +45,6 @@ export default function LoginPage() {
     }
   }
 
-  const handleGoogle = () => {
-    setLoading(true)
-    signIn('google', { callbackUrl: '/dashboard' })
-  }
-
-  const handleGitHub = () => {
-    setLoading(true)
-    signIn('github', { callbackUrl: '/dashboard' })
-  }
-
   return (
     <AuthGlassShell
       title="Welcome back"
@@ -65,7 +55,7 @@ export default function LoginPage() {
             href="/register"
             className="font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
           >
-            Sign up free
+            Sign up
           </Link>
         </>
       }
