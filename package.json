@@ -24,12 +24,15 @@
     "start": "next start",
     "test:e2e:install": "playwright install chromium",
     "test:e2e:nav": "playwright test tests/e2e/nav-auth.spec.ts",
+    "test:e2e:auth": "playwright test tests/e2e/auth-redirect.spec.ts",
+    "test:e2e:isolation": "playwright test tests/e2e/data-isolation.spec.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.2",
     "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^6.6.0",
+    "@sentry/nextjs": "^10.57.0",
     "@t3-oss/env-nextjs": "^0.12.0",
     "@tanstack/react-query": "^5.69.0",
     "@trpc/client": "^11.0.0",
@@ -51,6 +54,7 @@
     "pdf-lib": "^1.17.1",
     "pdf2json": "^4.0.2",
     "pdfjs-dist": "^5.5.207",
+    "posthog-js": "^1.386.0",
     "pptxgenjs": "^4.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

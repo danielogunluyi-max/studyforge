@@ -13,6 +13,7 @@ import { ToastContainer } from "~/app/_components/toast";
 import ErrorBoundary from "~/app/_components/error-boundary";
 import { UnhandledRejectionListener } from "~/app/_components/unhandled-rejection-listener";
 import ThemeProvider from "~/app/_components/theme-provider";
+import { PostHogProvider } from "~/app/_components/posthog-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -81,6 +82,7 @@ export default function RootLayout({
             <SessionProvider>
               {/* Removed global Listbox guard — prefer component-level guards. */}
               <AppearanceSync />
+              <PostHogProvider />
               <UnhandledRejectionListener />
               <NotificationManager />
               <KeyboardShortcuts />

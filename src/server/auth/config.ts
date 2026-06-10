@@ -32,6 +32,7 @@ declare module "next-auth" {
  */
 export const authConfig = {
   pages: {
+    signIn: "/login",
     error: "/error",
   },
   trustHost: true,
@@ -85,6 +86,19 @@ export const authConfig = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
+    // After sign-in/sign-out NextAuth defaults to the dashboard, but honors any
+    // safe, same-origin callbackUrl (e.g. the deep link our middleware appends
+    // when it bounces an unauthenticated user to /login). Absolute external URLs
+    // are never followed, which closes off open-redirect attacks.
+    redirect: ({ url, baseUrl }) => {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      try {
+        if (new URL(url).origin === baseUrl) return url;
+      } catch {
+        // Malformed URL — fall through to the safe default.
+      }
+      return `${baseUrl}/dashboard`;
+    },
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;

@@ -3,6 +3,7 @@
  * This is especially useful for Docker builds.
  */
 import "./src/env.js";
+import { withSentryConfig } from "@sentry/nextjs";
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
@@ -21,6 +22,37 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Conservative, app-safe security headers applied to every route. These four
+  // are universally safe (they don't restrict app functionality). A strict
+  // Content-Security-Policy is intentionally deferred — it needs per-request
+  // nonces for Next.js inline hydration scripts and an inventory of the app's
+  // media/camera features, so it should land as report-only first.
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains",
+          },
+        ],
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  // Suppress Sentry build logs. Source maps are only uploaded when
+  // SENTRY_ORG / SENTRY_PROJECT / SENTRY_AUTH_TOKEN are all present; otherwise
+  // the wrapper is a no-op at build time and Sentry stays disabled at runtime
+  // (see sentry.*.config.ts, which require a DSN).
+  silent: true,
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  widenClientFileUpload: true,
+});

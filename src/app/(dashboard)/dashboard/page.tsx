@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
 import { useToast } from '~/app/_components/toast'
 import { DashboardSkeleton } from '~/app/_components/skeleton'
+import { capture } from '~/lib/analytics'
 import WhatIfSimulator from '~/app/_components/what-if-simulator'
 import {
   FileText,
@@ -361,6 +362,11 @@ export default function DashboardPage() {
     'nova-vision': false,
   })
   const battery = useBatteryLevel()
+
+  /* Track dashboard view once on mount */
+  useEffect(() => {
+    capture('dashboard_view')
+  }, [])
 
   /* Load hidden feature preferences */
   useEffect(() => {

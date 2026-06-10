@@ -4,6 +4,7 @@ import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { AuthGlassShell } from '~/app/_components/auth-glass-shell'
+import { capture } from '~/lib/analytics'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -29,10 +30,18 @@ export default function LoginPage() {
       email, password, redirect: false,
     })
     if (res?.error) {
+      capture('auth_login_failure')
       setError('Invalid email or password')
       setLoading(false)
     } else {
-      router.push('/dashboard')
+      capture('auth_login_success')
+      const params = new URLSearchParams(window.location.search)
+      const cb = params.get('callbackUrl')
+      // Honor a safe, internal callbackUrl (the deep link our middleware appends
+      // when bouncing an unauthenticated user here). Never follow protocol-
+      // relative ("//host") or absolute URLs — those would be open redirects.
+      const safeCb = cb && cb.startsWith('/') && !cb.startsWith('//')
+      router.push(safeCb ? cb : '/dashboard')
     }
   }
 
