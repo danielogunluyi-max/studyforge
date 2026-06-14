@@ -26,6 +26,7 @@ const PUBLIC_PATHS = new Set<string>([
   "/forgot-password",
   "/reset-password",
   "/error",
+  "/sentry-test", // THROWAWAY — remove with src/app/sentry-test + src/app/api/sentry-test
 ]);
 
 /** Auth pages a signed-in user should be bounced away from, into the app. */
