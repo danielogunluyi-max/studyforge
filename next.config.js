@@ -55,4 +55,8 @@ export default withSentryConfig(nextConfig, {
   project: process.env.SENTRY_PROJECT,
   authToken: process.env.SENTRY_AUTH_TOKEN,
   widenClientFileUpload: true,
+  // Proxy Sentry ingestion through a same-origin route so ad-blockers don't
+  // drop events. This path is excluded from the auth middleware (see
+  // middleware.ts matcher) so it stays publicly reachable.
+  tunnelRoute: "/monitoring",
 });

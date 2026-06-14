@@ -80,11 +80,12 @@ export const config = {
     /*
      * Match all request paths EXCEPT:
      * - /api/*           (route handlers self-protect; /api/auth must stay public)
+     * - /monitoring      (Sentry tunnelRoute ingestion proxy)
      * - /_next/static/*  (Next.js build assets)
      * - /_next/image/*   (Next.js image optimization)
      * - favicon.ico
      * - any file with an extension (images, fonts, robots.txt, manifests, etc.)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)",
+    "/((?!api|monitoring|_next/static|_next/image|favicon.ico|.*\\..*).*)",
   ],
 };

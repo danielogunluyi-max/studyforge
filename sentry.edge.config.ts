@@ -7,6 +7,15 @@ Sentry.init({
   dsn,
   enabled: Boolean(dsn),
   environment: process.env.NODE_ENV,
-  tracesSampleRate: 0.1,
+
+  // Attach request context to edge/middleware events.
+  sendDefaultPii: true,
+
+  // Full tracing in dev, sampled in prod to control event volume.
+  tracesSampleRate: process.env.NODE_ENV === 'development' ? 1.0 : 0.1,
+
+  // Structured logs via Sentry.logger.*.
+  enableLogs: true,
+
   debug: false,
 })
