@@ -7,9 +7,14 @@ const webServerCommand = process.platform === 'win32'
 
 export default defineConfig({
   testDir: './tests/e2e',
-  timeout: 60_000,
+  // Each test performs two sequential DB-bound auth flows (register + login),
+  // each waiting up to 60s on an API response. Against Neon's serverless
+  // connections (which can cold-start/recycle), 60s total is too tight, so a
+  // single slow connection blows the budget. 150s gives the sequential waits
+  // room without weakening any assertions.
+  timeout: 150_000,
   expect: {
-    timeout: 10_000,
+    timeout: 15_000,
   },
   fullyParallel: false,
   forbidOnly: !!process.env.CI,

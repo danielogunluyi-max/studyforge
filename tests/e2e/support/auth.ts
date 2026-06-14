@@ -43,9 +43,13 @@ export async function registerUser(page: Page, user: TestUser) {
   await page.goto('/register', { waitUntil: 'domcontentloaded' })
   await dismissOnboardingTour(page)
 
-  await page.getByPlaceholder('Your name').fill(user.name)
-  await page.locator('input[type="email"]').fill(user.email)
-  await page.locator('input[type="password"]').fill(user.password)
+  // The register form uses floating labels (placeholder=" "), so target the
+  // stable input ids. The confirm-password field must match for the submit
+  // button to enable (button is disabled while !passwordMatch).
+  await page.locator('#name-input').fill(user.name)
+  await page.locator('#email-input').fill(user.email)
+  await page.locator('#password-input').fill(user.password)
+  await page.locator('#confirm-password-input').fill(user.password)
 
   await Promise.all([
     page.waitForResponse(
