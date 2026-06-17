@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     const email = body.email?.toLowerCase().trim();
 
     if (!email?.includes("@")) {
-      console.log("[forgot-password] Invalid or missing email:", email);
+      console.log("[forgot-password] Invalid or missing email");
       return NextResponse.json(
         { error: "Valid email address is required" },
         { status: 400 },
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
     const user = await db.user.findUnique({ where: { email } });
     if (!user) {
-      console.log("[forgot-password] No user found for email:", email);
+      console.log("[forgot-password] No user found for submitted email");
       return successResponse;
     }
 
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     // If resetTokenExpiry exists and is more than 58 minutes from now, it was created < 2 min ago
     const twoMinutesAgo = new Date(Date.now() + 58 * 60 * 1000);
     if (user.resetTokenExpiry && user.resetTokenExpiry > twoMinutesAgo) {
-      console.log("[forgot-password] Rate limited: Reset token recently generated for:", email);
+      console.log("[forgot-password] Rate limited: Reset token recently generated");
       // Return success silently to prevent spammer from knowing they're blocked
       return successResponse;
     }
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       where: { id: user.id },
       data: { resetToken, resetTokenExpiry },
     });
-    console.log("[forgot-password] Updated user with resetToken, about to call sendPasswordResetEmail", { email, resetToken });
+    console.log("[forgot-password] Sending reset email for user");
 
     try {
       await sendPasswordResetEmail(email, resetToken);

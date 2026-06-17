@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getAuthSession } from "~/server/auth/session";
 
 export const runtime = "nodejs";
 
@@ -250,6 +251,11 @@ function getErrorStatus(message: string): number {
 
 export async function POST(request: Request) {
   try {
+    const session = await getAuthSession();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const pdfBytes = await getPdfBytes(request);
 
     if (!pdfBytes.byteLength) {

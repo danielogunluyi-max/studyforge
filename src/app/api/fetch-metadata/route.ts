@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+import { getAuthSession } from "~/server/auth/session";
 
 type AuthorFallback = {
   author?: string;
@@ -15,6 +16,23 @@ type MicrolinkResponse = {
   };
 };
 
+const BLOCKED_HOSTNAME_PATTERNS = [
+  /^localhost$/i,
+  /^127\./,
+  /^10\./,
+  /^172\.(1[6-9]|2\d|3[01])\./,
+  /^192\.168\./,
+  /^0\./,
+  /^169\.254\./,
+  /^\[::1\]$/,
+  /^\[fc/i,
+  /^\[fd/i,
+  /^\[fe80:/i,
+  /\.internal$/i,
+  /\.local$/i,
+  /\.localhost$/i,
+];
+
 function normalizeUrl(input: string): string | null {
   const raw = input.trim();
   if (!raw) return null;
@@ -23,6 +41,10 @@ function normalizeUrl(input: string): string | null {
     const withProtocol = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
     const parsed = new URL(withProtocol);
     if (!["http:", "https:"].includes(parsed.protocol)) return null;
+
+    const hostname = parsed.hostname;
+    if (BLOCKED_HOSTNAME_PATTERNS.some((re) => re.test(hostname))) return null;
+
     return parsed.toString();
   } catch {
     return null;
@@ -49,6 +71,11 @@ function normalizePublishedDate(input: string): string {
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getAuthSession();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const body = (await req.json()) as { url?: string; sourceType?: string };
     const normalizedUrl = normalizeUrl(body.url ?? "");
     const sourceType = String(body.sourceType ?? "website").trim() || "website";
