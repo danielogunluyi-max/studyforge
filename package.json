@@ -26,6 +26,8 @@
     "test:e2e:nav": "playwright test tests/e2e/nav-auth.spec.ts",
     "test:e2e:auth": "playwright test tests/e2e/auth-redirect.spec.ts",
     "test:e2e:isolation": "playwright test tests/e2e/data-isolation.spec.ts",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -84,7 +86,8 @@
     "tailwindcss": "^4.0.15",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.27.0"
+    "typescript-eslint": "^8.27.0",
+    "vitest": "^4.1.9"
   },
   "ct3aMetadata": {
     "initVersion": "7.40.0"
