@@ -1,79 +1,67 @@
-import { getAuthSession } from "~/server/auth/session"
-import { prisma } from "@/lib/prisma"
-import { NextResponse } from 'next/server'
-import Groq from 'groq-sdk'
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+import { NextResponse } from "next/server";
+import { requireAuth } from "~/server/api-utils";
+import { prisma } from "@/lib/prisma";
+import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
 
 function generateCode(): string {
-  return Math.random().toString(36).substring(2, 8).toUpperCase()
+  return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
-
 export async function POST(req: Request) {
-  const session = await getAuthSession()
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
-  const { subject, sourceText } = await req.json()
+  const { subject, sourceText } = (await req.json()) as { subject?: string; sourceText?: string };
 
-  // Generate 20 questions
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
-    messages: [{
-      role: 'user',
-      content: `Generate 20 rapid-fire multiple choice questions for a Battle Royale study game.
+  const raw = await runGroqPrompt({
+    user: `Generate 20 rapid-fire multiple choice questions for a Battle Royale study game.
 Subject: ${subject}
-Content: ${(sourceText || subject).slice(0, 3000)}
+Content: ${(sourceText || subject || "").slice(0, 3000)}
 Make questions progressively harder. Each has 4 options, 15 seconds to answer.
 Respond ONLY as JSON array:
-[{"q":"...","options":["A)...","B)...","C)...","D)..."],"answer":"A)...","points":10}]`
-    }],
-    max_tokens: 2000,
-  })
+[{"q":"...","options":["A)...","B)...","C)...","D)..."],"answer":"A)...","points":10}]`,
+    maxTokens: 2000,
+  });
 
-  const raw = completion.choices[0]?.message?.content || '[]'
-  let questions = []
-  try {
-    questions = JSON.parse(raw.replace(/```json|```/g, '').trim())
-  } catch { questions = [] }
+  const questions = extractJsonBlock(raw) ?? [];
 
   const battle = await prisma.battleRoyale.create({
     data: {
-      hostId: session.user.id,
+      hostId: userId,
       code: generateCode(),
-      subject,
+      subject: subject ?? "",
       questions,
       players: {
-        create: { userId: session.user.id }
-      }
+        create: { userId },
+      },
     },
-    include: { players: true }
-  })
+    include: { players: true },
+  });
 
-  return NextResponse.json({ battle })
+  return NextResponse.json({ battle });
 }
 
-
 export async function GET(req: Request) {
-  const session = await getAuthSession()
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { searchParams } = new URL(req.url)
-  const code = searchParams.get('code') || undefined
+  const { userId, response } = await requireAuth();
+  if (response) return response;
+
+  const { searchParams } = new URL(req.url);
+  const code = searchParams.get("code") || undefined;
 
   if (code) {
     const battle = await prisma.battleRoyale.findUnique({
       where: { code },
       include: {
-        players: { include: { user: { select: { name: true } } } }
-      }
-    })
-    return NextResponse.json({ battle })
+        players: { include: { user: { select: { name: true } } } },
+      },
+    });
+    return NextResponse.json({ battle });
   }
 
   const battles = await prisma.battleRoyale.findMany({
-    where: { hostId: session.user.id },
-    orderBy: { createdAt: 'desc' },
+    where: { hostId: userId },
+    orderBy: { createdAt: "desc" },
     take: 10,
-  })
-  return NextResponse.json({ battles })
+  });
+  return NextResponse.json({ battles });
 }

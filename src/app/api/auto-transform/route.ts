@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import Groq from "groq-sdk";
 import { prisma } from "@/lib/prisma";
 import { getAuthSession } from "~/server/auth/session";
+import { groq } from "~/server/groq";
 
 type TransformResult = {
   flashcards?: Array<{ question: string; answer: string }>;
@@ -12,8 +12,6 @@ type TransformResult = {
   deckId?: string;
   deckName?: string;
 };
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function tryParseJson(raw: string): TransformResult | null {
   const cleaned = raw.replace(/```json|```/g, "").trim();

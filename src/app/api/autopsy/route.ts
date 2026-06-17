@@ -1,25 +1,34 @@
-import { getAuthSession } from "~/server/auth/session"
-import { prisma } from "@/lib/prisma"
-import { NextResponse } from 'next/server'
-import Groq from 'groq-sdk'
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+import { NextResponse } from "next/server";
+import { requireAuth } from "~/server/api-utils";
+import { prisma, type Prisma } from "@/lib/prisma";
+import { groqJSON } from "~/server/groq";
 
 export async function POST(req: Request) {
-  const session = await getAuthSession()
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
-  const { subject, score, totalMarks, wrongAnswers, examId } = await req.json()
+  const { subject, score, totalMarks, wrongAnswers, examId } = (await req.json()) as {
+    subject?: string;
+    score?: number;
+    totalMarks?: number;
+    wrongAnswers?: string;
+    examId?: string;
+  };
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
-    messages: [{
-      role: 'user',
-      content: `You are an academic performance diagnostician. Perform a detailed exam autopsy.
+  const parsed = await groqJSON<{
+    overallDiagnosis?: string;
+    weakAreas?: string[];
+    strongAreas?: string[];
+    rootCauses?: Record<string, string>[];
+    actionPlan?: Record<string, string>[];
+    preventionStrategy?: string;
+    motivationalNote?: string;
+  }>({
+    user: `You are an academic performance diagnostician. Perform a detailed exam autopsy.
 
 Subject: ${subject}
-Score: ${score}/${totalMarks} (${((score/totalMarks)*100).toFixed(1)}%)
-Wrong answers/areas: ${wrongAnswers || 'Not provided'}
+Score: ${score}/${totalMarks} (${(((score ?? 0) / (totalMarks ?? 1)) * 100).toFixed(1)}%)
+Wrong answers/areas: ${wrongAnswers || "Not provided"}
 
 Respond ONLY in JSON:
 {
@@ -36,41 +45,36 @@ Respond ONLY in JSON:
   ],
   "preventionStrategy": "What to do differently next time",
   "motivationalNote": "Encouraging but honest note to the student"
-}`
-    }],
-    max_tokens: 800,
-  })
+}`,
+    maxTokens: 800,
+  });
 
-  const raw = completion.choices[0]?.message?.content || '{}'
-  try {
-    const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim())
+  if (!parsed) return NextResponse.json({ error: "Autopsy failed" }, { status: 500 });
 
-    const autopsy = await prisma.examAutopsy.create({
-      data: {
-        userId: session.user.id,
-        examId: examId || null,
-        subject,
-        score,
-        totalMarks,
-        diagnosis: parsed,
-        weakAreas: parsed.weakAreas || [],
-        strongAreas: parsed.strongAreas || [],
-        actionPlan: parsed.actionPlan || [],
-      }
-    })
-    return NextResponse.json({ autopsy: { ...autopsy, ...parsed } })
-  } catch {
-    return NextResponse.json({ error: 'Autopsy failed' }, { status: 500 })
-  }
+  const autopsy = await prisma.examAutopsy.create({
+    data: {
+      userId,
+      examId: examId || null,
+      subject: subject ?? "",
+      score: score ?? 0,
+      totalMarks: totalMarks ?? 0,
+      diagnosis: parsed as unknown as Prisma.InputJsonValue,
+      weakAreas: parsed.weakAreas || [],
+      strongAreas: parsed.strongAreas || [],
+      actionPlan: (parsed.actionPlan || []) as unknown as Prisma.InputJsonValue,
+    },
+  });
+  return NextResponse.json({ autopsy: { ...autopsy, ...parsed } });
 }
 
-export async function GET(req: Request) {
-  const session = await getAuthSession()
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+export async function GET() {
+  const { userId, response } = await requireAuth();
+  if (response) return response;
+
   const autopsies = await prisma.examAutopsy.findMany({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: 'desc' },
+    where: { userId },
+    orderBy: { createdAt: "desc" },
     take: 20,
-  })
-  return NextResponse.json({ autopsies })
+  });
+  return NextResponse.json({ autopsies });
 }

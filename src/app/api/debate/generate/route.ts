@@ -1,61 +1,47 @@
 import { NextResponse } from "next/server";
-import Groq from "groq-sdk";
-import { auth } from "~/server/auth";
+import { requireAuth } from "~/server/api-utils";
 import { db } from "~/server/db";
 import { type Prisma } from "@/lib/prisma";
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+import { groqJSON } from "~/server/groq";
 
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const { topic } = (await req.json()) as { topic?: string };
   if (!topic) return NextResponse.json({ error: "Missing topic" }, { status: 400 });
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
-    messages: [
-      {
-        role: "user",
-        content: `You are an expert academic debate coach. For the topic "${topic}", generate a rigorous academic debate with strong arguments on both sides.\n\nRespond ONLY in this exact JSON format:\n{\n  "for": [\n    { "point": "...", "evidence": "...", "strength": 85 },\n    { "point": "...", "evidence": "...", "strength": 80 },\n    { "point": "...", "evidence": "...", "strength": 75 }\n  ],\n  "against": [\n    { "point": "...", "evidence": "...", "strength": 82 },\n    { "point": "...", "evidence": "...", "strength": 78 },\n    { "point": "...", "evidence": "...", "strength": 71 }\n  ],\n  "verdict": "A balanced one-sentence summary of the debate",\n  "keyTension": "The central tension between the two sides in one sentence"\n}`,
-      },
-    ],
-    max_tokens: 1200,
+  const parsed = await groqJSON<{
+    for?: unknown[];
+    against?: unknown[];
+    verdict?: string;
+    keyTension?: string;
+  }>({
+    user: `You are an expert academic debate coach. For the topic "${topic}", generate a rigorous academic debate with strong arguments on both sides.\n\nRespond ONLY in this exact JSON format:\n{\n  "for": [\n    { "point": "...", "evidence": "...", "strength": 85 },\n    { "point": "...", "evidence": "...", "strength": 80 },\n    { "point": "...", "evidence": "...", "strength": 75 }\n  ],\n  "against": [\n    { "point": "...", "evidence": "...", "strength": 82 },\n    { "point": "...", "evidence": "...", "strength": 78 },\n    { "point": "...", "evidence": "...", "strength": 71 }\n  ],\n  "verdict": "A balanced one-sentence summary of the debate",\n  "keyTension": "The central tension between the two sides in one sentence"\n}`,
+    maxTokens: 1200,
   });
 
-  const raw = completion.choices[0]?.message?.content || "{}";
+  if (!parsed) return NextResponse.json({ error: "Failed to parse debate" }, { status: 500 });
 
-  try {
-    const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim()) as {
-      for?: unknown[];
-      against?: unknown[];
-      verdict?: string;
-      keyTension?: string;
-    };
+  await db.debateSession.create({
+    data: {
+      userId,
+      topic,
+      forArguments: (parsed.for ?? []) as Prisma.InputJsonValue,
+      againstArguments: (parsed.against ?? []) as Prisma.InputJsonValue,
+      verdict: parsed.verdict || "",
+    },
+  });
 
-    await db.debateSession.create({
-      data: {
-        userId: session.user.id,
-        topic,
-        forArguments: (parsed.for ?? []) as Prisma.InputJsonValue,
-        againstArguments: (parsed.against ?? []) as Prisma.InputJsonValue,
-        verdict: parsed.verdict || "",
-      },
-    });
-
-    return NextResponse.json({ ...parsed, topic });
-  } catch {
-    return NextResponse.json({ error: "Failed to parse debate" }, { status: 500 });
-  }
+  return NextResponse.json({ ...parsed, topic });
 }
 
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const sessions = await db.debateSession.findMany({
-    where: { userId: session.user.id },
+    where: { userId },
     orderBy: { createdAt: "desc" },
     take: 10,
   });

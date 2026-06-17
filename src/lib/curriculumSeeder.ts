@@ -1,11 +1,8 @@
-import Groq from "groq-sdk";
-
 import { prisma as dbPrisma } from "./prisma.ts";
 import { ALL_ONTARIO_COURSES, type OntarioCourse } from "./ontarioCourses.ts";
+import { groq } from "~/server/groq";
 
 export const prisma = dbPrisma;
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

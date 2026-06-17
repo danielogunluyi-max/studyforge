@@ -1,6 +1,6 @@
 import Groq from "groq-sdk";
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+export const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function runGroqPrompt(input: {
   system?: string;
@@ -19,6 +19,16 @@ export async function runGroqPrompt(input: {
   });
 
   return completion.choices[0]?.message?.content ?? "";
+}
+
+export async function groqJSON<T>(input: {
+  system?: string;
+  user: string;
+  temperature?: number;
+  maxTokens?: number;
+}): Promise<T | null> {
+  const raw = await runGroqPrompt(input);
+  return extractJsonBlock<T>(raw);
 }
 
 export function extractJsonBlock<T>(raw: string): T | null {

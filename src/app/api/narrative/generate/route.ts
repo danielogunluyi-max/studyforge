@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
-import Groq from "groq-sdk";
-import { auth } from "~/server/auth";
+import { requireAuth } from "~/server/api-utils";
 import { db } from "~/server/db";
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+import { runGroqPrompt } from "~/server/groq";
 
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const { sourceText, topic, noteId } = (await req.json()) as {
     sourceText?: string;
@@ -19,22 +17,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
-    messages: [
-      {
-        role: "user",
-        content: `Convert these study notes into a vivid, memorable narrative story that makes the content easy to remember. Use characters, cause-and-effect, drama, and concrete imagery. The story should encode ALL the key facts from the notes in a way that's genuinely entertaining and memorable. End with a 3-bullet "Memory Anchors" summary.\n\nTopic: ${topic}\nNotes: ${sourceText}\n\nWrite the narrative now:`,
-      },
-    ],
-    max_tokens: 1000,
+  const narrative = await runGroqPrompt({
+    user: `Convert these study notes into a vivid, memorable narrative story that makes the content easy to remember. Use characters, cause-and-effect, drama, and concrete imagery. The story should encode ALL the key facts from the notes in a way that's genuinely entertaining and memorable. End with a 3-bullet "Memory Anchors" summary.\n\nTopic: ${topic}\nNotes: ${sourceText}\n\nWrite the narrative now:`,
+    maxTokens: 1000,
   });
-
-  const narrative = completion.choices[0]?.message?.content || "";
 
   const saved = await db.narrativeMemory.create({
     data: {
-      userId: session.user.id,
+      userId,
       noteId: noteId || null,
       sourceText,
       narrative,
@@ -46,11 +36,11 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const items = await db.narrativeMemory.findMany({
-    where: { userId: session.user.id },
+    where: { userId },
     orderBy: { createdAt: "desc" },
     take: 20,
   });

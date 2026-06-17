@@ -1,12 +1,10 @@
-import { auth } from "~/server/auth";
 import { NextResponse } from "next/server";
-import Groq from "groq-sdk";
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+import { requireAuth } from "~/server/api-utils";
+import { groq, extractJsonBlock } from "~/server/groq";
 
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAuth();
+  if (auth.response) return auth.response;
 
   const { imageBase64, mediaType } = (await req.json()) as { imageBase64?: string; mediaType?: string };
 
@@ -45,26 +43,26 @@ Respond in JSON:
   });
 
   const raw = completion.choices[0]?.message?.content || "{}";
-  try {
-    const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim()) as {
-      rawTranscription?: string;
-      cleanedNotes?: string;
-      subject?: string;
-      keyPoints?: string[];
-    };
+  const parsed = extractJsonBlock<{
+    rawTranscription?: string;
+    cleanedNotes?: string;
+    subject?: string;
+    keyPoints?: string[];
+  }>(raw);
 
+  if (parsed) {
     return NextResponse.json({
       rawTranscription: parsed.rawTranscription || "",
       cleanedNotes: parsed.cleanedNotes || "",
       subject: parsed.subject || "",
       keyPoints: Array.isArray(parsed.keyPoints) ? parsed.keyPoints : [],
     });
-  } catch {
-    return NextResponse.json({
-      rawTranscription: raw,
-      cleanedNotes: raw,
-      subject: "",
-      keyPoints: [],
-    });
   }
+
+  return NextResponse.json({
+    rawTranscription: raw,
+    cleanedNotes: raw,
+    subject: "",
+    keyPoints: [],
+  });
 }

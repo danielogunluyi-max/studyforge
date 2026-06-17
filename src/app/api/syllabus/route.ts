@@ -1,25 +1,30 @@
-import { auth } from "~/server/auth"
-import { prisma } from "@/lib/prisma"
-import { NextResponse } from 'next/server'
-import Groq from 'groq-sdk'
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+import { NextResponse } from "next/server";
+import { requireAuth } from "~/server/api-utils";
+import { prisma, type Prisma } from "@/lib/prisma";
+import { groqJSON } from "~/server/groq";
 
 export async function POST(req: Request) {
-  const session = await auth()
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
-  const { syllabusText, courseName, semester } = await req.json()
+  const { syllabusText, courseName, semester } = (await req.json()) as {
+    syllabusText?: string;
+    courseName?: string;
+    semester?: string;
+  };
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
-    messages: [{
-      role: 'user',
-      content: `You are an academic planner. Analyze this course syllabus and generate a complete semester study plan.
+  const parsed = await groqJSON<{
+    units?: Record<string, unknown>[];
+    keyDates?: Record<string, unknown>[];
+    weeklyPlan?: Record<string, unknown>[];
+    totalStudyHours?: number;
+    recommendation?: string;
+  }>({
+    user: `You are an academic planner. Analyze this course syllabus and generate a complete semester study plan.
 
 Course: ${courseName}
 Semester: ${semester}
-Syllabus: ${syllabusText.slice(0, 6000)}
+Syllabus: ${(syllabusText ?? "").slice(0, 6000)}
 
 Respond ONLY in JSON:
 {
@@ -42,40 +47,35 @@ Respond ONLY in JSON:
   ],
   "totalStudyHours": 120,
   "recommendation": "Front-load difficult units in weeks 3-5"
-}`
-    }],
-    max_tokens: 2000,
-  })
+}`,
+    maxTokens: 2000,
+  });
 
-  const raw = completion.choices[0]?.message?.content || '{}'
-  try {
-    const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim())
+  if (!parsed) return NextResponse.json({ error: "Analysis failed" }, { status: 500 });
 
-    const analysis = await prisma.syllabusAnalysis.create({
-      data: {
-        userId: session.user.id,
-        originalText: syllabusText.slice(0, 10000),
-        courseName,
-        semester,
-        plan: parsed,
-        events: parsed.keyDates || [],
-      }
-    })
+  const analysis = await prisma.syllabusAnalysis.create({
+    data: {
+      userId,
+      originalText: (syllabusText ?? "").slice(0, 10000),
+      courseName: courseName ?? "",
+      semester: semester ?? "",
+      plan: parsed as unknown as Prisma.InputJsonValue,
+      events: (parsed.keyDates || []) as unknown as Prisma.InputJsonValue,
+    },
+  });
 
-    return NextResponse.json({ ...parsed, id: analysis.id })
-  } catch {
-    return NextResponse.json({ error: 'Analysis failed' }, { status: 500 })
-  }
+  return NextResponse.json({ ...parsed, id: analysis.id });
 }
 
-export async function GET(req: Request) {
-  const session = await auth()
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+export async function GET() {
+  const { userId, response } = await requireAuth();
+  if (response) return response;
+
   const analyses = await prisma.syllabusAnalysis.findMany({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: 'desc' },
+    where: { userId },
+    orderBy: { createdAt: "desc" },
     take: 10,
-    select: { id: true, courseName: true, semester: true, createdAt: true }
-  })
-  return NextResponse.json({ analyses })
+    select: { id: true, courseName: true, semester: true, createdAt: true },
+  });
+  return NextResponse.json({ analyses });
 }
