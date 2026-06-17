@@ -498,6 +498,8 @@ export default function SettingsPage() {
             syncAppearance(next);
             return next;
           });
+        } else {
+          console.error("Failed to load settings:", response.status, response.statusText);
         }
       } catch (err) {
         console.error("Failed to load settings:", err);
@@ -512,7 +514,8 @@ export default function SettingsPage() {
         if (!response.ok) return;
         const data = await response.json() as { preset?: StudyPreset };
         if (data.preset) setPreset(data.preset);
-      } catch {
+      } catch (err) {
+        console.error("Failed to load preset:", err);
       }
     };
 
@@ -700,6 +703,9 @@ export default function SettingsPage() {
         window.URL.revokeObjectURL(url);
         setSuccess("Data exported successfully!");
         setTimeout(() => setSuccess(""), 3000);
+      } else {
+        const data = await response.json().catch(() => ({})) as { error?: string };
+        setError(data.error ?? "Failed to export data");
       }
     } catch {
       setError("Failed to export data");

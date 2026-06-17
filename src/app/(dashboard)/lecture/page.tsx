@@ -60,9 +60,13 @@ export default function LecturePage() {
     try {
       const response = await fetch('/api/lecture');
       const data = (await response.json()) as { lectures?: LectureHistory[] };
-      if (response.ok) setHistory(data.lectures ?? []);
-    } catch {
-      // ignore history failures
+      if (response.ok) {
+        setHistory(data.lectures ?? []);
+      } else {
+        console.warn("Failed to load lecture history:", response.status);
+      }
+    } catch (err) {
+      console.warn("Error loading lecture history:", err);
     }
   };
 
@@ -210,33 +214,48 @@ export default function LecturePage() {
 
   const saveNotes = async () => {
     if (!result?.notes) return;
-    const response = await fetch('/api/notes', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: title.trim() || 'Lecture Notes',
-        content: result.notes,
-        format: 'summary',
-        tags: [subject || 'lecture', 'live-transcript'],
-      }),
-    });
+    try {
+      const response = await fetch('/api/notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: title.trim() || 'Lecture Notes',
+          content: result.notes,
+          format: 'summary',
+          tags: [subject || 'lecture', 'live-transcript'],
+        }),
+      });
 
-    const data = (await response.json().catch(() => ({}))) as { note?: { id?: string } };
-    if (response.ok) {
-      setSavedNoteId(data.note?.id ?? '');
+      const data = (await response.json().catch(() => ({}))) as { note?: { id?: string } };
+      if (response.ok) {
+        setSavedNoteId(data.note?.id ?? '');
+      } else {
+        console.error("Failed to save lecture notes:", response.status, response.statusText);
+        setError("Failed to save notes. Please try again.");
+      }
+    } catch (err) {
+      console.error("Error saving lecture notes:", err);
+      setError("Failed to save notes. Please try again.");
     }
   };
 
   const saveAsDeck = async () => {
     if (!result?.flashcards?.length) return;
-    await fetch('/api/flashcards', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: `${title || 'Lecture'} Deck`,
-        cards: result.flashcards,
-      }),
-    });
+    try {
+      const response = await fetch('/api/flashcards', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: `${title || 'Lecture'} Deck`,
+          cards: result.flashcards,
+        }),
+      });
+      if (!response.ok) {
+        console.error("Failed to save lecture deck:", response.status, response.statusText);
+      }
+    } catch (err) {
+      console.error("Error saving lecture deck:", err);
+    }
   };
 
   return (

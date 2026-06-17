@@ -20,7 +20,7 @@ export function trackNovaEvent(event: XPEvent): void {
         window.dispatchEvent(new CustomEvent("nova:levelup", { detail: { level: payload.level } }));
       }
     })
-    .catch(() => {
-      // XP tracking should never block the user flow.
+    .catch((err) => {
+      console.warn("[novaClient] XP tracking failed (non-blocking):", err);
     });
 }

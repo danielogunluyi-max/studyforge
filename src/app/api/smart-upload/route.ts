@@ -151,7 +151,8 @@ Respond ONLY in JSON:
         quizQuestions: parsed.quiz?.length || 0,
       },
     });
-  } catch {
+  } catch (err) {
+    console.error("[smart-upload] Processing failed:", err);
     return NextResponse.json({ error: 'Processing failed' }, { status: 500 });
   }
 }

@@ -442,8 +442,11 @@ export default function MyNotes() {
       const data = (await response.json().catch(() => ({}))) as { studyStreak?: number };
       if (response.ok) {
         setStudyStreak(Math.max(0, data.studyStreak ?? 0));
+      } else {
+        console.warn("Failed to load study streak:", response.status);
       }
-    } catch {
+    } catch (err) {
+      console.warn("Error loading study streak:", err);
       setStudyStreak(0);
     }
   };
@@ -461,9 +464,12 @@ export default function MyNotes() {
           setSelectedNote(null);
         }
         await fetchTagStats();
+      } else {
+        const data = (await response.json().catch(() => ({}))) as { error?: string };
+        setError(data.error ?? "Failed to delete note");
       }
     } catch (deleteError) {
-      void deleteError;
+      console.error("Error deleting note:", deleteError);
       setError("Failed to delete note");
     }
   };

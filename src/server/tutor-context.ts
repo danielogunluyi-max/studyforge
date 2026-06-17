@@ -50,7 +50,10 @@ export async function buildStudentContext(params: {
     prisma.user.findUnique({
       where: { id: userId },
       select: { studyStreak: true, lastActive: true },
-    }).catch(() => null),
+    }).catch((err) => {
+      console.warn("[tutor-context] Failed to fetch user:", err);
+      return null;
+    }),
     prisma.note.findMany({
       where: {
         userId,
@@ -73,7 +76,10 @@ export async function buildStudentContext(params: {
         tags: true,
         updatedAt: true,
       },
-    }).catch(() => []),
+    }).catch((err) => {
+      console.warn("[tutor-context] Failed to fetch recent notes:", err);
+      return [];
+    }),
     loadedNoteId
       ? prisma.screenshot
           .findMany({
@@ -82,7 +88,10 @@ export async function buildStudentContext(params: {
             take: 6,
             select: { id: true, title: true, subject: true, createdAt: true },
           })
-          .catch(() => [])
+          .catch((err) => {
+            console.warn("[tutor-context] Failed to fetch note screenshots:", err);
+            return [];
+          })
       : Promise.resolve([] as Array<{ id: string; title: string; subject: string; createdAt: Date }>),
     prisma.flashcardDeck.findMany({
       where: {
@@ -98,7 +107,10 @@ export async function buildStudentContext(params: {
         updatedAt: true,
         _count: { select: { cards: true } },
       },
-    }).catch(() => []),
+    }).catch((err) => {
+      console.warn("[tutor-context] Failed to fetch recent decks:", err);
+      return [];
+    }),
   ]);
 
   const recentSubjectsSet = new Set<string>();

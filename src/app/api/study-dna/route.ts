@@ -69,7 +69,8 @@ Respond ONLY in JSON:
       create: { userId: session.user.id, ...parsed },
     })
     return NextResponse.json({ dna })
-  } catch {
+  } catch (err) {
+    console.error("[study-dna] Analysis failed:", err);
     return NextResponse.json({ error: 'Analysis failed' }, { status: 500 })
   }
 }

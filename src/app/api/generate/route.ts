@@ -10,16 +10,26 @@ export async function POST(request: Request) {
     // may send a single-quoted string instead of strict JSON; tolerate that.
     const raw = await request.text();
     console.log("Generator: raw body length=", raw.length, "preview=", raw.slice(0, 200));
-    let body: any;
+    type GenerateBody = {
+      text: string;
+      format: string;
+      notesLength?: string;
+      quizQuestionCount?: number;
+      quizDifficulty?: string;
+      quizType?: string;
+      curriculumCode?: string;
+    };
+
+    let body: GenerateBody;
     try {
-      body = JSON.parse(raw);
+      body = JSON.parse(raw) as GenerateBody;
     } catch (err) {
       let cleaned = raw.trim();
       if (cleaned.startsWith("'") && cleaned.endsWith("'")) {
         cleaned = cleaned.slice(1, -1);
       }
       try {
-        body = JSON.parse(cleaned);
+        body = JSON.parse(cleaned) as GenerateBody;
       } catch (err2) {
         console.error("Generator: failed to parse body as JSON", err2 instanceof Error ? err2.message : err2);
         throw new Error("Invalid JSON body");
@@ -33,15 +43,7 @@ export async function POST(request: Request) {
       quizDifficulty,
       quizType,
       curriculumCode,
-    } = body as {
-      text: string;
-      format: string;
-      notesLength?: string;
-      quizQuestionCount?: number;
-      quizDifficulty?: string;
-      quizType?: string;
-      curriculumCode?: string;
-    };
+    } = body;
 
     const curriculumContext = await getCurriculumContext(curriculumCode);
     const curriculumPrompt = curriculumContextToPrompt(curriculumContext);

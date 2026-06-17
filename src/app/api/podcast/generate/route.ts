@@ -161,7 +161,9 @@ ${text.slice(0, 3000)}`;
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ event: "NOTE_GENERATED" }),
-    }).catch(() => undefined);
+    }).catch((err) => {
+      console.warn("[podcast/generate] Nova XP event failed (non-blocking):", err);
+    });
 
     return NextResponse.json({ ...result, podcastId: saved.id });
   } catch (error) {

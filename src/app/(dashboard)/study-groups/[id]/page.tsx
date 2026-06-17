@@ -202,9 +202,17 @@ export default function StudyGroupInteriorPage() {
     if (!groupId || activeTab !== "Chat") return;
 
     const loadMessages = async () => {
-      const response = await fetch(`/api/study-groups/${groupId}/messages`);
-      const data = (await response.json()) as { messages?: GroupMessage[] };
-      if (response.ok) setMessages(data.messages ?? []);
+      try {
+        const response = await fetch(`/api/study-groups/${groupId}/messages`);
+        const data = (await response.json()) as { messages?: GroupMessage[] };
+        if (response.ok) {
+          setMessages(data.messages ?? []);
+        } else {
+          console.error("Failed to load messages:", response.status, response.statusText);
+        }
+      } catch (err) {
+        console.error("Error loading messages:", err);
+      }
     };
 
     void loadMessages();
@@ -216,27 +224,44 @@ export default function StudyGroupInteriorPage() {
     if (!groupId) return;
 
     const loadTabData = async () => {
-      const notesRes = await fetch(`/api/study-groups/${groupId}/notes`);
-      const flashRes = await fetch(`/api/study-groups/${groupId}/flashcards`);
-      const quizRes = await fetch(`/api/study-groups/${groupId}/quiz`);
-      const schedRes = await fetch(`/api/study-groups/${groupId}/schedule`);
-      const leadRes = await fetch(`/api/study-groups/${groupId}/leaderboard`);
-      const resourceRes = await fetch(`/api/study-groups/${groupId}/resources`);
+      try {
+        const [notesRes, flashRes, quizRes, schedRes, leadRes, resourceRes] = await Promise.all([
+          fetch(`/api/study-groups/${groupId}/notes`),
+          fetch(`/api/study-groups/${groupId}/flashcards`),
+          fetch(`/api/study-groups/${groupId}/quiz`),
+          fetch(`/api/study-groups/${groupId}/schedule`),
+          fetch(`/api/study-groups/${groupId}/leaderboard`),
+          fetch(`/api/study-groups/${groupId}/resources`),
+        ]);
 
-      const notesData = (await notesRes.json()) as { sharedNotes?: SharedNote[]; myNotes?: Array<{ id: string; title: string; format: string }> };
-      const flashData = (await flashRes.json()) as { cards?: Flashcard[] };
-      const quizData = (await quizRes.json()) as { round?: QuizRound };
-      const schedData = (await schedRes.json()) as { items?: ScheduleItem[] };
-      const leadData = (await leadRes.json()) as LeaderboardData;
-      const resourceData = (await resourceRes.json()) as { resources?: ResourceItem[] };
-
-      setSharedNotes(notesData.sharedNotes ?? []);
-      setMyNotes(notesData.myNotes ?? []);
-      setFlashcards(flashData.cards ?? []);
-      setQuizRound(quizData.round ?? null);
-      setSchedule(schedData.items ?? []);
-      setLeaderboard(leadData ?? null);
-      setResources(resourceData.resources ?? []);
+        if (notesRes.ok) {
+          const notesData = (await notesRes.json()) as { sharedNotes?: SharedNote[]; myNotes?: Array<{ id: string; title: string; format: string }> };
+          setSharedNotes(notesData.sharedNotes ?? []);
+          setMyNotes(notesData.myNotes ?? []);
+        }
+        if (flashRes.ok) {
+          const flashData = (await flashRes.json()) as { cards?: Flashcard[] };
+          setFlashcards(flashData.cards ?? []);
+        }
+        if (quizRes.ok) {
+          const quizData = (await quizRes.json()) as { round?: QuizRound };
+          setQuizRound(quizData.round ?? null);
+        }
+        if (schedRes.ok) {
+          const schedData = (await schedRes.json()) as { items?: ScheduleItem[] };
+          setSchedule(schedData.items ?? []);
+        }
+        if (leadRes.ok) {
+          const leadData = (await leadRes.json()) as LeaderboardData;
+          setLeaderboard(leadData ?? null);
+        }
+        if (resourceRes.ok) {
+          const resourceData = (await resourceRes.json()) as { resources?: ResourceItem[] };
+          setResources(resourceData.resources ?? []);
+        }
+      } catch (err) {
+        console.error("Error loading study group tab data:", err);
+      }
     };
 
     void loadTabData();

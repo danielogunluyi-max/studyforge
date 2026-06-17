@@ -72,6 +72,8 @@ export default function ScreenshotGallery() {
       if (response.ok) {
         const data = await response.json();
         setScreenshots(data);
+      } else {
+        console.error('Failed to load screenshots:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error loading screenshots:', error);
@@ -86,6 +88,8 @@ export default function ScreenshotGallery() {
       if (response.ok) {
         const data = await response.json();
         setNotes(data.notes || []);
+      } else {
+        console.error('Failed to load notes:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error loading notes:', error);

@@ -61,9 +61,13 @@ export default function ReadingSpeedPage() {
     try {
       const response = await fetch('/api/reading-speed');
       const data = (await response.json()) as { sessions?: ReadingHistoryItem[] };
-      if (response.ok) setHistory(data.sessions ?? []);
-    } catch {
-      // ignore history load failures
+      if (response.ok) {
+        setHistory(data.sessions ?? []);
+      } else {
+        console.warn("Failed to load reading speed history:", response.status);
+      }
+    } catch (err) {
+      console.warn("Error loading reading speed history:", err);
     }
   };
 
@@ -186,8 +190,8 @@ export default function ReadingSpeedPage() {
         }),
       });
       await loadHistory();
-    } catch {
-      // ignore save failures for UX continuity
+    } catch (err) {
+      console.warn("Failed to save reading speed result:", err);
     }
   };
 
