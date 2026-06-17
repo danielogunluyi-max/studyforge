@@ -1,11 +1,16 @@
 import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
+import { getAuthSession } from "~/server/auth/session";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function POST(request: Request) {
   try {
+    const session = await getAuthSession();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     // Read raw body once and parse. Some CLI wrappers (or Windows quoting)
     // may send a single-quoted string instead of strict JSON; tolerate that.
     const raw = await request.text();

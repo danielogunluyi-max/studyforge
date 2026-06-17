@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { runGroqPrompt, extractJsonBlock } from "~/server/groq";
+import { getAuthSession } from "~/server/auth/session";
 
 type Flashcard = {
   front: string;
@@ -36,6 +37,11 @@ Output format:
 
 export async function POST(request: Request) {
   try {
+    const session = await getAuthSession();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     if (!process.env.GROQ_API_KEY) {
       return NextResponse.json(
         { error: "GROQ_API_KEY is not configured on the server." },

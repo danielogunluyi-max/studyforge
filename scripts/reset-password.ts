@@ -7,8 +7,13 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 async function main() {
-  const email = "daniel.ogunluyi@gmail.com";
-  const newPassword = "TempPass123!";
+  const email = process.argv[2];
+  const newPassword = process.argv[3];
+
+  if (!email || !newPassword) {
+    console.error("Usage: npx tsx scripts/reset-password.ts <email> <new-password>");
+    process.exit(1);
+  }
 
   const user = await prisma.user.findUnique({
     where: { email },
@@ -29,7 +34,7 @@ async function main() {
     },
   });
 
-  console.log(`Password for ${email} has been reset to ${newPassword}`);
+  console.log(`Password for ${email} has been reset.`);
 }
 
 main()

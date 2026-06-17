@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getAuthSession } from "~/server/auth/session";
 
 export const runtime = "nodejs";
 
@@ -144,6 +145,11 @@ function buildTextFromParagraphs(paragraphs: OcrParagraph[]): string {
 
 export async function POST(request: Request) {
   try {
+    const session = await getAuthSession();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { buffer, languages } = await getImageData(request);
 
     if (!buffer.byteLength) {

@@ -1,5 +1,6 @@
 import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
+import { getAuthSession } from "~/server/auth/session";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -38,6 +39,11 @@ function extractJsonObject(text: string): { correct: boolean; feedback: string }
 
 export async function POST(request: Request) {
   try {
+    const session = await getAuthSession();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { studentAnswer, correctAnswer } = (await request.json()) as {
       studentAnswer?: string;
       correctAnswer?: string;
