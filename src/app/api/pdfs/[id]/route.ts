@@ -61,8 +61,8 @@ export async function DELETE(
     await db.pDFDocument.delete({ where: { id: document.id } });
 
     if (document.blobUrl) {
-      await del(document.blobUrl).catch(() => {
-        // Ignore blob cleanup failure after DB delete.
+      await del(document.blobUrl).catch((err) => {
+        console.warn("[pdfs] Blob cleanup failed after DB delete (non-blocking):", err);
       });
     }
 

@@ -31,6 +31,8 @@ export default function NoteScreenshots({ noteId, className = '' }: NoteScreensh
       if (response.ok) {
         const data = await response.json();
         setScreenshots(data);
+      } else {
+        console.error('Failed to load note screenshots:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error loading note screenshots:', error);

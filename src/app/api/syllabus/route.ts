@@ -63,7 +63,8 @@ Respond ONLY in JSON:
     })
 
     return NextResponse.json({ ...parsed, id: analysis.id })
-  } catch {
+  } catch (err) {
+    console.error("[syllabus] Analysis failed:", err);
     return NextResponse.json({ error: 'Analysis failed' }, { status: 500 })
   }
 }

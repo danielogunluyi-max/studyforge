@@ -309,8 +309,8 @@ export default function Generator() {
               const adaptData = (await adaptRes.json()) as { transformedContent?: string };
               finalNotes = adaptData.transformedContent ?? finalNotes;
             }
-          } catch {
-            // Silent fail - use original notes if adaptation fails
+          } catch (adaptErr) {
+            console.warn("Learning style adaptation failed, using original notes:", adaptErr);
           }
         }
         
@@ -320,7 +320,7 @@ export default function Generator() {
         setError(data.error ?? "Failed to generate notes");
       }
     } catch (err) {
-      void err;
+      console.error("Error generating notes:", err);
       setError("Something went wrong. Please try again.");
     } finally {
       isGeneratingRef.current = false;

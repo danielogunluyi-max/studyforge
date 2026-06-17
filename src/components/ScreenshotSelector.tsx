@@ -35,6 +35,8 @@ export default function ScreenshotSelector({
       if (response.ok) {
         const data = await response.json();
         setScreenshots(data);
+      } else {
+        console.error('Failed to load screenshots:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error loading screenshots:', error);

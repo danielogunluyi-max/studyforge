@@ -35,7 +35,8 @@ export async function POST(req: Request) {
 
   try {
     transcript = await getYouTubeTranscript(youtubeUrl)
-  } catch {
+  } catch (err) {
+    console.error("[youtube-import] Transcript fetch failed:", err);
     return NextResponse.json({ error: 'Could not fetch transcript. Make sure the video has captions.' }, { status: 400 })
   }
 
@@ -78,7 +79,8 @@ Respond ONLY in this JSON:
     })
 
     return NextResponse.json({ ...parsed, id: saved.id })
-  } catch {
+  } catch (err) {
+    console.error("[youtube-import] Processing failed:", err);
     return NextResponse.json({ error: 'Processing failed' }, { status: 500 })
   }
 }
