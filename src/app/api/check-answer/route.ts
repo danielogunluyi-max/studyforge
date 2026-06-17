@@ -1,7 +1,5 @@
-import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+import { groq } from "~/server/groq";
 
 function extractJsonObject(text: string): { correct: boolean; feedback: string } | null {
   const trimmed = text.trim();

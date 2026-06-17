@@ -1,17 +1,15 @@
 import { NextResponse } from "next/server";
-import Groq from "groq-sdk";
-import { auth } from "~/server/auth";
+import { requireAuth } from "~/server/api-utils";
 import { db } from "~/server/db";
 import { type Prisma } from "@/lib/prisma";
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+import { groqJSON } from "~/server/groq";
 
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const predictions = await db.examPrediction.findMany({
-    where: { userId: session.user.id },
+    where: { userId },
     orderBy: { createdAt: "desc" },
     take: 10,
   });
@@ -20,8 +18,8 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const { subject, examDate } = (await req.json()) as { subject?: string; examDate?: string };
   if (!subject || !examDate) return NextResponse.json({ error: "Missing subject or examDate" }, { status: 400 });
@@ -29,7 +27,7 @@ export async function POST(req: Request) {
   const [notes, decks, exams, feynman] = await Promise.all([
     db.note.count({
       where: {
-        userId: session.user.id,
+        userId,
         OR: [
           { title: { contains: subject, mode: "insensitive" } },
           { content: { contains: subject, mode: "insensitive" } },
@@ -37,15 +35,15 @@ export async function POST(req: Request) {
       },
     }),
     db.flashcardDeck.count({
-      where: { userId: session.user.id, subject: { contains: subject, mode: "insensitive" } },
+      where: { userId, subject: { contains: subject, mode: "insensitive" } },
     }),
     db.exam.findMany({
-      where: { userId: session.user.id, subject: { contains: subject, mode: "insensitive" } },
+      where: { userId, subject: { contains: subject, mode: "insensitive" } },
       select: { scorePercent: true },
       take: 10,
     }),
     db.feynmanSession.findMany({
-      where: { userId: session.user.id, concept: { contains: subject, mode: "insensitive" } },
+      where: { userId, concept: { contains: subject, mode: "insensitive" } },
       select: { score: true },
       take: 5,
     }),
@@ -59,42 +57,30 @@ export async function POST(req: Request) {
     : null;
   const daysUntil = Math.ceil((new Date(examDate).getTime() - Date.now()) / 86400000);
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
-    messages: [
-      {
-        role: "user",
-        content: `You are an academic performance predictor. Based on this student's data, predict their exam score.\n\nSubject: ${subject}\nDays until exam: ${daysUntil}\nNotes created: ${notes}\nFlashcard decks: ${decks}\nAverage past exam score: ${avgExamScore ? avgExamScore.toFixed(1) + "%" : "No data"}\nAverage Feynman technique score: ${avgFeynman ? avgFeynman.toFixed(1) + "/100" : "No data"}\n\nRespond ONLY in this JSON format:\n{\n  "predictedScore": 78,\n  "confidence": 0.72,\n  "grade": "B+",\n  "factors": [\n    { "factor": "Study materials", "impact": "positive", "detail": "..." },\n    { "factor": "Time remaining", "impact": "neutral", "detail": "..." },\n    { "factor": "Past performance", "impact": "positive", "detail": "..." }\n  ],\n  "recommendation": "One specific actionable tip to improve the prediction"\n}`,
-      },
-    ],
-    max_tokens: 500,
+  const parsed = await groqJSON<{
+    predictedScore?: number;
+    confidence?: number;
+    factors?: unknown[];
+  }>({
+    user: `You are an academic performance predictor. Based on this student's data, predict their exam score.\n\nSubject: ${subject}\nDays until exam: ${daysUntil}\nNotes created: ${notes}\nFlashcard decks: ${decks}\nAverage past exam score: ${avgExamScore ? avgExamScore.toFixed(1) + "%" : "No data"}\nAverage Feynman technique score: ${avgFeynman ? avgFeynman.toFixed(1) + "/100" : "No data"}\n\nRespond ONLY in this JSON format:\n{\n  "predictedScore": 78,\n  "confidence": 0.72,\n  "grade": "B+",\n  "factors": [\n    { "factor": "Study materials", "impact": "positive", "detail": "..." },\n    { "factor": "Time remaining", "impact": "neutral", "detail": "..." },\n    { "factor": "Past performance", "impact": "positive", "detail": "..." }\n  ],\n  "recommendation": "One specific actionable tip to improve the prediction"\n}`,
+    maxTokens: 500,
   });
 
-  const raw = completion.choices[0]?.message?.content || "{}";
+  if (!parsed) return NextResponse.json({ error: "Prediction failed" }, { status: 500 });
 
-  try {
-    const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim()) as {
-      predictedScore?: number;
-      confidence?: number;
-      factors?: unknown[];
-    };
+  await db.examPrediction.create({
+    data: {
+      userId,
+      examType: "predictor",
+      uploadedContent: `Auto predictor context for ${subject}`,
+      predictions: parsed as Prisma.InputJsonValue,
+      subject,
+      examDate: new Date(examDate),
+      predictedScore: parsed.predictedScore || 0,
+      confidence: parsed.confidence || 0,
+      factors: (parsed.factors ?? []) as Prisma.InputJsonValue,
+    },
+  });
 
-    await db.examPrediction.create({
-      data: {
-        userId: session.user.id,
-        examType: "predictor",
-        uploadedContent: `Auto predictor context for ${subject}`,
-        predictions: parsed as Prisma.InputJsonValue,
-        subject,
-        examDate: new Date(examDate),
-        predictedScore: parsed.predictedScore || 0,
-        confidence: parsed.confidence || 0,
-        factors: (parsed.factors ?? []) as Prisma.InputJsonValue,
-      },
-    });
-
-    return NextResponse.json(parsed);
-  } catch {
-    return NextResponse.json({ error: "Prediction failed" }, { status: 500 });
-  }
+  return NextResponse.json(parsed);
 }

@@ -1,22 +1,17 @@
-import Groq from 'groq-sdk';
-import { NextResponse } from 'next/server';
-import { db } from '~/server/db';
-import { getAuthSession } from '~/server/auth/session';
+import { NextResponse } from "next/server";
+import { requireAuth } from "~/server/api-utils";
+import { db } from "~/server/db";
+import { groqJSON, groq } from "~/server/groq";
 
 const prisma = db as any;
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function generateCode(): string {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
-
 export async function POST(req: Request) {
-  const session = await getAuthSession();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const body = (await req.json().catch(() => ({}))) as {
     topic?: string;
@@ -24,32 +19,34 @@ export async function POST(req: Request) {
     code?: string;
   };
 
-  const topic = body.topic?.trim() ?? '';
-  const argument = body.argument?.trim() ?? '';
-  const code = body.code?.trim() ?? '';
+  const topic = body.topic?.trim() ?? "";
+  const argument = body.argument?.trim() ?? "";
+  const code = body.code?.trim() ?? "";
 
   if (code) {
     const debate = await prisma.debateJudge.findUnique({ where: { code } });
     if (!debate) {
-      return NextResponse.json({ error: 'Debate not found' }, { status: 404 });
+      return NextResponse.json({ error: "Debate not found" }, { status: 404 });
     }
 
     if (debate.player2Id) {
-      return NextResponse.json({ error: 'Debate full' }, { status: 400 });
+      return NextResponse.json({ error: "Debate full" }, { status: 400 });
     }
 
     const updated = await prisma.debateJudge.update({
       where: { code },
-      data: { player2Id: session.user.id, player2Arg: argument || null, status: 'judging' },
+      data: { player2Id: userId, player2Arg: argument || null, status: "judging" },
     });
 
     if (debate.player1Arg && argument) {
-      const completion = await groq.chat.completions.create({
-        model: 'llama-3.3-70b-versatile',
-        messages: [
-          {
-            role: 'user',
-            content: `You are a fair academic debate judge. Judge these two arguments.
+      const judged = await groqJSON<{
+        winner?: "A" | "B" | "tie";
+        verdict?: string;
+        scores?: unknown;
+        strongestPoint?: string;
+        weakestPoint?: string;
+      }>({
+        user: `You are a fair academic debate judge. Judge these two arguments.
 
 Topic: ${debate.topic}
 Argument A: ${debate.player1Arg}
@@ -68,21 +65,12 @@ Respond ONLY in JSON:
   "strongestPoint": "The single best argument made in the debate",
   "weakestPoint": "The biggest weakness in the debate overall"
 }`,
-          },
-        ],
-        max_tokens: 600,
+        maxTokens: 600,
       });
 
-      const raw = completion.choices[0]?.message?.content || '{}';
-      try {
-        const judged = JSON.parse(raw.replace(/```json|```/g, '').trim()) as {
-          winner?: 'A' | 'B' | 'tie';
-          verdict?: string;
-          scores?: unknown;
-        };
-
+      if (judged) {
         const winnerId =
-          judged.winner === 'A' ? debate.player1Id : judged.winner === 'B' ? session.user.id : null;
+          judged.winner === "A" ? debate.player1Id : judged.winner === "B" ? userId : null;
 
         await prisma.debateJudge.update({
           where: { code },
@@ -90,13 +78,11 @@ Respond ONLY in JSON:
             verdict: judged.verdict ?? null,
             scores: (judged.scores ?? null) as never,
             winnerId,
-            status: 'complete',
+            status: "complete",
           },
         });
 
-        return NextResponse.json({ debate: updated, verdict: judged, status: 'complete' });
-      } catch {
-        // fall through and return updated
+        return NextResponse.json({ debate: updated, verdict: judged, status: "complete" });
       }
     }
 
@@ -104,13 +90,13 @@ Respond ONLY in JSON:
   }
 
   if (!topic || !argument) {
-    return NextResponse.json({ error: 'topic and argument are required' }, { status: 400 });
+    return NextResponse.json({ error: "topic and argument are required" }, { status: 400 });
   }
 
   const debate = await prisma.debateJudge.create({
     data: {
       topic,
-      player1Id: session.user.id,
+      player1Id: userId,
       player1Arg: argument,
       code: generateCode(),
     },
@@ -120,13 +106,11 @@ Respond ONLY in JSON:
 }
 
 export async function GET(req: Request) {
-  const session = await getAuthSession();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const { searchParams } = new URL(req.url);
-  const code = searchParams.get('code');
+  const code = searchParams.get("code");
 
   if (code) {
     const debate = await prisma.debateJudge.findUnique({
@@ -141,8 +125,8 @@ export async function GET(req: Request) {
   }
 
   const debates = await prisma.debateJudge.findMany({
-    where: { OR: [{ player1Id: session.user.id }, { player2Id: session.user.id }] },
-    orderBy: { createdAt: 'desc' },
+    where: { OR: [{ player1Id: userId }, { player2Id: userId }] },
+    orderBy: { createdAt: "desc" },
     take: 10,
   });
 

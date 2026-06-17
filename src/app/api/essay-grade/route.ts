@@ -1,13 +1,11 @@
-import { auth } from "~/server/auth";
-import { prisma, type Prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import Groq from "groq-sdk";
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+import { requireAuth } from "~/server/api-utils";
+import { prisma, type Prisma } from "@/lib/prisma";
+import { groqJSON } from "~/server/groq";
 
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const { essay, subject, gradeLevel } = (await req.json()) as {
     essay?: string;
@@ -19,12 +17,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Essay is required" }, { status: 400 });
   }
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
-    messages: [
-      {
-        role: "user",
-        content: `You are an Ontario high school teacher grading a student essay using the Ontario Achievement Chart (Knowledge/Understanding, Thinking, Communication, Application).
+  const parsed = await groqJSON<Record<string, unknown>>({
+    user: `You are an Ontario high school teacher grading a student essay using the Ontario Achievement Chart (Knowledge/Understanding, Thinking, Communication, Application).
 
 Subject: ${subject || "English"}
 Grade Level: ${gradeLevel || "Grade 11"}
@@ -48,40 +42,34 @@ Respond ONLY in JSON:
   ],
   "overallFeedback": "2-3 sentence overall assessment"
 }`,
-      },
-    ],
-    max_tokens: 1000,
+    maxTokens: 1000,
   });
 
-  const raw = completion.choices[0]?.message?.content || "{}";
-  try {
-    const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim()) as Record<string, unknown>;
-    const overallGrade = typeof parsed.overallGrade === "number" ? parsed.overallGrade : 0;
-    const improvements = Array.isArray(parsed.improvements) ? parsed.improvements : [];
+  if (!parsed) return NextResponse.json({ error: "Grading failed" }, { status: 500 });
 
-    await prisma.essayGrade.create({
-      data: {
-        userId: session.user.id,
-        essay: essay.slice(0, 10000),
-        subject: subject || "English",
-        grade: overallGrade,
-        feedback: parsed as Prisma.InputJsonValue,
-        suggestions: improvements as string[],
-      },
-    });
+  const overallGrade = typeof parsed.overallGrade === "number" ? parsed.overallGrade : 0;
+  const improvements = Array.isArray(parsed.improvements) ? parsed.improvements : [];
 
-    return NextResponse.json(parsed);
-  } catch {
-    return NextResponse.json({ error: "Grading failed" }, { status: 500 });
-  }
+  await prisma.essayGrade.create({
+    data: {
+      userId,
+      essay: essay.slice(0, 10000),
+      subject: subject || "English",
+      grade: overallGrade,
+      feedback: parsed as Prisma.InputJsonValue,
+      suggestions: improvements as string[],
+    },
+  });
+
+  return NextResponse.json(parsed);
 }
 
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const grades = await prisma.essayGrade.findMany({
-    where: { userId: session.user.id },
+    where: { userId },
     orderBy: { createdAt: "desc" },
     take: 20,
     select: { id: true, subject: true, grade: true, createdAt: true },

@@ -1,17 +1,13 @@
-import Groq from 'groq-sdk';
-import { NextResponse } from 'next/server';
-import { db } from '~/server/db';
-import { auth } from '~/server/auth';
+import { NextResponse } from "next/server";
+import { requireAuth } from "~/server/api-utils";
+import { db } from "~/server/db";
+import { groqJSON } from "~/server/groq";
 
 const prisma = db as any;
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const body = (await req.json().catch(() => ({}))) as {
     transcript?: string;
@@ -20,21 +16,22 @@ export async function POST(req: Request) {
     duration?: number;
   };
 
-  const transcript = body.transcript ?? '';
-  const title = body.title?.trim() || 'Lecture';
-  const subject = body.subject?.trim() || 'General';
+  const transcript = body.transcript ?? "";
+  const title = body.title?.trim() || "Lecture";
+  const subject = body.subject?.trim() || "General";
   const duration = Number(body.duration ?? 0);
 
   if (!transcript.trim()) {
-    return NextResponse.json({ error: 'Transcript is required' }, { status: 400 });
+    return NextResponse.json({ error: "Transcript is required" }, { status: 400 });
   }
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
-    messages: [
-      {
-        role: 'user',
-        content: `Convert this live lecture transcript into structured study notes and flashcards.
+  const parsed = await groqJSON<{
+    notes?: string;
+    flashcards?: unknown[];
+    keyTerms?: string[];
+    summary?: string;
+  }>({
+    user: `Convert this live lecture transcript into structured study notes and flashcards.
 
 Title: ${title}
 Subject: ${subject}
@@ -49,47 +46,33 @@ Respond ONLY in JSON:
   "keyTerms": ["term1", "term2"],
   "summary": "2-3 sentence summary"
 }`,
-      },
-    ],
-    max_tokens: 2000,
+    maxTokens: 2000,
   });
 
-  const raw = completion.choices[0]?.message?.content || '{}';
-  try {
-    const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim()) as {
-      notes?: string;
-      flashcards?: unknown[];
-      keyTerms?: string[];
-      summary?: string;
-    };
+  if (!parsed) return NextResponse.json({ error: "Processing failed" }, { status: 500 });
 
-    const lecture = await prisma.lectureSession.create({
-      data: {
-        userId: session.user.id,
-        title,
-        transcript: transcript.slice(0, 20000),
-        notes: parsed.notes || '',
-        flashcards: (parsed.flashcards ?? []) as never,
-        duration,
-        subject,
-      },
-    });
+  const lecture = await prisma.lectureSession.create({
+    data: {
+      userId,
+      title,
+      transcript: transcript.slice(0, 20000),
+      notes: parsed.notes || "",
+      flashcards: (parsed.flashcards ?? []) as never,
+      duration,
+      subject,
+    },
+  });
 
-    return NextResponse.json({ lecture, ...parsed });
-  } catch {
-    return NextResponse.json({ error: 'Processing failed' }, { status: 500 });
-  }
+  return NextResponse.json({ lecture, ...parsed });
 }
 
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const lectures = await prisma.lectureSession.findMany({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: 'desc' },
+    where: { userId },
+    orderBy: { createdAt: "desc" },
     take: 20,
     select: { id: true, title: true, subject: true, duration: true, createdAt: true },
   });

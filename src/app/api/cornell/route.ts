@@ -1,20 +1,15 @@
-import { auth } from "~/server/auth"
-import { NextResponse } from 'next/server'
-import Groq from 'groq-sdk'
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+import { NextResponse } from "next/server";
+import { requireAuth } from "~/server/api-utils";
+import { groqJSON } from "~/server/groq";
 
 export async function POST(req: Request) {
-  const session = await auth()
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const auth = await requireAuth();
+  if (auth.response) return auth.response;
 
-  const { text, topic } = await req.json()
+  const { text, topic } = (await req.json()) as { text?: string; topic?: string };
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
-    messages: [{
-      role: 'user',
-      content: `Convert these notes into Cornell Note format.
+  const parsed = await groqJSON({
+    user: `Convert these notes into Cornell Note format.
 
 Cornell Notes has 3 sections:
 1. CUE column (left): key questions and keywords that prompt recall
@@ -31,16 +26,10 @@ Respond ONLY in this JSON:
     { "cue": "matching cue", "content": "detailed note content" }
   ],
   "summary": "3-5 sentence summary of all content"
-}`
-    }],
-    max_tokens: 1500,
-  })
+}`,
+    maxTokens: 1500,
+  });
 
-  const raw = completion.choices[0]?.message?.content || '{}'
-  try {
-    const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim())
-    return NextResponse.json(parsed)
-  } catch {
-    return NextResponse.json({ error: 'Formatting failed' }, { status: 500 })
-  }
+  if (!parsed) return NextResponse.json({ error: "Formatting failed" }, { status: 500 });
+  return NextResponse.json(parsed);
 }

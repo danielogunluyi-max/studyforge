@@ -1,8 +1,6 @@
-import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+import { groq } from "~/server/groq";
 
 export async function POST(request: Request) {
   try {

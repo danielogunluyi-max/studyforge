@@ -1,8 +1,9 @@
-import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
+import type Groq from "groq-sdk";
 
 import { auth } from "~/server/auth";
 import { prisma } from "@/lib/prisma";
+import { groq } from "~/server/groq";
 
 /**
  * Phase 3 — Nova Live Vision
@@ -21,8 +22,6 @@ const VISION_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
 const NOVA_VISION_SUBJECT = "Nova Vision";
 const MAX_HISTORY = 12;
 const MAX_IMAGE_BYTES = 6 * 1024 * 1024; // 6MB on the wire (Groq vision cap)
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 type IncomingMessage = {
   role: "user" | "assistant";

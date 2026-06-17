@@ -1,6 +1,6 @@
-import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
+import { groq } from "~/server/groq";
 
 type WhisperSegment = {
   start: number;
@@ -19,8 +19,6 @@ type WhisperVerboseResponse = {
 };
 
 const MAX_AUDIO_SIZE_BYTES = 25 * 1024 * 1024;
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function POST(request: Request) {
   try {

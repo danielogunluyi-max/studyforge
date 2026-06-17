@@ -1,8 +1,8 @@
-import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { prisma } from "@/lib/prisma";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
+import { groq } from "~/server/groq";
 
 type GenerateBody = {
   topic?: string;
@@ -16,8 +16,6 @@ type GeneratedCard = {
   front: string;
   back: string;
 };
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function extractJsonArray(raw: string): GeneratedCard[] {
   const text = raw.trim();

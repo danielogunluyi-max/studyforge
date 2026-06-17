@@ -1,17 +1,13 @@
-import Groq from 'groq-sdk';
-import { NextResponse } from 'next/server';
-import { db } from '~/server/db';
-import { auth } from '~/server/auth';
+import { NextResponse } from "next/server";
+import { requireAuth } from "~/server/api-utils";
+import { db } from "~/server/db";
+import { runGroqPrompt } from "~/server/groq";
 
 const prisma = db as any;
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const body = (await req.json().catch(() => ({}))) as {
     content?: string;
@@ -22,34 +18,26 @@ export async function POST(req: Request) {
     rating?: number;
   };
 
-  const content = body.content?.trim() ?? '';
-  const contentType = body.contentType?.trim() ?? 'notes';
-  const subject = body.subject?.trim() ?? 'General';
+  const content = body.content?.trim() ?? "";
+  const contentType = body.contentType?.trim() ?? "notes";
+  const subject = body.subject?.trim() ?? "General";
 
   if (!body.reviewId) {
     if (!content) {
-      return NextResponse.json({ error: 'Content is required' }, { status: 400 });
+      return NextResponse.json({ error: "Content is required" }, { status: 400 });
     }
 
-    const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
-      messages: [
-        {
-          role: 'user',
-          content: `Give constructive peer review feedback on this student's ${contentType}.
+    const aiFeedback = await runGroqPrompt({
+      user: `Give constructive peer review feedback on this student's ${contentType}.
 Subject: ${subject}
 Content: ${content.slice(0, 3000)}
 Be specific, encouraging, and actionable. 3-4 sentences.`,
-        },
-      ],
-      max_tokens: 200,
+      maxTokens: 200,
     });
-
-    const aiFeedback = completion.choices[0]?.message?.content || '';
 
     const review = await prisma.peerReview.create({
       data: {
-        authorId: session.user.id,
+        authorId: userId,
         content,
         contentType,
         subject,
@@ -63,10 +51,10 @@ Be specific, encouraging, and actionable. 3-4 sentences.`,
   const review = await prisma.peerReview.update({
     where: { id: body.reviewId },
     data: {
-      reviewerId: session.user.id,
+      reviewerId: userId,
       feedback: body.feedback?.trim() || null,
       rating: body.rating ?? null,
-      status: 'reviewed',
+      status: "reviewed",
     },
   });
 
@@ -74,17 +62,15 @@ Be specific, encouraging, and actionable. 3-4 sentences.`,
 }
 
 export async function GET(req: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const { userId, response } = await requireAuth();
+  if (response) return response;
 
   const { searchParams } = new URL(req.url);
-  const type = searchParams.get('type');
+  const type = searchParams.get("type");
 
-  if (type === 'review') {
+  if (type === "review") {
     const reviews = await prisma.peerReview.findMany({
-      where: { status: 'pending', authorId: { not: session.user.id } },
+      where: { status: "pending", authorId: { not: userId } },
       take: 5,
       select: { id: true, contentType: true, subject: true, createdAt: true, content: true },
     });
@@ -93,8 +79,8 @@ export async function GET(req: Request) {
   }
 
   const reviews = await prisma.peerReview.findMany({
-    where: { authorId: session.user.id },
-    orderBy: { createdAt: 'desc' },
+    where: { authorId: userId },
+    orderBy: { createdAt: "desc" },
     take: 20,
   });
 

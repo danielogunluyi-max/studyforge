@@ -1,13 +1,11 @@
-import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 
 import { auth } from "~/server/auth";
+import { groq } from "~/server/groq";
 
 export const runtime = "nodejs";
 
 const MAX_IMAGE_SIZE_BYTES = 15 * 1024 * 1024;
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 type Confidence = "high" | "medium" | "low";
 

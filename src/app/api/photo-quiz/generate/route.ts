@@ -1,11 +1,9 @@
-import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 
 import type { QuizData } from "~/types/quiz";
 import { auth } from "~/server/auth";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+import { groq } from "~/server/groq";
 
 type Difficulty = "easy" | "medium" | "hard";
 type QuizType = "multiple_choice" | "true_false" | "short_answer" | "mixed";

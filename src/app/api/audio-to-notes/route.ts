@@ -1,6 +1,6 @@
-import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 import { getAuthSession } from "~/server/auth/session";
+import { groq } from "~/server/groq";
 
 type NoteType = "summary" | "detailed" | "flashcards" | "quiz";
 
@@ -9,8 +9,6 @@ type RequestBody = {
   subject?: string;
   noteType?: NoteType;
 };
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function normalizeTitle(rawTitle: string, subject: string) {
   const cleaned = rawTitle.replace(/^title\s*:\s*/i, "").trim();
