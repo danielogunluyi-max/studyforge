@@ -61,7 +61,7 @@ export function Hero() {
         >
           Study Smarter.
           <br />
-          <span className="text-primary">Remember Everything.</span>
+          <span className="text-blue-600">Remember Everything.</span>
         </motion.h1>
 
         {/* Sub-headline */}

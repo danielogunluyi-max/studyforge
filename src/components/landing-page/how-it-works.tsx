@@ -48,7 +48,7 @@ export function HowItWorks() {
             style={{ fontFamily: "var(--font-heading)" }}
           >
             From raw notes to{" "}
-            <span className="text-primary">exam-ready</span> in minutes.
+            <span className="text-blue-600">exam-ready</span> in minutes.
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-slate-600">
             No setup. No friction. Just upload and start learning.

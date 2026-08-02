@@ -44,7 +44,7 @@ export function FooterCTA() {
         >
           Your best exam score
           <br />
-          <span className="text-primary">starts today.</span>
+          <span className="text-blue-600">starts today.</span>
         </h2>
         <p className="mt-6 mx-auto max-w-xl text-lg leading-relaxed text-slate-600">
           Get full AI-powered studying for $1.50/month — built for Ontario Grade 11–12 students.
