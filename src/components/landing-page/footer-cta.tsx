@@ -1,4 +1,28 @@
+"use client"
+
 import { ArrowRight, Zap } from "lucide-react"
+
+import { Reveal } from "./reveal"
+
+const productLinks = [
+  { label: "Features", href: "#features" },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "FAQ", href: "#faq" },
+]
+
+const resourceLinks = [
+  { label: "About", href: "/about" },
+  { label: "Feature Overview", href: "/features" },
+]
+
+const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
+]
+
+const footerLinkClass =
+  "text-sm text-slate-600 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
 
 export function FooterCTA() {
   return (
@@ -6,7 +30,7 @@ export function FooterCTA() {
       aria-labelledby="cta-heading"
       className="py-24 lg:py-32 bg-[#fcfcfd] border-t border-slate-100"
     >
-      <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
+      <Reveal className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
         {/* Badge */}
         <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 mb-6">
           <Zap className="h-3 w-3" aria-hidden="true" />
@@ -29,14 +53,17 @@ export function FooterCTA() {
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href="/register"
-            className="inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 text-base font-bold text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98]"
+            className="group inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 text-base font-bold text-white shadow-lg shadow-blue-200 transition-all duration-200 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
           >
             Start Free — Upgrade Anytime
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            <ArrowRight
+              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+              aria-hidden="true"
+            />
           </a>
         </div>
         <p className="mt-4 text-xs text-slate-500">No credit card required · Free to start · Cancel anytime</p>
-      </div>
+      </Reveal>
     </section>
   )
 }
@@ -48,12 +75,16 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2 mb-3">
+            <a
+              href="/"
+              className="inline-flex items-center gap-2 mb-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              aria-label="Kyvex home"
+            >
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
                 <Zap className="h-4 w-4 text-white" aria-hidden="true" />
               </div>
               <span className="text-xl font-bold text-slate-900" style={{ fontFamily: "var(--font-heading)" }}>Kyvex</span>
-            </div>
+            </a>
             <p className="text-sm leading-relaxed text-slate-500 max-w-[200px]">
               The AI study platform that helps students learn faster and remember more.
             </p>
@@ -63,9 +94,9 @@ export function Footer() {
           <nav aria-label="Product links">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-400">Product</p>
             <ul className="space-y-2">
-              {["Features", "How It Works", "Pricing", "Changelog"].map((l) => (
-                <li key={l}>
-                  <a href="#" className="text-sm text-slate-600 hover:text-slate-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded">{l}</a>
+              {productLinks.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className={footerLinkClass}>{link.label}</a>
                 </li>
               ))}
             </ul>
@@ -75,9 +106,9 @@ export function Footer() {
           <nav aria-label="Resource links">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-400">Resources</p>
             <ul className="space-y-2">
-              {["Blog", "Help Center", "API Docs", "Status"].map((l) => (
-                <li key={l}>
-                  <a href="#" className="text-sm text-slate-600 hover:text-slate-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded">{l}</a>
+              {resourceLinks.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className={footerLinkClass}>{link.label}</a>
                 </li>
               ))}
             </ul>
@@ -87,9 +118,9 @@ export function Footer() {
           <nav aria-label="Legal links">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-400">Legal</p>
             <ul className="space-y-2">
-              {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((l) => (
-                <li key={l}>
-                  <a href="#" className="text-sm text-slate-600 hover:text-slate-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded">{l}</a>
+              {legalLinks.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className={footerLinkClass}>{link.label}</a>
                 </li>
               ))}
             </ul>

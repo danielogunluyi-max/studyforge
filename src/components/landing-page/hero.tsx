@@ -1,6 +1,21 @@
+"use client"
+
+import { motion, useReducedMotion } from "framer-motion"
 import { ArrowRight, Sparkles, BookOpen, Brain, FileText } from "lucide-react"
 
+import { Reveal } from "./reveal"
+
 export function Hero() {
+  const reduceMotion = useReducedMotion()
+  const rise = (delay: number) =>
+    reduceMotion
+      ? {}
+      : {
+          initial: { opacity: 0, y: 20 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
+        }
+
   return (
     <section
       id="main-content"
@@ -30,56 +45,68 @@ export function Hero() {
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         {/* Badge */}
-        <div className="flex justify-center mb-8">
+        <motion.div className="flex justify-center mb-8" {...rise(0)}>
           <span className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-xs font-semibold text-blue-700 shadow-sm">
             <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
             AI-Powered Study Platform · Built for Ontario Grade 11&ndash;12
           </span>
-        </div>
+        </motion.div>
 
         {/* Headline */}
-        <h1
+        <motion.h1
           id="hero-heading"
-          className="text-center text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl xl:text-8xl text-balance"
+          className="text-center text-5xl font-extrabold leading-[1.05] tracking-tight text-slate-900 sm:text-6xl lg:text-7xl xl:text-8xl text-balance"
           style={{ fontFamily: "var(--font-heading)" }}
+          {...rise(0.06)}
         >
           Study Smarter.
           <br />
-          <span className="text-primary">Remember Everything.</span>
-        </h1>
+          <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
+            Remember Everything.
+          </span>
+        </motion.h1>
 
         {/* Sub-headline */}
-        <p className="mx-auto mt-7 max-w-2xl text-center text-lg leading-relaxed text-slate-600 sm:text-xl">
+        <motion.p
+          className="mx-auto mt-7 max-w-2xl text-center text-base leading-relaxed text-slate-600 sm:text-lg lg:text-xl text-pretty"
+          {...rise(0.12)}
+        >
           Kyvex transforms your notes, lectures, and PDFs into adaptive AI flashcards,
           intelligent summaries, and a 24/7 AI Study Partner — so you retain more and study less.
-        </p>
+        </motion.p>
 
         {/* CTAs */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <motion.div
+          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+          {...rise(0.18)}
+        >
           <a
             href="/register"
-            className="inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-3.5 text-base font-semibold text-white shadow-md shadow-blue-200 transition-all hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98]"
+            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3.5 text-base font-semibold text-white shadow-md shadow-blue-200 transition-all duration-200 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
           >
             Start for Free
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            <ArrowRight
+              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+              aria-hidden="true"
+            />
           </a>
           <a
             href="#features"
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 shadow-sm transition-all hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
           >
             Explore Features
           </a>
-        </div>
+        </motion.div>
 
         {/* Honest positioning */}
-        <p className="mt-6 text-center text-sm text-slate-500">
+        <motion.p className="mt-6 text-center text-sm text-slate-500" {...rise(0.24)}>
           Built for <strong className="font-semibold text-slate-700">Ontario Grade 11&ndash;12</strong> students. Free to start — no credit card required.
-        </p>
+        </motion.p>
 
         {/* Dashboard Preview */}
-        <div className="mt-20 mx-auto max-w-5xl">
+        <Reveal className="mt-20 mx-auto max-w-5xl" delay={0.1} distance={32}>
           <div
-            className="relative rounded-2xl border border-slate-200/80 bg-white shadow-[0_20px_80px_rgba(0,0,0,0.08)] overflow-hidden"
+            className="relative rounded-2xl border border-slate-200/80 bg-white shadow-[0_20px_80px_rgba(15,23,42,0.10)] ring-1 ring-slate-900/[0.03] overflow-hidden"
             aria-label="Kyvex study dashboard preview"
             role="img"
           >
@@ -96,7 +123,7 @@ export function Hero() {
             </div>
 
             {/* Dashboard body */}
-            <div className="grid grid-cols-[220px_1fr] min-h-[420px]">
+            <div className="grid grid-cols-1 sm:grid-cols-[220px_1fr] min-h-[420px]">
               {/* Sidebar */}
               <aside className="border-r border-slate-100 bg-slate-50/80 p-4 hidden sm:block">
                 <div className="mb-5 flex items-center gap-2">
@@ -128,19 +155,24 @@ export function Hero() {
                   <p className="text-xs font-semibold text-blue-700">Today&apos;s Goal</p>
                   <p className="text-xs text-blue-600 mt-0.5">Review 40 cards</p>
                   <div className="mt-2 h-1.5 rounded-full bg-blue-100 overflow-hidden">
-                    <div className="h-full w-[62%] rounded-full bg-primary" />
+                    <motion.div
+                      className="h-full rounded-full bg-primary"
+                      initial={reduceMotion ? false : { width: 0 }}
+                      animate={{ width: "62%" }}
+                      transition={{ duration: 1, delay: 0.7, ease: "easeOut" }}
+                    />
                   </div>
                   <p className="text-xs text-blue-500 mt-1">25 / 40 done</p>
                 </div>
               </aside>
 
               {/* Main content */}
-              <main className="p-6">
+              <div className="p-5 sm:p-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-base font-bold text-slate-900">My Study Decks</h2>
-                  <button className="rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-white shadow-sm">
+                  <p className="text-base font-bold text-slate-900">My Study Decks</p>
+                  <span className="rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-white shadow-sm">
                     + New Deck
-                  </button>
+                  </span>
                 </div>
 
                 {/* Deck cards */}
@@ -153,7 +185,7 @@ export function Hero() {
                   ].map((deck) => (
                     <div
                       key={deck.title}
-                      className={`rounded-xl border p-3.5 ${deck.color} transition-shadow hover:shadow-sm`}
+                      className={`rounded-xl border p-3.5 ${deck.color} transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0`}
                     >
                       <div className="flex items-start justify-between">
                         <div>
@@ -170,9 +202,14 @@ export function Hero() {
                         )}
                       </div>
                       <div className="mt-2.5 h-1 rounded-full bg-white/60 overflow-hidden">
-                        <div
+                        <motion.div
                           className={`h-full rounded-full ${deck.dot}`}
-                          style={{ width: `${Math.min(100, 100 - (deck.due / deck.count) * 100)}%` }}
+                          initial={reduceMotion ? false : { width: 0 }}
+                          whileInView={{
+                            width: `${Math.min(100, 100 - (deck.due / deck.count) * 100)}%`,
+                          }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.9, delay: 0.5, ease: "easeOut" }}
                         />
                       </div>
                     </div>
@@ -190,16 +227,16 @@ export function Hero() {
                       You&apos;re 62% through today&apos;s goal! Your weakest topic is <strong>cellular respiration</strong> — want me to generate a focused drill?
                     </p>
                   </div>
-                  <button className="ml-auto shrink-0 rounded-lg bg-primary px-2.5 py-1.5 text-xs font-semibold text-white whitespace-nowrap shadow-sm hover:bg-blue-700 transition-colors">
+                  <span className="ml-auto shrink-0 self-center rounded-lg bg-primary px-2.5 py-1.5 text-xs font-semibold text-white whitespace-nowrap shadow-sm">
                     Let&apos;s go
-                  </button>
+                  </span>
                 </div>
-              </main>
+              </div>
             </div>
           </div>
 
           {/* Honest feature tags below preview */}
-          <div className="mt-4 flex justify-center gap-6 flex-wrap">
+          <div className="mt-5 flex justify-center gap-x-6 gap-y-2 flex-wrap">
             {["7 AI study tools", "Ontario Grade 11–12 curriculum", "$1.50/month — cancel anytime"].map((s) => (
               <span key={s} className="text-xs font-medium text-slate-500">
                 <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-green-400 align-middle" aria-hidden="true" />
@@ -207,7 +244,7 @@ export function Hero() {
               </span>
             ))}
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   )
