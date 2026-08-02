@@ -67,7 +67,7 @@ function BentoCard({
 
 export function Features() {
   return (
-    <section id="features" aria-labelledby="features-heading" className="py-24 lg:py-32 bg-[#fcfcfd]">
+    <section id="features" aria-labelledby="features-heading" className="py-28 lg:py-40 bg-[#fcfcfd]">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Section header */}
         <Reveal className="mx-auto max-w-2xl text-center mb-16">

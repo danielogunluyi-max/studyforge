@@ -44,7 +44,7 @@ export function FAQ() {
   const reduceMotion = useReducedMotion()
 
   return (
-    <section id="faq" aria-labelledby="faq-heading" className="py-24 lg:py-32 bg-white border-t border-slate-100">
+    <section id="faq" aria-labelledby="faq-heading" className="py-28 lg:py-40 bg-white border-t border-slate-100">
       <div className="mx-auto max-w-3xl px-6 lg:px-8">
         <Reveal className="text-center mb-14">
           <h2

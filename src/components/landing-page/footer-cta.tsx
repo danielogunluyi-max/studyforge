@@ -28,7 +28,7 @@ export function FooterCTA() {
   return (
     <section
       aria-labelledby="cta-heading"
-      className="py-24 lg:py-32 bg-[#fcfcfd] border-t border-slate-100"
+      className="py-28 lg:py-40 bg-[#fcfcfd] border-t border-slate-100"
     >
       <Reveal className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
         {/* Badge */}

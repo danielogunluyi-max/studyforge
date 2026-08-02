@@ -20,7 +20,7 @@ export function Hero() {
     <section
       id="main-content"
       aria-labelledby="hero-heading"
-      className="relative pt-32 pb-20 lg:pt-44 lg:pb-32 overflow-hidden"
+      className="relative pt-32 pb-24 lg:pt-44 lg:pb-36 overflow-hidden"
     >
       {/* Subtle grid background */}
       <div
@@ -55,15 +55,13 @@ export function Hero() {
         {/* Headline */}
         <motion.h1
           id="hero-heading"
-          className="text-center text-5xl font-extrabold leading-[1.05] tracking-tight text-slate-900 sm:text-6xl lg:text-7xl xl:text-8xl text-balance"
+          className="text-center text-5xl font-extrabold leading-[1.04] tracking-[-0.03em] text-slate-900 sm:text-6xl lg:text-7xl xl:text-8xl text-balance"
           style={{ fontFamily: "var(--font-heading)" }}
           {...rise(0.06)}
         >
           Study Smarter.
           <br />
-          <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
-            Remember Everything.
-          </span>
+          <span className="text-primary">Remember Everything.</span>
         </motion.h1>
 
         {/* Sub-headline */}
