@@ -1,4 +1,8 @@
+"use client"
+
 import { Check, ArrowRight, Zap, Shield, Sparkles } from "lucide-react"
+
+import { Reveal } from "./reveal"
 
 const freeFeatures = [
   "50 AI flashcards per month",
@@ -22,10 +26,10 @@ const premiumFeatures = [
 
 export function Pricing() {
   return (
-    <section id="pricing" aria-labelledby="pricing-heading" className="py-24 lg:py-32 bg-[#fcfcfd]">
+    <section id="pricing" aria-labelledby="pricing-heading" className="py-28 lg:py-40 bg-[#fcfcfd]">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Section header */}
-        <div className="mx-auto max-w-2xl text-center mb-16">
+        <Reveal className="mx-auto max-w-2xl text-center mb-16">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-semibold text-green-700 shadow-sm mb-4">
             <Zap className="h-3 w-3" aria-hidden="true" />
             Disruptive Student Pricing — No Catch
@@ -37,17 +41,18 @@ export function Pricing() {
           >
             Full AI Power.
             <br />
-            <span className="text-primary">Less Than a Coffee.</span>
+            <span className="text-blue-600" style={{ fontSize: "inherit" }}>Less Than a Coffee.</span>
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-slate-600">
             Most study apps charge $10–$40/month. We believe every student deserves access to world-class AI tools — so we priced it differently.
           </p>
-        </div>
+        </Reveal>
 
         {/* Pricing cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.08fr] gap-6 lg:gap-8 max-w-4xl mx-auto items-stretch">
           {/* Free tier */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col">
+          <Reveal className="h-full lg:mt-6" distance={16}>
+          <div className="h-full rounded-2xl border border-slate-200 bg-white p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col">
             <div className="mb-6">
               <p className="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-1">Starter</p>
               <div className="flex items-end gap-1">
@@ -75,9 +80,11 @@ export function Pricing() {
               Get Started Free
             </a>
           </div>
+          </Reveal>
 
           {/* Premium tier — hero card */}
-          <div className="relative rounded-2xl border-2 border-primary bg-white p-8 shadow-[0_8px_48px_rgba(37,99,235,0.14)] flex flex-col overflow-hidden">
+          <Reveal className="h-full" delay={0.1} distance={24}>
+          <div className="relative h-full rounded-2xl border-2 border-primary bg-white p-8 shadow-[0_16px_60px_rgba(37,99,235,0.20)] flex flex-col lg:scale-[1.02]">
             {/* Subtle blue glow */}
             <div
               aria-hidden="true"
@@ -132,10 +139,13 @@ export function Pricing() {
 
             <a
               href="/register"
-              className="relative flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98]"
+              className="group relative flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-200 transition-all duration-200 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
               Unlock Full Access — $1.50/mo
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              <ArrowRight
+                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+                aria-hidden="true"
+              />
             </a>
 
             <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-slate-500">
@@ -143,14 +153,15 @@ export function Pricing() {
               Cancel anytime · No credit card required
             </div>
           </div>
+          </Reveal>
         </div>
 
         {/* Comparison table (simplified) */}
-        <div className="mt-16 max-w-4xl mx-auto rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-          <div className="grid grid-cols-3 bg-slate-50 border-b border-slate-200 px-6 py-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">Feature</p>
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 text-center">Free</p>
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary text-center">Premium</p>
+        <Reveal className="mt-16 max-w-4xl mx-auto rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-[0_4px_24px_rgba(15,23,42,0.05)]">
+          <div className="grid grid-cols-3 bg-slate-50 border-b border-slate-200 px-4 sm:px-6 py-3">
+            <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-slate-400">Feature</p>
+            <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-slate-400 text-center">Free</p>
+            <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-primary text-center">Premium</p>
           </div>
           {[
             ["AI Flashcard Generation", "50/mo", "Unlimited"],
@@ -160,13 +171,13 @@ export function Pricing() {
             ["Voice Capture", "–", "✓"],
             ["Progress Analytics", "Basic", "Deep Insights"],
           ].map(([feature, free, premium]) => (
-            <div key={feature} className="grid grid-cols-3 border-b border-slate-100 last:border-0 px-6 py-3.5 hover:bg-slate-50/50 transition-colors">
+            <div key={feature} className="grid grid-cols-3 items-center border-b border-slate-100 last:border-0 px-4 sm:px-6 py-3.5 hover:bg-blue-50/40 transition-colors">
               <p className="text-sm text-slate-700 font-medium">{feature}</p>
               <p className="text-sm text-slate-500 text-center">{free === "–" ? <span className="text-slate-300">—</span> : free}</p>
               <p className="text-sm font-semibold text-primary text-center">{premium}</p>
             </div>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   )

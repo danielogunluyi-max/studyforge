@@ -1,7 +1,10 @@
 "use client"
 
 import { useState } from "react"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ChevronDown } from "lucide-react"
+
+import { Reveal } from "./reveal"
 
 const faqs = [
   {
@@ -38,11 +41,12 @@ const faqs = [
 
 export function FAQ() {
   const [openIdx, setOpenIdx] = useState<number | null>(0)
+  const reduceMotion = useReducedMotion()
 
   return (
-    <section id="faq" aria-labelledby="faq-heading" className="py-24 lg:py-32 bg-white border-t border-slate-100">
+    <section id="faq" aria-labelledby="faq-heading" className="py-28 lg:py-40 bg-white border-t border-slate-100">
       <div className="mx-auto max-w-3xl px-6 lg:px-8">
-        <div className="text-center mb-14">
+        <Reveal className="text-center mb-14">
           <h2
             id="faq-heading"
             className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl text-balance"
@@ -51,9 +55,9 @@ export function FAQ() {
             Got questions?
           </h2>
           <p className="mt-4 text-lg text-slate-600">We&apos;ve got clear answers.</p>
-        </div>
+        </Reveal>
 
-        <dl className="space-y-2" role="list">
+        <dl className="space-y-2.5" role="list">
           {faqs.map((faq, idx) => {
             const isOpen = openIdx === idx
             return (
@@ -70,21 +74,32 @@ export function FAQ() {
                     onClick={() => setOpenIdx(isOpen ? null : idx)}
                     className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset rounded-xl transition-colors"
                   >
-                    <span className="text-sm font-semibold text-slate-900">{faq.question}</span>
+                    <span className="text-sm font-semibold text-slate-900 sm:text-base">{faq.question}</span>
                     <ChevronDown
                       className={`h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 ${isOpen ? "rotate-180 text-primary" : ""}`}
                       aria-hidden="true"
                     />
                   </button>
                 </dt>
-                <dd
-                  id={`faq-answer-${idx}`}
-                  role="region"
-                  aria-labelledby={`faq-question-${idx}`}
-                  className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-48" : "max-h-0"}`}
-                >
-                  <p className="px-5 pb-4 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
-                </dd>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.dd
+                      id={`faq-answer-${idx}`}
+                      role="region"
+                      aria-labelledby={`faq-question-${idx}`}
+                      className="overflow-hidden"
+                      initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={reduceMotion ? { height: 0, opacity: 0 } : { height: 0, opacity: 0 }}
+                      transition={{
+                        duration: reduceMotion ? 0 : 0.28,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    >
+                      <p className="px-5 pb-4 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
+                    </motion.dd>
+                  )}
+                </AnimatePresence>
               </div>
             )
           })}

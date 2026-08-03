@@ -63,6 +63,7 @@ jobs:
       NEXTAUTH_URL: http://127.0.0.1:3000
       PLAYWRIGHT_BASE_URL: http://127.0.0.1:3000
       DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/studyforge_test
+      DIRECT_URL: postgresql://postgres:postgres@127.0.0.1:5432/studyforge_test
       GROQ_API_KEY: test-groq-key
 
     steps:
@@ -86,6 +87,9 @@ jobs:
 
       - name: Run nav e2e spec
         run: npx playwright test tests/e2e/nav-auth.spec.ts
+
+      - name: Run landing e2e spec
+        run: npx playwright test tests/e2e/landing.spec.ts
 
       - name: Upload Playwright artifacts
         if: failure()

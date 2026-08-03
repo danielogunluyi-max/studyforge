@@ -20,6 +20,15 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  useEffect(() => {
+    if (!mobileOpen) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false)
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [mobileOpen])
+
   return (
     <>
       {/* Skip to content — accessibility */}
@@ -60,7 +69,7 @@ export function Navbar() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 hover:bg-slate-100/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+                  className="relative rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 hover:bg-slate-100/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
                 >
                   {link.label}
                 </a>
@@ -101,7 +110,8 @@ export function Navbar() {
           id="mobile-menu"
           role="navigation"
           aria-label="Mobile navigation"
-          className={`md:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? "max-h-80 border-t border-slate-200/60" : "max-h-0"}`}
+          aria-hidden={!mobileOpen}
+          className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-out motion-reduce:transition-none ${mobileOpen ? "max-h-96 opacity-100 border-t border-slate-200/60" : "max-h-0 opacity-0"}`}
         >
           <div className="bg-white/95 backdrop-blur-md px-6 py-4 flex flex-col gap-1">
             {navLinks.map((link) => (
@@ -109,14 +119,24 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
+                tabIndex={mobileOpen ? undefined : -1}
                 className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 {link.label}
               </a>
             ))}
-            <div className="mt-3 pt-3 border-t border-slate-200">
+            <div className="mt-3 pt-3 border-t border-slate-200 flex flex-col gap-2">
+              <a
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                tabIndex={mobileOpen ? undefined : -1}
+                className="flex w-full items-center justify-center rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
+                Log in
+              </a>
               <a
                 href="/register"
+                tabIndex={mobileOpen ? undefined : -1}
                 onClick={() => setMobileOpen(false)}
                 className="flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >

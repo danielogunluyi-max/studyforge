@@ -1499,7 +1499,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\danie\\kyvex\\generated\\prisma",
+      "value": "/home/ubuntu/repos/studyforge/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -1508,17 +1508,16 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\danie\\kyvex\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/ubuntu/repos/studyforge/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../prisma",
   "clientVersion": "6.19.3",
@@ -1527,6 +1526,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
