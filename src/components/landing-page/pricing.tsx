@@ -41,7 +41,7 @@ export function Pricing() {
           >
             Full AI Power.
             <br />
-            <span className="text-blue-600 [font-size:inherit]">Less Than a Coffee.</span>
+            <span className="text-blue-600" style={{ fontSize: "inherit" }}>Less Than a Coffee.</span>
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-slate-600">
             Most study apps charge $10–$40/month. We believe every student deserves access to world-class AI tools — so we priced it differently.

@@ -61,7 +61,7 @@ export function Hero() {
         >
           Study Smarter.
           <br />
-          <span className="text-blue-600 [font-size:inherit]">Remember Everything.</span>
+          <span className="text-blue-600" style={{ fontSize: "inherit" }}>Remember Everything.</span>
         </motion.h1>
 
         {/* Sub-headline */}

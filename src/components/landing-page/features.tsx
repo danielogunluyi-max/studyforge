@@ -82,7 +82,7 @@ export function Features() {
           >
             Three AI engines.
             <br />
-            <span className="text-blue-600 [font-size:inherit]">One unstoppable student.</span>
+            <span className="text-blue-600" style={{ fontSize: "inherit" }}>One unstoppable student.</span>
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-slate-600">
             Kyvex is built around three core AI systems that work together — so you spend less time grinding and more time actually understanding.
