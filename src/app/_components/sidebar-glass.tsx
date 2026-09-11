@@ -3,17 +3,19 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { forwardRef, useState } from "react";
+import { forwardRef, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, LogOut } from "lucide-react";
 import { persistSidebarCollapsed } from "~/lib/sidebar-collapsed";
 import {
   groupNavEntries,
+  isNavEntryEnabled,
   navEntriesFor,
   type NavEntry,
 } from "~/lib/nav-registry";
+import { useEnabledFeatureSet } from "~/lib/use-feature-enabled";
 
-const SIDEBAR_GROUPS = groupNavEntries(navEntriesFor("sidebar"));
-const SIDEBAR_HREFS = SIDEBAR_GROUPS.flatMap((group) => group.items.map((item) => item.href));
+const SIDEBAR_ENTRIES = navEntriesFor("sidebar");
+const SIDEBAR_HREFS = SIDEBAR_ENTRIES.map((item) => item.href);
 
 function isActive(pathname: string | null, href: string): boolean {
   if (!pathname) return false;
@@ -72,6 +74,14 @@ const SidebarGlass = forwardRef<HTMLElement, {
   const pathname = usePathname();
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(initialCollapsed);
+  const enabledFeatures = useEnabledFeatureSet();
+  const sidebarGroups = useMemo(
+    () =>
+      groupNavEntries(
+        SIDEBAR_ENTRIES.filter((entry) => isNavEntryEnabled(entry, enabledFeatures)),
+      ),
+    [enabledFeatures],
+  );
 
   const displayName = userName?.trim() || "Kyvex User";
   const displayEmail = userEmail?.trim() ?? "";
@@ -122,7 +132,7 @@ const SidebarGlass = forwardRef<HTMLElement, {
       </div>
 
       <nav className="flex flex-1 flex-col gap-4 overflow-y-auto px-3 py-2">
-        {SIDEBAR_GROUPS.map((group) => (
+        {sidebarGroups.map((group) => (
           <div key={group.id}>
             <p className={`kv-meta px-3 pb-1 ${collapsed ? "md:hidden" : ""}`}>
               {group.label}

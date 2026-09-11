@@ -1,12 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { LogOut, Settings, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useDisclosurePanel } from "~/lib/hooks/use-disclosure-panel";
-import { groupNavEntries, navEntriesFor, type NavSectionId } from "~/lib/nav-registry";
+import {
+  groupNavEntries,
+  isNavEntryEnabled,
+  navEntriesFor,
+  type NavSectionId,
+} from "~/lib/nav-registry";
+import { useEnabledFeatureSet } from "~/lib/use-feature-enabled";
 
 const BOTTOM_TABS = [
   { key: "home", label: "Home", icon: "🏠", href: "/dashboard" },
@@ -16,7 +22,7 @@ const BOTTOM_TABS = [
   { key: "more", label: "More", icon: "⋯", href: null as string | null },
 ];
 
-const MOBILE_GROUPS = groupNavEntries(navEntriesFor("mobile"));
+const MOBILE_ENTRIES = navEntriesFor("mobile");
 
 type NavBottomProps = {
   /** When the sidebar drawer is open, hide the bottom bar entirely. */
@@ -30,6 +36,14 @@ export default function NavBottom({ hidden = false }: NavBottomProps) {
   const [moreSection, setMoreSection] = useState<NavSectionId | null>(null);
   const moreButtonRef = useRef<HTMLButtonElement>(null);
   const morePanelRef = useRef<HTMLDivElement>(null);
+  const enabledFeatures = useEnabledFeatureSet();
+  const mobileGroups = useMemo(
+    () =>
+      groupNavEntries(
+        MOBILE_ENTRIES.filter((entry) => isNavEntryEnabled(entry, enabledFeatures)),
+      ),
+    [enabledFeatures],
+  );
 
   const closeMore = useCallback(() => {
     setMoreOpen(false);
@@ -62,7 +76,7 @@ export default function NavBottom({ hidden = false }: NavBottomProps) {
     router.push("/");
   };
 
-  const openGroup = MOBILE_GROUPS.find((group) => group.id === moreSection);
+  const openGroup = mobileGroups.find((group) => group.id === moreSection);
 
   if (hidden) return null;
 
@@ -88,7 +102,7 @@ export default function NavBottom({ hidden = false }: NavBottomProps) {
             {openGroup === undefined ? (
               <>
                 <div className="grid grid-cols-3 gap-2">
-                  {MOBILE_GROUPS.map((s) => (
+                  {mobileGroups.map((s) => (
                     <button
                       key={s.id}
                       type="button"

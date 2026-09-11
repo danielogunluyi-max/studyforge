@@ -1,9 +1,15 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { groupNavEntries, navEntriesFor, SECTION_LABELS } from '~/lib/nav-registry'
+import {
+  groupNavEntries,
+  isNavEntryEnabled,
+  navEntriesFor,
+  SECTION_LABELS,
+} from '~/lib/nav-registry'
+import { useEnabledFeatureSet } from '~/lib/use-feature-enabled'
 
-const PALETTE_ROUTES = navEntriesFor('palette')
+const PALETTE_ENTRIES = navEntriesFor('palette')
 
 export default function CommandPalette({ showTrigger = true }: { showTrigger?: boolean }) {
   const router = useRouter()
@@ -11,10 +17,15 @@ export default function CommandPalette({ showTrigger = true }: { showTrigger?: b
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
+  const enabledFeatures = useEnabledFeatureSet()
+  const paletteRoutes = useMemo(
+    () => PALETTE_ENTRIES.filter((entry) => isNavEntryEnabled(entry, enabledFeatures)),
+    [enabledFeatures],
+  )
 
   const filtered = query.length < 1
-    ? PALETTE_ROUTES.slice(0, 8)
-    : PALETTE_ROUTES.filter(r => {
+    ? paletteRoutes.slice(0, 8)
+    : paletteRoutes.filter(r => {
         const q = query.toLowerCase()
         return (
           r.label.toLowerCase().includes(q) ||

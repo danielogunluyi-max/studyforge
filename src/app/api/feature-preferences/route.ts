@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { MATRIX_FEATURE_KEYS } from "~/lib/nav-registry";
 import { auth } from "~/server/auth";
 
 const PRESET_FEATURES = {
@@ -72,6 +73,8 @@ const UNIVERSAL_FEATURE_KEYS = Array.from(
     ...PRESET_FEATURES.COLLEGE.enabled,
     ...PRESET_FEATURES.UNIVERSITY.enabled,
     ...REQUIRED_FEATURE_KEYS,
+    // Every matrix-toggleable registry key defaults on (reconcile + first prefs).
+    ...MATRIX_FEATURE_KEYS,
   ]),
 );
 

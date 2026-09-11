@@ -1,18 +1,28 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
   groupNavEntries,
+  isNavEntryEnabled,
   navEntriesFor,
 } from '~/lib/nav-registry'
+import { useEnabledFeatureSet } from '~/lib/use-feature-enabled'
 
-const TOPNAV_GROUPS = groupNavEntries(navEntriesFor('mobile'))
+const TOPNAV_ENTRIES = navEntriesFor('mobile')
 
 export default function NavTopNav() {
   const pathname = usePathname()
   const [open, setOpen] = useState<string | null>(null)
   const ref = useRef<HTMLDivElement>(null)
+  const enabledFeatures = useEnabledFeatureSet()
+  const topnavGroups = useMemo(
+    () =>
+      groupNavEntries(
+        TOPNAV_ENTRIES.filter((entry) => isNavEntryEnabled(entry, enabledFeatures)),
+      ),
+    [enabledFeatures],
+  )
 
   useEffect(() => {
     setOpen(null)
@@ -37,7 +47,7 @@ export default function NavTopNav() {
 
   return (
     <nav ref={ref} className="kv-tabs relative overflow-x-auto overflow-y-visible" style={{ borderBottom: 'none', gap: 22, paddingLeft: 12 }}>
-      {TOPNAV_GROUPS.map(section => {
+      {topnavGroups.map(section => {
         const isActive = section.items.some(i => pathname.startsWith(i.href))
         const isOpen = open === section.id
 

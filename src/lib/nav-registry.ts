@@ -819,6 +819,24 @@ export const NAV_ENTRIES: NavEntry[] = [
   },
 ];
 
+/** Keys that appear in the settings/landing feature matrix (toggleable). */
+export const MATRIX_FEATURE_KEYS = new Set(
+  NAV_ENTRIES.filter((entry) => entry.surfaces.matrix && entry.featureKey).map(
+    (entry) => entry.featureKey!,
+  ),
+);
+
+/** Hide when a matrix-gated featureKey is loaded and not in the enabled set. */
+export function isNavEntryEnabled(
+  entry: NavEntry,
+  enabled: Set<string> | null,
+): boolean {
+  if (!entry.featureKey) return true;
+  if (!MATRIX_FEATURE_KEYS.has(entry.featureKey)) return true;
+  if (!enabled) return true;
+  return enabled.has(entry.featureKey);
+}
+
 export const SECTION_GLOW: Record<NavSectionId, string> = {
   home: "#f0b429",
   ingest: "#f97316",

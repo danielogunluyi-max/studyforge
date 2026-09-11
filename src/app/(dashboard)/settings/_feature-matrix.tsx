@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
+import { FEATURE_PREFS_EVENT } from "~/lib/use-feature-enabled";
 import {
   groupNavEntries,
   navEntriesFor,
@@ -9,7 +10,8 @@ import {
   type NavSectionId,
 } from "~/lib/nav-registry";
 
-export const FEATURE_PREFS_EVENT = "kyvex:feature-preferences-changed";
+// Re-export for any legacy imports of the event from this module.
+export { FEATURE_PREFS_EVENT };
 
 type FeatureNode = {
   key: string;

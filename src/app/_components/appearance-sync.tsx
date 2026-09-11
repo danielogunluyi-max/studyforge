@@ -4,30 +4,18 @@ import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 
 type Theme = "light" | "dark" | "auto";
-type AccentColor = "blue" | "purple" | "green" | "pink" | "orange" | "indigo";
 type FontSize = "small" | "medium" | "large";
 
 type AppearancePayload = {
   theme: Theme;
-  accentColor: AccentColor;
   fontSize: FontSize;
   compactMode: boolean;
 };
 
 const STORAGE_KEY = "kyvex:appearance";
 
-const ACCENT_HEX: Record<AccentColor, { 500: string; 600: string; 700: string; 100: string; 50: string }> = {
-  blue: { 500: "#3b82f6", 600: "#2563eb", 700: "#1d4ed8", 100: "#dbeafe", 50: "#eff6ff" },
-  purple: { 500: "#a855f7", 600: "#9333ea", 700: "#7e22ce", 100: "#f3e8ff", 50: "#faf5ff" },
-  green: { 500: "#22c55e", 600: "#16a34a", 700: "#15803d", 100: "#dcfce7", 50: "#f0fdf4" },
-  pink: { 500: "#ec4899", 600: "#db2777", 700: "#be185d", 100: "#fce7f3", 50: "#fdf2f8" },
-  orange: { 500: "#f97316", 600: "#ea580c", 700: "#c2410c", 100: "#ffedd5", 50: "#fff7ed" },
-  indigo: { 500: "#6366f1", 600: "#4f46e5", 700: "#4338ca", 100: "#e0e7ff", 50: "#eef2ff" },
-};
-
 const DEFAULT_APPEARANCE: AppearancePayload = {
   theme: "light",
-  accentColor: "blue",
   fontSize: "medium",
   compactMode: false,
 };
@@ -40,35 +28,16 @@ function resolveTheme(theme: Theme): "light" | "dark" {
 function applyAppearance(payload: AppearancePayload) {
   const root = document.documentElement;
   const resolved = resolveTheme(payload.theme);
-  const accent = ACCENT_HEX[payload.accentColor] ?? ACCENT_HEX.blue;
 
   root.classList.toggle("dark", resolved === "dark");
-  // Do not write data-theme — that attribute is owned by ThemeProvider
-  // (system / dark / light, with legacy studio→dark and paper→light).
+  // Do not write data-theme — that attribute is owned by ThemeProvider.
   root.dataset.colorScheme = payload.theme;
-  root.dataset.accent = payload.accentColor;
   root.dataset.fontSize = payload.fontSize;
   root.dataset.compact = payload.compactMode ? "true" : "false";
   root.style.colorScheme = resolved;
 
-  root.style.setProperty("--accent-50", accent[50]);
-  root.style.setProperty("--accent-100", accent[100]);
-  root.style.setProperty("--accent-500", accent[500]);
-  root.style.setProperty("--accent-600", accent[600]);
-  root.style.setProperty("--accent-700", accent[700]);
-
-  // Set brand/header colors derived from accent and theme for visibility
-  // Light theme: light bg (accent 50) with dark accent text
-  // Dark theme: darker bg (accent 700) with light text
-  if (resolved === "dark") {
-    root.style.setProperty("--brand-bg", accent[700]);
-    root.style.setProperty("--brand-text", "#ffffff");
-  } else {
-    root.style.setProperty("--brand-bg", accent[50]);
-    root.style.setProperty("--brand-text", accent[700]);
-  }
-
-  const fontScale = payload.fontSize === "small" ? "15px" : payload.fontSize === "large" ? "17px" : "16px";
+  const fontScale =
+    payload.fontSize === "small" ? "15px" : payload.fontSize === "large" ? "17px" : "16px";
   root.style.setProperty("--app-font-size", fontScale);
 }
 
@@ -120,9 +89,8 @@ export function AppearanceSync() {
 
         const data = (await response.json()) as Partial<AppearancePayload>;
         const payload: AppearancePayload = {
-          theme: (data.theme!) ?? "light",
-          accentColor: (data.accentColor!) ?? "blue",
-          fontSize: (data.fontSize!) ?? "medium",
+          theme: data.theme ?? "light",
+          fontSize: data.fontSize ?? "medium",
           compactMode: data.compactMode ?? false,
         };
 
@@ -157,4 +125,3 @@ export function AppearanceSync() {
 
   return null;
 }
-

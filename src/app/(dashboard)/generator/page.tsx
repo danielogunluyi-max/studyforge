@@ -56,6 +56,7 @@ export default function Generator() {
   const router = useRouter();
   const [inputText, setInputText] = useState("");
   const [outputFormat, setOutputFormat] = useState("summary");
+  const [autoSaveNotes, setAutoSaveNotes] = useState(true);
   const [generatedNotes, setGeneratedNotes] = useState("");
   const [generatedNoteId, setGeneratedNoteId] = useState("");
   const [generatedTitle, setGeneratedTitle] = useState("");
@@ -102,7 +103,7 @@ export default function Generator() {
   useEffect(() => {
     if (session?.user?.id) {
       fetch("/api/user/preferences")
-        .then(res => res.json())
+        .then((res) => res.json())
         .then((data: { preferences?: { learningStyle?: string; autoAdapt?: boolean } }) => {
           if (data.preferences?.learningStyle) {
             setLearningStyle(data.preferences.learningStyle);
@@ -111,6 +112,28 @@ export default function Generator() {
         })
         .catch(() => {
           // Silent fail - learning style is optional
+        });
+
+      fetch("/api/user/settings")
+        .then((res) => res.json())
+        .then(
+          (data: {
+            defaultNoteFormat?: string;
+            autoSaveNotes?: boolean;
+          }) => {
+            if (
+              data.defaultNoteFormat &&
+              ["summary", "detailed", "flashcards", "questions"].includes(data.defaultNoteFormat)
+            ) {
+              setOutputFormat(data.defaultNoteFormat);
+            }
+            if (typeof data.autoSaveNotes === "boolean") {
+              setAutoSaveNotes(data.autoSaveNotes);
+            }
+          },
+        )
+        .catch(() => {
+          // Silent fail - settings defaults remain
         });
     }
   }, [session]);
@@ -312,6 +335,35 @@ export default function Generator() {
         
         setGeneratedNotes(finalNotes);
         setGeneratedTitle(deriveGeneratedTitle(inputText, finalNotes));
+
+        if (autoSaveNotes && finalNotes.trim()) {
+          try {
+            const title = deriveGeneratedTitle(inputText, finalNotes);
+            const saveRes = await fetch("/api/notes", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                title,
+                content: finalNotes,
+                format: outputFormat,
+                tags: parseTags(tagsInput),
+              }),
+            });
+            const saveData = (await saveRes.json().catch(() => ({}))) as {
+              note?: { id?: string; title?: string };
+            };
+            if (saveRes.ok) {
+              setGeneratedNoteId(saveData.note?.id ?? "");
+              setGeneratedTitle(saveData.note?.title ?? title);
+              setSaveSuccess(true);
+              setTimeout(() => setSaveSuccess(false), 3000);
+              showToast("Auto-saved to My Notes", "success");
+              trackNovaEvent("NOTE_GENERATED");
+            }
+          } catch {
+            // Manual save remains available
+          }
+        }
       } else {
         setError(data.error ?? "Failed to generate notes");
       }

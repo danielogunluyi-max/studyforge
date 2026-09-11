@@ -39,12 +39,33 @@ export default function Dock() {
     showFocus: true,
   })
 
-  // Load dock settings from localStorage
+  // Load dock settings from localStorage (migrate legacy short keys if present)
   useEffect(() => {
+    const apply = (parsed: Record<string, boolean>) => {
+      const next = {
+        showPomodoro: parsed.showPomodoro ?? parsed.pomodoro ?? true,
+        showAmbient: parsed.showAmbient ?? parsed.ambient ?? true,
+        showExams: parsed.showExams ?? parsed.exams ?? true,
+        showFocus: parsed.showFocus ?? parsed.focus ?? true,
+      }
+      setDockSettings(next)
+      return next
+    }
+
     try {
       const saved = localStorage.getItem('kyvex-dock-settings')
-      if (saved) setDockSettings(JSON.parse(saved) as typeof dockSettings)
+      if (saved) {
+        const next = apply(JSON.parse(saved) as Record<string, boolean>)
+        localStorage.setItem('kyvex-dock-settings', JSON.stringify(next))
+      }
     } catch { /* ignore */ }
+
+    const onChanged = (event: Event) => {
+      const detail = (event as CustomEvent<Record<string, boolean>>).detail
+      if (detail) apply(detail)
+    }
+    window.addEventListener('kyvex-dock-settings-changed', onChanged as EventListener)
+    return () => window.removeEventListener('kyvex-dock-settings-changed', onChanged as EventListener)
   }, [])
 
   // Load exams

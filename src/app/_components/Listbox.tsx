@@ -22,7 +22,12 @@ interface DropdownPosition {
 export default function Listbox({ options, value, onChange, className, id }: Props) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [active, setActive] = useState<number>(() => Math.max(0, options.findIndex((option) => option.value === value)));
+  const [active, setActive] = useState<number>(() =>
+    Math.max(
+      0,
+      options.findIndex((option) => option.value === value),
+    ),
+  );
   const [position, setPosition] = useState<DropdownPosition>({ top: 0, left: 0, width: 0 });
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
@@ -34,7 +39,10 @@ export default function Listbox({ options, value, onChange, className, id }: Pro
     setActive(Math.max(0, options.findIndex((option) => option.value === value)));
   }, [options, value]);
 
-  const selected = useMemo(() => options.find((option) => option.value === value) ?? options[0], [options, value]);
+  const selected = useMemo(
+    () => options.find((option) => option.value === value) ?? options[0],
+    [options, value],
+  );
 
   const updatePosition = () => {
     if (!triggerRef.current) return;
@@ -103,10 +111,10 @@ export default function Listbox({ options, value, onChange, className, id }: Pro
             <div
               aria-hidden="true"
               onClick={() => setOpen(false)}
-              style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 9998 }}
+              style={{ position: "fixed", inset: 0, zIndex: 9998 }}
             />
             <ul
-              className="listbox-premium-options"
+              className="kv-listbox-options"
               role="listbox"
               style={{
                 position: "fixed",
@@ -116,26 +124,30 @@ export default function Listbox({ options, value, onChange, className, id }: Pro
                 zIndex: 9999,
               }}
             >
-              {options.map((option, index) => (
-                <li key={option.value} role="option" aria-selected={option.value === value}>
-                  <button
-                    type="button"
-                    className={`listbox-premium-option ${index === active ? "listbox-premium-option-active" : ""} ${option.value === value ? "listbox-premium-option-selected" : ""}`}
-                    onMouseEnter={() => setActive(index)}
-                    onClick={() => {
-                      onChange(option.value);
-                      setOpen(false);
-                    }}
-                  >
-                    <span>{option.label}</span>
-                    {option.value === value ? (
-                      <svg className="h-4 w-4 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="m5 13 4 4L19 7" />
-                      </svg>
-                    ) : null}
-                  </button>
-                </li>
-              ))}
+              {options.map((option, index) => {
+                const isSelected = option.value === value;
+                const isActive = index === active;
+                return (
+                  <li key={option.value} role="option" aria-selected={isSelected}>
+                    <button
+                      type="button"
+                      className={`kv-listbox-option${isActive ? " is-active" : ""}${isSelected ? " is-selected" : ""}`}
+                      onMouseEnter={() => setActive(index)}
+                      onClick={() => {
+                        onChange(option.value);
+                        setOpen(false);
+                      }}
+                    >
+                      <span>{option.label}</span>
+                      {isSelected ? (
+                        <span aria-hidden="true" style={{ color: "var(--kv-accent-text)" }}>
+                          ✓
+                        </span>
+                      ) : null}
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </>,
           document.body,
@@ -143,7 +155,7 @@ export default function Listbox({ options, value, onChange, className, id }: Pro
       : null;
 
   return (
-    <div className={`${className ?? ""}`} id={id}>
+    <div className={className ?? ""} id={id}>
       <button
         ref={triggerRef}
         type="button"
@@ -157,12 +169,21 @@ export default function Listbox({ options, value, onChange, className, id }: Pro
           openDropdown();
         }}
         onKeyDown={onTriggerKeyDown}
-        className="listbox-premium-button w-full select-none"
+        className="kv-field"
+        style={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 8,
+          cursor: "pointer",
+          textAlign: "left",
+        }}
       >
-        <span className="block truncate text-left">{selected?.label ?? "Select option"}</span>
-        <svg className={`h-4 w-4 text-slate-300 transition-transform duration-200 ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6" />
-        </svg>
+        <span className="block truncate">{selected?.label ?? "Select option"}</span>
+        <span aria-hidden="true" style={{ color: "var(--kv-text-tertiary)" }}>
+          ▾
+        </span>
       </button>
 
       {portalContent}
