@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Camera, CircleDot, Crop, FileText, Loader2, Monitor, Search, Square, Trash2, Upload, X, ZoomIn } from "lucide-react";
+import { formatTorontoDate } from "~/lib/toronto-time";
 
 type Screenshot = {
   id: string;
@@ -276,23 +276,23 @@ export default function CaptureStudio() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl space-y-6 px-4 py-6 text-white">
-      <header className="flex flex-wrap items-end justify-between gap-3">
+    <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+      <header style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 12 }}>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Capture Studio</h1>
-          <p className="mt-1 text-sm text-zinc-400">Stream a window, snap any frame, save to your gallery.</p>
+          <div className="kv-crumb">Kyvex / <b>Capture Studio</b></div>
+          <h1 className="kv-title" style={{ marginTop: 14 }}>Capture Studio</h1>
+          <p className="kv-sub" style={{ marginTop: 10 }}>Stream a window, snap any frame, save to your gallery.</p>
         </div>
-        <div className="flex items-center gap-2 text-xs text-zinc-500">
-          {streaming ? (
-            <><span className="inline-block h-2 w-2 animate-pulse rounded-full bg-red-500" /> LIVE</>
-          ) : (
-            <><span className="inline-block h-2 w-2 rounded-full bg-zinc-700" /> Idle</>
-          )}
-        </div>
+        {streaming ? (
+          <span className="kv-meta" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <span className="dot" /> Live
+          </span>
+        ) : (
+          <span className="kv-meta">Idle</span>
+        )}
       </header>
 
-      {/* Viewfinder */}
-      <section className="rounded-2xl border border-white/10 bg-black/40 p-4 backdrop-blur-xl">
+      <section style={{ marginTop: 22 }}>
         <div className="relative aspect-video w-full overflow-hidden rounded-xl border-2 border-dashed border-white/15 bg-black">
           <video ref={videoRef} muted playsInline className="hidden" />
           <canvas ref={canvasRef} className="absolute inset-0 h-full w-full object-contain" />
@@ -319,39 +319,23 @@ export default function CaptureStudio() {
         </div>
 
         {/* Controls */}
-        <div className="mt-4 flex flex-wrap items-center gap-2">
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, marginTop: 16 }}>
           {!streaming ? (
-            <button
-              type="button"
-              onClick={() => void startCapture()}
-              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-br from-amber-300 to-amber-500 px-4 py-2.5 text-sm font-semibold text-black transition hover:brightness-110 active:scale-95"
-            >
-              <Monitor size={16} aria-hidden="true" /> Start Capture Session
+            <button type="button" onClick={() => void startCapture()} className="kv-btn">
+              <Monitor size={16} aria-hidden="true" /> Start Capture
             </button>
           ) : (
             <>
-              <button
-                type="button"
-                onClick={snap}
-                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-br from-teal-400 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-black transition hover:brightness-110 active:scale-95"
-              >
-                <Camera size={16} aria-hidden="true" /> Snap Photo
+              <button type="button" onClick={snap} className="kv-btn">
+                <Camera size={16} aria-hidden="true" /> Snap
               </button>
-              <button
-                type="button"
-                onClick={stopStream}
-                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:bg-white/10"
-              >
+              <button type="button" onClick={stopStream} className="kv-btn-ghost">
                 <Square size={14} aria-hidden="true" /> Stop
               </button>
             </>
           )}
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:bg-white/10"
-          >
-            <Upload size={14} aria-hidden="true" /> Upload Manually
+          <button type="button" onClick={() => fileInputRef.current?.click()} className="kv-btn-ghost">
+            <Upload size={14} aria-hidden="true" /> Upload
           </button>
           <input
             ref={fileInputRef}
@@ -366,7 +350,6 @@ export default function CaptureStudio() {
           />
         </div>
 
-        {/* Drop zone (subtle, only visible when not streaming and no pending) */}
         {!streaming && !pending && (
           <div
             onDragOver={(e) => e.preventDefault()}
@@ -375,31 +358,28 @@ export default function CaptureStudio() {
               const f = e.dataTransfer.files?.[0];
               if (f) handleFile(f);
             }}
-            className="mt-3 rounded-lg border border-dashed border-white/10 bg-black/30 px-4 py-3 text-center text-xs text-zinc-500"
+            className="kv-dropzone"
+            style={{ marginTop: 12, padding: "16px 12px", textAlign: "center" }}
           >
-            …or drop a screenshot file here
+            <p className="kv-meta" style={{ margin: 0 }}>…or drop a screenshot file here</p>
           </div>
         )}
 
-        {error && (
-          <div className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
-            {error}
-          </div>
-        )}
+        {error ? (
+          <p className="kv-meta" style={{ marginTop: 12, color: "#E5484D" }}>{error}</p>
+        ) : null}
       </section>
 
       {/* Preview / Save modal */}
       {pending && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-950">
-            <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-300">Review &amp; Save</h2>
-              <button
-                type="button"
-                onClick={discard}
-                className="rounded-md p-1.5 text-zinc-400 transition hover:bg-white/10 hover:text-white"
-                aria-label="Discard"
-              >
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.72)" }}>
+          <div
+            className="flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden"
+            style={{ border: "1px solid var(--border-default)", background: "var(--bg-elevated)" }}
+          >
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid var(--border-default)", padding: "12px 16px" }}>
+              <h2 className="kv-meta" style={{ margin: 0 }}>Review &amp; Save</h2>
+              <button type="button" onClick={discard} className="kv-btn-ghost" aria-label="Discard">
                 <X size={16} aria-hidden="true" />
               </button>
             </div>
@@ -422,68 +402,69 @@ export default function CaptureStudio() {
               )}
             </div>
 
-            <div className="space-y-3 border-t border-white/10 bg-zinc-900/60 p-4">
-              <div className="flex flex-wrap items-center gap-2">
+            <div style={{ borderTop: "1px solid var(--border-default)", padding: 16, display: "grid", gap: 12 }}>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
                 {!cropping ? (
                   <button
                     type="button"
                     onClick={() => { setCropping(true); setCropRect(null); }}
-                    className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-zinc-200 transition hover:bg-white/10"
+                    className="kv-btn-ghost"
                   >
                     <Crop size={12} aria-hidden="true" /> Crop
                   </button>
                 ) : (
                   <>
-                    <button
-                      type="button"
-                      onClick={applyCrop}
-                      className="inline-flex items-center gap-2 rounded-md bg-amber-400 px-3 py-1.5 text-xs font-semibold text-black transition hover:brightness-110"
-                    >
+                    <button type="button" onClick={applyCrop} className="kv-btn">
                       Apply Crop
                     </button>
                     <button
                       type="button"
                       onClick={() => { setCropping(false); setCropRect(null); }}
-                      className="rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-zinc-300 transition hover:bg-white/10"
+                      className="kv-btn-ghost"
                     >
                       Cancel
                     </button>
                   </>
                 )}
-                <span className="ml-auto text-[11px] text-zinc-500">{pending.width} × {pending.height}px</span>
+                <span className="kv-meta" style={{ marginLeft: "auto" }}>{pending.width} × {pending.height}px</span>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-[1fr_180px]">
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Title"
-                  className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder:text-zinc-600 focus:border-amber-400/40 focus:outline-none"
-                />
-                <select
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                  className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:border-amber-400/40 focus:outline-none"
-                >
-                  {SUBJECTS.map((s) => <option key={s} value={s}>{s}</option>)}
-                </select>
+              <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
+                <div>
+                  <label className="kv-meta" htmlFor="capture-title">Title</label>
+                  <input
+                    id="capture-title"
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Title"
+                    className="kv-field"
+                    style={{ marginTop: 6 }}
+                  />
+                </div>
+                <div>
+                  <label className="kv-meta" htmlFor="capture-subject">Subject</label>
+                  <select
+                    id="capture-subject"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    className="kv-field"
+                    style={{ marginTop: 6 }}
+                  >
+                    {SUBJECTS.map((s) => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
               </div>
 
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={discard}
-                  disabled={saving}
-                  className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-300 transition hover:bg-white/10 disabled:opacity-50"
-                >
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", gap: 8 }}>
+                <button type="button" onClick={discard} disabled={saving} className="kv-btn-ghost">
                   Discard
                 </button>
                 <button
                   type="button"
                   onClick={openNotePicker}
                   disabled={saving || !title.trim()}
-                  className="inline-flex items-center gap-2 rounded-lg border border-amber-400/40 bg-amber-400/10 px-4 py-2 text-sm font-semibold text-amber-200 transition hover:bg-amber-400/20 disabled:opacity-50"
+                  className="kv-btn-ghost"
                 >
                   <FileText size={14} aria-hidden="true" /> Save to Note
                 </button>
@@ -491,7 +472,7 @@ export default function CaptureStudio() {
                   type="button"
                   onClick={() => void save()}
                   disabled={saving || !title.trim()}
-                  className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-br from-teal-400 to-cyan-500 px-4 py-2 text-sm font-semibold text-black transition hover:brightness-110 disabled:opacity-50"
+                  className="kv-btn"
                 >
                   {saving ? <><Loader2 size={14} className="animate-spin" aria-hidden="true" /> Saving</> : "Save Capture"}
                 </button>
@@ -502,34 +483,45 @@ export default function CaptureStudio() {
       )}
 
       {/* Gallery */}
-      <section className="rounded-2xl border border-white/10 bg-black/40 p-4 backdrop-blur-xl">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-300">Recent Captures</h2>
-          {galleryLoading && <Loader2 size={14} className="animate-spin text-zinc-500" aria-hidden="true" />}
+      <section style={{ marginTop: 28 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+          <h2 className="kv-meta" style={{ margin: 0 }}>Recent Captures</h2>
+          {galleryLoading && <Loader2 size={14} className="animate-spin" aria-hidden="true" />}
         </div>
         {!galleryLoading && screenshots.length === 0 ? (
-          <p className="text-xs text-zinc-500">No captures yet. Start a session and snap your first frame.</p>
+          <p className="kv-sub">No captures yet. Start a session and snap your first frame.</p>
         ) : (
-          <div className="[column-fill:_balance] gap-3 sm:columns-2 md:columns-3">
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+              borderTop: "1px solid var(--border-default)",
+              borderLeft: "1px solid var(--border-default)",
+            }}
+          >
             {screenshots.map((s) => (
               <figure
                 key={s.id}
-                className="group relative mb-3 break-inside-avoid overflow-hidden rounded-xl border border-white/10 bg-zinc-900"
+                style={{
+                  margin: 0,
+                  borderRight: "1px solid var(--border-default)",
+                  borderBottom: "1px solid var(--border-default)",
+                }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={s.imageData} alt={s.title} className="block w-full" loading="lazy" />
-                <figcaption className="flex items-center justify-between gap-2 px-3 py-2 text-[11px]">
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-xs font-semibold text-white">{s.title}</p>
-                    <p className="truncate text-[10px] text-zinc-500">
+                <img src={s.imageData} alt={s.title} style={{ display: "block", width: "100%" }} loading="lazy" />
+                <figcaption style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "10px 12px" }}>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <p style={{ margin: 0, fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.title}</p>
+                    <p className="kv-meta" style={{ marginTop: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {s.subject} · {new Date(s.createdAt).toLocaleDateString()}
                     </p>
                   </div>
-                  <div className="flex shrink-0 gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                  <div style={{ display: "flex", flexShrink: 0, gap: 6 }}>
                     <button
                       type="button"
                       onClick={() => setViewer(s.imageData)}
-                      className="rounded-md p-1.5 text-zinc-300 transition hover:bg-white/10 hover:text-white"
+                      className="kv-btn-ghost"
                       aria-label="View full size"
                     >
                       <ZoomIn size={12} aria-hidden="true" />
@@ -537,7 +529,7 @@ export default function CaptureStudio() {
                     <button
                       type="button"
                       onClick={() => void remove(s.id)}
-                      className="rounded-md p-1.5 text-zinc-300 transition hover:bg-red-500/20 hover:text-red-300"
+                      className="kv-btn-danger"
                       aria-label="Delete"
                     >
                       <Trash2 size={12} aria-hidden="true" />
@@ -551,138 +543,118 @@ export default function CaptureStudio() {
       </section>
 
       {/* Note picker modal */}
-      <AnimatePresence>
-        {notePickerOpen && (
-          <motion.div
-            key="note-picker-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.18 }}
-            className="fixed inset-0 z-[65] flex items-center justify-center bg-black/70 p-4 backdrop-blur-md"
-            onClick={(e) => { if (e.target === e.currentTarget && !transferring) setNotePickerOpen(false); }}
+      {notePickerOpen && (
+        <div
+          className="fixed inset-0 z-[65] flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.72)" }}
+          onClick={(e) => { if (e.target === e.currentTarget && !transferring) setNotePickerOpen(false); }}
+        >
+          <div
+            className="flex max-h-[82vh] w-full max-w-lg flex-col overflow-hidden"
+            style={{ border: "1px solid var(--border-default)", background: "var(--bg-elevated)" }}
+            onClick={(e) => e.stopPropagation()}
           >
-            <motion.div
-              key="note-picker-panel"
-              initial={{ opacity: 0, scale: 0.92, y: 8 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 8 }}
-              transition={{ type: "spring", stiffness: 300, damping: 24 }}
-              className="flex max-h-[82vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/70 shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
-                <div>
-                  <h3 className="text-sm font-semibold uppercase tracking-wide text-zinc-200">Save to Note</h3>
-                  <p className="mt-0.5 text-[11px] text-zinc-500">Pick a note to attach this capture to.</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => { if (!transferring) setNotePickerOpen(false); }}
-                  className="rounded-md p-1.5 text-zinc-400 transition hover:bg-white/10 hover:text-white disabled:opacity-50"
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid var(--border-default)", padding: "12px 16px" }}>
+              <div>
+                <h3 className="kv-meta" style={{ margin: 0 }}>Save to Note</h3>
+                <p className="kv-sub" style={{ marginTop: 6, fontSize: 13 }}>Pick a note to attach this capture to.</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => { if (!transferring) setNotePickerOpen(false); }}
+                className="kv-btn-ghost"
+                disabled={transferring}
+                aria-label="Close"
+              >
+                <X size={16} aria-hidden="true" />
+              </button>
+            </div>
+
+            <div style={{ padding: "12px 16px 0" }}>
+              <label className="kv-meta" htmlFor="capture-note-search">Search</label>
+              <div style={{ position: "relative", marginTop: 6 }}>
+                <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2" aria-hidden="true" />
+                <input
+                  id="capture-note-search"
+                  type="text"
+                  value={noteQuery}
+                  onChange={(e) => {
+                    setNoteQuery(e.target.value);
+                    void loadNotes(e.target.value);
+                  }}
+                  placeholder="Search your notes..."
+                  className="kv-field"
+                  style={{ paddingLeft: 32 }}
                   disabled={transferring}
-                  aria-label="Close"
-                >
-                  <X size={16} aria-hidden="true" />
-                </button>
+                  autoFocus
+                />
               </div>
+            </div>
 
-              <div className="px-5 pt-3">
-                <div className="relative">
-                  <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" aria-hidden="true" />
-                  <input
-                    type="text"
-                    value={noteQuery}
-                    onChange={(e) => {
-                      setNoteQuery(e.target.value);
-                      void loadNotes(e.target.value);
-                    }}
-                    placeholder="Search your notes..."
-                    className="w-full rounded-lg border border-white/10 bg-black/40 py-2 pl-9 pr-3 text-sm text-white placeholder:text-zinc-600 focus:border-amber-400/40 focus:outline-none"
-                    disabled={transferring}
-                    autoFocus
-                  />
+            <div className="flex-1 overflow-y-auto" style={{ padding: "8px 16px 16px" }}>
+              {notesLoading ? (
+                <p className="kv-meta" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "32px 0" }}>
+                  <Loader2 size={14} className="mr-2 animate-spin" aria-hidden="true" /> Loading notes…
+                </p>
+              ) : noteOptions.length === 0 ? (
+                <p className="kv-sub" style={{ textAlign: "center", padding: "24px 8px" }}>
+                  No notes match. Create a note first, then link the capture.
+                </p>
+              ) : (
+                <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                  {noteOptions.map((n) => (
+                    <li key={n.id}>
+                      <button
+                        type="button"
+                        onClick={() => void saveToNote(n.id)}
+                        disabled={transferring}
+                        className="kv-row"
+                        style={{ width: "100%", background: "transparent", border: "none", borderTop: "1px solid var(--border-default)", cursor: transferring ? "not-allowed" : "pointer", opacity: transferring ? 0.5 : 1, textAlign: "left" }}
+                      >
+                        <FileText size={16} className="shrink-0" aria-hidden="true" />
+                        <div style={{ minWidth: 0, flex: 1 }}>
+                          <p className="kv-row-title" style={{ margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{n.title}</p>
+                          <p className="kv-meta" style={{ marginTop: 4 }}>Updated {formatTorontoDate(n.updatedAt)}</p>
+                        </div>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {transferring ? (
+              <div style={{ borderTop: "1px solid var(--border-default)", padding: "12px 16px" }}>
+                <p className="kv-meta" style={{ marginBottom: 8 }}>Transferring to note…</p>
+                <div className="kv-bar">
+                  <div style={{ width: `${Math.min(100, transferProgress)}%` }} />
                 </div>
               </div>
-
-              <div className="flex-1 overflow-y-auto px-3 py-3">
-                {notesLoading ? (
-                  <div className="flex items-center justify-center py-8 text-xs text-zinc-500">
-                    <Loader2 size={14} className="mr-2 animate-spin" aria-hidden="true" /> Loading notes…
-                  </div>
-                ) : noteOptions.length === 0 ? (
-                  <p className="px-2 py-6 text-center text-xs text-zinc-500">
-                    No notes match. Create a note first, then link the capture.
-                  </p>
-                ) : (
-                  <ul className="space-y-1">
-                    {noteOptions.map((n) => (
-                      <li key={n.id}>
-                        <button
-                          type="button"
-                          onClick={() => void saveToNote(n.id)}
-                          disabled={transferring}
-                          className="flex w-full items-start gap-3 rounded-lg px-3 py-2 text-left transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
-                        >
-                          <FileText size={16} className="mt-0.5 shrink-0 text-amber-400" aria-hidden="true" />
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-sm font-medium text-white">{n.title}</p>
-                            <p className="mt-0.5 text-[10px] text-zinc-500">Updated {new Date(n.updatedAt).toLocaleDateString()}</p>
-                          </div>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-
-              {/* Transferring progress */}
-              <AnimatePresence>
-                {transferring && (
-                  <motion.div
-                    key="transfer-bar"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="border-t border-amber-400/20 bg-amber-500/5 px-5 py-3"
-                  >
-                    <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-amber-300">
-                      Transferring to note…
-                    </p>
-                    <div className="relative h-1.5 overflow-hidden rounded-full bg-black/60">
-                      <motion.div
-                        className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500"
-                        animate={{ width: `${Math.min(100, transferProgress)}%` }}
-                        transition={{ duration: 0.25, ease: "easeOut" }}
-                        style={{ boxShadow: "0 0 12px rgba(240,180,41,0.7), 0 0 24px rgba(240,180,41,0.35)" }}
-                      />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            ) : null}
+          </div>
+        </div>
+      )}
 
       {/* Full-size viewer */}
       {viewer && (
         <div
-          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 p-6 backdrop-blur-sm"
+          className="fixed inset-0 z-[70] flex items-center justify-center p-6"
+          style={{ background: "rgba(0,0,0,0.85)" }}
           onClick={() => setViewer(null)}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={viewer} alt="Full size capture" className="max-h-full max-w-full rounded-xl border border-white/10" />
+          <img src={viewer} alt="Full size capture" className="max-h-full max-w-full" style={{ border: "1px solid var(--border-default)" }} />
           <button
             type="button"
             onClick={() => setViewer(null)}
-            className="absolute right-4 top-4 rounded-md bg-black/60 p-2 text-zinc-200 transition hover:bg-black/80"
+            className="kv-btn-ghost"
+            style={{ position: "absolute", right: 16, top: 16 }}
             aria-label="Close viewer"
           >
             <X size={16} aria-hidden="true" />
           </button>
         </div>
       )}
-    </div>
+    </main>
   );
 }

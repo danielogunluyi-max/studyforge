@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 import { fetchTranscript } from "youtube-transcript-plus";
 import { auth } from "~/server/auth";
-import { runGroqPrompt } from "~/server/groq";
+import { db } from "~/server/db";
+import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 type ImportRequest = {
   url?: string;
+  youtubeUrl?: string;
   subject?: string;
   curriculumCode?: string;
 };
@@ -43,6 +46,33 @@ async function fetchVideoMeta(videoId: string): Promise<{ title: string; author:
   }
 }
 
+export async function GET() {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const imports = await db.youTubeImport.findMany({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: "desc" },
+      take: 20,
+      select: {
+        id: true,
+        title: true,
+        youtubeUrl: true,
+        createdAt: true,
+        notes: true,
+      },
+    });
+
+    return NextResponse.json({ imports });
+  } catch (error) {
+    console.error("[import/youtube] GET failed:", error);
+    return NextResponse.json({ error: "Failed to load imports" }, { status: 500 });
+  }
+}
+
 export async function POST(request: Request) {
   try {
     if (!process.env.GROQ_API_KEY) {
@@ -58,7 +88,7 @@ export async function POST(request: Request) {
     }
 
     const body = (await request.json().catch(() => ({}))) as ImportRequest;
-    const url = (body.url ?? "").trim();
+    const url = (body.url ?? body.youtubeUrl ?? "").trim();
     if (!url) {
       return NextResponse.json({ error: "Please paste a YouTube link." }, { status: 400 });
     }
@@ -151,6 +181,9 @@ export async function POST(request: Request) {
         maxTokens: 2200,
       });
     } catch (groqErr) {
+      if (isRateLimited(groqErr)) {
+        return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+      }
       console.error("[import/youtube] Groq failed:", groqErr);
       const detail = groqErr instanceof Error ? groqErr.message : "Unknown AI error";
       return NextResponse.json(
@@ -164,15 +197,57 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "AI returned empty notes." }, { status: 502 });
     }
 
+    const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+    const tags = ["Inbox", "YouTube"];
+    if (subject && subject !== "General") tags.push(subject);
+    if (curriculumCode) tags.push(curriculumCode.toUpperCase());
+
+    let noteId: string | null = null;
+    let importId: string | null = null;
+
+    try {
+      const note = await db.note.create({
+        data: {
+          userId: session.user.id,
+          title: title.slice(0, 200),
+          content: trimmedNotes,
+          format: "summary",
+          subject: subject !== "General" ? subject : curriculumCode || null,
+          tags,
+        },
+      });
+      noteId = note.id;
+    } catch (persistErr) {
+      console.error("[import/youtube] note persist failed:", persistErr);
+    }
+
+    try {
+      const saved = await db.youTubeImport.create({
+        data: {
+          userId: session.user.id,
+          youtubeUrl: videoUrl,
+          title: title.slice(0, 200),
+          transcript: transcriptForPrompt,
+          notes: trimmedNotes,
+          flashcards: [],
+        },
+      });
+      importId = saved.id;
+    } catch (persistErr) {
+      console.error("[import/youtube] import persist failed:", persistErr);
+    }
+
     return NextResponse.json({
       videoId,
-      videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
+      videoUrl,
       title,
       author,
       transcriptLength: fullTranscript.length,
       transcriptPreview: fullTranscript.slice(0, 500),
       transcript: transcriptForPrompt,
       notes: trimmedNotes,
+      noteId,
+      importId,
     });
   } catch (error) {
     console.error("[import/youtube] Unhandled error:", error);

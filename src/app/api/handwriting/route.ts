@@ -1,6 +1,7 @@
 import { auth } from "~/server/auth";
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
+import { GROQ_VISION_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -14,8 +15,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "imageBase64 is required" }, { status: 400 });
   }
 
-  const completion = await groq.chat.completions.create({
-    model: "meta-llama/llama-4-scout-17b-16e-instruct",
+  let completion;
+  try {
+    completion = await groq.chat.completions.create({
+    model: GROQ_VISION_MODEL,
     messages: [
       {
         role: "user",
@@ -41,8 +44,14 @@ Respond in JSON:
         ] as any,
       } as any,
     ],
-    max_tokens: 1500,
+    max_tokens: 800,
   });
+  } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
+    throw error;
+  }
 
   const raw = completion.choices[0]?.message?.content || "{}";
   try {

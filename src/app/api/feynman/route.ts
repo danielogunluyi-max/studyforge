@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type FeynmanRequestBody = {
   concept?: string;
@@ -151,6 +151,9 @@ Grade this explanation and return your JSON assessment.`;
 
     return NextResponse.json({ ...result, sessionId: saved.id });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Feynman grading error:", error);
     return NextResponse.json(
       { error: "Failed to grade explanation" },

@@ -2,6 +2,7 @@ import { auth } from "~/server/auth"
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
@@ -25,8 +26,10 @@ export async function POST(req: Request) {
 
   if (cards.length === 0) {
     // Try AI parsing if tab format didn't work
-    const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+    let completion
+    try {
+      completion = await groq.chat.completions.create({
+      model: GROQ_TEXT_MODEL,
       messages: [{
         role: 'user',
         content: `Parse these flashcards into question/answer pairs. They may be in any format.
@@ -35,6 +38,12 @@ Respond ONLY as JSON array: [{"question":"...","answer":"..."}]`
       }],
       max_tokens: 1000,
     })
+    } catch (error) {
+      if (isRateLimited(error)) {
+        return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+      }
+      throw error
+    }
     try {
       const parsed = JSON.parse(
         (completion.choices[0]?.message?.content || '[]')

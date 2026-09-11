@@ -1,8 +1,10 @@
-import { redirect } from "next/navigation";
+﻿import { redirect } from "next/navigation";
 
 import { FocusStartButton } from "~/app/_components/focus-start-button";
 import { getAuthSession } from "~/server/auth/session";
 import { db } from "~/server/db";
+import { loginUrlFor } from "~/lib/auth-redirect";
+import { formatTorontoDate } from "~/lib/toronto-time";
 
 function startOfDay(date: Date) {
   const next = new Date(date);
@@ -54,7 +56,7 @@ function computeStreak(completedDates: Date[]) {
 export default async function FocusPage() {
   const session = await getAuthSession();
   if (!session?.user?.id) {
-    redirect("/login");
+    redirect(loginUrlFor("/focus"));
   }
 
   const weekStart = startOfWeek(new Date());
@@ -140,136 +142,84 @@ export default async function FocusPage() {
   const maxDayMinutes = Math.max(1, ...weekDays.map((day) => day.minutes));
 
   return (
-    <main className="page-shell app-premium-dark min-h-screen bg-gray-950 pb-24">
-      <div className="mx-auto w-full max-w-6xl">
-        <h1 className="text-[28px] font-bold tracking-tight text-white">Focus Mode 🎯</h1>
-        <p className="mt-1.5 text-sm text-[var(--text-secondary)]">
+    <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
+        <div className="kv-crumb">Kyvex / <b>Focus Mode</b></div>
+        <h1 className="kv-title" style={{ marginTop: 14 }}>Focus Mode</h1>
+        <p className="kv-sub" style={{ marginTop: 10 }}>
           Track your deep work sessions and build focus habits
         </p>
 
-        <section className="metrics-grid mt-5">
-          <div className="card p-4">
-            <p className="text-label text-[var(--text-muted)]">This Week</p>
-            <p className="mt-1.5 text-[26px] font-extrabold text-[var(--text-primary)]">
-              {formatMinutes(totalMinutesThisWeek)}
-            </p>
+        <div className="kv-stats" style={{ marginTop: 28, gridTemplateColumns: "repeat(3, 1fr)" }}>
+          <div className="kv-stat">
+            <span className="kv-meta">This week</span>
+            <b className="num" style={{ fontSize: 22 }}>{formatMinutes(totalMinutesThisWeek)}</b>
           </div>
-          <div className="card p-4">
-            <p className="text-label text-[var(--text-muted)]">Avg Session</p>
-            <p className="mt-1.5 text-[26px] font-extrabold text-[var(--text-primary)]">
-              {averageSessionLength} min
-            </p>
+          <div className="kv-stat">
+            <span className="kv-meta">Avg session</span>
+            <b className="num">{averageSessionLength} min</b>
           </div>
-          <div className="card p-4">
-            <p className="text-label text-[var(--text-muted)]">Completion Rate</p>
-            <p className="mt-1.5 text-[26px] font-extrabold text-[var(--text-primary)]">
-              {completionRate}%
-            </p>
+          <div className="kv-stat">
+            <span className="kv-meta">Completion</span>
+            <b className="num">{completionRate}%</b>
           </div>
-          <div className="card p-4">
-            <p className="text-label text-[var(--text-muted)]">Longest Session</p>
-            <p className="mt-1.5 text-[26px] font-extrabold text-[var(--text-primary)]">
-              {longestSession} min
-            </p>
+          <div className="kv-stat">
+            <span className="kv-meta">Longest</span>
+            <b className="num">{longestSession} min</b>
           </div>
-          <div className="card p-4">
-            <p className="text-label text-[var(--text-muted)]">Total Distractions</p>
-            <p className="mt-1.5 text-[26px] font-extrabold" style={{ color: totalDistractions < 5 ? "var(--accent-green)" : "var(--text-primary)" }}>
-              {totalDistractions}
-            </p>
+          <div className="kv-stat">
+            <span className="kv-meta">Distractions</span>
+            <b className="num">{totalDistractions}</b>
           </div>
-          <div className="card p-4">
-            <p className="text-label text-[var(--text-muted)]">Current Streak</p>
-            <p className="mt-1.5 text-[26px] font-extrabold text-[var(--text-primary)]">
-              {streak} day{streak === 1 ? "" : "s"}
-            </p>
+          <div className="kv-stat">
+            <span className="kv-meta">Streak</span>
+            <b className="num">{streak} day{streak === 1 ? "" : "s"}</b>
           </div>
-        </section>
+        </div>
 
-        <section className="card mt-4 p-[18px]">
-          <p className="font-semibold text-[var(--text-primary)]">Weekly Focus Minutes</p>
-          <div className="mt-4 flex h-20 items-end gap-2">
-            {weekDays.map((day) => (
+        <p className="kv-meta" style={{ marginTop: 32 }}>Weekly focus minutes</p>
+        <div style={{ marginTop: 12, display: "flex", alignItems: "flex-end", gap: 8, height: 80 }}>
+          {weekDays.map((day) => (
+            <div
+              key={day.label}
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+              }}
+            >
               <div
-                key={day.label}
                 style={{
-                  flex: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: "4px",
+                  width: "100%",
+                  background: day.isToday ? "var(--kv-accent)" : "var(--bg-active)",
+                  height: `${(day.minutes / maxDayMinutes) * 70}px`,
+                  minHeight: day.minutes > 0 ? 4 : 0,
                 }}
-              >
-                <div
-                  style={{
-                    width: "100%",
-                    background: day.isToday ? "var(--accent-blue)" : "var(--bg-elevated)",
-                    borderRadius: "4px 4px 0 0",
-                    height: `${(day.minutes / maxDayMinutes) * 70}px`,
-                    minHeight: day.minutes > 0 ? "4px" : "0",
-                    transition: "height 0.5s ease",
-                  }}
-                  title={`${day.minutes} min`}
-                />
-                <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>{day.label}</span>
-              </div>
-            ))}
-          </div>
-        </section>
+                title={`${day.minutes} min`}
+              />
+              <span className="kv-meta">{day.label}</span>
+            </div>
+          ))}
+        </div>
 
-        <section className="card mt-4 overflow-x-auto p-[18px]">
-          <p className="mb-3 font-semibold text-[var(--text-primary)]">Session History</p>
-          <table className="w-full min-w-[760px] border-collapse">
-            <thead>
-              <tr>
-                {["Date", "Goal", "Duration", "Actual", "Distractions", "Status"].map((header) => (
-                  <th
-                    key={header}
-                    style={{
-                      textAlign: "left",
-                      fontSize: "12px",
-                      color: "var(--text-muted)",
-                      padding: "10px",
-                      borderBottom: "1px solid var(--border-default)",
-                    }}
-                  >
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {historySessions.map((item) => (
-                <tr key={item.id}>
-                  <td style={{ padding: "10px", borderBottom: "1px solid var(--border-default)", color: "var(--text-secondary)", fontSize: "13px" }}>
-                    {item.startedAt.toLocaleDateString()}
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid var(--border-default)", color: "var(--text-primary)", fontSize: "13px" }}>
-                    {item.goal || "Focus Session"}
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid var(--border-default)", color: "var(--text-secondary)", fontSize: "13px" }}>
-                    {item.durationMins} min
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid var(--border-default)", color: "var(--text-secondary)", fontSize: "13px" }}>
-                    {item.actualMins ?? "-"}
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid var(--border-default)", color: "var(--text-secondary)", fontSize: "13px" }}>
-                    {item.distractions}
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid var(--border-default)" }}>
-                    {item.completed ? (
-                      <span className="badge badge-green">Complete</span>
-                    ) : item.abandoned ? (
-                      <span className="badge badge-red">Abandoned</span>
-                    ) : (
-                      <span className="badge">In Progress</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
+        <p className="kv-meta" style={{ marginTop: 32 }}>Session history</p>
+        {historySessions.map((item) => (
+          <div key={item.id} className="kv-row">
+            <div>
+              <div className="kv-row-title">{item.goal || "Focus Session"}</div>
+              <div className="kv-row-sub">
+                <span className="kv-chip">{item.completed ? "Complete" : item.abandoned ? "Abandoned" : "In progress"}</span>
+                <span className="kv-chip num">{item.distractions} distractions</span>
+              </div>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <span className="kv-meta num">{item.actualMins ?? item.durationMins} min</span>
+              <div className="kv-row-side" style={{ marginTop: 6 }}>{formatTorontoDate(item.startedAt)}</div>
+            </div>
+          </div>
+        ))}
 
         <FocusStartButton />
       </div>

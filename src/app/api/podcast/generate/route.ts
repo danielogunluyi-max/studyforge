@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type PodcastRequestBody = {
   text?: string;
@@ -165,6 +165,9 @@ ${text.slice(0, 3000)}`;
 
     return NextResponse.json({ ...result, podcastId: saved.id });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Podcast generation error:", error);
     return NextResponse.json(
       { error: "Failed to generate podcast" },

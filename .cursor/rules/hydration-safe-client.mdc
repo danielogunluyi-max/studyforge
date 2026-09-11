@@ -1,0 +1,35 @@
+---
+description: Hydration-safe client components — first paint is a pure function of server props
+globs: src/**/*.tsx
+alwaysApply: true
+---
+
+# Hydration-safe first paint
+
+INVARIANT: The first client render of any component must be byte-identical to the
+server HTML. Derived entirely from props. Nothing else.
+
+BANNED in render paths:
+- localStorage / sessionStorage / document.cookie reads → useState(serverProp),
+  read external state in useEffect, or move it to a cookie the server layout reads
+- matchMedia / useReducedMotion / navigator.* / typeof window branches in render
+- Math.random(), Date.now() in initial render
+- toLocaleString()/toLocaleDateString() → use ~/lib/toronto-time
+  (`Intl.DateTimeFormat('en-CA', { timeZone: 'America/Toronto' })`)
+- Random inline styles/colors → derive deterministically (charCode sums over an id)
+
+WHEN A HYDRATION ERROR APPEARS:
+1. QUOTE THE DIFF (the -/+ lines) before proposing any fix. If you cannot see
+   the diff, say so and ask for it. Never guess a cause.
+2. Classify first:
+   - Extension fingerprints (data-gr-ext-installed, data-new-gr-c-s-*,
+     bis_skin_checked, bis_register, __processed_*) → browser extension, NOT
+     app code. Do not change code. Tell me to verify in incognito.
+   - Anything else → name the exact file and line; fix by making first paint
+     deterministic (server prop + useEffect, or cookie read server-side).
+3. NEVER: suppressHydrationWarning on a parent to hide an undiagnosed mismatch,
+   add mounted-gates as a first resort, or refactor a component without a diff.
+   suppressHydrationWarning is allowed only per-element after diagnosis
+   (theme `<html>`, `<body>` for extensions, specific inputs Grammarly touches).
+4. Before claiming fixed, state: which route, hard reload with console open,
+   and which server props/cookies feed the first paint.

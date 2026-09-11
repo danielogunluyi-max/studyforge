@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Skeleton from '@/app/_components/skeleton';
-import EmptyState from '@/app/_components/empty-state';
 
 type SharedDeck = {
   id: string;
@@ -155,31 +154,33 @@ export default function LibraryPage() {
   }
 
   return (
-    <main className="kv-page kv-page-library" style={{ padding: '30px 16px 56px' }}>
-      <section className="kv-container kv-stack-lg" style={{ maxWidth: 1180, margin: '0 auto' }}>
-        <header className="kv-row-between" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' }}>
-          <div className="kv-stack-xs">
-            <h1 className="kv-title-xl" style={{ fontSize: 38, fontWeight: 900, letterSpacing: '-0.03em' }}>Study Library 📚</h1>
-            <p className="kv-subtitle" style={{ color: 'var(--text-secondary)' }}>
+    <main className="kv-page" style={{ padding: '24px 16px 100px' }}>
+      <div style={{ maxWidth: 960, margin: '0 auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' }}>
+          <div>
+            <div className="kv-crumb">Kyvex / <b>Study Library</b></div>
+            <h1 className="kv-title" style={{ marginTop: 14 }}>Study Library</h1>
+            <p className="kv-sub" style={{ marginTop: 10 }}>
               Explore and download study sets shared by other students
             </p>
           </div>
-          <button className="kv-btn-primary" onClick={() => setShowShareModal(true)}>Share a Deck</button>
-        </header>
+          <button type="button" className="kv-btn" onClick={() => setShowShareModal(true)}>Share a Deck</button>
+        </div>
 
-        <section className="kv-card kv-stack-md" style={{ padding: 16 }}>
+        <div style={{ marginTop: 28 }}>
           <input
-            className="kv-input"
+            className="kv-field"
             placeholder="Search decks..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
 
-          <div className="kv-tabs kv-subject-tabs" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <div className="kv-tabs" style={{ marginTop: 16, flexWrap: 'wrap' }}>
             {SUBJECTS.map((entry) => (
               <button
                 key={entry}
-                className={subject === entry ? 'kv-tab kv-tab-active' : 'kv-tab'}
+                type="button"
+                className={subject === entry ? 'kv-tab on' : 'kv-tab'}
                 onClick={() => setSubject(entry)}
               >
                 {entry}
@@ -187,12 +188,13 @@ export default function LibraryPage() {
             ))}
           </div>
 
-          <div className="kv-row kv-preset-filter" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            <span className="kv-label">Preset:</span>
+          <p className="kv-meta" style={{ marginTop: 18 }}>Preset</p>
+          <div className="kv-tabs" style={{ marginTop: 10, flexWrap: 'wrap' }}>
             {PRESETS.map((entry) => (
               <button
                 key={entry}
-                className={preset === entry ? 'kv-tab kv-tab-active' : 'kv-tab'}
+                type="button"
+                className={preset === entry ? 'kv-tab on' : 'kv-tab'}
                 onClick={() => setPreset(entry)}
               >
                 {entry === 'HIGHSCHOOL' ? 'High School' : entry === 'COLLEGE' ? 'College' : entry === 'UNIVERSITY' ? 'University' : 'All'}
@@ -200,68 +202,68 @@ export default function LibraryPage() {
             ))}
           </div>
 
-          {message ? <p className="kv-text-accent" style={{ color: 'var(--accent-blue)' }}>{message}</p> : null}
-        </section>
+          {message ? <p className="kv-meta" style={{ marginTop: 12 }}>{message}</p> : null}
+        </div>
 
         {loading ? (
-          <section className="kv-card" style={{ padding: 16 }}>
+          <div style={{ marginTop: 24 }}>
             <Skeleton variant="card" count={6} />
-          </section>
+          </div>
         ) : decks.length === 0 ? (
-          <section className="kv-card kv-empty" style={{ padding: 20 }}>
-            <EmptyState
-              icon="📚"
-              title="No decks yet"
-              description="Be the first to share a study deck with the community"
-            />
-          </section>
+          <p className="kv-sub" style={{ marginTop: 28 }}>No decks yet. Be the first to share a study deck.</p>
         ) : (
-          <section className="kv-grid-3" style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
+          <div style={{ marginTop: 8 }}>
             {decks.map((deck) => (
-              <article key={deck.id} className="kv-card kv-stack-sm" style={{ padding: 16 }}>
-                <h3 className="kv-title-sm" style={{ fontWeight: 800, fontSize: 18 }}>{deck.title}</h3>
-
-                <div className="kv-row" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <span className="kv-badge-gold">{deck.subject}</span>
-                  <span className="kv-badge-blue">{deck.preset}</span>
+              <div key={deck.id} className="kv-row">
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div className="kv-row-title">{deck.title}</div>
+                  <div className="kv-row-sub">
+                    {/^[A-Z]{3,4}\d[A-Z]$/i.test(deck.subject.trim()) ? (
+                      <span className="kv-chip kv-chip-course">{deck.subject}</span>
+                    ) : (
+                      <span className="kv-chip">{deck.subject}</span>
+                    )}
+                    <span className="kv-chip">{deck.preset}</span>
+                    <span className="kv-chip num">{deck.cardCount} cards</span>
+                  </div>
+                  <p className="kv-meta" style={{ marginTop: 6 }}>
+                    by {deck.creatorName} · {deck.downloads} downloads
+                  </p>
                 </div>
-
-                <p className="kv-caption" style={{ color: 'var(--text-muted)' }}>{deck.cardCount} cards</p>
-                <p className="kv-caption" style={{ color: 'var(--text-muted)' }}>by {deck.creatorName}</p>
-                <p className="kv-caption" style={{ color: 'var(--text-muted)' }}>⬇️ {deck.downloads}</p>
-
-                <button className="kv-btn-primary" onClick={() => downloadDeck(deck.id)}>
+                <button type="button" className="kv-btn-ghost" onClick={() => downloadDeck(deck.id)}>
                   Download to my library
                 </button>
-              </article>
+              </div>
             ))}
-          </section>
+          </div>
         )}
-      </section>
+      </div>
 
       {showShareModal ? (
         <div
-          className="kv-modal-overlay"
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(0,0,0,0.35)',
-            display: 'grid',
-            placeItems: 'center',
-            padding: 16,
-            zIndex: 30,
+            zIndex: 50,
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            padding: '24px 16px',
+            overflowY: 'auto',
+            background: 'rgba(0,0,0,0.72)',
           }}
+          onClick={(event) => { if (event.target === event.currentTarget) setShowShareModal(false); }}
         >
-          <div className="kv-card kv-modal kv-stack-sm" style={{ width: 'min(560px, 100%)', padding: 16 }}>
-            <div className="kv-row-between" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 className="kv-title-md" style={{ fontSize: 20, fontWeight: 800 }}>Share a Deck</h2>
-              <button className="kv-btn-ghost" onClick={() => setShowShareModal(false)}>✕</button>
+          <div style={{ width: '100%', maxWidth: 440, border: '1px solid var(--border-default)', background: 'var(--bg-base)' }}>
+            <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border-default)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 className="kv-title" style={{ fontSize: 18, margin: 0 }}>Share a Deck</h2>
+              <button type="button" className="kv-btn-ghost" onClick={() => setShowShareModal(false)}>Close</button>
             </div>
-
-            <label className="kv-label" htmlFor="shareDeck">Select deck</label>
+            <div style={{ padding: '16px 18px', display: 'grid', gap: 12 }}>
+            <label className="kv-meta" htmlFor="shareDeck">Select deck</label>
             <select
               id="shareDeck"
-              className="kv-input"
+              className="kv-field"
               value={shareDeckId}
               onChange={(event) => {
                 const nextId = event.target.value;
@@ -278,31 +280,32 @@ export default function LibraryPage() {
               ))}
             </select>
 
-            <label className="kv-label" htmlFor="shareTitle">Title</label>
-            <input id="shareTitle" className="kv-input" value={shareTitle} onChange={(event) => setShareTitle(event.target.value)} />
+            <label className="kv-meta" htmlFor="shareTitle">Title</label>
+            <input id="shareTitle" className="kv-field" value={shareTitle} onChange={(event) => setShareTitle(event.target.value)} />
 
-            <label className="kv-label" htmlFor="shareSubject">Subject</label>
-            <input id="shareSubject" className="kv-input" value={shareSubject} onChange={(event) => setShareSubject(event.target.value)} />
+            <label className="kv-meta" htmlFor="shareSubject">Subject</label>
+            <input id="shareSubject" className="kv-field" value={shareSubject} onChange={(event) => setShareSubject(event.target.value)} />
 
-            <label className="kv-label" htmlFor="shareDescription">Description</label>
+            <label className="kv-meta" htmlFor="shareDescription">Description</label>
             <textarea
               id="shareDescription"
-              className="kv-textarea"
+              className="kv-field"
               rows={4}
               value={shareDescription}
               onChange={(event) => setShareDescription(event.target.value)}
             />
 
-            <label className="kv-label" htmlFor="sharePreset">Preset</label>
-            <select id="sharePreset" className="kv-input" value={sharePreset} onChange={(event) => setSharePreset(event.target.value)}>
+            <label className="kv-meta" htmlFor="sharePreset">Preset</label>
+            <select id="sharePreset" className="kv-field" value={sharePreset} onChange={(event) => setSharePreset(event.target.value)}>
               <option value="HIGHSCHOOL">High School</option>
               <option value="COLLEGE">College</option>
               <option value="UNIVERSITY">University</option>
             </select>
 
-            <button className="kv-btn-primary" onClick={shareDeck} disabled={sharing || !selectedDeck}>
+            <button type="button" className="kv-btn" onClick={shareDeck} disabled={sharing || !selectedDeck}>
               {sharing ? 'Sharing...' : 'Share'}
             </button>
+            </div>
           </div>
         </div>
       ) : null}

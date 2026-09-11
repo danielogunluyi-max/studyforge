@@ -2,6 +2,7 @@ import Groq from "groq-sdk";
 
 import { prisma as dbPrisma } from "./prisma.ts";
 import { ALL_ONTARIO_COURSES, type OntarioCourse } from "./ontarioCourses.ts";
+import { GROQ_TEXT_MODEL } from "./groq";
 
 export const prisma = dbPrisma;
 
@@ -260,7 +261,7 @@ Rules:
   for (let attempt = 1; attempt <= 4; attempt++) {
     try {
       const response = await groq.chat.completions.create({
-        model: "llama-3.3-70b-versatile",
+        model: GROQ_TEXT_MODEL,
         max_tokens: 4000,
         messages: [
           {

@@ -2,53 +2,29 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { signOut } from "next-auth/react";
+import { forwardRef, useState } from "react";
+import { ChevronLeft, ChevronRight, LogOut } from "lucide-react";
+import { persistSidebarCollapsed } from "~/lib/sidebar-collapsed";
 import {
-  LayoutGrid,
-  StickyNote,
-  Layers,
-  Sparkles,
-  Settings,
-  Shield,
-  Camera,
-  MonitorPlay,
-  GraduationCap,
-  Presentation,
-  ChevronLeft,
-  ChevronRight,
-  LogOut,
-  Eye,
-  type LucideIcon,
-} from "lucide-react";
+  groupNavEntries,
+  navEntriesFor,
+  type NavEntry,
+} from "~/lib/nav-registry";
 
-type NavLink = {
-  href: string;
-  label: string;
-  icon: LucideIcon;
-  glow: string;
-  adminOnly?: boolean;
-};
-
-const NAV: NavLink[] = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutGrid, glow: "#f0b429" },
-  { href: "/my-notes", label: "Notes", icon: StickyNote, glow: "#f0b429" },
-  { href: "/flashcards", label: "Flashcards", icon: Layers, glow: "#8b5cf6" },
-  { href: "/tutor", label: "Nova AI", icon: Sparkles, glow: "#2dd4bf" },
-  { href: "/dashboard/nova-vision", label: "Nova Vision", icon: Eye, glow: "#22d3ee" },
-  { href: "/capture-studio", label: "Capture", icon: Camera, glow: "#f97316" },
-  { href: "/mock-exam", label: "Mock Exam", icon: GraduationCap, glow: "#34d399" },
-  { href: "/presentation/create", label: "Presentations", icon: Presentation, glow: "#a78bfa" },
-  { href: "/settings", label: "Settings", icon: Settings, glow: "#60a5fa" },
-  { href: "/admin", label: "Admin Panel", icon: Shield, glow: "#ef4444", adminOnly: true },
-];
-
-const COLLAPSED_KEY = "kyvex-sidebar-collapsed";
+const SIDEBAR_GROUPS = groupNavEntries(navEntriesFor("sidebar"));
+const SIDEBAR_HREFS = SIDEBAR_GROUPS.flatMap((group) => group.items.map((item) => item.href));
 
 function isActive(pathname: string | null, href: string): boolean {
   if (!pathname) return false;
-  return pathname === href || pathname.startsWith(`${href}/`);
+  if (pathname === href) return true;
+  if (!pathname.startsWith(`${href}/`)) return false;
+  return !SIDEBAR_HREFS.some(
+    (other) =>
+      other !== href &&
+      other.length > href.length &&
+      (pathname === other || pathname.startsWith(`${other}/`)),
+  );
 }
 
 function getInitials(name?: string | null, email?: string | null): string {
@@ -57,32 +33,57 @@ function getInitials(name?: string | null, email?: string | null): string {
   return (src[0]?.slice(0, 2) ?? "K").toUpperCase();
 }
 
-export default function SidebarGlass() {
+function SidebarLink({
+  entry,
+  pathname,
+  collapsed,
+}: {
+  entry: NavEntry;
+  pathname: string | null;
+  collapsed: boolean;
+}) {
+  const active = isActive(pathname, entry.href);
+  const Icon = entry.icon;
+
+  return (
+    <Link
+      href={entry.href}
+      title={entry.label}
+      aria-current={active ? "page" : undefined}
+      className={`sidebar-nav-item ${active ? "is-active" : ""} ${
+        collapsed ? "md:justify-center md:px-2 md:pl-2" : "justify-start"
+      }`}
+    >
+      <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+        <Icon size={20} strokeWidth={1.75} aria-hidden="true" />
+      </span>
+      <span className={`flex-1 truncate text-sm ${collapsed ? "md:hidden" : ""}`}>
+        {entry.label}
+      </span>
+    </Link>
+  );
+}
+
+const SidebarGlass = forwardRef<HTMLElement, {
+  initialCollapsed: boolean;
+  userName: string | null;
+  userEmail: string | null;
+}>(function SidebarGlass({ initialCollapsed, userName, userEmail }, ref) {
   const pathname = usePathname();
   const router = useRouter();
-  const { data: session, status } = useSession();
-  const [collapsed, setCollapsed] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [collapsed, setCollapsed] = useState(initialCollapsed);
 
-  useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem(COLLAPSED_KEY);
-    if (saved === "1") setCollapsed(true);
-  }, []);
+  const displayName = userName?.trim() || "Kyvex User";
+  const displayEmail = userEmail?.trim() ?? "";
+  const initials = getInitials(userName, userEmail);
 
-  useEffect(() => {
-    if (mounted) localStorage.setItem(COLLAPSED_KEY, collapsed ? "1" : "0");
-  }, [collapsed, mounted]);
-
-  if (status !== "authenticated") return null;
-
-  const role = (session?.user as { role?: string } | undefined)?.role;
-  const isAdmin = role === "ADMIN";
-  const links = NAV.filter((link) => !link.adminOnly || isAdmin);
-
-  const userName = session?.user?.name ?? "Kyvex User";
-  const userEmail = session?.user?.email ?? "";
-  const initials = getInitials(session?.user?.name, session?.user?.email);
+  const toggleCollapse = () => {
+    setCollapsed((current) => {
+      const next = !current;
+      persistSidebarCollapsed(next);
+      return next;
+    });
+  };
 
   const handleSignOut = async () => {
     try {
@@ -93,155 +94,81 @@ export default function SidebarGlass() {
     router.push("/");
   };
 
-  const width = collapsed ? 80 : 256;
-
   return (
-    <motion.aside
-      initial={false}
-      animate={{ width }}
-      transition={{ type: "spring", stiffness: 260, damping: 28 }}
-      className="sticky top-0 z-50 flex h-screen shrink-0 flex-col border-r border-white/5 bg-slate-900/40 backdrop-blur-md"
+    <aside
+      ref={ref}
+      id="kyvex-sidebar"
+      tabIndex={-1}
+      className={`sidebar-shell h-full shrink-0 transition-[width] duration-200 ease-out w-64 ${
+        collapsed ? "md:w-[72px]" : ""
+      }`}
       aria-label="Primary navigation"
       data-tour="sidebar"
     >
-      {/* Brand */}
-      <div className="flex items-center gap-3 px-5 py-5">
-        <div className="relative flex h-9 w-9 shrink-0 items-center justify-center">
-          <span className="absolute inset-0 animate-ping rounded-full bg-amber-400/20" aria-hidden="true" />
-          <span className="absolute inset-1 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-[0_0_18px_rgba(240,180,41,0.55)]" aria-hidden="true" />
-          <Sparkles size={14} className="relative z-10 text-black" aria-hidden="true" />
+      <div className="sidebar-logo gap-3 px-5 py-5">
+        <div
+          className="flex h-6 w-6 shrink-0 items-center justify-center text-[13px] font-bold"
+          style={{ background: "var(--kv-accent)", color: "#15150F", borderRadius: "var(--kv-radius)" }}
+          aria-hidden="true"
+        >
+          K
         </div>
-        <AnimatePresence initial={false}>
-          {!collapsed && (
-            <motion.span
-              key="brand"
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -6 }}
-              transition={{ duration: 0.18 }}
-              className="text-base font-bold tracking-tight text-white"
-            >
-              Kyvex
-            </motion.span>
-          )}
-        </AnimatePresence>
+        <span
+          className={collapsed ? "md:hidden" : ""}
+          style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--kv-text-primary)" }}
+        >
+          Kyvex
+        </span>
       </div>
 
-      {/* Nav links */}
-      <motion.nav
-        className="flex flex-1 flex-col gap-1 px-3 py-2"
-        initial="hidden"
-        animate="show"
-        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.045, delayChildren: 0.05 } } }}
-      >
-        {links.map((link) => {
-          const active = isActive(pathname, link.href);
-          const Icon = link.icon;
-          return (
-            <motion.div
-              key={link.href}
-              variants={{
-                hidden: { opacity: 0, x: -16 },
-                show: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 320, damping: 28 } },
-              }}
-              style={{ willChange: "transform, opacity" }}
-            >
-              <Link
-                href={link.href}
-                title={collapsed ? link.label : undefined}
-                aria-current={active ? "page" : undefined}
-                className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-white/30 ${
-                  collapsed ? "justify-center" : "justify-start"
-                } ${active ? "bg-white/5 text-white" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
-              >
-                {active && (
-                  <motion.span
-                    layoutId="sidebar-active-indicator"
-                    aria-hidden="true"
-                    className="absolute left-0 top-1/2 h-7 w-[3px] -translate-y-1/2 rounded-r-full"
-                    style={{
-                      background: link.glow,
-                      boxShadow: `0 0 12px ${link.glow}, 0 0 24px ${link.glow}66`,
-                    }}
-                    transition={{ type: "spring", stiffness: 320, damping: 28 }}
-                  />
-                )}
-                <motion.span
-                  className="flex h-5 w-5 shrink-0 items-center justify-center"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                  style={{
-                    color: active ? link.glow : undefined,
-                    filter: active
-                      ? `drop-shadow(0 0 8px ${link.glow}aa)`
-                      : undefined,
-                  }}
-                >
-                  <Icon size={20} strokeWidth={1.75} aria-hidden="true" />
-                </motion.span>
-                <AnimatePresence initial={false}>
-                  {!collapsed && (
-                    <motion.span
-                      key="label"
-                      initial={{ opacity: 0, x: -6 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -6 }}
-                      transition={{ duration: 0.16 }}
-                      className={`flex-1 truncate text-sm font-medium ${active ? "font-semibold" : ""}`}
-                    >
-                      {link.label}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                  style={{ boxShadow: `inset 0 0 0 1px ${link.glow}33, 0 0 20px ${link.glow}1a` }}
+      <nav className="flex flex-1 flex-col gap-4 overflow-y-auto px-3 py-2">
+        {SIDEBAR_GROUPS.map((group) => (
+          <div key={group.id}>
+            <p className={`kv-meta px-3 pb-1 ${collapsed ? "md:hidden" : ""}`}>
+              {group.label}
+            </p>
+            <div className="flex flex-col gap-1">
+              {group.items.map((entry) => (
+                <SidebarLink
+                  key={entry.href}
+                  entry={entry}
+                  pathname={pathname}
+                  collapsed={collapsed}
                 />
-              </Link>
-            </motion.div>
-          );
-        })}
-      </motion.nav>
+              ))}
+            </div>
+          </div>
+        ))}
+      </nav>
 
-      {/* Footer: user + collapse + sign out */}
-      <div className="mt-auto border-t border-white/10 px-3 py-3">
-        <div className={`mb-2 flex items-center gap-3 rounded-xl px-2 py-2 ${collapsed ? "justify-center" : ""}`}>
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-300 to-amber-500 text-xs font-bold text-black">
+      <div className="sidebar-user-section px-3 py-3">
+        <div className={`mb-2 flex items-center gap-3 px-2 py-2 ${collapsed ? "md:justify-center" : ""}`}>
+          <div
+            className="kv-chip flex h-8 w-8 shrink-0 items-center justify-center p-0"
+            style={{ color: "var(--kv-text-primary)" }}
+          >
             {initials}
           </div>
-          <AnimatePresence initial={false}>
-            {!collapsed && (
-              <motion.div
-                key="user"
-                initial={{ opacity: 0, x: -6 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -6 }}
-                transition={{ duration: 0.18 }}
-                className="min-w-0 flex-1"
-                style={{ willChange: "transform, opacity" }}
-              >
-                <p className="truncate text-xs font-semibold text-white">{userName}</p>
-                {userEmail && <p className="truncate text-[10px] text-zinc-500">{userEmail}</p>}
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div className={`min-w-0 flex-1 ${collapsed ? "md:hidden" : ""}`}>
+            <p className="kv-row-title truncate">{displayName}</p>
+            {displayEmail ? <p className="kv-row-side truncate">{displayEmail}</p> : null}
+          </div>
         </div>
 
-        <div className={`flex gap-1 ${collapsed ? "flex-col" : ""}`}>
+        <div className={`flex gap-1 ${collapsed ? "md:flex-col" : ""}`}>
           <button
             type="button"
-            onClick={() => setCollapsed((p) => !p)}
-            className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-2.5 py-2 text-xs font-medium text-zinc-300 transition hover:bg-white/10 hover:text-white"
+            onClick={toggleCollapse}
+            className="kv-btn-ghost flex-1 max-md:!hidden"
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {collapsed ? <ChevronRight size={14} aria-hidden="true" /> : <ChevronLeft size={14} aria-hidden="true" />}
-            {!collapsed && <span>Collapse</span>}
+            <span className={collapsed ? "md:hidden" : ""}>Collapse</span>
           </button>
           <button
             type="button"
             onClick={() => void handleSignOut()}
-            className="flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-2.5 py-2 text-xs font-medium text-zinc-300 transition hover:border-red-500/30 hover:bg-red-500/10 hover:text-red-300"
+            className="kv-btn-ghost"
             aria-label="Sign out"
             title="Sign out"
           >
@@ -249,6 +176,10 @@ export default function SidebarGlass() {
           </button>
         </div>
       </div>
-    </motion.aside>
+    </aside>
   );
-}
+});
+
+SidebarGlass.displayName = "SidebarGlass";
+
+export default SidebarGlass;

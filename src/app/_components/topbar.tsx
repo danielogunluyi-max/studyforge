@@ -1,83 +1,76 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Columns2 } from "lucide-react";
-import { useSession } from "next-auth/react";
+import type { Ref } from "react";
 import CommandPalette from "./command-palette";
 import NavTopNav from "./nav-topnav";
+import type { NavStyle } from "~/lib/nav-config";
 
 type TopbarProps = {
   title: string;
-  onToggleSidebar: () => void;
+  navStyle: NavStyle;
+  userName: string | null;
+  userEmail: string | null;
+  onToggleSidebar?: () => void;
+  sidebarOpen?: boolean;
+  menuButtonRef?: Ref<HTMLButtonElement>;
 };
 
 function getInitials(name: string | null | undefined, email: string | null | undefined) {
-  const source = (name?.trim() || email?.trim() || "SF").split(" ");
-  if (source.length >= 2) {
-    return `${source[0]?.[0] ?? "S"}${source[1]?.[0] ?? "F"}`.toUpperCase();
-  }
-  return (source[0]?.slice(0, 2) ?? "SF").toUpperCase();
+  const source = (name?.trim() || email?.trim() || "K").split(" ");
+  if (source.length >= 2) return `${source[0]?.[0] ?? "K"}${source[1]?.[0] ?? ""}`.toUpperCase();
+  return (source[0]?.slice(0, 2) ?? "K").toUpperCase();
 }
 
-export function Topbar({ title, onToggleSidebar }: TopbarProps) {
-  const { data: session } = useSession();
-  const initials = getInitials(session?.user?.name, session?.user?.email);
-  const [navStyle, setNavStyle] = useState('minimal');
-
-  useEffect(() => {
-    setNavStyle(localStorage.getItem('kyvex-nav-style') || 'minimal');
-    const handler = () => {
-      setNavStyle(localStorage.getItem('kyvex-nav-style') || 'minimal');
-    };
-    window.addEventListener('kyvex-nav-changed', handler);
-    return () => window.removeEventListener('kyvex-nav-changed', handler);
-  }, []);
+export function Topbar({ title, navStyle, userName, userEmail, onToggleSidebar, sidebarOpen, menuButtonRef }: TopbarProps) {
+  const initials = getInitials(userName, userEmail);
 
   return (
-    <header className="topbar-shell sticky top-0 z-30 flex h-14 items-center justify-between border-b border-white/10 px-3 md:h-12 md:px-4">
+    <header className="topbar-shell sticky top-0 z-30 flex h-14 items-center justify-between border-b px-3 md:px-4"
+      style={{ background: "var(--bg-surface)", borderColor: "var(--border-default)" }}>
       <div className="flex items-center gap-2.5">
-        <button
-          type="button"
-          onClick={onToggleSidebar}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-[#c0c0d0] transition-colors duration-150 hover:bg-[#1a1a24] md:hidden"
-          aria-label="Toggle sidebar"
-        >
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
-        </button>
-        <p className="text-[15px] font-semibold tracking-tight text-[#e8e8f0]">{title}</p>
+        {onToggleSidebar ? (
+          <button
+            ref={menuButtonRef}
+            type="button"
+            onClick={onToggleSidebar}
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm md:hidden"
+            style={{ color: "var(--kv-text-tertiary)" }}
+            aria-label={sidebarOpen ? "Close menu" : "Open menu"}
+            aria-expanded={sidebarOpen}
+            aria-controls="kyvex-sidebar"
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+          </button>
+        ) : null}
+
+        <nav className="kv-crumb" aria-label="Breadcrumb">
+          <Link href="/dashboard" style={{ color: "inherit" }}>Kyvex</Link>
+          <span aria-hidden> / </span>
+          <b>{title}</b>
+        </nav>
       </div>
 
-      {navStyle === 'topnav' && (
-        <div className="mx-4 hidden flex-1 justify-center overflow-visible md:flex">
-          <NavTopNav />
-        </div>
-      )}
-
       <div className="flex items-center gap-1.5">
-        <button
-          type="button"
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-[#8888a0] transition-colors duration-150 hover:bg-[#1a1a24] hover:text-[#e8e8f0] md:min-h-9 md:min-w-9"
-          aria-label="Notifications"
-        >
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.311 6.022 23.848 23.848 0 005.454 1.31m5.714 0a3 3 0 11-5.714 0" /></svg>
-        </button>
+        {navStyle === "topnav" && (
+          <div className="mx-4 hidden flex-1 justify-center overflow-visible md:flex">
+            <NavTopNav />
+          </div>
+        )}
 
-        <Link
-          href="/split?left=nova&right=notes&focus=1"
-          className="hidden items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-300/15 to-teal-300/15 px-3 py-1.5 text-xs font-semibold text-white/85 ring-1 ring-white/10 transition hover:from-amber-300/25 hover:to-teal-300/25 hover:text-white md:inline-flex"
-          aria-label="Enter focus mode"
-          title="Focus Mode — split view"
-        >
-          <Columns2 className="h-3.5 w-3.5" />
-          <span>Focus</span>
+        <Link href="/focus"
+          className="kv-chip hidden md:inline-flex"
+          style={{ textDecoration: "none" }}>
+          Focus
         </Link>
 
         <CommandPalette />
 
-        <div className="ml-1 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-[#1e1e30] text-xs font-semibold text-white">
+        <Link href="/profile" aria-label="Your profile"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-sm text-xs font-semibold"
+          style={{ background: "var(--bg-active)", color: "var(--kv-text-secondary)" }}>
           {initials}
-        </div>
+        </Link>
       </div>
     </header>
   );

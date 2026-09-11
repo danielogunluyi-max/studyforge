@@ -47,12 +47,42 @@ test.describe('auth redirects', () => {
           response.request().method() === 'POST',
         { timeout: 60_000 },
       ),
-      page.getByRole('button', { name: /sign in/i }).click({ noWaitAfter: true }),
+      page.getByRole('button', { name: /log in/i }).click({ noWaitAfter: true }),
     ])
 
     // After sign-in the user should land on the originally requested page,
     // not the default /dashboard.
     await expect(page).toHaveURL(/\/my-notes/, { timeout: 60_000 })
+    await context.close()
+  })
+
+  test('legacy ?from= query returns to the target after login', async ({ browser }) => {
+    const setup = await browser.newContext()
+    const setupPage = await setup.newPage()
+    const user = createTestUser()
+    await registerUser(setupPage, user)
+    await setup.close()
+
+    const context = await browser.newContext()
+    const page = await context.newPage()
+    await page.addInitScript(() => {
+      window.localStorage.setItem('kyvex-onboarded', '1')
+    })
+
+    await page.goto('/login?from=/citations', { waitUntil: 'domcontentloaded' })
+    await page.locator('input[type="email"]').fill(user.email)
+    await page.locator('input[type="password"]').fill(user.password)
+    await Promise.all([
+      page.waitForResponse(
+        (response) =>
+          response.url().includes('/api/auth/callback/credentials') &&
+          response.request().method() === 'POST',
+        { timeout: 60_000 },
+      ),
+      page.getByRole('button', { name: /log in/i }).click({ noWaitAfter: true }),
+    ])
+
+    await expect(page).toHaveURL(/\/citations/, { timeout: 60_000 })
     await context.close()
   })
 })

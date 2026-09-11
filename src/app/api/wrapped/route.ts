@@ -16,17 +16,17 @@ export async function POST(req: Request) {
   const [notes, cards, exams, feynman, focus, community, wellness, podcasts, flashcardDecks] = await Promise.all([
     prisma.note.findMany({ where: { userId: session.user.id, createdAt: { gte: startDate, lte: endDate } }, select: { subject: true } }),
     prisma.flashcard.count({ where: { deck: { userId: session.user.id, createdAt: { gte: startDate, lte: endDate } } } }),
-    prisma.exam.findMany({ where: { userId: session.user.id, createdAt: { gte: startDate, lte: endDate } }, select: { subject: true, score: true } }),
+    prisma.exam.findMany({ where: { userId: session.user.id, createdAt: { gte: startDate, lte: endDate } }, select: { subject: true, scorePercent: true } }),
     prisma.feynmanSession.count({ where: { userId: session.user.id, createdAt: { gte: startDate, lte: endDate } } }),
-    prisma.focusSession.findMany({ where: { userId: session.user.id, createdAt: { gte: startDate, lte: endDate } }, select: { duration: true } }),
+    prisma.focusSession.findMany({ where: { userId: session.user.id, createdAt: { gte: startDate, lte: endDate } }, select: { durationMins: true } }),
     prisma.communityPost.count({ where: { userId: session.user.id, createdAt: { gte: startDate, lte: endDate } } }),
     prisma.wellnessEntry.findMany({ where: { userId: session.user.id, createdAt: { gte: startDate, lte: endDate } }, select: { mood: true } }),
     prisma.podcast.count({ where: { userId: session.user.id, createdAt: { gte: startDate, lte: endDate } } }),
     prisma.flashcardDeck.count({ where: { userId: session.user.id, createdAt: { gte: startDate, lte: endDate } } }),
   ]);
 
-  const totalHours = focus.reduce((a, f) => a + (f.duration || 0), 0) / 3600;
-  const avgScore = exams.length ? exams.reduce((a, e) => a + (e.score || 0), 0) / exams.length : 0;
+  const totalHours = focus.reduce((a, f) => a + (f.durationMins || 0), 0) / 60;
+  const avgScore = exams.length ? exams.reduce((a, e) => a + (e.scorePercent || 0), 0) / exams.length : 0;
 
   const subjectCounts: Record<string, number> = {};
   notes.forEach((n) => {

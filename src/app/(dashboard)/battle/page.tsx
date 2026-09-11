@@ -20,14 +20,6 @@ type LeaderboardRow = {
   achievements: string[];
 };
 
-type Tournament = {
-  id: string;
-  rounds: Array<{
-    name: string;
-    matches: Array<{ id: string; playerA: string; playerB: string; winner: string | null }>;
-  }>;
-};
-
 type BattleRecord = {
   id: string;
   code: string;
@@ -70,7 +62,6 @@ export default function BattlePage() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [leaderboard, setLeaderboard] = useState<LeaderboardRow[]>([]);
   const [profile, setProfile] = useState<BattleProfile | null>(null);
-  const [tournament, setTournament] = useState<Tournament | null>(null);
 
   const [mode, setMode] = useState<"pvp" | "solo" | "ai">("pvp");
   const [subject, setSubject] = useState("Math");
@@ -87,7 +78,6 @@ export default function BattlePage() {
   const [reactions, setReactions] = useState<string[]>([]);
   const [isCreating, setIsCreating] = useState(false);
   const [isJoiningRoom, setIsJoiningRoom] = useState(false);
-  const [isBuildingBracket, setIsBuildingBracket] = useState(false);
   const [error, setError] = useState("");
   const { showToast } = useToast();
 
@@ -217,26 +207,6 @@ export default function BattlePage() {
     }
   };
 
-  const createTournament = async () => {
-    setIsBuildingBracket(true);
-    setError("");
-    try {
-      const response = await fetch("/api/battle/tournament", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ participants: 8, subject }),
-      });
-      const data = (await response.json()) as { tournament?: Tournament; error?: string };
-      if (!response.ok || !data.tournament) {
-        setError(data.error ?? "Failed to create tournament");
-        return;
-      }
-      setTournament(data.tournament);
-    } finally {
-      setIsBuildingBracket(false);
-    }
-  };
-
   const pushReaction = (emoji: string) => {
     setReactions((prev) => [...prev.slice(-5), emoji]);
   };
@@ -246,7 +216,7 @@ export default function BattlePage() {
       <div className="container mx-auto mb-[100px] max-w-6xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
         <PageHero
           title="Study Battle Arena"
-          description="Real-time duels, solo practice, AI rivals, rooms, and tournament ladders."
+          description="Real-time duels, solo practice, AI rivals, and rooms."
           actions={<Button href="/my-notes" variant="secondary" size="sm" className="btn btn-ghost text-white">Choose Note Source</Button>}
         />
 
@@ -452,31 +422,6 @@ export default function BattlePage() {
                 </div>
               ))}
             </div>
-          </div>
-
-          <div className="card">
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-[20px] font-semibold text-white">Tournament Mode</h2>
-              <Button size="sm" onClick={() => void createTournament()} loading={isBuildingBracket}>
-                Generate Bracket
-              </Button>
-            </div>
-            {!tournament ? (
-              <p className="text-sm text-gray-600">Create a quick elimination bracket and warm up with ranked rounds.</p>
-            ) : (
-              <div className="space-y-3">
-                {tournament.rounds.map((round) => (
-                  <div key={round.name} className="card">
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">{round.name}</p>
-                    <div className="space-y-2 text-sm text-gray-700">
-                      {round.matches.map((match) => (
-                        <p key={match.id}>{match.playerA} vs {match.playerB} {match.winner ? `• Winner: ${match.winner}` : "• Pending"}</p>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </div>
 

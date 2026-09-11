@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { auth } from "~/server/auth";
 import { runHandwritingScan } from "~/server/handwriting-scan";
+import { GROQ_VISION_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 export async function POST(request: Request) {
   try {
@@ -42,9 +43,12 @@ export async function POST(request: Request) {
       confidence: result.confidence,
       illegibleCount: result.illegibleCount,
       passes: result.passes,
-      model: "meta-llama/llama-4-scout-17b-16e-instruct",
+      model: GROQ_VISION_MODEL,
     });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Scan handwritten error:", error);
     return NextResponse.json({ error: "Failed to scan handwritten notes" }, { status: 500 });
   }

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { auth } from "~/server/auth";
 import { prisma } from "@/lib/prisma";
+import { GROQ_VISION_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 /**
  * Phase 3 — Nova Live Vision
@@ -17,7 +18,7 @@ import { prisma } from "@/lib/prisma";
  * so they can be filtered separately from normal tutor chats.
  */
 
-const VISION_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
+const VISION_MODEL = GROQ_VISION_MODEL;
 const NOVA_VISION_SUBJECT = "Nova Vision";
 const MAX_HISTORY = 12;
 const MAX_IMAGE_BYTES = 6 * 1024 * 1024; // 6MB on the wire (Groq vision cap)
@@ -194,6 +195,9 @@ export async function POST(request: Request) {
     });
     assistantText = (completion.choices[0]?.message?.content ?? "").trim();
   } catch (err) {
+    if (isRateLimited(err)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("[nova-vision] Groq call failed:", err);
     const detail = err instanceof Error ? err.message : "Unknown vision error";
     return NextResponse.json(

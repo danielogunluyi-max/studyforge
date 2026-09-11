@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { loginUrlFor } from "~/lib/auth-redirect";
 
 import { useToast } from "~/app/_components/toast";
 import { getGradeColor, percentToLetter } from "~/lib/gradeUtils";
@@ -94,7 +95,7 @@ export default function PhotoQuizPage() {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/login?from=/photo-quiz");
+      router.push(loginUrlFor("/photo-quiz"));
     }
   }, [router, status]);
 

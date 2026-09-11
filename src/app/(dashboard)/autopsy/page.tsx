@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { formatTorontoDate } from '~/lib/toronto-time';
 
 type RootCause = { cause: string; severity: 'high' | 'medium' | 'low' };
 type ActionItem = { action: string; priority: number; timeEstimate: string };
@@ -22,21 +23,6 @@ type AutopsyRecord = {
   totalMarks: number;
   createdAt: string;
 };
-
-const SEVERITY_COLORS: Record<string, string> = {
-  high: '#ef4444',
-  medium: '#f97316',
-  low: '#eab308',
-};
-
-function gradeLabel(pct: number) {
-  if (pct >= 90) return { grade: 'A+', color: '#10b981' };
-  if (pct >= 80) return { grade: 'A', color: '#10b981' };
-  if (pct >= 70) return { grade: 'B', color: '#3b82f6' };
-  if (pct >= 60) return { grade: 'C', color: '#f97316' };
-  if (pct >= 50) return { grade: 'D', color: '#ef4444' };
-  return { grade: 'F', color: '#ef4444' };
-}
 
 export default function AutopsyPage() {
   const [subject, setSubject] = useState('');
@@ -84,277 +70,155 @@ export default function AutopsyPage() {
   }
 
   const pct = score && totalMarks ? Math.round((Number(score) / Number(totalMarks)) * 100) : null;
-  const grade = pct !== null ? gradeLabel(pct) : null;
 
   return (
-    <div style={{ padding: '32px', maxWidth: '860px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '28px' }}>
-        <h1 className="kv-heading-page" style={{ marginBottom: '6px' }}>
-          🔬 Exam Autopsy
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>
+    <main className="kv-page" style={{ padding: '24px 16px 100px' }}>
+      <div style={{ maxWidth: 860, margin: '0 auto' }}>
+        <div className="kv-crumb">Kyvex / <b>Exam Autopsy</b></div>
+        <h1 className="kv-title" style={{ marginTop: 14 }}>Exam Autopsy</h1>
+        <p className="kv-sub" style={{ marginTop: 10 }}>
           Diagnose exactly what went wrong — and build a recovery plan.
         </p>
-      </div>
 
-      {/* Form */}
-      <div className="kv-card" style={{ marginBottom: '28px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '14px', marginBottom: '14px' }}>
+        <p className="kv-meta" style={{ marginTop: 28 }}>Subject</p>
+        <input
+          className="kv-field"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          placeholder="e.g. Biology"
+          style={{ marginTop: 8 }}
+        />
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 16 }}>
           <div>
-            <label className="kv-label">Subject *</label>
+            <p className="kv-meta">Your score</p>
             <input
-              className="kv-input"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="e.g. Biology"
-            />
-          </div>
-          <div>
-            <label className="kv-label">Your Score *</label>
-            <input
-              className="kv-input"
+              className="kv-field num"
               type="number"
               value={score}
               onChange={(e) => setScore(e.target.value)}
               placeholder="e.g. 68"
+              style={{ marginTop: 8 }}
             />
           </div>
           <div>
-            <label className="kv-label">Total Marks *</label>
+            <p className="kv-meta">Total marks</p>
             <input
-              className="kv-input"
+              className="kv-field num"
               type="number"
               value={totalMarks}
               onChange={(e) => setTotalMarks(e.target.value)}
               placeholder="100"
+              style={{ marginTop: 8 }}
             />
           </div>
         </div>
-        <div style={{ marginBottom: '16px' }}>
-          <label className="kv-label">Wrong Answer Areas (optional)</label>
-          <textarea
-            className="kv-input"
-            rows={3}
-            value={wrongAnswers}
-            onChange={(e) => setWrongAnswers(e.target.value)}
-            placeholder="Describe topics you got wrong, e.g. Cell division, Photosynthesis equations..."
-            style={{ resize: 'vertical' }}
-          />
-        </div>
-        {error && <p style={{ color: '#ef4444', fontSize: '13px', marginBottom: '12px' }}>{error}</p>}
-        <button className="kv-btn-primary" onClick={() => void runAutopsy()} disabled={loading}>
-          {loading ? '🔬 Diagnosing your exam performance...' : '🔬 Run Autopsy'}
+        <p className="kv-meta" style={{ marginTop: 16 }}>Wrong answer areas (optional)</p>
+        <textarea
+          className="kv-field"
+          rows={3}
+          value={wrongAnswers}
+          onChange={(e) => setWrongAnswers(e.target.value)}
+          placeholder="Describe topics you got wrong, e.g. Cell division, Photosynthesis equations..."
+          style={{ marginTop: 8, resize: 'vertical' }}
+        />
+        {error ? <p className="kv-meta" style={{ color: '#E5484D', marginTop: 12 }}>{error}</p> : null}
+        <button type="button" className="kv-btn" style={{ marginTop: 16 }} onClick={() => void runAutopsy()} disabled={loading}>
+          {loading ? 'Diagnosing your exam performance...' : 'Run Autopsy'}
         </button>
-      </div>
 
-      {/* Result */}
-      {result && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '32px' }}>
-          {/* Banner */}
-          {pct !== null && grade && (
-            <div
-              style={{
-                padding: '28px 24px',
-                borderRadius: '14px',
-                background: `linear-gradient(135deg, ${grade.color}15, ${grade.color}05)`,
-                border: `1px solid ${grade.color}40`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '24px',
-                flexWrap: 'wrap',
-              }}
-            >
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '52px', fontWeight: 900, color: grade.color, lineHeight: 1 }}>{grade.grade}</div>
-                <div style={{ fontSize: '22px', fontWeight: 700, color: 'var(--text-muted)' }}>{pct}%</div>
-              </div>
-              <div style={{ flex: 1, minWidth: 200 }}>
-                <div style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: '6px' }}>
-                  Overall Diagnosis
-                </div>
-                <p style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.5 }}>
-                  {result.overallDiagnosis}
-                </p>
-              </div>
-            </div>
-          )}
+        {result ? (
+          <div style={{ marginTop: 32 }}>
+            {pct !== null ? (
+              <p className="kv-meta num">{pct}%</p>
+            ) : null}
+            <p className="kv-sub" style={{ marginTop: 10 }}>{result.overallDiagnosis}</p>
 
-          {/* Two columns */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-            {/* Left — What went wrong */}
-            <div className="kv-card">
-              <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#ef4444', marginBottom: '14px' }}>❌ What Went Wrong</h3>
-              {result.weakAreas.length > 0 && (
-                <div style={{ marginBottom: '14px' }}>
-                  <p style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '8px' }}>Weak Areas</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                    {result.weakAreas.map((a) => (
-                      <span
-                        key={a}
-                        style={{ padding: '3px 10px', borderRadius: '99px', background: 'rgba(239,68,68,0.12)', color: '#ef4444', fontSize: '12px', fontWeight: 600 }}
-                      >
-                        {a}
-                      </span>
-                    ))}
+            {result.weakAreas.length > 0 ? (
+              <div style={{ marginTop: 24 }}>
+                <p className="kv-meta">Weak areas</p>
+                {result.weakAreas.map((area) => (
+                  <div key={area} className="kv-row">
+                    <span className="kv-row-title">{area}</span>
                   </div>
-                </div>
-              )}
-              {result.rootCauses.length > 0 && (
-                <div>
-                  <p style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '8px' }}>Root Causes</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    {result.rootCauses.map((rc, i) => (
-                      <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                        <span
-                          style={{
-                            flexShrink: 0,
-                            fontSize: '10px',
-                            fontWeight: 700,
-                            padding: '2px 7px',
-                            borderRadius: '99px',
-                            background: `${SEVERITY_COLORS[rc.severity] ?? '#666'}20`,
-                            color: SEVERITY_COLORS[rc.severity] ?? '#666',
-                            textTransform: 'uppercase',
-                            marginTop: '1px',
-                          }}
-                        >
-                          {rc.severity}
-                        </span>
-                        <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{rc.cause}</span>
+                ))}
+              </div>
+            ) : null}
+
+            {result.strongAreas.length > 0 ? (
+              <div style={{ marginTop: 24 }}>
+                <p className="kv-meta">Strong areas</p>
+                {result.strongAreas.map((area) => (
+                  <div key={area} className="kv-row">
+                    <span className="kv-row-title">{area}</span>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
+            {result.rootCauses.length > 0 ? (
+              <div style={{ marginTop: 24 }}>
+                <p className="kv-meta">Root causes</p>
+                {result.rootCauses.map((rc) => (
+                  <div key={rc.cause} className="kv-row">
+                    <div>
+                      <div className="kv-row-title">{rc.cause}</div>
+                      <div className="kv-row-sub">
+                        <span className="kv-chip">{rc.severity}</span>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Right — What went right */}
-            <div className="kv-card">
-              <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#10b981', marginBottom: '14px' }}>✅ What Went Right</h3>
-              {result.strongAreas.length > 0 && (
-                <div style={{ marginBottom: '14px' }}>
-                  <p style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '8px' }}>Strong Areas</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                    {result.strongAreas.map((a) => (
-                      <span
-                        key={a}
-                        style={{ padding: '3px 10px', borderRadius: '99px', background: 'rgba(16,185,129,0.12)', color: '#10b981', fontSize: '12px', fontWeight: 600 }}
-                      >
-                        {a}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              <div
-                style={{
-                  padding: '12px',
-                  borderRadius: '10px',
-                  background: 'rgba(16,185,129,0.06)',
-                  border: '1px solid rgba(16,185,129,0.15)',
-                  fontSize: '13px',
-                  color: 'var(--text-secondary)',
-                  lineHeight: 1.6,
-                }}
-              >
-                Keep leaning into your strengths while shoring up weak areas. Consistent review beats cramming every time.
-              </div>
-            </div>
-          </div>
-
-          {/* Action Plan */}
-          {result.actionPlan.length > 0 && (
-            <div className="kv-card">
-              <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '14px' }}>📋 Action Plan</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {result.actionPlan.map((item, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <div
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        minWidth: '26px',
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, #f0b429, #2dd4bf)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '12px',
-                        fontWeight: 900,
-                        color: '#0a0a0f',
-                      }}
-                    >
-                      {i + 1}
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '2px' }}>{item.action}</p>
-                      <p style={{ fontSize: '11px', color: 'var(--text-muted)' }}>⏱ {item.timeEstimate}</p>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-          )}
+            ) : null}
 
-          {/* Prevention strategy */}
-          {result.preventionStrategy && (
-            <div className="kv-card-teal">
-              <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#2dd4bf', marginBottom: '8px' }}>🛡️ Prevention Strategy</h3>
-              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{result.preventionStrategy}</p>
-            </div>
-          )}
+            {result.actionPlan.length > 0 ? (
+              <div style={{ marginTop: 24 }}>
+                <p className="kv-meta">Action plan</p>
+                {result.actionPlan.map((item, i) => (
+                  <div key={`${item.action}-${i}`} className="kv-row">
+                    <div>
+                      <div className="kv-row-title">{item.action}</div>
+                      <p className="kv-meta" style={{ marginTop: 4 }}>{item.timeEstimate}</p>
+                    </div>
+                    <span className="kv-meta num">{i + 1}</span>
+                  </div>
+                ))}
+              </div>
+            ) : null}
 
-          {/* Motivational note */}
-          {result.motivationalNote && (
-            <div className="kv-card-gold">
-              <p style={{ fontSize: '14px', color: 'var(--text-secondary)', fontStyle: 'italic', lineHeight: 1.7 }}>
-                ✨ "{result.motivationalNote}"
+            {result.preventionStrategy ? (
+              <div style={{ marginTop: 24 }}>
+                <p className="kv-meta">Prevention</p>
+                <p className="kv-sub" style={{ marginTop: 8 }}>{result.preventionStrategy}</p>
+              </div>
+            ) : null}
+
+            {result.motivationalNote ? (
+              <p className="kv-serif" style={{ marginTop: 24, color: 'var(--kv-text-secondary)', maxWidth: '56ch' }}>
+                {result.motivationalNote}
               </p>
-            </div>
-          )}
-        </div>
-      )}
+            ) : null}
+          </div>
+        ) : null}
 
-      {/* History */}
-      {history.length > 0 && (
-        <div>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '14px' }}>📂 Past Autopsies</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {history.map((a) => {
-              const p = Math.round((a.score / a.totalMarks) * 100);
-              const g = gradeLabel(p);
+        {history.length > 0 ? (
+          <div style={{ marginTop: 32 }}>
+            <p className="kv-meta">Past autopsies</p>
+            {history.map((record) => {
+              const p = Math.round((record.score / record.totalMarks) * 100);
               return (
-                <div key={a.id} className="kv-card" style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                  <div
-                    style={{
-                      width: '44px',
-                      height: '44px',
-                      minWidth: '44px',
-                      borderRadius: '10px',
-                      background: `${g.color}15`,
-                      border: `1px solid ${g.color}40`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '15px',
-                      fontWeight: 900,
-                      color: g.color,
-                    }}
-                  >
-                    {g.grade}
+                <div key={record.id} className="kv-row">
+                  <div>
+                    <div className="kv-row-title">{record.subject}</div>
+                    <p className="kv-meta" style={{ marginTop: 4 }}>{formatTorontoDate(record.createdAt)}</p>
                   </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '2px', textTransform: 'capitalize' }}>{a.subject}</p>
-                    <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                      {a.score}/{a.totalMarks} ({p}%) · {new Date(a.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
+                  <span className="kv-meta num">{record.score}/{record.totalMarks} · {p}%</span>
                 </div>
               );
             })}
           </div>
-        </div>
-      )}
-    </div>
+        ) : null}
+      </div>
+    </main>
   );
 }

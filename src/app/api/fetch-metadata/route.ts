@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type AuthorFallback = {
   author?: string;
@@ -159,6 +159,9 @@ Return ONLY valid JSON, no other text:
       },
     });
   } catch (err) {
+    if (isRateLimited(err)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("fetch-metadata route error:", err);
     return NextResponse.json({ error: "Failed to fetch metadata" }, { status: 500 });
   }

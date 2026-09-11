@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '~/server/auth';
-import { extractJsonBlock, runGroqPrompt } from '~/server/groq';
+import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from '~/server/groq';
 
 type ImportedFlashcard = {
   question?: string;
@@ -144,6 +144,9 @@ Respond ONLY in JSON:
       cardCount: deck.cards.length,
     });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error('Classroom import failed:', error);
     return NextResponse.json({ error: 'Import failed' }, { status: 500 });
   }

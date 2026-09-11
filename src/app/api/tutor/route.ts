@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
-import { runGroqPrompt } from "~/server/groq";
+import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 import { buildStudentContext, studentContextToPrompt, proactiveHook } from "~/server/tutor-context";
 import { prisma } from "@/lib/prisma";
@@ -152,6 +152,9 @@ export async function POST(request: Request) {
         maxTokens: 1400,
       });
     } catch (groqErr) {
+      if (isRateLimited(groqErr)) {
+        return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+      }
       console.error("[tutor] Groq call failed:", groqErr);
       const detail = groqErr instanceof Error ? groqErr.message : "Unknown Groq error";
       return NextResponse.json(

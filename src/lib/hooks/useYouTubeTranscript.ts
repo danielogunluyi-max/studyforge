@@ -17,6 +17,8 @@ type TranscriptResult = {
   transcriptPreview: string;
   transcript?: string;
   notes?: string;
+  noteId?: string | null;
+  importId?: string | null;
 };
 
 type UseYouTubeTranscriptState = {
@@ -33,7 +35,7 @@ const YT_ID_PATTERNS: RegExp[] = [
   /youtube\.com\/live\/([a-zA-Z0-9_-]{11})/,
 ];
 
-function extractVideoId(input: string): string | null {
+export function extractYouTubeVideoId(input: string): string | null {
   const trimmed = input.trim();
   if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed;
   for (const re of YT_ID_PATTERNS) {
@@ -52,7 +54,7 @@ export function useYouTubeTranscript() {
 
   const fetchTranscript = useCallback(
     async (url: string, options?: { subject?: string; curriculumCode?: string }) => {
-      const videoId = extractVideoId(url);
+      const videoId = extractYouTubeVideoId(url);
       if (!videoId) {
         setState({ loading: false, error: "Invalid YouTube URL", result: null });
         return null;
@@ -93,9 +95,14 @@ export function useYouTubeTranscript() {
     setState({ loading: false, error: null, result: null });
   }, []);
 
+  const applyResult = useCallback((next: TranscriptResult | null) => {
+    setState({ loading: false, error: null, result: next });
+  }, []);
+
   return {
     ...state,
     fetchTranscript,
     reset,
+    applyResult,
   };
 }

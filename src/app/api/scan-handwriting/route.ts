@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { runHandwritingScan } from "~/server/handwriting-scan";
+import { isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 type ScanRequestBody = {
   imageBase64?: string;
@@ -71,6 +72,9 @@ export async function POST(req: NextRequest) {
       wordCount,
     });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Scan handwriting POST error:", error);
     return NextResponse.json({ error: "Failed to scan handwritten notes" }, { status: 500 });
   }

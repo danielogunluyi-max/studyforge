@@ -1,262 +1,650 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useMemo, useState } from 'react';
-import { SendToPanel } from '~/app/_components/send-to-panel';
+import Link from "next/link";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { OntarioCourseField, subjectFromCourseCode } from "~/app/_components/ontario-course-field";
+import { InboxClassroom } from "~/app/_components/inbox-classroom";
+import { InboxLecture } from "~/app/_components/inbox-lecture";
+import { InboxQuizlet } from "~/app/_components/inbox-quizlet";
+import { InboxRecord } from "~/app/_components/inbox-record";
+import {
+  countWords,
+  detectInboxInput,
+  formatCount,
+  sniffPdfPageCount,
+  type InboxDetection,
+  type InboxKind,
+} from "~/lib/inbox-detect";
+import { inboxHref, parseInboxTab, type InboxTab } from "~/lib/inbox-tab";
+import { extractYouTubeVideoId, useYouTubeTranscript } from "~/lib/hooks/useYouTubeTranscript";
+import { preprocessHandwritingImage } from "~/lib/imagePreprocessor";
+import { formatTorontoDateTime } from "~/lib/toronto-time";
 
-type SmartUploadResult = {
-  title?: string;
-  notes?: string;
-  flashcards?: Array<{ question?: string; answer?: string }>;
-  quiz?: Array<{ question?: string; options?: string[]; answer?: string; explanation?: string }>;
-  summary?: string;
-  keyTerms?: string[];
-  noteId?: string;
-  deckId?: string;
-  counts?: { flashcards?: number; quizQuestions?: number };
+type Preview = {
+  title: string;
+  notes: string;
+  noteId?: string | null;
+  kind: InboxKind;
 };
 
-const STAGES = [
-  'Reading your file...',
-  'Extracting content...',
-  'Generating notes...',
-  'Creating flashcards...',
-  'Building quiz...',
-  'Done! ✅',
-] as const;
+type HistoryItem = {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  tags?: string[];
+};
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+const TABS: { id: InboxTab; label: string }[] = [
+  { id: "inbox", label: "Inbox" },
+  { id: "record", label: "Record" },
+  { id: "lecture", label: "Lecture" },
+  { id: "classroom", label: "Classroom" },
+  { id: "quizlet", label: "Quizlet" },
+];
+
+function courseChipFromTags(tags: string[] | undefined): string | null {
+  if (!tags?.length) return null;
+  const code = tags.find((tag) => /^[A-Z]{3,4}\d[A-Z]$/i.test(tag.trim()));
+  return code ? code.trim().toUpperCase() : null;
 }
 
-function fileToBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const value = String(reader.result || '');
-      resolve(value.split(',')[1] || '');
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
+const ACCEPT = "application/pdf,image/*,audio/*";
+
+async function structureNotes(transcript: string, subject: string): Promise<{ title: string; content: string }> {
+  const res = await fetch("/api/audio-to-notes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      transcript,
+      subject: subject.trim() || "General",
+      noteType: "detailed",
+    }),
   });
+  const data = (await res.json().catch(() => ({}))) as { title?: string; content?: string; error?: string };
+  if (!res.ok) throw new Error(data.error ?? "Could not turn that into notes.");
+  const content = String(data.content ?? "").trim();
+  if (!content) throw new Error("No notes came back. Try a clearer file.");
+  return { title: String(data.title ?? "Study notes").trim() || "Study notes", content };
 }
 
-export default function SmartUploadPage() {
+export default function InboxPage() {
+  const { loading: youtubeLoading, error: youtubeHookError, result: youtubeResult, fetchTranscript, reset } =
+    useYouTubeTranscript();
+
+  const [tab, setTab] = useState<InboxTab>("inbox");
   const [file, setFile] = useState<File | null>(null);
-  const [subject, setSubject] = useState('');
+  const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [pastedText, setPastedText] = useState("");
+  const [curriculumCode, setCurriculumCode] = useState("");
   const [dragging, setDragging] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [stageIndex, setStageIndex] = useState(0);
-  const [result, setResult] = useState<SmartUploadResult | null>(null);
-  const [error, setError] = useState('');
+  const [detection, setDetection] = useState<InboxDetection | null>(null);
+  const [status, setStatus] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [preview, setPreview] = useState<Preview | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
 
-  const [quizChoice, setQuizChoice] = useState('');
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const subject = subjectFromCourseCode(curriculumCode);
 
-  const firstQuiz = result?.quiz?.[0];
-  const quizCorrect = quizSubmitted && firstQuiz ? quizChoice === firstQuiz.answer : false;
-
-  const notesPreview = useMemo(() => (result?.notes || '').slice(0, 200), [result?.notes]);
-
-  async function runStages() {
-    setStageIndex(0);
-    await delay(500);
-    setStageIndex(1);
-    await delay(1000);
-    setStageIndex(2);
-    await delay(1000);
-    setStageIndex(3);
-    await delay(1000);
-    setStageIndex(4);
-    await delay(500);
-  }
-
-  async function generateEverything() {
-    if (!file) return;
-    setLoading(true);
-    setError('');
-    setResult(null);
-    setQuizChoice('');
-    setQuizSubmitted(false);
-
+  const loadHistory = useCallback(async () => {
     try {
-      const [fileBase64] = await Promise.all([fileToBase64(file), runStages()]);
-      const res = await fetch('/api/smart-upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fileBase64,
-          mediaType: file.type,
-          fileName: file.name,
-          subject,
-        }),
-      });
+      const res = await fetch("/api/notes?tag=Inbox&limit=20");
+      const data = (await res.json().catch(() => ({}))) as { notes?: HistoryItem[] };
+      if (res.ok) setHistory(data.notes ?? []);
+    } catch {
+      // History is optional.
+    }
+  }, []);
 
-      const data = (await res.json().catch(() => ({}))) as SmartUploadResult & { error?: string };
-      if (!res.ok) {
-        setError(data.error ?? 'SmartUpload failed');
+  useEffect(() => {
+    void loadHistory();
+  }, [loadHistory]);
+
+  useEffect(() => {
+    setTab(parseInboxTab(new URLSearchParams(window.location.search).get("tab")));
+  }, []);
+
+  const selectTab = (next: InboxTab) => {
+    setTab(next);
+    window.history.replaceState(null, "", inboxHref(next));
+  };
+
+  const showDetection = useCallback(
+    async (next: { file?: File | null; youtubeUrl?: string; pastedText?: string }) => {
+      let pdfPages: number | null = null;
+      const nextFile = next.file ?? null;
+      if (nextFile && (nextFile.type === "application/pdf" || nextFile.name.toLowerCase().endsWith(".pdf"))) {
+        pdfPages = await sniffPdfPageCount(nextFile);
+      }
+      const found = detectInboxInput({
+        file: nextFile,
+        youtubeUrl: next.youtubeUrl,
+        pastedText: next.pastedText,
+        pdfPages,
+      });
+      setDetection(found);
+      return found;
+    },
+    [],
+  );
+
+  const resetWork = () => {
+    setError("");
+    setStatus("");
+    setPreview(null);
+    reset();
+  };
+
+  const runYoutube = async (url: string) => {
+    setBusy(true);
+    setError("");
+    setPreview(null);
+    setStatus("Fetching captions and writing notes…");
+    try {
+      const imported = await fetchTranscript(url, {
+        subject,
+        curriculumCode: curriculumCode.trim() || undefined,
+      });
+      if (!imported?.notes) {
         return;
       }
-      setStageIndex(5);
-      setResult(data);
-    } catch {
-      setError('SmartUpload failed');
+      setPreview({
+        title: imported.title || "YouTube lecture",
+        notes: imported.notes,
+        noteId: imported.noteId ?? null,
+        kind: "youtube",
+      });
+      if (imported.noteId) void loadHistory();
     } finally {
-      setLoading(false);
+      setBusy(false);
+      setStatus("");
     }
-  }
+  };
 
-  function onDropFile(nextFile: File | null) {
-    if (!nextFile) return;
-    const isPdf = nextFile.type === 'application/pdf';
-    const isImage = nextFile.type.startsWith('image/');
-    if (!isPdf && !isImage) {
-      setError('Only PDF or image files are supported');
+  const runFile = async (nextFile: File, found: InboxDetection) => {
+    setBusy(true);
+    setError("");
+    setPreview(null);
+    try {
+      if (found.kind === "pdf") {
+        setStatus("Extracting text from the PDF…");
+        const form = new FormData();
+        form.append("file", nextFile);
+        const res = await fetch("/api/extract-pdf", { method: "POST", body: form });
+        const data = (await res.json().catch(() => ({}))) as {
+          text?: string;
+          pageCount?: number;
+          error?: string;
+        };
+        if (!res.ok || !data.text?.trim()) {
+          throw new Error(data.error ?? "Couldn't read that PDF.");
+        }
+        if (typeof data.pageCount === "number" && data.pageCount > 0) {
+          setDetection({ kind: "pdf", label: `PDF · ${data.pageCount} pages` });
+        }
+        setStatus("Turning the PDF into study notes…");
+        const structured = await structureNotes(data.text, subject);
+        setPreview({ title: structured.title, notes: structured.content, kind: "pdf" });
+        return;
+      }
+
+      if (found.kind === "image") {
+        setStatus("Running handwriting OCR…");
+        const processed = await preprocessHandwritingImage(nextFile);
+        const res = await fetch("/api/scan-handwriting", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            imageBase64: processed.base64,
+            mimeType: processed.mimeType,
+            subject,
+          }),
+        });
+        const data = (await res.json().catch(() => ({}))) as { text?: string; error?: string };
+        if (!res.ok || !data.text?.trim()) {
+          throw new Error(data.error ?? "No readable handwriting in that photo.");
+        }
+        const ocr = data.text.trim();
+        if (countWords(ocr) >= 40) {
+          setStatus("Turning the scan into study notes…");
+          const structured = await structureNotes(ocr, subject);
+          setPreview({ title: structured.title, notes: structured.content, kind: "image" });
+        } else {
+          setPreview({
+            title: nextFile.name.replace(/\.[^.]+$/, "") || "Scanned notes",
+            notes: ocr,
+            kind: "image",
+          });
+        }
+        return;
+      }
+
+      if (found.kind === "audio") {
+        setStatus("Transcribing audio…");
+        const form = new FormData();
+        form.append("audio", nextFile);
+        const res = await fetch("/api/transcribe", { method: "POST", body: form });
+        const data = (await res.json().catch(() => ({}))) as { transcript?: string; error?: string };
+        if (!res.ok || !data.transcript?.trim()) {
+          throw new Error(data.error ?? "Couldn't transcribe that recording.");
+        }
+        setStatus("Turning the transcript into study notes…");
+        const structured = await structureNotes(data.transcript, subject);
+        setPreview({ title: structured.title, notes: structured.content, kind: "audio" });
+        return;
+      }
+
+      throw new Error("Couldn't tell what that file was. Try a PDF, photo, or recording.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Import failed.");
+      setPreview(null);
+    } finally {
+      setBusy(false);
+      setStatus("");
+    }
+  };
+
+  const runText = async (text: string, found: InboxDetection) => {
+    if (found.kind === "youtube") {
+      setYoutubeUrl(text.trim());
+      await runYoutube(text.trim());
       return;
     }
-    setError('');
+    if (found.kind === "quizlet") {
+      setPastedText(text);
+      setError("");
+      setPreview(null);
+      return;
+    }
+    setBusy(true);
+    setError("");
+    setPreview(null);
+    setStatus("Preparing your notes…");
+    try {
+      const trimmed = text.trim();
+      const title = trimmed.split(/\n/)[0]?.slice(0, 80).trim() || "Pasted notes";
+      setPreview({ title, notes: trimmed, kind: "text" });
+    } finally {
+      setBusy(false);
+      setStatus("");
+    }
+  };
+
+  const ingestDetected = async (
+    found: InboxDetection | null,
+    payload: { file?: File | null; youtubeUrl?: string; pastedText?: string },
+  ) => {
+    if (!found) {
+      setError("Couldn't tell what that was. Drop a PDF, photo, recording, YouTube link, or paste your notes.");
+      setPreview(null);
+      return;
+    }
+    setError("");
+    if (payload.file && (found.kind === "pdf" || found.kind === "image" || found.kind === "audio")) {
+      await runFile(payload.file, found);
+      return;
+    }
+    const text = (payload.pastedText || payload.youtubeUrl || "").trim();
+    if (found.kind === "youtube" && text) {
+      await runYoutube(text);
+      return;
+    }
+    if (text) {
+      await runText(text, found);
+    }
+  };
+
+  const onPickFile = async (nextFile: File | null) => {
+    if (!nextFile) return;
+    resetWork();
     setFile(nextFile);
-  }
+    setPastedText("");
+    const found = await showDetection({ file: nextFile, youtubeUrl, pastedText: "" });
+    await ingestDetected(found, { file: nextFile, youtubeUrl });
+  };
+
+  const onPasteYoutube = async () => {
+    resetWork();
+    const found = await showDetection({ file: null, youtubeUrl, pastedText });
+    if (!found || found.kind !== "youtube") {
+      setError("That doesn't look like a YouTube link.");
+      return;
+    }
+    await ingestDetected(found, { youtubeUrl });
+  };
+
+  const saveToNotes = async () => {
+    if (!preview?.notes) return;
+    setSaving(true);
+    setError("");
+    try {
+      const tags = ["Inbox", subject, curriculumCode.trim().toUpperCase()].filter(
+        (tag) => tag && tag !== "General",
+      );
+      const res = await fetch("/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: preview.title,
+          content: preview.notes,
+          format: "detailed",
+          tags,
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { note?: { id?: string }; error?: string };
+      if (!res.ok || !data.note?.id) {
+        setError(data.error ?? "Could not save to My Notes.");
+        return;
+      }
+      setPreview({ ...preview, noteId: data.note.id });
+      void loadHistory();
+    } catch {
+      setError("Could not save to My Notes.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const openHistoryItem = (item: HistoryItem) => {
+    selectTab("inbox");
+    setPreview({ title: item.title, notes: item.content, noteId: item.id, kind: "text" });
+    setDetection({ kind: "text", label: "Inbox note" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const savedId = preview?.noteId ?? youtubeResult?.noteId ?? null;
+  const notesText = preview?.notes ?? "";
+  const displayError = error || (youtubeHookError && youtubeHookError !== "Unauthorized" ? youtubeHookError : "");
+  const loading = busy || youtubeLoading;
+
+  const wordHint = useMemo(() => {
+    if (!notesText) return "";
+    return `${formatCount(countWords(notesText))} words`;
+  }, [notesText]);
 
   return (
-    <main className="kv-page">
-      <section className="kv-section">
-        <h1 className="kv-title">SmartUpload ⚡</h1>
-        <p className="kv-subtitle">Upload anything. Get notes + flashcards + quiz instantly.</p>
+    <main>
+      <div className="kv-crumb">Kyvex / <b>Inbox</b></div>
+      <h1 className="kv-title" style={{ marginTop: 14 }}>Inbox</h1>
+      <p className="kv-sub" style={{ marginTop: 10 }}>
+        Tonight&apos;s homework, in <span className="kv-serif">one step.</span>
+      </p>
 
-        <div
-          className="kv-card mt-5"
-          style={{
-            border: dragging ? '2px dashed var(--accent-blue)' : '2px dashed var(--border-default)',
-            minHeight: 220,
-            display: 'grid',
-            placeItems: 'center',
-            textAlign: 'center',
-          }}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragging(true);
-          }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={(e) => {
-            e.preventDefault();
-            setDragging(false);
-            onDropFile(e.dataTransfer.files?.[0] ?? null);
-          }}
-        >
-          <div>
-            <p className="mb-2 text-lg font-semibold">Drop PDF or image here</p>
-            <p className="mb-3 text-sm text-[var(--text-muted)]">📄 PDF · 🖼️ Image · ✍️ Handwriting</p>
+      <nav className="kv-tabs" aria-label="Inbox tools" style={{ marginTop: 22 }}>
+        {TABS.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            className={tab === item.id ? "kv-tab on" : "kv-tab"}
+            onClick={() => selectTab(item.id)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </nav>
+
+      {tab === "record" ? <InboxRecord /> : null}
+      {tab === "lecture" ? <InboxLecture /> : null}
+      {tab === "classroom" ? <InboxClassroom /> : null}
+      {tab === "quizlet" ? <InboxQuizlet /> : null}
+
+      {tab === "inbox" ? (
+      <>
+      <section
+        className={`kv-card kv-dropzone${dragging ? " is-drag" : ""}`}
+        tabIndex={0}
+        style={{ marginTop: 18, padding: "28px 20px" }}
+        onDragOver={(event) => {
+          event.preventDefault();
+          setDragging(true);
+        }}
+        onDragLeave={() => setDragging(false)}
+        onDrop={(event) => {
+          event.preventDefault();
+          setDragging(false);
+          void onPickFile(event.dataTransfer.files?.[0] ?? null);
+        }}
+        onPaste={(event) => {
+          const target = event.target as HTMLElement | null;
+          if (target?.closest("input, textarea, select")) return;
+          const pastedFile = event.clipboardData?.files?.[0] ?? null;
+          if (pastedFile) {
+            event.preventDefault();
+            void onPickFile(pastedFile);
+            return;
+          }
+          const text = event.clipboardData?.getData("text")?.trim() ?? "";
+          if (!text) return;
+          event.preventDefault();
+          setFile(null);
+          if (extractYouTubeVideoId(text)) {
+            setYoutubeUrl(text);
+            setPastedText("");
+            void (async () => {
+              const found = await showDetection({ file: null, youtubeUrl: text, pastedText: "" });
+              await ingestDetected(found, { youtubeUrl: text });
+            })();
+            return;
+          }
+          setPastedText(text);
+          void (async () => {
+            const found = await showDetection({ file: null, youtubeUrl: "", pastedText: text });
+            await ingestDetected(found, { pastedText: text });
+          })();
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <p style={{ margin: 0, fontSize: 15, fontWeight: 600, color: "var(--kv-text-primary)" }}>
+            Drop tonight&apos;s homework here
+          </p>
+          <p className="kv-meta" style={{ marginTop: 8 }}>Photo · PDF · Recording · YouTube link</p>
+          <input
+            type="file"
+            accept={ACCEPT}
+            className="kv-field"
+            disabled={loading}
+            onChange={(event) => {
+              const picked = event.target.files?.[0] ?? null;
+              event.target.value = "";
+              void onPickFile(picked);
+            }}
+            style={{ marginTop: 14, maxWidth: 360 }}
+          />
+          {file ? (
+            <p className="kv-meta" style={{ marginTop: 10 }}>{file.name}</p>
+          ) : null}
+        </div>
+      </section>
+
+      <div
+        style={{
+          display: "grid",
+          gap: 14,
+          marginTop: 18,
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          alignItems: "start",
+        }}
+      >
+        <div>
+          <label htmlFor="inbox-youtube" className="kv-meta" style={{ display: "block", marginBottom: 8 }}>
+            Paste a YouTube link
+          </label>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <input
-              type="file"
-              accept="application/pdf,image/*"
-              onChange={(e) => onDropFile(e.target.files?.[0] ?? null)}
-              className="kv-input"
+              id="inbox-youtube"
+              className="kv-field"
+              value={youtubeUrl}
+              onChange={(event) => {
+                setYoutubeUrl(event.target.value);
+                void showDetection({ file: null, youtubeUrl: event.target.value, pastedText });
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") void onPasteYoutube();
+              }}
+              placeholder="https://www.youtube.com/watch?v=…"
+              autoComplete="off"
+              style={{ flex: 1, minWidth: 180 }}
             />
-            {file && <p className="mt-2 text-sm text-[var(--text-secondary)]">Selected: {file.name}</p>}
+            <button type="button" className="kv-btn-ghost" onClick={() => void onPasteYoutube()} disabled={loading || !youtubeUrl.trim()}>
+              {loading && detection?.kind === "youtube" ? "Importing…" : "Import"}
+            </button>
           </div>
         </div>
 
-        <div className="kv-card mt-4">
-          <input
-            className="kv-input mb-3"
-            placeholder="Subject (optional)"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-          />
-          <button className="kv-btn-primary" disabled={!file || loading} onClick={() => void generateEverything()}>
-            {loading ? STAGES[stageIndex] : 'Generate Everything'}
-          </button>
-          {loading && <p className="mt-2 text-sm text-[var(--text-muted)]">{STAGES[stageIndex]}</p>}
-          {error && <p className="mt-2 text-sm text-red-300">{error}</p>}
+        <OntarioCourseField value={curriculumCode} onChange={setCurriculumCode} id="inbox-ontario-courses" />
+      </div>
+
+      {detection ? (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 16 }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <span className="dot" />
+            <span className="kv-meta">{detection.label}</span>
+          </span>
+          {curriculumCode.trim() ? (
+            <span className="kv-chip kv-chip-course">{curriculumCode.trim().toUpperCase()}</span>
+          ) : null}
         </div>
+      ) : null}
 
-        {result && (
-          <>
-            <section className="kv-grid-3 mt-5" style={{ alignItems: 'start' }}>
-              <article className="kv-card-gold">
-                <h3 className="mb-2 text-lg font-bold">📝 Study Notes</h3>
-                <p className="mb-2 font-semibold">{result.title || 'Generated notes'}</p>
-                <p className="mb-2 text-sm text-[var(--text-secondary)]">{notesPreview}{(result.notes || '').length > 200 ? '...' : ''}</p>
-                <span className="kv-badge kv-badge-gold">{result.counts?.flashcards || result.flashcards?.length || 0} cards</span>
-                <div className="mt-3">
-                  <Link href="/my-notes" className="kv-btn-secondary">Open Notes →</Link>
-                </div>
-              </article>
+      {status ? (
+        <p className="kv-sub" style={{ margin: "12px 0 0" }}>{status}</p>
+      ) : null}
 
-              <article className="kv-card-teal">
-                <h3 className="mb-2 text-lg font-bold">🃏 Flashcard Deck</h3>
-                <p className="mb-2 text-sm">{result.counts?.flashcards || result.flashcards?.length || 0} cards created</p>
-                <div className="mb-3 space-y-2 text-sm">
-                  {(result.flashcards || []).slice(0, 2).map((item, index) => (
-                    <div key={`fc-${index}`} className="kv-card-sm">
-                      <p><strong>Q:</strong> {item.question}</p>
-                      <p><strong>A:</strong> {item.answer}</p>
-                    </div>
-                  ))}
-                </div>
-                {result.deckId ? (
-                  <Link href={`/flashcards/${result.deckId}/study`} className="kv-btn-secondary">Study Now →</Link>
-                ) : (
-                  <button className="kv-btn-secondary" disabled>Study Now →</button>
-                )}
-              </article>
+      {detection?.kind === "quizlet" ? (
+        <p className="kv-sub" style={{ margin: "12px 0 0" }}>
+          That looks like Quizlet-style Q/A pairs.{" "}
+          <button
+            type="button"
+            className="kv-btn-ghost"
+            style={{ display: "inline-flex", marginLeft: 6 }}
+            onClick={() => selectTab("quizlet")}
+          >
+            Open Quizlet import
+          </button>
+        </p>
+      ) : null}
 
-              <article className="kv-card">
-                <h3 className="mb-2 text-lg font-bold">🧠 Practice Quiz</h3>
-                <p className="mb-2 text-sm">{result.counts?.quizQuestions || result.quiz?.length || 0} questions</p>
-                {firstQuiz ? (
+      {displayError ? (
+        <p role="alert" style={{ margin: "12px 0 0", color: "var(--kv-text-primary)", display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+          <span className="kv-chip kv-chip-stale">Error</span>
+          {displayError}
+        </p>
+      ) : null}
+
+      {preview ? (
+        <section className="kv-card" style={{ marginTop: 16, boxShadow: "none", backdropFilter: "none" }}>
+          <p className="kv-meta">Structured notes</p>
+          <h2 className="kv-row-title" style={{ marginTop: 10, marginBottom: 6, fontSize: 22 }}>{preview.title}</h2>
+          {wordHint ? (
+            <p className="kv-meta num" style={{ margin: 0 }}>{wordHint}</p>
+          ) : null}
+
+          {savedId ? (
+            <p className="kv-meta" style={{ marginTop: 12, color: "var(--kv-accent-text)" }}>
+              Saved to My Notes
+              {curriculumCode ? ` · ${curriculumCode.trim().toUpperCase()}` : ""}
+            </p>
+          ) : (
+            <button
+              type="button"
+              className="kv-btn"
+              style={{ marginTop: 14 }}
+              onClick={() => void saveToNotes()}
+              disabled={saving || !preview.notes}
+            >
+              {saving ? "Saving…" : "Save to My Notes →"}
+            </button>
+          )}
+
+          {savedId ? (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 8, marginTop: 16 }}>
+              <Link
+                href={`/flashcards?generateFrom=${encodeURIComponent(savedId)}`}
+                className="kv-btn-ghost"
+                style={{ justifyContent: "center" }}
+              >
+                Make flashcards
+              </Link>
+              <Link
+                href={`/mock-exam?noteId=${encodeURIComponent(savedId)}`}
+                className="kv-btn-ghost"
+                style={{ justifyContent: "center" }}
+              >
+                Mock exam
+              </Link>
+              <Link
+                href={`/tutor?noteId=${encodeURIComponent(savedId)}`}
+                className="kv-btn-ghost"
+                style={{ justifyContent: "center" }}
+              >
+                Ask Nova
+              </Link>
+            </div>
+          ) : null}
+
+          {savedId ? (
+            <Link
+              href={`/listen/${encodeURIComponent(savedId)}`}
+              className="kv-btn-ghost"
+              style={{ marginTop: 8, display: "inline-flex" }}
+            >
+              Listen
+            </Link>
+          ) : null}
+
+          <pre
+            style={{
+              marginTop: 16,
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+              fontFamily: "inherit",
+              fontSize: 14,
+              lineHeight: 1.7,
+              color: "var(--kv-text-secondary)",
+            }}
+          >
+            {preview.notes}
+          </pre>
+        </section>
+      ) : null}
+      </>
+      ) : null}
+
+      <section style={{ marginTop: 28 }}>
+        <p className="kv-meta">Recent imports</p>
+        {history.length === 0 ? (
+          <p className="kv-sub" style={{ marginTop: 12 }}>
+            Nothing saved from Inbox yet. Saved notes tagged Inbox show up here.
+          </p>
+        ) : (
+          <div>
+            {history.map((item) => {
+              const course = courseChipFromTags(item.tags);
+              return (
+                <Link
+                  key={item.id}
+                  href={`/my-notes?note=${encodeURIComponent(item.id)}`}
+                  className="kv-row"
+                  onClick={(event) => {
+                    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                    event.preventDefault();
+                    openHistoryItem(item);
+                  }}
+                >
                   <div>
-                    <p className="mb-2 text-sm font-semibold">{firstQuiz.question}</p>
-                    <div className="space-y-2">
-                      {(firstQuiz.options || []).map((option) => (
-                        <button
-                          key={option}
-                          type="button"
-                          className={`kv-tab w-full text-left ${quizChoice === option ? 'active' : ''}`}
-                          onClick={() => setQuizChoice(option)}
-                        >
-                          {option}
-                        </button>
-                      ))}
+                    <div className="kv-row-title">{item.title}</div>
+                    <div className="kv-row-sub">
+                      {course ? <span className="kv-chip kv-chip-course">{course}</span> : null}
+                      <span className="kv-chip">Inbox</span>
                     </div>
-                    <button
-                      className="kv-btn-primary mt-3"
-                      disabled={!quizChoice || quizSubmitted}
-                      onClick={() => setQuizSubmitted(true)}
-                    >
-                      Submit Answer
-                    </button>
-                    {quizSubmitted && (
-                      <p className="mt-2 text-sm">
-                        Score: {quizCorrect ? '1/1 ✅' : '0/1'}
-                      </p>
-                    )}
                   </div>
-                ) : (
-                  <p className="text-sm text-[var(--text-muted)]">No quiz generated.</p>
-                )}
-                <button className="kv-btn-secondary mt-3">Full Quiz →</button>
-              </article>
-            </section>
-
-            <div className="mt-4 flex flex-wrap gap-2">
-              {(result.keyTerms || []).map((term) => (
-                <span key={term} className="kv-badge kv-badge-blue">{term}</span>
-              ))}
-            </div>
-
-            <div className="kv-card-elevated mt-4 italic">{result.summary}</div>
-
-            <div className="mt-4">
-              <SendToPanel
-                contentType="note"
-                contentId={result.noteId}
-                title={result.title || 'Generated notes'}
-                content={result.notes || result.summary || ''}
-              />
-            </div>
-          </>
+                  <span className="kv-row-side num">{formatTorontoDateTime(item.createdAt)}</span>
+                </Link>
+              );
+            })}
+          </div>
         )}
       </section>
     </main>

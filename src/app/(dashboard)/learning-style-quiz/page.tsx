@@ -156,7 +156,7 @@ const STYLE_THEME: Record<
     bestFeatures: [
       { label: "Concept Web Builder", href: "/concept-web" },
       { label: "AI Generator", href: "/generator" },
-      { label: "Upload + Transform", href: "/upload" },
+      { label: "Upload + Transform", href: "/smart-upload" },
     ],
     avoid: "Avoid text-only cram sessions without visuals.",
     toolkit: [

@@ -43,6 +43,22 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      { source: "/voice-tutor", destination: "/tutor?mode=voice", permanent: false },
+      { source: "/dashboard/nova-vision", destination: "/tutor?mode=vision", permanent: false },
+      { source: "/nova-live", destination: "/tutor?mode=vision", permanent: false },
+      { source: "/upload", destination: "/smart-upload", permanent: false },
+      { source: "/scan", destination: "/smart-upload", permanent: false },
+      { source: "/handwriting", destination: "/smart-upload", permanent: false },
+      { source: "/youtube-import", destination: "/smart-upload", permanent: false },
+      { source: "/audio", destination: "/smart-upload?tab=record", permanent: false },
+      { source: "/lecture", destination: "/smart-upload?tab=lecture", permanent: false },
+      { source: "/classroom-import", destination: "/smart-upload?tab=classroom", permanent: false },
+      { source: "/quizlet-import", destination: "/smart-upload?tab=quizlet", permanent: false },
+      { source: "/capture", destination: "/smart-upload", permanent: false },
+    ];
+  },
 };
 
 export default withSentryConfig(nextConfig, {

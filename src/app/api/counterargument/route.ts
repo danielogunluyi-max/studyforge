@@ -2,6 +2,7 @@ import Groq from 'groq-sdk';
 import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
 import { auth } from '~/server/auth';
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const prisma = db as any;
 
@@ -26,12 +27,14 @@ export async function POST(req: Request) {
   const sessionId = body.sessionId ?? '';
 
   if (userRebuttal && sessionId) {
-    const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
-      messages: [
-        {
-          role: 'user',
-          content: `Score this student's rebuttal to a counterargument.
+    let completion;
+    try {
+      completion = await groq.chat.completions.create({
+        model: GROQ_TEXT_MODEL,
+        messages: [
+          {
+            role: 'user',
+            content: `Score this student's rebuttal to a counterargument.
 Topic: ${topic}
 Original argument: ${argument}
 Student's rebuttal: ${userRebuttal}
@@ -43,10 +46,16 @@ Respond ONLY as JSON:
   "weakPoints": ["..."],
   "improvedVersion": "How the rebuttal could be stronger"
 }`,
-        },
-      ],
-      max_tokens: 400,
-    });
+          },
+        ],
+        max_tokens: 400,
+      });
+    } catch (error) {
+      if (isRateLimited(error)) {
+        return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+      }
+      throw error;
+    }
 
     const raw = completion.choices[0]?.message?.content || '{}';
     try {
@@ -79,12 +88,14 @@ Respond ONLY as JSON:
     return NextResponse.json({ error: 'Argument is required' }, { status: 400 });
   }
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
-    messages: [
-      {
-        role: 'user',
-        content: `You are a rigorous academic debate opponent. Destroy this argument with the strongest possible counterarguments.
+  let completion;
+  try {
+    completion = await groq.chat.completions.create({
+      model: GROQ_TEXT_MODEL,
+      messages: [
+        {
+          role: 'user',
+          content: `You are a rigorous academic debate opponent. Destroy this argument with the strongest possible counterarguments.
 
 Topic: ${topic}
 Argument: ${argument}
@@ -109,6 +120,12 @@ Respond ONLY in JSON:
     ],
     max_tokens: 800,
   });
+  } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
+    throw error;
+  }
 
   const raw = completion.choices[0]?.message?.content || '{}';
   try {

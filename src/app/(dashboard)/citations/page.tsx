@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { loginUrlFor } from "~/lib/auth-redirect";
 import { Button } from "~/app/_components/button";
 import { PageHero } from "~/app/_components/page-hero";
 import Listbox from "~/app/_components/Listbox";
@@ -386,7 +387,7 @@ export default function CitationsPage() {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/login?from=/citations");
+      router.push(loginUrlFor("/citations"));
     }
   }, [status, router]);
 

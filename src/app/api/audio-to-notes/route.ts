@@ -1,6 +1,7 @@
 import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 import { getAuthSession } from "~/server/auth/session";
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 type NoteType = "summary" | "detailed" | "flashcards" | "quiz";
 
@@ -57,7 +58,7 @@ Transcript:
 ${transcript}`;
 
     const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: GROQ_TEXT_MODEL,
       temperature: 0.4,
       max_tokens: 2200,
       messages: [
@@ -83,6 +84,9 @@ ${transcript}`;
       content: content || raw,
     });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Audio-to-notes generation error:", error);
     return NextResponse.json(
       { error: "Failed to generate notes from transcript" },

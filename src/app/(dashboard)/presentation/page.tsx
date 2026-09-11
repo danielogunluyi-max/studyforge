@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { loginUrlFor } from "~/lib/auth-redirect";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   AlertTriangle,
@@ -1245,7 +1246,7 @@ export default function PresentationPage() {
   // auth gate
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/login?from=/presentation");
+      router.push(loginUrlFor("/presentation"));
     }
   }, [router, status]);
 

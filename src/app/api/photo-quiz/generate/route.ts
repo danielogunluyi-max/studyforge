@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import type { QuizData } from "~/types/quiz";
 import { auth } from "~/server/auth";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -96,7 +97,7 @@ export async function POST(request: Request) {
     }
 
     const response = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: GROQ_TEXT_MODEL,
       messages: [
         {
           role: "system",
@@ -132,6 +133,9 @@ export async function POST(request: Request) {
       questionCount: quiz.questions.length,
     });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Photo quiz generate error:", error);
     return NextResponse.json({ error: "Failed to generate quiz" }, { status: 500 });
   }

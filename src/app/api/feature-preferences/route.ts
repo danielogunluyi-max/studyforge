@@ -38,7 +38,7 @@ const PRESET_FEATURES = {
   UNIVERSITY: {
     enabled: [
       "generator", "flashcards", "feynman", "planner", "calendar",
-      "tutor", "voice-tutor", "my-notes", "mastery", "community",
+      "tutor", "my-notes", "mastery", "community",
       "search", "capture", "diagrams", "essay-grade", "career-path",
       "peer-review", "cornell", "syllabus", "classroom-import",
       "presentations", "citations", "grammar", "plagiarism",
@@ -53,6 +53,8 @@ const PRESET_FEATURES = {
     hidden: ["curriculum", "grade-calc", "games", "battle-royale", "battle", "photo-quiz"],
   },
 } as const;
+
+const RETIRED_FEATURE_KEYS = new Set(["voice-tutor"]);
 
 const REQUIRED_FEATURE_KEYS = [
   "concept-web",
@@ -92,8 +94,12 @@ function reconcileFeatureLists(
   hiddenFeatures: unknown,
   options: { forceEnableAll: boolean },
 ) {
-  const enabled = Array.isArray(enabledFeatures) ? enabledFeatures.filter((value): value is string => typeof value === "string") : [];
-  const hidden = Array.isArray(hiddenFeatures) ? hiddenFeatures.filter((value): value is string => typeof value === "string") : [];
+  const enabled = Array.isArray(enabledFeatures)
+    ? enabledFeatures.filter((value): value is string => typeof value === "string" && !RETIRED_FEATURE_KEYS.has(value))
+    : [];
+  const hidden = Array.isArray(hiddenFeatures)
+    ? hiddenFeatures.filter((value): value is string => typeof value === "string" && !RETIRED_FEATURE_KEYS.has(value))
+    : [];
 
   const enabledSet = new Set<string>(enabled);
   const hiddenSet = new Set<string>(hidden);

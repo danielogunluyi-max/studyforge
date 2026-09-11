@@ -43,7 +43,9 @@ function applyAppearance(payload: AppearancePayload) {
   const accent = ACCENT_HEX[payload.accentColor] ?? ACCENT_HEX.blue;
 
   root.classList.toggle("dark", resolved === "dark");
-  root.dataset.theme = payload.theme;
+  // Do not write data-theme — that attribute is owned by ThemeProvider
+  // (system / dark / light, with legacy studio→dark and paper→light).
+  root.dataset.colorScheme = payload.theme;
   root.dataset.accent = payload.accentColor;
   root.dataset.fontSize = payload.fontSize;
   root.dataset.compact = payload.compactMode ? "true" : "false";

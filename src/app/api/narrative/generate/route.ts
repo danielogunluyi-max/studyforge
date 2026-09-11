@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -19,8 +20,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
+  let completion;
+  try {
+    completion = await groq.chat.completions.create({
+    model: GROQ_TEXT_MODEL,
     messages: [
       {
         role: "user",
@@ -29,6 +32,12 @@ export async function POST(req: Request) {
     ],
     max_tokens: 1000,
   });
+  } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
+    throw error;
+  }
 
   const narrative = completion.choices[0]?.message?.content || "";
 

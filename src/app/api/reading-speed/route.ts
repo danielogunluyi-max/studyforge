@@ -2,6 +2,7 @@ import Groq from 'groq-sdk';
 import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
 import { auth } from '~/server/auth';
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const prisma = db as any;
 
@@ -27,8 +28,10 @@ export async function POST(req: Request) {
   const topic = body.topic?.trim() || 'General';
 
   if (body.action === 'generate-questions') {
-    const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+    let completion;
+    try {
+      completion = await groq.chat.completions.create({
+      model: GROQ_TEXT_MODEL,
       messages: [
         {
           role: 'user',
@@ -40,6 +43,12 @@ Respond ONLY as JSON array:
       ],
       max_tokens: 600,
     });
+    } catch (error) {
+      if (isRateLimited(error)) {
+        return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+      }
+      throw error;
+    }
 
     const raw = completion.choices[0]?.message?.content || '[]';
     try {

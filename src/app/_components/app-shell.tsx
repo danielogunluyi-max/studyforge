@@ -1,111 +1,112 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
 
-import NavController from "~/app/_components/nav-controller";
+import NavBottom from "~/app/_components/nav-bottom";
 import SidebarGlass from "~/app/_components/sidebar-glass";
 import { Topbar } from "~/app/_components/topbar";
+import { useDisclosurePanel } from "~/lib/hooks/use-disclosure-panel";
+import type { NavStyle } from "~/lib/nav-config";
+import { titleFromHref } from "~/lib/nav-registry";
+import { NAV_STYLE_EVENT, parseNavStyle } from "~/lib/nav-style";
 
-function titleFromPath(pathname: string) {
-  const path = pathname.split("?")[0] ?? "";
+type AppShellProps = {
+  children: ReactNode;
+  navStyle: NavStyle;
+  sidebarCollapsed: boolean;
+  userName: string | null;
+  userEmail: string | null;
+};
 
-  if (path === "/") return "Kyvex";
-  if (path.startsWith("/dashboard")) return "Dashboard";
-  if (path.startsWith("/calendar")) return "Calendar";
-  if (path.startsWith("/generator")) return "Generator";
-  if (path.startsWith("/upload")) return "Upload File";
-  if (path.startsWith("/my-notes")) return "My Notes";
-  if (path.startsWith("/listen")) return "Listen to Notes";
-  if (path.startsWith("/feynman")) return "Feynman Technique";
-  if (path.startsWith("/planner")) return "Study Planner";
-  if (path.startsWith("/podcast")) return "Podcast";
-  if (path.startsWith("/diagrams")) return "Diagram Generator";
-  if (path.startsWith("/citations")) return "Citations";
-  if (path.startsWith("/scan")) return "Scan Notes";
-  if (path.startsWith("/tutor")) return "Nova AI Tutor";
-  if (path.startsWith("/battle")) return "Battle Arena";
-  if (path.startsWith("/study-groups")) return "Study Groups";
-  if (path.startsWith("/exam-predictor")) return "Exam Predictor";
-  if (path.startsWith("/learning-style-quiz")) return "Learning Style";
-  if (path.startsWith("/concept-web")) return "Concept Web";
-  if (path.startsWith("/settings")) return "Settings";
-  if (path.startsWith("/profile")) return "Profile";
-  if (path.startsWith("/my-predictions")) return "My Predictions";
-  if (path.startsWith("/login")) return "Login";
-  if (path.startsWith("/signup")) return "Sign Up";
-
-  const lastSegment = path.split("/").filter(Boolean).at(-1) ?? "Kyvex";
-  return lastSegment
-    .split("-")
-    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-    .join(" ");
-}
-
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({
+  children,
+  navStyle: initialNavStyle,
+  sidebarCollapsed,
+  userName,
+  userEmail,
+}: AppShellProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { status } = useSession();
+  const sidebarRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [navStyle, setNavStyle] = useState('minimal');
+  const [navStyle, setNavStyle] = useState<NavStyle>(initialNavStyle);
 
-  const pageTitle = useMemo(() => titleFromPath(pathname ?? "/"), [pathname]);
-  const isLandingPage = pathname === "/";
-  // Iframes inside SplitView pass ?embed=1 — render chromeless so the inner page doesn't show its own sidebar/topbar
+  const pageTitle = useMemo(() => titleFromHref(pathname ?? "/"), [pathname]);
   const isEmbedded = searchParams?.get("embed") === "1";
-  const shouldUseAppShell = status === "authenticated" && !isLandingPage && !isEmbedded;
+  const closeMobileSidebar = useCallback(() => setMobileSidebarOpen(false), []);
+  const showSidebar = navStyle === "sidebar";
 
   useEffect(() => {
-    setNavStyle(localStorage.getItem('kyvex-nav-style') || 'minimal');
-    const handler = () => {
-      setNavStyle(localStorage.getItem('kyvex-nav-style') || 'minimal');
+    setNavStyle(initialNavStyle);
+  }, [initialNavStyle]);
+
+  useEffect(() => {
+    setMobileSidebarOpen(false);
+  }, [pathname]);
+
+  useDisclosurePanel({
+    open: mobileSidebarOpen,
+    onClose: closeMobileSidebar,
+    panelRef: sidebarRef,
+    triggerRef: menuButtonRef,
+  });
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const detail = (event as CustomEvent<string>).detail;
+      setNavStyle(parseNavStyle(detail));
     };
-    window.addEventListener('kyvex-nav-changed', handler);
-    return () => window.removeEventListener('kyvex-nav-changed', handler);
+    window.addEventListener(NAV_STYLE_EVENT, handler);
+    return () => window.removeEventListener(NAV_STYLE_EVENT, handler);
   }, []);
 
-  if (!shouldUseAppShell) {
+  if (isEmbedded) {
     return <>{children}</>;
   }
 
-  // Bottom nav: no sidebar, add bottom padding for the fixed bar
-  if (navStyle === 'bottom') {
-    return (
-      <div className="flex h-screen flex-col overflow-hidden bg-slate-950">
-        <Topbar title={pageTitle} onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} />
-        <main className="flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5" style={{ paddingBottom: '80px' }}>
-          <div className="mx-auto w-full max-w-[1220px]">{children}</div>
-        </main>
-        <NavController />
-      </div>
-    );
-  }
-
-  // Top nav: no sidebar, nav is in the topbar
-  if (navStyle === 'topnav') {
-    return (
-      <div className="flex h-screen flex-col overflow-hidden bg-slate-950">
-        <Topbar title={pageTitle} onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} />
-        <main className="flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5">
-          <div className="mx-auto w-full max-w-[1220px]">{children}</div>
-        </main>
-      </div>
-    );
-  }
-
-  // Minimal / Icons: sidebar on left
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-950">
-      <SidebarGlass />
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <Topbar title={pageTitle} onToggleSidebar={() => setMobileSidebarOpen((prev) => !prev)} />
-        <main className="flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5">
+    <div className={`flex h-screen overflow-hidden ${showSidebar ? "" : "flex-col"}`} style={{ background: "var(--bg-base)" }}>
+      {showSidebar ? (
+        <>
+          {mobileSidebarOpen ? (
+            <div
+              aria-hidden="true"
+              className="fixed inset-0 z-40 bg-black/50 md:hidden"
+              onClick={closeMobileSidebar}
+            />
+          ) : null}
+          <div
+            className={`fixed inset-y-0 left-0 z-50 h-screen transition-transform duration-200 ease-out md:relative md:z-auto md:translate-x-0 ${
+              mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
+          >
+            <SidebarGlass
+              ref={sidebarRef}
+              initialCollapsed={sidebarCollapsed}
+              userName={userName}
+              userEmail={userEmail}
+            />
+          </div>
+        </>
+      ) : null}
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <Topbar
+          title={pageTitle}
+          navStyle={navStyle}
+          userName={userName}
+          userEmail={userEmail}
+          sidebarOpen={showSidebar ? mobileSidebarOpen : undefined}
+          menuButtonRef={showSidebar ? menuButtonRef : undefined}
+          onToggleSidebar={showSidebar ? () => setMobileSidebarOpen((prev) => !prev) : undefined}
+        />
+        <main className="flex-1 overflow-y-auto px-4 py-4 pb-[80px] md:px-6 md:py-5 md:pb-5">
           <div className="mx-auto w-full max-w-[1220px]">{children}</div>
         </main>
       </div>
+      <NavBottom />
     </div>
   );
 }
-

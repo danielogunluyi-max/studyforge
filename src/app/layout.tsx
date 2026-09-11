@@ -70,10 +70,10 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital,wght@1,400&display=swap" rel="stylesheet" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var raw=localStorage.getItem('kyvex:appearance');var theme='light';if(raw){var parsed=JSON.parse(raw);if(parsed.theme==='dark'||(parsed.theme==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches)) theme='dark';}document.documentElement.classList.toggle('dark',theme==='dark');document.documentElement.style.colorScheme=theme;}catch(e){}})();`,
+            __html: `(function(){try{var raw=localStorage.getItem('kyvex:appearance');var theme='light';if(raw){var parsed=JSON.parse(raw);if(parsed.theme==='dark'||(parsed.theme==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches)) theme='dark';}document.documentElement.classList.toggle('dark',theme==='dark');document.documentElement.style.colorScheme=theme;var t=localStorage.getItem('kyvex-theme')||'dark';if(t==='paper'||t==='light')t='light';else if(t==='system'||t==='auto')t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';else t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
           }}
         />
       </head>

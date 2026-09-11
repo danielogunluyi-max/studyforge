@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 import { bumpQuizStats, ensureGroupMember, isOwner } from "~/server/study-groups";
 
 type QuizQuestion = { question: string; options: string[]; correctAnswer: string };
@@ -144,6 +144,9 @@ export async function POST(
 
     return NextResponse.json({ submission: updated, leaderboard });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Group quiz post error:", error);
     return NextResponse.json({ error: "Failed to process quiz" }, { status: 500 });
   }

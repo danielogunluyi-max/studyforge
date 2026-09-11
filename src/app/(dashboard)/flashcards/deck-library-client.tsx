@@ -2,16 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Plus,
-  Sparkles,
-  Layers,
-  Flame,
-  CheckCircle2,
-  X,
-  PencilLine,
-  Play,
-} from "lucide-react";
+import { Plus, Sparkles, X, PencilLine, Play } from "lucide-react";
+import { formatTorontoDate } from "~/lib/toronto-time";
 
 type DeckSummary = {
   id: string;
@@ -54,44 +46,13 @@ type CreateDeckResponse = {
   error?: string;
 };
 
-function MasteryRing({ percent, size = 64, stroke = 6 }: { percent: number; size?: number; stroke?: number }) {
-  const radius = (size - stroke) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (percent / 100) * circumference;
-  const color = percent >= 80 ? "#22c55e" : percent >= 40 ? "#f0b429" : "#ef4444";
+const ONTARIO_COURSE = /^[A-Z]{3,4}\d[A-Z]$/i;
 
-  return (
-    <div className="relative" style={{ width: size, height: size }} aria-label={`Mastery ${percent}%`}>
-      <svg width={size} height={size} className="-rotate-90">
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          stroke="rgba(255,255,255,0.08)"
-          strokeWidth={stroke}
-          fill="none"
-        />
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          stroke={color}
-          strokeWidth={stroke}
-          strokeLinecap="round"
-          fill="none"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          style={{ transition: "stroke-dashoffset 600ms ease, stroke 300ms ease" }}
-        />
-      </svg>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-sm font-bold text-white">{percent}%</span>
-      </div>
-    </div>
-  );
+function subjectChipClass(subject: string) {
+  return ONTARIO_COURSE.test(subject.trim()) ? "kv-chip kv-chip-course" : "kv-chip";
 }
 
-export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGenerateFrom, studyStreak = 0 }: Props) {
+export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGenerateFrom }: Props) {
   const router = useRouter();
   const [decks, setDecks] = useState<DeckSummary[]>(initialDecks);
   const [showCreateModal, setShowCreateModal] = useState(Boolean(initialGenerateFrom));
@@ -108,9 +69,6 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
 
   const totalDecks = decks.length;
   const totalDue = useMemo(() => decks.reduce((sum, deck) => sum + deck.dueCards, 0), [decks]);
-  const totalCards = useMemo(() => decks.reduce((sum, d) => sum + d.totalCards, 0), [decks]);
-  const totalMastered = useMemo(() => decks.reduce((sum, d) => sum + (d.totalCards - d.dueCards), 0), [decks]);
-  const overallMastery = totalCards > 0 ? Math.round((totalMastered / totalCards) * 100) : 0;
 
   const [curriculumCode, setCurriculumCode] = useState("");
   const [curriculumOptions, setCurriculumOptions] = useState<CurriculumOption[]>([]);
@@ -158,23 +116,6 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
         return;
       }
 
-      if (useAiGenerate) {
-        const genBody = selectedNoteId
-          ? { noteId: selectedNoteId, subject, count, curriculumCode: curriculumCode || undefined }
-          : { topic, subject, count, curriculumCode: curriculumCode || undefined };
-
-        const genRes = await fetch(`/api/decks/${createData.deck.id}/generate`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(genBody),
-        });
-
-        const genData = (await genRes.json().catch(() => ({}))) as { error?: string };
-        if (!genRes.ok) {
-          setError(genData.error ?? "Deck created but AI generation failed");
-        }
-      }
-
       const nowIso = new Date().toISOString();
       const createdDeck: DeckSummary = {
         id: createData.deck.id,
@@ -188,7 +129,27 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
       };
 
       setDecks((prev) => [createdDeck, ...prev]);
-      router.push(`/flashcards/${createData.deck.id}`);
+
+      // Redirect immediately — generate runs on the deck page when ?generating=1.
+      if (useAiGenerate) {
+        try {
+          sessionStorage.setItem(
+            `kyvex-deck-gen:${createData.deck.id}`,
+            JSON.stringify({
+              noteId: selectedNoteId || undefined,
+              topic: topic.trim() || undefined,
+              subject,
+              count,
+              curriculumCode: curriculumCode || undefined,
+            }),
+          );
+        } catch {
+          // Private mode / quota — deck page will surface a retryable error.
+        }
+        router.push(`/flashcards/${createData.deck.id}?generating=1`);
+      } else {
+        router.push(`/flashcards/${createData.deck.id}`);
+      }
     } catch {
       setError("Failed to create deck");
     } finally {
@@ -197,179 +158,164 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
   };
 
   return (
-    <main className="min-h-screen bg-black px-4 py-8 pb-24 text-white md:px-6">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
+    <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
           <div>
-            <div className="mb-2 flex items-center gap-2">
-              <Layers size={24} className="text-amber-400" aria-hidden="true" />
-              <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Flashcard Decks</h1>
-            </div>
-            <p className="text-base text-zinc-400">Spaced repetition · study smarter, not longer</p>
+            <div className="kv-crumb">Kyvex / <b>Flashcards</b></div>
+            <h1 className="kv-title" style={{ marginTop: 14 }}>Flashcard Decks</h1>
+            <p className="kv-sub" style={{ marginTop: 10 }}>Spaced repetition · study smarter, not longer</p>
           </div>
-          <div className="flex items-center gap-3">
-            {studyStreak > 0 && (
-              <div className="flex items-center gap-2 rounded-xl border border-amber-500/20 bg-amber-500/10 px-3 py-2" aria-label={`Current study streak: ${studyStreak} days`}>
-                <Flame size={16} className="text-amber-400" aria-hidden="true" />
-                <span className="text-sm font-semibold text-amber-300">{studyStreak} day streak</span>
-              </div>
-            )}
-            <button
-              type="button"
-              onClick={() => setShowCreateModal(true)}
-              className="flex items-center gap-2 rounded-xl border border-white/10 bg-white px-4 py-2.5 text-sm font-semibold text-black transition-all hover:bg-zinc-100 active:scale-95"
-              aria-label="Create a new flashcard deck"
-            >
-              <Plus size={16} aria-hidden="true" />
-              New Deck
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setShowCreateModal(true)}
+            className="kv-btn"
+            aria-label="Create a new flashcard deck"
+          >
+            <Plus size={16} aria-hidden="true" />
+            New Deck
+          </button>
         </div>
 
-        <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard label="Total Decks" value={totalDecks} accent="text-white" />
-          <StatCard label="Cards Due Today" value={totalDue} accent={totalDue > 0 ? "text-red-400" : "text-emerald-400"} />
-          <StatCard label="Studied Today" value={studiedToday} accent="text-amber-400" />
-          <StatCard label="Overall Mastery" value={`${overallMastery}%`} accent="text-emerald-400" />
+        <div className="kv-stats" style={{ marginTop: 28, gridTemplateColumns: "repeat(3, 1fr)" }}>
+          <div className="kv-stat">
+            <span className="kv-meta">Total Decks</span>
+            <b className="num">{totalDecks}</b>
+          </div>
+          <div className="kv-stat">
+            <span className="kv-meta">Cards Due Today</span>
+            <b className="num">{totalDue}</b>
+          </div>
+          <div className="kv-stat">
+            <span className="kv-meta">Studied Today</span>
+            <b className="num">{studiedToday}</b>
+          </div>
         </div>
 
         {decks.length === 0 ? (
-          <div className="rounded-2xl border border-white/10 bg-zinc-900/50 px-6 py-20 text-center backdrop-blur-sm">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-500/10">
-              <Layers size={32} className="text-amber-400" aria-hidden="true" />
-            </div>
-            <p className="text-2xl font-bold text-white">No decks yet</p>
-            <p className="mt-2 text-base text-zinc-400">Create your first deck or generate cards from your notes.</p>
+          <div style={{ marginTop: 32, paddingTop: 32, borderTop: "1px solid var(--border-default)", textAlign: "center" }}>
+            <h2 className="kv-title" style={{ fontSize: 22 }}>No decks yet</h2>
+            <p className="kv-sub" style={{ margin: "10px auto 0" }}>Create your first deck or generate cards from your notes.</p>
             <button
               type="button"
               onClick={() => setShowCreateModal(true)}
-              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-black transition-all hover:bg-zinc-100 active:scale-95"
+              className="kv-btn"
+              style={{ marginTop: 20 }}
             >
               <Plus size={16} aria-hidden="true" />
               Create First Deck
             </button>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {decks.map((deck) => {
-              const mastered = Math.max(0, deck.totalCards - deck.dueCards);
-              const mastery = deck.totalCards > 0 ? Math.round((mastered / deck.totalCards) * 100) : 0;
-
-              return (
-                <div key={deck.id} className="group relative">
-                  {/* Stacked card layers behind */}
-                  <div className="pointer-events-none absolute inset-0 translate-x-1.5 translate-y-1.5 rounded-2xl border border-white/5 bg-zinc-900/40 transition-all duration-200 group-hover:translate-x-2 group-hover:translate-y-2" aria-hidden="true" />
-                  <div className="pointer-events-none absolute inset-0 translate-x-0.5 translate-y-0.5 rounded-2xl border border-white/8 bg-zinc-900/60 transition-all duration-200 group-hover:translate-x-1 group-hover:translate-y-1" aria-hidden="true" />
-
-                  {/* Top card */}
-                  <article className="relative flex flex-col rounded-2xl border border-white/10 bg-zinc-900/80 p-5 backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-white/20 hover:shadow-2xl hover:shadow-amber-500/5">
-                    <div className="mb-4 flex items-start justify-between gap-3">
-                      <div className="min-w-0 flex-1">
-                        <span className="inline-block rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-zinc-300">
-                          {deck.subject}
-                        </span>
-                        <h3 className="mt-2 truncate text-xl font-bold text-white">{deck.title}</h3>
-                      </div>
-                      <MasteryRing percent={mastery} />
-                    </div>
-
-                    <div className="mb-4 flex flex-wrap items-center gap-2 text-xs">
-                      <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1 text-zinc-300">
-                        <Layers size={12} aria-hidden="true" />
-                        {deck.totalCards} cards
-                      </span>
-                      {deck.dueCards > 0 ? (
-                        <span className="inline-flex items-center gap-1 rounded-full border border-red-500/30 bg-red-500/10 px-2 py-1 font-semibold text-red-300">
-                          <Flame size={12} aria-hidden="true" />
-                          {deck.dueCards} due
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-1 font-semibold text-emerald-300">
-                          <CheckCircle2 size={12} aria-hidden="true" />
-                          Up to date
-                        </span>
-                      )}
-                    </div>
-
-                    {deck.description && (
-                      <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-zinc-400">{deck.description}</p>
-                    )}
-
-                    <div className="mt-auto flex gap-2">
-                      <button
-                        type="button"
-                        onClick={() => router.push(`/flashcards/${deck.id}/study`)}
-                        className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-white px-3 py-2 text-xs font-semibold text-black transition-all hover:bg-zinc-100 active:scale-95"
-                        aria-label={`Study deck ${deck.title}`}
-                      >
-                        <Play size={12} aria-hidden="true" />
-                        Study
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => router.push(`/flashcards/${deck.id}`)}
-                        className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-300 transition-all hover:bg-white/10 hover:text-white active:scale-95"
-                        aria-label={`Edit deck ${deck.title}`}
-                      >
-                        <PencilLine size={12} aria-hidden="true" />
-                        Edit
-                      </button>
-                    </div>
-                  </article>
+          <div style={{ marginTop: 8 }}>
+            {decks.map((deck) => (
+              <div key={deck.id} className="kv-row">
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div className="kv-row-title">{deck.title}</div>
+                  <div className="kv-row-sub">
+                    <span className="kv-chip num">{deck.totalCards} cards</span>
+                    {deck.dueCards > 0 ? (
+                      <span className="kv-chip kv-chip-stale num">{deck.dueCards} due</span>
+                    ) : null}
+                    <span className={subjectChipClass(deck.subject)}>{deck.subject}</span>
+                  </div>
                 </div>
-              );
-            })}
+                <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                  <span className="kv-row-side">Last updated {formatTorontoDate(deck.updatedAt)}</span>
+                  <button
+                    type="button"
+                    onClick={() => router.push(`/flashcards/${deck.id}/study`)}
+                    className="kv-btn-ghost"
+                    aria-label={`Study deck ${deck.title}`}
+                  >
+                    <Play size={12} aria-hidden="true" />
+                    Study
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => router.push(`/flashcards/${deck.id}`)}
+                    className="kv-btn-ghost"
+                    aria-label={`Edit deck ${deck.title}`}
+                  >
+                    <PencilLine size={12} aria-hidden="true" />
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
 
       {showCreateModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 50,
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            padding: "24px 16px",
+            overflowY: "auto",
+            background: "rgba(0,0,0,0.72)",
+          }}
           onClick={(e) => { if (e.target === e.currentTarget) setShowCreateModal(false); }}
           role="dialog"
           aria-modal="true"
           aria-labelledby="create-deck-title"
         >
-          <div className="w-full max-w-xl overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
-              <h2 id="create-deck-title" className="text-lg font-bold text-white">Create Deck</h2>
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 480,
+              maxHeight: "calc(100vh - 48px)",
+              display: "flex",
+              flexDirection: "column",
+              border: "1px solid var(--border-default)",
+              background: "var(--bg-base)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 18px", borderBottom: "1px solid var(--border-default)" }}>
+              <h2 id="create-deck-title" className="kv-title" style={{ fontSize: 18 }}>Create Deck</h2>
               <button
                 type="button"
                 onClick={() => setShowCreateModal(false)}
-                className="rounded-lg p-1 text-zinc-400 transition hover:bg-white/5 hover:text-white"
+                className="kv-btn-ghost"
+                style={{ padding: "6px 8px" }}
                 aria-label="Close create deck modal"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
             </div>
 
-            <div className="space-y-3 px-6 py-5">
+            <div style={{ padding: "16px 18px", display: "grid", gap: 12, overflowY: "auto", minHeight: 0, flex: 1 }}>
               <div>
-                <label htmlFor="deck-title" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Title</label>
+                <label htmlFor="deck-title" className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Title</label>
                 <input
                   id="deck-title"
-                  className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                  className="kv-field"
                   placeholder="Deck title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
               <div>
-                <label htmlFor="deck-subject" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Subject</label>
+                <label htmlFor="deck-subject" className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Subject</label>
                 <input
                   id="deck-subject"
-                  className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                  className="kv-field"
                   placeholder="Subject"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                 />
               </div>
               <div>
-                <label htmlFor="deck-desc" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Description (optional)</label>
+                <label htmlFor="deck-desc" className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Description (optional)</label>
                 <textarea
                   id="deck-desc"
-                  className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                  className="kv-field"
                   placeholder="Description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -377,31 +323,30 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
                 />
               </div>
 
-              <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-zinc-200 transition hover:bg-white/10">
+              <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 14, color: "var(--kv-text-secondary)" }}>
                 <input
                   type="checkbox"
                   checked={useAiGenerate}
                   onChange={(e) => setUseAiGenerate(e.target.checked)}
-                  className="h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-amber-500 focus:ring-amber-500/20"
                 />
-                <Sparkles size={14} className="text-amber-400" aria-hidden="true" />
+                <Sparkles size={14} aria-hidden="true" />
                 Generate with AI
               </label>
 
               {useAiGenerate && (
-                <div className="space-y-3 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+                <div style={{ display: "grid", gap: 12, paddingTop: 4, borderTop: "1px solid var(--border-default)" }}>
                   <div>
-                    <label htmlFor="deck-topic" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Topic</label>
+                    <label htmlFor="deck-topic" className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Topic</label>
                     <input
                       id="deck-topic"
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white placeholder-zinc-600 outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                      className="kv-field"
                       placeholder="What topic should the cards cover?"
                       value={topic}
                       onChange={(e) => setTopic(e.target.value)}
                     />
                   </div>
                   <div>
-                    <label htmlFor="deck-count" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Card count: {count}</label>
+                    <label htmlFor="deck-count" className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Card count: <span className="num">{count}</span></label>
                     <input
                       id="deck-count"
                       type="range"
@@ -410,15 +355,15 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
                       step={1}
                       value={count}
                       onChange={(e) => setCount(Number(e.target.value))}
-                      className="w-full accent-amber-500"
+                      style={{ width: "100%" }}
                       aria-label="Number of cards to generate"
                     />
                   </div>
                   <div>
-                    <label htmlFor="deck-note" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">From a note (optional)</label>
+                    <label htmlFor="deck-note" className="kv-meta" style={{ display: "block", marginBottom: 8 }}>From a note (optional)</label>
                     <select
                       id="deck-note"
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                      className="kv-field"
                       value={selectedNoteId}
                       onChange={(e) => setSelectedNoteId(e.target.value)}
                     >
@@ -429,10 +374,10 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="deck-curriculum" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-400">Ontario course (optional)</label>
+                    <label htmlFor="deck-curriculum" className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Ontario course (optional)</label>
                     <select
                       id="deck-curriculum"
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-base text-white outline-none ring-amber-500/20 transition focus:border-amber-500/30 focus:ring-2"
+                      className="kv-field"
                       value={curriculumCode}
                       onChange={(e) => setCurriculumCode(e.target.value)}
                     >
@@ -445,15 +390,19 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
                 </div>
               )}
 
-              {error && <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300" role="alert">{error}</p>}
+              {error && (
+                <p style={{ margin: 0, padding: "10px 12px", border: "1px solid rgba(229,72,77,.4)", color: "#E5484D", fontSize: 14 }} role="alert">
+                  {error}
+                </p>
+              )}
             </div>
 
-            <div className="flex justify-end gap-2 border-t border-white/10 px-6 py-4">
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, padding: "14px 18px", borderTop: "1px solid var(--border-default)", flex: "none" }}>
               <button
                 type="button"
                 onClick={() => setShowCreateModal(false)}
                 disabled={isSubmitting}
-                className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-300 transition hover:bg-white/10 disabled:opacity-50"
+                className="kv-btn-ghost"
               >
                 Cancel
               </button>
@@ -461,7 +410,7 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
                 type="button"
                 onClick={() => void submitCreate()}
                 disabled={isSubmitting}
-                className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-zinc-100 active:scale-95 disabled:opacity-50"
+                className="kv-btn"
               >
                 {isSubmitting ? "Working..." : useAiGenerate ? "Create & Generate" : "Create Deck"}
               </button>
@@ -473,11 +422,3 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
   );
 }
 
-function StatCard({ label, value, accent }: { label: string; value: number | string; accent: string }) {
-  return (
-    <div className="rounded-xl border border-white/10 bg-zinc-900/50 p-4 backdrop-blur-sm">
-      <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">{label}</p>
-      <p className={`mt-1 text-3xl font-bold ${accent}`}>{value}</p>
-    </div>
-  );
-}

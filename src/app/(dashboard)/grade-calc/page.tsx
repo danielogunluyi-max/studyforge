@@ -3,7 +3,7 @@
 /**
  * Phase 2 — Tiered Grade Calculator
  * --------------------------------
- * Three Midnight Glass calculators behind one route, gated by user.preset:
+ * Three calculators behind one route, gated by user.preset:
  *   - HIGHSCHOOL  → "needed on final" (existing)
  *   - COLLEGE     → cumulative GPA (4.0 scale)
  *   - UNIVERSITY  → credit-weighted % + class-average delta + bell curve
@@ -12,18 +12,17 @@
  * doesn't change their saved preset).
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   BookOpen,
   Building2,
   GraduationCap,
   Plus,
   Save,
-  Sparkles,
   Trash2,
 } from "lucide-react";
 
+import { formatTorontoDate } from "~/lib/toronto-time";
 import { useUserTier, type UserTier } from "~/lib/use-user-tier";
 
 /* ──────────────────────────────────────────────────────────── */
@@ -190,100 +189,40 @@ export default function GradeCalcPage() {
   }, [loadRecent]);
 
   const meta = TIER_META[tier];
-  const Icon = meta.icon;
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black font-sans text-white antialiased">
-      {/* Background grid mesh */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.18]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
-          backgroundSize: "44px 44px",
-        }}
-      />
-      {/* Tier accent halo */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-[-180px] h-[420px] w-[420px] -translate-x-1/2 rounded-full blur-[120px]"
-        style={{ background: meta.halo, willChange: "opacity" }}
-      />
+    <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <div className="kv-crumb">Kyvex / <b>Grade Calculator</b></div>
+        <h1 className="kv-title" style={{ marginTop: 14 }}>Grade Calculator</h1>
+        <p className="kv-sub" style={{ marginTop: 10 }}>{meta.sub}</p>
 
-      <div className="relative mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-        {/* Header */}
-        <motion.header
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="mb-8 text-center will-change-transform"
-        >
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-300">
-            <Sparkles size={11} strokeWidth={1.7} />
-            Academic Matrix
-          </div>
-          <h1 className="mt-4 bg-gradient-to-b from-zinc-100 to-zinc-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl">
-            Grade Calculator
-          </h1>
-          <p className="mt-3 inline-flex items-center gap-2 text-sm text-zinc-400">
-            <Icon size={14} strokeWidth={1.7} style={{ color: meta.accent }} />
-            <span style={{ color: meta.accent }}>{meta.label}</span>
-            <span className="text-zinc-600">·</span>
-            <span>{meta.sub}</span>
-          </p>
-        </motion.header>
-
-        {/* Tier switcher */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.05 }}
-          className="mx-auto mb-8 flex w-full max-w-md justify-center will-change-transform"
-        >
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 22 }}>
           <TierSwitcher
             value={tier}
             override={override}
             userTier={userTier}
             onChange={setOverride}
           />
-        </motion.div>
+        </div>
 
-        {/* Active calculator */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={tier}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            style={{ willChange: "transform" }}
-          >
-            {tier === "HIGHSCHOOL" && <HSCalculator onSaved={loadRecent} />}
-            {tier === "COLLEGE" && <CollegeGPACalculator onSaved={loadRecent} />}
-            {tier === "UNIVERSITY" && <UniversityCalculator onSaved={loadRecent} />}
-          </motion.div>
-        </AnimatePresence>
+        <div style={{ marginTop: 28 }}>
+          {tier === "HIGHSCHOOL" && <HSCalculator onSaved={loadRecent} />}
+          {tier === "COLLEGE" && <CollegeGPACalculator onSaved={loadRecent} />}
+          {tier === "UNIVERSITY" && <UniversityCalculator onSaved={loadRecent} />}
+        </div>
 
-        {/* Recent */}
-        <motion.section
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
-          className="mx-auto mt-10 max-w-2xl will-change-transform"
-        >
-          <h2 className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-zinc-400">
-            Recent calculations
-          </h2>
+        <section style={{ marginTop: 36 }}>
+          <p className="kv-meta">Recent calculations</p>
           <RecentCalculations rows={recent} />
-        </motion.section>
+        </section>
       </div>
     </main>
   );
 }
 
 /* ──────────────────────────────────────────────────────────── */
-/*  Tier switcher (segmented capsule with sliding pill)         */
+/*  Tier switcher                                               */
 /* ──────────────────────────────────────────────────────────── */
 
 function TierSwitcher({
@@ -300,7 +239,7 @@ function TierSwitcher({
   const tiers: UserTier[] = ["HIGHSCHOOL", "COLLEGE", "UNIVERSITY"];
 
   return (
-    <div className="relative inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1 backdrop-blur-2xl">
+    <>
       {tiers.map((t) => {
         const meta = TIER_META[t];
         const Icon = meta.icon;
@@ -310,24 +249,10 @@ function TierSwitcher({
             key={t}
             type="button"
             onClick={() => onChange(t === userTier ? null : t)}
-            className="relative z-10 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold transition-colors"
-            style={{ color: active ? "#0a0a0f" : "#a1a1aa" }}
+            className={active ? "kv-btn-ghost on" : "kv-btn-ghost"}
           >
-            {active && (
-              <motion.span
-                aria-hidden
-                layoutId="tier-switcher-pill"
-                transition={{ type: "spring", stiffness: 360, damping: 30 }}
-                className="absolute inset-0 -z-10 rounded-full"
-                style={{
-                  background: `linear-gradient(135deg, ${meta.accent} 0%, #fff 200%)`,
-                  boxShadow: `0 0 0 1px ${meta.accent}33 inset, 0 8px 24px -8px ${meta.accent}66`,
-                  willChange: "transform",
-                }}
-              />
-            )}
             <Icon size={12} strokeWidth={1.8} />
-            <span className="hidden sm:inline">{meta.label}</span>
+            <span>{meta.label}</span>
           </button>
         );
       })}
@@ -335,13 +260,13 @@ function TierSwitcher({
         <button
           type="button"
           onClick={() => onChange(null)}
-          className="ml-1 rounded-full border border-white/10 bg-white/[0.03] px-2 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:bg-white/[0.06] hover:text-zinc-200"
+          className="kv-btn-ghost"
           title="Reset to your saved preset"
         >
           Reset
         </button>
       )}
-    </div>
+    </>
   );
 }
 
@@ -421,55 +346,45 @@ function HSCalculator({ onSaved }: { onSaved: () => Promise<void> }) {
   }
 
   return (
-    <div className="mx-auto max-w-xl space-y-4">
-      <GlassCard accent="#f0b429">
-        <CardLabel>Course name</CardLabel>
-        <GlassInput value={courseName} onChange={setCourseName} placeholder="e.g. Biology" />
+    <div>
+      <FieldLabel>Course name</FieldLabel>
+      <KvInput value={courseName} onChange={setCourseName} placeholder="e.g. Biology" />
 
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <PercentInput label="Current grade" value={currentGrade} onChange={setCurrentGrade} />
-          <PercentInput label="Current weight" value={currentWeight} onChange={setCurrentWeight} />
-          <PercentInput label="Final exam worth" value={finalWeight} onChange={setFinalWeight} />
-          <PercentInput label="Target grade" value={targetGrade} onChange={setTargetGrade} />
-        </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 16 }}>
+        <PercentField label="Current grade" value={currentGrade} onChange={setCurrentGrade} />
+        <PercentField label="Current weight" value={currentWeight} onChange={setCurrentWeight} />
+        <PercentField label="Final exam worth" value={finalWeight} onChange={setFinalWeight} />
+        <PercentField label="Target grade" value={targetGrade} onChange={setTargetGrade} />
+      </div>
 
-        <PrimaryButton
-          accent="#f0b429"
-          onClick={() => void calculate()}
-          disabled={loading}
-          className="mt-5 w-full"
-        >
-          {loading ? "Calculating…" : "Calculate"}
-        </PrimaryButton>
+      <p className="kv-meta num" style={{ marginTop: 12 }}>
+        {currentWeight}/{finalWeight} term/final
+      </p>
 
-        {error ? <p className="mt-3 text-[12px] text-red-400">{error}</p> : null}
-      </GlassCard>
+      <button
+        type="button"
+        onClick={() => void calculate()}
+        disabled={loading}
+        className="kv-btn"
+        style={{ marginTop: 20 }}
+      >
+        {loading ? "Calculating…" : "Calculate"}
+      </button>
+
+      {error ? <p className="kv-meta" style={{ marginTop: 12, color: "#E5484D" }}>{error}</p> : null}
 
       {result && tone ? (
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          style={{ willChange: "transform" }}
-        >
-          <GlassCard accent={tone.color}>
-            <p className="text-center text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">
-              You need
-            </p>
-            <div
-              className="mt-2 text-center text-6xl font-black leading-none tracking-tight tabular-nums"
-              style={{ color: tone.color }}
-            >
-              {displayScore.toFixed(1)}%
-            </div>
-            <p className="mt-3 text-center text-[13px] font-semibold" style={{ color: tone.color }}>
-              {tone.label}
-            </p>
-            <p className="mt-2 text-center text-[13px] leading-relaxed text-zinc-400">
-              {result.message}
-            </p>
-          </GlassCard>
-        </motion.div>
+        <div style={{ marginTop: 28 }}>
+          <p className="kv-meta">You need</p>
+          <div
+            className="kv-title num"
+            style={{ fontSize: 48, fontWeight: 600, color: "var(--kv-text-primary)", marginTop: 8 }}
+          >
+            {displayScore.toFixed(1)}%
+          </div>
+          <p className="kv-meta" style={{ marginTop: 10 }}>{tone.label}</p>
+          <p className="kv-sub" style={{ marginTop: 8 }}>{result.message}</p>
+        </div>
       ) : null}
     </div>
   );
@@ -482,7 +397,7 @@ function HSCalculator({ onSaved }: { onSaved: () => Promise<void> }) {
 function CollegeGPACalculator({ onSaved }: { onSaved: () => Promise<void> }) {
   const [termName, setTermName] = useState("");
   const [courses, setCourses] = useState<CollegeCourse[]>([
-    { id: newRowId("c"), name: "", credits: "3", letterGrade: "A" },
+    { id: "c-0", name: "", credits: "3", letterGrade: "A" },
   ]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -551,113 +466,88 @@ function CollegeGPACalculator({ onSaved }: { onSaved: () => Promise<void> }) {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-4">
-      <GlassCard accent="#22d3ee">
-        {/* Live GPA at top */}
-        <div className="mb-4 flex items-end justify-between gap-4">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">
-              Cumulative GPA
-            </p>
+    <div>
+      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16 }}>
+        <div>
+          <p className="kv-meta">Cumulative GPA</p>
+          <div
+            className="kv-title num"
+            style={{ fontSize: 48, fontWeight: 600, color: "var(--kv-text-primary)", marginTop: 8 }}
+          >
+            {gpa.toFixed(2)}
+          </div>
+          <p className="kv-meta" style={{ marginTop: 8 }}>{tone.label}</p>
+        </div>
+        <div style={{ textAlign: "right" }}>
+          <p className="kv-meta">Total credits</p>
+          <div className="num" style={{ fontSize: 22, fontWeight: 600, color: "var(--kv-text-primary)", marginTop: 6 }}>
+            {totalCredits.toFixed(1)}
+          </div>
+        </div>
+      </div>
+
+      <FieldLabel>Term name</FieldLabel>
+      <KvInput value={termName} onChange={setTermName} placeholder="e.g. Fall 2026" />
+
+      <div style={{ marginTop: 22 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+          <p className="kv-meta">Courses</p>
+          <button type="button" onClick={addCourse} className="kv-btn-ghost">
+            <Plus size={11} strokeWidth={2} />
+            Add course
+          </button>
+        </div>
+
+        <div style={{ display: "grid", gap: 8, marginTop: 12 }}>
+          {courses.map((c) => (
             <div
-              className="mt-1 text-5xl font-black leading-none tracking-tight tabular-nums"
-              style={{ color: tone.color }}
+              key={c.id}
+              style={{ display: "grid", gridTemplateColumns: "1fr 90px 90px auto", gap: 8, alignItems: "center" }}
             >
-              {gpa.toFixed(2)}
+              <KvInput
+                value={c.name}
+                onChange={(v) => updateCourse(c.id, { name: v })}
+                placeholder="Course name"
+              />
+              <KvNumber
+                value={c.credits}
+                onChange={(v) => updateCourse(c.id, { credits: v })}
+                placeholder="Credits"
+                min={0.5}
+                max={6}
+                step={0.5}
+              />
+              <LetterGradeSelect
+                value={c.letterGrade}
+                onChange={(v) => updateCourse(c.id, { letterGrade: v })}
+              />
+              <button
+                type="button"
+                onClick={() => removeCourse(c.id)}
+                disabled={courses.length <= 1}
+                className="kv-btn-danger"
+                aria-label="Remove course"
+              >
+                <Trash2 size={13} strokeWidth={1.8} />
+              </button>
             </div>
-            <p className="mt-1 text-[12px] font-semibold" style={{ color: tone.color }}>
-              {tone.label}
-            </p>
-          </div>
-          <div className="text-right">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-500">
-              Total credits
-            </p>
-            <div className="mt-1 text-2xl font-bold tabular-nums text-zinc-200">
-              {totalCredits.toFixed(1)}
-            </div>
-          </div>
+          ))}
         </div>
+      </div>
 
-        <CardLabel>Term name</CardLabel>
-        <GlassInput value={termName} onChange={setTermName} placeholder="e.g. Fall 2026" />
+      <button
+        type="button"
+        onClick={() => void save()}
+        disabled={saving || totalCredits === 0}
+        className="kv-btn"
+        style={{ marginTop: 20 }}
+      >
+        <Save size={13} strokeWidth={1.8} />
+        {saving ? "Saving…" : "Save Calculation"}
+      </button>
 
-        {/* Course rows */}
-        <div className="mt-5 space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">
-              Courses
-            </p>
-            <button
-              type="button"
-              onClick={addCourse}
-              className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold text-zinc-200 transition-colors hover:bg-white/[0.08]"
-            >
-              <Plus size={11} strokeWidth={2} />
-              Add course
-            </button>
-          </div>
-
-          <div className="space-y-2">
-            <AnimatePresence initial={false}>
-              {courses.map((c) => (
-                <motion.div
-                  key={c.id}
-                  layout
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.18 }}
-                  className="grid grid-cols-[1fr,90px,90px,32px] items-center gap-2"
-                  style={{ willChange: "transform" }}
-                >
-                  <GlassInput
-                    value={c.name}
-                    onChange={(v) => updateCourse(c.id, { name: v })}
-                    placeholder="Course name"
-                  />
-                  <NumberInput
-                    value={c.credits}
-                    onChange={(v) => updateCourse(c.id, { credits: v })}
-                    placeholder="Credits"
-                    min={0.5}
-                    max={6}
-                    step={0.5}
-                  />
-                  <LetterGradeSelect
-                    value={c.letterGrade}
-                    onChange={(v) => updateCourse(c.id, { letterGrade: v })}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeCourse(c.id)}
-                    disabled={courses.length <= 1}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-zinc-500 transition-colors hover:bg-red-500/10 hover:text-red-400 disabled:opacity-30 disabled:hover:bg-white/[0.03] disabled:hover:text-zinc-500"
-                    aria-label="Remove course"
-                  >
-                    <Trash2 size={13} strokeWidth={1.8} />
-                  </button>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        </div>
-
-        <PrimaryButton
-          accent="#22d3ee"
-          onClick={() => void save()}
-          disabled={saving || totalCredits === 0}
-          className="mt-5 w-full"
-        >
-          <Save size={13} strokeWidth={1.8} />
-          {saving ? "Saving…" : "Save Calculation"}
-        </PrimaryButton>
-
-        {error ? <p className="mt-3 text-[12px] text-red-400">{error}</p> : null}
-        {savedMsg ? (
-          <p className="mt-3 text-[12px] font-semibold text-cyan-300">{savedMsg}</p>
-        ) : null}
-      </GlassCard>
+      {error ? <p className="kv-meta" style={{ marginTop: 12, color: "#E5484D" }}>{error}</p> : null}
+      {savedMsg ? <p className="kv-meta" style={{ marginTop: 12 }}>{savedMsg}</p> : null}
     </div>
   );
 }
@@ -669,7 +559,7 @@ function CollegeGPACalculator({ onSaved }: { onSaved: () => Promise<void> }) {
 function UniversityCalculator({ onSaved }: { onSaved: () => Promise<void> }) {
   const [termName, setTermName] = useState("");
   const [courses, setCourses] = useState<UniCourse[]>([
-    { id: newRowId("u"), name: "", grade: "82", credits: "0.5", classAverage: "73" },
+    { id: "u-0", name: "", grade: "82", credits: "0.5", classAverage: "73" },
   ]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -762,131 +652,112 @@ function UniversityCalculator({ onSaved }: { onSaved: () => Promise<void> }) {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-4">
-      <GlassCard accent="#a78bfa">
-        {/* Live result + bell curve */}
-        <div className="mb-4 flex items-center justify-between gap-4">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">
-              Term Average
-            </p>
-            <div
-              className="mt-1 text-5xl font-black leading-none tracking-tight tabular-nums"
-              style={{ color: tone.color }}
-            >
-              {stats.finalGrade.toFixed(1)}%
-            </div>
-            {tone.label ? (
-              <p className="mt-1 text-[12px] font-semibold" style={{ color: tone.color }}>
-                {tone.label}
-              </p>
-            ) : (
-              <p className="mt-1 text-[11px] text-zinc-500">
-                Add class averages to compare
-              </p>
-            )}
+    <div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+        <div>
+          <p className="kv-meta">Term Average</p>
+          <div
+            className="kv-title num"
+            style={{ fontSize: 48, fontWeight: 600, color: "var(--kv-text-primary)", marginTop: 8 }}
+          >
+            {stats.finalGrade.toFixed(1)}%
           </div>
-          <BellCurve grade={stats.finalGrade} classAverage={stats.finalClassAvg} accent="#a78bfa" />
+          {tone.label ? (
+            <p className="kv-meta" style={{ marginTop: 8 }}>{tone.label}</p>
+          ) : (
+            <p className="kv-meta" style={{ marginTop: 8 }}>Add class averages to compare</p>
+          )}
+        </div>
+        <BellCurve grade={stats.finalGrade} classAverage={stats.finalClassAvg} />
+      </div>
+
+      <FieldLabel>Term name</FieldLabel>
+      <KvInput value={termName} onChange={setTermName} placeholder="e.g. Fall 2026" />
+
+      <div style={{ marginTop: 22 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+          <p className="kv-meta">Courses</p>
+          <button type="button" onClick={addCourse} className="kv-btn-ghost">
+            <Plus size={11} strokeWidth={2} />
+            Add course
+          </button>
         </div>
 
-        <CardLabel>Term name</CardLabel>
-        <GlassInput value={termName} onChange={setTermName} placeholder="e.g. Fall 2026" />
-
-        {/* Course rows */}
-        <div className="mt-5 space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">
-              Courses
-            </p>
-            <button
-              type="button"
-              onClick={addCourse}
-              className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold text-zinc-200 transition-colors hover:bg-white/[0.08]"
-            >
-              <Plus size={11} strokeWidth={2} />
-              Add course
-            </button>
-          </div>
-
-          {/* Header row labels */}
-          <div className="grid grid-cols-[1fr,72px,72px,72px,32px] gap-2 px-1 text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-500">
-            <span>Course</span>
-            <span className="text-center">Grade %</span>
-            <span className="text-center">Credits</span>
-            <span className="text-center">Class avg</span>
-            <span></span>
-          </div>
-
-          <div className="space-y-2">
-            <AnimatePresence initial={false}>
-              {courses.map((c) => (
-                <motion.div
-                  key={c.id}
-                  layout
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.18 }}
-                  className="grid grid-cols-[1fr,72px,72px,72px,32px] items-center gap-2"
-                  style={{ willChange: "transform" }}
-                >
-                  <GlassInput
-                    value={c.name}
-                    onChange={(v) => updateCourse(c.id, { name: v })}
-                    placeholder="Course name"
-                  />
-                  <NumberInput
-                    value={c.grade}
-                    onChange={(v) => updateCourse(c.id, { grade: v })}
-                    placeholder="%"
-                    min={0}
-                    max={100}
-                  />
-                  <NumberInput
-                    value={c.credits}
-                    onChange={(v) => updateCourse(c.id, { credits: v })}
-                    placeholder="cr"
-                    min={0.25}
-                    max={3}
-                    step={0.25}
-                  />
-                  <NumberInput
-                    value={c.classAverage}
-                    onChange={(v) => updateCourse(c.id, { classAverage: v })}
-                    placeholder="avg"
-                    min={0}
-                    max={100}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeCourse(c.id)}
-                    disabled={courses.length <= 1}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-zinc-500 transition-colors hover:bg-red-500/10 hover:text-red-400 disabled:opacity-30 disabled:hover:bg-white/[0.03] disabled:hover:text-zinc-500"
-                    aria-label="Remove course"
-                  >
-                    <Trash2 size={13} strokeWidth={1.8} />
-                  </button>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        </div>
-
-        <PrimaryButton
-          accent="#a78bfa"
-          onClick={() => void save()}
-          disabled={saving || stats.totalCredits === 0}
-          className="mt-5 w-full"
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 72px 72px 72px auto",
+            gap: 8,
+            marginTop: 12,
+          }}
         >
-          <Save size={13} strokeWidth={1.8} />
-          {saving ? "Saving…" : "Save Calculation"}
-        </PrimaryButton>
+          <span className="kv-meta">Course</span>
+          <span className="kv-meta" style={{ textAlign: "center" }}>Grade %</span>
+          <span className="kv-meta" style={{ textAlign: "center" }}>Credits</span>
+          <span className="kv-meta" style={{ textAlign: "center" }}>Class avg</span>
+          <span />
+        </div>
 
-        {error ? <p className="mt-3 text-[12px] text-red-400">{error}</p> : null}
-        {savedMsg ? (
-          <p className="mt-3 text-[12px] font-semibold text-violet-300">{savedMsg}</p>
-        ) : null}
-      </GlassCard>
+        <div style={{ display: "grid", gap: 8, marginTop: 8 }}>
+          {courses.map((c) => (
+            <div
+              key={c.id}
+              style={{ display: "grid", gridTemplateColumns: "1fr 72px 72px 72px auto", gap: 8, alignItems: "center" }}
+            >
+              <KvInput
+                value={c.name}
+                onChange={(v) => updateCourse(c.id, { name: v })}
+                placeholder="Course name"
+              />
+              <KvNumber
+                value={c.grade}
+                onChange={(v) => updateCourse(c.id, { grade: v })}
+                placeholder="%"
+                min={0}
+                max={100}
+              />
+              <KvNumber
+                value={c.credits}
+                onChange={(v) => updateCourse(c.id, { credits: v })}
+                placeholder="cr"
+                min={0.25}
+                max={3}
+                step={0.25}
+              />
+              <KvNumber
+                value={c.classAverage}
+                onChange={(v) => updateCourse(c.id, { classAverage: v })}
+                placeholder="avg"
+                min={0}
+                max={100}
+              />
+              <button
+                type="button"
+                onClick={() => removeCourse(c.id)}
+                disabled={courses.length <= 1}
+                className="kv-btn-danger"
+                aria-label="Remove course"
+              >
+                <Trash2 size={13} strokeWidth={1.8} />
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => void save()}
+        disabled={saving || stats.totalCredits === 0}
+        className="kv-btn"
+        style={{ marginTop: 20 }}
+      >
+        <Save size={13} strokeWidth={1.8} />
+        {saving ? "Saving…" : "Save Calculation"}
+      </button>
+
+      {error ? <p className="kv-meta" style={{ marginTop: 12, color: "#E5484D" }}>{error}</p> : null}
+      {savedMsg ? <p className="kv-meta" style={{ marginTop: 12 }}>{savedMsg}</p> : null}
     </div>
   );
 }
@@ -898,11 +769,9 @@ function UniversityCalculator({ onSaved }: { onSaved: () => Promise<void> }) {
 function BellCurve({
   grade,
   classAverage,
-  accent,
 }: {
   grade: number;
   classAverage: number | null;
-  accent: string;
 }) {
   // Generate a normal-distribution curve centered at 70 with sd=12
   const mean = classAverage ?? 70;
@@ -916,27 +785,22 @@ function BellCurve({
   }
   const userX = ((Math.max(30, Math.min(100, grade)) - 30) / 70) * 130;
   const avgX = classAverage !== null ? ((Math.max(30, Math.min(100, classAverage)) - 30) / 70) * 130 : null;
+  const stroke = "var(--kv-text-primary)";
+  const muted = "var(--kv-text-tertiary)";
 
   return (
     <svg width="130" height="55" viewBox="0 0 130 55" aria-hidden>
-      <defs>
-        <linearGradient id="bellCurveFill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={accent} stopOpacity="0.35" />
-          <stop offset="100%" stopColor={accent} stopOpacity="0" />
-        </linearGradient>
-      </defs>
       <polyline
         points={`0,50 ${points.join(" ")} 130,50`}
-        fill="url(#bellCurveFill)"
-        stroke={accent}
+        fill="none"
+        stroke={muted}
         strokeWidth="1"
-        strokeOpacity="0.6"
       />
       {avgX !== null && (
-        <line x1={avgX} y1="50" x2={avgX} y2="14" stroke="#71717a" strokeWidth="1" strokeDasharray="2 2" />
+        <line x1={avgX} y1="50" x2={avgX} y2="14" stroke={muted} strokeWidth="1" strokeDasharray="2 2" />
       )}
-      <line x1={userX} y1="50" x2={userX} y2="8" stroke={accent} strokeWidth="1.5" />
-      <circle cx={userX} cy="8" r="2.5" fill={accent} />
+      <line x1={userX} y1="50" x2={userX} y2="8" stroke={stroke} strokeWidth="1.5" />
+      <circle cx={userX} cy="8" r="2.5" fill={stroke} />
     </svg>
   );
 }
@@ -948,53 +812,28 @@ function BellCurve({
 function RecentCalculations({ rows }: { rows: RecentRow[] }) {
   if (rows.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-6 text-center text-[13px] text-zinc-500">
+      <p className="kv-meta" style={{ marginTop: 12 }}>
         No calculations yet. Save your first to see it here.
-      </div>
+      </p>
     );
   }
   return (
-    <div className="space-y-2">
-      {rows.map((row, i) => (
-        <motion.div
-          key={row.id}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25, delay: Math.min(0.04 * i, 0.2) }}
-          className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 backdrop-blur-xl"
-          style={{ willChange: "transform" }}
-        >
-          <div className="flex items-center gap-3">
-            <TierBadge tier={row.tier} />
-            <div>
-              <p className="text-[13px] font-semibold text-zinc-100">{row.courseName}</p>
-              <p className="text-[11px] text-zinc-500">{formatRelative(row.createdAt)}</p>
-            </div>
+    <div>
+      {rows.map((row) => (
+        <div key={row.id} className="kv-row">
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div className="kv-row-title">{row.courseName}</div>
+            <p className="kv-meta" style={{ marginTop: 6 }}>
+              {TIER_META[row.tier].label}
+              {row.createdAt ? ` · ${formatTorontoDate(row.createdAt)}` : ""}
+            </p>
           </div>
-          <div className="text-right">
+          <div className="kv-row-side">
             <RecentValue row={row} />
           </div>
-        </motion.div>
+        </div>
       ))}
     </div>
-  );
-}
-
-function TierBadge({ tier }: { tier: UserTier }) {
-  const meta = TIER_META[tier];
-  const Icon = meta.icon;
-  return (
-    <span
-      className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border"
-      style={{
-        borderColor: `${meta.accent}40`,
-        background: `${meta.accent}15`,
-        color: meta.accent,
-      }}
-      title={meta.label}
-    >
-      <Icon size={13} strokeWidth={1.8} />
-    </span>
   );
 }
 
@@ -1002,21 +841,17 @@ function RecentValue({ row }: { row: RecentRow }) {
   if (row.tier === "COLLEGE" && typeof row.gpa === "number") {
     return (
       <>
-        <div className="text-[15px] font-bold tabular-nums text-cyan-300">{row.gpa.toFixed(2)}</div>
-        <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">GPA</p>
+        <div className="kv-meta num">{row.gpa.toFixed(2)}</div>
+        <p className="kv-meta">GPA</p>
       </>
     );
   }
   if (row.tier === "UNIVERSITY" && typeof row.weightedAverage === "number") {
     return (
       <>
-        <div className="text-[15px] font-bold tabular-nums text-violet-300">
-          {row.weightedAverage.toFixed(1)}%
-        </div>
+        <div className="kv-meta num">{row.weightedAverage.toFixed(1)}%</div>
         {typeof row.classAverage === "number" ? (
-          <p className="text-[10px] tabular-nums text-zinc-500">
-            avg {row.classAverage.toFixed(1)}%
-          </p>
+          <p className="kv-meta num">avg {row.classAverage.toFixed(1)}%</p>
         ) : null}
       </>
     );
@@ -1024,63 +859,23 @@ function RecentValue({ row }: { row: RecentRow }) {
   if (typeof row.neededOnFinal === "number") {
     return (
       <>
-        <div className="text-[15px] font-bold tabular-nums text-amber-300">
-          {row.neededOnFinal.toFixed(1)}%
-        </div>
-        <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">on final</p>
+        <div className="kv-meta num">{row.neededOnFinal.toFixed(1)}%</div>
+        <p className="kv-meta">on final</p>
       </>
     );
   }
-  return <span className="text-[12px] text-zinc-500">—</span>;
-}
-
-function formatRelative(iso: string | undefined): string {
-  if (!iso) return "";
-  const then = Date.parse(iso);
-  if (!Number.isFinite(then)) return "";
-  const diff = Date.now() - then;
-  const minutes = Math.floor(diff / 60000);
-  if (minutes < 1) return "just now";
-  if (minutes < 60) return `${minutes}m ago`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  if (days < 7) return `${days}d ago`;
-  return new Date(then).toLocaleDateString();
+  return <span className="kv-meta">—</span>;
 }
 
 /* ──────────────────────────────────────────────────────────── */
-/*  Reusable Midnight Glass form pieces                         */
+/*  Form pieces                                                 */
 /* ──────────────────────────────────────────────────────────── */
 
-function GlassCard({
-  accent,
-  children,
-}: {
-  accent: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-2xl"
-      style={{
-        boxShadow: `0 30px 80px -20px rgba(0,0,0,0.5), 0 0 0 1px ${accent}10 inset`,
-      }}
-    >
-      {children}
-    </div>
-  );
+function FieldLabel({ children }: { children: ReactNode }) {
+  return <p className="kv-meta" style={{ marginTop: 16, marginBottom: 8 }}>{children}</p>;
 }
 
-function CardLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <label className="mb-1.5 block text-[11px] font-bold uppercase tracking-[0.18em] text-zinc-400">
-      {children}
-    </label>
-  );
-}
-
-function GlassInput({
+function KvInput({
   value,
   onChange,
   placeholder,
@@ -1089,35 +884,17 @@ function GlassInput({
   onChange: (v: string) => void;
   placeholder?: string;
 }) {
-  const [focused, setFocused] = useState(false);
   return (
-    <div className="relative">
-      <input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        placeholder={placeholder}
-        className="h-9 w-full rounded-lg border border-white/10 bg-white/[0.02] px-3 text-[13px] text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-white/20"
-      />
-      <motion.span
-        aria-hidden
-        initial={false}
-        animate={{ scaleX: focused ? 1 : 0 }}
-        transition={{ type: "spring", stiffness: 350, damping: 30 }}
-        className="pointer-events-none absolute -bottom-px left-0 h-px w-full"
-        style={{
-          transformOrigin: "left",
-          background:
-            "linear-gradient(90deg, transparent 0%, #2dd4bf 30%, #14b8a6 50%, #06b6d4 70%, transparent 100%)",
-          willChange: "transform",
-        }}
-      />
-    </div>
+    <input
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      className="kv-field"
+    />
   );
 }
 
-function NumberInput({
+function KvNumber({
   value,
   onChange,
   placeholder,
@@ -1132,39 +909,22 @@ function NumberInput({
   max?: number;
   step?: number;
 }) {
-  const [focused, setFocused] = useState(false);
   return (
-    <div className="relative">
-      <input
-        type="number"
-        value={value}
-        min={min}
-        max={max}
-        step={step}
-        onChange={(e) => onChange(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        placeholder={placeholder}
-        className="h-9 w-full rounded-lg border border-white/10 bg-white/[0.02] px-2 text-center text-[13px] tabular-nums text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-white/20 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-      />
-      <motion.span
-        aria-hidden
-        initial={false}
-        animate={{ scaleX: focused ? 1 : 0 }}
-        transition={{ type: "spring", stiffness: 350, damping: 30 }}
-        className="pointer-events-none absolute -bottom-px left-0 h-px w-full"
-        style={{
-          transformOrigin: "left",
-          background:
-            "linear-gradient(90deg, transparent 0%, #2dd4bf 30%, #14b8a6 50%, #06b6d4 70%, transparent 100%)",
-          willChange: "transform",
-        }}
-      />
-    </div>
+    <input
+      type="number"
+      value={value}
+      min={min}
+      max={max}
+      step={step}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      className="kv-field num"
+      style={{ textAlign: "center" }}
+    />
   );
 }
 
-function PercentInput({
+function PercentField({
   label,
   value,
   onChange,
@@ -1175,13 +935,8 @@ function PercentInput({
 }) {
   return (
     <div>
-      <CardLabel>{label}</CardLabel>
-      <div className="relative">
-        <NumberInput value={value} onChange={onChange} min={0} max={100} />
-        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-zinc-500">
-          %
-        </span>
-      </div>
+      <p className="kv-meta" style={{ marginBottom: 8 }}>{label}</p>
+      <KvNumber value={value} onChange={onChange} min={0} max={100} />
     </div>
   );
 }
@@ -1197,46 +952,13 @@ function LetterGradeSelect({
     <select
       value={value}
       onChange={(e) => onChange(e.target.value as LetterGrade)}
-      className="h-9 w-full rounded-lg border border-white/10 bg-white/[0.02] px-2 text-center text-[13px] font-bold tabular-nums text-zinc-100 outline-none focus:border-white/20"
+      className="kv-field num"
     >
       {LETTER_GRADES.map((g) => (
-        <option key={g} value={g} className="bg-zinc-900 text-zinc-100">
+        <option key={g} value={g}>
           {g} ({LETTER_GPA[g].toFixed(1)})
         </option>
       ))}
     </select>
-  );
-}
-
-function PrimaryButton({
-  children,
-  accent,
-  onClick,
-  disabled,
-  className,
-}: {
-  children: React.ReactNode;
-  accent: string;
-  onClick: () => void;
-  disabled?: boolean;
-  className?: string;
-}) {
-  return (
-    <motion.button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      whileHover={disabled ? undefined : { scale: 1.01 }}
-      whileTap={disabled ? undefined : { scale: 0.99 }}
-      transition={{ type: "spring", stiffness: 450, damping: 28 }}
-      className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-[13px] font-bold text-white disabled:opacity-50 ${className ?? ""}`}
-      style={{
-        background: `linear-gradient(135deg, ${accent}cc 0%, ${accent} 100%)`,
-        boxShadow: `0 0 0 1px ${accent}55 inset, 0 12px 30px -10px ${accent}66`,
-        willChange: "transform",
-      }}
-    >
-      {children}
-    </motion.button>
   );
 }

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { runGroqPrompt } from "~/server/groq";
+import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 import { ensureGroupMember } from "~/server/study-groups";
 
 export async function POST(
@@ -58,6 +58,9 @@ export async function POST(
 
     return NextResponse.json({ message: saved });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Study group AI moderate error:", error);
     return NextResponse.json({ error: "Failed to generate moderator response" }, { status: 500 });
   }

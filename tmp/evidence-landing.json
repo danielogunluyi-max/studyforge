@@ -1,0 +1,134 @@
+{
+  "3000": {
+    "url": "http://127.0.0.1:3000/?evidence=1789001301252",
+    "scriptCount": 32,
+    "hits": [
+      {
+        "url": "/_next/static/chunks/node_modules_%40sentry-internal_browser-utils_build_esm_d756d314._.js",
+        "hasTypewriter": false,
+        "hasLen0Reset": false,
+        "has1800": true,
+        "has1400": false,
+        "size": 226964
+      },
+      {
+        "url": "/_next/static/chunks/node_modules_posthog-js_dist_module_91cd6185.js",
+        "hasTypewriter": false,
+        "hasLen0Reset": false,
+        "has1800": true,
+        "has1400": false,
+        "size": 315628
+      },
+      {
+        "url": "/_next/static/chunks/_bd99e4b9._.js",
+        "hasTypewriter": true,
+        "hasLen0Reset": true,
+        "has1800": true,
+        "has1400": false,
+        "size": 154691
+      }
+    ],
+    "samples": [
+      {
+        "t": "500ms",
+        "typed": "a mock exa",
+        "typedLen": 10,
+        "stage": "01",
+        "meta": "PHOTO",
+        "reduce": false
+      },
+      {
+        "t": "1000ms",
+        "typed": "a mock exam.",
+        "typedLen": 12,
+        "stage": "02",
+        "meta": "NOTES",
+        "reduce": false
+      },
+      {
+        "t": "1800ms",
+        "typed": "a mock exam.",
+        "typedLen": 12,
+        "stage": "02",
+        "meta": "NOTES",
+        "reduce": false
+      },
+      {
+        "t": "4000ms",
+        "typed": "",
+        "typedLen": 0,
+        "stage": "02",
+        "meta": "NOTES",
+        "reduce": false
+      }
+    ],
+    "errors": [],
+    "reduce": false
+  },
+  "3001": {
+    "url": "http://127.0.0.1:3001/?evidence=1789001314198",
+    "scriptCount": 34,
+    "hits": [
+      {
+        "url": "/_next/static/chunks/node_modules_%40sentry-internal_browser-utils_build_esm_d756d314._.js",
+        "hasTypewriter": false,
+        "hasLen0Reset": false,
+        "has1800": true,
+        "has1400": false,
+        "size": 226964
+      },
+      {
+        "url": "/_next/static/chunks/node_modules_posthog-js_dist_module_91cd6185.js",
+        "hasTypewriter": false,
+        "hasLen0Reset": false,
+        "has1800": true,
+        "has1400": false,
+        "size": 315628
+      },
+      {
+        "url": "/_next/static/chunks/_bd99e4b9._.js",
+        "hasTypewriter": true,
+        "hasLen0Reset": true,
+        "has1800": true,
+        "has1400": false,
+        "size": 154691
+      }
+    ],
+    "samples": [
+      {
+        "t": "500ms",
+        "typed": "structured notes.",
+        "typedLen": 17,
+        "stage": "05",
+        "meta": "NOVA",
+        "reduce": false
+      },
+      {
+        "t": "1000ms",
+        "typed": "structured note",
+        "typedLen": 15,
+        "stage": "05",
+        "meta": "NOVA",
+        "reduce": false
+      },
+      {
+        "t": "1800ms",
+        "typed": "",
+        "typedLen": 0,
+        "stage": "05",
+        "meta": "NOVA",
+        "reduce": false
+      },
+      {
+        "t": "4000ms",
+        "typed": "a plan that sticks.",
+        "typedLen": 19,
+        "stage": "01",
+        "meta": "PHOTO",
+        "reduce": false
+      }
+    ],
+    "errors": [],
+    "reduce": false
+  }
+}

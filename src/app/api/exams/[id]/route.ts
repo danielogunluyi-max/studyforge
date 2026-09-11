@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type StudyPlanDay = {
   date: string;
@@ -168,6 +168,9 @@ Rules:
 
     return NextResponse.json({ exam: updated });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Exams PATCH error:", error);
     return NextResponse.json({ error: "Failed to update exam" }, { status: 500 });
   }

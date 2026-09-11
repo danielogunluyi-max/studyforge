@@ -26,7 +26,8 @@ const TOOLS: Record<ToolKey, ToolDef> = {
     label: "Nova AI",
     accent: "#2dd4bf",
     icon: Sparkles,
-    buildSrc: () => withEmbed("/tutor"),
+    buildSrc: ({ noteId }) =>
+      withEmbed(noteId ? `/tutor?noteId=${encodeURIComponent(noteId)}` : "/tutor"),
   },
   notes: {
     key: "notes",
@@ -97,13 +98,18 @@ function SplitPageInner() {
   return (
     <div className={focusMode ? "h-screen w-screen" : "flex h-[calc(100vh-3.5rem)] w-full flex-col"}>
       {!focusMode && (
-        <div className="flex flex-wrap items-center gap-3 border-b border-white/10 bg-black/30 px-4 py-3 backdrop-blur-xl">
-          <h1 className="text-base font-bold text-white">Split View</h1>
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, borderBottom: "1px solid var(--border-default)", padding: "12px 16px" }}>
+          <div>
+            <div className="kv-crumb">Kyvex / <b>Split View</b></div>
+            <h1 className="kv-title" style={{ fontSize: 20, marginTop: 6 }}>Split View</h1>
+          </div>
           <ToolPicker label="Left" value={leftKey} onChange={setLeftKey} disabled={rightKey} />
           <ToolPicker label="Right" value={rightKey} onChange={setRightKey} disabled={leftKey} />
           <button
+            type="button"
             onClick={() => router.push("/dashboard")}
-            className="ml-auto rounded-lg bg-white/5 px-3 py-1.5 text-xs text-white/70 hover:bg-white/10"
+            className="kv-btn-ghost"
+            style={{ marginLeft: "auto" }}
           >
             Close
           </button>
@@ -136,7 +142,8 @@ function buildPane(key: ToolKey, badge: string, noteId: string | null): PaneDesc
       <iframe
         src={src}
         title={tool.label}
-        className="h-full w-full border-0 bg-[#0a0e1f]"
+        className="h-full w-full border-0"
+        style={{ background: "var(--bg-base)" }}
         allow="clipboard-read; clipboard-write; camera; microphone"
       />
     ),
@@ -155,15 +162,16 @@ function ToolPicker({
   disabled: ToolKey;
 }) {
   return (
-    <label className="flex items-center gap-2 text-xs text-white/60">
-      <span className="uppercase tracking-wider">{label}</span>
+    <label className="kv-meta" style={{ display: "flex", alignItems: "center", gap: 8, textTransform: "uppercase" }}>
+      <span>{label}</span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as ToolKey)}
-        className="rounded-lg border border-white/15 bg-black/40 px-2 py-1 text-sm text-white outline-none focus:border-amber-300/50"
+        className="kv-field"
+        style={{ width: "auto", padding: "8px 10px" }}
       >
         {Object.values(TOOLS).map((t) => (
-          <option key={t.key} value={t.key} disabled={t.key === disabled} className="bg-[#0d1228]">
+          <option key={t.key} value={t.key} disabled={t.key === disabled}>
             {t.label}
           </option>
         ))}
@@ -176,8 +184,8 @@ export default function SplitPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex h-[calc(100vh-3.5rem)] items-center justify-center bg-[#0a0e1f] text-white/60">
-          Loading split view…
+        <div className="flex h-[calc(100vh-3.5rem)] items-center justify-center">
+          <p className="kv-meta">Loading split view…</p>
         </div>
       }
     >

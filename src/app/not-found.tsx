@@ -1,48 +1,47 @@
-export default function NotFound() {
+import Link from "next/link";
+
+import { auth } from "~/server/auth";
+
+export default async function NotFound() {
+  const session = await auth();
+  const signedIn = Boolean(session?.user);
+
   return (
     <div
       style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'var(--bg-base)',
-        fontFamily: 'inherit',
+        minHeight: "100vh",
+        background: "var(--bg-base)",
+        color: "var(--kv-text-primary)",
+        padding: "48px 20px",
       }}
     >
-      <div
-        className="kv-animate-bounce"
-        style={{
-          fontSize: '80px',
-          marginBottom: '24px',
-        }}
-      >
-        🔍
+      <div style={{ maxWidth: 480, margin: "0 auto" }}>
+        <div className="kv-crumb">
+          Kyvex / <b>404</b>
+        </div>
+        <h1 className="kv-title" style={{ marginTop: 14, fontSize: 28 }}>
+          This page doesn&apos;t exist.
+        </h1>
+        <p className="kv-sub" style={{ marginTop: 8 }}>
+          It was never here, or it moved.
+        </p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 28 }}>
+          {signedIn ? (
+            <Link href="/dashboard" className="kv-btn" style={{ textDecoration: "none" }}>
+              Back to Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link href="/" className="kv-btn" style={{ textDecoration: "none" }}>
+                Go to Kyvex
+              </Link>
+              <Link href="/login" className="kv-btn-ghost" style={{ textDecoration: "none" }}>
+                Log in
+              </Link>
+            </>
+          )}
+        </div>
       </div>
-      <h1
-        style={{
-          fontSize: '32px',
-          fontWeight: 900,
-          color: 'var(--text-primary)',
-          letterSpacing: '-0.03em',
-          marginBottom: '8px',
-        }}
-      >
-        Page not found
-      </h1>
-      <p
-        style={{
-          fontSize: '15px',
-          color: 'var(--text-muted)',
-          marginBottom: '32px',
-        }}
-      >
-        This page doesn't exist or was moved.
-      </p>
-      <a href="/dashboard" className="kv-btn-primary" style={{ textDecoration: 'none' }}>
-        Back to Dashboard →
-      </a>
     </div>
   );
 }

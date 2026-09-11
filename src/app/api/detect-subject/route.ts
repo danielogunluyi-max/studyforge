@@ -1,5 +1,6 @@
 import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -81,7 +82,7 @@ Return JSON only:
 {"subject":"string","suggestedFormat":"summary|detailed|flashcards|questions","confident":true|false}`;
 
     const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: GROQ_TEXT_MODEL,
       temperature: 0.1,
       max_tokens: 160,
       messages: [{ role: "user", content: prompt }],
@@ -99,6 +100,9 @@ Return JSON only:
       suggestedFormat: normalizeSuggestedFormat(parsed.suggestedFormat),
     });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Error detecting subject:", error instanceof Error ? error.stack ?? error.message : error);
     return NextResponse.json({ subject: "", suggestedFormat: "" }, { status: 200 });
   }

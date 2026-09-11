@@ -2,6 +2,7 @@ import Groq from 'groq-sdk';
 import { NextResponse } from 'next/server';
 import { auth } from '~/server/auth';
 import { db } from '~/server/db';
+import { GROQ_TEXT_MODEL, GROQ_VISION_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -39,8 +40,10 @@ export async function POST(req: Request) {
   let extractedText = '';
 
   if (mediaType.startsWith('image/') || mediaType === 'application/pdf') {
-    const visionRes = await groq.chat.completions.create({
-      model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+    let visionRes;
+    try {
+      visionRes = await groq.chat.completions.create({
+      model: GROQ_VISION_MODEL,
       messages: [
         {
           role: 'user',
@@ -56,8 +59,14 @@ export async function POST(req: Request) {
           ],
         } as any,
       ],
-      max_tokens: 3000,
+      max_tokens: 800,
     });
+    } catch (error) {
+      if (isRateLimited(error)) {
+        return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+      }
+      throw error;
+    }
 
     extractedText = visionRes.choices[0]?.message?.content ?? '';
   } else if (mediaType.startsWith('text/')) {
@@ -69,8 +78,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Could not extract readable text from file' }, { status: 400 });
   }
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+  let completion;
+  try {
+    completion = await groq.chat.completions.create({
+    model: GROQ_TEXT_MODEL,
     messages: [
       {
         role: 'user',
@@ -102,6 +113,12 @@ Respond ONLY in JSON:
     ],
     max_tokens: 3000,
   });
+  } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
+    throw error;
+  }
 
   const raw = completion.choices[0]?.message?.content || '{}';
   try {

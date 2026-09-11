@@ -1,6 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
 import NextAuth from "next-auth";
 
+import { loginUrlFor, readReturnParam, safeReturnPath } from "~/lib/auth-redirect";
+import { matchDisabledFeature } from "~/lib/disabled-features";
+import { isKnownAppPath } from "~/lib/known-app-paths";
 import { authConfig } from "~/server/auth.config";
 
 // Edge-safe Auth.js instance: verifies the JWT session cookie without bundling
@@ -9,7 +12,7 @@ const { auth } = NextAuth(authConfig);
 
 /**
  * Public routes — the `(landing)` + `(auth)` route groups. These never require
- * a session. Everything else (the entire `(dashboard)` workspace) is protected.
+ * a session. Everything else is protected, including `/features`.
  *
  * This is deny-by-default: any new route is protected unless explicitly listed
  * here, which is safer than maintaining an allow-list of protected prefixes.
@@ -20,7 +23,6 @@ const PUBLIC_PATHS = new Set<string>([
   "/signup",
   "/register",
   "/about",
-  "/features",
   "/privacy",
   "/terms",
   "/forgot-password",
@@ -53,11 +55,21 @@ function resolveOrigin(req: NextRequest): string {
 export default auth((req) => {
   const { nextUrl } = req;
   const { pathname } = nextUrl;
+
+  const disabled = matchDisabledFeature(pathname);
+  if (disabled) {
+    const url = new URL("/dashboard", req.url);
+    url.searchParams.set("disabled", disabled.slug);
+    return NextResponse.redirect(url);
+  }
+
   const isAuthenticated = !!req.auth?.user;
 
-  // Signed-in users have no business on the auth pages — send them to the app.
+  // Signed-in users have no business on the auth pages — send them onward.
+  // Honor callbackUrl / from so a deep link isn't dumped on /dashboard.
   if (isAuthenticated && AUTH_PAGES.has(pathname)) {
-    return NextResponse.redirect(new URL("/dashboard", resolveOrigin(req)));
+    const dest = safeReturnPath(readReturnParam(nextUrl.searchParams));
+    return NextResponse.redirect(new URL(dest, resolveOrigin(req)));
   }
 
   // Public pages are always accessible.
@@ -65,12 +77,16 @@ export default auth((req) => {
     return NextResponse.next();
   }
 
-  // Protected workspace: bounce unauthenticated requests to /login, preserving
-  // the intended destination so we can return the user there after sign-in.
+  // Protected workspace: bounce unauthenticated requests to /login only when
+  // the path resolves to a real app route. Unknown paths fall through so
+  // Next can render the public root not-found (Go to Kyvex / Log in).
   if (!isAuthenticated) {
-    const loginUrl = new URL("/login", resolveOrigin(req));
-    loginUrl.searchParams.set("callbackUrl", `${pathname}${nextUrl.search}`);
-    return NextResponse.redirect(loginUrl);
+    if (isKnownAppPath(pathname)) {
+      return NextResponse.redirect(
+        new URL(loginUrlFor(`${pathname}${nextUrl.search}`), resolveOrigin(req)),
+      );
+    }
+    return NextResponse.next();
   }
 
   return NextResponse.next();

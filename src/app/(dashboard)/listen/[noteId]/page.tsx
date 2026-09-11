@@ -1,6 +1,7 @@
 import { getAuthSession } from '~/server/auth/session'
 import { db } from '~/server/db'
 import { notFound, redirect } from 'next/navigation'
+import { loginUrlFor } from '~/lib/auth-redirect'
 import ListenClient from './ListenClient.tsx'
 
 export const metadata = {
@@ -12,10 +13,10 @@ export default async function ListenPage({
 }: {
   params: Promise<{ noteId: string }>
 }) {
-  const session = await getAuthSession()
-  if (!session?.user?.id) redirect('/login')
-
   const { noteId } = await params
+
+  const session = await getAuthSession()
+  if (!session?.user?.id) redirect(loginUrlFor(`/listen/${noteId}`))
 
   const note = await db.note.findFirst({
     where: { id: noteId, userId: session.user.id },

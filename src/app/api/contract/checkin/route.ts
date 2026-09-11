@@ -3,6 +3,7 @@ import Groq from 'groq-sdk';
 import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
 import { getAuthSession } from '~/server/auth/session';
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const prisma = db;
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -41,8 +42,10 @@ export async function POST(req: Request) {
   const metGoal = hoursStudied >= contract.dailyHours;
   const streak = metGoal ? contract.currentStreak + 1 : 0;
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+  let completion;
+  try {
+    completion = await groq.chat.completions.create({
+    model: GROQ_TEXT_MODEL,
     messages: [
       {
         role: 'user',
@@ -63,6 +66,12 @@ If they hit their goal, celebrate specifically.`,
     ],
     max_tokens: 150,
   });
+  } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
+    throw error;
+  }
 
   const aiResponse = completion.choices[0]?.message?.content || '';
 

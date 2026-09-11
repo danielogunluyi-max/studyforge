@@ -1,10 +1,15 @@
 import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
+import { auth } from "~/server/auth";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function POST(request: Request) {
+  const session = await auth();
+  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   try {
     // Read raw body once and parse. Some CLI wrappers (or Windows quoting)
     // may send a single-quoted string instead of strict JSON; tolerate that.
@@ -262,7 +267,7 @@ ${text}`;
           content: prompt,
         },
       ],
-      model: "llama-3.3-70b-versatile",
+      model: GROQ_TEXT_MODEL,
       temperature: 0.7,
       max_tokens: 2000,
     });
@@ -277,6 +282,9 @@ ${text}`;
       return NextResponse.json({ error: "Failed to generate notes" }, { status: 500 });
     }
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Error generating notes:", error instanceof Error ? error.stack ?? error.message : error);
     return NextResponse.json(
       { error: "Failed to generate notes" },

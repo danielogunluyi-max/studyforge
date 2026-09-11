@@ -1,0 +1,20 @@
+﻿[
+    {
+        "run":  1,
+        "exit":  0,
+        "passed":  true,
+        "seconds":  113.5
+    },
+    {
+        "run":  2,
+        "exit":  0,
+        "passed":  true,
+        "seconds":  104.9
+    },
+    {
+        "run":  3,
+        "exit":  0,
+        "passed":  true,
+        "seconds":  122.6
+    }
+]

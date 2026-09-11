@@ -2,6 +2,7 @@ import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 
 import { auth } from "~/server/auth";
+import { GROQ_VISION_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 export const runtime = "nodejs";
 
@@ -57,7 +58,7 @@ export async function POST(request: Request) {
     const mediaType = image.type;
 
     const response = await groq.chat.completions.create({
-      model: "meta-llama/llama-4-scout-17b-16e-instruct",
+      model: GROQ_VISION_MODEL,
       messages: [
         {
           role: "user",
@@ -75,7 +76,7 @@ export async function POST(request: Request) {
           ],
         },
       ],
-      max_tokens: 2000,
+      max_tokens: 800,
     });
 
     const extractedText = response.choices[0]?.message?.content?.trim() ?? "";
@@ -86,6 +87,9 @@ export async function POST(request: Request) {
       confidence,
     });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     const message = error instanceof Error ? error.message : "Failed to extract text from image";
     console.error("Photo quiz extract error:", error);
     return NextResponse.json({ error: message }, { status: getErrorStatus(message) });

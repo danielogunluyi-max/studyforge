@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { runGroqPrompt } from "~/server/groq";
+import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type NotePayload = {
   title: string;
@@ -82,7 +82,8 @@ async function autoGenerateTags(content: string): Promise<string[]> {
     });
 
     return parseTagArray(raw).slice(0, 5);
-  } catch {
+  } catch (error) {
+    if (isRateLimited(error)) throw error;
     return [];
   }
 }
@@ -324,6 +325,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ note });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("Error creating note:", errorMessage);
     return NextResponse.json(

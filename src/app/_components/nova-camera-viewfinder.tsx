@@ -1,11 +1,8 @@
 "use client";
 
 /**
- * Phase 3 — Nova Live Vision: Camera Viewfinder
- *
- * Wraps getUserMedia in a Midnight-Glass frame. Exposes an imperative `snap()`
- * via ref that returns a downscaled JPEG base64 + mime ready to ship to the
- * vision API.
+ * Nova Live Vision: Camera Viewfinder
+ * Hairline frame; native aspect preview; no glass/cyan.
  */
 
 import {
@@ -29,11 +26,8 @@ export type NovaCameraHandle = {
 type Facing = "user" | "environment";
 
 type Props = {
-  /** Override the default 1024px long-axis snapshot size. */
   maxLongAxis?: number;
-  /** JPEG quality (0–1). Defaults to 0.85. */
   jpegQuality?: number;
-  /** Notified when the camera transitions ready/error. */
   onReadyChange?: (ready: boolean) => void;
 };
 
@@ -81,7 +75,6 @@ const NovaCameraViewfinder = forwardRef<NovaCameraHandle, Props>(function NovaCa
         streamRef.current = stream;
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
-          // play() is sometimes needed despite autoPlay on iOS Safari
           await videoRef.current.play().catch(() => undefined);
         }
         setStatus("live");
@@ -136,7 +129,6 @@ const NovaCameraViewfinder = forwardRef<NovaCameraHandle, Props>(function NovaCa
         const base64 = dataUrl.split(",")[1] ?? "";
         if (!base64) return null;
 
-        // Visual flash to confirm capture
         setFlashing(true);
         setTimeout(() => setFlashing(false), 220);
 
@@ -150,9 +142,15 @@ const NovaCameraViewfinder = forwardRef<NovaCameraHandle, Props>(function NovaCa
   const restartCamera = () => void startStream(facing);
 
   return (
-    <div className="relative w-full overflow-hidden rounded-3xl border border-white/10 bg-black/60 backdrop-blur-2xl">
-      {/* Aspect-ratio wrapper — 4:3 keeps it tall enough on desktop, fills mobile */}
-      <div className="relative aspect-[4/3] w-full bg-black">
+    <div
+      className="card relative w-full overflow-hidden"
+      style={{
+        borderRadius: "var(--kv-radius)",
+        border: "1px solid var(--border-default)",
+        background: "#000",
+      }}
+    >
+      <div className="relative aspect-[4/3] w-full" style={{ background: "#000" }}>
         <video
           ref={videoRef}
           autoPlay
@@ -161,11 +159,9 @@ const NovaCameraViewfinder = forwardRef<NovaCameraHandle, Props>(function NovaCa
           className="absolute inset-0 h-full w-full object-cover"
           style={{
             transform: facing === "user" ? "scaleX(-1)" : "none",
-            willChange: "transform",
           }}
         />
 
-        {/* Capture flash */}
         <motion.div
           aria-hidden
           initial={false}
@@ -174,31 +170,29 @@ const NovaCameraViewfinder = forwardRef<NovaCameraHandle, Props>(function NovaCa
           className="pointer-events-none absolute inset-0 bg-white"
         />
 
-        {/* Status overlays */}
         {status !== "live" && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ background: "rgba(0,0,0,.7)" }}
+          >
             {status === "starting" && (
-              <div className="flex items-center gap-2 text-[12px] font-semibold text-zinc-300">
+              <div className="kv-meta flex items-center gap-2">
                 <RefreshCw size={14} strokeWidth={1.7} className="animate-spin" />
                 Starting camera…
               </div>
             )}
             {status === "error" && (
               <div className="max-w-[80%] text-center">
-                <VideoOff size={28} strokeWidth={1.5} className="mx-auto text-red-400" />
-                <p className="mt-3 text-[12px] leading-relaxed text-zinc-300">{errorMsg}</p>
-                <button
-                  type="button"
-                  onClick={restartCamera}
-                  className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 text-[11px] font-semibold text-zinc-100 transition-colors hover:bg-white/[0.12]"
-                >
+                <VideoOff size={28} strokeWidth={1.5} className="mx-auto" style={{ color: "#E5484D" }} />
+                <p className="kv-meta" style={{ marginTop: 12 }}>{errorMsg}</p>
+                <button type="button" onClick={restartCamera} className="kv-btn" style={{ marginTop: 16, padding: "6px 12px", fontSize: 12 }}>
                   <RefreshCw size={11} strokeWidth={2} />
                   Retry
                 </button>
               </div>
             )}
             {status === "idle" && (
-              <div className="flex items-center gap-2 text-[12px] font-semibold text-zinc-400">
+              <div className="kv-meta flex items-center gap-2">
                 <Video size={14} strokeWidth={1.7} />
                 Camera idle
               </div>
@@ -206,32 +200,32 @@ const NovaCameraViewfinder = forwardRef<NovaCameraHandle, Props>(function NovaCa
           </div>
         )}
 
-        {/* Top-left live badge */}
         {status === "live" && (
-          <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-1 backdrop-blur-md">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            </span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-300">
-              Live
-            </span>
+          <div
+            className="absolute left-3 top-3 inline-flex items-center gap-1.5 px-2.5 py-1"
+            style={{
+              border: "1px solid var(--border-default)",
+              borderRadius: "var(--kv-radius)",
+              background: "var(--bg-card)",
+            }}
+          >
+            <span className="dot" style={{ width: 6, height: 6, background: "var(--kv-accent)" }} />
+            <span className="kv-meta">Live</span>
           </div>
         )}
 
-        {/* Top-right flip camera */}
         {status === "live" && (
           <button
             type="button"
             onClick={flipCamera}
             aria-label="Flip camera"
-            className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/40 text-zinc-100 backdrop-blur-md transition-colors hover:bg-black/60"
+            className="kv-btn-ghost absolute right-3 top-3"
+            style={{ height: 36, width: 36, padding: 0, justifyContent: "center" }}
           >
             <RotateCw size={14} strokeWidth={1.8} />
           </button>
         )}
 
-        {/* Bottom-center frame guide */}
         {status === "live" && (
           <svg
             aria-hidden

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
-import { runGroqPrompt } from "~/server/groq";
+import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 import type { PresentationData, SlideData } from "~/types/presentation";
 import { generatePresentationRequestSchema, presentationDataSchema } from "~/types/presentation.schema";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
@@ -253,6 +253,9 @@ Rules:
 
     return NextResponse.json({ presentation: validatedPresentation });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("presentation/generate error", error);
     return NextResponse.json({ error: "Failed to generate presentation" }, { status: 500 });
   }

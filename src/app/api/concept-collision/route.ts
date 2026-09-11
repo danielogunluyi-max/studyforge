@@ -2,6 +2,7 @@ import { auth } from "~/server/auth"
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
@@ -24,8 +25,10 @@ export async function POST(req: Request) {
 
   const noteSummary = notes.map(n => `[${n.subject}] ${n.title}: ${n.content.slice(0, 200)}`).join('\n')
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+  let completion
+  try {
+    completion = await groq.chat.completions.create({
+    model: GROQ_TEXT_MODEL,
     messages: [{
       role: 'user',
       content: `Find hidden conceptual connections between topics from different subjects in this student's notes. These are "concept collisions" - moments where two seemingly unrelated subjects share deep structural or conceptual similarities.
@@ -49,6 +52,12 @@ Find 5 surprising connections. Respond ONLY in JSON:
     }],
     max_tokens: 1000,
   })
+  } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
+    throw error
+  }
 
   const raw = completion.choices[0]?.message?.content || '{}'
   try {

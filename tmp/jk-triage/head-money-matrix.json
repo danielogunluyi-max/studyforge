@@ -1,0 +1,23 @@
+﻿[
+    {
+        "run":  1,
+        "exit":  0,
+        "passed":  true,
+        "failed":  false,
+        "hints":  ""
+    },
+    {
+        "run":  2,
+        "exit":  1,
+        "passed":  false,
+        "failed":  true,
+        "hints":  "    Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed |     Expected pattern: \u001b[32m/\\/flashcards\\/[^/?#]+$/\u001b[39m |     Received string:  \u001b[31m\"http://127.0.0.1:3010/flashcards?generateFrom=cmtw84w2b0029v3vs5cfhn16v\"\u001b[39m |     Timeout: 30000ms |     \u001b[2m  - Expect \"toHaveURL\" with timeout 30000ms\u001b[22m |     \u003e 340 |     await expect(page).toHaveURL(/\\/flashcards\\/[^/?#]+$/, { timeout: 30_000 })"
+    },
+    {
+        "run":  3,
+        "exit":  0,
+        "passed":  true,
+        "failed":  false,
+        "hints":  ""
+    }
+]

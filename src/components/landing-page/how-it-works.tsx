@@ -1,101 +1,63 @@
-import { Upload, Cpu, Flame } from "lucide-react"
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { SectionReveal } from "@/components/landing-page/section-reveal";
 
 const steps = [
   {
-    number: "01",
-    icon: Upload,
-    title: "Upload Your Material",
-    description:
-      "Drop in your PDFs, lecture slides, images of handwritten notes, or paste raw text. Kyvex handles any format.",
-    color: "text-blue-600",
-    bg: "bg-blue-50",
-    border: "border-blue-100",
+    index: "01",
+    title: "Inbox — photograph the worksheet",
+    body: "Drop a photo, PDF, recording, or YouTube link into Inbox. That is the start of the loop, not a separate upload product.",
+    href: "/smart-upload",
   },
   {
-    number: "02",
-    icon: Cpu,
-    title: "AI Does the Heavy Lifting",
-    description:
-      "Our three AI engines instantly parse, structure, and convert your material into flashcards, summaries, and a searchable knowledge base.",
-    color: "text-violet-600",
-    bg: "bg-violet-50",
-    border: "border-violet-100",
+    index: "02",
+    title: "My Notes, then 20 flashcards",
+    body: "Kyvex writes structured notes you can reopen in My Notes, then builds a deck — twenty cards is a typical first pass, not a marketing cap.",
+    href: "/my-notes",
   },
   {
-    number: "03",
-    icon: Flame,
-    title: "Study Smarter. Score Higher.",
-    description:
-      "Review adaptive flashcards, quiz your AI partner, and watch your retention scores climb with every session.",
-    color: "text-emerald-600",
-    bg: "bg-emerald-50",
-    border: "border-emerald-100",
+    index: "03",
+    title: "15-minute mock, Nova review",
+    body: "Run a short Mock Exam on that material, then sit with Nova on what you missed. Same names as the workspace: Mock Exam and Nova.",
+    href: "/mock-exam",
   },
-]
+] as const;
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" aria-labelledby="how-heading" className="py-24 lg:py-32 bg-white border-y border-slate-100">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center mb-16">
-          <h2
-            id="how-heading"
-            className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl text-balance"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
-            From raw notes to{" "}
-            <span className="text-primary">exam-ready</span> in minutes.
+    <section className="method section-grid" id="how-it-works">
+      <SectionReveal>
+        <div className="section-intro">
+          <div className="eyebrow">03 / the real loop</div>
+          <h2 className="landing-h">
+            <span className="block">Worksheet in.</span>
+            <span className="block">
+              <em>Mock exam out.</em>
+            </span>
           </h2>
-          <p className="mt-5 text-lg leading-relaxed text-slate-600">
-            No setup. No friction. Just upload and start learning.
+          <p>
+            Not a thread. Not a studio metaphor. Inbox → notes → cards → a timed mock → Nova. That is
+            the product.
           </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 relative">
-          {/* Connector line (desktop) */}
-          <div
-            aria-hidden="true"
-            className="hidden md:block absolute top-[52px] left-[calc(16.66%+24px)] right-[calc(16.66%+24px)] h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"
-          />
-
-          {steps.map((step) => {
-            const Icon = step.icon
-            return (
-              <div key={step.number} className="relative flex flex-col items-center text-center">
-                {/* Step circle */}
-                <div className="relative mb-6">
-                  <div className={`flex h-[104px] w-[104px] items-center justify-center rounded-2xl border-2 ${step.border} ${step.bg} shadow-[0_4px_20px_rgba(0,0,0,0.05)]`}>
-                    <Icon className={`h-10 w-10 ${step.color}`} aria-hidden="true" />
-                  </div>
-                  <span className={`absolute -top-3 -right-3 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-slate-900 text-xs font-extrabold text-white shadow-md`}>
-                    {step.number.replace("0", "")}
-                  </span>
-                </div>
-
-                <h3 className="mb-3 text-xl font-bold text-slate-900" style={{ fontFamily: "var(--font-heading)" }}>
-                  {step.title}
-                </h3>
-                <p className="text-base leading-relaxed text-slate-600">{step.description}</p>
+      </SectionReveal>
+      <div className="method-list">
+        {steps.map((step, i) => (
+          <SectionReveal key={step.href}>
+            <Link
+              href={step.href}
+              className={i === 0 ? "method-card active-card" : "method-card"}
+            >
+              <span className="card-index">{step.index}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
               </div>
-            )
-          })}
-        </div>
-
-        {/* Honest highlights strip */}
-        <dl className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-px bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-          {[
-            { value: "Ontario", label: "Grade 11–12 Curriculum" },
-            { value: "7", label: "AI Study Tools in One App" },
-            { value: "$1.50", label: "Per Month, No Hidden Fees" },
-            { value: "2026", label: "Launching — Be One of the First" },
-          ].map((stat) => (
-            <div key={stat.label} className="bg-white px-6 py-8 text-center">
-              <dt className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">{stat.label}</dt>
-              <dd className="text-4xl font-extrabold text-slate-900" style={{ fontFamily: "var(--font-heading)" }}>{stat.value}</dd>
-            </div>
-          ))}
-        </dl>
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </SectionReveal>
+        ))}
       </div>
     </section>
-  )
+  );
 }

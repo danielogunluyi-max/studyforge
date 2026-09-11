@@ -1,183 +1,168 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { AuthGlassShell } from "~/app/_components/auth-glass-shell";
+import { useRouter, useSearchParams } from "next/navigation";
+
+import { AuthPaperShell } from "~/app/_components/auth-glass-shell";
+import { loginUrlFor, readReturnParam, safeInternalUrl } from "~/lib/auth-redirect";
 
 function ResetPasswordForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
+  const router = useRouter();
+
   const token = searchParams.get("token");
+  const returnTo = safeInternalUrl(readReturnParam(searchParams), "");
 
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [confirm, setConfirm] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [clientError, setClientError] = useState<string | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  const passwordMatch = password === confirmPassword && password.length > 0;
+  const forgotHref = returnTo
+    ? `/forgot-password?callbackUrl=${encodeURIComponent(returnTo)}`
+    : "/forgot-password";
+  const passwordMatch = password === confirm && password.length > 0;
+  const error = clientError ?? serverError;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError("");
+    setClientError(null);
+    setServerError(null);
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
+    if (password.length < 8 || password.length > 72) {
+      setClientError("Password must be 8–72 characters.");
+      return;
+    }
+    if (password !== confirm) {
+      setClientError("Passwords don't match.");
       return;
     }
 
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters");
-      return;
-    }
-
-    setLoading(true);
-
+    setSubmitting(true);
     try {
       const res = await fetch("/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, password }),
       });
-
-      const data = (await res.json()) as { error?: string };
-
       if (!res.ok) {
-        setError(data.error ?? "Failed to reset password");
-        setLoading(false);
+        const data = (await res.json().catch(() => null)) as { error?: string } | null;
+        setServerError(data?.error ?? "Something went wrong. Please try again.");
+        setSubmitting(false);
         return;
       }
-
-      setSuccess(true);
-      setTimeout(() => router.push("/login?reset=success"), 2000);
+      const dest = returnTo
+        ? loginUrlFor(returnTo, { reset: "success" })
+        : "/login?reset=success";
+      router.replace(dest);
     } catch {
-      setError("An error occurred. Please try again.");
-      setLoading(false);
+      setServerError("Couldn't reach the server. Check your connection and try again.");
+      setSubmitting(false);
     }
-  };
+  }
 
-  // ── No token ──
   if (!token) {
     return (
-      <AuthGlassShell
-        title="Invalid reset link"
-        subtitle="This password reset link is invalid or has expired."
+      <AuthPaperShell
+        eyebrow="KYVEX / RESET"
+        title={
+          <>
+            Reset your <em>password.</em>
+          </>
+        }
+        subtitle="This link is incomplete. Open the link from your email, or request a new one."
       >
-        <div className="text-center py-8">
-          <div className="text-5xl mb-4">⚠️</div>
-          <Link
-            href="/forgot-password"
-            className="inline-block rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-black transition-all hover:shadow-[0_0_30px_-8px_rgba(34,211,238,0.4)] active:scale-[0.98]"
-          >
-            Request a new link
-          </Link>
-        </div>
-      </AuthGlassShell>
+        <Link href={forgotHref} className="kv-btn" style={{ textDecoration: "none" }}>
+          Request a new link
+        </Link>
+      </AuthPaperShell>
     );
   }
 
-  // ── Success ──
-  if (success) {
-    return (
-      <AuthGlassShell
-        title="Password reset!"
-        subtitle="Your password has been updated. Redirecting to sign in..."
-      >
-        <div className="text-center py-8">
-          <div className="text-5xl mb-4">✅</div>
-        </div>
-      </AuthGlassShell>
-    );
-  }
-
-  // ── Form ──
   return (
-    <AuthGlassShell
-      title="Set new password"
-      subtitle="Choose a strong password for your account."
+    <AuthPaperShell
+      eyebrow="KYVEX / RESET"
+      title={
+        <>
+          Reset your <em>password.</em>
+        </>
+      }
+      subtitle="This link expires in 60 minutes and can be used once."
     >
-      {error && (
-        <div className="mb-5 flex items-center gap-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-400 shadow-[0_0_20px_-4px_rgba(251,191,36,0.2)]">
-          <svg className="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-          </svg>
-          {error}
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-5">
-        <div className="relative">
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder=" "
-            required
-            minLength={8}
-            className="peer w-full rounded-xl border border-white/10 bg-slate-800/50 px-4 py-3.5 text-sm text-white outline-none transition-all placeholder:text-transparent focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30"
-            id="password-input"
-          />
-          <label
-            htmlFor="password-input"
-            className="absolute left-4 top-3.5 text-sm text-zinc-500 transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-sm peer-placeholder-shown:text-zinc-500 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-cyan-400 peer-focus:bg-slate-950 peer-focus:px-1"
-          >
-            New password
-          </label>
-          <p className="mt-1.5 text-[10px] text-zinc-500">At least 8 characters</p>
-        </div>
-
-        <div className="relative">
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder=" "
-            required
-            minLength={8}
-            className={`peer w-full rounded-xl border bg-slate-800/50 px-4 py-3.5 text-sm text-white outline-none transition-all placeholder:text-transparent focus:ring-1 ${
-              confirmPassword && !passwordMatch
-                ? 'border-amber-500/50 focus:border-amber-500/50 focus:ring-amber-500/30 shadow-[0_0_15px_-3px_rgba(251,191,36,0.15)]'
-                : 'border-white/10 focus:border-cyan-500/50 focus:ring-cyan-500/30'
-            }`}
-            id="confirm-password-input"
-          />
-          <label
-            htmlFor="confirm-password-input"
-            className={`absolute left-4 top-3.5 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-sm peer-placeholder-shown:text-zinc-500 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:bg-slate-950 peer-focus:px-1 ${
-              confirmPassword && !passwordMatch
-                ? 'text-amber-400 peer-focus:text-amber-400'
-                : 'text-zinc-500 peer-focus:text-cyan-400'
-            }`}
-          >
-            Confirm password
-          </label>
-          {confirmPassword && !passwordMatch && (
-            <p className="absolute -bottom-5 left-0 text-[10px] text-amber-400">
-              Passwords do not match
+      {error ? (
+        <div style={{ marginBottom: 16 }}>
+          <p role="alert" className="auth-banner auth-banner-error">
+            {error}
+          </p>
+          {serverError ? (
+            <p className="auth-field-hint">
+              Need a new link?{" "}
+              <Link href={forgotHref} className="auth-link">
+                Request another reset
+              </Link>
             </p>
-          )}
+          ) : null}
+        </div>
+      ) : null}
+
+      <form onSubmit={handleSubmit}>
+        <div className="auth-field-wrap">
+          <label htmlFor="password-input" className="kv-meta auth-label">
+            NEW PASSWORD
+          </label>
+          <div className="auth-input-row">
+            <input
+              type={showPassword ? "text" : "password"}
+              autoComplete="new-password"
+              required
+              maxLength={72}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              aria-invalid={Boolean(error)}
+              className="kv-field"
+              id="password-input"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((visible) => !visible)}
+              aria-pressed={showPassword}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              className="auth-show"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+          <p className="auth-field-hint">8–72 characters</p>
         </div>
 
-        <button
-          type="submit"
-          disabled={loading || !passwordMatch}
-          className="w-full rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-400 px-4 py-3.5 text-sm font-semibold text-black transition-all hover:shadow-[0_0_30px_-8px_rgba(34,211,238,0.4)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {loading ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              Resetting...
-            </span>
-          ) : (
-            "Reset password"
-          )}
+        <div className="auth-field-wrap">
+          <label htmlFor="confirm-password-input" className="kv-meta auth-label">
+            CONFIRM PASSWORD
+          </label>
+          <input
+            type={showPassword ? "text" : "password"}
+            autoComplete="new-password"
+            required
+            maxLength={72}
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+            className="kv-field"
+            id="confirm-password-input"
+            aria-invalid={Boolean(confirm && !passwordMatch)}
+          />
+          {confirm && !passwordMatch ? (
+            <p className="auth-field-error">Passwords don&apos;t match</p>
+          ) : null}
+        </div>
+
+        <button type="submit" disabled={submitting || !passwordMatch} className="kv-btn">
+          {submitting ? "Updating…" : "Update password →"}
         </button>
       </form>
-    </AuthGlassShell>
+    </AuthPaperShell>
   );
 }
 
@@ -185,8 +170,8 @@ export default function ResetPasswordPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-slate-950 text-zinc-400">
-          Loading...
+        <div className="auth-paper">
+          <p className="kv-meta">Loading…</p>
         </div>
       }
     >

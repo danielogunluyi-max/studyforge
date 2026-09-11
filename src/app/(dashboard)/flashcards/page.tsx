@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
 import { prisma } from "@/lib/prisma";
+import { loginUrlFor } from "~/lib/auth-redirect";
 import { DeckLibraryClient } from "./deck-library-client";
 
 type DeckSummary = {
@@ -26,7 +27,7 @@ export default async function FlashcardsPage({
 }) {
   const session = await auth();
   if (!session?.user?.id) {
-    redirect("/login");
+    redirect(loginUrlFor("/flashcards"));
   }
 
   const now = new Date();

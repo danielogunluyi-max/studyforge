@@ -3,7 +3,7 @@ import type { Prisma } from "../../../../../generated/prisma";
 
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type DiagramType = "concept_map" | "flowchart" | "timeline" | "comparison" | "hierarchy";
 
@@ -209,6 +209,9 @@ Keep all labels concise and max 5 words per label.`;
 
     return NextResponse.json({ diagramData, diagramId: saved.id });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Diagram generation error:", error);
     return NextResponse.json({ error: "Failed to generate diagram" }, { status: 500 });
   }

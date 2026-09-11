@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { runGroqPrompt, extractJsonBlock } from "~/server/groq";
+import { runGroqPrompt, extractJsonBlock, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type GeneratePayload = {
   noteId?: string;
@@ -148,6 +148,9 @@ ${sourceText}
         maxTokens: 4500,
       });
     } catch (err) {
+      if (isRateLimited(err)) {
+        return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+      }
       console.error("[mock-exam/generate] Groq failed:", err);
       const detail = err instanceof Error ? err.message : "Unknown error";
       return NextResponse.json({ error: `AI provider error: ${detail}` }, { status: 502 });

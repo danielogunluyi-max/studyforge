@@ -158,7 +158,7 @@ export default function SearchPage() {
             </div>
             <div style={{ display: 'grid', gap: 10 }}>
               {notes.map((note) => (
-                <Link key={note.id} href="/my-notes" className="kv-card-sm" style={{ textDecoration: 'none', display: 'block' }}>
+                <Link key={note.id} href={`/my-notes?note=${encodeURIComponent(note.id)}&q=${encodeURIComponent(debouncedQuery)}`} className="kv-row">
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                     <strong style={{ color: 'var(--text-primary)' }}>Note</strong>
                     <span className="kv-badge kv-badge-blue">{note.type}</span>

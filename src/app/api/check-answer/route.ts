@@ -1,5 +1,7 @@
 import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
+import { auth } from "~/server/auth";
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -37,6 +39,9 @@ function extractJsonObject(text: string): { correct: boolean; feedback: string }
 }
 
 export async function POST(request: Request) {
+  const session = await auth();
+  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   try {
     const { studentAnswer, correctAnswer } = (await request.json()) as {
       studentAnswer?: string;
@@ -69,7 +74,7 @@ export async function POST(request: Request) {
   Reply with JSON only.`;
 
     const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: GROQ_TEXT_MODEL,
       temperature: 0.1,
       max_tokens: 300,
       messages: [
@@ -95,6 +100,9 @@ export async function POST(request: Request) {
       feedback: "Could not confidently evaluate the answer format. Please compare with the sample solution.",
     });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Error checking answer:", error instanceof Error ? error.stack ?? error.message : error);
     return NextResponse.json({ error: "Failed to check answer" }, { status: 500 });
   }

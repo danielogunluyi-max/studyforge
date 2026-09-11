@@ -2,7 +2,7 @@ import { getToken } from "next-auth/jwt";
 import { type NextRequest, NextResponse } from "next/server";
 
 import { auth } from "~/server/auth";
-import { runGroqPrompt } from "~/server/groq";
+import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type ExtensionGenerateBody = {
   text?: string;
@@ -65,6 +65,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ format, result });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Extension generate POST error:", error);
     return NextResponse.json({ error: "Failed to generate content" }, { status: 500 });
   }

@@ -127,26 +127,22 @@ export default function SplitView({
 
   return (
     <div
-      className={`relative flex flex-col bg-gradient-to-b from-[#0a0e1f] via-[#0d1228] to-[#0a0e1f] text-white ${
+      className={`relative flex flex-col ${
         focusMode ? "fixed inset-0 z-[80] h-screen w-screen" : "h-full w-full"
       }`}
+      style={{ background: "var(--bg-base)", color: "var(--kv-text-primary)" }}
     >
-      {/* Action bar */}
-      <div className="flex items-center justify-between gap-2 border-b border-white/10 bg-black/30 px-3 py-2 backdrop-blur-xl">
-        <div className="flex items-center gap-2 text-xs text-white/60">
-          <span className="rounded-md bg-white/5 px-2 py-0.5 uppercase tracking-wider">Split View</span>
-          {focusMode && (
-            <span className="rounded-md bg-amber-300/20 px-2 py-0.5 uppercase tracking-wider text-amber-200">
-              Focus Mode
-            </span>
-          )}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, borderBottom: "1px solid var(--border-default)", padding: "8px 12px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span className="kv-meta">Split View</span>
+          {focusMode ? <span className="kv-chip">Focus</span> : null}
         </div>
-        <div className="flex items-center gap-1">
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           {onSwap && (
             <button
               type="button"
               onClick={onSwap}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-xs text-white/80 transition hover:bg-white/10"
+              className="kv-btn-ghost"
               aria-label="Swap panes"
               title="Swap panes"
             >
@@ -157,7 +153,7 @@ export default function SplitView({
             <button
               type="button"
               onClick={onToggleFocus}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-xs text-white/80 transition hover:bg-white/10"
+              className="kv-btn-ghost"
               aria-label={focusMode ? "Exit focus mode" : "Enter focus mode"}
               title={focusMode ? "Exit focus mode (Esc)" : "Enter focus mode"}
             >
@@ -176,7 +172,7 @@ export default function SplitView({
             <button
               type="button"
               onClick={onClose}
-              className="inline-flex items-center gap-1 rounded-lg bg-white/5 px-2 py-1.5 text-xs text-white/70 transition hover:bg-red-500/20 hover:text-red-200"
+              className="kv-btn-ghost"
               aria-label="Close split view"
               title="Close split view"
             >
@@ -202,25 +198,9 @@ export default function SplitView({
           onPointerDown={startDrag}
           onKeyDown={onHandleKeyDown}
           className="group relative flex w-1.5 shrink-0 cursor-col-resize items-center justify-center outline-none"
-          style={{ touchAction: "none" }}
+          style={{ touchAction: "none", borderLeft: "1px solid var(--border-default)", borderRight: "1px solid var(--border-default)", background: dragging ? "var(--bg-hover)" : "var(--bg-elevated)" }}
         >
-          <div
-            className={`h-full w-[3px] rounded-full transition-all duration-200 ${
-              dragging
-                ? "bg-gradient-to-b from-amber-300 via-teal-300 to-amber-300 opacity-100 shadow-[0_0_28px_rgba(45,212,191,0.85)]"
-                : "bg-gradient-to-b from-amber-300/40 via-teal-300/40 to-amber-300/40 opacity-50 group-hover:opacity-100 group-hover:shadow-[0_0_18px_rgba(251,191,36,0.55)] group-focus-visible:opacity-100 group-focus-visible:shadow-[0_0_18px_rgba(251,191,36,0.55)]"
-            }`}
-            aria-hidden="true"
-          />
-          <div
-            className={`absolute left-1/2 top-1/2 flex h-12 w-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/[0.06] ring-1 ring-white/10 backdrop-blur-md transition ${
-              dragging
-                ? "bg-teal-300/20 text-teal-100 ring-teal-300/60"
-                : "text-white/40 group-hover:bg-amber-300/15 group-hover:text-amber-200 group-hover:ring-amber-300/40"
-            }`}
-          >
-            <GripVertical className="h-3.5 w-3.5" />
-          </div>
+          <GripVertical className="h-3.5 w-3.5" style={{ color: "var(--kv-text-tertiary)" }} />
         </div>
 
         <div className="h-full flex-1 overflow-hidden">
@@ -234,23 +214,13 @@ export default function SplitView({
 function PaneShell({ pane }: { pane: PaneDescriptor }) {
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between gap-2 border-b border-white/5 bg-black/20 px-3 py-1.5 text-xs text-white/55 backdrop-blur-xl">
+      <div className="flex items-center justify-between gap-2" style={{ borderBottom: "1px solid var(--border-default)", padding: "6px 12px" }}>
         <div className="flex min-w-0 items-center gap-2">
-          {pane.badge && (
-            <span
-              className="rounded-md px-1.5 py-0.5 text-[10px] uppercase tracking-wider"
-              style={{
-                backgroundColor: pane.accent ? `${pane.accent}20` : "rgba(255,255,255,0.06)",
-                color: pane.accent ?? "rgba(255,255,255,0.55)",
-              }}
-            >
-              {pane.badge}
-            </span>
-          )}
-          <span className="truncate font-semibold text-white/85">{pane.label}</span>
+          {pane.badge ? <span className="kv-chip">{pane.badge}</span> : null}
+          <span className="kv-meta" style={{ textTransform: "none", letterSpacing: 0 }}>{pane.label}</span>
         </div>
       </div>
-      <div className="relative flex-1 overflow-hidden bg-[#0a0e1f]">{pane.content}</div>
+      <div className="relative flex-1 overflow-hidden" style={{ background: "var(--bg-base)" }}>{pane.content}</div>
     </div>
   );
 }

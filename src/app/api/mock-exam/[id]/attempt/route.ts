@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { runGroqPrompt, extractJsonBlock } from "~/server/groq";
+import { runGroqPrompt, extractJsonBlock, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type SubmittedAnswer = {
   questionId: string;
@@ -227,6 +227,9 @@ ${JSON.stringify(
           }
         }
       } catch (gradeErr) {
+        if (isRateLimited(gradeErr)) {
+          return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+        }
         console.error("[mock-exam/attempt] AI grading failed:", gradeErr);
         for (const pq of perQuestion) {
           if (pq.type === "short_answer" && pq.yourText && !pq.feedback) {

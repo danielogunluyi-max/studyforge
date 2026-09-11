@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
 import { prisma } from "@/lib/prisma";
 import { getAuthSession } from "~/server/auth/session";
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 type TransformResult = {
   flashcards?: Array<{ question: string; answer: string }>;
@@ -64,7 +65,7 @@ export async function POST(req: Request) {
 
     if (sourceType === "note" && body.content) {
       const completion = await groq.chat.completions.create({
-        model: "llama-3.3-70b-versatile",
+        model: GROQ_TEXT_MODEL,
         messages: [
           {
             role: "user",
@@ -110,7 +111,10 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ entry: { ...entry, status: "done", results } });
-  } catch {
+  } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     await prisma.autoTransformQueue.update({
       where: { id: entry.id },
       data: { status: "failed" },

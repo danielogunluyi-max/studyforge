@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 
 type Confidence = "High" | "Medium" | "Low";
@@ -382,6 +382,9 @@ export async function POST(request: Request) {
 
     return await handlePredict(body, session.user.id);
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Exam predictor API error:", error);
     return NextResponse.json({ error: "Failed to process exam prediction request" }, { status: 500 });
   }

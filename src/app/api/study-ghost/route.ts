@@ -2,6 +2,7 @@ import { auth } from "~/server/auth";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -12,11 +13,11 @@ export async function POST() {
   const [notes, cards, exams, focus] = await Promise.all([
     prisma.note.count({ where: { userId: session.user.id } }),
     prisma.flashcard.count({ where: { deck: { userId: session.user.id } } }),
-    prisma.exam.findMany({ where: { userId: session.user.id }, select: { score: true, subject: true } }),
+    prisma.exam.findMany({ where: { userId: session.user.id }, select: { scorePercent: true, subject: true } }),
     prisma.focusSession.count({ where: { userId: session.user.id } }),
   ]);
 
-  const avgScore = exams.length ? exams.reduce((a, e) => a + (e.score || 0), 0) / exams.length : 0;
+  const avgScore = exams.length ? exams.reduce((a, e) => a + (e.scorePercent || 0), 0) / exams.length : 0;
   const subjects = [...new Set(exams.map((e) => e.subject).filter(Boolean))];
 
   const prevSnapshot = await prisma.studyGhost.findFirst({
@@ -24,8 +25,10 @@ export async function POST() {
     orderBy: { createdAt: "desc" },
   });
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
+  let completion;
+  try {
+    completion = await groq.chat.completions.create({
+    model: GROQ_TEXT_MODEL,
     messages: [
       {
         role: "user",
@@ -49,6 +52,12 @@ Write a short, emotional, motivating letter (150 words) from their past self sho
     ],
     max_tokens: 300,
   });
+  } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
+    throw error;
+  }
 
   const narrative = completion.choices[0]?.message?.content || "";
 

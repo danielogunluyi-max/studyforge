@@ -1,14 +1,17 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { Sparkles, type LucideIcon } from 'lucide-react'
+import { NAV_ENTRIES, SECTION_LABELS } from '~/lib/nav-registry'
 
 type Preset = 'HIGHSCHOOL' | 'COLLEGE' | 'UNIVERSITY'
 
 type Feature = {
   key: string
   label: string
-  icon: string
+  icon: LucideIcon
   category: string
+  description?: string
 }
 
 type FeaturePrefsResponse = {
@@ -28,89 +31,15 @@ function humanizeFeatureKey(key: string): string {
     .join(' ')
 }
 
-const ALL_FEATURES: Feature[] = [
-  { key: 'dashboard', label: 'Dashboard', icon: '\u{1F3E0}', category: 'Main' },
-  { key: 'results', label: 'My Results', icon: '\u{1F4CA}', category: 'Main' },
-  { key: 'calendar', label: 'Calendar', icon: '\u{1F4C5}', category: 'Main' },
-  { key: 'mastery', label: 'Mastery Chart', icon: '\u{1F4C8}', category: 'Main' },
-  { key: 'curriculum', label: 'Curriculum', icon: '\u{1F4DA}', category: 'Main' },
-
-  { key: 'study-mode', label: 'Study Mode', icon: '\u{1F3AF}', category: 'Study Tools' },
-  { key: 'my-notes', label: 'My Notes', icon: '\u{1F4DD}', category: 'Study Tools' },
-  { key: 'classroom-import', label: 'Classroom Import', icon: '\u{1F3EB}', category: 'Study Tools' },
-  { key: 'smart-upload', label: 'Upload File', icon: '\u{1F4E4}', category: 'Study Tools' },
-  { key: 'audio', label: 'Audio to Notes', icon: '\u{1F3A4}', category: 'Study Tools' },
-  { key: 'scan', label: 'Scan Notes', icon: '\u{1F4F7}', category: 'Study Tools' },
-  { key: 'feynman', label: 'Feynman Technique', icon: '\u{1F9E0}', category: 'Study Tools' },
-  { key: 'planner', label: 'Study Planner', icon: '\u{1F4C6}', category: 'Study Tools' },
-  { key: 'pdf-library', label: 'PDF Library', icon: '\u{1F4C4}', category: 'Study Tools' },
-  { key: 'listen', label: 'Listen to Notes', icon: '\u{1F50A}', category: 'Study Tools' },
-
-  { key: 'flashcards', label: 'Flashcards', icon: '\u{1F0CF}', category: 'Flashcards & Exams' },
-
-  { key: 'tutor', label: 'Nova AI Tutor', icon: '\u{1F9D1}\u{1F3EB}', category: 'AI Tools' },
-  { key: 'voice-tutor', label: 'Voice Tutor', icon: '\u{1F399}\uFE0F', category: 'AI Tools' },
-  { key: 'concept-web', label: 'Concept Web', icon: '\u{1F578}\uFE0F', category: 'AI Tools' },
-  { key: 'learning-style-quiz', label: 'Learning Style', icon: '\u{1F9E0}', category: 'AI Tools' },
-  { key: 'focus', label: 'Focus Mode', icon: '\u{1F3AF}', category: 'AI Tools' },
-
-  { key: 'citations', label: 'Citations', icon: '\u{1F4DA}', category: 'Research' },
-  { key: 'syllabus', label: 'Syllabus Scan', icon: '\u{1F4D8}', category: 'Research' },
-  { key: 'library', label: 'Study Library', icon: '\u{1F50D}', category: 'Research' },
-  { key: 'search', label: 'Search', icon: '\u{1F310}', category: 'Research' },
-  { key: 'capture', label: 'Quick Capture', icon: '\u{1F4CC}', category: 'Research' },
-  { key: 'narrative', label: 'Narrative', icon: '\u{1F4D6}', category: 'Research' },
-
-  { key: 'knowledge-map', label: 'Knowledge Map', icon: '\u{1F5FA}\uFE0F', category: 'Discover' },
-  { key: 'content-hub', label: 'Content Hub', icon: '\u{1F4E6}', category: 'Discover' },
-  { key: 'games', label: 'Games', icon: '\u{1F3AE}', category: 'Discover' },
-  { key: 'battle', label: 'Battle Arena', icon: '\u2694', category: 'Discover' },
-  { key: 'battle-royale', label: 'Battle Royale', icon: '\u{1F3C6}', category: 'Discover' },
-  { key: 'study-groups', label: 'Study Groups', icon: '\u{1F465}', category: 'Discover' },
-  { key: 'rooms', label: 'Study Rooms', icon: '\u{1F3E0}', category: 'Discover' },
-
-  { key: 'reading-speed', label: 'Reading Speed', icon: '\u26A1', category: 'Train' },
-  { key: 'micro-lessons', label: 'Micro-Lessons', icon: '\u{1F4D6}', category: 'Train' },
-  { key: 'lecture', label: 'Live Lecture', icon: '\u{1F3A4}', category: 'Train' },
-  { key: 'counterargument', label: 'Counterargument', icon: '\u2694', category: 'Train' },
-  { key: 'adaptive-notes', label: 'Adaptive Notes', icon: '\u{1F3AF}', category: 'Train' },
-
-  { key: 'crossover', label: 'Crossover Challenge', icon: '\u{1F500}', category: 'Challenges' },
-  { key: 'debate-judge', label: 'Debate Judge', icon: '\u{1F9D1}\u200D\u2696\uFE0F', category: 'Challenges' },
-
-  { key: 'study-dna', label: 'Study DNA', icon: '\u{1F9EC}', category: 'Analytics' },
-  { key: 'autopsy', label: 'Exam Autopsy', icon: '\u{1F52C}', category: 'Analytics' },
-  { key: 'decay-alerts', label: 'Decay Alerts', icon: '\u{1F514}', category: 'Analytics' },
-  { key: 'concept-collision', label: 'Concept Collision', icon: '\u{1F4A5}', category: 'Analytics' },
-  { key: 'grade-calc', label: 'Grade Calc', icon: '\u{1F4C9}', category: 'Analytics' },
-
-  { key: 'kyvex-iq', label: 'Kyvex IQ', icon: '\u{1F9EC}', category: 'Intelligence' },
-  { key: 'memory-sim', label: 'Memory Sim', icon: '\u{1F9E0}', category: 'Intelligence' },
-  { key: 'career-path', label: 'Career Path', icon: '\u{1F5FA}\uFE0F', category: 'Intelligence' },
-  { key: 'contract', label: 'Study Contract', icon: '\u{1F4DC}', category: 'Intelligence' },
-  { key: 'focus-score', label: 'Focus Score', icon: '\u{1F3AF}', category: 'Intelligence' },
-
-  { key: 'note-evolution', label: 'Note Evolution', icon: '\u{1F4C8}', category: 'Notes' },
-
-  { key: 'community', label: 'Community', icon: '\u{1F465}', category: 'Social' },
-  { key: 'match', label: 'Study Buddy', icon: '\u{1F91D}', category: 'Social' },
-  { key: 'peer-review', label: 'Peer Review', icon: '\u{1F91D}', category: 'Social' },
-
-  { key: 'achievements', label: 'Achievements', icon: '\u{1F3C5}', category: 'Personal' },
-  { key: 'wrapped', label: 'Wrapped', icon: '\u{1F381}', category: 'Personal' },
-  { key: 'study-ghost', label: 'Study Ghost', icon: '\u{1F47B}', category: 'Personal' },
-  { key: 'referral', label: 'Referral', icon: '\u{1F4E3}', category: 'Personal' },
-  { key: 'wellness', label: 'Wellness', icon: '\u{1F9D8}', category: 'Personal' },
-  { key: 'habits', label: 'Habits', icon: '\u{1F4AA}', category: 'Personal' },
-  { key: 'interleave', label: 'Interleave', icon: '\u{1F500}', category: 'Personal' },
-  { key: 'essay-grade', label: 'Essay Grader', icon: '\u{1F4DD}', category: 'Personal' },
-  { key: 'handwriting', label: 'Handwriting Scan', icon: '\u270D\uFE0F', category: 'Personal' },
-  { key: 'compress', label: 'Compress', icon: '\u{1F5DC}\uFE0F', category: 'Personal' },
-  { key: 'debate', label: 'Debate', icon: '\u{1F5E3}\uFE0F', category: 'Personal' },
-
-  { key: 'grammar', label: 'Grammar Check', icon: '\u270D\uFE0F', category: 'Tools' },
-  { key: 'plagiarism', label: 'Originality Check', icon: '\u{1F50D}', category: 'Tools' },
-]
+const ALL_FEATURES: Feature[] = NAV_ENTRIES.filter(
+  (entry) => entry.surfaces.landing && entry.featureKey,
+).map((entry) => ({
+  key: entry.featureKey!,
+  label: entry.label,
+  icon: entry.icon,
+  category: SECTION_LABELS[entry.section],
+  description: entry.description,
+}))
 
 const PRESET_LABELS: Record<Preset, string> = {
   HIGHSCHOOL: 'High School',
@@ -127,6 +56,9 @@ const DELETED_FEATURE_KEYS = new Set([
   'podcast',
   'cornell',
   'predictor',
+  'plagiarism',
+  'kyvex-iq',
+  'study-dna',
   'mock-exam',
   'quizlet-import',
 ])
@@ -155,7 +87,7 @@ export default function FeaturesPage() {
         return {
           key,
           label: humanizeFeatureKey(key),
-          icon: '\u2728',
+          icon: Sparkles,
           category: 'All Features',
         }
       })
@@ -378,9 +310,11 @@ export default function FeaturesPage() {
                   >
                     {isEnabled ? 'Enabled' : 'Hidden'}
                   </span>
-                  <div style={{ fontSize: '24px', marginBottom: '8px' }}>{feature.icon}</div>
+                  <div style={{ fontSize: '24px', marginBottom: '8px' }}>
+                    {(() => { const Icon = feature.icon; return <Icon size={24} strokeWidth={1.5} /> })()}
+                  </div>
                   <div className="kv-heading-card">{feature.label}</div>
-                  <div className="kv-text-description">{feature.key}</div>
+                  <div className="kv-text-description">{feature.description ?? feature.key}</div>
                 </button>
               )
             })}

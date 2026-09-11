@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { formatTorontoDate } from "~/lib/toronto-time";
 
 type Flashcard = {
   id: string;
@@ -30,9 +31,34 @@ type CurriculumOption = {
   title: string;
 };
 
+type PendingGenPayload = {
+  noteId?: string;
+  topic?: string;
+  subject?: string;
+  count?: number;
+  curriculumCode?: string;
+};
+
+const ONTARIO_COURSE = /^[A-Z]{3,4}\d[A-Z]$/i;
+const genStorageKey = (id: string) => `kyvex-deck-gen:${id}`;
+
 function shortText(input: string, max: number) {
   if (input.length <= max) return input;
   return `${input.slice(0, max)}...`;
+}
+
+function subjectChipClass(subject: string) {
+  return ONTARIO_COURSE.test(subject.trim()) ? "kv-chip kv-chip-course" : "kv-chip";
+}
+
+function readPendingGen(deckId: string): PendingGenPayload | null {
+  try {
+    const raw = sessionStorage.getItem(genStorageKey(deckId));
+    if (!raw) return null;
+    return JSON.parse(raw) as PendingGenPayload;
+  } catch {
+    return null;
+  }
 }
 
 export default function DeckEditorPage() {
@@ -54,6 +80,11 @@ export default function DeckEditorPage() {
   const [generateCount, setGenerateCount] = useState(20);
   const [isGenerating, setIsGenerating] = useState(false);
 
+  /** Create & Generate handoff: ?generating=1 */
+  const [bootGenerating, setBootGenerating] = useState(false);
+  const [bootGenError, setBootGenError] = useState("");
+  const bootStartedRef = useRef(false);
+
   const [editingCardId, setEditingCardId] = useState("");
   const [editFront, setEditFront] = useState("");
   const [editBack, setEditBack] = useState("");
@@ -69,7 +100,7 @@ export default function DeckEditorPage() {
     return deck.cards.filter((card) => new Date(card.nextReview).getTime() <= now).length;
   }, [deck]);
 
-  const fetchDeck = async () => {
+  const fetchDeck = useCallback(async () => {
     setIsLoading(true);
     setError("");
     try {
@@ -86,12 +117,12 @@ export default function DeckEditorPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [deckId]);
 
   useEffect(() => {
     if (!deckId) return;
     void fetchDeck();
-  }, [deckId]);
+  }, [deckId, fetchDeck]);
 
   useEffect(() => {
     void (async () => {
@@ -101,6 +132,65 @@ export default function DeckEditorPage() {
       setCurriculumOptions(data.courses ?? []);
     })();
   }, []);
+
+  const runBootGenerate = useCallback(async () => {
+    if (!deckId) return;
+    setBootGenerating(true);
+    setBootGenError("");
+    setIsGenerating(true);
+
+    const payload = readPendingGen(deckId);
+    if (!payload || (!payload.noteId && !payload.topic)) {
+      setBootGenError(
+        "Couldn’t find what to generate from. Try again, or use Generate More Cards below.",
+      );
+      setIsGenerating(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/decks/${deckId}/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          noteId: payload.noteId,
+          topic: payload.topic,
+          subject: payload.subject,
+          count: payload.count ?? 20,
+          curriculumCode: payload.curriculumCode,
+        }),
+      });
+
+      const data = (await response.json().catch(() => ({}))) as { error?: string };
+      if (!response.ok) {
+        setBootGenError(data.error ?? "Failed to build cards");
+        return;
+      }
+
+      try {
+        sessionStorage.removeItem(genStorageKey(deckId));
+      } catch {
+        // ignore
+      }
+
+      await fetchDeck();
+      router.replace(`/flashcards/${deckId}`);
+      setBootGenerating(false);
+    } catch {
+      setBootGenError("Failed to build cards");
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [deckId, fetchDeck, router]);
+
+  // Detect ?generating=1 after mount (hydration-safe) and fire once.
+  useEffect(() => {
+    if (!deckId || bootStartedRef.current) return;
+    const sp = new URLSearchParams(window.location.search);
+    if (sp.get("generating") !== "1") return;
+    bootStartedRef.current = true;
+    void runBootGenerate();
+  }, [deckId, runBootGenerate]);
 
   const saveTitle = async () => {
     if (!deck || !titleDraft.trim()) {
@@ -238,128 +328,307 @@ export default function DeckEditorPage() {
     }
   };
 
-  if (isLoading) {
-    return <main className="kv-page" style={{ padding: 24, color: "var(--text-primary)" }}>Loading deck...</main>;
+  if (isLoading && !deck) {
+    return <main className="kv-page" style={{ padding: 24 }}>Loading deck...</main>;
   }
 
   if (!deck) {
-    return <main className="kv-page kv-alert-error" style={{ padding: 24, color: "var(--accent-red)" }}>{error || "Deck not found"}</main>;
+    return (
+      <main className="kv-page" style={{ padding: 24, color: "#E5484D" }}>
+        {error || "Deck not found"}
+      </main>
+    );
   }
 
+  const showBuilding = bootGenerating && !bootGenError && (isGenerating || deck.cards.length === 0);
+
   return (
-    <main className="kv-page" style={{ minHeight: "100vh", background: "var(--bg-base)", color: "var(--text-primary)", padding: "24px 16px 100px" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
-          <div>
-            <Link href="/flashcards" style={{ color: "var(--text-secondary)", fontSize: 13 }}>← Back to Decks</Link>
+    <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
+        <div className="kv-crumb">
+          Kyvex /{" "}
+          <Link href="/flashcards" style={{ color: "inherit" }}>
+            Flashcards
+          </Link>{" "}
+          / <b>{deck.title}</b>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            gap: 12,
+            marginTop: 14,
+          }}
+        >
+          <div style={{ minWidth: 0 }}>
             {isEditingTitle ? (
               <input
-                className="kv-input"
+                className="kv-field"
                 value={titleDraft}
                 onChange={(event) => setTitleDraft(event.target.value)}
                 onBlur={() => void saveTitle()}
                 autoFocus
-                style={{ marginTop: 6, width: 320 }}
+                style={{ marginTop: 4, maxWidth: 420 }}
               />
             ) : (
-              <h1 className="kv-page-title" style={{ marginTop: 8, cursor: "pointer" }} onClick={() => setIsEditingTitle(true)}>
+              <h1
+                className="kv-title"
+                style={{ cursor: "pointer" }}
+                onClick={() => setIsEditingTitle(true)}
+              >
                 {deck.title}
               </h1>
             )}
-            <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 6 }}>
-              <span className="badge badge-blue">{deck.subject}</span>
-              <span style={{ color: "var(--text-secondary)", fontSize: 13 }}>{deck.cards.length} cards</span>
-              <span style={{ color: "var(--text-secondary)", fontSize: 13 }}>• {dueCount} due</span>
+            <div className="kv-row-sub" style={{ marginTop: 10 }}>
+              <span className={subjectChipClass(deck.subject)}>{deck.subject}</span>
+              <span className="kv-chip num">{deck.cards.length} cards</span>
+              {dueCount > 0 ? (
+                <span className="kv-chip kv-chip-stale num">{dueCount} due</span>
+              ) : null}
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <button className="kv-btn-primary" onClick={() => router.push(`/flashcards/${deck.id}/study`)}>Study Now</button>
-            <button className="kv-btn-ghost" onClick={exportCsv}>Export CSV</button>
-            <button className="kv-btn-ghost" onClick={() => void exportAnki()} disabled={exportingAnki}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", flexShrink: 0 }}>
+            <button
+              type="button"
+              className="kv-btn"
+              onClick={() => router.push(`/flashcards/${deck.id}/study`)}
+            >
+              Study Now
+            </button>
+            <button type="button" className="kv-btn-ghost" onClick={exportCsv}>
+              Export CSV
+            </button>
+            <button
+              type="button"
+              className="kv-btn-ghost"
+              onClick={() => void exportAnki()}
+              disabled={exportingAnki}
+            >
               {exportingAnki ? "Exporting..." : "Export Anki"}
             </button>
           </div>
         </div>
 
-        <div className="kv-card" style={{ marginTop: 16, padding: 14 }}>
-          <button className="kv-btn-ghost" onClick={() => setShowGenerateSection((prev) => !prev)}>
+        <div style={{ marginTop: 24, paddingTop: 18, borderTop: "1px solid var(--border-default)" }}>
+          <button
+            type="button"
+            className="kv-btn-ghost"
+            onClick={() => setShowGenerateSection((prev) => !prev)}
+          >
             {showGenerateSection ? "Hide Generate More Cards" : "Generate More Cards"}
           </button>
 
           {showGenerateSection && (
-            <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
-              <input className="kv-input" placeholder="Topic for new cards" value={generateTopic} onChange={(event) => setGenerateTopic(event.target.value)} />
-              <select className="kv-select" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
+            <div style={{ marginTop: 12, display: "grid", gap: 10, maxWidth: 480 }}>
+              <input
+                className="kv-field"
+                placeholder="Topic for new cards"
+                value={generateTopic}
+                onChange={(event) => setGenerateTopic(event.target.value)}
+              />
+              <select
+                className="kv-field"
+                value={curriculumCode}
+                onChange={(event) => setCurriculumCode(event.target.value)}
+              >
                 <option value="">Ontario course (optional)</option>
                 {curriculumOptions.map((course) => (
-                  <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
+                  <option key={course.code} value={course.code}>
+                    {course.code} - {course.title}
+                  </option>
                 ))}
               </select>
               <div>
-                <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 12 }}>Count: {generateCount}</p>
-                <input type="range" min={10} max={50} value={generateCount} onChange={(event) => setGenerateCount(Number(event.target.value))} style={{ width: "100%" }} />
+                <p className="kv-meta">
+                  Count: <span className="num">{generateCount}</span>
+                </p>
+                <input
+                  type="range"
+                  min={10}
+                  max={50}
+                  value={generateCount}
+                  onChange={(event) => setGenerateCount(Number(event.target.value))}
+                  style={{ width: "100%" }}
+                />
               </div>
-              <button className="kv-btn-primary" onClick={() => void runGenerate()} disabled={isGenerating}>
+              <button
+                type="button"
+                className="kv-btn"
+                onClick={() => void runGenerate()}
+                disabled={isGenerating}
+              >
                 {isGenerating ? `Generating ${generateCount} cards...` : "Generate"}
               </button>
             </div>
           )}
         </div>
 
-        {error && <p className="kv-alert-error" style={{ marginTop: 12 }}>{error}</p>}
+        {(error || bootGenError) && (
+          <div style={{ marginTop: 12 }}>
+            <p style={{ margin: 0, color: "#E5484D", fontSize: 14 }}>{bootGenError || error}</p>
+            {bootGenError ? (
+              <button
+                type="button"
+                className="kv-btn-ghost"
+                style={{ marginTop: 10 }}
+                onClick={() => {
+                  bootStartedRef.current = true;
+                  void runBootGenerate();
+                }}
+                disabled={isGenerating}
+              >
+                Try again
+              </button>
+            ) : null}
+          </div>
+        )}
 
-        <div className="kv-card" style={{ marginTop: 16, padding: 0, overflow: "hidden" }}>
-          {deck.cards.map((card) => {
-            const isEditing = editingCardId === card.id;
-            return (
-              <div key={card.id} style={{ padding: 12, borderBottom: "1px solid var(--border-default)", display: "grid", gridTemplateColumns: "1.2fr 1fr auto", gap: 10, alignItems: "center" }}>
-                {isEditing ? (
-                  <div style={{ gridColumn: "1 / span 3", display: "grid", gap: 8 }}>
-                    <textarea className="kv-textarea" rows={2} value={editFront} onChange={(event) => setEditFront(event.target.value)} />
-                    <textarea className="kv-textarea" rows={3} value={editBack} onChange={(event) => setEditBack(event.target.value)} />
-                    <div style={{ display: "flex", gap: 8 }}>
-                      <button className="kv-btn-primary" onClick={() => void saveCardEdit()}>Save</button>
-                      <button className="kv-btn-ghost" onClick={() => setEditingCardId("")}>Cancel</button>
+        <div style={{ marginTop: 8 }}>
+          {showBuilding ? (
+            <div className="kv-row" style={{ justifyContent: "center", padding: "28px 12px" }}>
+              <p className="kv-meta" style={{ margin: 0 }}>
+                Building your cards…
+              </p>
+            </div>
+          ) : (
+            deck.cards.map((card) => {
+              const isEditing = editingCardId === card.id;
+              return (
+                <div
+                  key={card.id}
+                  className="kv-row"
+                  style={{ alignItems: isEditing ? "stretch" : "center" }}
+                >
+                  {isEditing ? (
+                    <div style={{ width: "100%", display: "grid", gap: 8 }}>
+                      <textarea
+                        className="kv-field"
+                        rows={2}
+                        value={editFront}
+                        onChange={(event) => setEditFront(event.target.value)}
+                      />
+                      <textarea
+                        className="kv-field"
+                        rows={3}
+                        value={editBack}
+                        onChange={(event) => setEditBack(event.target.value)}
+                      />
+                      <div style={{ display: "flex", gap: 8 }}>
+                        <button type="button" className="kv-btn" onClick={() => void saveCardEdit()}>
+                          Save
+                        </button>
+                        <button
+                          type="button"
+                          className="kv-btn-ghost"
+                          onClick={() => setEditingCardId("")}
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <>
-                    <p style={{ margin: 0, color: "var(--text-primary)", fontSize: 14 }}>{shortText(card.front, 60)}</p>
-                    <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 14 }}>→ {shortText(card.back, 60)}</p>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ color: "var(--text-muted)", fontSize: 12 }}>
-                        {card.interval}d • EF {card.easeFactor.toFixed(2)} • {new Date(card.nextReview).toLocaleDateString()}
-                      </span>
-                      <button
-                        className="kv-btn-ghost"
-                        onClick={() => {
-                          setEditingCardId(card.id);
-                          setEditFront(card.front);
-                          setEditBack(card.back);
+                  ) : (
+                    <>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <p
+                          style={{
+                            margin: 0,
+                            fontSize: 14,
+                            fontWeight: 600,
+                            color: "var(--kv-text-primary)",
+                          }}
+                        >
+                          {card.front}
+                        </p>
+                        <p
+                          style={{
+                            margin: "6px 0 0",
+                            fontSize: 14,
+                            color: "var(--kv-text-secondary)",
+                          }}
+                        >
+                          → {shortText(card.back, 60)}
+                        </p>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 8,
+                          flexShrink: 0,
                         }}
                       >
-                        ✏️
-                      </button>
-                      <button className="kv-btn-ghost" onClick={() => void deleteCard(card.id)}>🗑️</button>
-                    </div>
-                  </>
-                )}
-              </div>
-            );
-          })}
+                        <span className="kv-meta num">
+                          {card.interval}d · EF {card.easeFactor.toFixed(2)} ·{" "}
+                          {formatTorontoDate(card.nextReview)}
+                        </span>
+                        <button
+                          type="button"
+                          className="kv-btn-ghost"
+                          style={{ padding: "6px 10px" }}
+                          onClick={() => {
+                            setEditingCardId(card.id);
+                            setEditFront(card.front);
+                            setEditBack(card.back);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          className="kv-btn-ghost"
+                          style={{ padding: "6px 10px" }}
+                          onClick={() => void deleteCard(card.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              );
+            })
+          )}
         </div>
 
-        <div style={{ marginTop: 12 }}>
+        <div style={{ marginTop: 16 }}>
           {!showAddCard ? (
-            <button className="kv-btn-ghost" onClick={() => setShowAddCard(true)}>+ Add Card</button>
+            <button type="button" className="kv-btn-ghost" onClick={() => setShowAddCard(true)}>
+              + Add Card
+            </button>
           ) : (
-            <div className="kv-card kv-card-elevated" style={{ padding: 12, display: "grid", gap: 8 }}>
-              <textarea className="kv-textarea" rows={2} placeholder="Front" value={newFront} onChange={(event) => setNewFront(event.target.value)} />
-              <textarea className="kv-textarea" rows={3} placeholder="Back" value={newBack} onChange={(event) => setNewBack(event.target.value)} />
+            <div
+              style={{
+                display: "grid",
+                gap: 8,
+                maxWidth: 480,
+                paddingTop: 12,
+                borderTop: "1px solid var(--border-default)",
+              }}
+            >
+              <textarea
+                className="kv-field"
+                rows={2}
+                placeholder="Front"
+                value={newFront}
+                onChange={(event) => setNewFront(event.target.value)}
+              />
+              <textarea
+                className="kv-field"
+                rows={3}
+                placeholder="Back"
+                value={newBack}
+                onChange={(event) => setNewBack(event.target.value)}
+              />
               <div style={{ display: "flex", gap: 8 }}>
-                <button className="kv-btn-primary" onClick={() => void addCard()}>Save</button>
-                <button className="kv-btn-ghost" onClick={() => setShowAddCard(false)}>Cancel</button>
+                <button type="button" className="kv-btn" onClick={() => void addCard()}>
+                  Save
+                </button>
+                <button type="button" className="kv-btn-ghost" onClick={() => setShowAddCard(false)}>
+                  Cancel
+                </button>
               </div>
             </div>
           )}

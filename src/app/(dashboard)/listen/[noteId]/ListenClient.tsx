@@ -24,21 +24,20 @@ export default function ListenClient({ note }: { note: ListenNote }) {
   }, [completedPlayCount])
 
   return (
-    <div style={{ padding: '32px', maxWidth: '900px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '24px' }}>
-        <Link href="/my-notes" style={{ textDecoration: 'none' }}>
-          <button className="btn btn-ghost btn-sm" style={{ marginBottom: '16px' }}>
-            ← Back to Notes
-          </button>
+    <main className="kv-page" style={{ padding: '24px 16px 100px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <div className="kv-crumb">Kyvex / <b>Listen to Notes</b></div>
+        <Link href="/listen" className="kv-btn-ghost" style={{ marginTop: 14, display: 'inline-flex', textDecoration: 'none' }}>
+          Back
         </Link>
+        <AudioPlayer
+          noteId={note.id}
+          noteTitle={note.title}
+          noteContent={note.content}
+          compact={false}
+          onFinish={() => setCompletedPlayCount((count) => count + 1)}
+        />
       </div>
-      <AudioPlayer
-        noteId={note.id}
-        noteTitle={note.title}
-        noteContent={note.content}
-        compact={false}
-        onFinish={() => setCompletedPlayCount((count) => count + 1)}
-      />
-    </div>
+    </main>
   )
 }

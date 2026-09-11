@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { prisma } from "@/lib/prisma";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 type GenerateBody = {
   topic?: string;
@@ -127,7 +128,7 @@ export async function POST(
       : `Generate ${count} flashcards about ${topic} for ${subject}.\n${curriculumPrompt}\nReturn ONLY a JSON array, no markdown, no explanation:\n[{"front": "question", "back": "answer"}, ...]`;
 
     const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: GROQ_TEXT_MODEL,
       temperature: 0.4,
       max_tokens: 3200,
       messages: [
@@ -158,6 +159,9 @@ export async function POST(
 
     return NextResponse.json({ cards, count: cards.length });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Deck generate POST error:", error);
     return NextResponse.json({ error: "Failed to generate flashcards" }, { status: 500 });
   }

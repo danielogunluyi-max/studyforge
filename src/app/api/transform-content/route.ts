@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
-import { runGroqPrompt } from "~/server/groq";
+import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type LearningStyle = "visual" | "auditory" | "reading" | "kinesthetic";
 
@@ -41,6 +41,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ transformedContent: transformed.trim() });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Transform content error:", error);
     return NextResponse.json({ error: "Failed to transform content" }, { status: 500 });
   }

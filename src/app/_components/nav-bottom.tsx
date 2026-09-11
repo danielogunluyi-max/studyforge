@@ -1,8 +1,13 @@
 'use client'
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { NAV_SECTIONS } from '~/lib/nav-config'
+import { useDisclosurePanel } from '~/lib/hooks/use-disclosure-panel'
+import {
+  groupNavEntries,
+  navEntriesFor,
+  type NavSectionId,
+} from '~/lib/nav-registry'
 
 const BOTTOM_TABS = [
   { key: 'home', label: 'Home', icon: '🏠', href: '/dashboard' },
@@ -12,134 +17,99 @@ const BOTTOM_TABS = [
   { key: 'more', label: 'More', icon: '⋯', href: null as string | null },
 ]
 
+const MOBILE_GROUPS = groupNavEntries(navEntriesFor('mobile'))
+
 export default function NavBottom() {
   const pathname = usePathname()
   const [moreOpen, setMoreOpen] = useState(false)
-  const [moreSection, setMoreSection] = useState<string | null>(null)
+  const [moreSection, setMoreSection] = useState<NavSectionId | null>(null)
+  const moreButtonRef = useRef<HTMLButtonElement>(null)
+  const morePanelRef = useRef<HTMLDivElement>(null)
+
+  const closeMore = useCallback(() => {
+    setMoreOpen(false)
+    setMoreSection(null)
+  }, [])
+
+  useEffect(() => {
+    setMoreOpen(false)
+    setMoreSection(null)
+  }, [pathname])
+
+  useDisclosurePanel({
+    open: moreOpen,
+    onClose: closeMore,
+    panelRef: morePanelRef,
+    triggerRef: moreButtonRef,
+  })
+
+  const openGroup = MOBILE_GROUPS.find((group) => group.id === moreSection)
 
   return (
-    <>
-      {/* MORE PANEL (slides up) */}
+    <div className="md:hidden">
       {moreOpen && (
         <>
           <div
-            onClick={() => { setMoreOpen(false); setMoreSection(null) }}
-            style={{
-              position: 'fixed', inset: 0, zIndex: 998,
-              background: 'rgba(5,8,16,0.7)',
-              pointerEvents: 'auto',
-            }}
+            aria-hidden="true"
+            onClick={closeMore}
+            className="fixed inset-0 z-[998]"
+            style={{ background: 'color-mix(in srgb, var(--bg-base) 70%, transparent)' }}
           />
-          <div style={{
-            position: 'fixed', bottom: '64px', left: 0, right: 0,
-            zIndex: 999, maxHeight: '70vh', overflowY: 'auto',
-            background: 'var(--bg-surface)',
-            borderTop: '1px solid var(--border-default)',
-            borderRadius: '20px 20px 0 0',
-            padding: '16px',
-            pointerEvents: 'auto',
-          }}>
-            {moreSection === null ? (
-              <div style={{
-                display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px'
-              }}>
-                {NAV_SECTIONS.map(s => (
+          <div
+            ref={morePanelRef}
+            id="kyvex-more-sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-label="More"
+            tabIndex={-1}
+            className="kv-bottom-sheet"
+          >
+            {openGroup === undefined ? (
+              <div className="grid grid-cols-3 gap-2">
+                {MOBILE_GROUPS.map(s => (
                   <button
-                    key={s.key}
+                    key={s.id}
                     type="button"
-                    onClick={() => setMoreSection(s.key)}
-                    style={{
-                      padding: '16px 8px', borderRadius: '12px',
-                      background: 'var(--bg-elevated)',
-                      border: '1px solid var(--border-subtle)',
-                      display: 'flex', flexDirection: 'column',
-                      alignItems: 'center', gap: '6px',
-                      cursor: 'pointer', fontFamily: 'inherit',
-                      transition: 'all 0.15s ease',
-                    }}
+                    onClick={() => setMoreSection(s.id)}
+                    className="kv-btn-ghost flex-col"
                   >
-                    <span style={{ fontSize: '24px' }}>{s.icon}</span>
-                    <span style={{ fontSize: '11px', fontWeight: 700,
-                      color: 'var(--text-secondary)' }}>
-                      {s.label}
-                    </span>
+                    <span className="kv-meta">{s.label}</span>
                   </button>
                 ))}
               </div>
             ) : (
-              (() => {
-                const section = NAV_SECTIONS.find(s => s.key === moreSection)
-                if (!section) return null
-                return (
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() => setMoreSection(null)}
-                      style={{
-                        background: 'none', border: 'none',
-                        color: 'var(--text-muted)', cursor: 'pointer',
-                        fontSize: '13px', fontWeight: 600,
-                        fontFamily: 'inherit', marginBottom: '12px',
-                        display: 'flex', alignItems: 'center', gap: '6px',
-                      }}
-                    >
-                      ← Back
-                    </button>
-                    <p style={{ fontSize: '12px', fontWeight: 800,
-                      color: section.color, textTransform: 'uppercase',
-                      letterSpacing: '0.08em', marginBottom: '12px' }}>
-                      {section.icon} {section.label}
-                    </p>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
-                      {section.items.map(item => (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          onClick={() => { setMoreOpen(false); setMoreSection(null) }}
-                          style={{
-                            display: 'flex', alignItems: 'center', gap: '10px',
-                            padding: '12px', borderRadius: '10px',
-                            background: pathname === item.href
-                              ? `${section.color}12`
-                              : 'var(--bg-elevated)',
-                            border: pathname === item.href
-                              ? `1px solid ${section.color}25`
-                              : '1px solid var(--border-subtle)',
-                            color: pathname === item.href
-                              ? section.color
-                              : 'var(--text-secondary)',
-                            textDecoration: 'none', fontSize: '13px',
-                            fontWeight: 600,
-                          }}
-                        >
-                          <span>{item.icon}</span>
-                          <span style={{ overflow: 'hidden',
-                            textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                            fontSize: '12px' }}>
-                            {item.label}
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )
-              })()
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setMoreSection(null)}
+                  className="kv-btn-ghost mb-3"
+                >
+                  ← Back
+                </button>
+                <p className="kv-meta mb-3">{openGroup.label}</p>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {openGroup.items.map(item => {
+                    const Icon = item.icon
+                    const active = pathname === item.href
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`sidebar-nav-item ${active ? 'is-active' : ''}`}
+                      >
+                        <Icon size={16} strokeWidth={1.75} />
+                        <span className="truncate text-xs">{item.label}</span>
+                      </Link>
+                    )
+                  })}
+                </div>
+              </div>
             )}
           </div>
         </>
       )}
 
-      {/* BOTTOM BAR */}
-      <nav style={{
-        position: 'fixed', bottom: 0, left: 0, right: 0,
-        zIndex: 200, height: '64px',
-        background: 'rgba(8,13,26,0.97)',
-        borderTop: '1px solid rgba(255,255,255,0.07)',
-        backdropFilter: 'blur(20px)',
-        display: 'flex', alignItems: 'center',
-        justifyContent: 'space-around',
-        padding: '0 16px',
-      }}>
+      <nav className="kv-bottom-nav">
         {BOTTOM_TABS.map(tab => {
           const isActive = tab.href
             ? pathname === tab.href || pathname.startsWith(tab.href + '/')
@@ -149,49 +119,28 @@ export default function NavBottom() {
             <Link
               key={tab.key}
               href={tab.href}
-              style={{
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'center', gap: 'var(--kv-bottom-nav-gap)',
-                padding: '8px 16px', borderRadius: '12px',
-                textDecoration: 'none',
-                background: isActive ? 'rgba(240,180,41,0.1)' : 'transparent',
-                transition: 'all 0.15s ease',
-              }}
+              className={`kv-bottom-tab ${isActive ? 'on' : ''}`}
             >
-              <span style={{ fontSize: '22px' }}>{tab.icon}</span>
-              <span style={{
-                fontSize: '10px', fontWeight: isActive ? 700 : 500,
-                color: isActive ? '#f0b429' : 'var(--kv-text-secondary)',
-              }}>
-                {tab.label}
-              </span>
+              <span className="dot" aria-hidden="true" />
+              <span className="label">{tab.label}</span>
             </Link>
           ) : (
             <button
               key={tab.key}
+              ref={moreButtonRef}
               type="button"
-              onClick={() => setMoreOpen(o => !o)}
-              style={{
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'center', gap: 'var(--kv-bottom-nav-gap)',
-                padding: '8px 16px', borderRadius: '12px',
-                border: 'none', cursor: 'pointer',
-                fontFamily: 'inherit',
-                background: isActive ? 'rgba(240,180,41,0.1)' : 'transparent',
-                transition: 'all 0.15s ease',
-              }}
+              onClick={() => (moreOpen ? closeMore() : setMoreOpen(true))}
+              aria-expanded={moreOpen}
+              aria-controls={moreOpen ? 'kyvex-more-sheet' : undefined}
+              aria-label={moreOpen ? 'Close menu' : 'Open menu'}
+              className={`kv-bottom-tab ${isActive ? 'on' : ''}`}
             >
-              <span style={{ fontSize: '22px' }}>{tab.icon}</span>
-              <span style={{
-                fontSize: '10px', fontWeight: isActive ? 700 : 500,
-                color: isActive ? '#f0b429' : 'var(--kv-text-secondary)',
-              }}>
-                {tab.label}
-              </span>
+              <span className="dot" aria-hidden="true" />
+              <span className="label">{tab.label}</span>
             </button>
           )
         })}
       </nav>
-    </>
+    </div>
   )
 }

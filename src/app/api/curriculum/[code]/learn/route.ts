@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { runGroqPrompt } from "~/server/groq";
+import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type LearnMode = "overview" | "lesson" | "examples" | "quiz" | "flashcards" | "exam";
 
@@ -81,6 +81,9 @@ export async function POST(request: Request, context: { params: Promise<{ code: 
       expectationCode: selectedExpectation?.code ?? null,
     });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("curriculum learn error", error);
     return NextResponse.json({ error: "Failed to generate learning content" }, { status: 500 });
   }

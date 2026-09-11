@@ -1,58 +1,64 @@
 import crypto from "crypto";
 import { NextResponse } from "next/server";
 
-// Trigger redeploy: minor comment change
-
+import {
+  hashResetToken,
+  PASSWORD_RESET_TTL_MINUTES,
+  sendPasswordResetEmail,
+} from "~/lib/email";
 import { db } from "~/server/db";
-import { sendPasswordResetEmail } from "~/lib/email";
+
+const COOLDOWN_MS = 2 * 60 * 1000;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as { email?: string };
-    const email = body.email?.toLowerCase().trim();
+    let body: { email?: string; callbackUrl?: unknown };
+    try {
+      body = (await request.json()) as typeof body;
+    } catch {
+      return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+    }
 
-    if (!email?.includes("@")) {
-      console.log("[forgot-password] Invalid or missing email:", email);
+    const email = typeof body.email === "string" ? body.email.toLowerCase().trim() : "";
+    if (!email || !EMAIL_RE.test(email)) {
       return NextResponse.json(
         { error: "Valid email address is required" },
         { status: 400 },
       );
     }
 
-    // Always return same response to prevent email enumeration
     const successResponse = NextResponse.json({
       message: "If that email exists, we sent a reset link",
     });
 
     const user = await db.user.findUnique({ where: { email } });
     if (!user) {
-      console.log("[forgot-password] No user found for email:", email);
       return successResponse;
     }
 
-    // Rate limiting: Check if a reset token was generated less than 2 minutes ago
-    // If resetTokenExpiry exists and is more than 58 minutes from now, it was created < 2 min ago
-    const twoMinutesAgo = new Date(Date.now() + 58 * 60 * 1000);
-    if (user.resetTokenExpiry && user.resetTokenExpiry > twoMinutesAgo) {
-      console.log("[forgot-password] Rate limited: Reset token recently generated for:", email);
-      // Return success silently to prevent spammer from knowing they're blocked
+    const now = Date.now();
+    const cooldownCutoff = now + PASSWORD_RESET_TTL_MINUTES * 60_000 - COOLDOWN_MS;
+    if (user.resetTokenExpiry && user.resetTokenExpiry.getTime() > cooldownCutoff) {
       return successResponse;
     }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    const resetTokenExpiry = new Date(now + PASSWORD_RESET_TTL_MINUTES * 60_000);
 
     await db.user.update({
       where: { id: user.id },
-      data: { resetToken, resetTokenExpiry },
+      data: { resetToken: hashResetToken(resetToken), resetTokenExpiry },
     });
-    console.log("[forgot-password] Updated user with resetToken, about to call sendPasswordResetEmail", { email, resetToken });
 
-    try {
-      await sendPasswordResetEmail(email, resetToken);
-      console.log("[forgot-password] sendPasswordResetEmail completed");
-    } catch (emailError) {
-      console.error("[forgot-password] Failed to send reset email:", emailError);
+    const result = await sendPasswordResetEmail({
+      email,
+      resetToken,
+      callbackUrl: typeof body.callbackUrl === "string" ? body.callbackUrl : null,
+    });
+
+    if (!result.ok) {
+      console.error("[forgot-password] reset email not delivered:", result.error);
     }
 
     return successResponse;

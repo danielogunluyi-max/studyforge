@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { runGroqPrompt, extractJsonBlock } from "~/server/groq";
+import { runGroqPrompt, extractJsonBlock, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type Flashcard = {
   front: string;
@@ -93,6 +93,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ flashcards: validFlashcards } as GenerateResponse);
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("[flashcards/generate] Error:", error);
     return NextResponse.json(
       { error: "An error occurred while generating flashcards." },

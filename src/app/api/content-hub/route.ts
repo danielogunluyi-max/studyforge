@@ -190,7 +190,7 @@ export async function GET(req: Request) {
       createdAt: l.createdAt,
       type: "lecture",
       icon: "🎤",
-      href: "/lecture",
+      href: "/smart-upload?tab=lecture",
       title: l.title,
       subject: l.subject,
       excerpt: l.subject,

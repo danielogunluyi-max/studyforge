@@ -9,66 +9,18 @@ import {
   Bell,
   Shield,
   BarChart3,
-  Trash2,
   Upload,
-  Download,
-  Check,
-  Eye,
-  GripHorizontal,
-  PanelLeft,
-  LayoutGrid,
   Settings,
-  Sun,
-  Moon,
   SlidersHorizontal,
+  LayoutGrid,
+  PanelLeft,
 } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
 import FeatureMatrix from "./_feature-matrix";
 
-function ThemeToggle({
-  theme,
-  onChange,
-}: {
-  theme: Theme;
-  onChange: (t: Theme) => void;
-}) {
-  const isDark = theme === "dark" || (theme === "auto" && typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-  const toggleTheme = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    onChange(next);
-  };
-
-  return (
-    <div className="flex items-center justify-between rounded-2xl border border-white/5 bg-white/[0.02] px-5 py-4">
-      <div className="flex flex-col gap-0.5">
-        <span className="text-sm font-semibold text-white">
-          {theme === "dark" ? "Dark Mode" : theme === "light" ? "Light Mode" : "System"}
-        </span>
-        <span className="text-xs text-zinc-500">
-          {theme === "auto" ? "Follows your OS preference" : theme === "dark" ? "Easier on the eyes at night" : "Clean white workspace"}
-        </span>
-      </div>
-      <div className="flex items-center gap-3">
-        <Sun size={18} className={theme === "light" || (theme === "auto" && !isDark) ? "text-amber-400" : "text-zinc-600"} />
-        <button
-          aria-label="Toggle dark mode"
-          role="switch"
-          aria-checked={isDark}
-          onClick={toggleTheme}
-          className={`relative h-7 w-14 rounded-full transition-colors duration-200 ${isDark ? "bg-indigo-500" : "bg-zinc-300"}`}
-        >
-          <span
-            className={`absolute left-1 top-1 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${isDark ? "translate-x-7" : ""}`}
-          />
-        </button>
-        <Moon size={18} className={isDark ? "text-indigo-300" : "text-zinc-600"} />
-      </div>
-    </div>
-  );
-}
 import Listbox from "~/app/_components/Listbox";
 import { useToast } from "~/app/_components/toast";
+import { loginUrlFor } from "~/lib/auth-redirect";
+import { parseNavStyle, persistNavStyle, readNavStyleCookie } from "~/lib/nav-style";
 import { SkeletonList } from "~/app/_components/skeleton";
 import { useTheme } from "~/app/_components/theme-provider";
 import {
@@ -172,10 +124,23 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={`relative h-6 w-11 flex-shrink-0 rounded-full border-none p-0.5 transition-colors duration-200 ${checked ? "bg-white" : "bg-white/10"}`}
+      className="kv-btn-ghost"
+      style={{
+        width: 36,
+        height: 20,
+        padding: 2,
+        background: checked ? "var(--kv-accent)" : "transparent",
+        color: checked ? "#15150F" : "var(--kv-text-tertiary)",
+      }}
     >
       <span
-        className={`block h-5 w-5 rounded-full bg-black shadow transition-transform duration-200 ${checked ? "translate-x-5" : "translate-x-0"}`}
+        style={{
+          display: "block",
+          width: 12,
+          height: 12,
+          background: checked ? "#15150F" : "var(--kv-text-ghost)",
+          transform: checked ? "translateX(14px)" : "translateX(0)",
+        }}
       />
     </button>
   );
@@ -193,12 +158,10 @@ function ToggleRow({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border border-white/5 bg-white/[0.02] p-4">
+    <div className="kv-row">
       <div>
-        <p className="text-sm font-semibold text-white">{label}</p>
-        {description && (
-          <p className="mt-0.5 text-xs leading-relaxed text-zinc-500">{description}</p>
-        )}
+        <div className="kv-row-title">{label}</div>
+        {description ? <p className="kv-sub" style={{ marginTop: 4, fontSize: 13 }}>{description}</p> : null}
       </div>
       <Toggle checked={checked} onChange={onChange} />
     </div>
@@ -207,10 +170,7 @@ function ToggleRow({
 
 function SettingLabel({ htmlFor, children }: { htmlFor?: string; children: ReactNode }) {
   return (
-    <label
-      htmlFor={htmlFor}
-      className="mb-2 block text-[11px] font-bold uppercase tracking-[0.07em] text-zinc-500"
-    >
+    <label htmlFor={htmlFor} className="kv-meta" style={{ display: "block", marginBottom: 8 }}>
       {children}
     </label>
   );
@@ -226,31 +186,17 @@ function SectionBlock({
   children: ReactNode;
 }) {
   return (
-    <div className="mb-7">
-      <div className="mb-3.5">
-        <h2 className="text-base font-bold text-white">{title}</h2>
-        {description && (
-          <p className="mt-1 text-sm leading-relaxed text-zinc-500">{description}</p>
-        )}
-      </div>
-      <div className="flex flex-col gap-2.5">{children}</div>
-    </div>
+    <section style={{ marginBottom: 32 }}>
+      <h2 className="kv-title" style={{ fontSize: 20 }}>{title}</h2>
+      {description ? <p className="kv-sub" style={{ marginTop: 8 }}>{description}</p> : null}
+      <div style={{ marginTop: 14 }}>{children}</div>
+    </section>
   );
 }
 
 function SaveButton({ isSaving, onClick }: { isSaving: boolean; onClick: () => void }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={isSaving}
-      className="inline-flex items-center gap-2 rounded-xl bg-white px-7 py-2.5 text-sm font-bold text-black transition-all hover:scale-[1.02] disabled:opacity-70"
-    >
-      {isSaving ? (
-        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-black/30 border-t-black" />
-      ) : (
-        <Check size={16} strokeWidth={2.5} />
-      )}
+    <button type="button" onClick={onClick} disabled={isSaving} className="kv-btn">
       {isSaving ? "Saving…" : "Save Changes"}
     </button>
   );
@@ -270,41 +216,36 @@ function syncAppearance(next: UserSettings) {
   window.dispatchEvent(new CustomEvent("kyvex:appearance-updated", { detail: payload }));
 }
 
-const THEME_OPTIONS: { key: string; label: string; desc: string; gradient: string; accent: string }[] = [
-  { key: "midnight", label: "Midnight", desc: "Pure black · Gold accents", gradient: "linear-gradient(135deg,#000000 50%,#f0b429 100%)", accent: "#f0b429" },
-  { key: "campus",   label: "Gold",     desc: "Warm amber · Classic study", gradient: "linear-gradient(135deg,#0d0a07 50%,#f59e0b 100%)", accent: "#f59e0b" },
-  { key: "focus",    label: "Teal",     desc: "Deep black · Emerald glow", gradient: "linear-gradient(135deg,#0a0a0a 50%,#10b981 100%)", accent: "#10b981" },
+const VISUAL_THEME_OPTIONS = [
+  { key: "system" as const, label: "System" },
+  { key: "dark" as const, label: "Dark" },
+  { key: "light" as const, label: "Light" },
 ];
 
 function AppearanceThemeSection() {
   const { theme, setTheme } = useTheme();
   return (
-    <SectionBlock title="Theme" description="Choose the mood of your workspace.">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        {THEME_OPTIONS.map((t) => {
-          const active = theme === t.key;
+    <SectionBlock title="Theme">
+      <div role="radiogroup" aria-label="Theme" style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        {VISUAL_THEME_OPTIONS.map((opt) => {
+          const active = theme === opt.key;
           return (
             <button
-              key={t.key}
+              key={opt.key}
               type="button"
-              onClick={() => setTheme(t.key as Parameters<typeof setTheme>[0])}
-              className={`group relative rounded-2xl border p-4 text-left transition-all duration-200 ${active ? "border-white/20 bg-white/[0.04]" : "border-white/5 bg-white/[0.02] hover:border-white/10"}`}
+              role="radio"
+              aria-checked={active}
+              onClick={() => setTheme(opt.key)}
+              className={active ? "kv-btn-ghost on" : "kv-btn-ghost"}
             >
-              {active && (
-                <span className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] font-bold text-black">
-                  <Check size={12} strokeWidth={3} />
-                </span>
-              )}
-              <div
-                className="mb-3 h-14 rounded-xl"
-                style={{ background: t.gradient }}
-              />
-              <p className="text-sm font-bold text-white">{t.label}</p>
-              <p className="mt-1 text-xs text-zinc-500">{t.desc}</p>
+              {opt.label}
             </button>
           );
         })}
       </div>
+      <p className="kv-meta" style={{ marginTop: 10 }}>
+        System follows your device — light for class, dark for late nights
+      </p>
     </SectionBlock>
   );
 }
@@ -341,18 +282,12 @@ function DockSettingsSection() {
 
   return (
     <SectionBlock title="Study Dock" description="Control what appears in your bottom dock.">
-      <div className="flex flex-col gap-2.5">
+      <div>
         {DOCK_ITEMS.map((item) => (
-          <div
-            key={item.key}
-            className="flex items-center justify-between gap-4 rounded-xl border border-white/5 bg-white/[0.02] p-4"
-          >
-            <div className="flex items-center gap-3">
-              {item.icon}
-              <div>
-                <p className="text-sm font-semibold text-white">{item.label}</p>
-                <p className="mt-0.5 text-xs leading-relaxed text-zinc-500">{item.desc}</p>
-              </div>
+          <div key={item.key} className="kv-row">
+            <div>
+              <div className="kv-row-title">{item.label}</div>
+              <p className="kv-sub" style={{ marginTop: 4, fontSize: 13 }}>{item.desc}</p>
             </div>
             <Toggle checked={!!dockSettings[item.key]} onChange={() => toggle(item.key)} />
           </div>
@@ -364,28 +299,12 @@ function DockSettingsSection() {
 
 const NAV_STYLE_OPTIONS = [
   {
-    key: 'minimal' as const,
-    label: 'Minimal',
+    key: 'sidebar' as const,
+    label: 'Sidebar',
     icon: <LayoutGrid size={18} strokeWidth={1.5} />,
-    desc: 'Command palette + 8 pinned items',
-    best: 'keyboard users, power users',
+    desc: 'Grouped sidebar on desktop, bottom tabs on mobile',
+    best: 'keyboard users and everyday studying',
     recommended: true,
-  },
-  {
-    key: 'icons' as const,
-    label: 'Icons',
-    icon: <Eye size={18} strokeWidth={1.5} />,
-    desc: 'Icon rail + slide-out panel',
-    best: 'compact, clean workspace',
-    recommended: false,
-  },
-  {
-    key: 'bottom' as const,
-    label: 'Bottom Bar',
-    icon: <GripHorizontal size={18} strokeWidth={1.5} />,
-    desc: 'Mobile-style bottom tabs + More sheet',
-    best: 'trackpad/touch users, minimal clutter',
-    recommended: false,
   },
   {
     key: 'topnav' as const,
@@ -398,21 +317,21 @@ const NAV_STYLE_OPTIONS = [
 ];
 
 function NavigationStyleSection() {
-  const [current, setCurrent] = useState('minimal');
+  const [current, setCurrent] = useState("sidebar");
 
   useEffect(() => {
-    setCurrent(localStorage.getItem('kyvex-nav-style') || 'minimal');
+    setCurrent(readNavStyleCookie());
   }, []);
 
   const select = (style: string) => {
-    setCurrent(style);
-    localStorage.setItem('kyvex-nav-style', style);
-    window.dispatchEvent(new CustomEvent('kyvex-nav-changed', { detail: style }));
+    const next = parseNavStyle(style);
+    setCurrent(next);
+    persistNavStyle(next);
   };
 
   return (
     <SectionBlock title="Navigation Style" description="Choose how you navigate Kyvex.">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div style={{ display: "grid", gap: 8 }}>
         {NAV_STYLE_OPTIONS.map((opt) => {
           const active = current === opt.key;
           return (
@@ -420,24 +339,11 @@ function NavigationStyleSection() {
               key={opt.key}
               type="button"
               onClick={() => select(opt.key)}
-              className={`relative rounded-2xl border p-4 text-left transition-all duration-150 ${active ? "border-amber-500/30 bg-amber-500/[0.06]" : "border-white/5 bg-white/[0.02] hover:border-white/10"}`}
+              className={active ? "kv-btn-ghost on" : "kv-btn-ghost"}
+              style={{ flexDirection: "column", alignItems: "flex-start", width: "100%" }}
             >
-              {opt.recommended && (
-                <span className="absolute right-3 top-3 rounded-md bg-amber-500/10 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-amber-400">
-                  Recommended
-                </span>
-              )}
-              <div className={`mb-2 flex items-center gap-2 ${active ? "text-amber-400" : "text-white"}`}>
-                {opt.icon}
-                <span className="text-sm font-bold">{opt.label}</span>
-              </div>
-              <p className="text-xs leading-relaxed text-zinc-500">{opt.desc}</p>
-              <p className="mt-1 text-[11px] text-zinc-600">Best for: {opt.best}</p>
-              {active && (
-                <div className="mt-2 text-[11px] font-bold text-emerald-400">
-                  <Check size={12} className="mr-1 inline" strokeWidth={3} /> Active
-                </div>
-              )}
+              <span>{opt.label}{opt.recommended ? " · Recommended" : ""}</span>
+              <span className="kv-meta" style={{ textTransform: "none", letterSpacing: 0 }}>{opt.desc}</span>
             </button>
           );
         })}
@@ -481,7 +387,7 @@ export default function SettingsPage() {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/login?from=/settings");
+      router.push(loginUrlFor("/settings"));
     }
   }, [status, router]);
 
@@ -616,7 +522,7 @@ export default function SettingsPage() {
 
   if (status === "loading") {
     return (
-      <main className="min-h-screen bg-black p-6">
+      <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
         <SkeletonList count={3} />
       </main>
     );
@@ -624,11 +530,11 @@ export default function SettingsPage() {
 
   if (!session) return null;
 
-  const initials = (settings.name || session.user?.name || "?")
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase() ?? "")
-    .join("");
+  const initials = (() => {
+    const source = (settings.name || session.user?.name || session.user?.email || "K").trim().split(" ");
+    if (source.length >= 2) return `${source[0]?.[0] ?? "K"}${source[1]?.[0] ?? ""}`.toUpperCase();
+    return (source[0]?.slice(0, 2) ?? "K").toUpperCase();
+  })();
 
   const displayAvatar = localAvatar || session.user?.image;
 
@@ -739,8 +645,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black px-4 py-6 text-white antialiased md:px-6 md:py-8">
-      {/* Hidden avatar file input */}
+    <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
       <input
         ref={avatarInputRef}
         type="file"
@@ -749,80 +654,58 @@ export default function SettingsPage() {
         onChange={handleAvatarChange}
       />
 
-      <div className="mx-auto max-w-[1024px]">
-        {/* Page header */}
-        <div className="mb-8">
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-zinc-500">
-            Configuration
-          </p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-white">Settings</h1>
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
+        <div className="kv-crumb">Kyvex / <b>Settings</b></div>
+        <h1 className="kv-title" style={{ marginTop: 14 }}>Settings</h1>
+
+        <div className="kv-tabs" style={{ marginTop: 22, flexWrap: "wrap" }}>
+          {TABS.map((tab) => {
+            const active = activeTab === tab.key;
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => setActiveTab(tab.key)}
+                className={active ? "kv-tab on" : "kv-tab"}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
-        <div className="settings-layout grid grid-cols-1 gap-5 md:grid-cols-[200px_1fr]">
-          {/* Left tab nav */}
-          <nav className="sticky top-6 flex h-fit flex-col gap-1 rounded-2xl border border-white/5 bg-white/[0.02] p-2 backdrop-blur-md">
-            {TABS.map((tab) => {
-              const active = activeTab === tab.key;
-              return (
-                <button
-                  key={tab.key}
-                  type="button"
-                  onClick={() => setActiveTab(tab.key)}
-                  className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-[13px] transition-all ${active ? "bg-white/[0.06] font-bold text-white" : "font-medium text-zinc-500 hover:bg-white/[0.03] hover:text-zinc-300"}`}
-                >
-                  <span className={active ? "text-white" : "text-zinc-600"}>
-                    {tab.icon}
-                  </span>
-                  {tab.label}
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Right content */}
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              className="min-w-0"
-              style={{ willChange: "transform, opacity" }}
-            >
+        <div style={{ marginTop: 28 }}>
             {/* ── GENERAL ── */}
             {activeTab === "general" && (
               <>
                 {/* Avatar card */}
-                <div className="mb-6 flex items-center gap-5 rounded-2xl border border-white/10 bg-[#0a0a0a] p-5">
+                <div className="kv-row" style={{ marginBottom: 24 }}>
                   <div className="relative">
                     {displayAvatar ? (
                       <img
                         src={displayAvatar}
                         alt="Profile"
-                        className="h-16 w-16 rounded-full border border-white/10 object-cover"
+                        className="kv-avatar"
+                        style={{ width: 28, height: 28, objectFit: "cover" }}
                       />
                     ) : (
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-zinc-900 text-xl font-extrabold text-white">
-                        {initials}
-                      </div>
+                      <span className="kv-avatar">{initials}</span>
                     )}
                     <button
                       type="button"
                       onClick={() => avatarInputRef.current?.click()}
                       disabled={isUploadingAvatar}
-                      className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white text-black shadow transition-transform hover:scale-110"
+                      className="kv-btn-ghost"
+                      style={{ position: "absolute", right: -8, bottom: -8, padding: 4 }}
                       aria-label="Upload avatar"
                       title="Upload avatar"
                     >
-                      <Upload size={14} strokeWidth={2.5} />
+                      <Upload size={12} strokeWidth={2} />
                     </button>
                   </div>
                   <div>
-                    <p className="text-lg font-bold text-white">
-                      {settings.name || session.user?.name || "Your Name"}
-                    </p>
-                    <p className="text-sm text-zinc-500">
+                    <div className="kv-row-title">{settings.name || session.user?.name || "Your Name"}</div>
+                    <p className="kv-meta" style={{ marginTop: 4 }}>
                       {settings.email || session.user?.email}
                     </p>
                   </div>
@@ -837,7 +720,7 @@ export default function SettingsPage() {
                         type="text"
                         value={settings.name}
                         onChange={(e) => updateSetting("name", e.target.value)}
-                        className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-zinc-600 focus:border-white/20"
+                        className="kv-field"
                         placeholder="Your name"
                       />
                     </div>
@@ -848,9 +731,9 @@ export default function SettingsPage() {
                         type="email"
                         value={settings.email || session.user?.email || ""}
                         disabled
-                        className="w-full cursor-not-allowed rounded-xl border border-white/5 bg-white/[0.02] px-3.5 py-2.5 text-sm text-zinc-600 outline-none"
+                        className="kv-field"
                       />
-                      <p className="mt-1.5 text-xs text-zinc-600">Contact support to change your email address.</p>
+                      <p className="kv-meta" style={{ marginTop: 8 }}>Contact support to change your email address.</p>
                     </div>
                   </div>
                 </SectionBlock>
@@ -859,12 +742,12 @@ export default function SettingsPage() {
                   title="Academic Level"
                   description="Kyvex adapts prompts and AI guidance based on your current level."
                 >
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                  <div style={{ display: "grid", gap: 8 }}>
                     {([
-                      { key: "HIGHSCHOOL", title: "High School", emoji: "🍁", desc: "Gr. 9–12 · Ontario curriculum · Exam prep · Credit courses" },
-                      { key: "COLLEGE",    title: "College",     emoji: "🎓", desc: "Diploma programs · Applied learning · Practical skills · Co-op ready" },
-                      { key: "UNIVERSITY", title: "University",  emoji: "🏛",  desc: "Degree programs · Research skills · Essay writing · Deep theory" },
-                    ] as { key: StudyPreset; title: string; emoji: string; desc: string }[]).map((item) => {
+                      { key: "HIGHSCHOOL", title: "High School", desc: "Gr. 9–12 · Ontario curriculum · Exam prep · Credit courses" },
+                      { key: "COLLEGE",    title: "College",     desc: "Diploma programs · Applied learning · Practical skills · Co-op ready" },
+                      { key: "UNIVERSITY", title: "University",  desc: "Degree programs · Research skills · Essay writing · Deep theory" },
+                    ] as { key: StudyPreset; title: string; desc: string }[]).map((item) => {
                       const selected = preset === item.key;
                       return (
                         <button
@@ -872,16 +755,11 @@ export default function SettingsPage() {
                           type="button"
                           onClick={() => void savePreset(item.key)}
                           disabled={savingPreset}
-                          className={`relative rounded-2xl border p-4 text-left transition-all duration-150 disabled:opacity-60 ${selected ? "border-amber-500/30 bg-amber-500/[0.06]" : "border-white/5 bg-white/[0.02] hover:border-white/10"}`}
+                          className={selected ? "kv-btn-ghost on" : "kv-btn-ghost"}
+                          style={{ flexDirection: "column", alignItems: "flex-start", width: "100%" }}
                         >
-                          {selected && (
-                            <span className="absolute right-3 top-3 text-amber-400">
-                              <Check size={14} strokeWidth={3} />
-                            </span>
-                          )}
-                          <span className="mb-2 block text-2xl">{item.emoji}</span>
-                          <p className="text-sm font-bold text-white">{item.title}</p>
-                          <p className="mt-1 text-xs leading-relaxed text-zinc-500">{item.desc}</p>
+                          <span className="kv-row-title">{item.title}</span>
+                          <span className="kv-meta" style={{ textTransform: "none", letterSpacing: 0, marginTop: 4 }}>{item.desc}</span>
                         </button>
                       );
                     })}
@@ -896,7 +774,7 @@ export default function SettingsPage() {
                   />
                   <Link
                     href="/learning-style-quiz"
-                    className="mt-2 inline-block text-sm font-semibold text-blue-400 hover:text-blue-300"
+                    className="kv-meta" style={{ display: "inline-block", marginTop: 10 }}
                   >
                     Retake Learning Style Quiz →
                   </Link>
@@ -941,13 +819,10 @@ export default function SettingsPage() {
 
             {activeTab === "appearance" && (
               <>
-                <SectionBlock title="Theme Mode" description="Switch between light and dark workspace.">
-                  <ThemeToggle theme={settings.theme} onChange={(t) => updateSetting("theme", t)} />
-                </SectionBlock>
                 <AppearanceThemeSection />
 
                 <SectionBlock title="Accent Color" description="Personalize the highlight color throughout the interface.">
-                  <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                     {(Object.entries(ACCENT_COLOR_MAP) as [AccentColor, { hex: string; label: string }][]).map(([color, { hex, label }]) => {
                       const active = settings.accentColor === color;
                       return (
@@ -957,16 +832,19 @@ export default function SettingsPage() {
                           title={label}
                           aria-label={`Select ${label} accent color`}
                           onClick={() => updateSetting("accentColor", color)}
-                          className={`flex flex-col items-center gap-2 rounded-xl border py-3 transition-all duration-150 ${active ? "border-white/15 bg-white/[0.04]" : "border-white/5 bg-white/[0.02] hover:border-white/10"}`}
+                          className={active ? "kv-btn-ghost on" : "kv-btn-ghost"}
+                          style={{ flexDirection: "column", minWidth: 72 }}
                         >
                           <span
-                            className="block h-7 w-7 rounded-full"
                             style={{
+                              display: "block",
+                              width: 12,
+                              height: 12,
                               background: hex,
-                              boxShadow: active ? `0 4px 14px ${hex}60` : "none",
+                              borderRadius: "var(--kv-radius)",
                             }}
                           />
-                          <span className={`text-[11px] font-semibold ${active ? "text-white" : "text-zinc-500"}`}>
+                          <span className="kv-meta" style={{ textTransform: "none", letterSpacing: 0, marginTop: 6 }}>
                             {label}
                           </span>
                         </button>
@@ -1048,23 +926,15 @@ export default function SettingsPage() {
                   />
                 </SectionBlock>
 
-                {/* Current state */}
-                <div className="mb-5 grid grid-cols-3 gap-2.5">
+                <div>
                   {[
                     { label: "Position", value: sidebarPlacement },
                     { label: "Density", value: sidebarDensity },
                     { label: "Labels", value: sidebarLabelMode },
                   ].map(({ label, value }) => (
-                    <div
-                      key={label}
-                      className="rounded-xl border border-white/5 bg-white/[0.02] px-3.5 py-3"
-                    >
-                      <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-zinc-600">
-                        {label}
-                      </p>
-                      <p className="text-sm font-semibold capitalize text-white">
-                        {value}
-                      </p>
+                    <div key={label} className="kv-row">
+                      <span className="kv-row-title">{label}</span>
+                      <span className="kv-row-side">{value}</span>
                     </div>
                   ))}
                 </div>
@@ -1079,7 +949,8 @@ export default function SettingsPage() {
                     persistSidebarDensity("expanded");
                     persistSidebarLabelMode("always");
                   }}
-                  className="rounded-xl border border-white/10 bg-white/[0.03] px-5 py-2 text-sm font-semibold text-zinc-400 transition-all hover:border-white/15 hover:text-white"
+                  className="kv-btn-ghost"
+                  style={{ marginTop: 14 }}
                 >
                   Reset to defaults
                 </button>
@@ -1115,76 +986,40 @@ export default function SettingsPage() {
             {activeTab === "account" && (
               <>
                 <SectionBlock title="Usage Stats" description="Your activity and resource usage across Kyvex.">
-                  <div className="space-y-4">
-                    <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-zinc-500">Notes Created</span>
-                        <span className="text-lg font-bold text-white">{usageStats.notes}</span>
-                      </div>
-                      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/5">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-400 transition-all duration-500"
-                          style={{ width: `${Math.min(usageStats.notes * 5, 100)}%` }}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-zinc-500">Exams Tracked</span>
-                        <span className="text-lg font-bold text-white">{usageStats.exams}</span>
-                      </div>
-                      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/5">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-400 transition-all duration-500"
-                          style={{ width: `${Math.min(usageStats.exams * 15, 100)}%` }}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-zinc-500">AI Credits Used</span>
-                        <span className="text-lg font-bold text-white">{usageStats.aiCreditsUsed}</span>
-                      </div>
-                      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/5">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-500"
-                          style={{ width: `${usageStats.aiCreditsUsed}%` }}
-                        />
-                      </div>
-                      <p className="mt-2 text-xs text-zinc-600">Out of 100 monthly credits</p>
-                    </div>
-
-                    <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-zinc-500">Storage</span>
-                        <span className="text-lg font-bold text-white">{usageStats.storagePercent.toFixed(0)}%</span>
-                      </div>
-                      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/5">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-400 transition-all duration-500"
-                          style={{ width: `${usageStats.storagePercent}%` }}
-                        />
-                      </div>
-                      <p className="mt-2 text-xs text-zinc-600">Based on notes and exams</p>
-                    </div>
+                  <div className="kv-row">
+                    <span className="kv-row-title">Notes created</span>
+                    <span className="kv-row-side num">{usageStats.notes}</span>
+                  </div>
+                  <div className="kv-bar" style={{ marginTop: 8 }}>
+                    <div style={{ width: `${Math.min(usageStats.notes * 5, 100)}%` }} />
+                  </div>
+                  <div className="kv-row">
+                    <span className="kv-row-title">Exams tracked</span>
+                    <span className="kv-row-side num">{usageStats.exams}</span>
+                  </div>
+                  <div className="kv-bar" style={{ marginTop: 8 }}>
+                    <div style={{ width: `${Math.min(usageStats.exams * 15, 100)}%` }} />
+                  </div>
+                  <div className="kv-row">
+                    <span className="kv-row-title">AI credits used</span>
+                    <span className="kv-row-side num">{usageStats.aiCreditsUsed}</span>
+                  </div>
+                  <div className="kv-bar" style={{ marginTop: 8 }}>
+                    <div style={{ width: `${usageStats.aiCreditsUsed}%` }} />
+                  </div>
+                  <p className="kv-meta" style={{ marginTop: 6 }}>Out of 100 monthly credits</p>
+                  <div className="kv-row">
+                    <span className="kv-row-title">Storage</span>
+                    <span className="kv-row-side num">{usageStats.storagePercent.toFixed(0)}%</span>
+                  </div>
+                  <div className="kv-bar" style={{ marginTop: 8 }}>
+                    <div style={{ width: `${usageStats.storagePercent}%` }} />
                   </div>
                 </SectionBlock>
 
                 <SectionBlock title="Export" description="Download a complete copy of your data at any time.">
-                  <button
-                    type="button"
-                    onClick={() => void exportData()}
-                    className="flex w-full items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-left transition-all hover:border-white/15 hover:bg-white/[0.04]"
-                  >
-                    <div>
-                      <p className="text-sm font-bold text-white">Export All Data</p>
-                      <p className="mt-0.5 text-xs text-zinc-500">
-                        Download your notes, citations, and settings as JSON
-                      </p>
-                    </div>
-                    <Download size={18} className="flex-shrink-0 text-zinc-500" strokeWidth={1.5} />
+                  <button type="button" onClick={() => void exportData()} className="kv-btn-ghost">
+                    Export all data
                   </button>
                 </SectionBlock>
               </>
@@ -1194,56 +1029,61 @@ export default function SettingsPage() {
             {activeTab === "security" && (
               <>
                 <SectionBlock title="Danger Zone" description="These actions are permanent and cannot be undone.">
-                  <div className="rounded-2xl border border-red-500/20 bg-red-500/[0.03] p-5">
-                    <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-                      <div>
-                        <p className="text-sm font-bold text-red-400">Delete Account</p>
-                        <p className="mt-1 text-xs leading-relaxed text-zinc-500">
-                          Permanently delete your account and all data — notes, citations, battles, and study groups.
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setShowDeleteConfirm(true)}
-                        className="flex-shrink-0 rounded-xl border border-red-500/40 bg-red-500/10 px-5 py-2 text-sm font-bold text-red-400 transition-all hover:border-red-500/60 hover:bg-red-500/20"
-                      >
-                        Delete Account
-                      </button>
+                  <div className="kv-row">
+                    <div>
+                      <div className="kv-row-title">Delete account</div>
+                      <p className="kv-sub" style={{ marginTop: 4, fontSize: 13 }}>
+                        Permanently delete your account and all data — notes, citations, battles, and study groups.
+                      </p>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowDeleteConfirm(true)}
+                      className="kv-btn-danger"
+                    >
+                      Delete Account
+                    </button>
                   </div>
                 </SectionBlock>
               </>
             )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
+            </div>
+          </div>
 
       {/* DELETE CONFIRMATION MODAL */}
       {showDeleteConfirm && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 50,
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            padding: "24px 16px",
+            overflowY: "auto",
+            background: "rgba(0,0,0,0.72)",
+          }}
           role="dialog"
           aria-modal="true"
           aria-labelledby="delete-dialog-title"
           onClick={(e) => { if (e.target === e.currentTarget) setShowDeleteConfirm(false); }}
         >
-          <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0a0a0a] p-7 shadow-2xl">
-            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-red-500/10">
-              <Trash2 size={20} className="text-red-400" strokeWidth={1.5} />
+          <div style={{ width: "100%", maxWidth: 440, border: "1px solid var(--border-default)", background: "var(--bg-base)" }}>
+            <div style={{ padding: "14px 18px", borderBottom: "1px solid var(--border-default)" }}>
+              <h3 id="delete-dialog-title" className="kv-title" style={{ fontSize: 18 }}>
+                Delete your account?
+              </h3>
             </div>
-            <h3 id="delete-dialog-title" className="mb-2 text-lg font-bold text-white">
-              Delete your account?
-            </h3>
-            <p className="mb-6 text-sm leading-relaxed text-zinc-500">
+            <p className="kv-sub" style={{ padding: "16px 18px", margin: 0 }}>
               This cannot be undone. All your notes, citations, battle history, and study groups will be permanently deleted.
             </p>
-            <div className="flex gap-3">
+            <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", padding: "14px 18px", borderTop: "1px solid var(--border-default)" }}>
               <button
                 type="button"
                 onClick={() => setShowDeleteConfirm(false)}
                 disabled={isDeleting}
-                className="flex-1 rounded-xl border border-white/10 bg-white/[0.03] py-2.5 text-sm font-semibold text-white transition-all hover:bg-white/[0.06]"
+                className="kv-btn-ghost"
               >
                 Cancel
               </button>
@@ -1251,7 +1091,7 @@ export default function SettingsPage() {
                 type="button"
                 onClick={() => void deleteAccount()}
                 disabled={isDeleting}
-                className="flex-1 rounded-xl bg-red-500 py-2.5 text-sm font-bold text-white transition-all hover:bg-red-600 disabled:opacity-50"
+                className="kv-btn-danger"
               >
                 {isDeleting ? "Deleting…" : "Delete Forever"}
               </button>
@@ -1259,20 +1099,6 @@ export default function SettingsPage() {
           </div>
         </div>
       )}
-
-      <style>{`
-        @media (max-width: 768px) {
-          .settings-layout {
-            grid-template-columns: 1fr !important;
-          }
-          .settings-layout nav {
-            position: static !important;
-            flex-direction: row !important;
-            flex-wrap: wrap;
-            gap: 4px !important;
-          }
-        }
-      `}</style>
     </main>
   );
 }

@@ -321,7 +321,7 @@ export default function PresentationCreatePage() {
         exporting={exporting}
         onExport={exportPptx}
         onBack={() => setStage("config")}
-        onClose={() => router.push("/dashboard")}
+        onClose={() => router.push("/presentation")}
         themeId={style}
       />
     );

@@ -1,9 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import LoadingButton from '@/app/_components/loading-button';
 import Skeleton from '@/app/_components/skeleton';
-import EmptyState from '@/app/_components/empty-state';
+import { formatTorontoDate } from '~/lib/toronto-time';
 
 const MONTHS = [
   'January',
@@ -35,13 +34,21 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 const TYPE_LABELS: Record<string, string> = {
-  exam: '📝 Exam',
-  study: '📅 Study',
-  deadline: '⏰ Deadline',
-  assignment: '📋 Assignment',
-  reminder: '🔔 Reminder',
-  other: '📌 Other',
+  exam: 'Exam',
+  study: 'Study',
+  deadline: 'Deadline',
+  assignment: 'Assignment',
+  reminder: 'Reminder',
+  other: 'Other',
 };
+
+const ONTARIO_COURSE = /^[A-Z]{3,4}\d[A-Z]$/i;
+
+function courseChip(value: string) {
+  const token = value.trim();
+  if (!ONTARIO_COURSE.test(token)) return null;
+  return <span className="kv-chip kv-chip-course">{token}</span>;
+}
 
 type CalEvent = {
   id: string;
@@ -313,27 +320,25 @@ export default function CalendarPage() {
   };
 
   return (
-    <div style={{ padding: '32px', maxWidth: '1200px', margin: '0 auto' }} className="kv-page kv-animate-in">
-      {error ? <div className="kv-alert-error kv-animate-in">{error}</div> : null}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px', flexWrap: 'wrap', gap: '12px' }}>
+    <main className="kv-page" style={{ padding: '24px 16px 100px' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      {error ? <p className="kv-meta" style={{ color: '#E5484D' }}>{error}</p> : null}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 className="kv-page-title" style={{ fontSize: '26px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '6px' }}>
-            📆 Calendar
-          </h1>
-          <p className="kv-page-subtitle" style={{ fontSize: '14px' }}>
-            All your exams, study sessions, and deadlines in one place
-          </p>
-          <div className="kv-tabs" style={{ marginTop: 10 }}>
+          <div className="kv-crumb">Kyvex / <b>Calendar</b></div>
+          <h1 className="kv-title" style={{ marginTop: 14 }}>Calendar</h1>
+          <p className="kv-sub" style={{ marginTop: 10 }}>Exams, study sessions, and deadlines.</p>
+          <div className="kv-tabs" style={{ marginTop: 22 }}>
             <button
               type="button"
-              className={`kv-tab ${activeTab === 'calendar' ? 'active' : ''}`}
+              className={activeTab === 'calendar' ? 'kv-tab on' : 'kv-tab'}
               onClick={() => setActiveTab('calendar')}
             >
               Calendar
             </button>
             <button
               type="button"
-              className={`kv-tab ${activeTab === 'timetable' ? 'active' : ''}`}
+              className={activeTab === 'timetable' ? 'kv-tab on' : 'kv-tab'}
               onClick={() => setActiveTab('timetable')}
             >
               Timetable
@@ -341,6 +346,7 @@ export default function CalendarPage() {
           </div>
         </div>
         <button
+          type="button"
           onClick={() => {
             if (activeTab === 'calendar') {
               setNewDate(formatDateInput(today));
@@ -349,365 +355,271 @@ export default function CalendarPage() {
             }
             openNewClassModal();
           }}
-          className="kv-btn-primary"
+          className="kv-btn"
         >
-          {activeTab === 'calendar' ? '+ Add event' : 'Add Class'}
+          {activeTab === 'calendar' ? 'Add event' : 'Add class'}
         </button>
       </div>
 
-      <div style={{ display: activeTab === 'calendar' ? 'grid' : 'none', gridTemplateColumns: 'minmax(0,1fr) minmax(260px,300px)', gap: '20px', alignItems: 'start' }}>
+      <div style={{ display: activeTab === 'calendar' ? 'grid' : 'none', gridTemplateColumns: 'minmax(0,1fr) minmax(240px,280px)', gap: 24, alignItems: 'start', marginTop: 28 }}>
         <div>
-          <div className="kv-card" style={{ padding: '20px', marginBottom: '16px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '8px' }}>
-              <button onClick={prevMonth} className="kv-btn-ghost">← Prev</button>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-                  {MONTHS[currentMonth]} {currentYear}
-                </h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 8 }}>
+            <button type="button" onClick={prevMonth} className="kv-btn-ghost">Prev</button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+              <h2 className="kv-title" style={{ fontSize: 20, margin: 0 }}>
+                {MONTHS[currentMonth]} {currentYear}
+              </h2>
+              <button
+                type="button"
+                onClick={() => {
+                  setCurrentMonth(today.getMonth());
+                  setCurrentYear(today.getFullYear());
+                  setSelectedDate(today);
+                }}
+                className="kv-btn-ghost"
+              >
+                Today
+              </button>
+            </div>
+            <button type="button" onClick={nextMonth} className="kv-btn-ghost">Next</button>
+          </div>
+
+          <div className="kv-cal-grid">
+            {WEEKDAYS.map((weekday) => (
+              <div key={weekday} className="kv-cal-hd kv-meta">{weekday}</div>
+            ))}
+            {calendarCells.map((date, index) => {
+              const isCurrentMonth = date.getMonth() === currentMonth;
+              const isToday = date.toDateString() === today.toDateString();
+              const isSelected = selectedDate?.toDateString() === date.toDateString();
+              const dayEvents = getEventsForDate(date);
+              const cls = [
+                'kv-cal-cell',
+                isCurrentMonth ? '' : 'muted',
+                isToday ? 'today' : '',
+                isSelected ? 'sel' : '',
+              ].filter(Boolean).join(' ');
+
+              return (
                 <button
-                  onClick={() => {
-                    setCurrentMonth(today.getMonth());
-                    setCurrentYear(today.getFullYear());
-                    setSelectedDate(today);
-                  }}
-                  className="kv-btn-ghost"
+                  key={`${date.toISOString()}-${index}`}
+                  type="button"
+                  onClick={() => setSelectedDate(date)}
+                  className={cls}
                 >
-                  Today
-                </button>
-              </div>
-              <button onClick={nextMonth} className="kv-btn-ghost">Next →</button>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px', marginBottom: '4px' }}>
-              {WEEKDAYS.map((weekday) => (
-                <div
-                  key={weekday}
-                  style={{ textAlign: 'center', fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', padding: '6px 0', textTransform: 'uppercase', letterSpacing: '0.05em' }}
-                >
-                  {weekday}
-                </div>
-              ))}
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px' }}>
-              {calendarCells.map((date, index) => {
-                const isCurrentMonth = date.getMonth() === currentMonth;
-                const isToday = date.toDateString() === today.toDateString();
-                const isSelected = selectedDate?.toDateString() === date.toDateString();
-                const dayEvents = getEventsForDate(date);
-
-                return (
-                  <div
-                    key={`${date.toISOString()}-${index}`}
-                    onClick={() => setSelectedDate(date)}
-                    style={{
-                      minHeight: '72px',
-                      padding: '6px',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      border: `1px solid ${isSelected ? 'var(--accent-blue)' : isToday ? 'rgba(91,127,255,0.4)' : 'transparent'}`,
-                      background: isSelected ? 'var(--glow-blue)' : isToday ? 'rgba(91,127,255,0.05)' : 'transparent',
-                      opacity: isCurrentMonth ? 1 : 0.3,
-                      transition: 'all 0.15s ease',
-                    }}
-                    onMouseEnter={(event) => {
-                      if (!isSelected) event.currentTarget.style.background = 'var(--bg-elevated)';
-                    }}
-                    onMouseLeave={(event) => {
-                      if (!isSelected) event.currentTarget.style.background = isToday ? 'rgba(91,127,255,0.05)' : 'transparent';
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 24,
-                        height: 24,
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: isToday ? 'var(--accent-blue)' : 'transparent',
-                        fontSize: '12px',
-                        fontWeight: isToday ? 800 : 500,
-                        color: isToday ? 'white' : 'var(--text-primary)',
-                        marginBottom: '4px',
-                      }}
-                    >
-                      {date.getDate()}
-                    </div>
-
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                      {dayEvents.slice(0, 3).map((event, eventIndex) => (
-                        <div
-                          key={`${event.id}-${eventIndex}`}
-                          style={{
-                            fontSize: '10px',
-                            fontWeight: 600,
-                            color: 'white',
-                            background: event.color || TYPE_COLORS[event.type] || TYPE_COLORS.other,
-                            borderRadius: '3px',
-                            padding: '1px 4px',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textDecoration: event.completed ? 'line-through' : 'none',
-                            opacity: event.completed ? 0.6 : 1,
-                          }}
-                        >
-                          {event.title}
-                        </div>
-                      ))}
-                      {dayEvents.length > 3 ? (
-                        <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>+{dayEvents.length - 3} more</div>
-                      ) : null}
-                    </div>
+                  <span className="num" style={{ fontSize: 12, fontWeight: isToday ? 600 : 400 }}>
+                    {date.getDate()}
+                  </span>
+                  <div style={{ marginTop: 4 }}>
+                    {dayEvents.slice(0, 3).map((event, eventIndex) => (
+                      <div
+                        key={`${event.id}-${eventIndex}`}
+                        className="kv-meta"
+                        style={{
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          textDecoration: event.completed ? 'line-through' : 'none',
+                        }}
+                      >
+                        {event.title}
+                      </div>
+                    ))}
+                    {dayEvents.length > 3 ? (
+                      <div className="kv-meta">+{dayEvents.length - 3}</div>
+                    ) : null}
                   </div>
-                );
-              })}
-            </div>
+                </button>
+              );
+            })}
           </div>
 
           {selectedDate ? (
-            <div className="kv-card" style={{ padding: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)' }}>
-                  {selectedDate.toLocaleDateString('en-CA', {
-                    weekday: 'long',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </h3>
+            <div style={{ marginTop: 28 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+                <h3 className="kv-meta" style={{ margin: 0 }}>{formatTorontoDate(selectedDate)}</h3>
                 <button
+                  type="button"
                   onClick={() => {
                     setNewDate(formatDateInput(selectedDate));
                     setShowAddModal(true);
                   }}
                   className="kv-btn-ghost"
                 >
-                  + Add
+                  Add
                 </button>
               </div>
 
               {selectedEvents.length === 0 ? (
-                <EmptyState
-                  icon="📅"
-                  title="No events scheduled"
-                  description="Add your exams, assignments, and deadlines"
-                />
+                <p className="kv-sub" style={{ marginTop: 12 }}>No events scheduled.</p>
               ) : (
-                <div className="kv-stagger kv-animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {selectedEvents.map((event) => (
-                    <div
-                      key={event.id}
-                      className="kv-card-hover kv-animate-in"
-                      style={{
-                        display: 'flex',
-                        gap: '12px',
-                        alignItems: 'flex-start',
-                        padding: '12px',
-                        background: 'var(--bg-elevated)',
-                        borderRadius: '10px',
-                        borderLeft: `3px solid ${event.color || TYPE_COLORS[event.type] || TYPE_COLORS.other}`,
-                        opacity: event.completed ? 0.6 : 1,
-                      }}
-                    >
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)', textDecoration: event.completed ? 'line-through' : 'none' }}>
-                            {event.title}
-                          </span>
-                          <span
-                            style={{
-                              fontSize: '11px',
-                              fontWeight: 600,
-                              color: event.color || TYPE_COLORS[event.type] || TYPE_COLORS.other,
-                              padding: '2px 6px',
-                              borderRadius: '4px',
-                              background: `${event.color || TYPE_COLORS[event.type] || TYPE_COLORS.other}20`,
-                            }}
-                          >
-                            {TYPE_LABELS[event.type] ?? event.type}
-                          </span>
+                selectedEvents.map((event) => {
+                  const eventDay = new Date(event.date);
+                  const isEventToday = eventDay.toDateString() === today.toDateString();
+                  return (
+                    <div key={event.id} className="kv-row" style={{ opacity: event.completed ? 0.55 : 1 }}>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div className="kv-row-title" style={{ textDecoration: event.completed ? 'line-through' : 'none' }}>
+                          {event.title}
+                        </div>
+                        <div className="kv-row-sub">
+                          {isEventToday ? <span className="dot" aria-label="Today" /> : null}
+                          {courseChip(event.title)}
+                          <span className="kv-chip">{TYPE_LABELS[event.type] ?? event.type}</span>
                         </div>
                         {event.description ? (
-                          <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>{event.description}</p>
+                          <p className="kv-sub" style={{ marginTop: 6, fontSize: 13 }}>{event.description}</p>
                         ) : null}
                       </div>
-
-                      {!event.id.startsWith('exam-') && !event.id.startsWith('study-') ? (
-                        <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>
-                          <button
-                            onClick={() => void handleToggleComplete(event.id, event.completed)}
-                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', padding: '4px' }}
-                          >
-                            {event.completed ? '↩' : '✓'}
-                          </button>
-                          <button
-                            onClick={() => void handleDeleteEvent(event.id)}
-                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: 'var(--accent-red)', padding: '4px' }}
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      ) : null}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                        <span className="kv-row-side">{formatTorontoDate(event.date)}</span>
+                        {!event.id.startsWith('exam-') && !event.id.startsWith('study-') ? (
+                          <>
+                            <button
+                              type="button"
+                              className="kv-btn-ghost"
+                              style={{ padding: '6px 8px' }}
+                              onClick={() => void handleToggleComplete(event.id, event.completed)}
+                            >
+                              {event.completed ? 'Undo' : 'Done'}
+                            </button>
+                            <button
+                              type="button"
+                              className="kv-btn-danger"
+                              style={{ padding: '6px 8px' }}
+                              onClick={() => void handleDeleteEvent(event.id)}
+                            >
+                              Delete
+                            </button>
+                          </>
+                        ) : null}
+                      </div>
                     </div>
-                  ))}
-                </div>
+                  );
+                })
               )}
             </div>
           ) : null}
         </div>
 
-        <div className="kv-hide-mobile" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div className="kv-card" style={{ padding: '16px' }}>
-            <h3 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Legend
-            </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              {Object.entries(TYPE_LABELS).map(([type, label]) => (
-                <div key={type} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ width: 10, height: 10, borderRadius: '2px', background: TYPE_COLORS[type] ?? TYPE_COLORS.other, flexShrink: 0 }} />
-                  <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="kv-card" style={{ padding: '16px' }}>
-            <h3 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Next 7 Days
-            </h3>
-            {loading ? (
-              <Skeleton variant="text" count={4} />
-            ) : upcomingEvents.length === 0 ? (
-              <EmptyState
-                icon="📅"
-                title="No events scheduled"
-                description="Add your exams, assignments, and deadlines"
-              />
-            ) : (
-              <div className="kv-stagger kv-animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {upcomingEvents.map((event) => {
-                  const date = new Date(event.date);
-                  const diff = Math.ceil((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-
-                  return (
-                    <div
-                      key={event.id}
-                      className="kv-card-hover kv-animate-in"
-                      onClick={() => {
-                        setCurrentMonth(date.getMonth());
-                        setCurrentYear(date.getFullYear());
-                        setSelectedDate(date);
-                      }}
-                      style={{
-                        display: 'flex',
-                        gap: '10px',
-                        alignItems: 'flex-start',
-                        padding: '10px',
-                        background: 'var(--bg-elevated)',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                        borderLeft: `3px solid ${event.color || TYPE_COLORS[event.type] || TYPE_COLORS.other}`,
-                        transition: 'background 0.15s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'var(--bg-hover)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'var(--bg-elevated)';
-                      }}
-                    >
-                      <div style={{ textAlign: 'center', flexShrink: 0, minWidth: '32px' }}>
-                        <div style={{ fontSize: '16px', fontWeight: 800, color: diff <= 2 ? 'var(--accent-red)' : 'var(--accent-blue)', lineHeight: 1 }}>
-                          {diff === 0 ? 'Today' : diff === 1 ? 'Tmrw' : `${diff}d`}
-                        </div>
-                      </div>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: '2px' }}>
-                          {event.title}
-                        </p>
-                        <p style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                          {date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' })}
-                        </p>
-                      </div>
+        <div className="kv-hide-mobile">
+          <p className="kv-meta">Next 7 days</p>
+          {loading ? (
+            <Skeleton variant="text" count={4} />
+          ) : upcomingEvents.length === 0 ? (
+            <p className="kv-sub" style={{ marginTop: 10 }}>Nothing scheduled this week.</p>
+          ) : (
+            upcomingEvents.map((event) => {
+              const date = new Date(event.date);
+              const isEventToday = date.toDateString() === today.toDateString();
+              return (
+                <button
+                  key={event.id}
+                  type="button"
+                  className="kv-row"
+                  onClick={() => {
+                    setCurrentMonth(date.getMonth());
+                    setCurrentYear(date.getFullYear());
+                    setSelectedDate(date);
+                  }}
+                  style={{ width: '100%', background: 'transparent', cursor: 'pointer', textAlign: 'left' }}
+                >
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div className="kv-row-title">{event.title}</div>
+                    <div className="kv-row-sub">
+                      {isEventToday ? <span className="dot" aria-label="Today" /> : null}
+                      {courseChip(event.title)}
+                      <span className="kv-chip">{TYPE_LABELS[event.type] ?? event.type}</span>
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+                  </div>
+                  <span className="kv-row-side">{formatTorontoDate(event.date)}</span>
+                </button>
+              );
+            })
+          )}
 
-          <div className="kv-card" style={{ padding: '16px' }}>
-            <h3 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              This Month
-            </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {[
-                { label: 'Total events', value: events.length, color: 'var(--text-primary)' },
-                { label: 'Exams', value: events.filter((event) => event.type === 'exam').length, color: TYPE_COLORS.exam },
-                { label: 'Study sessions', value: events.filter((event) => event.type === 'study').length, color: TYPE_COLORS.study },
-                { label: 'Deadlines', value: events.filter((event) => event.type === 'deadline').length, color: TYPE_COLORS.deadline },
-                { label: 'Completed', value: events.filter((event) => event.completed).length, color: 'var(--accent-green)' },
-              ].map((stat) => (
-                <div key={stat.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{stat.label}</span>
-                  <span style={{ fontSize: '14px', fontWeight: 700, color: stat.color }}>{stat.value}</span>
-                </div>
-              ))}
+          <p className="kv-meta" style={{ marginTop: 28 }}>This month</p>
+          <div className="kv-stats" style={{ marginTop: 12, gridTemplateColumns: '1fr 1fr' }}>
+            <div className="kv-stat">
+              <span className="kv-meta">Events</span>
+              <b className="num">{events.length}</b>
+            </div>
+            <div className="kv-stat">
+              <span className="kv-meta">Exams</span>
+              <b className="num">{events.filter((event) => event.type === 'exam').length}</b>
+            </div>
+            <div className="kv-stat">
+              <span className="kv-meta">Study</span>
+              <b className="num">{events.filter((event) => event.type === 'study').length}</b>
+            </div>
+            <div className="kv-stat">
+              <span className="kv-meta">Done</span>
+              <b className="num">{events.filter((event) => event.completed).length}</b>
             </div>
           </div>
         </div>
       </div>
+      <div style={{ display: activeTab === 'timetable' ? 'block' : 'none', marginTop: 28, overflowX: 'auto' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '80px repeat(5, minmax(0, 1fr))',
+            minWidth: 720,
+            borderTop: '1px solid var(--border-default)',
+            borderLeft: '1px solid var(--border-default)',
+          }}
+        >
+          <div className="kv-cal-hd kv-meta">Time</div>
+          {TIMETABLE_DAYS.map((day) => (
+            <div key={`head-${day}`} className="kv-cal-hd kv-meta" style={{ textAlign: 'center' }}>{day}</div>
+          ))}
 
-      <div style={{ display: activeTab === 'timetable' ? 'block' : 'none' }}>
-        <div className="kv-card" style={{ padding: 20, overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '120px repeat(5, minmax(0, 1fr))', gap: 8, alignItems: 'stretch', minWidth: '800px' }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Time</div>
-            {TIMETABLE_DAYS.map((day) => (
-              <div key={`head-${day}`} style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', textAlign: 'center' }}>
-                {day}
-              </div>
-            ))}
-
-            {TIMETABLE_SLOTS.map((slot) => (
-              <div key={`slot-row-${slot}`} style={{ display: 'contents' }}>
-                <div className="kv-card-sm" style={{ display: 'grid', placeItems: 'center', fontSize: 12, color: 'var(--text-secondary)' }}>
-                  {slot}
-                </div>
-                {TIMETABLE_DAYS.map((day) => {
-                  const classes = getClassForCell(day, slot);
-                  return (
-                    <div
-                      key={`${day}-${slot}`}
-                      className="kv-card-sm"
-                      style={{ minHeight: 68, padding: 6, display: 'flex', flexDirection: 'column', gap: 6 }}
-                    >
-                      {classes.map((entry) => (
-                        <button
-                          key={entry.id}
-                          type="button"
-                          onClick={() => openEditClassModal(entry)}
-                          style={{
-                            width: '100%',
-                            textAlign: 'left',
-                            background: `${entry.color}22`,
-                            border: `1px solid ${entry.color}`,
-                            borderRadius: 8,
-                            padding: '6px 8px',
-                            color: 'var(--text-primary)',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          <div style={{ fontSize: 12, fontWeight: 700 }}>{entry.className}</div>
-                          <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{entry.subject || 'Subject'} • {entry.room || 'Room'}</div>
-                        </button>
-                      ))}
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
+          {TIMETABLE_SLOTS.map((slot) => (
+            <div key={`slot-row-${slot}`} style={{ display: 'contents' }}>
+              <div className="kv-cal-hd kv-meta num">{slot}</div>
+              {TIMETABLE_DAYS.map((day) => {
+                const classes = getClassForCell(day, slot);
+                return (
+                  <div
+                    key={`${day}-${slot}`}
+                    style={{
+                      minHeight: 64,
+                      padding: 6,
+                      borderRight: '1px solid var(--border-default)',
+                      borderBottom: '1px solid var(--border-default)',
+                    }}
+                  >
+                    {classes.map((entry) => (
+                      <button
+                        key={entry.id}
+                        type="button"
+                        onClick={() => openEditClassModal(entry)}
+                        className="kv-row"
+                        style={{
+                          width: '100%',
+                          padding: '8px 0',
+                          background: 'transparent',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          border: 'none',
+                        }}
+                      >
+                        <div>
+                          <div className="kv-row-title">{entry.className}</div>
+                          <div className="kv-row-sub">
+                            {courseChip(entry.subject)}
+                            {entry.subject && !ONTARIO_COURSE.test(entry.subject.trim()) ? (
+                              <span className="kv-chip">{entry.subject}</span>
+                            ) : null}
+                            {entry.room ? <span className="kv-chip">{entry.room}</span> : null}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -716,84 +628,74 @@ export default function CalendarPage() {
           style={{
             position: 'fixed',
             inset: 0,
-            zIndex: 1000,
-            background: 'rgba(0,0,0,0.7)',
-            backdropFilter: 'blur(8px)',
+            zIndex: 50,
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             justifyContent: 'center',
-            padding: '20px',
+            padding: '24px 16px',
+            overflowY: 'auto',
+            background: 'rgba(0,0,0,0.72)',
           }}
           onClick={(event) => {
             if (event.target === event.currentTarget) setShowAddModal(false);
           }}
         >
-          <div className="kv-card animate-fade-in-up" style={{ padding: '28px', width: '100%', maxWidth: '440px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)' }}>Add Event</h2>
-              <button
-                onClick={() => setShowAddModal(false)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', color: 'var(--text-muted)' }}
-              >
-                ✕
+          <div
+            style={{
+              width: '100%',
+              maxWidth: 440,
+              border: '1px solid var(--border-default)',
+              background: 'var(--bg-base)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px', borderBottom: '1px solid var(--border-default)' }}>
+              <h2 className="kv-title" style={{ fontSize: 18 }}>Add Event</h2>
+              <button type="button" onClick={() => setShowAddModal(false)} className="kv-btn-ghost" style={{ padding: '6px 8px' }} aria-label="Close">
+                Close
               </button>
             </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <div style={{ padding: '16px 18px', display: 'grid', gap: 12 }}>
               <div>
-                <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Title
-                </label>
+                <label className="kv-meta" style={{ display: 'block', marginBottom: 8 }}>Title</label>
                 <input
-                  className="kv-input"
-                  placeholder='e.g. "Chemistry assignment due"'
+                  className="kv-field"
+                  placeholder="Chemistry assignment due"
                   value={newTitle}
                   onChange={(event) => setNewTitle(event.target.value)}
                 />
               </div>
-
               <div>
-                <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Date
-                </label>
-                <input className="kv-input" type="date" value={newDate} onChange={(event) => setNewDate(event.target.value)} />
+                <label className="kv-meta" style={{ display: 'block', marginBottom: 8 }}>Date</label>
+                <input className="kv-field" type="date" value={newDate} onChange={(event) => setNewDate(event.target.value)} />
               </div>
-
               <div>
-                <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Type
-                </label>
-                <select className="kv-select" value={newType} onChange={(event) => setNewType(event.target.value)}>
-                  <option value="deadline">⏰ Deadline</option>
-                  <option value="assignment">📋 Assignment</option>
-                  <option value="reminder">🔔 Reminder</option>
-                  <option value="other">📌 Other</option>
+                <label className="kv-meta" style={{ display: 'block', marginBottom: 8 }}>Type</label>
+                <select className="kv-field" value={newType} onChange={(event) => setNewType(event.target.value)}>
+                  <option value="deadline">Deadline</option>
+                  <option value="assignment">Assignment</option>
+                  <option value="reminder">Reminder</option>
+                  <option value="other">Other</option>
                 </select>
               </div>
-
               <div>
-                <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Notes (optional)
-                </label>
+                <label className="kv-meta" style={{ display: 'block', marginBottom: 8 }}>Notes</label>
                 <textarea
-                  className="kv-textarea"
+                  className="kv-field"
                   rows={2}
-                  placeholder="Any extra details..."
+                  placeholder="Optional details"
                   value={newDesc}
                   onChange={(event) => setNewDesc(event.target.value)}
                 />
               </div>
-
-              <LoadingButton
-                loading={saving}
-                onClick={() => void handleAddEvent()}
-                disabled={!newTitle.trim() || !newDate || saving}
+              <button
                 type="button"
-                fullWidth
-                style={{ marginTop: '4px' }}
+                className="kv-btn"
+                disabled={!newTitle.trim() || !newDate || saving}
+                onClick={() => void handleAddEvent()}
               >
-                + Add to calendar
-              </LoadingButton>
+                {saving ? 'Saving…' : 'Add to calendar'}
+              </button>
             </div>
           </div>
         </div>
@@ -804,85 +706,87 @@ export default function CalendarPage() {
           style={{
             position: 'fixed',
             inset: 0,
-            zIndex: 1000,
-            background: 'rgba(0,0,0,0.7)',
-            backdropFilter: 'blur(8px)',
+            zIndex: 50,
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             justifyContent: 'center',
-            padding: '20px',
+            padding: '24px 16px',
+            overflowY: 'auto',
+            background: 'rgba(0,0,0,0.72)',
           }}
           onClick={(event) => {
             if (event.target === event.currentTarget) setShowClassModal(false);
           }}
         >
-          <div className="kv-card animate-fade-in-up" style={{ padding: '24px', width: '100%', maxWidth: '520px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)' }}>{editingClassId ? 'Edit Class' : 'Add Class'}</h2>
-              <button
-                onClick={() => setShowClassModal(false)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', color: 'var(--text-muted)' }}
-              >
-                ✕
+          <div
+            style={{
+              width: '100%',
+              maxWidth: 520,
+              border: '1px solid var(--border-default)',
+              background: 'var(--bg-base)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px', borderBottom: '1px solid var(--border-default)' }}>
+              <h2 className="kv-title" style={{ fontSize: 18 }}>{editingClassId ? 'Edit class' : 'Add class'}</h2>
+              <button type="button" onClick={() => setShowClassModal(false)} className="kv-btn-ghost" style={{ padding: '6px 8px' }} aria-label="Close">
+                Close
               </button>
             </div>
-
-            <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
-              <input className="kv-input" placeholder="Class name" value={className} onChange={(e) => setClassName(e.target.value)} />
-              <input className="kv-input" placeholder="Subject" value={classSubject} onChange={(e) => setClassSubject(e.target.value)} />
-              <input className="kv-input" placeholder="Room" value={classRoom} onChange={(e) => setClassRoom(e.target.value)} />
-              <input className="kv-input" placeholder="Teacher" value={classTeacher} onChange={(e) => setClassTeacher(e.target.value)} />
-
-              <select className="kv-select" value={classDay} onChange={(e) => setClassDay(e.target.value as (typeof TIMETABLE_DAYS)[number])}>
+            <div style={{ padding: '16px 18px', display: 'grid', gap: 12, gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
+              <input className="kv-field" placeholder="Class name" value={className} onChange={(e) => setClassName(e.target.value)} />
+              <input className="kv-field" placeholder="Subject" value={classSubject} onChange={(e) => setClassSubject(e.target.value)} />
+              <input className="kv-field" placeholder="Room" value={classRoom} onChange={(e) => setClassRoom(e.target.value)} />
+              <input className="kv-field" placeholder="Teacher" value={classTeacher} onChange={(e) => setClassTeacher(e.target.value)} />
+              <select className="kv-field" value={classDay} onChange={(e) => setClassDay(e.target.value as (typeof TIMETABLE_DAYS)[number])}>
                 {TIMETABLE_DAYS.map((day) => (
                   <option key={`day-${day}`} value={day}>{day}</option>
                 ))}
               </select>
-
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                <select className="kv-select" value={classStart} onChange={(e) => setClassStart(e.target.value as (typeof TIMETABLE_SLOTS)[number])}>
+                <select className="kv-field" value={classStart} onChange={(e) => setClassStart(e.target.value as (typeof TIMETABLE_SLOTS)[number])}>
                   {TIMETABLE_SLOTS.map((slot) => (
                     <option key={`start-${slot}`} value={slot}>{slot}</option>
                   ))}
                 </select>
-                <select className="kv-select" value={classEnd} onChange={(e) => setClassEnd(e.target.value as (typeof TIMETABLE_SLOTS)[number])}>
+                <select className="kv-field" value={classEnd} onChange={(e) => setClassEnd(e.target.value as (typeof TIMETABLE_SLOTS)[number])}>
                   {TIMETABLE_SLOTS.map((slot) => (
                     <option key={`end-${slot}`} value={slot}>{slot}</option>
                   ))}
                 </select>
               </div>
             </div>
-
-            <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 8, padding: '0 18px 16px', flexWrap: 'wrap' }}>
               {TIMETABLE_COLORS.map((color) => (
                 <button
                   key={color}
                   type="button"
+                  aria-label={`Color ${color}`}
                   onClick={() => setClassColor(color)}
                   style={{
-                    width: 28,
-                    height: 28,
-                    borderRadius: '50%',
-                    border: classColor === color ? '2px solid white' : '1px solid var(--border-default)',
+                    width: 18,
+                    height: 18,
+                    borderRadius: 0,
+                    border: classColor === color ? '1px solid var(--kv-text-primary)' : '1px solid var(--border-default)',
                     background: color,
                     cursor: 'pointer',
                   }}
                 />
               ))}
             </div>
-
-            <div style={{ display: 'flex', gap: 8, marginTop: 16, justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', padding: '14px 18px', borderTop: '1px solid var(--border-default)' }}>
               {editingClassId ? (
-                <button className="kv-btn-danger" onClick={() => deleteClass(editingClassId)}>
+                <button type="button" className="kv-btn-danger" onClick={() => deleteClass(editingClassId)}>
                   Delete
                 </button>
               ) : null}
-              <button className="kv-btn-secondary" onClick={() => setShowClassModal(false)}>Cancel</button>
-              <button className="kv-btn-primary" onClick={saveClass} disabled={!className.trim()}>Save Class</button>
+              <button type="button" className="kv-btn-ghost" onClick={() => setShowClassModal(false)}>Cancel</button>
+              <button type="button" className="kv-btn" onClick={saveClass} disabled={!className.trim()}>Save class</button>
             </div>
           </div>
         </div>
       ) : null}
-    </div>
+      </div>
+    </main>
   );
 }

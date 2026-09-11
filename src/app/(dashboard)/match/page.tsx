@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { loginUrlFor } from '~/lib/auth-redirect';
 
 type Match = {
   id: string;
@@ -25,7 +26,7 @@ export default function MatchPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (status === 'unauthenticated') router.push('/login?from=/match');
+    if (status === 'unauthenticated') router.push(loginUrlFor('/match'));
   }, [status, router]);
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import { auth } from "~/server/auth"
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
@@ -29,8 +30,10 @@ export async function POST(req: Request) {
 
   const dataStr = JSON.stringify({ notes: notes.length, feynmanAvg: feynman.reduce((a,f)=>a+(f.score||0),0)/(feynman.length||1), exams: exams.length, focusSessions: focus.length, subjects: [...new Set(notes.map(n=>n.subject).filter(Boolean))] })
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+  let completion
+  try {
+    completion = await groq.chat.completions.create({
+    model: GROQ_TEXT_MODEL,
     messages: [{
       role: 'user',
       content: `Analyze this student's learning data and generate their Study DNA profile.
@@ -58,6 +61,12 @@ Respond ONLY in JSON:
     }],
     max_tokens: 600,
   })
+  } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
+    throw error
+  }
 
   const raw = completion.choices[0]?.message?.content || '{}'
   try {

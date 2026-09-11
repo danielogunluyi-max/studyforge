@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 
@@ -11,23 +11,16 @@ const PUBLIC_ROUTES = new Set(["/", "/login", "/register", "/signup"]);
 export function GlobalFloatingWidgets() {
   const pathname = usePathname();
   const { status } = useSession();
+  const [mounted, setMounted] = useState(false);
 
-  const shouldRender = useMemo(() => {
-    if (status !== "authenticated") {
-      return false;
-    }
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    const route = (pathname ?? "/").split("?")[0] ?? "/";
-    return !PUBLIC_ROUTES.has(route);
-  }, [pathname, status]);
-
-  if (!shouldRender) {
+  const route = (pathname ?? "/").split("?")[0] ?? "/";
+  if (!mounted || status !== "authenticated" || PUBLIC_ROUTES.has(route)) {
     return null;
   }
 
-  return (
-    <>
-      <NovaDailyAward />
-    </>
-  );
+  return <NovaDailyAward />;
 }

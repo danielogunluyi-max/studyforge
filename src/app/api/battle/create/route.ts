@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAuthSession } from "~/server/auth/session";
 import { db } from "~/server/db";
-import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type BattleQuestionItem = {
   question: string;
@@ -131,6 +131,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ battle });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Battle create error:", error);
     return NextResponse.json({ error: "Failed to create battle" }, { status: 500 });
   }

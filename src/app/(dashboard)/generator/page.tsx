@@ -1,17 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { MouseEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Button } from "~/app/_components/button";
-import { PageHero } from "~/app/_components/page-hero";
-import Listbox from "~/app/_components/Listbox";
+import { loginUrlFor } from "~/lib/auth-redirect";
 import { useToast } from "~/app/_components/toast";
 import { SkeletonList } from "~/app/_components/skeleton";
 import { SendToPanel } from "~/app/_components/send-to-panel";
-import LoadingButton from "@/app/_components/loading-button";
 import { trackNovaEvent } from "@/lib/novaClient";
 import { renderMath } from "@/lib/mathRenderer";
 
@@ -99,7 +95,7 @@ export default function Generator() {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/login?from=/generator");
+      router.push(loginUrlFor("/generator"));
     }
   }, [status, router]);
 
@@ -239,7 +235,7 @@ export default function Generator() {
 
   if (status === "loading") {
     return (
-      <main className="app-premium-dark min-h-screen bg-gray-950 p-6">
+      <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
         <SkeletonList count={4} />
       </main>
     );
@@ -468,22 +464,6 @@ export default function Generator() {
   const handleCopy = () => {
     void navigator.clipboard.writeText(generatedNotes);
     showToast("Notes copied to clipboard.", "info");
-  };
-
-  const handleCardTilt = (event: MouseEvent<HTMLDivElement>) => {
-    const target = event.currentTarget;
-    const rect = target.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const rx = ((y / rect.height) * -8 + 4).toFixed(2);
-    const ry = ((x / rect.width) * 8 - 4).toFixed(2);
-    target.style.setProperty("--rx", `${rx}deg`);
-    target.style.setProperty("--ry", `${ry}deg`);
-  };
-
-  const resetCardTilt = (event: MouseEvent<HTMLDivElement>) => {
-    event.currentTarget.style.setProperty("--rx", "0deg");
-    event.currentTarget.style.setProperty("--ry", "0deg");
   };
 
   const handleExportPdf = () => {
@@ -730,163 +710,142 @@ export default function Generator() {
       const activeCard = cards[studyCardIndex] ?? null;
       return (
         <div className="card">
-          <div className="mb-4 flex items-center justify-between border-b border-[var(--border-default)] pb-4">
-            <h2 className="text-[20px] font-semibold text-white">
-              Your Flashcards ({cards.length} cards)
-            </h2>
-            <div className="flex gap-2">
-              <Button
+          <div className="kv-row" style={{ borderTop: "none", paddingTop: 0, flexWrap: "wrap" }}>
+            <div className="kv-row-title">Your Flashcards ({cards.length} cards)</div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <button
+                type="button"
                 onClick={shuffleFlashcards}
-                variant="secondary"
-                size="sm"
+                className="kv-btn-ghost"
                 disabled={cards.length < 2}
               >
                 Shuffle
-              </Button>
-              <Button
+              </button>
+              <button
+                type="button"
                 onClick={() => {
                   setStudyMode((prev) => !prev);
                   setStudyCardIndex(0);
                 }}
-                variant="secondary"
-                size="sm"
+                className="kv-btn-ghost"
                 disabled={cards.length === 0}
               >
                 {studyMode ? "Exit Study Mode" : "Study Mode"}
-              </Button>
-              <Button
-                onClick={handleSave}
-                disabled={isSaving}
-                size="sm"
-                loading={isSaving}
-              >
+              </button>
+              <button type="button" onClick={handleSave} disabled={isSaving} className="kv-btn">
                 {isSaving ? "Saving..." : "Save"}
-              </Button>
-              <Button
-                onClick={handleCopy}
-                variant="secondary"
-                size="sm"
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
+              </button>
+              <button type="button" onClick={handleCopy} className="kv-btn-ghost">
                 Copy
-              </Button>
+              </button>
             </div>
           </div>
-          <div className="mb-5">
-            <div className="mb-2 flex items-center justify-between text-sm text-gray-600">
-              <span>{reviewedCount}/{cards.length} cards reviewed</span>
-              <span>{progressPct}%</span>
+          <div style={{ marginTop: 8 }}>
+            <div className="kv-row" style={{ paddingTop: 8, paddingBottom: 8 }}>
+              <span className="kv-meta num">{reviewedCount}/{cards.length} cards reviewed</span>
+              <span className="kv-meta num">{progressPct}%</span>
             </div>
-            <div className="h-2 w-full rounded-full bg-gray-200">
-              <div
-                className="h-2 rounded-full bg-blue-600 transition-all duration-300"
-                style={{ width: `${progressPct}%` }}
-              />
+            <div className="kv-bar">
+              <div style={{ width: `${progressPct}%` }} />
             </div>
           </div>
 
           {studyMode && activeCard ? (
             <div>
-              <div className="mb-3 text-center text-sm font-semibold text-gray-700">
+              <p className="kv-meta num" style={{ textAlign: "center", marginBottom: 12 }}>
                 Card {studyCardIndex + 1} of {cards.length}
-              </div>
+              </p>
               <div
                 onClick={() => toggleCard(activeCard.id)}
                 className="group relative h-56 cursor-pointer perspective"
               >
                 <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(activeCard.id) ? 'rotate-y-180' : ''}`}>
-                  <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-blue-200 bg-[var(--bg-card)] p-6 backface-hidden">
-                    <p className="text-center text-lg font-medium leading-relaxed text-white">
+                  <div className="absolute inset-0 flex items-center justify-center p-6 backface-hidden" style={{ border: "1px solid var(--border-default)" }}>
+                    <p className="kv-row-title" style={{ textAlign: "center" }}>
                       {activeCard.question}
                     </p>
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center rounded-lg border-2 border-green-200 bg-[var(--bg-card)] p-6 backface-hidden rotate-y-180">
-                    <p className="text-center leading-relaxed text-gray-700">
+                  <div className="absolute inset-0 flex items-center justify-center p-6 backface-hidden rotate-y-180" style={{ border: "1px solid var(--border-default)" }}>
+                    <p className="kv-sub" style={{ textAlign: "center", maxWidth: "none" }}>
                       {activeCard.answer}
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 flex items-center justify-center gap-2">
-                <Button
+              <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 16, flexWrap: "wrap" }}>
+                <button
+                  type="button"
                   onClick={() => setStudyCardIndex((prev) => Math.max(0, prev - 1))}
-                  variant="secondary"
-                  size="sm"
+                  className="kv-btn-ghost"
                   disabled={studyCardIndex === 0}
                 >
                   Previous
-                </Button>
-                <Button
+                </button>
+                <button
+                  type="button"
                   onClick={() => setStudyCardIndex((prev) => Math.min(cards.length - 1, prev + 1))}
-                  variant="secondary"
-                  size="sm"
+                  className="kv-btn-ghost"
                   disabled={studyCardIndex >= cards.length - 1}
                 >
                   Next
-                </Button>
+                </button>
               </div>
 
-              <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+              <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 12, flexWrap: "wrap" }}>
                 <button
                   type="button"
                   onClick={() => markCardKnown(activeCard.id)}
-                  className="rounded-lg border border-green-300 bg-green-50 px-3 py-1.5 text-sm font-semibold text-green-700 transition-all duration-200 active:scale-95 hover:bg-green-100"
+                  className={knownCards.has(activeCard.id) ? "kv-btn-ghost on" : "kv-btn-ghost"}
                 >
                   ✓ Got it
                 </button>
                 <button
                   type="button"
                   onClick={() => markCardStillLearning(activeCard.id)}
-                  className="rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-1.5 text-sm font-semibold text-yellow-700 transition-all duration-200 active:scale-95 hover:bg-yellow-100"
+                  className={stillLearningCards.has(activeCard.id) ? "kv-btn-ghost on" : "kv-btn-ghost"}
                 >
                   ↺ Still Learning
                 </button>
               </div>
             </div>
           ) : (
-            <div className="stagger-grid grid gap-6 sm:grid-cols-2">
+            <div style={{ display: "grid", gap: 24, gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", marginTop: 16 }}>
               {cards.map((card, index) => (
-                <div key={card.id} className="stagger-card">
-                  <div className="mb-2 flex items-center justify-between">
-                    <p className="text-sm text-gray-500">Card {index + 1}</p>
-                  </div>
+                <div key={card.id}>
+                  <p className="kv-meta" style={{ marginBottom: 8 }}>Card {index + 1}</p>
                   <div
                     onClick={() => toggleCard(card.id)}
-                    onMouseMove={handleCardTilt}
-                    onMouseLeave={resetCardTilt}
-                    className="flashcard-tilt group relative h-48 cursor-pointer perspective"
+                    className="group relative h-48 cursor-pointer perspective"
                   >
                     <div className={`relative h-full w-full transition-transform duration-500 transform-style-3d ${flippedCards.has(card.id) ? 'rotate-y-180' : ''}`}>
-                      <div className={`absolute inset-0 flex items-center justify-center rounded-lg border-2 bg-[var(--bg-card)] p-6 backface-hidden ${knownCards.has(card.id) ? "border-l-4 border-green-500" : stillLearningCards.has(card.id) ? "border-l-4 border-orange-500" : "border-blue-200"}`}>
-                        <p className="text-center text-lg font-medium leading-relaxed text-white">
+                      <div className="absolute inset-0 flex items-center justify-center p-6 backface-hidden" style={{ border: "1px solid var(--border-default)" }}>
+                        <p className="kv-row-title" style={{ textAlign: "center" }}>
                           {card.question}
                         </p>
                       </div>
-                      <div className={`absolute inset-0 flex items-center justify-center rounded-lg border-2 bg-[var(--bg-card)] p-6 backface-hidden rotate-y-180 ${knownCards.has(card.id) ? "border-l-4 border-green-500" : stillLearningCards.has(card.id) ? "border-l-4 border-orange-500" : "border-blue-200"}`}>
-                        <p className="text-center leading-relaxed text-gray-700">
+                      <div className="absolute inset-0 flex items-center justify-center p-6 backface-hidden rotate-y-180" style={{ border: "1px solid var(--border-default)" }}>
+                        <p className="kv-sub" style={{ textAlign: "center", maxWidth: "none" }}>
                           {card.answer}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <p className="mt-3 text-center text-sm text-gray-500">
+                  <p className="kv-meta" style={{ textAlign: "center", marginTop: 12 }}>
                     Click to flip
                   </p>
-                  <div className="mt-3 flex items-center justify-center gap-2">
+                  <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 12, flexWrap: "wrap" }}>
                     <button
                       type="button"
                       onClick={() => markCardKnown(card.id)}
-                      className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 active:scale-95 hover:bg-green-700"
+                      className={knownCards.has(card.id) ? "kv-btn-ghost on" : "kv-btn-ghost"}
                     >
                       Got it
                     </button>
                     <button
                       type="button"
                       onClick={() => markCardStillLearning(card.id)}
-                      className="rounded-lg bg-orange-600 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 active:scale-95 hover:bg-orange-700"
+                      className={stillLearningCards.has(card.id) ? "kv-btn-ghost on" : "kv-btn-ghost"}
                     >
                       Still Learning
                     </button>
@@ -897,16 +856,17 @@ export default function Generator() {
           )}
 
           {cards.length > 0 && (
-            <div className="mt-5 border-t border-[var(--border-default)] pt-4 text-sm font-semibold text-gray-700">
+            <p className="kv-meta num" style={{ marginTop: 20 }}>
               Known: {knownCount} | Still Learning: {stillLearningCount}
-            </div>
+            </p>
           )}
 
           {cards.length === 0 && (
-            <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
-              <p className="font-semibold">No flashcards parsed from AI output.</p>
+            <div style={{ marginTop: 16 }}>
+              <p className="kv-meta">No flashcards parsed from AI output.</p>
               <div
-                className="mt-2 text-xs text-gray-700"
+                className="kv-sub"
+                style={{ marginTop: 8 }}
                 dangerouslySetInnerHTML={{ __html: renderMath(generatedNotes) }}
               />
             </div>
@@ -919,39 +879,23 @@ export default function Generator() {
       const questions = parseQuestions(generatedNotes);
       return (
         <div className="card">
-          <div className="mb-6 flex flex-col gap-3 border-b border-[var(--border-default)] pb-4 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="text-[20px] font-semibold text-white">
-              Practice Quiz ({questions.length} questions)
-            </h2>
-            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-              <Button
-                onClick={handleSave}
-                disabled={isSaving}
-                size="sm"
-                loading={isSaving}
-              >
+          <div className="kv-row" style={{ borderTop: "none", paddingTop: 0, flexWrap: "wrap" }}>
+            <div className="kv-row-title">Practice Quiz ({questions.length} questions)</div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <button type="button" onClick={handleSave} disabled={isSaving} className="kv-btn">
                 {isSaving ? "Saving..." : "Save"}
-              </Button>
-              <Button
-                onClick={handleCopy}
-                variant="secondary"
-                size="sm"
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
+              </button>
+              <button type="button" onClick={handleCopy} className="kv-btn-ghost">
                 Copy
-              </Button>
+              </button>
             </div>
           </div>
-          <div className="space-y-6">
+          <div>
             {questions.map((q, index) => (
-              <div key={index} className="card sm:p-6">
-                <div className="mb-4 flex items-start gap-3">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
-                    {index + 1}
-                  </span>
-                  <p className="flex-1 break-words pt-1 text-base font-medium text-white sm:text-lg">
+              <div key={index} className="card" style={{ marginTop: 16 }}>
+                <div className="kv-row" style={{ borderTop: "none", paddingTop: 0, alignItems: "flex-start" }}>
+                  <span className="kv-meta num">{index + 1}</span>
+                  <p className="kv-row-title" style={{ flex: 1 }}>
                     {q.question.replace(/\$/g, "")}
                   </p>
                 </div>
@@ -959,38 +903,40 @@ export default function Generator() {
                   value={quizAnswers[index] ?? ''}
                   onChange={(e) => handleQuizAnswer(index, e.target.value)}
                   placeholder="Type your answer here..."
-                  className="mb-3 w-full resize-none input p-3"
+                  className="kv-field"
                   rows={3}
                   disabled={checkedAnswers.has(index)}
+                  style={{ marginTop: 12, resize: "vertical" }}
                 />
                 {!checkedAnswers.has(index) ? (
-                  <Button
+                  <button
+                    type="button"
                     onClick={() => void checkAnswer(index, q.answer)}
                     disabled={!quizAnswers[index]?.trim() || checkingAnswers.has(index)}
-                    size="sm"
+                    className="kv-btn"
+                    style={{ marginTop: 12 }}
                   >
                     {checkingAnswers.has(index) ? "Checking..." : "Check Answer"}
-                  </Button>
+                  </button>
                 ) : (
-                  <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+                  <div style={{ marginTop: 12 }}>
                     {answerChecks[index] && (
-                      <div className={`mb-3 rounded-md border px-3 py-2 text-sm ${answerChecks[index]?.correct ? "border-green-300 bg-green-100 text-green-800" : "border-red-300 bg-red-100 text-red-800"}`}>
-                        <p className="font-semibold">
+                      <div style={{ marginBottom: 12 }}>
+                        <span className={answerChecks[index]?.correct ? "kv-chip" : "kv-chip kv-chip-stale"}>
                           {answerChecks[index]?.correct ? "✓ Correct" : "✗ Incorrect"}
-                        </p>
-                        <p className="mt-1">{answerChecks[index]?.feedback}</p>
+                        </span>
+                        <p className="kv-sub" style={{ marginTop: 8 }}>{answerChecks[index]?.feedback}</p>
                       </div>
                     )}
-                    <p className="mb-2 text-sm font-semibold text-green-800">
-                      ✓ Sample Answer:
-                    </p>
-                    <div className="space-y-1">
+                    <p className="kv-meta" style={{ marginBottom: 8 }}>✓ Sample Answer:</p>
+                    <div>
                       {formatMathAnswerSteps(q.answer).map((line, stepIndex, arr) => (
                         <p
                           key={`${index}-${stepIndex}`}
-                          className={`text-sm text-gray-900 ${stepIndex === arr.length - 1 ? "font-bold" : ""}`}
+                          className="kv-sub"
+                          style={{ marginTop: 4, fontWeight: stepIndex === arr.length - 1 ? 600 : undefined }}
                         >
-                          <span className="mr-1 font-semibold">{stepIndex + 1}.</span>
+                          <span className="kv-meta num" style={{ marginRight: 6 }}>{stepIndex + 1}.</span>
                           {line}
                         </p>
                       ))}
@@ -1006,47 +952,25 @@ export default function Generator() {
 
     return (
       <div className="print-notes-only card">
-        <div className="print-hide mb-4 flex flex-col gap-3 border-b border-[var(--border-default)] pb-4 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-[20px] font-semibold text-white">
-            Your Study Notes
-          </h2>
-          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-            <Button
-              onClick={handleSave}
-              disabled={isSaving}
-              size="sm"
-              loading={isSaving}
-            >
+        <div className="print-hide kv-row" style={{ borderTop: "none", paddingTop: 0, flexWrap: "wrap" }}>
+          <div className="kv-row-title">Your Study Notes</div>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <button type="button" onClick={handleSave} disabled={isSaving} className="kv-btn">
               {isSaving ? "Saving..." : "Save"}
-            </Button>
-            <Button
-              onClick={handleCopy}
-              variant="secondary"
-              size="sm"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
+            </button>
+            <button type="button" onClick={handleCopy} className="kv-btn-ghost">
               Copy
-            </Button>
-            <Button
-              onClick={handleExportPdf}
-              variant="secondary"
-              size="sm"
-            >
+            </button>
+            <button type="button" onClick={handleExportPdf} className="kv-btn-ghost">
               Export PDF
-            </Button>
-            <Button
-              onClick={() => void handleExportWord()}
-              variant="secondary"
-              size="sm"
-            >
+            </button>
+            <button type="button" onClick={() => void handleExportWord()} className="kv-btn-ghost">
               Export Word
-            </Button>
+            </button>
           </div>
         </div>
         <div
-          className="prose max-w-none text-gray-700"
+          className="prose max-w-none"
           dangerouslySetInnerHTML={{ __html: renderMath(generatedNotes) }}
         />
       </div>
@@ -1054,295 +978,209 @@ export default function Generator() {
   };
 
   return (
-    <main className="app-premium-dark min-h-screen bg-gray-950 kv-animate-in">
-      {isLoading && (
-        <div className="pointer-events-none fixed left-0 right-0 top-0 z-50 h-0.5 overflow-hidden bg-blue-500/25">
-          <div className="h-full w-1/3 animate-[loadingScan_1.1s_ease-in-out_infinite] bg-blue-500" />
-        </div>
-      )}
-
-      <div className="container mx-auto mb-[100px] max-w-4xl px-4 py-8 sm:mb-0 sm:px-6 sm:py-12">
-        <PageHero
-          title="Note Generator"
-          description="Paste your study material and let AI transform it into focused study formats in seconds."
-          actions={
-            <>
-              <Button href="/upload" variant="secondary" size="sm">Upload File</Button>
-              <Button href="/my-notes" variant="secondary" size="sm">My Notes</Button>
-            </>
-          }
-        />
-
-        <div className="mb-6 card border-l-4 border-l-blue-500">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-gray-600">
-              Prefer uploading a PDF or image? Use the dedicated upload workflow.
-            </p>
-            <Link
-              href="/upload"
-              className="card px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-[var(--bg-surface)]"
-            >
-              Upload File Instead
-            </Link>
-          </div>
+    <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
+        <div className="kv-crumb">Kyvex / <b>Note Generator</b></div>
+        <h1 className="kv-title" style={{ marginTop: 14 }}>Note Generator</h1>
+        <p className="kv-sub" style={{ marginTop: 10 }}>Paste your study material and let AI transform it into focused study formats in seconds.</p>
+        <div style={{ display: "flex", gap: 8, marginTop: 16, flexWrap: "wrap" }}>
+          <Link href="/smart-upload" className="kv-btn-ghost">Upload File</Link>
+          <Link href="/my-notes" className="kv-btn-ghost">My Notes</Link>
         </div>
 
-        <div className="mb-6 card border-l-4 border-l-blue-500">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">1</span>
-            <h2 className="text-[20px] font-semibold text-white">Your Notes or Content</h2>
-          </div>
-          <div className="mb-3 flex items-center justify-between">
-            <span className="text-sm text-gray-500">
-              {characterCount} characters
-              {characterCount > 0 && ` • ~${estimatedTime}s`}
-            </span>
-          </div>
-          <textarea
-            value={inputText}
-            onPaste={() => {
-              detectSubjectOnNextChangeRef.current = true;
-            }}
-            onChange={(e) => handleInputChange(e.target.value)}
-            placeholder="Paste lecture notes, textbook paragraphs, or study material here...
+        <div className="kv-row" style={{ marginTop: 20 }}>
+          <p className="kv-sub" style={{ margin: 0 }}>
+            Prefer uploading a PDF or image? Use the dedicated upload workflow.
+          </p>
+          <Link href="/smart-upload" className="kv-btn-ghost">
+            Upload File Instead
+          </Link>
+        </div>
+
+        <p className="kv-meta" style={{ marginTop: 28 }}>Your Notes or Content</p>
+        <p className="kv-meta num" style={{ marginTop: 8 }}>
+          {characterCount} characters
+          {characterCount > 0 ? ` · ~${estimatedTime}s` : ""}
+        </p>
+        <textarea
+          value={inputText}
+          onPaste={() => {
+            detectSubjectOnNextChangeRef.current = true;
+          }}
+          onChange={(e) => handleInputChange(e.target.value)}
+          placeholder="Paste lecture notes, textbook paragraphs, or study material here...
 
 Example: 'Photosynthesis is the process by which plants convert sunlight into energy. It occurs in the chloroplasts and involves...'"
-            className="min-h-[300px] w-full resize-none input p-4"
-          />
-          {detectedSubject && suggestedFormat && (
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-900">
-              <span>
-                📚 Detected: {detectedSubject} — Try {formatSuggestionLabel(suggestedFormat)} for best results
-              </span>
-              <button
-                type="button"
-                onClick={() => setOutputFormat(suggestedFormat)}
-                className="rounded-md border border-blue-300 bg-[var(--bg-card)] px-3 py-1 text-xs font-semibold text-blue-700 hover:bg-blue-100"
-              >
-                {suggestedFormat === "questions" ? "Switch to Practice Quiz" : `Switch to ${formatSuggestionLabel(suggestedFormat)}`}
-              </button>
-            </div>
-          )}
+          className="kv-field"
+          style={{ minHeight: 300, marginTop: 10, resize: "vertical" }}
+        />
+        {detectedSubject && suggestedFormat && (
+          <div className="kv-row">
+            <span className="kv-sub" style={{ margin: 0 }}>
+              📚 Detected: {detectedSubject} — Try {formatSuggestionLabel(suggestedFormat)} for best results
+            </span>
+            <button
+              type="button"
+              onClick={() => setOutputFormat(suggestedFormat)}
+              className="kv-btn-ghost"
+            >
+              {suggestedFormat === "questions" ? "Switch to Practice Quiz" : `Switch to ${formatSuggestionLabel(suggestedFormat)}`}
+            </button>
+          </div>
+        )}
+
+        <p className="kv-meta" style={{ marginTop: 28 }}>Tags</p>
+        <input
+          value={tagsInput}
+          onChange={(event) => setTagsInput(event.target.value)}
+          placeholder="Comma-separated tags (e.g., Biology, Exam Prep, Chapter 5)"
+          className="kv-field"
+          style={{ marginTop: 10 }}
+        />
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 10 }}>
+          {TAG_SUGGESTIONS.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => {
+                const existing = parseTags(tagsInput);
+                if (existing.includes(tag)) return;
+                setTagsInput(existing.length ? `${existing.join(", ")}, ${tag}` : tag);
+              }}
+              className="kv-btn-ghost"
+            >
+              {tag}
+            </button>
+          ))}
         </div>
 
-        <div className="mb-6 card border-l-4 border-l-blue-500 p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">2</span>
-            <h2 className="text-[20px] font-semibold text-white">Tags</h2>
-          </div>
-          <input
-            value={tagsInput}
-            onChange={(event) => setTagsInput(event.target.value)}
-            placeholder="Comma-separated tags (e.g., Biology, Exam Prep, Chapter 5)"
-            className="w-full input"
-          />
-          <div className="mt-3 flex flex-wrap gap-2">
-            {TAG_SUGGESTIONS.map((tag) => (
-              <Button
-                key={tag}
-                type="button"
-                onClick={() => {
-                  const existing = parseTags(tagsInput);
-                  if (existing.includes(tag)) return;
-                  setTagsInput(existing.length ? `${existing.join(", ")}, ${tag}` : tag);
-                }}
-                variant="secondary"
-                size="sm"
-                className="rounded-full border border-gray-700 bg-transparent px-3 py-1 text-xs text-gray-200 hover:border-blue-400 hover:bg-blue-500/20 hover:text-blue-200"
-              >
-                {tag}
-              </Button>
-            ))}
-          </div>
-        </div>
-
-        <div className="mb-6 card border-l-4 border-l-blue-500 p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">3</span>
-            <h2 className="text-[20px] font-semibold text-white">Output & Settings</h2>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            <div>
-              <label className="mb-3 block text-sm font-semibold text-white">Output Format</label>
-              <Listbox
-                value={outputFormat}
-                onChange={(v) => setOutputFormat(v)}
-                options={[
-                  { value: "summary", label: "Summary - Quick overview of main points" },
-                  { value: "detailed", label: "Detailed Notes - Comprehensive study guide" },
-                  { value: "flashcards", label: "Flashcards - Interactive flip cards" },
-                  { value: "questions", label: "Practice Quiz - Answer questions interactively" },
-                ]}
-              />
-            </div>
-
-            {(outputFormat === "summary" || outputFormat === "detailed") && (
-              <div>
-                <p className="mb-3 text-sm font-semibold text-white">Notes Length</p>
-                <Listbox
-                  value={notesLength}
-                  onChange={(v) => setNotesLength(v)}
-                  options={[
-                    { value: "brief", label: "Brief" },
-                    { value: "medium", label: "Medium" },
-                    { value: "comprehensive", label: "Comprehensive" },
-                  ]}
-                />
-              </div>
-            )}
-          </div>
-
-          <div className="mt-4">
-            <label className="mb-2 block text-sm font-semibold text-white">Curriculum Course (optional)</label>
-            <select className="input" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
-              <option value="">None</option>
-              {curriculumOptions.map((course) => (
-                <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
-              ))}
+        <p className="kv-meta" style={{ marginTop: 28 }}>Output & Settings</p>
+        <div style={{ display: "grid", gap: 14, marginTop: 10, gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
+          <div>
+            <label className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Output Format</label>
+            <select className="kv-field" value={outputFormat} onChange={(e) => setOutputFormat(e.target.value)}>
+              <option value="summary">Summary - Quick overview of main points</option>
+              <option value="detailed">Detailed Notes - Comprehensive study guide</option>
+              <option value="flashcards">Flashcards - Interactive flip cards</option>
+              <option value="questions">Practice Quiz - Answer questions interactively</option>
             </select>
           </div>
 
-          {outputFormat === "questions" && (
-            <div className="mt-4 card lg:col-span-2">
-              <p className="mb-3 text-sm font-semibold text-white">Practice Quiz Settings</p>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <div>
-                  <label className="mb-2 block text-xs font-semibold text-gray-700">Number of questions</label>
-                  <Listbox
-                    value={String(quizQuestionCount)}
-                    onChange={(v) => setQuizQuestionCount(Number(v))}
-                    options={[
-                      { value: "5", label: "5" },
-                      { value: "10", label: "10" },
-                      { value: "15", label: "15" },
-                      { value: "20", label: "20" },
-                    ]}
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-xs font-semibold text-gray-700">Difficulty</label>
-                  <Listbox
-                    value={quizDifficulty}
-                    onChange={(v) => setQuizDifficulty(v)}
-                    options={[
-                      { value: "easy", label: "Easy" },
-                      { value: "medium", label: "Medium" },
-                      { value: "hard", label: "Hard" },
-                    ]}
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-xs font-semibold text-gray-700">Question type</label>
-                  <Listbox
-                    value={quizType}
-                    onChange={(v) => setQuizType(v)}
-                    options={[
-                      { value: "open-ended", label: "Open Ended" },
-                      { value: "multiple-choice", label: "Multiple Choice" },
-                      { value: "true-false", label: "True/False" },
-                      { value: "calculation", label: "Calculation" },
-                    ]}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {learningStyle && (
-            <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-white">
-                    Adapt to Your Learning Style
-                  </p>
-                  <p className="mt-1 text-xs text-gray-600">
-                    Current style: <span className="font-semibold capitalize">{learningStyle}</span>
-                  </p>
-                </div>
-                <label className="relative inline-flex cursor-pointer items-center">
-                  <input
-                    type="checkbox"
-                    checked={adaptContent}
-                    onChange={(e) => setAdaptContent(e.target.checked)}
-                    className="peer sr-only"
-                  />
-                  <div className="peer h-6 w-11 rounded-full bg-gray-300 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-[var(--bg-card)] after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300"></div>
-                </label>
-              </div>
+          {(outputFormat === "summary" || outputFormat === "detailed") && (
+            <div>
+              <label className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Notes Length</label>
+              <select className="kv-field" value={notesLength} onChange={(e) => setNotesLength(e.target.value)}>
+                <option value="brief">Brief</option>
+                <option value="medium">Medium</option>
+                <option value="comprehensive">Comprehensive</option>
+              </select>
             </div>
           )}
         </div>
 
-        <div className="mb-6 flex flex-col gap-3 sm:flex-row">
-          <Button
+        <div style={{ marginTop: 16 }}>
+          <label className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Curriculum Course (optional)</label>
+          <select className="kv-field" value={curriculumCode} onChange={(event) => setCurriculumCode(event.target.value)}>
+            <option value="">None</option>
+            {curriculumOptions.map((course) => (
+              <option key={course.code} value={course.code}>{course.code} - {course.title}</option>
+            ))}
+          </select>
+          {curriculumCode ? (
+            <span className="kv-chip kv-chip-course" style={{ marginTop: 8, display: "inline-block" }}>{curriculumCode}</span>
+          ) : null}
+        </div>
+
+        {outputFormat === "questions" && (
+          <div style={{ marginTop: 16 }}>
+            <p className="kv-meta">Practice Quiz Settings</p>
+            <div style={{ display: "grid", gap: 14, marginTop: 10, gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
+              <div>
+                <label className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Number of questions</label>
+                <select className="kv-field" value={String(quizQuestionCount)} onChange={(e) => setQuizQuestionCount(Number(e.target.value))}>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                </select>
+              </div>
+              <div>
+                <label className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Difficulty</label>
+                <select className="kv-field" value={quizDifficulty} onChange={(e) => setQuizDifficulty(e.target.value)}>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </div>
+              <div>
+                <label className="kv-meta" style={{ display: "block", marginBottom: 8 }}>Question type</label>
+                <select className="kv-field" value={quizType} onChange={(e) => setQuizType(e.target.value)}>
+                  <option value="open-ended">Open Ended</option>
+                  <option value="multiple-choice">Multiple Choice</option>
+                  <option value="true-false">True/False</option>
+                  <option value="calculation">Calculation</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {learningStyle && (
+          <div className="kv-row" style={{ marginTop: 8 }}>
+            <div>
+              <p className="kv-row-title">Adapt to Your Learning Style</p>
+              <p className="kv-meta" style={{ marginTop: 6, textTransform: "none", letterSpacing: 0 }}>
+                Current style: <span style={{ textTransform: "capitalize" }}>{learningStyle}</span>
+              </p>
+            </div>
+            <label className="kv-meta" style={{ display: "inline-flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={adaptContent}
+                onChange={(e) => setAdaptContent(e.target.checked)}
+              />
+            </label>
+          </div>
+        )}
+
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 22 }}>
+          <button
+            type="button"
             onClick={() => void handleGenerate()}
             disabled={!inputText || isLoading}
-            fullWidth
-            size="lg"
-            loading={isLoading}
-            className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-4 text-lg font-bold text-white hover:from-blue-700 hover:to-purple-700"
+            className="kv-btn"
           >
-            {isLoading ? (
-              <span className="flex flex-col items-center justify-center gap-1">
-                <span className="flex items-center gap-1">
-                  Generating
-                  <span className="inline-flex gap-1">
-                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--bg-card)] [animation-delay:-0.25s]" />
-                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--bg-card)] [animation-delay:-0.1s]" />
-                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--bg-card)]" />
-                  </span>
-                </span>
-                <span className="text-xs font-medium text-blue-100">
-                  {loadingMessages[loadingMessageIndex]} (~{estimatedTime}s)
-                </span>
-              </span>
-            ) : (
-              "Generate Notes"
-            )}
-          </Button>
+            {isLoading ? `${loadingMessages[loadingMessageIndex]} (~${estimatedTime}s)` : "Generate Notes"}
+          </button>
           {generatedNotes && (
             <>
-              <Button
+              <button
+                type="button"
                 onClick={() => void handleGenerate("regenerate")}
-                variant="secondary"
-                size="lg"
+                className="kv-btn-ghost"
                 disabled={isLoading}
-                fullWidth
               >
-                {isRegenerating ? (
-                  <span className="flex items-center gap-2">
-                    <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                    </svg>
-                    Regenerating...
-                  </span>
-                ) : (
-                  "Regenerate"
-                )}
-              </Button>
-              <Button
-                onClick={handleClear}
-                variant="secondary"
-                size="lg"
-                fullWidth
-              >
+                {isRegenerating ? "Regenerating..." : "Regenerate"}
+              </button>
+              <button type="button" onClick={handleClear} className="kv-btn-ghost">
                 Clear
-              </Button>
+              </button>
             </>
           )}
         </div>
 
         {saveSuccess && !generatedNotes && (
-          <div className="mb-6 text-sm text-green-300">Saved. <Link href="/my-notes" className="font-semibold underline">View all notes</Link></div>
+          <p className="kv-meta" style={{ marginTop: 16 }}>
+            Saved. <Link href="/my-notes">View all notes</Link>
+          </p>
         )}
 
         {isLoading && !generatedNotes ? (
-          <SkeletonList count={2} />
+          <div style={{ marginTop: 24 }}>
+            <SkeletonList count={2} />
+          </div>
         ) : (
-          <div className="space-y-4 animate-[fadeInUp_0.4s_ease_forwards]">
+          <div style={{ marginTop: 24 }}>
             {renderOutput()}
             {generatedNotes ? (
               <SendToPanel
@@ -1355,13 +1193,6 @@ Example: 'Photosynthesis is the process by which plants convert sunlight into en
           </div>
         )}
       </div>
-
-      <style jsx>{`
-        @keyframes loadingScan {
-          0% { transform: translateX(-120%); }
-          100% { transform: translateX(420%); }
-        }
-      `}</style>
     </main>
   );
 }

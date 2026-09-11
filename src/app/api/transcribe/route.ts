@@ -1,6 +1,7 @@
 import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
+import { GROQ_WHISPER_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 type WhisperSegment = {
   start: number;
@@ -50,7 +51,7 @@ export async function POST(request: Request) {
 
     const transcription = (await groq.audio.transcriptions.create({
       file: audio,
-      model: "whisper-large-v3",
+      model: GROQ_WHISPER_MODEL,
       response_format: "verbose_json",
       language: "en",
     })) as unknown as WhisperVerboseResponse;
@@ -78,6 +79,9 @@ export async function POST(request: Request) {
       duration,
     });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Transcription error:", error);
     return NextResponse.json(
       { error: "Failed to transcribe audio. Please try again." },

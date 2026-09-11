@@ -101,66 +101,102 @@ export default function CurriculumCoursePage() {
   };
 
   if (isLoading) {
-    return <main className="kv-page" style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px" }}>Loading course...</main>;
+    return (
+      <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+        <div style={{ maxWidth: 960, margin: "0 auto" }}>
+          <p className="kv-sub">Loading course...</p>
+        </div>
+      </main>
+    );
   }
 
   if (!course) {
-    return <main className="kv-page kv-empty" style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px" }}>Course not found.</main>;
+    return (
+      <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+        <div style={{ maxWidth: 960, margin: "0 auto" }}>
+          <div className="kv-crumb">
+            Kyvex / <b>Ontario Curriculum</b>
+          </div>
+          <h1 className="kv-title" style={{ marginTop: 14 }}>{code}</h1>
+          <p className="kv-sub" style={{ marginTop: 10 }}>Course not found.</p>
+        </div>
+      </main>
+    );
   }
 
+  const confidence = Math.max(0, Math.min(100, progress.confidence));
+
   return (
-    <main className="kv-page" style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px 100px" }}>
-      <div className="kv-card" style={{ padding: 16 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+    <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
+        <div className="kv-crumb">
+          Kyvex / <b>Ontario Curriculum</b>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap", marginTop: 14 }}>
           <div>
-            <h1 className="kv-page-title">{course.code} • {course.title}</h1>
-            <p className="kv-page-subtitle" style={{ marginTop: 6, marginBottom: 0 }}>
-              Grade {course.grade} • {course.subject} • {course.destination}
-            </p>
-            <p style={{ color: "var(--text-muted)", marginTop: 8 }}>{course.description}</p>
+            <h1 className="kv-title">
+              {course.code} {course.title}
+            </h1>
+            <div className="kv-row-sub" style={{ marginTop: 10 }}>
+              <span className="kv-chip kv-chip-course">{course.code}</span>
+              <span className="kv-chip">Grade {course.grade}</span>
+              <span className="kv-chip">{course.subject}</span>
+              <span className="kv-chip">{course.destination}</span>
+            </div>
+            <p className="kv-sub" style={{ marginTop: 10 }}>{course.description}</p>
           </div>
-          <button className="kv-btn-primary" onClick={() => setShowLearnModal(true)}>Open Learn Mode</button>
+          <button type="button" className="kv-btn" onClick={() => setShowLearnModal(true)}>
+            Open Learn Mode
+          </button>
         </div>
 
-        <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <span className="badge">{course.units.length} units</span>
-          <span className="badge">{expectationCount} expectations</span>
-          <span className="badge">Confidence {progress.confidence}%</span>
+        <p className="kv-meta" style={{ marginTop: 28 }}>
+          {course.units.length} units · {expectationCount} expectations
+        </p>
+        <div style={{ marginTop: 10, maxWidth: 280 }}>
+          <span className="kv-meta num">Confidence {confidence}%</span>
+          <div className="kv-bar" style={{ marginTop: 8 }}>
+            <div style={{ width: `${confidence}%` }} />
+          </div>
         </div>
-      </div>
 
-      <div style={{ marginTop: 14, display: "grid", gap: 12 }}>
-        {course.units.map((unit) => {
-          const completedUnit = progress.completedUnits.includes(unit.code);
-          return (
-            <div key={unit.id} className="kv-card" style={{ padding: 14 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
-                <p style={{ margin: 0, fontWeight: 700 }}>{unit.code} • {unit.title}</p>
-                <button className="kv-btn-ghost" onClick={() => toggleUnit(unit.code)}>
-                  {completedUnit ? "Mark Incomplete" : "Mark Complete"}
-                </button>
-              </div>
-              <p style={{ marginTop: 6, color: "var(--text-secondary)", fontSize: 13 }}>{unit.description}</p>
+        <div style={{ marginTop: 12 }}>
+          {course.units.map((unit) => {
+            const completedUnit = progress.completedUnits.includes(unit.code);
+            return (
+              <div key={unit.id}>
+                <div className="kv-row">
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div className="kv-row-title">{unit.code} · {unit.title}</div>
+                    {unit.description ? (
+                      <p className="kv-sub" style={{ marginTop: 6 }}>{unit.description}</p>
+                    ) : null}
+                  </div>
+                  <button type="button" className="kv-btn-ghost" onClick={() => toggleUnit(unit.code)}>
+                    {completedUnit ? "Mark Incomplete" : "Mark Complete"}
+                  </button>
+                </div>
 
-              <div style={{ marginTop: 10, display: "grid", gap: 8 }}>
                 {unit.expectations.map((expectation) => {
                   const completed = progress.completedExpectations.includes(expectation.code);
                   return (
-                    <div key={expectation.id} className="kv-card-elevated" style={{ border: "1px solid var(--border-default)", borderRadius: 8, padding: 10 }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                        <p style={{ margin: 0, fontWeight: 600 }}>{expectation.code} • {expectation.title}</p>
-                        <button className="kv-btn-ghost" onClick={() => toggleExpectation(expectation.code)}>
-                          {completed ? "Undo" : "Done"}
-                        </button>
+                    <div key={expectation.id} className="kv-row" style={{ paddingLeft: 16 }}>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div className="kv-row-title">{expectation.code} · {expectation.title}</div>
+                        {expectation.description ? (
+                          <p className="kv-sub" style={{ marginTop: 6 }}>{expectation.description}</p>
+                        ) : null}
                       </div>
-                      <p style={{ marginTop: 4, color: "var(--text-muted)", fontSize: 13 }}>{expectation.description}</p>
+                      <button type="button" className="kv-btn-ghost" onClick={() => toggleExpectation(expectation.code)}>
+                        {completed ? "Undo" : "Done"}
+                      </button>
                     </div>
                   );
                 })}
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
       <CurriculumLearnModal

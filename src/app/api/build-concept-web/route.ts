@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAuthSession } from "~/server/auth/session";
 import { db } from "~/server/db";
-import { extractJsonBlock, runGroqPrompt } from "~/server/groq";
+import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 type BuildNode = {
   id: string;
@@ -210,6 +210,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ error: "Unsupported mode" }, { status: 400 });
   } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
     console.error("Concept web build error:", error);
     return NextResponse.json({ error: "Failed to build concept web" }, { status: 500 });
   }

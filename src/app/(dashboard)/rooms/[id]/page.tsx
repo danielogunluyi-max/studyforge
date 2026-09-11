@@ -44,18 +44,6 @@ const WORK_SECONDS = 25 * 60;
 const SHORT_BREAK_SECONDS = 5 * 60;
 const LONG_BREAK_SECONDS = 15 * 60;
 
-function statusColor(status: string) {
-  if (status === "studying") return "var(--accent-green)";
-  if (status === "on_break") return "var(--accent-orange)";
-  return "var(--text-muted)";
-}
-
-function statusEmoji(status: string) {
-  if (status === "studying") return "📚";
-  if (status === "on_break") return "☕";
-  return "👋";
-}
-
 function statusLabel(status: string) {
   if (status === "studying") return "Studying";
   if (status === "on_break") return "On break";
@@ -394,11 +382,14 @@ export default function RoomInteriorPage() {
 
   if (error) {
     return (
-      <main className="kv-page min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] p-6">
-        <div className="kv-card max-w-[720px] mx-auto p-5">
-          <h1 className="kv-page-title mb-2">Could not open room</h1>
-          <p className="text-[var(--accent-red)]">{error}</p>
-          <button className="kv-btn-primary mt-3.5" onClick={() => router.push("/rooms")}>Back to Rooms</button>
+      <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+        <div style={{ maxWidth: 960, margin: "0 auto" }}>
+          <div className="kv-crumb">Kyvex / <b>Study Rooms</b></div>
+          <h1 className="kv-title" style={{ marginTop: 14 }}>Could not open room</h1>
+          <p className="kv-sub" style={{ marginTop: 10, color: "#E5484D" }}>{error}</p>
+          <button type="button" className="kv-btn-ghost" style={{ marginTop: 16 }} onClick={() => router.push("/rooms")}>
+            Back to Rooms
+          </button>
         </div>
       </main>
     );
@@ -406,30 +397,31 @@ export default function RoomInteriorPage() {
 
   if (!room) {
     return (
-      <main className="min-h-screen bg-[var(--bg-base)] p-6">
-        <div className="skeleton max-w-[980px] h-[420px] mx-auto rounded-[14px]" />
+      <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+        <div style={{ maxWidth: 960, margin: "0 auto" }}>
+          <div className="kv-crumb">Kyvex / <b>Study Rooms</b></div>
+          <p className="kv-meta" style={{ marginTop: 24 }}>Loading room</p>
+        </div>
       </main>
     );
   }
 
   return (
-    <main className="kv-page min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] px-4 py-6 pb-24 md:px-6">
-      <div className="max-w-[1200px] mx-auto">
-        <div className="flex items-center justify-between mb-4 gap-3">
+    <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
           <div>
-            <button className="kv-btn-ghost mb-2.5" onClick={() => router.push("/rooms")}> 
-              ← All Rooms
-            </button>
-            <h1 className="kv-page-title mb-1">{room.name}</h1>
-            <div className="flex gap-2 items-center flex-wrap">
-              <span className="badge bg-[rgba(59,130,246,0.15)] text-[var(--accent-blue)] border border-[var(--accent-blue)]">
-                {room.subject}
-              </span>
-              <span className="text-xs text-[var(--text-secondary)]">{activeCount} studying now</span>
+            <div className="kv-crumb">Kyvex / <b>Study Rooms</b></div>
+            <h1 className="kv-title" style={{ marginTop: 14 }}>{room.name}</h1>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
+              <span className="kv-chip">{room.subject}</span>
+              <span className="dot" aria-hidden />
+              <span className="kv-meta">{activeCount} studying now</span>
             </div>
           </div>
 
           <button
+            type="button"
             className="kv-btn-danger"
             disabled={leaving}
             onClick={() => {
@@ -443,23 +435,17 @@ export default function RoomInteriorPage() {
           </button>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "minmax(0, 2fr) minmax(280px, 1fr)",
-            gap: 16,
-          }}
-        >
-          <section className="kv-card p-5">
-            <div className="flex justify-center">
-              <div className="relative w-[220px] h-[220px] flex items-center justify-center">
+        <div style={{ display: "flex", gap: 32, flexWrap: "wrap", marginTop: 28 }}>
+          <section style={{ flex: "2 1 420px", minWidth: 0 }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <div style={{ position: "relative", width: 220, height: 220, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg width="180" height="180" viewBox="0 0 200 200" aria-hidden="true">
                   <circle
                     cx="100"
                     cy="100"
                     r={radius}
                     fill="none"
-                    stroke="var(--border-strong)"
+                    stroke="var(--border-default)"
                     strokeWidth="10"
                   />
                   <circle
@@ -467,9 +453,9 @@ export default function RoomInteriorPage() {
                     cy="100"
                     r={radius}
                     fill="none"
-                    stroke={pomodoroState?.phase === "break" ? "var(--accent-green)" : "var(--accent-blue)"}
+                    stroke="var(--kv-accent)"
                     strokeWidth="10"
-                    strokeLinecap="round"
+                    strokeLinecap="butt"
                     transform="rotate(-90 100 100)"
                     strokeDasharray={circumference}
                     strokeDashoffset={dashOffset}
@@ -477,158 +463,122 @@ export default function RoomInteriorPage() {
                   />
                 </svg>
 
-                <div className="absolute text-center">
-                  <p className="m-0 text-[44px] font-extrabold tracking-wider">{formatClock(effectiveTimeLeft)}</p>
-                  <p className="mt-1.5 text-[var(--text-secondary)] text-[13px]">
+                <div style={{ position: "absolute", textAlign: "center" }}>
+                  <p className="num" style={{ margin: 0, fontSize: 44, fontWeight: 600, letterSpacing: "-0.02em" }}>
+                    {formatClock(effectiveTimeLeft)}
+                  </p>
+                  <p className="kv-meta" style={{ marginTop: 8 }}>
                     {pomodoroState?.phase === "break" ? "Break Time" : "Focus Session"}
                   </p>
                 </div>
               </div>
             </div>
 
-            <p className="text-center mt-2 text-xs text-[var(--text-muted)]">
+            <p className="kv-meta" style={{ textAlign: "center", marginTop: 8 }}>
               Session {sessionOfFour} of 4
             </p>
 
             {isHost ? (
-              <div className="flex gap-2 justify-center mt-4 flex-wrap">
-                <button className="kv-btn-primary" onClick={() => void controlPomodoro("start")} disabled={Boolean(pomodoroState?.isRunning)}>
-                  ▶ Start
+              <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 16, flexWrap: "wrap" }}>
+                <button type="button" className="kv-btn" onClick={() => void controlPomodoro("start")} disabled={Boolean(pomodoroState?.isRunning)}>
+                  Start
                 </button>
-                <button className="kv-btn-ghost" onClick={() => void controlPomodoro("pause")} disabled={!pomodoroState?.isRunning}>
-                  ⏸ Pause
+                <button type="button" className="kv-btn-ghost" onClick={() => void controlPomodoro("pause")} disabled={!pomodoroState?.isRunning}>
+                  Pause
                 </button>
-                <button className="kv-btn-ghost" onClick={() => void controlPomodoro("skip")}>
-                  ⏭ Skip
+                <button type="button" className="kv-btn-ghost" onClick={() => void controlPomodoro("skip")}>
+                  Skip
                 </button>
-                <button className="kv-btn-ghost" onClick={() => void controlPomodoro("reset")}>
-                  ↺ Reset
+                <button type="button" className="kv-btn-ghost" onClick={() => void controlPomodoro("reset")}>
+                  Reset
                 </button>
               </div>
             ) : (
-              <p className="text-center mt-3.5 text-[13px] text-[var(--text-secondary)]">
-                {pomodoroState?.isRunning ? "Shared timer is running" : "⏱️ Waiting for host to start..."}
+              <p className="kv-meta" style={{ textAlign: "center", marginTop: 16 }}>
+                {pomodoroState?.isRunning ? "Shared timer is running" : "Waiting for host to start"}
               </p>
             )}
 
-            <div className="kv-card kv-card-elevated mt-4 p-3.5 bg-[var(--bg-elevated)]">
-              <p className="kv-label mb-2.5">Live Activity</p>
-              <div
-                className="max-h-[220px] overflow-y-auto border border-[var(--border-default)] rounded-lg px-2.5 py-2 bg-[var(--bg-card)]"
-              >
-                {feed.length === 0 ? (
-                  <p className="m-0 text-xs text-[var(--text-muted)]">No activity yet</p>
-                ) : (
-                  feed.map((item) => (
-                    <div
-                      key={item.id}
-                      className="text-xs text-[var(--text-muted)] py-1 border-b border-[var(--border-default)] flex gap-2 items-center"
-                    >
-                      <span className="text-[var(--text-muted)] shrink-0">
-                        {formatTime(item.timestamp)}
-                      </span>
-                      <span>{item.message}</span>
-                    </div>
-                  ))
-                )}
-                <div ref={feedEndRef} />
-              </div>
+            <p className="kv-meta" style={{ marginTop: 28 }}>Live Activity</p>
+            <div style={{ maxHeight: 220, overflowY: "auto", marginTop: 8 }}>
+              {feed.length === 0 ? (
+                <p className="kv-meta">No activity yet</p>
+              ) : (
+                feed.map((item) => (
+                  <div key={item.id} className="kv-row">
+                    <span className="kv-row-title" style={{ fontWeight: 400, fontSize: 13 }}>{item.message}</span>
+                    <span className="kv-meta">{formatTime(item.timestamp)}</span>
+                  </div>
+                ))
+              )}
+              <div ref={feedEndRef} />
             </div>
 
-            <div className="kv-card mt-3.5 p-3.5">
-              <p className="kv-label mb-2">Your Status</p>
-              <div className="flex gap-2 flex-wrap">
-                {[
-                  { key: "studying", label: "📚 Studying" },
-                  { key: "on_break", label: "☕ On Break" },
-                  { key: "away", label: "👋 Away" },
-                ].map((option) => {
-                  const active = myStatus === option.key;
-                  return (
-                    <button
-                      key={option.key}
-                      type="button"
-                      onClick={() => {
-                        const nextStatus = option.key as "studying" | "on_break" | "away";
-                        setMyStatus(nextStatus);
-                        void postHeartbeat(nextStatus);
-                      }}
-                      className="kv-tab border-none rounded-full cursor-pointer px-3 py-2 text-xs font-semibold"
-                      style={{
-                        background: active ? "var(--accent-blue)" : "var(--bg-elevated)",
-                        color: active ? "white" : "var(--text-secondary)",
-                      }}
-                    >
-                      {option.label}
-                    </button>
-                  );
-                })}
-              </div>
+            <p className="kv-meta" style={{ marginTop: 28 }}>Your Status</p>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+              {[
+                { key: "studying" as const, label: "Studying" },
+                { key: "on_break" as const, label: "On Break" },
+                { key: "away" as const, label: "Away" },
+              ].map((option) => (
+                <button
+                  key={option.key}
+                  type="button"
+                  onClick={() => {
+                    const nextStatus = option.key;
+                    setMyStatus(nextStatus);
+                    void postHeartbeat(nextStatus);
+                  }}
+                  className={myStatus === option.key ? "kv-btn-ghost on" : "kv-btn-ghost"}
+                >
+                  {option.label}
+                </button>
+              ))}
             </div>
           </section>
 
-          <aside className="kv-card p-4">
-            <div className="flex justify-between items-center mb-3">
-              <h2 className="m-0 text-base font-bold">In This Room</h2>
-              <span className="text-xs text-[var(--text-secondary)]">{members.length}</span>
+          <aside style={{ flex: "1 1 260px", minWidth: 0 }}>
+            <div className="kv-row" style={{ borderTop: "none", paddingTop: 0 }}>
+              <h2 className="kv-row-title" style={{ margin: 0 }}>In This Room</h2>
+              <span className="kv-row-side">{members.length}</span>
             </div>
 
-            <div>
-              {members.map((member) => (
-                <div
-                  key={member.userId}
-                  className="flex items-center gap-2.5 py-2.5 border-b border-[var(--border-default)]"
-                >
-                  <div
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
-                    style={{
-                      background: member.userId === room.hostId ? "var(--accent-purple)" : "var(--bg-elevated)",
-                      border: `2px solid ${statusColor(member.status)}`,
-                    }}
-                  >
-                    {member.user.name?.[0]?.toUpperCase() ?? "?"}
-                  </div>
-
-                  <div className="flex-1">
-                    <div className="text-[13px] font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
-                      {member.user.name ?? "Student"}
-                      {member.userId === room.hostId && (
-                        <span className="text-[10px] text-[var(--accent-purple)]">HOST</span>
-                      )}
-                    </div>
-                    <div className="text-[11px]" style={{ color: statusColor(member.status) }}>
-                      {statusEmoji(member.status)} {statusLabel(member.status)}
+            {members.map((member) => {
+              const live = member.status === "studying";
+              return (
+                <div key={member.userId} className="kv-row">
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                    <i className={live ? "dot" : "frame-dot"} aria-hidden />
+                    <span className="kv-avatar">
+                      {member.user.name?.[0]?.toUpperCase() ?? "?"}
+                    </span>
+                    <div style={{ minWidth: 0 }}>
+                      <div className="kv-row-title" style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                        {member.user.name ?? "Student"}
+                        {member.userId === room.hostId ? (
+                          <span className="kv-chip">Host</span>
+                        ) : null}
+                      </div>
+                      <div className="kv-meta" style={{ marginTop: 4 }}>{statusLabel(member.status)}</div>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              );
+            })}
 
-            <div className="kv-card kv-card-elevated mt-4 p-3 bg-[var(--bg-elevated)]">
-              <p className="kv-label mb-2">Room Info</p>
-              <div className="mb-2">
-                <span className="badge bg-[rgba(59,130,246,0.15)] text-[var(--accent-blue)] border border-[var(--accent-blue)]">
-                  {room.subject}
-                </span>
-              </div>
-              <p className="m-0 text-xs text-[var(--text-secondary)]">
-                Room created by {room.host?.name ?? "Host"}
-              </p>
-              <button className="kv-btn-ghost mt-2.5 w-full">
-                Report Room
-              </button>
+            <p className="kv-meta" style={{ marginTop: 28 }}>Room Info</p>
+            <div className="kv-row-sub" style={{ marginTop: 10 }}>
+              <span className="kv-chip">{room.subject}</span>
             </div>
+            <p className="kv-meta" style={{ marginTop: 10 }}>
+              Room created by {room.host?.name ?? "Host"}
+            </p>
+            <button type="button" className="kv-btn-ghost" style={{ marginTop: 12, width: "100%", justifyContent: "center" }}>
+              Report Room
+            </button>
           </aside>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 960px) {
-          main [style*="grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr)"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </main>
   );
 }

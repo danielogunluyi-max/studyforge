@@ -2,6 +2,7 @@ import Groq from 'groq-sdk';
 import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
 import { auth } from '~/server/auth';
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const prisma = db as any;
 
@@ -34,20 +35,28 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
 
-    const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
-      messages: [
-        {
-          role: 'user',
-          content: `Grade this student's answer to a crossover challenge.
+    let completion;
+    try {
+      completion = await groq.chat.completions.create({
+        model: GROQ_TEXT_MODEL,
+        messages: [
+          {
+            role: 'user',
+            content: `Grade this student's answer to a crossover challenge.
 Challenge: ${challenge.challenge}
 Student answer: ${answer}
 Respond ONLY as JSON:
 {"score": 82, "feedback": "...", "modelAnswer": "ideal answer"}`,
-        },
-      ],
-      max_tokens: 300,
-    });
+          },
+        ],
+        max_tokens: 300,
+      });
+    } catch (error) {
+      if (isRateLimited(error)) {
+        return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+      }
+      throw error;
+    }
 
     const raw = completion.choices[0]?.message?.content || '{}';
     try {
@@ -85,8 +94,10 @@ Respond ONLY as JSON:
     return NextResponse.json({ error: 'Need notes from at least 2 subjects' }, { status: 400 });
   }
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+  let completion;
+  try {
+    completion = await groq.chat.completions.create({
+    model: GROQ_TEXT_MODEL,
     messages: [
       {
         role: 'user',
@@ -105,6 +116,12 @@ Respond ONLY as JSON:
     ],
     max_tokens: 300,
   });
+  } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
+    throw error;
+  }
 
   const raw = completion.choices[0]?.message?.content || '{}';
   try {

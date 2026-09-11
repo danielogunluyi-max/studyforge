@@ -1,4 +1,5 @@
 import Groq from "groq-sdk";
+import { GROQ_TEXT_MODEL, GROQ_VISION_MODEL } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -15,8 +16,8 @@ export type HandwritingScanOutput = {
   passes: number;
 };
 
-const VISION_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
-const CLEANUP_MODEL = "llama-3.3-70b-versatile";
+const VISION_MODEL = GROQ_VISION_MODEL;
+const CLEANUP_MODEL = GROQ_TEXT_MODEL;
 
 function normalizeBase64(input: string) {
   return input.includes(",") ? input.split(",").pop() ?? "" : input;
@@ -41,7 +42,7 @@ export async function runHandwritingScan(input: HandwritingScanInput): Promise<H
 
   const firstPass = await groq.chat.completions.create({
     model: VISION_MODEL,
-    max_tokens: 4000,
+    max_tokens: 800,
     temperature: 0.2,
     messages: [
       {
@@ -97,7 +98,7 @@ Return ONLY the transcribed text. No commentary. No explanations. Just the notes
   if (illegibleCount > 3) {
     const secondPass = await groq.chat.completions.create({
       model: VISION_MODEL,
-      max_tokens: 2000,
+      max_tokens: 800,
       temperature: 0.2,
       messages: [
         {

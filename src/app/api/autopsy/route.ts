@@ -2,6 +2,7 @@ import { getAuthSession } from "~/server/auth/session"
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
+import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
@@ -11,8 +12,10 @@ export async function POST(req: Request) {
 
   const { subject, score, totalMarks, wrongAnswers, examId } = await req.json()
 
-  const completion = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+  let completion
+  try {
+    completion = await groq.chat.completions.create({
+    model: GROQ_TEXT_MODEL,
     messages: [{
       role: 'user',
       content: `You are an academic performance diagnostician. Perform a detailed exam autopsy.
@@ -40,6 +43,12 @@ Respond ONLY in JSON:
     }],
     max_tokens: 800,
   })
+  } catch (error) {
+    if (isRateLimited(error)) {
+      return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
+    }
+    throw error
+  }
 
   const raw = completion.choices[0]?.message?.content || '{}'
   try {
