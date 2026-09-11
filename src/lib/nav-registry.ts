@@ -187,7 +187,8 @@ export const NAV_ENTRIES: NavEntry[] = [
     ],
     description: "Photo, PDF, recording, or YouTube → notes.",
     featureKey: "smart-upload",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    // Inbox is the product's front door; it leads Get material in.
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/capture-studio",
@@ -195,7 +196,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     icon: Camera,
     section: "ingest",
     keywords: ["capture", "studio", "screenshot"],
-    surfaces: surf({ sidebar: true, mobile: true }),
+    surfaces: surf({ mobile: true, palette: true }),
   },
 
   // ── study ─────────────────────────────────────────────────

@@ -34,7 +34,7 @@ export function Topbar({ title, navStyle, userName, userEmail, onToggleSidebar, 
             ref={menuButtonRef}
             type="button"
             onClick={onToggleSidebar}
-            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm md:hidden"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm lg:hidden"
             style={{ color: "var(--kv-text-tertiary)" }}
             aria-label={sidebarOpen ? "Close menu" : "Open menu"}
             aria-expanded={sidebarOpen}

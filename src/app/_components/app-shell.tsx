@@ -68,18 +68,22 @@ export function AppShell({
   }
 
   return (
-    <div className={`flex h-screen overflow-hidden ${showSidebar ? "" : "flex-col"}`} style={{ background: "var(--bg-base)" }}>
+    <div
+      className={`flex h-screen overflow-hidden ${showSidebar ? "" : "flex-col"}`}
+      style={{ background: "var(--bg-base)" }}
+    >
       {showSidebar ? (
         <>
           {mobileSidebarOpen ? (
             <div
               aria-hidden="true"
-              className="fixed inset-0 z-40 bg-black/50 md:hidden"
+              className="fixed inset-0 z-40 lg:hidden"
+              style={{ background: "rgba(0,0,0,0.6)" }}
               onClick={closeMobileSidebar}
             />
           ) : null}
           <div
-            className={`fixed inset-y-0 left-0 z-50 h-screen transition-transform duration-200 ease-out md:relative md:z-auto md:translate-x-0 ${
+            className={`fixed inset-y-0 left-0 z-50 h-screen transition-transform duration-200 ease-out lg:relative lg:z-auto lg:translate-x-0 ${
               mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
             }`}
           >
@@ -100,13 +104,15 @@ export function AppShell({
           userEmail={userEmail}
           sidebarOpen={showSidebar ? mobileSidebarOpen : undefined}
           menuButtonRef={showSidebar ? menuButtonRef : undefined}
-          onToggleSidebar={showSidebar ? () => setMobileSidebarOpen((prev) => !prev) : undefined}
+          onToggleSidebar={
+            showSidebar ? () => setMobileSidebarOpen((prev) => !prev) : undefined
+          }
         />
-        <main className="flex-1 overflow-y-auto px-4 py-4 pb-[80px] md:px-6 md:py-5 md:pb-5">
+        <main className="flex-1 overflow-y-auto px-4 py-4 pb-[80px] lg:px-6 lg:py-5 lg:pb-5">
           <div className="mx-auto w-full max-w-[1220px]">{children}</div>
         </main>
       </div>
-      <NavBottom />
+      <NavBottom hidden={showSidebar && mobileSidebarOpen} />
     </div>
   );
 }

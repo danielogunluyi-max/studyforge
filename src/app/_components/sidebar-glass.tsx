@@ -155,24 +155,30 @@ const SidebarGlass = forwardRef<HTMLElement, {
           </div>
         </div>
 
-        <div className={`flex gap-1 ${collapsed ? "md:flex-col" : ""}`}>
-          <button
-            type="button"
-            onClick={toggleCollapse}
-            className="kv-btn-ghost flex-1 max-md:!hidden"
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            {collapsed ? <ChevronRight size={14} aria-hidden="true" /> : <ChevronLeft size={14} aria-hidden="true" />}
-            <span className={collapsed ? "md:hidden" : ""}>Collapse</span>
-          </button>
+        <div className={`flex flex-col gap-1 ${collapsed ? "md:items-center" : ""}`}>
           <button
             type="button"
             onClick={() => void handleSignOut()}
-            className="kv-btn-ghost"
-            aria-label="Sign out"
-            title="Sign out"
+            className={`kv-row w-full border-0 bg-transparent text-left ${
+              collapsed ? "md:justify-center md:px-2" : ""
+            }`}
+            aria-label="Log out"
           >
-            <LogOut size={14} aria-hidden="true" />
+            <LogOut size={16} strokeWidth={1.75} aria-hidden="true" className="shrink-0" />
+            <span className={`kv-row-title flex-1 ${collapsed ? "md:hidden" : ""}`}>Log out</span>
+          </button>
+          <button
+            type="button"
+            onClick={toggleCollapse}
+            className="kv-btn-ghost w-full max-md:!hidden"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {collapsed ? (
+              <ChevronRight size={14} aria-hidden="true" />
+            ) : (
+              <ChevronLeft size={14} aria-hidden="true" />
+            )}
+            <span className={collapsed ? "md:hidden" : ""}>Collapse</span>
           </button>
         </div>
       </div>

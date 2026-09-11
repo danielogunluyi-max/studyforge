@@ -19,6 +19,11 @@ const nextConfig = {
   // Lifting eslint.ignoreDuringBuilds again should happen only after that
   // cleanup phase lands. Lifting typescript.ignoreBuildErrors again should
   // never happen — leave it off.
+  // Dev badge: keep off the sidebar footer (covers Collapse / Log out at bottom-left).
+  // Next 15.2+ accepts `devIndicators.position` ('bottom-left' | 'bottom-right' | 'top-left' | 'top-right').
+  devIndicators: {
+    position: "bottom-right",
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getAuthSession } from "~/server/auth/session";
 import { db } from "~/server/db";
 import { loginUrlFor } from "~/lib/auth-redirect";
+import { ProfileSignOut } from "./profile-sign-out";
 
 function getInitials(name: string | null | undefined, email: string | null | undefined) {
   const source = (name?.trim() || email?.trim() || "K").split(" ");
@@ -68,6 +69,7 @@ export default async function ProfilePage() {
           <button type="button" className="kv-btn-ghost" disabled>
             Change Password (Coming Soon)
           </button>
+          <ProfileSignOut />
         </div>
 
         <p className="kv-meta" style={{ marginTop: 32 }}>Quick links</p>
