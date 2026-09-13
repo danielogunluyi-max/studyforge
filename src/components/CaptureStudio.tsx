@@ -1,76 +1,160 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Camera, CircleDot, Crop, FileText, Loader2, Monitor, Search, Square, Trash2, Upload, X, ZoomIn } from "lucide-react";
-import { formatTorontoDate } from "~/lib/toronto-time";
+/**
+ * Capture Studio — stitched scroll capture + live crop + ecosystem handoffs.
+ * First paint is server-identical; profile/desktop flags load in useEffect.
+ */
 
-type Screenshot = {
-  id: string;
-  title: string;
-  subject: string;
-  imageData: string;
-  createdAt: string;
-};
-type Pending = { imageData: string; width: number; height: number };
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  Camera,
+  Crop,
+  Download,
+  Inbox,
+  Loader2,
+  Monitor,
+  Square,
+  StopCircle,
+  Trash2,
+} from "lucide-react";
+import {
+  CAPTURE_INBOX_KEY,
+  CAPTURE_NOVA_KEY,
+  CAPTURE_PHOTO_QUIZ_KEY,
+  readStudyProfile,
+  writeCaptureHandoff,
+} from "~/lib/capture-handoff";
+import {
+  canvasToPngDataUrl,
+  captureVideoFrame,
+  cropCanvas,
+  DEFAULT_STITCH_LIMITS,
+  estimateScrollDelta,
+  stitchFrames,
+} from "~/lib/capture-stitch";
+import {
+  detectDeviceClass,
+  deviceLabel,
+  sourceLabel,
+  type DeviceClass,
+} from "~/lib/device-class";
+import {
+  type CaptureRecord,
+  fetchRecentCaptures,
+  persistCapture,
+} from "~/lib/persist-capture";
+import { formatTorontoDate } from "~/lib/toronto-time";
+import { tutorHref } from "~/lib/tutor-mode";
+
+type Phase = "idle" | "sharing" | "stitching" | "review";
+
 type CropRect = { x: number; y: number; w: number; h: number };
 
-const SUBJECTS = ["General", "Math", "Science", "English", "History", "Chemistry", "Physics", "Other"];
+type SavedCrop = {
+  id: string;
+  label: string;
+  dataUrl: string;
+  width: number;
+  height: number;
+  remoteId?: string;
+};
 
-// TODO: Swap base64-in-Postgres storage for Vercel Blob (or S3) when budget allows.
-// Current /api/screenshots persists base64 directly which keeps the $0 path simple.
+type Handle = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw" | "move";
+
+const TIMED_MS = 450;
+
+function makeCropId() {
+  return `crop-${Math.random().toString(36).slice(2, 9)}`;
+}
 
 export default function CaptureStudio() {
+  const router = useRouter();
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const previewWrapRef = useRef<HTMLDivElement | null>(null);
-  const cropStartRef = useRef<{ x: number; y: number } | null>(null);
+  const framesRef = useRef<HTMLCanvasElement[]>([]);
+  const deltasRef = useRef<number[]>([0]);
+  const timedRef = useRef<number | null>(null);
+  const stitchPreviewRef = useRef<HTMLCanvasElement | null>(null);
+  const cropViewportRef = useRef<HTMLDivElement | null>(null);
+  const cameraInputRef = useRef<HTMLInputElement | null>(null);
+  const dragRef = useRef<{
+    handle: Handle;
+    startX: number;
+    startY: number;
+    origin: CropRect;
+  } | null>(null);
 
-  const [streaming, setStreaming] = useState(false);
+  const [phase, setPhase] = useState<Phase>("idle");
   const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState<Pending | null>(null);
-  const [title, setTitle] = useState("");
-  const [subject, setSubject] = useState("General");
-  const [saving, setSaving] = useState(false);
-  const [cropping, setCropping] = useState(false);
-  const [cropRect, setCropRect] = useState<CropRect | null>(null);
-
-  const [screenshots, setScreenshots] = useState<Screenshot[]>([]);
+  const [status, setStatus] = useState<string | null>(null);
+  const [frameCount, setFrameCount] = useState(0);
+  const [stitchedUrl, setStitchedUrl] = useState<string | null>(null);
+  const [stitchSize, setStitchSize] = useState<{ w: number; h: number } | null>(null);
+  const [truncated, setTruncated] = useState(false);
+  const [timedOn, setTimedOn] = useState(false);
+  const [deviceClass, setDeviceClass] = useState<DeviceClass>("desktop");
+  const [courses, setCourses] = useState<string[]>([]);
+  const [course, setCourse] = useState("");
+  const [headerCropPx, setHeaderCropPx] = useState(0);
+  const [footerCropPx, setFooterCropPx] = useState(0);
+  const [crop, setCrop] = useState<CropRect | null>(null);
+  const [crops, setCrops] = useState<SavedCrop[]>([]);
+  const [busy, setBusy] = useState(false);
+  const [displayScale, setDisplayScale] = useState(1);
+  const [gallery, setGallery] = useState<CaptureRecord[]>([]);
   const [galleryLoading, setGalleryLoading] = useState(true);
-  const [viewer, setViewer] = useState<string | null>(null);
 
-  // Note-picker modal state
-  type NoteOption = { id: string; title: string; updatedAt: string };
-  const [notePickerOpen, setNotePickerOpen] = useState(false);
-  const [noteOptions, setNoteOptions] = useState<NoteOption[]>([]);
-  const [noteQuery, setNoteQuery] = useState("");
-  const [notesLoading, setNotesLoading] = useState(false);
-  const [transferring, setTransferring] = useState(false);
-  const [transferProgress, setTransferProgress] = useState(0);
+  const isDesktop = deviceClass === "desktop";
+  const isPhone = deviceClass === "phone";
 
-  const fetchAll = useCallback(async () => {
+  const loadGallery = useCallback(async () => {
     setGalleryLoading(true);
     try {
-      const r = await fetch("/api/screenshots");
-      if (r.ok) {
-        const data = (await r.json()) as Screenshot[];
-        setScreenshots(Array.isArray(data) ? data : []);
-      }
+      const items = await fetchRecentCaptures(40);
+      setGallery(items);
     } finally {
       setGalleryLoading(false);
     }
   }, []);
-  useEffect(() => { void fetchAll(); }, [fetchAll]);
+
+  // Hydration-safe: device + courses + gallery only after mount
+  useEffect(() => {
+    setDeviceClass(detectDeviceClass());
+    const profile = readStudyProfile();
+    const list = (profile?.courses ?? []).map((c) => c.trim()).filter(Boolean);
+    setCourses(list);
+    if (list[0]) setCourse(list[0]!);
+    void loadGallery();
+  }, [loadGallery]);
+
+  useEffect(() => {
+    const onFocus = () => void loadGallery();
+    const onVis = () => {
+      if (document.visibilityState === "visible") void loadGallery();
+    };
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [loadGallery]);
+
+  const stopTimed = useCallback(() => {
+    if (timedRef.current != null) {
+      window.clearInterval(timedRef.current);
+      timedRef.current = null;
+    }
+    setTimedOn(false);
+  }, []);
 
   const stopStream = useCallback(() => {
-    if (rafRef.current != null) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
+    stopTimed();
     streamRef.current?.getTracks().forEach((t) => t.stop());
     streamRef.current = null;
     if (videoRef.current) videoRef.current.srcObject = null;
-    setStreaming(false);
-  }, []);
+  }, [stopTimed]);
 
   useEffect(() => {
     const onHide = () => stopStream();
@@ -83,578 +167,913 @@ export default function CaptureStudio() {
     };
   }, [stopStream]);
 
-  const drawLoop = useCallback(() => {
-    const v = videoRef.current; const c = canvasRef.current;
-    if (v && c && v.videoWidth && v.videoHeight) {
-      if (c.width !== v.videoWidth) c.width = v.videoWidth;
-      if (c.height !== v.videoHeight) c.height = v.videoHeight;
-      c.getContext("2d")?.drawImage(v, 0, 0, v.videoWidth, v.videoHeight);
+  const rebuildStitch = useCallback(() => {
+    const frames = framesRef.current;
+    if (frames.length === 0) {
+      setStitchedUrl(null);
+      setStitchSize(null);
+      return;
     }
-    rafRef.current = requestAnimationFrame(drawLoop);
-  }, []);
 
-  const startCapture = useCallback(async () => {
+    // Optional sticky header/footer crop-out on each frame before stitch
+    const prepared = frames.map((src) => {
+      const top = Math.max(0, Math.min(headerCropPx, Math.floor(src.height * 0.4)));
+      const bottom = Math.max(0, Math.min(footerCropPx, Math.floor(src.height * 0.4)));
+      if (top === 0 && bottom === 0) return src;
+      const h = Math.max(1, src.height - top - bottom);
+      const c = document.createElement("canvas");
+      c.width = src.width;
+      c.height = h;
+      c.getContext("2d")?.drawImage(src, 0, top, src.width, h, 0, 0, src.width, h);
+      return c;
+    });
+
+    const result = stitchFrames(prepared, deltasRef.current, DEFAULT_STITCH_LIMITS);
+    if (!result) return;
+    stitchPreviewRef.current = result.canvas;
+    setTruncated(result.truncated);
+    setStitchSize({ w: result.canvas.width, h: result.canvas.height });
+    setStitchedUrl(canvasToPngDataUrl(result.canvas));
+    setFrameCount(result.usedFrames);
+
+    // Default crop: full width, visible-ish band
+    setCrop((prev) => {
+      if (prev) return prev;
+      const w = result.canvas.width;
+      const h = result.canvas.height;
+      return {
+        x: Math.floor(w * 0.05),
+        y: 0,
+        w: Math.floor(w * 0.9),
+        h: Math.min(h, Math.floor(w * 0.6)),
+      };
+    });
+  }, [footerCropPx, headerCropPx]);
+
+  useEffect(() => {
+    if (phase === "stitching" || phase === "review") rebuildStitch();
+  }, [headerCropPx, footerCropPx, phase, rebuildStitch]);
+
+  const appendFrame = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const frame = captureVideoFrame(video);
+    if (!frame) {
+      setError("Waiting for the shared screen to produce a frame…");
+      return;
+    }
+    const frames = framesRef.current;
+    if (frames.length >= DEFAULT_STITCH_LIMITS.maxFrames) {
+      setStatus(`Frame limit (${DEFAULT_STITCH_LIMITS.maxFrames}). Finish stitch to crop.`);
+      stopTimed();
+      return;
+    }
+
+    if (frames.length === 0) {
+      frames.push(frame);
+      deltasRef.current = [0];
+    } else {
+      const prev = frames[frames.length - 1]!;
+      const delta = estimateScrollDelta(prev, frame);
+      if (delta === 0) {
+        setStatus("No scroll detected — scroll the shared page, then capture again.");
+        return;
+      }
+      frames.push(frame);
+      deltasRef.current.push(delta);
+    }
     setError(null);
+    setStatus(`Frame ${frames.length} · stitch updating…`);
+    rebuildStitch();
+  }, [rebuildStitch, stopTimed]);
+
+  const startShare = useCallback(async () => {
+    setError(null);
+    setStatus(null);
     if (typeof navigator === "undefined" || !navigator.mediaDevices?.getDisplayMedia) {
-      setError("Your browser doesn't support screen capture. Try the latest Chrome, Edge, or Firefox.");
+      setError("Screen capture needs a recent Chrome, Edge, or Firefox.");
       return;
     }
     try {
-      const stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 30 }, audio: false });
+      const stream = await navigator.mediaDevices.getDisplayMedia({
+        video: { frameRate: 15 },
+        audio: false,
+      });
       streamRef.current = stream;
-      stream.getVideoTracks().forEach((t) => t.addEventListener("ended", () => stopStream()));
+      stream.getVideoTracks().forEach((t) =>
+        t.addEventListener("ended", () => {
+          stopStream();
+          setPhase((p) => (framesRef.current.length ? "review" : "idle"));
+        }),
+      );
       const v = videoRef.current;
-      if (v) { v.srcObject = stream; await v.play().catch(() => undefined); }
-      setStreaming(true);
-      rafRef.current = requestAnimationFrame(drawLoop);
+      if (v) {
+        v.srcObject = stream;
+        await v.play().catch(() => undefined);
+      }
+      framesRef.current = [];
+      deltasRef.current = [0];
+      setStitchedUrl(null);
+      setCrop(null);
+      setCrops([]);
+      setTruncated(false);
+      setPhase("sharing");
+      setStatus("Shared. Open Scroll capture, then scroll the page and grab frames.");
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Failed to start screen capture.";
-      if (!/permission|denied|aborted/i.test(msg)) setError(msg);
+      const msg = err instanceof Error ? err.message : "Could not start screen share.";
+      if (!/permission|denied|aborted|NotAllowed/i.test(msg)) setError(msg);
       stopStream();
+      setPhase("idle");
     }
-  }, [drawLoop, stopStream]);
+  }, [stopStream]);
 
-  const snap = useCallback(() => {
-    const v = videoRef.current;
-    if (!v?.videoWidth || !v.videoHeight) return;
-    const off = document.createElement("canvas");
-    off.width = v.videoWidth; off.height = v.videoHeight;
-    off.getContext("2d")?.drawImage(v, 0, 0);
-    setPending({ imageData: off.toDataURL("image/png"), width: off.width, height: off.height });
-    setTitle(`Capture ${new Date().toLocaleString()}`);
-    setCropRect(null); setCropping(false);
-  }, []);
+  const beginStitch = useCallback(() => {
+    if (!streamRef.current) {
+      setError("Share a tab or window first.");
+      return;
+    }
+    framesRef.current = [];
+    deltasRef.current = [0];
+    setCrop(null);
+    setCrops([]);
+    setStitchedUrl(null);
+    setPhase("stitching");
+    setStatus("Press Capture frame (or Space) after each scroll. Timed mode: desktop only.");
+    // First frame immediately
+    window.setTimeout(() => appendFrame(), 120);
+  }, [appendFrame]);
 
-  const handleFile = useCallback((file: File) => {
-    if (!file.type.startsWith("image/")) { setError("Please select an image file."); return; }
+  const finishStitch = useCallback(() => {
+    stopTimed();
+    stopStream();
+    rebuildStitch();
+    setPhase("review");
+    setStatus(
+      framesRef.current.length
+        ? "Stitch ready — drag the crop box, save regions, send downstream."
+        : "No frames captured.",
+    );
+  }, [rebuildStitch, stopStream, stopTimed]);
+
+  const toggleTimed = useCallback(() => {
+    if (!isDesktop) {
+      setError("Timed / auto frame capture is desktop-only. On mobile, capture frames manually while you scroll.");
+      return;
+    }
+    if (timedOn) {
+      stopTimed();
+      setStatus("Timed capture stopped.");
+      return;
+    }
+    setTimedOn(true);
+    setStatus("Timed capture on — scroll the shared page; we grab a frame every ~450ms.");
+    timedRef.current = window.setInterval(() => appendFrame(), TIMED_MS);
+  }, [appendFrame, isDesktop, stopTimed, timedOn]);
+
+  // Space = capture frame while stitching
+  useEffect(() => {
+    if (phase !== "stitching") return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.code !== "Space" && e.key !== " ") return;
+      const tag = (e.target as HTMLElement | null)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      e.preventDefault();
+      appendFrame();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [appendFrame, phase]);
+
+  // Measure display scale for crop overlay
+  useEffect(() => {
+    const el = cropViewportRef.current;
+    if (!el || !stitchSize) return;
+    const sync = () => {
+      const w = el.clientWidth;
+      if (w > 0 && stitchSize.w > 0) setDisplayScale(w / stitchSize.w);
+    };
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [stitchSize, stitchedUrl, phase]);
+
+  const clampCrop = useCallback(
+    (r: CropRect): CropRect => {
+      if (!stitchSize) return r;
+      const w = Math.max(24, Math.min(r.w, stitchSize.w));
+      const h = Math.max(24, Math.min(r.h, stitchSize.h));
+      const x = Math.max(0, Math.min(r.x, stitchSize.w - w));
+      const y = Math.max(0, Math.min(r.y, stitchSize.h - h));
+      return { x, y, w, h };
+    },
+    [stitchSize],
+  );
+
+  const onCropPointerDown = (handle: Handle) => (e: React.PointerEvent) => {
+    if (!crop) return;
+    e.preventDefault();
+    e.stopPropagation();
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    dragRef.current = {
+      handle,
+      startX: e.clientX,
+      startY: e.clientY,
+      origin: { ...crop },
+    };
+  };
+
+  const onCropPointerMove = (e: React.PointerEvent) => {
+    const drag = dragRef.current;
+    if (!drag || !stitchSize) return;
+    const dx = (e.clientX - drag.startX) / displayScale;
+    const dy = (e.clientY - drag.startY) / displayScale;
+    let { x, y, w, h } = drag.origin;
+    const H = drag.handle;
+    if (H === "move") {
+      x += dx;
+      y += dy;
+    } else {
+      if (H.includes("e")) w += dx;
+      if (H.includes("w")) {
+        x += dx;
+        w -= dx;
+      }
+      if (H.includes("s")) h += dy;
+      if (H.includes("n")) {
+        y += dy;
+        h -= dy;
+      }
+    }
+    setCrop(clampCrop({ x, y, w, h }));
+  };
+
+  const onCropPointerUp = () => {
+    dragRef.current = null;
+  };
+
+  const saveCrop = async () => {
+    const canvas = stitchPreviewRef.current;
+    if (!canvas || !crop) return;
+    const cut = cropCanvas(canvas, crop);
+    const dataUrl = canvasToPngDataUrl(cut);
+    const item: SavedCrop = {
+      id: makeCropId(),
+      label: `Crop ${crops.length + 1}`,
+      dataUrl,
+      width: cut.width,
+      height: cut.height,
+    };
+    setCrops((prev) => [...prev, item]);
+    setStatus(`Saved ${item.label} (${cut.width}×${cut.height}) — syncing everywhere…`);
+    const remote = await persistCapture({
+      title: item.label,
+      subject: course.trim() || "General",
+      imageData: dataUrl,
+      source: "capture-studio",
+      sourceDevice: deviceClass,
+    });
+    if (remote) {
+      setCrops((prev) => prev.map((c) => (c.id === item.id ? { ...c, remoteId: remote.id } : c)));
+      setStatus(`${item.label} is yours on every device.`);
+      void loadGallery();
+    } else {
+      setStatus(`${item.label} saved locally — cloud sync failed (try again when online).`);
+    }
+  };
+
+  const openCameraPhoto = () => {
+    cameraInputRef.current?.click();
+  };
+
+  const onCameraFile = (file: File | null) => {
+    if (!file || !file.type.startsWith("image/")) return;
     const reader = new FileReader();
     reader.onload = () => {
       const url = String(reader.result || "");
       const img = new Image();
       img.onload = () => {
-        setPending({ imageData: url, width: img.naturalWidth, height: img.naturalHeight });
-        setTitle(file.name.replace(/\.[^.]+$/, "") || "Uploaded screenshot");
-        setCropRect(null); setCropping(false);
+        const c = document.createElement("canvas");
+        c.width = img.naturalWidth;
+        c.height = img.naturalHeight;
+        c.getContext("2d")?.drawImage(img, 0, 0);
+        framesRef.current = [c];
+        deltasRef.current = [0];
+        stitchPreviewRef.current = c;
+        setStitchedUrl(canvasToPngDataUrl(c));
+        setStitchSize({ w: c.width, h: c.height });
+        setCrop({
+          x: Math.floor(c.width * 0.05),
+          y: 0,
+          w: Math.floor(c.width * 0.9),
+          h: Math.min(c.height, Math.floor(c.width * 0.7)),
+        });
+        setPhase("review");
+        setStatus("Photo ready — crop and save. It syncs to all your devices.");
+        void persistCapture({
+          title: file.name.replace(/\.[^.]+$/, "") || "Camera capture",
+          subject: course.trim() || "General",
+          imageData: canvasToPngDataUrl(c),
+          source: isPhone ? "camera" : "upload",
+          sourceDevice: deviceClass,
+        }).then((remote) => {
+          if (remote) void loadGallery();
+        });
       };
       img.src = url;
     };
     reader.readAsDataURL(file);
-  }, []);
-
-  const beginCrop = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!cropping || !previewWrapRef.current) return;
-    const rect = previewWrapRef.current.getBoundingClientRect();
-    cropStartRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    setCropRect({ x: cropStartRef.current.x, y: cropStartRef.current.y, w: 0, h: 0 });
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-  };
-  const moveCrop = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!cropping || !cropStartRef.current || !previewWrapRef.current) return;
-    const r = previewWrapRef.current.getBoundingClientRect();
-    const x = e.clientX - r.left, y = e.clientY - r.top;
-    const sx = cropStartRef.current.x, sy = cropStartRef.current.y;
-    setCropRect({ x: Math.min(sx, x), y: Math.min(sy, y), w: Math.abs(x - sx), h: Math.abs(y - sy) });
   };
 
-  const applyCrop = () => {
-    if (!pending || !cropRect || !previewWrapRef.current) return;
-    if (cropRect.w < 8 || cropRect.h < 8) { setCropping(false); setCropRect(null); return; }
-    const wr = previewWrapRef.current.getBoundingClientRect();
-    const scale = Math.min(wr.width / pending.width, wr.height / pending.height);
-    const drawnW = pending.width * scale, drawnH = pending.height * scale;
-    const offX = (wr.width - drawnW) / 2, offY = (wr.height - drawnH) / 2;
-    const sx = Math.max(0, (cropRect.x - offX) / scale);
-    const sy = Math.max(0, (cropRect.y - offY) / scale);
-    const sw = Math.min(pending.width - sx, cropRect.w / scale);
-    const sh = Math.min(pending.height - sy, cropRect.h / scale);
-    if (sw < 4 || sh < 4) { setCropping(false); setCropRect(null); return; }
-    const off = document.createElement("canvas");
-    off.width = Math.round(sw); off.height = Math.round(sh);
-    const ctx = off.getContext("2d"); if (!ctx) return;
-    const img = new Image();
-    img.onload = () => {
-      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, off.width, off.height);
-      setPending({ imageData: off.toDataURL("image/png"), width: off.width, height: off.height });
-      setCropping(false); setCropRect(null);
+  const downloadCrop = (item: SavedCrop) => {
+    const a = document.createElement("a");
+    a.href = item.dataUrl;
+    a.download = `${item.label.replace(/\s+/g, "-").toLowerCase()}.png`;
+    a.click();
+  };
+
+  const sendHandoff = (item: SavedCrop, dest: "inbox" | "photo-quiz" | "nova") => {
+    setBusy(true);
+    setError(null);
+    const payload = {
+      imageData: item.dataUrl,
+      filename: `${item.label.replace(/\s+/g, "-").toLowerCase()}.png`,
+      course: course || undefined,
+      title: item.label,
+      savedAt: Date.now(),
     };
-    img.src = pending.imageData;
-  };
-
-  const discard = () => { setPending(null); setTitle(""); setCropping(false); setCropRect(null); };
-
-  const save = async () => {
-    if (!pending) return;
-    if (!title.trim()) { setError("Please add a title."); return; }
-    setSaving(true); setError(null);
-    try {
-      const r = await fetch("/api/screenshots", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: title.trim(), subject: subject || "General", imageData: pending.imageData }),
-      });
-      if (!r.ok) {
-        const t = await r.text();
-        setError(`Save failed (${r.status}). ${t.slice(0, 200)}`);
-        return;
-      }
-      discard();
-      await fetchAll();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Save failed.");
-    } finally { setSaving(false); }
-  };
-
-  const remove = async (id: string) => {
-    if (!confirm("Delete this screenshot?")) return;
-    const r = await fetch(`/api/screenshots?id=${encodeURIComponent(id)}`, { method: "DELETE" });
-    if (r.ok) setScreenshots((prev) => prev.filter((s) => s.id !== id));
-  };
-
-  const loadNotes = useCallback(async (q?: string) => {
-    setNotesLoading(true);
-    try {
-      const url = new URL("/api/notes", window.location.origin);
-      url.searchParams.set("limit", "100");
-      if (q?.trim()) url.searchParams.set("q", q.trim());
-      const r = await fetch(url.toString());
-      if (!r.ok) return;
-      const data = (await r.json()) as { notes?: NoteOption[] };
-      setNoteOptions(Array.isArray(data.notes) ? data.notes : []);
-    } finally {
-      setNotesLoading(false);
-    }
-  }, []);
-
-  const openNotePicker = () => {
-    if (!pending) return;
-    if (!title.trim()) {
-      setError("Please add a title before linking to a note.");
+    const key =
+      dest === "inbox" ? CAPTURE_INBOX_KEY : dest === "photo-quiz" ? CAPTURE_PHOTO_QUIZ_KEY : CAPTURE_NOVA_KEY;
+    const ok = writeCaptureHandoff(key, payload);
+    setBusy(false);
+    if (!ok) {
+      setError("Could not hand off — image may be too large for sessionStorage. Try a tighter crop.");
       return;
     }
-    setNotePickerOpen(true);
-    setNoteQuery("");
-    void loadNotes();
+    if (dest === "inbox") router.push("/smart-upload");
+    else if (dest === "photo-quiz") router.push("/photo-quiz");
+    else router.push(tutorHref("vision"));
   };
 
-  const saveToNote = async (noteId: string) => {
-    if (!pending) return;
-    setTransferring(true);
-    setTransferProgress(5);
+  const snapSingle = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const frame = captureVideoFrame(video);
+    if (!frame) return;
+    framesRef.current = [frame];
+    deltasRef.current = [0];
+    stopTimed();
+    stopStream();
+    rebuildStitch();
+    setPhase("review");
+    setStatus("Single frame captured — crop and send.");
+  }, [rebuildStitch, stopStream, stopTimed]);
+
+  const resetAll = () => {
+    stopStream();
+    framesRef.current = [];
+    deltasRef.current = [0];
+    stitchPreviewRef.current = null;
+    setStitchedUrl(null);
+    setStitchSize(null);
+    setCrop(null);
+    setCrops([]);
+    setPhase("idle");
+    setStatus(null);
     setError(null);
-    // Simulated progress for the gold bar (real POST resolves async)
-    const tick = window.setInterval(() => {
-      setTransferProgress((p) => (p < 85 ? p + Math.random() * 10 : p));
-    }, 120);
-    try {
-      const r = await fetch("/api/screenshots", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: title.trim(),
-          subject: subject || "General",
-          imageData: pending.imageData,
-          noteId,
-        }),
-      });
-      if (!r.ok) {
-        const t = await r.text();
-        setError(`Transfer failed (${r.status}). ${t.slice(0, 200)}`);
-        return;
-      }
-      setTransferProgress(100);
-      await new Promise((res) => window.setTimeout(res, 280));
-      setNotePickerOpen(false);
-      discard();
-      await fetchAll();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Transfer failed.");
-    } finally {
-      window.clearInterval(tick);
-      setTransferring(false);
-      setTransferProgress(0);
-    }
+    setTruncated(false);
+    setFrameCount(0);
   };
+
+  const handles: Handle[] = ["nw", "n", "ne", "w", "e", "sw", "s", "se"];
 
   return (
-    <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
-      <header style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 12 }}>
-        <div>
-          <div className="kv-crumb">Kyvex / <b>Capture Studio</b></div>
-          <h1 className="kv-title" style={{ marginTop: 14 }}>Capture Studio</h1>
-          <p className="kv-sub" style={{ marginTop: 10 }}>Stream a window, snap any frame, save to your gallery.</p>
+    <div className="mx-auto w-full max-w-[1100px] px-4 py-8">
+      <div className="kv-crumb">
+        Kyvex / <b>Capture Studio</b>
+      </div>
+      <h1 className="kv-title" style={{ marginTop: 14 }}>
+        Capture Studio
+      </h1>
+      <p className="kv-sub mt-2 max-w-[54ch]">
+        Stitch a scrolling page into one tall image, crop regions live, then send them to Inbox, Photo-Quiz, or
+        Nova.
+      </p>
+
+      <div
+        className="mt-4 rounded border px-3 py-2 text-[13px] leading-relaxed"
+        style={{ borderColor: "var(--kv-border)", background: "var(--kv-surface)", color: "var(--kv-muted)" }}
+      >
+        <strong style={{ color: "var(--kv-ink)" }}>Honest limits:</strong> works on normal scrolling pages.
+        Sticky headers/footers can smear — use the crop-out sliders. DRM / Netflix-style protected content will not
+        appear in the share. Timed frame capture is <strong>desktop-only</strong>
+        {isPhone ? " — on phone use camera or manual Capture frame while you scroll" : ""}. Every saved crop syncs to
+        this gallery on all your devices.
+      </div>
+
+      <input
+        ref={cameraInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        className="sr-only"
+        onChange={(e) => {
+          onCameraFile(e.target.files?.[0] ?? null);
+          e.target.value = "";
+        }}
+      />
+
+      {error ? (
+        <div className="mt-3 rounded border px-3 py-2 text-[13px]" style={{ borderColor: "#c44", color: "#c44" }}>
+          {error}
         </div>
-        {streaming ? (
-          <span className="kv-meta" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-            <span className="dot" /> Live
-          </span>
+      ) : null}
+      {status ? (
+        <p className="mt-3 text-[13px]" style={{ color: "var(--kv-muted)" }}>
+          {status}
+          {truncated ? " · Height/frame limit hit — stitch truncated." : ""}
+        </p>
+      ) : null}
+
+      {/* Course chip */}
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <label className="text-[12px]" style={{ color: "var(--kv-muted)" }}>
+          Course chip
+        </label>
+        {courses.length > 0 ? (
+          <select
+            className="kv-input"
+            style={{ width: "auto", minWidth: 120 }}
+            value={course}
+            onChange={(e) => setCourse(e.target.value)}
+          >
+            <option value="">None</option>
+            {courses.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
         ) : (
-          <span className="kv-meta">Idle</span>
-        )}
-      </header>
-
-      <section style={{ marginTop: 22 }}>
-        <div className="relative aspect-video w-full overflow-hidden rounded-xl border-2 border-dashed border-white/15 bg-black">
-          <video ref={videoRef} muted playsInline className="hidden" />
-          <canvas ref={canvasRef} className="absolute inset-0 h-full w-full object-contain" />
-          {/* HUD corners */}
-          {[
-            "left-2 top-2 border-l-2 border-t-2",
-            "right-2 top-2 border-r-2 border-t-2",
-            "left-2 bottom-2 border-l-2 border-b-2",
-            "right-2 bottom-2 border-r-2 border-b-2",
-          ].map((c) => (
-            <span key={c} aria-hidden="true" className={`pointer-events-none absolute h-5 w-5 border-white/60 ${c}`} />
-          ))}
-          {streaming && (
-            <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-red-400 backdrop-blur">
-              <CircleDot size={12} className="animate-pulse" aria-hidden="true" /> REC
-            </div>
-          )}
-          {!streaming && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center text-zinc-500">
-              <Monitor size={42} strokeWidth={1.25} aria-hidden="true" />
-              <p className="text-sm">No active stream. Start a capture session to begin.</p>
-            </div>
-          )}
-        </div>
-
-        {/* Controls */}
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, marginTop: 16 }}>
-          {!streaming ? (
-            <button type="button" onClick={() => void startCapture()} className="kv-btn">
-              <Monitor size={16} aria-hidden="true" /> Start Capture
-            </button>
-          ) : (
-            <>
-              <button type="button" onClick={snap} className="kv-btn">
-                <Camera size={16} aria-hidden="true" /> Snap
-              </button>
-              <button type="button" onClick={stopStream} className="kv-btn-ghost">
-                <Square size={14} aria-hidden="true" /> Stop
-              </button>
-            </>
-          )}
-          <button type="button" onClick={() => fileInputRef.current?.click()} className="kv-btn-ghost">
-            <Upload size={14} aria-hidden="true" /> Upload
-          </button>
           <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) handleFile(f);
-              e.target.value = "";
-            }}
+            className="kv-input"
+            style={{ width: 140 }}
+            placeholder="e.g. MHF4U"
+            value={course}
+            onChange={(e) => setCourse(e.target.value.toUpperCase())}
           />
-        </div>
-
-        {!streaming && !pending && (
-          <div
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => {
-              e.preventDefault();
-              const f = e.dataTransfer.files?.[0];
-              if (f) handleFile(f);
-            }}
-            className="kv-dropzone"
-            style={{ marginTop: 12, padding: "16px 12px", textAlign: "center" }}
-          >
-            <p className="kv-meta" style={{ margin: 0 }}>…or drop a screenshot file here</p>
-          </div>
         )}
+        <span className="text-[12px]" style={{ color: "var(--kv-muted)" }}>
+          From study profile when set · travels with Inbox / Quiz handoffs
+        </span>
+      </div>
 
-        {error ? (
-          <p className="kv-meta" style={{ marginTop: 12, color: "#E5484D" }}>{error}</p>
+      {/* Actions — phone: camera-first; desktop: share-first */}
+      <div className="mt-5 flex flex-wrap gap-2">
+        {phase === "idle" || phase === "review" ? (
+          <>
+            {isPhone ? (
+              <>
+                <button type="button" className="kv-btn" onClick={openCameraPhoto}>
+                  <Camera size={16} /> Take / pick photo
+                </button>
+                <button type="button" className="kv-btn-ghost" onClick={() => void startShare()}>
+                  <Monitor size={16} /> Share tab (manual scroll)
+                </button>
+              </>
+            ) : (
+              <>
+                <button type="button" className="kv-btn" onClick={() => void startShare()}>
+                  <Monitor size={16} /> Share tab / window
+                </button>
+                <button type="button" className="kv-btn-ghost" onClick={openCameraPhoto}>
+                  <Camera size={16} /> Upload photo
+                </button>
+              </>
+            )}
+          </>
         ) : null}
-      </section>
-
-      {/* Preview / Save modal */}
-      {pending && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.72)" }}>
-          <div
-            className="flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden"
-            style={{ border: "1px solid var(--border-default)", background: "var(--bg-elevated)" }}
-          >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid var(--border-default)", padding: "12px 16px" }}>
-              <h2 className="kv-meta" style={{ margin: 0 }}>Review &amp; Save</h2>
-              <button type="button" onClick={discard} className="kv-btn-ghost" aria-label="Discard">
-                <X size={16} aria-hidden="true" />
+        {phase === "sharing" || phase === "stitching" ? (
+          <>
+            {phase === "sharing" ? (
+              <button type="button" className="kv-btn" onClick={beginStitch}>
+                <Camera size={16} /> Start scroll capture
               </button>
-            </div>
-
-            <div
-              ref={previewWrapRef}
-              onPointerDown={beginCrop}
-              onPointerMove={moveCrop}
-              onPointerUp={() => { cropStartRef.current = null; }}
-              className={`relative flex-1 overflow-hidden bg-black ${cropping ? "cursor-crosshair" : ""}`}
-              style={{ minHeight: 320 }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={pending.imageData} alt="Preview" className="h-full max-h-[60vh] w-full object-contain" />
-              {cropping && cropRect && (
-                <div
-                  className="pointer-events-none absolute border-2 border-amber-400 bg-amber-400/10"
-                  style={{ left: cropRect.x, top: cropRect.y, width: cropRect.w, height: cropRect.h }}
-                />
-              )}
-            </div>
-
-            <div style={{ borderTop: "1px solid var(--border-default)", padding: 16, display: "grid", gap: 12 }}>
-              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
-                {!cropping ? (
-                  <button
-                    type="button"
-                    onClick={() => { setCropping(true); setCropRect(null); }}
-                    className="kv-btn-ghost"
-                  >
-                    <Crop size={12} aria-hidden="true" /> Crop
+            ) : null}
+            {phase === "stitching" ? (
+              <>
+                <button type="button" className="kv-btn" onClick={appendFrame}>
+                  <Camera size={16} /> Capture frame
+                </button>
+                {isDesktop ? (
+                  <button type="button" className="kv-btn-ghost" onClick={toggleTimed}>
+                    {timedOn ? <StopCircle size={16} /> : <Square size={16} />}
+                    {timedOn ? "Stop timed" : "Timed frames"}
                   </button>
                 ) : (
-                  <>
-                    <button type="button" onClick={applyCrop} className="kv-btn">
-                      Apply Crop
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { setCropping(false); setCropRect(null); }}
-                      className="kv-btn-ghost"
-                    >
-                      Cancel
-                    </button>
-                  </>
+                  <span className="text-[12px] self-center" style={{ color: "var(--kv-muted)" }}>
+                    Timed frames: desktop only
+                  </span>
                 )}
-                <span className="kv-meta" style={{ marginLeft: "auto" }}>{pending.width} × {pending.height}px</span>
-              </div>
+                <button type="button" className="kv-btn-ghost" onClick={finishStitch}>
+                  Finish stitch
+                </button>
+              </>
+            ) : null}
+            <button type="button" className="kv-btn-ghost" onClick={snapSingle}>
+              Single snap
+            </button>
+            <button type="button" className="kv-btn-ghost" onClick={resetAll}>
+              Cancel share
+            </button>
+          </>
+        ) : null}
+        {phase === "review" ? (
+          <button type="button" className="kv-btn-ghost" onClick={resetAll}>
+            New capture
+          </button>
+        ) : null}
+      </div>
 
-              <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
-                <div>
-                  <label className="kv-meta" htmlFor="capture-title">Title</label>
-                  <input
-                    id="capture-title"
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Title"
-                    className="kv-field"
-                    style={{ marginTop: 6 }}
-                  />
-                </div>
-                <div>
-                  <label className="kv-meta" htmlFor="capture-subject">Subject</label>
-                  <select
-                    id="capture-subject"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    className="kv-field"
-                    style={{ marginTop: 6 }}
-                  >
-                    {SUBJECTS.map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", gap: 8 }}>
-                <button type="button" onClick={discard} disabled={saving} className="kv-btn-ghost">
-                  Discard
-                </button>
-                <button
-                  type="button"
-                  onClick={openNotePicker}
-                  disabled={saving || !title.trim()}
-                  className="kv-btn-ghost"
-                >
-                  <FileText size={14} aria-hidden="true" /> Save to Note
-                </button>
-                <button
-                  type="button"
-                  onClick={() => void save()}
-                  disabled={saving || !title.trim()}
-                  className="kv-btn"
-                >
-                  {saving ? <><Loader2 size={14} className="animate-spin" aria-hidden="true" /> Saving</> : "Save Capture"}
-                </button>
-              </div>
+      {/* Single persistent video — stream stays attached across phases */}
+      <div
+        className={
+          phase === "sharing" || phase === "stitching"
+            ? "mt-6 grid gap-4 lg:grid-cols-[1fr_1fr]"
+            : undefined
+        }
+      >
+        <div className={phase === "sharing" || phase === "stitching" ? undefined : "sr-only"}>
+          {(phase === "sharing" || phase === "stitching") && (
+            <div className="text-[12px] mb-2" style={{ color: "var(--kv-muted)" }}>
+              Live share
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Gallery */}
-      <section style={{ marginTop: 28 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-          <h2 className="kv-meta" style={{ margin: 0 }}>Recent Captures</h2>
-          {galleryLoading && <Loader2 size={14} className="animate-spin" aria-hidden="true" />}
-        </div>
-        {!galleryLoading && screenshots.length === 0 ? (
-          <p className="kv-sub">No captures yet. Start a session and snap your first frame.</p>
-        ) : (
+          )}
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-              borderTop: "1px solid var(--border-default)",
-              borderLeft: "1px solid var(--border-default)",
-            }}
+            className={
+              phase === "sharing" || phase === "stitching"
+                ? "overflow-hidden rounded border"
+                : undefined
+            }
+            style={
+              phase === "sharing" || phase === "stitching"
+                ? { borderColor: "var(--kv-border)", background: "#111" }
+                : undefined
+            }
           >
-            {screenshots.map((s) => (
-              <figure
-                key={s.id}
-                style={{
-                  margin: 0,
-                  borderRight: "1px solid var(--border-default)",
-                  borderBottom: "1px solid var(--border-default)",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={s.imageData} alt={s.title} style={{ display: "block", width: "100%" }} loading="lazy" />
-                <figcaption style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "10px 12px" }}>
-                  <div style={{ minWidth: 0, flex: 1 }}>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.title}</p>
-                    <p className="kv-meta" style={{ marginTop: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      {s.subject} · {new Date(s.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <div style={{ display: "flex", flexShrink: 0, gap: 6 }}>
-                    <button
-                      type="button"
-                      onClick={() => setViewer(s.imageData)}
-                      className="kv-btn-ghost"
-                      aria-label="View full size"
-                    >
-                      <ZoomIn size={12} aria-hidden="true" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => void remove(s.id)}
-                      className="kv-btn-danger"
-                      aria-label="Delete"
-                    >
-                      <Trash2 size={12} aria-hidden="true" />
-                    </button>
-                  </div>
-                </figcaption>
-              </figure>
-            ))}
+            <video
+              ref={videoRef}
+              muted
+              playsInline
+              autoPlay
+              className={
+                phase === "sharing" || phase === "stitching"
+                  ? "w-full max-h-[320px] object-contain"
+                  : "sr-only"
+              }
+              aria-hidden={phase !== "sharing" && phase !== "stitching"}
+            />
           </div>
-        )}
-      </section>
+          {(phase === "sharing" || phase === "stitching") && (
+            <p className="mt-2 text-[12px]" style={{ color: "var(--kv-muted)" }}>
+              Frames: {frameCount}
+              {isDesktop ? " · Space = capture frame" : " · Tap Capture frame after each scroll"}
+            </p>
+          )}
+        </div>
 
-      {/* Note picker modal */}
-      {notePickerOpen && (
-        <div
-          className="fixed inset-0 z-[65] flex items-center justify-center p-4"
-          style={{ background: "rgba(0,0,0,0.72)" }}
-          onClick={(e) => { if (e.target === e.currentTarget && !transferring) setNotePickerOpen(false); }}
-        >
-          <div
-            className="flex max-h-[82vh] w-full max-w-lg flex-col overflow-hidden"
-            style={{ border: "1px solid var(--border-default)", background: "var(--bg-elevated)" }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid var(--border-default)", padding: "12px 16px" }}>
-              <div>
-                <h3 className="kv-meta" style={{ margin: 0 }}>Save to Note</h3>
-                <p className="kv-sub" style={{ marginTop: 6, fontSize: 13 }}>Pick a note to attach this capture to.</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => { if (!transferring) setNotePickerOpen(false); }}
-                className="kv-btn-ghost"
-                disabled={transferring}
-                aria-label="Close"
-              >
-                <X size={16} aria-hidden="true" />
-              </button>
+        {(phase === "sharing" || phase === "stitching") && (
+          <div>
+            <div className="text-[12px] mb-2" style={{ color: "var(--kv-muted)" }}>
+              Stitched preview
             </div>
-
-            <div style={{ padding: "12px 16px 0" }}>
-              <label className="kv-meta" htmlFor="capture-note-search">Search</label>
-              <div style={{ position: "relative", marginTop: 6 }}>
-                <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2" aria-hidden="true" />
-                <input
-                  id="capture-note-search"
-                  type="text"
-                  value={noteQuery}
-                  onChange={(e) => {
-                    setNoteQuery(e.target.value);
-                    void loadNotes(e.target.value);
-                  }}
-                  placeholder="Search your notes..."
-                  className="kv-field"
-                  style={{ paddingLeft: 32 }}
-                  disabled={transferring}
-                  autoFocus
-                />
-              </div>
-            </div>
-
-            <div className="flex-1 overflow-y-auto" style={{ padding: "8px 16px 16px" }}>
-              {notesLoading ? (
-                <p className="kv-meta" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "32px 0" }}>
-                  <Loader2 size={14} className="mr-2 animate-spin" aria-hidden="true" /> Loading notes…
-                </p>
-              ) : noteOptions.length === 0 ? (
-                <p className="kv-sub" style={{ textAlign: "center", padding: "24px 8px" }}>
-                  No notes match. Create a note first, then link the capture.
-                </p>
+            <div
+              className="overflow-auto rounded border max-h-[320px]"
+              style={{ borderColor: "var(--kv-border)", background: "var(--kv-surface)" }}
+            >
+              {stitchedUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={stitchedUrl} alt="Stitched scroll preview" className="w-full h-auto" />
               ) : (
-                <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                  {noteOptions.map((n) => (
-                    <li key={n.id}>
-                      <button
-                        type="button"
-                        onClick={() => void saveToNote(n.id)}
-                        disabled={transferring}
-                        className="kv-row"
-                        style={{ width: "100%", background: "transparent", border: "none", borderTop: "1px solid var(--border-default)", cursor: transferring ? "not-allowed" : "pointer", opacity: transferring ? 0.5 : 1, textAlign: "left" }}
-                      >
-                        <FileText size={16} className="shrink-0" aria-hidden="true" />
-                        <div style={{ minWidth: 0, flex: 1 }}>
-                          <p className="kv-row-title" style={{ margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{n.title}</p>
-                          <p className="kv-meta" style={{ marginTop: 4 }}>Updated {formatTorontoDate(n.updatedAt)}</p>
-                        </div>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                <div className="p-6 text-[13px]" style={{ color: "var(--kv-muted)" }}>
+                  Capture frames to build the tall image here.
+                </div>
               )}
             </div>
+            <div className="mt-3 flex flex-wrap gap-4 text-[12px]" style={{ color: "var(--kv-muted)" }}>
+              <label className="flex items-center gap-2">
+                Sticky header crop-out
+                <input
+                  type="range"
+                  min={0}
+                  max={200}
+                  value={headerCropPx}
+                  onChange={(e) => setHeaderCropPx(Number(e.target.value))}
+                />
+                <span>{headerCropPx}px</span>
+              </label>
+              <label className="flex items-center gap-2">
+                Footer crop-out
+                <input
+                  type="range"
+                  min={0}
+                  max={200}
+                  value={footerCropPx}
+                  onChange={(e) => setFooterCropPx(Number(e.target.value))}
+                />
+                <span>{footerCropPx}px</span>
+              </label>
+            </div>
+          </div>
+        )}
+      </div>
 
-            {transferring ? (
-              <div style={{ borderTop: "1px solid var(--border-default)", padding: "12px 16px" }}>
-                <p className="kv-meta" style={{ marginBottom: 8 }}>Transferring to note…</p>
-                <div className="kv-bar">
-                  <div style={{ width: `${Math.min(100, transferProgress)}%` }} />
-                </div>
-              </div>
-            ) : null}
+      {/* Review + live crop */}
+      {phase === "review" && stitchedUrl && stitchSize && crop ? (
+        <div className="mt-6">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <div className="text-[12px]" style={{ color: "var(--kv-muted)" }}>
+              Live crop · {stitchSize.w}×{stitchSize.h}px stitch
+            </div>
+            <button type="button" className="kv-btn" onClick={() => void saveCrop()}>
+              <Crop size={16} /> Save this crop
+            </button>
+          </div>
+          <div
+            ref={cropViewportRef}
+            className="relative overflow-auto rounded border max-h-[min(70vh,720px)]"
+            style={{ borderColor: "var(--kv-border)", background: "#0c0c0c" }}
+            onPointerMove={onCropPointerMove}
+            onPointerUp={onCropPointerUp}
+            onPointerCancel={onCropPointerUp}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={stitchedUrl}
+              alt="Stitched capture"
+              className="block w-full h-auto select-none pointer-events-none"
+              draggable={false}
+            />
+            {/* Dim mask outside crop */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `linear-gradient(#0008,#0008) 0 0 / 100% ${crop.y * displayScale}px no-repeat,
+                  linear-gradient(#0008,#0008) 0 ${(crop.y + crop.h) * displayScale}px / 100% 100% no-repeat,
+                  linear-gradient(#0008,#0008) 0 ${crop.y * displayScale}px / ${crop.x * displayScale}px ${crop.h * displayScale}px no-repeat,
+                  linear-gradient(#0008,#0008) ${(crop.x + crop.w) * displayScale}px ${crop.y * displayScale}px / 100% ${crop.h * displayScale}px no-repeat`,
+              }}
+            />
+            <div
+              role="presentation"
+              className="absolute border-2"
+              style={{
+                left: crop.x * displayScale,
+                top: crop.y * displayScale,
+                width: crop.w * displayScale,
+                height: crop.h * displayScale,
+                borderColor: "var(--kv-accent)",
+                boxShadow: "0 0 0 1px #0006",
+                cursor: "move",
+                touchAction: "none",
+              }}
+              onPointerDown={onCropPointerDown("move")}
+            >
+              {handles.map((h) => {
+                const size = 10;
+                const style: React.CSSProperties = {
+                  position: "absolute",
+                  width: size,
+                  height: size,
+                  background: "var(--kv-accent)",
+                  border: "1px solid #15150F",
+                  touchAction: "none",
+                };
+                if (h.includes("n")) style.top = -size / 2;
+                if (h.includes("s")) style.bottom = -size / 2;
+                if (h.includes("w")) style.left = -size / 2;
+                if (h.includes("e")) style.right = -size / 2;
+                if (h === "n" || h === "s") style.left = `calc(50% - ${size / 2}px)`;
+                if (h === "e" || h === "w") style.top = `calc(50% - ${size / 2}px)`;
+                const cursor =
+                  h === "n" || h === "s"
+                    ? "ns-resize"
+                    : h === "e" || h === "w"
+                      ? "ew-resize"
+                      : h === "ne" || h === "sw"
+                        ? "nesw-resize"
+                        : "nwse-resize";
+                return (
+                  <div
+                    key={h}
+                    style={{ ...style, cursor }}
+                    onPointerDown={onCropPointerDown(h)}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
-      )}
+      ) : null}
 
-      {/* Full-size viewer */}
-      {viewer && (
+      {/* Saved crops */}
+      {crops.length > 0 ? (
+        <div className="mt-8">
+          <h2 className="text-[15px] font-medium" style={{ color: "var(--kv-ink)" }}>
+            Crops ({crops.length})
+          </h2>
+          <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+            {crops.map((item) => (
+              <li
+                key={item.id}
+                className="rounded border p-3"
+                style={{ borderColor: "var(--kv-border)", background: "var(--kv-surface)" }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.dataUrl}
+                  alt={item.label}
+                  className="w-full max-h-40 object-contain rounded mb-2"
+                  style={{ background: "#111" }}
+                />
+                <div className="text-[13px]" style={{ color: "var(--kv-ink)" }}>
+                  {item.label} · {item.width}×{item.height}
+                </div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  <button type="button" className="kv-btn-ghost" style={{ padding: "4px 8px", fontSize: 12 }} onClick={() => downloadCrop(item)}>
+                    <Download size={14} /> PNG
+                  </button>
+                  <button
+                    type="button"
+                    className="kv-btn-ghost"
+                    style={{ padding: "4px 8px", fontSize: 12 }}
+                    disabled={busy}
+                    onClick={() => sendHandoff(item, "inbox")}
+                  >
+                    {busy ? <Loader2 size={14} className="animate-spin" /> : <Inbox size={14} />} Inbox
+                  </button>
+                  <button
+                    type="button"
+                    className="kv-btn-ghost"
+                    style={{ padding: "4px 8px", fontSize: 12 }}
+                    disabled={busy}
+                    onClick={() => sendHandoff(item, "photo-quiz")}
+                  >
+                    Photo-Quiz
+                  </button>
+                  <button
+                    type="button"
+                    className="kv-btn-ghost"
+                    style={{ padding: "4px 8px", fontSize: 12 }}
+                    disabled={busy}
+                    onClick={() => sendHandoff(item, "nova")}
+                  >
+                    Nova
+                  </button>
+                  <button
+                    type="button"
+                    className="kv-btn-ghost"
+                    style={{ padding: "4px 8px", fontSize: 12 }}
+                    onClick={() => setCrops((prev) => prev.filter((c) => c.id !== item.id))}
+                    aria-label={`Remove ${item.label}`}
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      {phase === "idle" ? (
         <div
-          className="fixed inset-0 z-[70] flex items-center justify-center p-6"
-          style={{ background: "rgba(0,0,0,0.85)" }}
-          onClick={() => setViewer(null)}
+          className="mt-10 rounded border px-4 py-6 text-[14px] leading-relaxed"
+          style={{ borderColor: "var(--kv-border)", color: "var(--kv-muted)" }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={viewer} alt="Full size capture" className="max-h-full max-w-full" style={{ border: "1px solid var(--border-default)" }} />
-          <button
-            type="button"
-            onClick={() => setViewer(null)}
-            className="kv-btn-ghost"
-            style={{ position: "absolute", right: 16, top: 16 }}
-            aria-label="Close viewer"
-          >
-            <X size={16} aria-hidden="true" />
+          <ol className="list-decimal pl-5 space-y-2">
+            {isPhone ? (
+              <>
+                <li>Snap the whiteboard or page with Take photo — crop what you need.</li>
+                <li>Or share a tab and Capture frame after each scroll (no timed auto-scroll on phone).</li>
+                <li>Saved crops show up here and on your laptop under Just captured.</li>
+              </>
+            ) : (
+              <>
+                <li>Share the tab or window you want to capture.</li>
+                <li>Start scroll capture — scroll the page, then Capture frame (or Space). Timed frames: desktop only.</li>
+                <li>Drag the crop box, save regions — they sync to every device.</li>
+              </>
+            )}
+          </ol>
+        </div>
+      ) : null}
+
+      {/* Global gallery — yours, everywhere */}
+      <section className="mt-12" data-surface="capture-gallery">
+        <div className="flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <h2 className="text-[15px] font-medium" style={{ color: "var(--kv-ink)" }}>
+              Yours, everywhere
+            </h2>
+            <p className="text-[12px] mt-1" style={{ color: "var(--kv-muted)" }}>
+              Captures from phone, tablet, and laptop — plus Inbox photos.
+            </p>
+          </div>
+          <button type="button" className="kv-btn-ghost" style={{ fontSize: 12 }} onClick={() => void loadGallery()}>
+            Refresh
           </button>
         </div>
-      )}
-    </main>
+        {galleryLoading ? (
+          <p className="mt-4 text-[13px]" style={{ color: "var(--kv-muted)" }}>
+            Loading gallery…
+          </p>
+        ) : gallery.length === 0 ? (
+          <p className="mt-4 text-[13px]" style={{ color: "var(--kv-muted)" }}>
+            No captures yet. Save a crop or drop a photo in Inbox.
+          </p>
+        ) : (
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {gallery.map((item) => (
+              <li
+                key={item.id}
+                className="rounded border overflow-hidden"
+                style={{ borderColor: "var(--kv-border)", background: "var(--kv-surface)" }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.imageData}
+                  alt={item.title}
+                  className="w-full h-36 object-cover"
+                  style={{ background: "#111" }}
+                />
+                <div className="p-3">
+                  <div className="text-[13px] font-medium" style={{ color: "var(--kv-ink)" }}>
+                    {item.title}
+                  </div>
+                  <div className="mt-1 flex flex-wrap gap-1.5 text-[11px]" style={{ color: "var(--kv-muted)" }}>
+                    <span className="kv-chip">{deviceLabel(item.sourceDevice)}</span>
+                    <span className="kv-chip">{sourceLabel(item.source)}</span>
+                    {item.subject && item.subject !== "General" ? (
+                      <span className="kv-chip kv-chip-course">{item.subject}</span>
+                    ) : null}
+                    <span>{formatTorontoDate(item.createdAt)}</span>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    <button
+                      type="button"
+                      className="kv-btn-ghost"
+                      style={{ padding: "4px 8px", fontSize: 12 }}
+                      onClick={() => {
+                        if (item.noteId) {
+                          const q = new URLSearchParams({ generateFrom: item.noteId });
+                          if (item.subject && item.subject !== "General") q.set("course", item.subject);
+                          router.push(`/flashcards?${q}`);
+                          return;
+                        }
+                        try {
+                          sessionStorage.setItem(
+                            "kyvex-capture-deck-topic",
+                            JSON.stringify({
+                              topic: item.title,
+                              subject: item.subject !== "General" ? item.subject : "",
+                              savedAt: Date.now(),
+                            }),
+                          );
+                        } catch {
+                          // ignore
+                        }
+                        const q = new URLSearchParams({ fromCapture: "1" });
+                        if (item.subject && item.subject !== "General") q.set("course", item.subject);
+                        router.push(`/flashcards?${q}`);
+                      }}
+                    >
+                      Make cards
+                    </button>
+                    <button
+                      type="button"
+                      className="kv-btn-ghost"
+                      style={{ padding: "4px 8px", fontSize: 12 }}
+                      onClick={() => {
+                        writeCaptureHandoff(CAPTURE_NOVA_KEY, {
+                          imageData: item.imageData,
+                          filename: "capture.png",
+                          course: item.subject !== "General" ? item.subject : undefined,
+                          title: item.title,
+                          savedAt: Date.now(),
+                        });
+                        router.push(tutorHref("vision"));
+                      }}
+                    >
+                      Ask Nova
+                    </button>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </div>
   );
 }

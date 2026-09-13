@@ -83,34 +83,41 @@ async function installAiMocks(page: Page) {
 
       // Seed through Node fetch (not page.request) so we don't deadlock the
       // paused generate intercept. Cookie header is copied from the browser.
+      // Parallel + per-request timeout: sequential seeds were hanging on Neon
+      // and leaving waitForResponse armed forever (GENERATE_WAIT_BUT_SAW_POST).
       const origin = new URL(route.request().url()).origin
       const cookie = route.request().headers().cookie ?? ''
-      const cards: unknown[] = []
-      for (const pair of FIXTURE_CARDS) {
-        const seed = await fetch(`${origin}/api/decks/${deckId}/cards`, {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-            cookie,
-          },
-          body: JSON.stringify({ front: pair.front, back: pair.back }),
+      try {
+        const seeded = await Promise.all(
+          FIXTURE_CARDS.map(async (pair) => {
+            const seed = await fetch(`${origin}/api/decks/${deckId}/cards`, {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+                cookie,
+              },
+              body: JSON.stringify({ front: pair.front, back: pair.back }),
+              signal: AbortSignal.timeout(20_000),
+            })
+            if (!seed.ok) {
+              const body = await seed.text()
+              throw new Error(`Fixture card seed failed (${seed.status}): ${body.slice(0, 200)}`)
+            }
+            const payload = (await seed.json()) as { card?: unknown }
+            return payload.card
+          }),
+        )
+        const cards = seeded.filter(Boolean)
+        await route.fulfill({
+          status: 200,
+          json: { cards, count: cards.length },
         })
-        if (!seed.ok) {
-          const body = await seed.text()
-          await route.fulfill({
-            status: 500,
-            json: { error: `Fixture card seed failed (${seed.status}): ${body.slice(0, 200)}` },
-          })
-          return
-        }
-        const payload = (await seed.json()) as { card?: unknown }
-        if (payload.card) cards.push(payload.card)
+      } catch (err) {
+        await route.fulfill({
+          status: 500,
+          json: { error: err instanceof Error ? err.message : 'Fixture card seed failed' },
+        })
       }
-
-      await route.fulfill({
-        status: 200,
-        json: { cards, count: cards.length },
-      })
     },
   )
 
@@ -239,7 +246,8 @@ async function installAiMocks(page: Page) {
 }
 
 async function pasteIntoInboxDropzone(page: Page, text: string) {
-  const dropzone = page.locator('section.kv-card').filter({ hasText: "Drop tonight's homework" })
+  const dropzone = page.locator('section.kv-dropzone').first()
+  await dropzone.click({ force: true })
   await dropzone.focus()
   await page.context().grantPermissions(['clipboard-read', 'clipboard-write'], {
     origin: new URL(page.url()).origin,
@@ -249,7 +257,10 @@ async function pasteIntoInboxDropzone(page: Page, text: string) {
     const dt = new DataTransfer()
     dt.setData('text/plain', pasted)
     dt.setData('text', pasted)
-    const target = document.activeElement ?? document.querySelector('section.kv-card')
+    const target =
+      document.querySelector('section.kv-dropzone') ??
+      document.activeElement ??
+      document.querySelector('section.kv-card')
     if (!target) return
     target.dispatchEvent(
       new ClipboardEvent('paste', {
@@ -336,17 +347,31 @@ test.describe('money path', () => {
     }).toPass({ timeout: 15_000 })
     await expect(createDialog.locator('#deck-note')).toHaveValue(noteId!)
 
+    // Arm listeners BEFORE click. Generate runs on the deck page after redirect;
+    // create POST itself is often 10–25s on Neon — wait for it explicitly so a
+    // hung create fails here (URL_ASSERT) instead of looking like a generate race.
+    const createDone = page.waitForResponse(
+      (response) =>
+        apiPath(response.url()) === '/api/decks' &&
+        response.request().method() === 'POST',
+      { timeout: 90_000 },
+    )
     const generateDone = page.waitForResponse(
       (response) =>
         /\/api\/decks\/[^/]+\/generate\/?$/.test(apiPath(response.url())) &&
         response.request().method() === 'POST',
-      { timeout: 60_000 },
+      { timeout: 90_000 },
     )
 
     await createDialog.getByRole('button', { name: 'Create & Generate' }).click()
-    // Redirect is immediate (may still have ?generating=1); don't require generation yet.
-    await expect(page).toHaveURL(/\/flashcards\/[^/?#]+(?:\?|$)/, { timeout: 60_000 })
-    await generateDone
+
+    const createRes = await createDone
+    expect(createRes.ok(), `POST /api/decks failed: ${createRes.status()}`).toBeTruthy()
+
+    // Redirect is immediate after create (may still have ?generating=1).
+    await expect(page).toHaveURL(/\/flashcards\/[^/?#]+(?:\?|$)/, { timeout: 30_000 })
+    const generateRes = await generateDone
+    expect(generateRes.ok(), `POST generate failed: ${generateRes.status()}`).toBeTruthy()
     for (const card of FIXTURE_CARDS) {
       await expect(page.getByText(card.front, { exact: true })).toBeVisible({ timeout: 30_000 })
       await expect(page.getByText(`→ ${card.back}`)).toBeVisible()

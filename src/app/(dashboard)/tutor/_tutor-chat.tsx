@@ -152,6 +152,8 @@ export default function TutorChat() {
   const [selectedNoteId, setSelectedNoteId] = useState("");
   const [loadedNote, setLoadedNote] = useState<LoadedNote>(null);
   const [pendingNoteId, setPendingNoteId] = useState("");
+  const [mockExamId, setMockExamId] = useState("");
+  const [mockExamLabel, setMockExamLabel] = useState("");
   const [snippets, setSnippets] = useState<SavedSnippet[]>([]);
   const [savingId, setSavingId] = useState<string | null>(null);
   const [flashcardsLoading, setFlashcardsLoading] = useState(false);
@@ -245,9 +247,37 @@ export default function TutorChat() {
   }, [snippets]);
 
   useEffect(() => {
-    const noteId = new URLSearchParams(window.location.search).get("noteId")?.trim() ?? "";
+    const sp = new URLSearchParams(window.location.search);
+    const noteId = sp.get("noteId")?.trim() ?? "";
     if (noteId) setPendingNoteId(noteId);
+    const mockId = sp.get("mockId")?.trim() ?? "";
+    if (mockId) setMockExamId(mockId);
   }, []);
+
+  useEffect(() => {
+    if (!mockExamId) return;
+    void (async () => {
+      try {
+        const res = await fetch(`/api/mock-exam/${mockExamId}/attempt`);
+        if (!res.ok) return;
+        const data = (await res.json().catch(() => ({}))) as {
+          exam?: { title?: string; noteId?: string | null; curriculumCode?: string | null; subject?: string };
+          latestAttempt?: { scorePercent?: number } | null;
+        };
+        if (data.exam?.title) {
+          const score =
+            typeof data.latestAttempt?.scorePercent === "number"
+              ? ` · ${Math.round(data.latestAttempt.scorePercent)}%`
+              : "";
+          setMockExamLabel(`${data.exam.title}${score}`);
+        }
+        if (data.exam?.curriculumCode) setCurriculumCode(data.exam.curriculumCode);
+        if (data.exam?.noteId) setPendingNoteId(data.exam.noteId);
+      } catch {
+        // optional
+      }
+    })();
+  }, [mockExamId]);
 
   useEffect(() => {
     void (async () => {
@@ -348,6 +378,7 @@ export default function TutorChat() {
           curriculumCode: curriculumCode || undefined,
           conversationId: conversationId || undefined,
           teachingStyle,
+          mockExamId: mockExamId || undefined,
         }),
       });
 
@@ -526,6 +557,7 @@ export default function TutorChat() {
           loadedNote,
           command: "flashcards",
           curriculumCode: curriculumCode || undefined,
+          mockExamId: mockExamId || undefined,
         }),
       });
 
@@ -644,13 +676,20 @@ export default function TutorChat() {
           style={{ borderBottom: "1px solid var(--border-default)" }}
         >
           <span className="kv-meta truncate">open thread / {openThreadTitle}</span>
-          {loadedNote ? (
-            <span className="kv-meta flex items-center gap-2">
-              Linked note
-              {curriculumCode ? <span className="kv-chip kv-chip-course">{curriculumCode}</span> : null}
-              <span className="truncate" style={{ maxWidth: 180 }}>{loadedNote.title}</span>
-            </span>
-          ) : null}
+          <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
+            {mockExamLabel ? (
+              <span className="kv-meta truncate" style={{ maxWidth: 220 }}>
+                Mock · {mockExamLabel}
+              </span>
+            ) : null}
+            {loadedNote ? (
+              <span className="kv-meta flex items-center gap-2">
+                Linked note
+                {curriculumCode ? <span className="kv-chip kv-chip-course">{curriculumCode}</span> : null}
+                <span className="truncate" style={{ maxWidth: 180 }}>{loadedNote.title}</span>
+              </span>
+            ) : null}
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-5">

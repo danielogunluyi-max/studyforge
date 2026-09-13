@@ -160,7 +160,9 @@ function extractTextFromPage(page: Pdf2JsonPage): string {
   return builtLines.join("\n");
 }
 
-async function extractTextFromPdfBuffer(buffer: Buffer): Promise<{ text: string; pageCount: number }> {
+async function extractTextFromPdfBuffer(
+  buffer: Buffer,
+): Promise<{ text: string; pageCount: number; pagesWithText: number }> {
   const { default: PDFParser } = await import("pdf2json");
 
   return new Promise((resolve, reject) => {
@@ -176,10 +178,12 @@ async function extractTextFromPdfBuffer(buffer: Buffer): Promise<{ text: string;
     parser.on("pdfParser_dataReady", (pdfData: Pdf2JsonData) => {
       const pages = pdfData.Pages ?? [];
       const pageTexts: string[] = [];
+      let pagesWithText = 0;
 
       for (const page of pages) {
         const pageText = extractTextFromPage(page);
         if (pageText) {
+          pagesWithText += 1;
           pageTexts.push(pageText);
         }
       }
@@ -187,6 +191,7 @@ async function extractTextFromPdfBuffer(buffer: Buffer): Promise<{ text: string;
       resolve({
         text: normalizeDocumentText(pageTexts.join("\n\n")),
         pageCount: pages.length,
+        pagesWithText,
       });
     });
 
@@ -262,18 +267,33 @@ export async function POST(request: Request) {
     const pdfBuffer = Buffer.from(pdfBytes);
     const extracted = await extractTextFromPdfBuffer(pdfBuffer);
     const extractedText = extracted.text;
+    const { pageCount, pagesWithText } = extracted;
 
     if (!extractedText) {
       return NextResponse.json(
         {
           error:
-            "No readable text found in this PDF. It may be scanned or image-based. Try uploading it as an image for OCR.",
+            pageCount > 0
+              ? `Scanned PDF — read 0/${pageCount} pages as text. Try photographing key pages for OCR, or a text-based PDF.`
+              : "No readable text found in this PDF. It may be scanned or image-based. Try uploading it as an image for OCR.",
+          pageCount,
+          pagesWithText: 0,
         },
         { status: 422 },
       );
     }
 
-    return NextResponse.json({ text: extractedText, pageCount: extracted.pageCount });
+    const partial =
+      pageCount > 0 && pagesWithText < pageCount
+        ? `Text PDF — read ${pagesWithText}/${pageCount} pages (other pages look scanned/blank).`
+        : null;
+
+    return NextResponse.json({
+      text: extractedText,
+      pageCount,
+      pagesWithText,
+      warning: partial,
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to extract PDF text";
     console.error("PDF extraction error:", error);

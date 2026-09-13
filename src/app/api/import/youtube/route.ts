@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { fetchTranscript } from "youtube-transcript-plus";
+import { summarizeTranscriptChunked } from "~/lib/chunk-summarize";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+/** Chunked long lectures need headroom (1hr → several Groq passes). */
+export const maxDuration = 300;
 
 type ImportRequest = {
   url?: string;
@@ -137,11 +139,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Cap transcript length to keep prompt within model limits (~ 12k chars ≈ 3k tokens)
-    const MAX_CHARS = 12000;
-    const transcriptForPrompt =
-      fullTranscript.length > MAX_CHARS
-        ? `${fullTranscript.slice(0, MAX_CHARS)}\n\n[Transcript truncated for length — focus on what's above.]`
+    // Cap stored raw transcript preview size; notes cover the full lecture via chunking.
+    const MAX_STORE_CHARS = 200_000;
+    const transcriptForStore =
+      fullTranscript.length > MAX_STORE_CHARS
+        ? `${fullTranscript.slice(0, MAX_STORE_CHARS)}\n\n[Raw transcript truncated for storage — notes used full chunked pass.]`
         : fullTranscript;
 
     const subject = body.subject?.trim() || "General";
@@ -151,35 +153,19 @@ export async function POST(request: Request) {
     const author = meta?.author ?? "Unknown";
 
     let aiNotes: string;
+    let chunkCount = 1;
+    let chunkHint: string | null = null;
     try {
-      aiNotes = await runGroqPrompt({
-        system:
-          "You are Nova, Kyvex's AI study-notes generator for Ontario Grade 11–12 students. Convert lecture transcripts into high-quality, exam-ready study notes aligned with the Ontario curriculum. Use Canadian spelling. Output clean markdown only — no preamble.",
-        user: [
-          `Source: YouTube lecture titled "${title}" by ${author}.`,
-          subject !== "General" ? `Subject: ${subject}.` : "",
-          curriculumCode ? `Ontario course code (if relevant): ${curriculumCode}.` : "",
-          "",
-          "Task: Summarise the transcript below into high-quality study notes using the Ontario curriculum standard.",
-          "Format requirements:",
-          "- Start with an H1 title (the lecture title).",
-          "- A 2–3 sentence overview paragraph.",
-          "- An H2 'Key Concepts' section with bolded terms and concise definitions as a bullet list.",
-          "- An H2 'Detailed Notes' section with H3 sub-headings for each major topic, using bullet points and short paragraphs.",
-          "- Include any formulas, equations, or processes in code blocks or as bold inline.",
-          "- An H2 'Examples' section with 1–3 worked examples or applications mentioned in the lecture.",
-          "- An H2 'Exam-Ready Recap' section with 5–8 single-sentence bullet takeaways the student should memorise.",
-          "- An H2 'Self-Check Questions' section with 3 short questions a student could answer to test understanding.",
-          "Do NOT invent facts that aren't in the transcript. If something is unclear, write '(unclear in lecture)' rather than guessing.",
-          "",
-          "Transcript:",
-          transcriptForPrompt,
-        ]
-          .filter(Boolean)
-          .join("\n"),
-        temperature: 0.4,
-        maxTokens: 2200,
+      const summarized = await summarizeTranscriptChunked({
+        title,
+        author,
+        subject,
+        curriculumCode: curriculumCode || undefined,
+        transcript: fullTranscript,
       });
+      aiNotes = summarized.notes;
+      chunkCount = summarized.chunkCount;
+      chunkHint = summarized.truncatedHint;
     } catch (groqErr) {
       if (isRateLimited(groqErr)) {
         return NextResponse.json({ error: BUSY_MESSAGE }, { status: 429 });
@@ -227,7 +213,7 @@ export async function POST(request: Request) {
           userId: session.user.id,
           youtubeUrl: videoUrl,
           title: title.slice(0, 200),
-          transcript: transcriptForPrompt,
+          transcript: transcriptForStore,
           notes: trimmedNotes,
           flashcards: [],
         },
@@ -244,10 +230,12 @@ export async function POST(request: Request) {
       author,
       transcriptLength: fullTranscript.length,
       transcriptPreview: fullTranscript.slice(0, 500),
-      transcript: transcriptForPrompt,
+      transcript: transcriptForStore,
       notes: trimmedNotes,
       noteId,
       importId,
+      chunkCount,
+      chunkHint,
     });
   } catch (error) {
     console.error("[import/youtube] Unhandled error:", error);

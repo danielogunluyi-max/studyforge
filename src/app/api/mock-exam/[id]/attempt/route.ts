@@ -45,6 +45,7 @@ export async function GET(
     title: exam.title,
     subject: exam.subject,
     curriculumCode: exam.curriculumCode,
+    noteId: exam.noteId,
     instructions: exam.instructions,
     timeLimit: exam.timeLimit,
     createdAt: exam.createdAt,
@@ -58,7 +59,34 @@ export async function GET(
     })),
   };
 
-  return NextResponse.json({ exam: safe });
+  const latestAttempt = await db.mockExamAttempt.findFirst({
+    where: { examId: id, userId: session.user.id },
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true,
+      score: true,
+      earnedPoints: true,
+      totalPoints: true,
+      timeTaken: true,
+      breakdown: true,
+      createdAt: true,
+    },
+  });
+
+  return NextResponse.json({
+    exam: safe,
+    latestAttempt: latestAttempt
+      ? {
+          attemptId: latestAttempt.id,
+          scorePercent: latestAttempt.score,
+          earnedPoints: latestAttempt.earnedPoints,
+          totalPoints: latestAttempt.totalPoints,
+          timeTakenSec: latestAttempt.timeTaken,
+          breakdown: latestAttempt.breakdown,
+          createdAt: latestAttempt.createdAt,
+        }
+      : null,
+  });
 }
 
 // ---------- POST: grade & save attempt ----------
@@ -103,6 +131,7 @@ export async function POST(
       yourOption?: string | null;
       correctIndex?: number | null;
       correctOption?: string | null;
+      explanation?: string | null;
       // SA-specific
       yourText?: string | null;
       modelAnswer?: string | null;
@@ -144,6 +173,7 @@ export async function POST(
           yourOption: yourIndex !== null ? options[yourIndex] ?? null : null,
           correctIndex,
           correctOption: correctIndex !== null ? options[correctIndex] ?? null : null,
+          explanation: q.explanation?.trim() || null,
         });
       } else {
         const yourText = String(submission?.text ?? "").trim();

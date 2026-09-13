@@ -9,11 +9,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { title, subject, imageData, noteId } = (await request.json()) as {
+    const { title, subject, imageData, noteId, source, sourceDevice } = (await request.json()) as {
       title?: string;
       subject?: string;
       imageData?: string;
       noteId?: string | null;
+      source?: string;
+      sourceDevice?: string;
     };
 
     if (!title || !subject || !imageData) {
@@ -30,6 +32,11 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const allowedSources = new Set(['capture-studio', 'inbox', 'upload', 'camera']);
+    const allowedDevices = new Set(['phone', 'tablet', 'desktop']);
+    const safeSource = allowedSources.has(source ?? '') ? source! : 'capture-studio';
+    const safeDevice = allowedDevices.has(sourceDevice ?? '') ? sourceDevice! : 'desktop';
 
     // Verify note ownership if linking at create time
     let safeNoteId: string | null = null;
@@ -51,6 +58,8 @@ export async function POST(request: NextRequest) {
         imageData,
         userId: session.user.id,
         noteId: safeNoteId,
+        source: safeSource,
+        sourceDevice: safeDevice,
       },
     });
 

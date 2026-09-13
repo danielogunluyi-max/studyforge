@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { formatTorontoDate } from "~/lib/toronto-time";
 
 type Flashcard = {
@@ -93,6 +93,8 @@ export default function DeckEditorPage() {
   const [newFront, setNewFront] = useState("");
   const [newBack, setNewBack] = useState("");
   const [exportingAnki, setExportingAnki] = useState(false);
+  const [lastGenResult, setLastGenResult] = useState<{ requested: number; added: number } | null>(null);
+  const newFrontRef = useRef<HTMLTextAreaElement | null>(null);
 
   const dueCount = useMemo(() => {
     if (!deck) return 0;
@@ -161,11 +163,18 @@ export default function DeckEditorPage() {
         }),
       });
 
-      const data = (await response.json().catch(() => ({}))) as { error?: string };
+      const data = (await response.json().catch(() => ({}))) as {
+        error?: string;
+        count?: number;
+      };
       if (!response.ok) {
         setBootGenError(data.error ?? "Failed to build cards");
         return;
       }
+
+      const requested = payload.count ?? 20;
+      const added = typeof data.count === "number" ? data.count : requested;
+      setLastGenResult({ requested, added });
 
       try {
         sessionStorage.removeItem(genStorageKey(deckId));
@@ -230,12 +239,17 @@ export default function DeckEditorPage() {
         }),
       });
 
-      const data = (await response.json().catch(() => ({}))) as { error?: string };
+      const data = (await response.json().catch(() => ({}))) as {
+        error?: string;
+        count?: number;
+      };
       if (!response.ok) {
         setError(data.error ?? "Failed to generate cards");
         return;
       }
 
+      const added = typeof data.count === "number" ? data.count : generateCount;
+      setLastGenResult({ requested: generateCount, added });
       await fetchDeck();
       setGenerateTopic("");
     } catch {
@@ -273,7 +287,7 @@ export default function DeckEditorPage() {
     setEditingCardId("");
   };
 
-  const addCard = async () => {
+  const addCard = async (keepOpen = false) => {
     if (!deck || !newFront.trim() || !newBack.trim()) return;
     const response = await fetch(`/api/decks/${deck.id}/cards`, {
       method: "POST",
@@ -286,8 +300,24 @@ export default function DeckEditorPage() {
       setDeck((prev) => (prev ? { ...prev, cards: [...prev.cards, data.card!] } : prev));
       setNewFront("");
       setNewBack("");
-      setShowAddCard(false);
+      if (keepOpen) {
+        setShowAddCard(true);
+        requestAnimationFrame(() => newFrontRef.current?.focus());
+      } else {
+        setShowAddCard(false);
+      }
     }
+  };
+
+  const onAddKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>, field: "front" | "back") => {
+    if (event.key !== "Enter" || event.shiftKey) return;
+    event.preventDefault();
+    if (field === "front") {
+      const backEl = event.currentTarget.form?.querySelector<HTMLTextAreaElement>('textarea[name="new-back"]');
+      backEl?.focus();
+      return;
+    }
+    void addCard(true);
   };
 
   const exportCsv = () => {
@@ -386,7 +416,9 @@ export default function DeckEditorPage() {
               <span className="kv-chip num">{deck.cards.length} cards</span>
               {dueCount > 0 ? (
                 <span className="kv-chip kv-chip-stale num">{dueCount} due</span>
-              ) : null}
+              ) : (
+                <span className="kv-chip num">0 due</span>
+              )}
             </div>
           </div>
 
@@ -465,6 +497,14 @@ export default function DeckEditorPage() {
             </div>
           )}
         </div>
+
+        {lastGenResult && !bootGenerating ? (
+          <p className="kv-meta" style={{ marginTop: 12 }}>
+            {lastGenResult.added === lastGenResult.requested
+              ? `Added ${lastGenResult.added} cards (requested ${lastGenResult.requested}).`
+              : `Added ${lastGenResult.added} of ${lastGenResult.requested} requested — model returned fewer valid atomic cards.`}
+          </p>
+        ) : null}
 
         {(error || bootGenError) && (
           <div style={{ marginTop: 12 }}>
@@ -599,7 +639,7 @@ export default function DeckEditorPage() {
               + Add Card
             </button>
           ) : (
-            <div
+            <form
               style={{
                 display: "grid",
                 gap: 8,
@@ -607,30 +647,49 @@ export default function DeckEditorPage() {
                 paddingTop: 12,
                 borderTop: "1px solid var(--border-default)",
               }}
+              onSubmit={(event) => {
+                event.preventDefault();
+                void addCard(true);
+              }}
             >
               <textarea
+                ref={newFrontRef}
                 className="kv-field"
+                name="new-front"
                 rows={2}
                 placeholder="Front"
                 value={newFront}
                 onChange={(event) => setNewFront(event.target.value)}
+                onKeyDown={(event) => onAddKeyDown(event, "front")}
+                autoFocus
               />
               <textarea
                 className="kv-field"
+                name="new-back"
                 rows={3}
                 placeholder="Back"
                 value={newBack}
                 onChange={(event) => setNewBack(event.target.value)}
+                onKeyDown={(event) => onAddKeyDown(event, "back")}
               />
+              <p className="kv-meta">Enter saves and adds next · Shift+Enter for newline</p>
               <div style={{ display: "flex", gap: 8 }}>
-                <button type="button" className="kv-btn" onClick={() => void addCard()}>
-                  Save
+                <button type="submit" className="kv-btn">
+                  Save &amp; next
                 </button>
-                <button type="button" className="kv-btn-ghost" onClick={() => setShowAddCard(false)}>
-                  Cancel
+                <button
+                  type="button"
+                  className="kv-btn-ghost"
+                  onClick={() => {
+                    setShowAddCard(false);
+                    setNewFront("");
+                    setNewBack("");
+                  }}
+                >
+                  Done
                 </button>
               </div>
-            </div>
+            </form>
           )}
         </div>
       </div>

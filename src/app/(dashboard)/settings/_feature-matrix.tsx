@@ -51,18 +51,42 @@ for (const group of groupNavEntries(navEntriesFor("matrix"))) {
   });
 }
 
+const SAVE_DEBOUNCE_MS = 600;
+const SAVED_FLASH_MS = 1500;
+
 type Props = {
   initialEnabled?: string[];
   initialHidden?: string[];
 };
 
+type SaveStatus = "idle" | "saving" | "saved" | "error";
+
 export default function FeatureMatrix({ initialEnabled, initialHidden }: Props) {
   const [enabled, setEnabled] = useState<Set<string>>(() => new Set(initialEnabled ?? []));
   const [hidden, setHidden] = useState<Set<string>>(() => new Set(initialHidden ?? []));
   const [loaded, setLoaded] = useState<boolean>(Boolean(initialEnabled));
-  const [savingKeys, setSavingKeys] = useState<Set<string>>(() => new Set());
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [error, setError] = useState<string | null>(null);
+
+  const enabledRef = useRef(enabled);
+  const hiddenRef = useRef(hidden);
+  enabledRef.current = enabled;
+  hiddenRef.current = hidden;
+
+  const dirtyRef = useRef(false);
+  const inFlightRef = useRef(false);
+  const pendingTrailingRef = useRef(false);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const savedFlashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const saveAbortRef = useRef<AbortController | null>(null);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (loaded) return;
@@ -74,8 +98,12 @@ export default function FeatureMatrix({ initialEnabled, initialHidden }: Props) 
         if (!res.ok) throw new Error("Failed to load feature preferences");
         const data = await res.json();
         if (cancelled) return;
-        const en: string[] = Array.isArray(data?.prefs?.enabledFeatures) ? data.prefs.enabledFeatures : [];
-        const hi: string[] = Array.isArray(data?.prefs?.hiddenFeatures) ? data.prefs.hiddenFeatures : [];
+        const en: string[] = Array.isArray(data?.prefs?.enabledFeatures)
+          ? data.prefs.enabledFeatures
+          : [];
+        const hi: string[] = Array.isArray(data?.prefs?.hiddenFeatures)
+          ? data.prefs.hiddenFeatures
+          : [];
         setEnabled(new Set(en));
         setHidden(new Set(hi));
         setLoaded(true);
@@ -97,80 +125,213 @@ export default function FeatureMatrix({ initialEnabled, initialHidden }: Props) 
     return { total: all.length, on };
   }, [enabled]);
 
-  const persist = useCallback(
-    async (nextEnabled: Set<string>, nextHidden: Set<string>) => {
-      saveAbortRef.current?.abort();
-      const ctrl = new AbortController();
-      saveAbortRef.current = ctrl;
+  const persistNow = useCallback(async (opts?: { keepalive?: boolean }) => {
+    const nextEnabled = enabledRef.current;
+    const nextHidden = hiddenRef.current;
+    const enabledFeatures = Array.from(nextEnabled);
+    const hiddenFeatures = Array.from(nextHidden);
+    const body = JSON.stringify({ enabledFeatures, hiddenFeatures });
+
+    if (opts?.keepalive) {
+      // Unmount flush: prefer sendBeacon (survives navigation); fall back to keepalive fetch.
       try {
-        const res = await fetch("/api/feature-preferences", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            enabledFeatures: Array.from(nextEnabled),
-            hiddenFeatures: Array.from(nextHidden),
-          }),
-          signal: ctrl.signal,
-        });
-        if (!res.ok) throw new Error("save failed");
+        const beaconOk =
+          typeof navigator !== "undefined" &&
+          typeof navigator.sendBeacon === "function" &&
+          navigator.sendBeacon(
+            "/api/feature-preferences",
+            new Blob([body], { type: "application/json" }),
+          );
+        if (!beaconOk) {
+          await fetch("/api/feature-preferences", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body,
+            keepalive: true,
+            credentials: "same-origin",
+          });
+        }
+        dirtyRef.current = false;
         if (typeof window !== "undefined") {
           window.dispatchEvent(
             new CustomEvent(FEATURE_PREFS_EVENT, {
-              detail: {
-                enabledFeatures: Array.from(nextEnabled),
-                hiddenFeatures: Array.from(nextHidden),
-              },
+              detail: { enabledFeatures, hiddenFeatures },
             }),
           );
         }
       } catch (err) {
-        if ((err as Error).name === "AbortError") return;
-        setError("Couldn't save toggle — change kept locally.");
+        if ((err as Error)?.name === "AbortError") return;
+        // Page is leaving — nothing to surface.
       }
-    },
-    [],
-  );
+      return;
+    }
+
+    if (inFlightRef.current) {
+      pendingTrailingRef.current = true;
+      return;
+    }
+
+    inFlightRef.current = true;
+    pendingTrailingRef.current = false;
+    dirtyRef.current = false;
+
+    const ctrl = new AbortController();
+    saveAbortRef.current = ctrl;
+    let aborted = false;
+
+    if (mountedRef.current) {
+      setSaveStatus("saving");
+      setError(null);
+      if (savedFlashTimerRef.current) {
+        clearTimeout(savedFlashTimerRef.current);
+        savedFlashTimerRef.current = null;
+      }
+    }
+
+    try {
+      const res = await fetch("/api/feature-preferences", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body,
+        signal: ctrl.signal,
+      });
+      if (!res.ok) throw new Error("save failed");
+
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent(FEATURE_PREFS_EVENT, {
+            detail: { enabledFeatures, hiddenFeatures },
+          }),
+        );
+      }
+
+      if (mountedRef.current) {
+        setSaveStatus("saved");
+        setError(null);
+        savedFlashTimerRef.current = setTimeout(() => {
+          if (mountedRef.current) setSaveStatus("idle");
+        }, SAVED_FLASH_MS);
+      }
+    } catch (err) {
+      if ((err as Error)?.name === "AbortError") {
+        aborted = true;
+        // Unmount abort — cleanup keepalive flush owns the final write.
+        dirtyRef.current = true;
+        return;
+      }
+      dirtyRef.current = true;
+      if (mountedRef.current) {
+        setSaveStatus("error");
+        setError("Couldn't save — change kept locally.");
+      }
+    } finally {
+      inFlightRef.current = false;
+      saveAbortRef.current = null;
+      if (aborted || !mountedRef.current) return;
+      if (pendingTrailingRef.current || dirtyRef.current) {
+        pendingTrailingRef.current = false;
+        void persistNow();
+      }
+    }
+  }, []);
+
+  const schedulePersist = useCallback(() => {
+    dirtyRef.current = true;
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    debounceTimerRef.current = setTimeout(() => {
+      debounceTimerRef.current = null;
+      void persistNow();
+    }, SAVE_DEBOUNCE_MS);
+  }, [persistNow]);
+
+  const handleRetry = useCallback(() => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = null;
+    }
+    dirtyRef.current = true;
+    void persistNow();
+  }, [persistNow]);
+
+  // Abort only on unmount; flush dirty state via sendBeacon/keepalive so the last write lands.
+  useEffect(() => {
+    const flushKeepalive = () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+        debounceTimerRef.current = null;
+      }
+      if (dirtyRef.current || pendingTrailingRef.current || inFlightRef.current) {
+        void persistNow({ keepalive: true });
+      }
+    };
+
+    const onPageHide = () => {
+      flushKeepalive();
+    };
+    window.addEventListener("pagehide", onPageHide);
+
+    return () => {
+      window.removeEventListener("pagehide", onPageHide);
+      if (savedFlashTimerRef.current) {
+        clearTimeout(savedFlashTimerRef.current);
+        savedFlashTimerRef.current = null;
+      }
+      const wasInFlight = inFlightRef.current;
+      saveAbortRef.current?.abort();
+      saveAbortRef.current = null;
+      if (dirtyRef.current || pendingTrailingRef.current || wasInFlight) {
+        void persistNow({ keepalive: true });
+      }
+    };
+  }, [persistNow]);
 
   const handleToggle = useCallback(
     (key: string, next: boolean) => {
-      setEnabled((prev) => {
-        const en = new Set(prev);
-        if (next) en.add(key);
-        else en.delete(key);
-
-        setHidden((prevHidden) => {
-          const hi = new Set(prevHidden);
-          if (next) hi.delete(key);
-          else hi.add(key);
-          setSavingKeys((s) => {
-            const n = new Set(s);
-            n.add(key);
-            return n;
-          });
-          void persist(en, hi).finally(() => {
-            setSavingKeys((s) => {
-              const n = new Set(s);
-              n.delete(key);
-              return n;
-            });
-          });
-          return hi;
-        });
-        return en;
-      });
+      // Sync refs + dirty before React paint so unmount keepalive sees latest state.
+      const en = new Set(enabledRef.current);
+      const hi = new Set(hiddenRef.current);
+      if (next) {
+        en.add(key);
+        hi.delete(key);
+      } else {
+        en.delete(key);
+        hi.add(key);
+      }
+      enabledRef.current = en;
+      hiddenRef.current = hi;
+      setEnabled(en);
+      setHidden(hi);
+      schedulePersist();
     },
-    [persist],
+    [schedulePersist],
   );
 
   return (
     <section>
-      <p className="kv-meta">Feature matrix</p>
-      <p className="kv-sub" style={{ marginTop: 8 }}>
-        Toggle surfaces on or off. Anything off leaves the sidebar, toolbars, and command palette.
-      </p>
+      <div className="kv-row" style={{ borderTop: "none", paddingTop: 0, alignItems: "flex-start" }}>
+        <div>
+          <p className="kv-meta">Feature matrix</p>
+          <p className="kv-sub" style={{ marginTop: 8 }}>
+            Toggle surfaces on or off. Anything off leaves the sidebar, toolbars, and command palette.
+          </p>
+        </div>
+        <div style={{ textAlign: "right" }}>
+          {saveStatus === "saving" ? <p className="kv-meta">Saving…</p> : null}
+          {saveStatus === "saved" ? <p className="kv-meta">Saved</p> : null}
+          {saveStatus === "error" ? (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
+              <p className="kv-meta" style={{ color: "#E5484D" }}>
+                {error ?? "Couldn't save"}
+              </p>
+              <button type="button" className="kv-btn-ghost" onClick={handleRetry}>
+                Retry
+              </button>
+            </div>
+          ) : null}
+        </div>
+      </div>
       <p className="kv-meta num" style={{ marginTop: 10 }}>
         {totals.on} / {totals.total} active
-        {error ? <span style={{ marginLeft: 12, color: "#E5484D" }}>{error}</span> : null}
       </p>
 
       {CLUSTERS.map((cluster) => {
@@ -180,9 +341,13 @@ export default function FeatureMatrix({ initialEnabled, initialHidden }: Props) 
             <div className="kv-row" style={{ borderTop: "none", paddingTop: 0 }}>
               <div>
                 <div className="kv-row-title">{cluster.title}</div>
-                <p className="kv-sub" style={{ marginTop: 4, fontSize: 13 }}>{cluster.tagline}</p>
+                <p className="kv-sub" style={{ marginTop: 4, fontSize: 13 }}>
+                  {cluster.tagline}
+                </p>
               </div>
-              <span className="kv-row-side num">{activeInCluster}/{cluster.features.length}</span>
+              <span className="kv-row-side num">
+                {activeInCluster}/{cluster.features.length}
+              </span>
             </div>
             {cluster.features.map((feature) => {
               const on = enabled.has(feature.key);
@@ -190,7 +355,9 @@ export default function FeatureMatrix({ initialEnabled, initialHidden }: Props) 
                 <div key={feature.key} className="kv-row">
                   <div style={{ minWidth: 0, flex: 1 }}>
                     <div className="kv-row-title">{feature.label}</div>
-                    <p className="kv-sub" style={{ marginTop: 4, fontSize: 13 }}>{feature.description}</p>
+                    <p className="kv-sub" style={{ marginTop: 4, fontSize: 13 }}>
+                      {feature.description}
+                    </p>
                   </div>
                   <button
                     type="button"
@@ -202,7 +369,7 @@ export default function FeatureMatrix({ initialEnabled, initialHidden }: Props) 
                     className={on ? "kv-btn-ghost on" : "kv-btn-ghost"}
                     style={{ padding: "6px 10px" }}
                   >
-                    {savingKeys.has(feature.key) ? "…" : on ? "On" : "Off"}
+                    {on ? "On" : "Off"}
                   </button>
                 </div>
               );

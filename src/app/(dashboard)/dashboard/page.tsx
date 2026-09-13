@@ -7,6 +7,7 @@ import { useToast } from '~/app/_components/toast'
 import { DISABLED_FEATURES } from '~/lib/disabled-features'
 import { capture } from '~/lib/analytics'
 import { torontoGreeting } from '~/lib/toronto-time'
+import { JustCapturedStrip } from '~/app/_components/just-captured-strip'
 import {
   FileText,
   Layers,
@@ -334,6 +335,8 @@ export default function DashboardPage() {
         <Link href="/generator" className="kv-btn-ghost">New Note</Link>
         <Link href="/tutor" className="kv-btn">Ask Nova</Link>
       </div>
+
+      <JustCapturedStrip />
 
       {shownStats.length > 0 ? (
         <div className="kv-stats" style={{ marginTop: 28 }}>

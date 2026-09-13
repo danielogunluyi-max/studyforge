@@ -1532,16 +1532,16 @@ textarea:focus {
 
 .sidebar-nav-item {
   position: relative;
-  min-height: 40px;
-  padding: 8px 10px 8px 12px;
+  min-height: 0;
+  padding: 6px 10px 6px 12px;
   border-radius: var(--kv-radius);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--kv-text-secondary);
   display: inline-flex;
   width: 100%;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   transition: background 140ms ease-out, color 140ms ease-out;
   text-decoration: none;
 }
@@ -1558,8 +1558,8 @@ textarea:focus {
   content: "";
   position: absolute;
   left: 0;
-  top: 8px;
-  bottom: 8px;
+  top: 6px;
+  bottom: 6px;
   width: 2px;
   background: var(--kv-accent);
 }
@@ -2624,6 +2624,34 @@ a.kv-btn-ghost { text-decoration: none; }
 @media (max-width: 480px) {
   .kv-grid-2 { grid-template-columns: 1fr !important; }
   .kv-tabs { flex-wrap: wrap; }
+
+  /* Study: grade buttons in thumb reach */
+  .study-grade-bar {
+    position: sticky;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 5;
+    margin-top: 16px !important;
+    padding: 10px 8px;
+    background: color-mix(in srgb, var(--kv-bg, #f7f4ef) 92%, transparent);
+    border-top: 1px solid var(--border-default);
+    backdrop-filter: blur(8px);
+  }
+
+  .study-kbd-hint {
+    display: none;
+  }
+
+  .mock-exam-nav {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    background: color-mix(in srgb, var(--kv-bg, #f7f4ef) 94%, transparent);
+    backdrop-filter: blur(8px);
+  }
+
+  .opts .kv-opt {
+    min-height: 48px;
+  }
 }
 
 /* -- SCROLLBAR POLISH -- */

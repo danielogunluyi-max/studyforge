@@ -31,6 +31,8 @@ type Props = {
   studiedToday: number;
   notes: NoteOption[];
   initialGenerateFrom: string;
+  initialCourse?: string;
+  openCreateFromCapture?: boolean;
   studyStreak?: number;
 };
 
@@ -52,16 +54,27 @@ function subjectChipClass(subject: string) {
   return ONTARIO_COURSE.test(subject.trim()) ? "kv-chip kv-chip-course" : "kv-chip";
 }
 
-export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGenerateFrom }: Props) {
+export function DeckLibraryClient({
+  initialDecks,
+  studiedToday,
+  notes,
+  initialGenerateFrom,
+  initialCourse = "",
+  openCreateFromCapture = false,
+}: Props) {
   const router = useRouter();
   const [decks, setDecks] = useState<DeckSummary[]>(initialDecks);
-  const [showCreateModal, setShowCreateModal] = useState(Boolean(initialGenerateFrom));
+  const [showCreateModal, setShowCreateModal] = useState(
+    Boolean(initialGenerateFrom) || openCreateFromCapture,
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [title, setTitle] = useState("");
-  const [subject, setSubject] = useState("");
+  const [subject, setSubject] = useState(initialCourse || "");
   const [description, setDescription] = useState("");
-  const [useAiGenerate, setUseAiGenerate] = useState(Boolean(initialGenerateFrom));
+  const [useAiGenerate, setUseAiGenerate] = useState(
+    Boolean(initialGenerateFrom) || openCreateFromCapture,
+  );
   const [topic, setTopic] = useState("");
   const [count, setCount] = useState(20);
   const [selectedNoteId, setSelectedNoteId] = useState(initialGenerateFrom || "");
@@ -70,8 +83,31 @@ export function DeckLibraryClient({ initialDecks, studiedToday, notes, initialGe
   const totalDecks = decks.length;
   const totalDue = useMemo(() => decks.reduce((sum, deck) => sum + deck.dueCards, 0), [decks]);
 
-  const [curriculumCode, setCurriculumCode] = useState("");
+  const [curriculumCode, setCurriculumCode] = useState(initialCourse || "");
   const [curriculumOptions, setCurriculumOptions] = useState<CurriculumOption[]>([]);
+
+  useEffect(() => {
+    // Capture → deck handoff (topic prefills). Hydration-safe: after mount only.
+    if (!openCreateFromCapture && !initialGenerateFrom) return;
+    try {
+      const raw = sessionStorage.getItem("kyvex-capture-deck-topic");
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as { topic?: string; subject?: string };
+      sessionStorage.removeItem("kyvex-capture-deck-topic");
+      if (parsed.topic) {
+        setTopic(parsed.topic);
+        setTitle((prev) => prev || parsed.topic || "");
+        setUseAiGenerate(true);
+        setShowCreateModal(true);
+      }
+      if (parsed.subject) {
+        setSubject((prev) => prev || parsed.subject || "");
+        setCurriculumCode((prev) => prev || parsed.subject || "");
+      }
+    } catch {
+      // ignore
+    }
+  }, [openCreateFromCapture, initialGenerateFrom]);
 
   useEffect(() => {
     void (async () => {

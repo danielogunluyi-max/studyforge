@@ -11,6 +11,7 @@ import { Camera, Video, VideoOff, Send, Sparkles, Mic, MicOff, Volume2, VolumeX,
 import FlashcardDeck from "~/app/_components/flashcard-deck";
 
 import { useCameraStream } from "@/lib/hooks/useCameraStream";
+import { CAPTURE_NOVA_KEY, consumeCaptureHandoff } from "~/lib/capture-handoff";
 
 type ChatMessage = {
   id: string;
@@ -73,6 +74,14 @@ export default function NovaVisionPanel() {
     if (!el) return;
     el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   }, [messages]);
+
+  // Capture Studio → Nova vision handoff
+  useEffect(() => {
+    const handoff = consumeCaptureHandoff(CAPTURE_NOVA_KEY);
+    if (!handoff?.imageData) return;
+    setCapturedImage(handoff.imageData);
+    setDraft((d) => d || "Help me understand what's in this Capture Studio crop.");
+  }, []);
 
   useEffect(() => {
     if (!isAudioEnabled) return;
@@ -174,17 +183,30 @@ export default function NovaVisionPanel() {
     async (opts: { withSnap: boolean }) => {
       if (busy) return;
       const text = draft.trim();
-      if (!text && !opts.withSnap) return;
+      if (!text && !opts.withSnap && !capturedImage) return;
 
       let imageBase64: string | undefined;
+      let mimeType = "image/jpeg";
+      let dataUrl: string | null = null;
+
       if (opts.withSnap) {
-        const dataUrl = captureFrame();
-        if (!dataUrl) {
+        dataUrl = captureFrame();
+        if (!dataUrl && !capturedImage) {
           alert("Could not capture frame. Make sure the camera is active.");
           return;
         }
-        imageBase64 = dataUrl.replace(/^data:image\/jpeg;base64,/, "");
-        setCapturedImage(dataUrl);
+        if (dataUrl) setCapturedImage(dataUrl);
+      }
+      if (!dataUrl) dataUrl = capturedImage;
+
+      if (dataUrl) {
+        const match = /^data:([^;]+);base64,(.+)$/.exec(dataUrl);
+        if (match) {
+          mimeType = match[1] ?? "image/png";
+          imageBase64 = match[2];
+        } else {
+          imageBase64 = dataUrl.replace(/^data:image\/\w+;base64,/, "");
+        }
       }
 
       setBusy(true);
@@ -192,7 +214,7 @@ export default function NovaVisionPanel() {
         id: makeId(),
         role: "user",
         content: text || "(snapped a photo)",
-        hadImage: opts.withSnap,
+        hadImage: Boolean(imageBase64),
       };
       const placeholder: ChatMessage = {
         id: makeId(),
@@ -214,7 +236,7 @@ export default function NovaVisionPanel() {
               role: "user" as const,
               content: text || "(snapped a photo)",
               imageBase64,
-              mimeType: "image/jpeg",
+              mimeType,
             },
           ],
           conversationId,
@@ -253,7 +275,7 @@ export default function NovaVisionPanel() {
         inputRef.current?.focus();
       }
     },
-    [busy, draft, messages, conversationId, captureFrame],
+    [busy, draft, messages, conversationId, captureFrame, capturedImage],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

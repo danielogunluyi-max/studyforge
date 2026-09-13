@@ -3,6 +3,7 @@ import { auth } from "~/server/auth";
 import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 import { buildStudentContext, studentContextToPrompt, proactiveHook } from "~/server/tutor-context";
+import { loadMockAttemptContext, mockAttemptContextToPrompt } from "~/server/mock-attempt-context";
 import { prisma } from "@/lib/prisma";
 
 type Subject = "Math" | "Science" | "English" | "History" | "Chemistry" | "Physics" | "General";
@@ -19,6 +20,7 @@ type TutorRequest = {
   command?: "/quiz me" | "/explain" | "/example" | "/summary" | "flashcards";
   curriculumCode?: string;
   conversationId?: string;
+  mockExamId?: string;
 };
 
 const SUBJECT_GUIDANCE: Record<Subject, string> = {
@@ -97,7 +99,7 @@ export async function POST(request: Request) {
     const transcript = toTranscript(messages);
 
     // Curriculum + student context are optional — never let them fail the whole request
-    const [curriculumContext, studentContext] = await Promise.all([
+    const [curriculumContext, studentContext, mockAttempt] = await Promise.all([
       getCurriculumContext(body.curriculumCode).catch((e) => {
         console.error("[tutor] getCurriculumContext failed:", e);
         return null;
@@ -111,16 +113,24 @@ export async function POST(request: Request) {
         console.error("[tutor] buildStudentContext failed:", e);
         return null;
       }),
+      body.mockExamId
+        ? loadMockAttemptContext(session.user.id, body.mockExamId).catch((e) => {
+            console.error("[tutor] loadMockAttemptContext failed:", e);
+            return null;
+          })
+        : Promise.resolve(null),
     ]);
 
     const studentContextPrompt = studentContext ? studentContextToPrompt(studentContext) : "";
     const proactive = studentContext ? proactiveHook(studentContext, subject) : "";
+    const mockPrompt = mockAttempt ? mockAttemptContextToPrompt(mockAttempt) : "";
 
     const systemPrompt = [
       "You are Nova, Kyvex's AI Tutor for Ontario Grade 11–12 students.",
       "Persona: warm, sharp, encouraging high-school tutor who specialises in the Ontario curriculum (university and university/college streams). Use Canadian spelling. Reference Ontario course codes naturally when relevant (e.g. MHF4U, MCV4U, SCH4U, SBI4U, SPH4U, ENG4U, CHC2D, CGW4U).",
       "Pedagogy: be Socratic — guide thinking with small steps and a follow-up check question. Avoid dumping final answers; scaffold instead. Use clean markdown with headings, bold, lists, and code/math blocks where helpful.",
       "Context engineering: you are given a STUDENT CONTEXT block containing their recent notes, attached diagrams (screenshots), recent flashcard decks, and detected course codes. Treat this as ground truth about what they have already studied. When a question relates to that material, connect your explanation back to it explicitly (e.g. \"this builds on the note you wrote on…\"). If they have captured diagrams, you may reference them by title and ask the student to describe what's shown if you need more detail (you cannot see the pixels themselves).",
+      "When a MOCK EXAM ATTEMPT block is present, treat it as the live exam they just wrote. If they ask why they missed a question number (e.g. Q6), answer from that miss list with the correct answer, the trap they fell into, and a short fix. Do not invent questions that are not in the block.",
       "Proactivity: if the student has not stated their goal, gently ask whether they're prepping for a specific unit test, summative, or exam in a course code you can infer from their recent activity. Keep this to ONE short clarifying question, not an interrogation.",
       "Honesty: if you don't know something or the curriculum context is missing, say so plainly and suggest where to look (textbook, teacher, Ontario curriculum doc).",
     ].join("\n");
@@ -130,6 +140,7 @@ export async function POST(request: Request) {
       `Subject behavior: ${SUBJECT_GUIDANCE[subject]}`,
       curriculumContextToPrompt(curriculumContext),
       studentContextPrompt,
+      mockPrompt,
       proactive ? `Proactive hint: ${proactive}` : "",
       "",
       `Currently loaded note (the one open on screen): ${noteContext}`,

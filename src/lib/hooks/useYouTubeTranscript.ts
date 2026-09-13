@@ -19,6 +19,8 @@ type TranscriptResult = {
   notes?: string;
   noteId?: string | null;
   importId?: string | null;
+  chunkCount?: number;
+  chunkHint?: string | null;
 };
 
 type UseYouTubeTranscriptState = {

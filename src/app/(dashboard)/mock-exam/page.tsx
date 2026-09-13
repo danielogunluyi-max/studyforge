@@ -28,7 +28,7 @@ type ExamSummary = {
   attempts: Array<{ id: string; score: number; createdAt: string }>;
 };
 
-type Volume = 10 | 25 | 50;
+type Volume = 10 | 20 | 30;
 type Focus = "mc" | "sa" | "sim";
 
 /* ─────────────────────────────────────────────────────────── */
@@ -46,8 +46,8 @@ const COURSE_TRACKS: { code: string; label: string; subject: string }[] = [
 
 const VOLUME_OPTS: { value: Volume; label: string; sub: string }[] = [
   { value: 10, label: "10", sub: "Sprint" },
-  { value: 25, label: "25", sub: "Standard" },
-  { value: 50, label: "50", sub: "Marathon" },
+  { value: 20, label: "20", sub: "Standard" },
+  { value: 30, label: "30", sub: "Full" },
 ];
 
 const FOCUS_OPTS: { value: Focus; label: string; sub: string }[] = [
@@ -57,10 +57,13 @@ const FOCUS_OPTS: { value: Focus; label: string; sub: string }[] = [
 ];
 
 function splitForFocus(volume: Volume, focus: Focus): { mc: number; sa: number } {
-  if (focus === "mc") return { mc: volume, sa: 0 };
-  if (focus === "sa") return { mc: 0, sa: volume };
-  const mc = Math.round(volume * 0.7);
-  return { mc, sa: volume - mc };
+  // API caps: MC ≤20, SA ≤10 — keep configure honest with what will be generated.
+  if (focus === "mc") return { mc: Math.min(volume, 20), sa: 0 };
+  if (focus === "sa") return { mc: 0, sa: Math.min(volume, 10) };
+  const rawMc = Math.round(volume * 0.7);
+  const mc = Math.min(rawMc, 20);
+  const sa = Math.min(volume - mc, 10);
+  return { mc, sa };
 }
 
 function timeAgo(iso: string): string {
@@ -93,7 +96,7 @@ export default function MockExamHubPage() {
 
   // capsule selections
   const [courseCode, setCourseCode] = useState<string>("SCH4U");
-  const [volume, setVolume] = useState<Volume>(25);
+  const [volume, setVolume] = useState<Volume>(20);
   const [focus, setFocus] = useState<Focus>("sim");
 
   // generation
@@ -104,6 +107,15 @@ export default function MockExamHubPage() {
   // past exams
   const [exams, setExams] = useState<ExamSummary[]>([]);
   const [examsLoading, setExamsLoading] = useState(true);
+
+  // Inbox / deep-link course chip + note preselect (noteId or fromNote)
+  useEffect(() => {
+    const sp = new URLSearchParams(window.location.search);
+    const course = sp.get("course")?.trim().toUpperCase();
+    if (course) setCourseCode(course);
+    const noteId = (sp.get("noteId") ?? sp.get("fromNote"))?.trim();
+    if (noteId) setSelectedNoteId(noteId);
+  }, []);
 
   // ── fetch notes ──
   useEffect(() => {
@@ -138,7 +150,8 @@ export default function MockExamHubPage() {
     }
   };
   useEffect(() => {
-    const noteId = new URLSearchParams(window.location.search).get("noteId")?.trim();
+    const noteId = (new URLSearchParams(window.location.search).get("noteId")
+      ?? new URLSearchParams(window.location.search).get("fromNote"))?.trim();
     if (!noteId) return;
     setSelectedNoteId(noteId);
     setPasteText("");

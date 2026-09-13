@@ -6,6 +6,7 @@ import Link from "next/link";
 import { LogOut, Settings, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useDisclosurePanel } from "~/lib/hooks/use-disclosure-panel";
+import { detectDeviceClass, type DeviceClass } from "~/lib/device-class";
 import {
   groupNavEntries,
   isNavEntryEnabled,
@@ -37,12 +38,19 @@ export default function NavBottom({ hidden = false }: NavBottomProps) {
   const moreButtonRef = useRef<HTMLButtonElement>(null);
   const morePanelRef = useRef<HTMLDivElement>(null);
   const enabledFeatures = useEnabledFeatureSet();
+  const [deviceClass, setDeviceClass] = useState<DeviceClass>("phone");
+
+  useEffect(() => {
+    setDeviceClass(detectDeviceClass());
+  }, []);
+
   const mobileGroups = useMemo(
     () =>
       groupNavEntries(
         MOBILE_ENTRIES.filter((entry) => isNavEntryEnabled(entry, enabledFeatures)),
+        deviceClass,
       ),
-    [enabledFeatures],
+    [enabledFeatures, deviceClass],
   );
 
   const closeMore = useCallback(() => {

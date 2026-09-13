@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { runGroqPrompt, extractJsonBlock, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 
 type GeneratePayload = {
   noteId?: string;
@@ -18,6 +19,7 @@ type GeneratedQuestion = {
   prompt: string;
   options?: string[];
   correctIndex?: number;
+  explanation?: string;
   modelAnswer?: string;
   rubric?: string;
   unit?: string;
@@ -56,8 +58,11 @@ export async function POST(request: Request) {
     }
 
     const body = (await request.json().catch(() => ({}))) as GeneratePayload;
-    const numMC = Math.min(Math.max(Number(body.numMultipleChoice ?? 10), 1), 20);
+    const numMC = Math.min(Math.max(Number(body.numMultipleChoice ?? 10), 0), 20);
     const numSA = Math.min(Math.max(Number(body.numShortAnswer ?? 5), 0), 10);
+    if (numMC + numSA < 1) {
+      return NextResponse.json({ error: "Need at least one question." }, { status: 400 });
+    }
     const timeLimit = Math.min(Math.max(Number(body.timeLimitMinutes ?? 45), 5), 180);
 
     let subject = (body.subject ?? "").trim();
@@ -87,12 +92,15 @@ export async function POST(request: Request) {
     if (!subject) subject = "General";
 
     const curriculumCode = (body.curriculumCode ?? "").trim().toUpperCase() || null;
+    const curriculumContext = await getCurriculumContext(curriculumCode).catch(() => null);
+    const curriculumPrompt = curriculumContextToPrompt(curriculumContext);
 
     const systemPrompt = [
       "You are Nova, Kyvex's exam generator for Ontario Grade 11–12 students.",
-      "Build rigorous, fair, exam-style questions that match the Ontario curriculum standard (university and university/college streams).",
+      "Build rigorous, fair, exam-style questions grounded ONLY in the provided source notes — no generic textbook filler unrelated to the source.",
       "Use Canadian spelling. Cover the material breadth-first across multiple units/topics found in the source.",
       "Multiple choice: 4 options each, exactly ONE correct. Distractors must be plausible (common misconceptions), not throw-aways.",
+      "Every multiple-choice question MUST include a short explanation (1–2 sentences): why the correct option is right and what trap the distractors represent.",
       "Short answer: a clear scenario or concept-application question; provide a concise model answer (3–6 sentences) AND a 1–3 sentence rubric describing what a full-credit answer must include.",
       "Tag every question with a 'unit' label (a short topic name such as 'Stoichiometry' or 'Limits & Continuity').",
       "Output STRICT JSON only — no prose, no markdown fences. The JSON must exactly match the schema requested.",
@@ -102,6 +110,7 @@ export async function POST(request: Request) {
 
 Subject: ${subject}
 ${curriculumCode ? `Ontario course code: ${curriculumCode}` : ""}
+${curriculumPrompt ? `\n${curriculumPrompt}\n` : ""}
 Number of multiple-choice: ${numMC}
 Number of short-answer: ${numSA}
 
@@ -115,6 +124,7 @@ Required JSON schema:
       "prompt": "string",
       "options": ["string","string","string","string"],
       "correctIndex": 0,
+      "explanation": "string (why correct + common trap)",
       "unit": "string",
       "points": 1
     },
@@ -130,9 +140,10 @@ Required JSON schema:
 }
 
 Rules:
-- Output exactly ${numMC} multiple_choice followed by exactly ${numSA} short_answer in the questions array.
+- Output exactly ${numMC} multiple_choice followed by exactly ${numSA} short_answer in the questions array (omit a type if its count is 0).
 - multiple_choice points = 1, short_answer points = 3.
-- Do NOT include explanations beyond what the schema asks for.
+- Ground every question in a specific fact, definition, mechanism, or example from the SOURCE. Prefer concrete details over vague fillers.
+${curriculumCode ? `- Align difficulty and wording with Ontario ${curriculumCode} expectations when the curriculum block above is present.` : ""}
 
 SOURCE NOTES${noteTitle ? ` (from "${noteTitle}")` : ""}:
 """
@@ -144,8 +155,8 @@ ${sourceText}
       raw = await runGroqPrompt({
         system: systemPrompt,
         user: userPrompt,
-        temperature: 0.4,
-        maxTokens: 4500,
+        temperature: 0.35,
+        maxTokens: 5000,
       });
     } catch (err) {
       if (isRateLimited(err)) {
@@ -186,7 +197,7 @@ ${sourceText}
             question: promptText,
             options,
             answer: options[correctIndex] ?? "",
-            explanation: "",
+            explanation: String(q.explanation ?? "").trim().slice(0, 600) || "Review the correct option against your notes.",
             correctIndex,
             modelAnswer: null,
             rubric: null,

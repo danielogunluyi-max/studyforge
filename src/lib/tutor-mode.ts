@@ -6,11 +6,15 @@ export function parseTutorMode(value: string | string[] | undefined | null): Tut
   return "chat";
 }
 
-export function tutorHref(mode: TutorMode, extra?: { embed?: boolean; noteId?: string | null }): string {
+export function tutorHref(
+  mode: TutorMode,
+  extra?: { embed?: boolean; noteId?: string | null; mockId?: string | null },
+): string {
   const params = new URLSearchParams();
   if (mode !== "chat") params.set("mode", mode);
   if (extra?.embed) params.set("embed", "1");
   if (extra?.noteId) params.set("noteId", extra.noteId);
+  if (extra?.mockId) params.set("mockId", extra.mockId);
   const query = params.toString();
   return query ? `/tutor?${query}` : "/tutor";
 }

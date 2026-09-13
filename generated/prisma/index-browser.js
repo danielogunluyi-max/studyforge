@@ -1299,6 +1299,8 @@ exports.Prisma.ScreenshotScalarFieldEnum = {
   userId: 'userId',
   imageData: 'imageData',
   noteId: 'noteId',
+  source: 'source',
+  sourceDevice: 'sourceDevice',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

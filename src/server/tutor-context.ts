@@ -185,9 +185,11 @@ export function studentContextToPrompt(ctx: StudentContext): string {
   }
 
   if (ctx.recentDecks.length) {
-    lines.push("\nRecent flashcard decks the student is studying:");
+    lines.push("\nRecent flashcard decks the student is studying (deck id is reachable for deep-links like /flashcards/{id}/study):");
     ctx.recentDecks.forEach((d) => {
-      lines.push(`  - "${d.title}"${d.subject ? ` (${d.subject})` : ""}, ${d.cardCount} card(s), updated ${fmtDate(d.updatedAt)}.`);
+      lines.push(
+        `  - [deckId=${d.id}] "${d.title}"${d.subject ? ` (${d.subject})` : ""}, ${d.cardCount} card(s), updated ${fmtDate(d.updatedAt)}.`,
+      );
     });
   }
 

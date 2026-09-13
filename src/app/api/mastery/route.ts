@@ -106,7 +106,7 @@ export async function GET() {
 
   const userId = session.user.id;
 
-  const [notes, decks, feynmanSessions, curriculumProgress, exams] = await Promise.all([
+  const [notes, decks, feynmanSessions, curriculumProgress, exams, mockAttempts] = await Promise.all([
     db.note.findMany({
       where: { userId },
       select: {
@@ -156,6 +156,22 @@ export async function GET() {
         scorePercent: true,
         resultRecorded: true,
         createdAt: true,
+      },
+    }),
+    db.mockExamAttempt.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      take: 40,
+      select: {
+        score: true,
+        createdAt: true,
+        exam: {
+          select: {
+            subject: true,
+            curriculumCode: true,
+            title: true,
+          },
+        },
       },
     }),
   ]);
@@ -240,6 +256,22 @@ export async function GET() {
     const score = Math.max(0, Math.min(10, ((exam.scorePercent || 0) / 100) * 10));
     bucket.examScore = Math.max(bucket.examScore, score);
     bucket.activity.push({ date: toDayString(exam.createdAt), type: "exam" });
+  }
+
+  for (const attempt of mockAttempts) {
+    const subject =
+      attempt.exam.curriculumCode ||
+      attempt.exam.subject ||
+      attempt.exam.title ||
+      "General";
+    const key = ensureSubject(subjectMap, subject);
+    const bucket = subjectMap[key];
+    if (!bucket) continue;
+
+    const score = Math.max(0, Math.min(10, ((attempt.score || 0) / 100) * 10));
+    bucket.examScore = Math.max(bucket.examScore, score);
+    bucket.activity.push({ date: toDayString(attempt.createdAt), type: "exam" });
+    if (attempt.exam.title) bucket.topics.push(attempt.exam.title);
   }
 
   const subjects = Object.values(subjectMap)

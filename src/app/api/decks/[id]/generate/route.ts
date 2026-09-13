@@ -123,15 +123,28 @@ export async function POST(
       sourceText = topic;
     }
 
+    const qualityRules = `Rules for EVERY card:
+- One atomic fact only. Never combine two facts in one card.
+- Front: a specific, testable question (who/what/when/why/how, or a precise term). Avoid vague fronts like "Explain X" or "Tell me about Y".
+- Back: a short answer (ideally ≤25 words) that fully answers the front — no lists of unrelated points.
+- Prefer concrete numbers, names, formulas, definitions, and cause→effect from the source.
+- Do not invent facts not supported by the source.
+- No duplicate or near-duplicate cards.`;
+
     const prompt = body.noteId
-      ? `Generate ${count} flashcards for ${subject} from the following note content:\n${curriculumPrompt}\n\n${sourceText}\n\nReturn ONLY a JSON array, no markdown, no explanation:\n[{"front": "question", "back": "answer"}, ...]`
-      : `Generate ${count} flashcards about ${topic} for ${subject}.\n${curriculumPrompt}\nReturn ONLY a JSON array, no markdown, no explanation:\n[{"front": "question", "back": "answer"}, ...]`;
+      ? `Generate exactly ${count} high-quality study flashcards for ${subject || "this course"} from the note below.\n${curriculumPrompt}\n\n${qualityRules}\n\nSOURCE:\n${sourceText}\n\nReturn ONLY a JSON array, no markdown, no explanation:\n[{"front":"specific question","back":"atomic answer"}, ...]`
+      : `Generate exactly ${count} high-quality study flashcards about "${topic}" for ${subject || "this course"}.\n${curriculumPrompt}\n\n${qualityRules}\n\nReturn ONLY a JSON array, no markdown, no explanation:\n[{"front":"specific question","back":"atomic answer"}, ...]`;
 
     const completion = await groq.chat.completions.create({
       model: GROQ_TEXT_MODEL,
-      temperature: 0.4,
-      max_tokens: 3200,
+      temperature: 0.35,
+      max_tokens: 4000,
       messages: [
+        {
+          role: "system",
+          content:
+            "You create atomic spaced-repetition flashcards. Each card teaches exactly one fact. Prefer specificity over coverage.",
+        },
         { role: "user", content: prompt },
       ],
     });

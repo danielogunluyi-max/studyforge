@@ -6,6 +6,8 @@ import { useSession } from "next-auth/react";
 import { loginUrlFor } from "~/lib/auth-redirect";
 
 import { useToast } from "~/app/_components/toast";
+import { CAPTURE_PHOTO_QUIZ_KEY, consumeCaptureHandoff } from "~/lib/capture-handoff";
+import { dataUrlToFile } from "~/lib/capture-stitch";
 import { getGradeColor, percentToLetter } from "~/lib/gradeUtils";
 import type { Question, QuizData } from "~/types/quiz";
 
@@ -173,6 +175,20 @@ export default function PhotoQuizPage() {
     setStep(1);
     quizTrackedRef.current = false;
   };
+
+  // Capture Studio → Photo-Quiz handoff
+  useEffect(() => {
+    const handoff = consumeCaptureHandoff(CAPTURE_PHOTO_QUIZ_KEY);
+    if (!handoff?.imageData) return;
+    if (handoff.course) {
+      setCurriculumCode(handoff.course);
+      setSubject(handoff.course);
+    }
+    const file = dataUrlToFile(handoff.imageData, handoff.filename || "capture-studio.png");
+    setImageFromFile(file);
+    showToast("Imported crop from Capture Studio", "success");
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot handoff on mount
+  }, []);
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();

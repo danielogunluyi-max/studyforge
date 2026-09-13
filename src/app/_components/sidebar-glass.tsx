@@ -56,10 +56,10 @@ function SidebarLink({
         collapsed ? "md:justify-center md:px-2 md:pl-2" : "justify-start"
       }`}
     >
-      <span className="flex h-5 w-5 shrink-0 items-center justify-center">
-        <Icon size={20} strokeWidth={1.75} aria-hidden="true" />
+      <span className="flex h-4 w-4 shrink-0 items-center justify-center">
+        <Icon size={16} strokeWidth={1.75} aria-hidden="true" />
       </span>
-      <span className={`flex-1 truncate text-sm ${collapsed ? "md:hidden" : ""}`}>
+      <span className={`flex-1 truncate ${collapsed ? "md:hidden" : ""}`}>
         {entry.label}
       </span>
     </Link>
@@ -131,13 +131,16 @@ const SidebarGlass = forwardRef<HTMLElement, {
         </span>
       </div>
 
-      <nav className="flex flex-1 flex-col gap-4 overflow-y-auto px-3 py-2">
+      <nav className="flex flex-1 flex-col gap-3 overflow-y-auto px-3 py-2">
         {sidebarGroups.map((group) => (
           <div key={group.id}>
-            <p className={`kv-meta px-3 pb-1 ${collapsed ? "md:hidden" : ""}`}>
+            <p
+              className={`kv-meta sticky top-0 z-[1] px-3 pb-1.5 pt-1 ${collapsed ? "md:hidden" : ""}`}
+              style={{ background: "var(--bg-surface)" }}
+            >
               {group.label}
             </p>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-0.5">
               {group.items.map((entry) => (
                 <SidebarLink
                   key={entry.href}

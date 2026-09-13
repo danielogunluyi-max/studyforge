@@ -23,7 +23,7 @@ type NoteOption = {
 export default async function FlashcardsPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ generateFrom?: string }>;
+  searchParams?: Promise<{ generateFrom?: string; course?: string; fromCapture?: string }>;
 }) {
   const session = await auth();
   if (!session?.user?.id) {
@@ -89,6 +89,8 @@ export default async function FlashcardsPage({
         studiedToday={studiedToday}
         notes={notes}
         initialGenerateFrom={params.generateFrom ?? ""}
+        initialCourse={params.course ?? ""}
+        openCreateFromCapture={params.fromCapture === "1"}
         studyStreak={userRecord?.studyStreak ?? 0}
       />
     </div>

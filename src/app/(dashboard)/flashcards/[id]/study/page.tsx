@@ -1,10 +1,15 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { trackNovaEvent } from "@/lib/novaClient";
-import { sm2 } from "~/lib/sm2";
+import { orderDueWeaknessFirst, sm2 } from "~/lib/sm2";
+import {
+  clearStudyResume,
+  readStudyResume,
+  writeStudyResume,
+} from "~/lib/study-resume";
 import { formatTorontoDate, formatTorontoDateTime } from "~/lib/toronto-time";
 
 type Flashcard = {
@@ -16,6 +21,7 @@ type Flashcard = {
   easeFactor?: number;
   repetitions?: number;
   interval?: number;
+  lastReviewed?: string | null;
 };
 
 type RatingValue = 0 | 1 | 2 | 3;
@@ -24,17 +30,6 @@ type SessionCard = {
   card: Flashcard;
   rating?: RatingValue;
 };
-
-function shuffle<T>(list: T[]): T[] {
-  const copy = [...list];
-  for (let i = copy.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = copy[i];
-    copy[i] = copy[j] as T;
-    copy[j] = tmp as T;
-  }
-  return copy;
-}
 
 function formatIntervalDays(days: number): string {
   if (days <= 0) return "<1d";
@@ -76,12 +71,17 @@ export default function StudyDeckPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [history, setHistory] = useState<SessionCard[]>([]);
   const [isComplete, setIsComplete] = useState(false);
+  const [weaknessFirst, setWeaknessFirst] = useState(false);
+  const [resumed, setResumed] = useState(false);
+  const [sessionSize, setSessionSize] = useState(0);
+  const ratingLock = useRef(false);
 
   const currentCard = queue[currentIndex] ?? null;
   const totalReviewed = history.length;
   const correct = history.filter((item) => (item.rating ?? 0) >= 2).length;
   const wrong = history.filter((item) => (item.rating ?? 0) < 2).length;
-  const sessionProgress = queue.length > 0 ? Math.max(history.length, currentIndex) / queue.length : 0;
+  /** Honest progress: graded / original session size (survives mid-session resume). */
+  const sessionProgress = sessionSize > 0 ? history.length / sessionSize : 0;
 
   const nextDueDate = useMemo(() => {
     const now = Date.now();
@@ -91,6 +91,29 @@ export default function StudyDeckPage() {
       .sort((a, b) => a - b)[0];
     return future ? new Date(future) : null;
   }, [allCards]);
+
+  const persistResume = (
+    nextQueue: Flashcard[],
+    nextIndex: number,
+    nextHistory: SessionCard[],
+    nextWeaknessFirst: boolean,
+  ) => {
+    if (!deckId || nextQueue.length === 0) return;
+    if (nextIndex >= nextQueue.length) {
+      clearStudyResume(deckId);
+      return;
+    }
+    writeStudyResume({
+      deckId,
+      queueIds: nextQueue.map((c) => c.id),
+      currentIndex: nextIndex,
+      history: nextHistory
+        .filter((h) => h.rating !== undefined)
+        .map((h) => ({ cardId: h.card.id, rating: h.rating as RatingValue })),
+      weaknessFirst: nextWeaknessFirst,
+      savedAt: Date.now(),
+    });
+  };
 
   const fetchCards = async () => {
     setIsLoading(true);
@@ -107,12 +130,66 @@ export default function StudyDeckPage() {
       setAllCards(cards);
 
       const due = cards.filter((card) => new Date(card.nextReview).getTime() <= Date.now());
-      const shuffled = shuffle(due);
-      setQueue(shuffled);
+      const saved = readStudyResume(deckId);
+      const byId = new Map(cards.map((c) => [c.id, c]));
+
+      if (saved && saved.queueIds.length > 0) {
+        const stillDue = new Set(due.map((c) => c.id));
+        const restoredHistory: SessionCard[] = [];
+        for (const h of saved.history) {
+          const card = byId.get(h.cardId);
+          if (!card) continue;
+          restoredHistory.push({ card, rating: h.rating });
+        }
+
+        const remaining: Flashcard[] = [];
+        for (const id of saved.queueIds.slice(saved.currentIndex)) {
+          const card = byId.get(id);
+          if (card && stillDue.has(card.id)) remaining.push(card);
+        }
+
+        if (remaining.length > 0 || restoredHistory.length > 0) {
+          const size = restoredHistory.length + remaining.length;
+          if (remaining.length === 0) {
+            clearStudyResume(deckId);
+            setQueue([]);
+            setHistory(restoredHistory);
+            setSessionSize(size);
+            setIsComplete(true);
+            setWeaknessFirst(Boolean(saved.weaknessFirst));
+            setResumed(true);
+            return;
+          }
+
+          setQueue(remaining);
+          setCurrentIndex(0);
+          setHistory(restoredHistory);
+          setSessionSize(size);
+          setWeaknessFirst(Boolean(saved.weaknessFirst));
+          setResumed(true);
+          setIsFlipped(false);
+          setIsComplete(false);
+          persistResume(remaining, 0, restoredHistory, Boolean(saved.weaknessFirst));
+          return;
+        }
+        clearStudyResume(deckId);
+      }
+
+      const ordered = orderDueWeaknessFirst(due);
+      const useWeakness = ordered.length > 1;
+      setQueue(ordered);
       setCurrentIndex(0);
       setIsFlipped(false);
       setHistory([]);
-      setIsComplete(shuffled.length === 0);
+      setSessionSize(ordered.length);
+      setWeaknessFirst(useWeakness);
+      setResumed(false);
+      setIsComplete(ordered.length === 0);
+      if (ordered.length > 0) {
+        persistResume(ordered, 0, [], useWeakness);
+      } else {
+        clearStudyResume(deckId);
+      }
     } catch {
       setError("Failed to load study cards");
     } finally {
@@ -123,41 +200,89 @@ export default function StudyDeckPage() {
   useEffect(() => {
     if (!deckId) return;
     void fetchCards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deckId]);
 
   const rateCard = async (rating: RatingValue) => {
-    if (!currentCard) return;
+    if (!currentCard || ratingLock.current) return;
+    ratingLock.current = true;
 
-    await fetch(`/api/decks/${deckId}/cards/${currentCard.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ rating }),
-    });
+    try {
+      const response = await fetch(`/api/decks/${deckId}/cards/${currentCard.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rating }),
+      });
 
-    trackNovaEvent("FLASHCARD_STUDIED");
+      const data = (await response.json().catch(() => ({}))) as {
+        card?: Flashcard;
+      };
 
-    setHistory((prev) => [...prev, { card: currentCard, rating }]);
-    setIsFlipped(false);
+      const patched: Flashcard = data.card
+        ? {
+            ...currentCard,
+            ...data.card,
+            nextReview:
+              typeof data.card.nextReview === "string"
+                ? data.card.nextReview
+                : new Date(data.card.nextReview as unknown as string).toISOString(),
+          }
+        : (() => {
+            const next = sm2(
+              {
+                easeFactor: currentCard.easeFactor ?? 2.5,
+                interval: currentCard.interval ?? 1,
+                repetitions: currentCard.repetitions ?? 0,
+              },
+              rating,
+            );
+            return {
+              ...currentCard,
+              easeFactor: next.easeFactor,
+              interval: next.interval,
+              repetitions: next.repetitions,
+              nextReview: next.nextReview!.toISOString(),
+              lastReviewed: new Date().toISOString(),
+            };
+          })();
 
-    const isLast = currentIndex >= queue.length - 1;
-    if (isLast) {
-      setIsComplete(true);
-      trackNovaEvent("DECK_COMPLETED");
-      return;
+      setAllCards((prev) => prev.map((c) => (c.id === patched.id ? { ...c, ...patched } : c)));
+
+      trackNovaEvent("FLASHCARD_STUDIED");
+
+      const nextHistory = [...history, { card: currentCard, rating }];
+      setHistory(nextHistory);
+      setIsFlipped(false);
+
+      const isLast = currentIndex >= queue.length - 1;
+      if (isLast) {
+        setIsComplete(true);
+        clearStudyResume(deckId);
+        trackNovaEvent("DECK_COMPLETED");
+        return;
+      }
+
+      const nextIndex = currentIndex + 1;
+      setCurrentIndex(nextIndex);
+      persistResume(queue, nextIndex, nextHistory, weaknessFirst);
+    } finally {
+      ratingLock.current = false;
     }
-
-    setCurrentIndex((prev) => prev + 1);
   };
 
   const restartWithWrong = () => {
     const wrongCards = history.filter((item) => (item.rating ?? 0) < 2).map((item) => item.card);
     if (wrongCards.length === 0) return;
-    const reshuffled = shuffle(wrongCards);
-    setQueue(reshuffled);
+    const ordered = orderDueWeaknessFirst(wrongCards);
+    setQueue(ordered);
     setCurrentIndex(0);
     setIsFlipped(false);
     setHistory([]);
+    setSessionSize(ordered.length);
     setIsComplete(false);
+    setWeaknessFirst(ordered.length > 1);
+    setResumed(false);
+    persistResume(ordered, 0, [], ordered.length > 1);
   };
 
   useEffect(() => {
@@ -170,6 +295,7 @@ export default function StudyDeckPage() {
       }
       if (!isFlipped) return;
 
+      // 1 Again · 2 Hard · 3 Good · 4 Easy (matches buttons)
       if (event.key === "1" || event.key === "ArrowLeft") {
         event.preventDefault();
         void rateCard(0);
@@ -177,20 +303,15 @@ export default function StudyDeckPage() {
       }
       if (event.key === "2") {
         event.preventDefault();
-        void rateCard(3);
+        void rateCard(1);
         return;
       }
       if (event.key === "3") {
         event.preventDefault();
-        void rateCard(1);
-        return;
-      }
-      if (event.key === "4") {
-        event.preventDefault();
         void rateCard(2);
         return;
       }
-      if (event.key === "ArrowRight") {
+      if (event.key === "4" || event.key === "ArrowRight") {
         event.preventDefault();
         void rateCard(3);
         return;
@@ -199,7 +320,7 @@ export default function StudyDeckPage() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isComplete, isFlipped, currentCard, currentIndex, queue]);
+  }, [isComplete, isFlipped, currentCard, currentIndex, queue, history, weaknessFirst]);
 
   if (isLoading) {
     return (
@@ -285,7 +406,7 @@ export default function StudyDeckPage() {
   }
 
   return (
-    <main className="kv-page" style={{ padding: "24px 16px 100px" }}>
+    <main className="kv-page" style={{ padding: "24px 16px 120px" }}>
       <div style={{ maxWidth: 640, margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
           <button
@@ -302,10 +423,24 @@ export default function StudyDeckPage() {
           </span>
         </div>
 
+        {weaknessFirst ? (
+          <p className="kv-meta" style={{ marginTop: 12 }}>
+            {resumed ? "Resumed · " : ""}starting with your weak spots
+          </p>
+        ) : resumed ? (
+          <p className="kv-meta" style={{ marginTop: 12 }}>
+            Resumed where you left off
+          </p>
+        ) : null}
+
         <div style={{ marginTop: 20 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
-            <span className="kv-meta num">{history.length} / {queue.length} due</span>
-            <span className="kv-meta num">{currentIndex + 1} of {queue.length}</span>
+            <span className="kv-meta num">
+              {history.length} / {sessionSize} reviewed
+            </span>
+            <span className="kv-meta num">
+              {Math.min(history.length + 1, sessionSize)} of {sessionSize}
+            </span>
           </div>
           <div
             className="kv-bar"
@@ -328,13 +463,14 @@ export default function StudyDeckPage() {
             style={{
               display: "block",
               width: "100%",
-              marginTop: 32,
-              padding: "48px 24px",
-              minHeight: 240,
+              marginTop: 28,
+              padding: "40px 20px",
+              minHeight: 220,
               textAlign: "center",
               background: "transparent",
               border: "1px solid var(--border-default)",
               cursor: "pointer",
+              WebkitTapHighlightColor: "transparent",
             }}
           >
             {!isFlipped ? (
@@ -343,7 +479,7 @@ export default function StudyDeckPage() {
                 <p style={{ margin: 0, fontSize: 20, fontWeight: 600, lineHeight: 1.45, color: "var(--kv-text-primary)" }}>
                   {currentCard.front}
                 </p>
-                <p className="kv-meta" style={{ marginTop: 24 }}>Click or press Space to flip</p>
+                <p className="kv-meta" style={{ marginTop: 24 }}>Tap or press Space to flip</p>
               </>
             ) : (
               <>
@@ -351,19 +487,21 @@ export default function StudyDeckPage() {
                 <p style={{ margin: 0, fontSize: 20, lineHeight: 1.45, color: "var(--kv-text-secondary)" }}>
                   {currentCard.back}
                 </p>
-                <p className="kv-meta" style={{ marginTop: 24 }}>Click to flip back</p>
+                <p className="kv-meta" style={{ marginTop: 24 }}>Tap to flip back</p>
               </>
             )}
           </button>
         )}
 
+        {/* Thumb-reach grade row — sticky bottom on narrow viewports */}
         <div
+          className="study-grade-bar"
           style={{
             marginTop: 24,
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
             gap: 8,
-            opacity: isFlipped ? 1 : 0,
+            opacity: isFlipped ? 1 : 0.35,
             pointerEvents: isFlipped ? "auto" : "none",
           }}
           aria-hidden={!isFlipped}
@@ -375,7 +513,7 @@ export default function StudyDeckPage() {
               onClick={() => void rateCard(btn.rating)}
               disabled={!isFlipped}
               className="kv-btn-ghost"
-              style={{ flexDirection: "column", padding: "12px 8px", gap: 4 }}
+              style={{ flexDirection: "column", padding: "14px 6px", gap: 4, minHeight: 56 }}
               aria-label={`${btn.label} — ${previewInterval(currentCard!, btn.rating)}`}
             >
               <span>{btn.label}</span>
@@ -384,8 +522,8 @@ export default function StudyDeckPage() {
           ))}
         </div>
 
-        <p className="kv-meta" style={{ marginTop: 16, textAlign: "center" }}>
-          Space / Enter flip · 1 Again · 2 Easy · 3 Hard · 4 Good · ← Again · → Easy
+        <p className="kv-meta study-kbd-hint" style={{ marginTop: 16, textAlign: "center" }}>
+          Space / Enter flip · 1 Again · 2 Hard · 3 Good · 4 Easy · ← Again · → Easy
         </p>
       </div>
     </main>

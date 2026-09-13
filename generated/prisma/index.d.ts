@@ -125730,6 +125730,8 @@ export namespace Prisma {
     userId: string | null
     imageData: string | null
     noteId: string | null
+    source: string | null
+    sourceDevice: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -125741,6 +125743,8 @@ export namespace Prisma {
     userId: string | null
     imageData: string | null
     noteId: string | null
+    source: string | null
+    sourceDevice: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -125752,6 +125756,8 @@ export namespace Prisma {
     userId: number
     imageData: number
     noteId: number
+    source: number
+    sourceDevice: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -125765,6 +125771,8 @@ export namespace Prisma {
     userId?: true
     imageData?: true
     noteId?: true
+    source?: true
+    sourceDevice?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -125776,6 +125784,8 @@ export namespace Prisma {
     userId?: true
     imageData?: true
     noteId?: true
+    source?: true
+    sourceDevice?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -125787,6 +125797,8 @@ export namespace Prisma {
     userId?: true
     imageData?: true
     noteId?: true
+    source?: true
+    sourceDevice?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -125871,6 +125883,8 @@ export namespace Prisma {
     userId: string
     imageData: string
     noteId: string | null
+    source: string
+    sourceDevice: string
     createdAt: Date
     updatedAt: Date
     _count: ScreenshotCountAggregateOutputType | null
@@ -125899,6 +125913,8 @@ export namespace Prisma {
     userId?: boolean
     imageData?: boolean
     noteId?: boolean
+    source?: boolean
+    sourceDevice?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -125912,6 +125928,8 @@ export namespace Prisma {
     userId?: boolean
     imageData?: boolean
     noteId?: boolean
+    source?: boolean
+    sourceDevice?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -125925,6 +125943,8 @@ export namespace Prisma {
     userId?: boolean
     imageData?: boolean
     noteId?: boolean
+    source?: boolean
+    sourceDevice?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -125938,11 +125958,13 @@ export namespace Prisma {
     userId?: boolean
     imageData?: boolean
     noteId?: boolean
+    source?: boolean
+    sourceDevice?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ScreenshotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subject" | "userId" | "imageData" | "noteId" | "createdAt" | "updatedAt", ExtArgs["result"]["screenshot"]>
+  export type ScreenshotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subject" | "userId" | "imageData" | "noteId" | "source" | "sourceDevice" | "createdAt" | "updatedAt", ExtArgs["result"]["screenshot"]>
   export type ScreenshotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     note?: boolean | Screenshot$noteArgs<ExtArgs>
@@ -125969,6 +125991,14 @@ export namespace Prisma {
       userId: string
       imageData: string
       noteId: string | null
+      /**
+       * capture-studio | inbox | upload | camera
+       */
+      source: string
+      /**
+       * phone | tablet | desktop
+       */
+      sourceDevice: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["screenshot"]>
@@ -126402,6 +126432,8 @@ export namespace Prisma {
     readonly userId: FieldRef<"Screenshot", 'String'>
     readonly imageData: FieldRef<"Screenshot", 'String'>
     readonly noteId: FieldRef<"Screenshot", 'String'>
+    readonly source: FieldRef<"Screenshot", 'String'>
+    readonly sourceDevice: FieldRef<"Screenshot", 'String'>
     readonly createdAt: FieldRef<"Screenshot", 'DateTime'>
     readonly updatedAt: FieldRef<"Screenshot", 'DateTime'>
   }
@@ -135144,6 +135176,8 @@ export namespace Prisma {
     userId: 'userId',
     imageData: 'imageData',
     noteId: 'noteId',
+    source: 'source',
+    sourceDevice: 'sourceDevice',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -143338,6 +143372,8 @@ export namespace Prisma {
     userId?: StringFilter<"Screenshot"> | string
     imageData?: StringFilter<"Screenshot"> | string
     noteId?: StringNullableFilter<"Screenshot"> | string | null
+    source?: StringFilter<"Screenshot"> | string
+    sourceDevice?: StringFilter<"Screenshot"> | string
     createdAt?: DateTimeFilter<"Screenshot"> | Date | string
     updatedAt?: DateTimeFilter<"Screenshot"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -143351,6 +143387,8 @@ export namespace Prisma {
     userId?: SortOrder
     imageData?: SortOrder
     noteId?: SortOrderInput | SortOrder
+    source?: SortOrder
+    sourceDevice?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -143367,6 +143405,8 @@ export namespace Prisma {
     userId?: StringFilter<"Screenshot"> | string
     imageData?: StringFilter<"Screenshot"> | string
     noteId?: StringNullableFilter<"Screenshot"> | string | null
+    source?: StringFilter<"Screenshot"> | string
+    sourceDevice?: StringFilter<"Screenshot"> | string
     createdAt?: DateTimeFilter<"Screenshot"> | Date | string
     updatedAt?: DateTimeFilter<"Screenshot"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -143380,6 +143420,8 @@ export namespace Prisma {
     userId?: SortOrder
     imageData?: SortOrder
     noteId?: SortOrderInput | SortOrder
+    source?: SortOrder
+    sourceDevice?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ScreenshotCountOrderByAggregateInput
@@ -143397,6 +143439,8 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Screenshot"> | string
     imageData?: StringWithAggregatesFilter<"Screenshot"> | string
     noteId?: StringNullableWithAggregatesFilter<"Screenshot"> | string | null
+    source?: StringWithAggregatesFilter<"Screenshot"> | string
+    sourceDevice?: StringWithAggregatesFilter<"Screenshot"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Screenshot"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Screenshot"> | Date | string
   }
@@ -152480,6 +152524,8 @@ export namespace Prisma {
     title: string
     subject: string
     imageData: string
+    source?: string
+    sourceDevice?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutScreenshotsInput
@@ -152493,6 +152539,8 @@ export namespace Prisma {
     userId: string
     imageData: string
     noteId?: string | null
+    source?: string
+    sourceDevice?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -152502,6 +152550,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     imageData?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    sourceDevice?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutScreenshotsNestedInput
@@ -152515,6 +152565,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     imageData?: StringFieldUpdateOperationsInput | string
     noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    sourceDevice?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -152526,6 +152578,8 @@ export namespace Prisma {
     userId: string
     imageData: string
     noteId?: string | null
+    source?: string
+    sourceDevice?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -152535,6 +152589,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     imageData?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    sourceDevice?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -152546,6 +152602,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     imageData?: StringFieldUpdateOperationsInput | string
     noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    sourceDevice?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -158590,6 +158648,8 @@ export namespace Prisma {
     userId?: SortOrder
     imageData?: SortOrder
     noteId?: SortOrder
+    source?: SortOrder
+    sourceDevice?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -158601,6 +158661,8 @@ export namespace Prisma {
     userId?: SortOrder
     imageData?: SortOrder
     noteId?: SortOrder
+    source?: SortOrder
+    sourceDevice?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -158612,6 +158674,8 @@ export namespace Prisma {
     userId?: SortOrder
     imageData?: SortOrder
     noteId?: SortOrder
+    source?: SortOrder
+    sourceDevice?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -171559,6 +171623,8 @@ export namespace Prisma {
     title: string
     subject: string
     imageData: string
+    source?: string
+    sourceDevice?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     note?: NoteCreateNestedOneWithoutScreenshotsInput
@@ -171570,6 +171636,8 @@ export namespace Prisma {
     subject: string
     imageData: string
     noteId?: string | null
+    source?: string
+    sourceDevice?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -174585,6 +174653,8 @@ export namespace Prisma {
     userId?: StringFilter<"Screenshot"> | string
     imageData?: StringFilter<"Screenshot"> | string
     noteId?: StringNullableFilter<"Screenshot"> | string | null
+    source?: StringFilter<"Screenshot"> | string
+    sourceDevice?: StringFilter<"Screenshot"> | string
     createdAt?: DateTimeFilter<"Screenshot"> | Date | string
     updatedAt?: DateTimeFilter<"Screenshot"> | Date | string
   }
@@ -176052,6 +176122,8 @@ export namespace Prisma {
     title: string
     subject: string
     imageData: string
+    source?: string
+    sourceDevice?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutScreenshotsInput
@@ -176063,6 +176135,8 @@ export namespace Prisma {
     subject: string
     userId: string
     imageData: string
+    source?: string
+    sourceDevice?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -229913,6 +229987,8 @@ export namespace Prisma {
     subject: string
     imageData: string
     noteId?: string | null
+    source?: string
+    sourceDevice?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -232779,6 +232855,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     imageData?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    sourceDevice?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     note?: NoteUpdateOneWithoutScreenshotsNestedInput
@@ -232790,6 +232868,8 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     imageData?: StringFieldUpdateOperationsInput | string
     noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    sourceDevice?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -232800,6 +232880,8 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     imageData?: StringFieldUpdateOperationsInput | string
     noteId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    sourceDevice?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -233152,6 +233234,8 @@ export namespace Prisma {
     subject: string
     userId: string
     imageData: string
+    source?: string
+    sourceDevice?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -233225,6 +233309,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     imageData?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    sourceDevice?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutScreenshotsNestedInput
@@ -233236,6 +233322,8 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     imageData?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    sourceDevice?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -233246,6 +233334,8 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     imageData?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    sourceDevice?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -71,6 +71,13 @@ export type NavSurfaces = {
   matrix: boolean; // settings feature matrix
 };
 
+/** Optional sort weight per device class (lower = earlier). Used by More sheet. */
+export type DeviceNavBias = {
+  phone?: number;
+  tablet?: number;
+  desktop?: number;
+};
+
 export type NavEntry = {
   href: string; // ONE url per capability
   label: string; // ONE name everywhere
@@ -80,6 +87,8 @@ export type NavEntry = {
   description?: string; // landing/matrix blurb
   featureKey?: string; // settings/landing toggle key
   surfaces: NavSurfaces;
+  /** When set, More sheet / mobile lists reorder by device class. */
+  deviceBias?: DeviceNavBias;
 };
 
 export const SECTION_ORDER: NavSectionId[] = [
@@ -132,7 +141,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["all", "content", "hub"],
     description: "Cross-link notes, decks, and uploads.",
     featureKey: "content-hub",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/study-mode",
@@ -162,7 +171,8 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["ai", "generate", "create", "notes"],
     description: "One-click structured notes from any source.",
     featureKey: "generator",
-    surfaces: surf({ mobile: true, palette: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, matrix: true }),
+    deviceBias: { phone: 50, tablet: 25, desktop: 0 },
   },
   {
     href: "/smart-upload",
@@ -189,6 +199,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     featureKey: "smart-upload",
     // Inbox is the product's front door; it leads Get material in.
     surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
+    deviceBias: { phone: 0, tablet: 0, desktop: 10 },
   },
   {
     href: "/capture-studio",
@@ -197,6 +208,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     section: "ingest",
     keywords: ["capture", "studio", "screenshot"],
     surfaces: surf({ mobile: true, palette: true }),
+    deviceBias: { phone: 1, tablet: 1, desktop: 20 },
   },
 
   // ── study ─────────────────────────────────────────────────
@@ -208,6 +220,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["notes", "library", "folders"],
     featureKey: "my-notes",
     surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true }),
+    deviceBias: { phone: 40, tablet: 20, desktop: 5 },
   },
   {
     href: "/flashcards",
@@ -218,6 +231,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     description: "Spaced repetition decks with Nova review.",
     featureKey: "flashcards",
     surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
+    deviceBias: { phone: 30, tablet: 15, desktop: 8 },
   },
   {
     href: "/feynman",
@@ -227,7 +241,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["feynman", "explain", "teach", "understand"],
     description: "Force yourself to teach the concept back.",
     featureKey: "feynman",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/micro-lessons",
@@ -237,7 +251,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["micro", "lesson", "bite", "quick"],
     description: "Auto-split notes into 90-second bites.",
     featureKey: "micro-lessons",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/adaptive-notes",
@@ -247,7 +261,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["adaptive", "difficulty", "levels"],
     description: "Notes restructure based on your gaps.",
     featureKey: "adaptive-notes",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/cornell",
@@ -257,7 +271,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["cornell", "format", "notes"],
     description: "Cue · Notes · Summary split layout.",
     featureKey: "cornell",
-    surfaces: surf({ mobile: true, palette: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, matrix: true }),
   },
   {
     href: "/narrative",
@@ -267,7 +281,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["narrative", "story", "memory"],
     description: "Convert notes into story-form recall.",
     featureKey: "narrative",
-    surfaces: surf({ palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/compress",
@@ -277,7 +291,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["compress", "summarize", "shorten"],
     description: "Distill any note into a single sheet.",
     featureKey: "compress",
-    surfaces: surf({ palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/reading-speed",
@@ -306,6 +320,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     description: "Conversational tutor with memory.",
     featureKey: "tutor",
     surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
+    deviceBias: { phone: 25, tablet: 12, desktop: 6 },
   },
   {
     href: "/debate",
@@ -315,7 +330,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["debate", "argue", "both sides"],
     description: "Argue both sides with Nova as moderator.",
     featureKey: "debate",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/counterargument",
@@ -325,7 +340,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["counter", "attack", "argument", "critique"],
     description: "Nova stress-tests your reasoning.",
     featureKey: "counterargument",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/concept-web",
@@ -335,7 +350,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["concept", "web", "map", "connections"],
     description: "Pull-from-memory mind-map weaver.",
     featureKey: "concept-web",
-    surfaces: surf({ palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/concept-collision",
@@ -354,7 +369,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["listen", "audio", "tts", "text to speech"],
     description: "Pristine TTS playback of any note.",
     featureKey: "listen",
-    surfaces: surf({ palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/podcast",
@@ -373,7 +388,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["diagram", "visual", "flowchart", "mindmap"],
     description: "Auto-build visual explainers.",
     featureKey: "diagrams",
-    surfaces: surf({ mobile: true, palette: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, matrix: true }),
   },
   {
     href: "/presentation",
@@ -444,7 +459,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["map", "knowledge", "visual", "graph", "connections"],
     description: "Topic graph of everything you know.",
     featureKey: "knowledge-map",
-    surfaces: surf({ palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/focus",
@@ -484,7 +499,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["battle", "arena", "1v1", "pvp"],
     description: "Head-to-head review races.",
     featureKey: "battle",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/games",
@@ -503,7 +518,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["royale", "100", "multiplayer", "battle"],
     description: "Multi-player elimination drills.",
     featureKey: "battle-royale",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/crossover",
@@ -513,7 +528,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["crossover", "challenge", "daily", "two subjects"],
     description: "Mash topics together to stress recall.",
     featureKey: "crossover",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/debate-judge",
@@ -532,7 +547,8 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["photo", "image", "quiz", "picture"],
     description: "Snap a page, get instant questions.",
     featureKey: "photo-quiz",
-    surfaces: surf({ palette: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, matrix: true }),
+    deviceBias: { phone: 2, tablet: 5, desktop: 40 },
   },
   {
     href: "/exam-predictor",
@@ -542,7 +558,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["exam", "predictor", "questions"],
     description: "Predict likely exam questions from your notes.",
     featureKey: "exam-predictor",
-    surfaces: surf({ palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, palette: true, landing: true, matrix: true }),
   },
 
   // ── track ─────────────────────────────────────────────────
@@ -554,7 +570,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["mastery", "chart", "progress", "subjects"],
     description: "Topic-level retention meter.",
     featureKey: "mastery",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/autopsy",
@@ -564,7 +580,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["autopsy", "exam", "failed", "diagnose"],
     description: "Deep post-mortem on missed questions.",
     featureKey: "autopsy",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/decay-alerts",
@@ -601,7 +617,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["focus", "score", "quality", "session"],
     description: "Live attention rating across sessions.",
     featureKey: "focus-score",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/planner",
@@ -611,7 +627,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["planner", "weekly", "schedule", "plan"],
     description: "Time-block today with AI suggestions.",
     featureKey: "planner",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/calendar",
@@ -621,7 +637,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["calendar", "events", "deadlines", "timetable"],
     description: "Exams, classes, and Nova reminders.",
     featureKey: "calendar",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/syllabus",
@@ -658,7 +674,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["grade", "final", "calculate", "need"],
     description: "What-if forecasts for each course.",
     featureKey: "grade-calc",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/study-ghost",
@@ -753,7 +769,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["achievements", "badges", "unlock", "rewards"],
     description: "Badges and milestones surfaced on home.",
     featureKey: "achievements",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/wellness",
@@ -763,7 +779,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["wellness", "mood", "burnout", "mental health"],
     description: "Mood + energy gates before deep work.",
     featureKey: "wellness",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/habits",
@@ -773,7 +789,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["habits", "streak", "daily", "routine"],
     description: "Streaks, rituals, and study cadence.",
     featureKey: "habits",
-    surfaces: surf({ mobile: true, palette: true, landing: true, matrix: true }),
+    surfaces: surf({ sidebar: true, mobile: true, palette: true, landing: true, matrix: true }),
   },
   {
     href: "/features",
@@ -847,15 +863,40 @@ export const SECTION_GLOW: Record<NavSectionId, string> = {
   account: "#60a5fa",
 };
 
-export function navEntriesFor(surface: keyof NavSurfaces): NavEntry[] {
-  return NAV_ENTRIES.filter((entry) => entry.surfaces[surface]);
+export function navEntriesFor(
+  surface: keyof NavSurfaces,
+  deviceClass?: "phone" | "tablet" | "desktop",
+): NavEntry[] {
+  const entries = NAV_ENTRIES.filter((entry) => entry.surfaces[surface]);
+  if (!deviceClass) return entries;
+  return sortNavEntriesForDevice(entries, deviceClass);
 }
 
-export function groupNavEntries(entries: NavEntry[]) {
+/** Stable sort: lower deviceBias[class] first; entries without bias keep registry order. */
+export function sortNavEntriesForDevice(
+  entries: NavEntry[],
+  deviceClass: "phone" | "tablet" | "desktop",
+): NavEntry[] {
+  return entries
+    .map((entry, index) => ({ entry, index }))
+    .sort((a, b) => {
+      const aw = a.entry.deviceBias?.[deviceClass] ?? 100 + a.index;
+      const bw = b.entry.deviceBias?.[deviceClass] ?? 100 + b.index;
+      if (aw !== bw) return aw - bw;
+      return a.index - b.index;
+    })
+    .map(({ entry }) => entry);
+}
+
+export function groupNavEntries(
+  entries: NavEntry[],
+  deviceClass?: "phone" | "tablet" | "desktop",
+) {
+  const ordered = deviceClass ? sortNavEntriesForDevice(entries, deviceClass) : entries;
   return SECTION_ORDER.map((id) => ({
     id,
     label: SECTION_LABELS[id],
-    items: entries.filter((entry) => entry.section === id),
+    items: ordered.filter((entry) => entry.section === id),
   })).filter((group) => group.items.length > 0);
 }
 

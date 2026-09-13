@@ -2,10 +2,16 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { useToast } from "~/app/_components/toast";
+import {
+  clearMockExamResume,
+  readMockExamResume,
+  writeMockExamResume,
+} from "~/lib/mock-exam-resume";
+import { tutorHref } from "~/lib/tutor-mode";
 import { examFrameMeta, MockExamFrame } from "../_frame";
 
 type Question = {
@@ -22,6 +28,7 @@ type ExamPayload = {
   title: string;
   subject: string;
   curriculumCode: string | null;
+  noteId?: string | null;
   instructions: string | null;
   timeLimit: number; // minutes
   createdAt: string;
@@ -40,6 +47,7 @@ type PerQ = {
   yourOption?: string | null;
   correctIndex?: number | null;
   correctOption?: string | null;
+  explanation?: string | null;
   yourText?: string | null;
   modelAnswer?: string | null;
   rubric?: string | null;
@@ -70,42 +78,103 @@ function formatTime(totalSec: number): string {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
+function isBreakdown(value: unknown): value is Breakdown {
+  if (!value || typeof value !== "object") return false;
+  const b = value as Breakdown;
+  return Array.isArray(b.perQuestion);
+}
+
+const RETAKE_KEY = (examId: string) => `kyvex:mock-exam-retake:${examId}`;
+
 export default function MockExamRunnerPage() {
   const params = useParams<{ id: string }>();
   const examId = params?.id ?? "";
+  const router = useRouter();
   const { showToast } = useToast();
 
   const [exam, setExam] = useState<ExamPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [started, setStarted] = useState(false);
+  const [resumed, setResumed] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<string, { mcIndex?: number; text?: string }>>({});
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [convertingMisses, setConvertingMisses] = useState(false);
   const [result, setResult] = useState<ResultPayload | null>(null);
   const [reviewIdx, setReviewIdx] = useState(0);
   const startTimeRef = useRef<number>(0);
+  const endsAtRef = useRef<number>(0);
 
   // ── scratchpad state (per-question, ephemeral) ──
   const [scratchActive, setScratchActive] = useState(false);
   const [scratchPaths, setScratchPaths] = useState<Array<Array<[number, number]>>>([]);
   const drawingRef = useRef(false);
 
-  // ---- fetch exam ----
+  // ---- fetch exam (+ mid-exam resume / reopen results) ----
   useEffect(() => {
     if (!examId) return;
     let cancelled = false;
     (async () => {
       try {
         const res = await fetch(`/api/mock-exam/${examId}/attempt`);
-        const data = (await res.json().catch(() => ({}))) as { exam?: ExamPayload; error?: string };
+        const data = (await res.json().catch(() => ({}))) as {
+          exam?: ExamPayload;
+          latestAttempt?: ResultPayload & { breakdown?: unknown };
+          error?: string;
+        };
         if (cancelled) return;
         if (!res.ok || !data.exam) {
           setError(data.error ?? "Could not load exam.");
+          return;
+        }
+
+        const loaded = data.exam;
+        setExam(loaded);
+
+        const forceRetake =
+          typeof window !== "undefined" &&
+          sessionStorage.getItem(RETAKE_KEY(examId)) === "1";
+        if (forceRetake) {
+          try {
+            sessionStorage.removeItem(RETAKE_KEY(examId));
+          } catch {
+            // ignore
+          }
+        }
+
+        const draft = readMockExamResume(examId);
+        if (draft?.started) {
+          const left = Math.max(0, Math.round((draft.endsAt - Date.now()) / 1000));
+          endsAtRef.current = draft.endsAt;
+          startTimeRef.current = draft.endsAt - loaded.timeLimit * 60 * 1000;
+          setAnswers(draft.answers ?? {});
+          setCurrentIdx(
+            Math.min(
+              Math.max(0, draft.currentIdx ?? 0),
+              Math.max(0, loaded.questions.length - 1),
+            ),
+          );
+          setSecondsLeft(left);
+          setStarted(true);
+          setResumed(true);
+        } else if (
+          !forceRetake &&
+          data.latestAttempt?.attemptId &&
+          isBreakdown(data.latestAttempt.breakdown)
+        ) {
+          setResult({
+            attemptId: data.latestAttempt.attemptId,
+            scorePercent: data.latestAttempt.scorePercent,
+            earnedPoints: data.latestAttempt.earnedPoints,
+            totalPoints: data.latestAttempt.totalPoints,
+            timeTakenSec: data.latestAttempt.timeTakenSec,
+            breakdown: data.latestAttempt.breakdown,
+          });
+          setSecondsLeft((loaded.timeLimit ?? 45) * 60);
         } else {
-          setExam(data.exam);
-          setSecondsLeft((data.exam.timeLimit ?? 45) * 60);
+          setSecondsLeft((loaded.timeLimit ?? 45) * 60);
         }
       } catch (err) {
         if (!cancelled) setError(err instanceof Error ? err.message : "Network error");
@@ -118,20 +187,37 @@ export default function MockExamRunnerPage() {
     };
   }, [examId]);
 
+  // ---- persist mid-exam draft ----
+  useEffect(() => {
+    if (!examId || !started || result) return;
+    if (!endsAtRef.current) return;
+    writeMockExamResume({
+      examId,
+      started: true,
+      currentIdx,
+      answers,
+      endsAt: endsAtRef.current,
+      savedAt: Date.now(),
+    });
+  }, [examId, started, result, answers, currentIdx, secondsLeft]);
+
   // ---- reset scratchpad when question changes ----
   useEffect(() => {
     setScratchPaths([]);
     setScratchActive(false);
   }, [currentIdx]);
 
-  // ---- countdown ----
+  // ---- countdown (absolute endsAt) ----
   useEffect(() => {
     if (!started || result) return;
     if (secondsLeft <= 0) {
       void handleSubmit(true);
       return;
     }
-    const t = setTimeout(() => setSecondsLeft((s) => s - 1), 1000);
+    const t = setTimeout(() => {
+      const left = Math.max(0, Math.round((endsAtRef.current - Date.now()) / 1000));
+      setSecondsLeft(left);
+    }, 1000);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [started, secondsLeft, result]);
@@ -172,8 +258,12 @@ export default function MockExamRunnerPage() {
   }, [exam, answers]);
 
   const startExam = () => {
-    setStarted(true);
+    const endsAt = Date.now() + (exam?.timeLimit ?? 45) * 60 * 1000;
+    endsAtRef.current = endsAt;
     startTimeRef.current = Date.now();
+    setSecondsLeft(Math.max(0, Math.round((endsAt - Date.now()) / 1000)));
+    setResumed(false);
+    setStarted(true);
   };
 
   const setMc = (qid: string, idx: number) =>
@@ -208,6 +298,7 @@ export default function MockExamRunnerPage() {
         setSubmitting(false);
         return;
       }
+      clearMockExamResume(exam.id);
       if (timedOut) showToast("Time's up — auto-submitted.", "info");
       setResult(data);
     } catch (err) {
@@ -217,11 +308,51 @@ export default function MockExamRunnerPage() {
     }
   };
 
+  const turnMissesIntoCards = async () => {
+    if (!exam || !result || convertingMisses) return;
+    if (result.breakdown.missed <= 0) {
+      showToast("No misses to turn into cards.", "info");
+      return;
+    }
+    setConvertingMisses(true);
+    try {
+      const res = await fetch(`/api/mock-exam/${exam.id}/misses-to-deck`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ attemptId: result.attemptId }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        deckId?: string;
+        error?: string;
+      };
+      if (!res.ok || !data.deckId) {
+        showToast(data.error ?? "Could not create deck from misses.", "error");
+        return;
+      }
+      router.push(`/flashcards/${data.deckId}`);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Network error", "error");
+    } finally {
+      setConvertingMisses(false);
+    }
+  };
+
+  const retakeExam = () => {
+    if (!examId) return;
+    clearMockExamResume(examId);
+    try {
+      sessionStorage.setItem(RETAKE_KEY(examId), "1");
+    } catch {
+      // ignore
+    }
+    window.location.reload();
+  };
+
   // ---- error / loading states ----
   if (loading) {
     return (
       <MockExamFrame meta="Kyvex / Mock exam">
-        <div className="px-6 py-10 text-center">
+        <div className="px-4 py-10 text-center md:px-7">
           <Loader2 className="mx-auto h-5 w-5 animate-spin" style={{ color: "var(--kv-accent)" }} />
         </div>
       </MockExamFrame>
@@ -231,10 +362,10 @@ export default function MockExamRunnerPage() {
   if (error || !exam) {
     return (
       <MockExamFrame meta="Kyvex / Mock exam">
-        <div className="px-6 py-6">
+        <div className="px-4 py-6 md:px-7">
           <h1 className="kv-title" style={{ fontSize: 22 }}>Could not load exam</h1>
           <p className="kv-sub mt-2">{error ?? "Unknown error"}</p>
-          <Link href="/mock-exam" className="kv-btn-ghost mt-4">
+          <Link href="/mock-exam" className="kv-btn-ghost mt-4" style={{ minHeight: 44 }}>
             Back
           </Link>
         </div>
@@ -252,8 +383,13 @@ export default function MockExamRunnerPage() {
         meta={examFrameMeta(exam.questions.length, exam.timeLimit)}
         staticTimer={formatTime(result.timeTakenSec)}
       >
-        <div className="px-6 py-6 md:px-7">
-          <div className="kv-meta">Result</div>
+        <div className="px-4 py-6 md:px-7">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="kv-meta">Result</div>
+            {exam.curriculumCode ? (
+              <span className="kv-chip kv-chip-course">{exam.curriculumCode}</span>
+            ) : null}
+          </div>
           <h1 className="kv-title mt-2" style={{ fontSize: 28 }}>{exam.title}</h1>
           <p className="kv-sub mt-1">
             {result.earnedPoints} / {result.totalPoints} points · {formatTime(result.timeTakenSec)} used
@@ -315,6 +451,27 @@ export default function MockExamRunnerPage() {
             </div>
           )}
 
+          <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+            {result.breakdown.missed > 0 ? (
+              <button
+                type="button"
+                onClick={() => void turnMissesIntoCards()}
+                disabled={convertingMisses}
+                className="kv-btn"
+                style={{ minHeight: 48 }}
+              >
+                {convertingMisses ? "Building deck…" : "Turn my misses into cards →"}
+              </button>
+            ) : null}
+            <Link
+              href={tutorHref("chat", { noteId: exam.noteId, mockId: exam.id })}
+              className="kv-btn-ghost"
+              style={{ minHeight: 48, display: "inline-flex", alignItems: "center" }}
+            >
+              Review with Nova →
+            </Link>
+          </div>
+
           <div className="mt-6">
             <h2 className="kv-meta">Question-by-question review</h2>
             {result.breakdown.perQuestion.map((q, i) => (
@@ -323,7 +480,13 @@ export default function MockExamRunnerPage() {
                 type="button"
                 onClick={() => setReviewIdx(i)}
                 className="kv-row"
-                style={{ width: "100%", background: "transparent", cursor: "pointer", textAlign: "left" }}
+                style={{
+                  width: "100%",
+                  background: "transparent",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  minHeight: 48,
+                }}
               >
                 <div>
                   <div className="kv-row-title">Question {i + 1}</div>
@@ -353,7 +516,7 @@ export default function MockExamRunnerPage() {
 
                 {reviewQ.type === "multiple_choice" ? (
                   <div className="opts">
-                    <div className={reviewQ.isCorrect ? "kv-opt sel" : "kv-opt"}>
+                    <div className={reviewQ.isCorrect ? "kv-opt sel" : "kv-opt"} style={{ minHeight: 48 }}>
                       <span className="box" aria-hidden />
                       <div>
                         <span className="kv-meta">Your answer</span>
@@ -361,7 +524,7 @@ export default function MockExamRunnerPage() {
                       </div>
                     </div>
                     {!reviewQ.isCorrect && (
-                      <div className="kv-opt sel">
+                      <div className="kv-opt sel" style={{ minHeight: 48 }}>
                         <span className="box" aria-hidden />
                         <div>
                           <span className="kv-meta">Correct answer</span>
@@ -369,10 +532,19 @@ export default function MockExamRunnerPage() {
                         </div>
                       </div>
                     )}
+                    {reviewQ.explanation ? (
+                      <div className="kv-opt" style={{ minHeight: 48 }}>
+                        <span className="box" aria-hidden />
+                        <div>
+                          <span className="kv-meta">Explanation</span>
+                          <p className="mt-1">{reviewQ.explanation}</p>
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 ) : (
                   <div className="opts">
-                    <div className="kv-opt">
+                    <div className="kv-opt" style={{ minHeight: 48 }}>
                       <span className="box" aria-hidden />
                       <div>
                         <span className="kv-meta">Your answer</span>
@@ -380,7 +552,7 @@ export default function MockExamRunnerPage() {
                       </div>
                     </div>
                     {reviewQ.feedback ? (
-                      <div className="kv-opt">
+                      <div className="kv-opt" style={{ minHeight: 48 }}>
                         <span className="box" aria-hidden />
                         <div>
                           <span className="kv-meta">Nova&apos;s feedback</span>
@@ -389,7 +561,7 @@ export default function MockExamRunnerPage() {
                       </div>
                     ) : null}
                     {reviewQ.modelAnswer ? (
-                      <div className="kv-opt sel">
+                      <div className="kv-opt sel" style={{ minHeight: 48 }}>
                         <span className="box" aria-hidden />
                         <div>
                           <span className="kv-meta">Model answer</span>
@@ -404,11 +576,14 @@ export default function MockExamRunnerPage() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-t px-6 py-4" style={{ borderColor: "var(--border-default)" }}>
-          <Link href="/mock-exam" className="kv-btn-ghost">
+        <div
+          className="mock-exam-nav flex items-center justify-between border-t px-4 py-4 md:px-6"
+          style={{ borderColor: "var(--border-default)" }}
+        >
+          <Link href="/mock-exam" className="kv-btn-ghost" style={{ minHeight: 44 }}>
             Back
           </Link>
-          <button type="button" onClick={() => window.location.reload()} className="kv-btn">
+          <button type="button" onClick={retakeExam} className="kv-btn" style={{ minHeight: 48 }}>
             Retake exam
           </button>
         </div>
@@ -424,7 +599,7 @@ export default function MockExamRunnerPage() {
         meta={examFrameMeta(totalQuestions, exam.timeLimit)}
         staticTimer={formatTime(exam.timeLimit * 60)}
       >
-        <div className="px-6 py-6 md:px-7">
+        <div className="px-4 py-6 md:px-7">
           <div className="kv-meta">Briefing</div>
           <h1 className="kv-title mt-2" style={{ fontSize: 28 }}>{exam.title}</h1>
           <p className="kv-meta mt-2">
@@ -452,11 +627,14 @@ export default function MockExamRunnerPage() {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-between border-t px-6 py-4" style={{ borderColor: "var(--border-default)" }}>
-          <Link href="/mock-exam" className="kv-btn-ghost">
+        <div
+          className="mock-exam-nav flex items-center justify-between border-t px-4 py-4 md:px-6"
+          style={{ borderColor: "var(--border-default)" }}
+        >
+          <Link href="/mock-exam" className="kv-btn-ghost" style={{ minHeight: 44 }}>
             Back
           </Link>
-          <button type="button" onClick={startExam} className="kv-btn">
+          <button type="button" onClick={startExam} className="kv-btn" style={{ minHeight: 48 }}>
             Engage Simulation
           </button>
         </div>
@@ -504,8 +682,13 @@ export default function MockExamRunnerPage() {
       staticTimer={formatTime(exam.timeLimit * 60)}
       liveTimer={formatTime(secondsLeft)}
     >
-      <div className="relative px-6 py-6 md:px-7">
+      <div className="relative px-4 py-6 md:px-7">
         <div className="kv-meta">Question {currentIdx + 1} / {totalQuestions}</div>
+        {resumed ? (
+          <p className="kv-meta" style={{ marginTop: 8 }}>
+            Resumed where you left off
+          </p>
+        ) : null}
         <div className="kv-bar mt-3"><div style={{ width: `${progressPct}%` }} /></div>
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -514,7 +697,12 @@ export default function MockExamRunnerPage() {
           <span className="kv-row-side">{q.points} {q.points === 1 ? "pt" : "pts"}</span>
           <div className="ml-auto flex items-center gap-1.5">
             {scratchActive && scratchPaths.length > 0 ? (
-              <button type="button" onClick={clearScratch} className="kv-btn-ghost" style={{ padding: "6px 10px" }}>
+              <button
+                type="button"
+                onClick={clearScratch}
+                className="kv-btn-ghost"
+                style={{ padding: "6px 10px", minHeight: 44 }}
+              >
                 Clear
               </button>
             ) : null}
@@ -522,7 +710,7 @@ export default function MockExamRunnerPage() {
               type="button"
               onClick={() => setScratchActive((v) => !v)}
               className={scratchActive ? "kv-opt sel" : "kv-btn-ghost"}
-              style={{ padding: "6px 10px" }}
+              style={{ padding: "6px 10px", minHeight: 44 }}
               aria-pressed={scratchActive}
               aria-label="Toggle floating scratchpad"
             >
@@ -571,7 +759,7 @@ export default function MockExamRunnerPage() {
                 aria-label={`Go to question ${i + 1}`}
                 aria-current={i === currentIdx ? "true" : undefined}
                 className={i === currentIdx || answered ? "kv-opt sel" : "kv-opt"}
-                style={{ padding: "6px 10px", width: "auto" }}
+                style={{ padding: "6px 10px", width: "auto", minHeight: 44 }}
               >
                 <span className="box" aria-hidden />
                 {i + 1}
@@ -590,7 +778,10 @@ export default function MockExamRunnerPage() {
         />
       </div>
 
-      <div className="flex items-center justify-between border-t px-6 py-4" style={{ borderColor: "var(--border-default)" }}>
+      <div
+        className="mock-exam-nav flex items-center justify-between border-t px-4 py-4 md:px-6"
+        style={{ borderColor: "var(--border-default)" }}
+      >
         <span className="kv-meta">Answered {answeredCount} / {totalQuestions}</span>
         <div className="flex items-center gap-2">
           <button
@@ -598,6 +789,7 @@ export default function MockExamRunnerPage() {
             onClick={() => setCurrentIdx((i) => Math.max(0, i - 1))}
             disabled={currentIdx === 0}
             className="kv-btn-ghost"
+            style={{ minHeight: 44 }}
           >
             Prev
           </button>
@@ -606,6 +798,7 @@ export default function MockExamRunnerPage() {
               type="button"
               onClick={() => setCurrentIdx((i) => Math.min(totalQuestions - 1, i + 1))}
               className="kv-btn-ghost"
+              style={{ minHeight: 44 }}
             >
               Next
             </button>
@@ -615,6 +808,7 @@ export default function MockExamRunnerPage() {
             onClick={() => void handleSubmit(false)}
             disabled={submitting}
             className="kv-btn"
+            style={{ minHeight: 48 }}
           >
             {submitting ? "Grading…" : "Submit Exam"}
           </button>
@@ -641,6 +835,7 @@ function McOption({
       onClick={onSelect}
       className={selected ? "kv-opt sel" : "kv-opt"}
       aria-pressed={selected}
+      style={{ minHeight: 48 }}
     >
       <span className="box" aria-hidden />
       <span className="kv-meta">{letter}</span>
