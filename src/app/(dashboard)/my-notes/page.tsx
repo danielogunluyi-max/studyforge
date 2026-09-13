@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { loginUrlFor } from "~/lib/auth-redirect";
 import { formatTorontoDate } from "~/lib/toronto-time";
+import { writeMockExamGen } from "~/lib/mock-exam-gen";
+import { tutorHref } from "~/lib/tutor-mode";
 import {
   Search, Plus, Pin, Trash2, Copy, Share2, MoreHorizontal,
   X, FileText, Edit3, Bold, Italic, Heading1, Heading2, Heading3,
@@ -170,6 +172,11 @@ export default function MyNotes() {
   const [mergeSourceTag, setMergeSourceTag] = useState("");
   const [mergeTargetTag, setMergeTargetTag] = useState("");
   const [activeSubject, setActiveSubject] = useState<string>("");
+  const [weakOnly, setWeakOnly] = useState(false);
+  const [notesTotal, setNotesTotal] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [savedNoteId, setSavedNoteId] = useState<string>("");
   const [newFolderName, setNewFolderName] = useState("");
   const [newFolderColor, setNewFolderColor] = useState("#f0b429");
@@ -268,10 +275,12 @@ export default function MyNotes() {
     const tag = params.get("tag") ?? "";
     const folder = params.get("folder") ?? "";
     const noteId = params.get("note") ?? params.get("open") ?? "";
+    const weak = params.get("weak") === "1";
     setSearchInput(query);
     setDebouncedSearch(query);
     setActiveTag(tag);
     setActiveFolder(folder);
+    if (weak) setWeakOnly(true);
     if (noteId) setDeepLinkNoteId(noteId);
   }, []);
 
@@ -295,16 +304,41 @@ export default function MyNotes() {
 
   useEffect(() => {
     if (session) {
-      void fetchNotes();
+      setPage(1);
+      void fetchNotes({ pageOverride: 1 });
     }
-  }, [session, debouncedSearch, activeTag, activeFolder, activePeriod, activeFormat, sortBy]);
+  }, [session, debouncedSearch, activeTag, activeFolder, activePeriod, activeFormat, sortBy, weakOnly]);
 
   useEffect(() => {
     if (!deepLinkNoteId || deepLinkHandledRef.current || isLoading) return;
     const note = notes.find((item) => item.id === deepLinkNoteId);
-    if (!note) return;
-    deepLinkHandledRef.current = true;
-    void openEditor(note);
+    if (note) {
+      deepLinkHandledRef.current = true;
+      void openEditor(note);
+      return;
+    }
+
+    let cancelled = false;
+    void (async () => {
+      try {
+        const response = await fetch(`/api/notes?id=${encodeURIComponent(deepLinkNoteId)}`);
+        const data = (await response.json().catch(() => ({}))) as { notes?: Note[] };
+        if (cancelled || !response.ok) return;
+        const found = data.notes?.[0];
+        if (!found) {
+          deepLinkHandledRef.current = true;
+          return;
+        }
+        deepLinkHandledRef.current = true;
+        void openEditor(found);
+      } catch {
+        // ignore deep-link fetch errors
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [deepLinkNoteId, isLoading, notes]);
 
   useEffect(() => {
@@ -329,12 +363,22 @@ export default function MyNotes() {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [editorOpen, selectedNote, tagModalOpen]);
 
-  const fetchNotes = async () => {
-    setIsLoading(true);
+  const fetchNotes = async (opts?: { append?: boolean; pageOverride?: number }) => {
+    const append = opts?.append ?? false;
+    const pageToFetch = opts?.pageOverride ?? page;
+
+    if (append) {
+      setLoadingMore(true);
+    } else {
+      setIsLoading(true);
+    }
     setError("");
 
     try {
       const params = new URLSearchParams();
+      params.set("limit", "50");
+      params.set("page", String(pageToFetch));
+      if (weakOnly) params.set("weak", "1");
       if (debouncedSearch.trim()) params.set("q", debouncedSearch.trim());
       if (activeTag) params.set("tag", activeTag);
       if (activeFolder) params.set("folderId", activeFolder);
@@ -342,23 +386,42 @@ export default function MyNotes() {
       if (activeFormat) params.set("format", activeFormat);
       if (sortBy) params.set("sort", sortBy);
 
-      const query = params.toString();
-      const response = await fetch(`/api/notes${query ? `?${query}` : ""}`);
-      const data = (await response.json()) as { notes?: Note[]; recentlyViewed?: Note[]; error?: string };
+      const response = await fetch(`/api/notes?${params.toString()}`);
+      const data = (await response.json()) as {
+        notes?: Note[];
+        recentlyViewed?: Note[];
+        pagination?: { total?: number; hasMore?: boolean };
+        error?: string;
+      };
 
       if (!response.ok) {
         setError(data.error ?? "Failed to fetch notes");
         return;
       }
 
-      setNotes(data.notes ?? []);
+      const incoming = data.notes ?? [];
+      if (append) {
+        setNotes((prev) => {
+          const seen = new Set(prev.map((n) => n.id));
+          return [...prev, ...incoming.filter((n) => !seen.has(n.id))];
+        });
+      } else {
+        setNotes(incoming);
+        setSelectedNoteIds([]);
+        setPage(pageToFetch);
+      }
       setRecentlyViewed(data.recentlyViewed ?? []);
-      setSelectedNoteIds([]);
+      setNotesTotal(data.pagination?.total ?? 0);
+      setHasMore(Boolean(data.pagination?.hasMore));
     } catch (fetchError) {
       void fetchError;
       setError("Failed to fetch notes");
     } finally {
-      setIsLoading(false);
+      if (append) {
+        setLoadingMore(false);
+      } else {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -529,7 +592,7 @@ export default function MyNotes() {
     if (mockExamLoadingId) return;
     setMockExamLoadingId(noteId);
     try {
-      const res = await fetch("/api/mock-exam/generate", {
+      const createRes = await fetch("/api/mock-exam", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -539,16 +602,24 @@ export default function MyNotes() {
           timeLimitMinutes: 45,
         }),
       });
-      const data = (await res.json().catch(() => ({}))) as {
+      const createData = (await createRes.json().catch(() => ({}))) as {
         exam?: { id: string };
         error?: string;
       };
-      if (!res.ok || !data.exam?.id) {
-        showToast(data.error ?? "Failed to generate mock exam", "error");
+      if (!createRes.ok || !createData.exam?.id) {
+        showToast(createData.error ?? "Failed to start mock exam", "error");
         return;
       }
-      showToast("Mock exam ready", "success");
-      router.push(`/mock-exam/${data.exam.id}`);
+
+      writeMockExamGen(createData.exam.id, {
+        noteId,
+        subject: "General",
+        numMultipleChoice: 10,
+        numShortAnswer: 5,
+        timeLimitMinutes: 45,
+      });
+
+      router.push(`/mock-exam/${createData.exam.id}?generating=1`);
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Network error", "error");
     } finally {
@@ -899,8 +970,14 @@ export default function MyNotes() {
 
   const resultLabel = useMemo(() => {
     if (isLoading) return "Loading...";
+    if (activeSubject && displayNotes.length !== notes.length) {
+      return `${displayNotes.length} of ${notesTotal || notes.length}`;
+    }
+    if (notesTotal > 0 || notes.length > 0) {
+      return `${displayNotes.length} shown · ${notesTotal} total`;
+    }
     return `${displayNotes.length} result${displayNotes.length === 1 ? "" : "s"}`;
-  }, [isLoading, displayNotes.length]);
+  }, [isLoading, displayNotes.length, notes.length, notesTotal, activeSubject]);
 
   if (status === "loading") {
     return (
@@ -1016,7 +1093,7 @@ export default function MyNotes() {
               {option.label}
             </button>
           ))}
-          {(activeTag || activeFolder || activeFormat || activePeriod || activeSubject || debouncedSearch) ? (
+          {(activeTag || activeFolder || activeFormat || activePeriod || activeSubject || debouncedSearch || weakOnly) ? (
             <button
               type="button"
               onClick={() => {
@@ -1025,6 +1102,7 @@ export default function MyNotes() {
                 setActiveFormat("");
                 setActivePeriod("");
                 setActiveSubject("");
+                setWeakOnly(false);
                 setSearchInput("");
                 setDebouncedSearch("");
               }}
@@ -1057,6 +1135,18 @@ export default function MyNotes() {
               {subj.code}
             </button>
           ))}
+        </div>
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 12, alignItems: "center" }}>
+          <button
+            type="button"
+            className={weakOnly ? "kv-btn" : "kv-btn-ghost"}
+            onClick={() => setWeakOnly((v) => !v)}
+            aria-pressed={weakOnly}
+          >
+            Where I&apos;m weak
+          </button>
+          <p className="kv-meta">Surfaces notes tied to missed mock questions.</p>
         </div>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 12, alignItems: "center" }}>
@@ -1193,13 +1283,27 @@ export default function MyNotes() {
           ) : displayNotes.length === 0 ? (
             <EmptyState
               icon="📝"
-              title={debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat || activeSubject ? "No notes found" : "No notes yet"}
-              description={
-                debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat || activeSubject
-                  ? "Try adjusting your search or removing filters to see more results."
-                  : "Generate your first AI note from any topic"
+              title={
+                weakOnly && !(debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat || activeSubject)
+                  ? "No weak spots linked yet"
+                  : debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat || activeSubject || weakOnly
+                    ? "No notes found"
+                    : "No notes yet"
               }
-              action={{ label: "Create your first note", href: "/generator" }}
+              description={
+                weakOnly && !(debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat || activeSubject)
+                  ? "Miss questions on a mock from a note — they'll show up here."
+                  : debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat || activeSubject || weakOnly
+                    ? "Try adjusting your search or removing filters to see more results."
+                    : "No notes yet — the Inbox is waiting"
+              }
+              action={
+                weakOnly && !(debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat || activeSubject)
+                  ? undefined
+                  : debouncedSearch || activeTag || activeFolder || activePeriod || activeFormat || activeSubject || weakOnly
+                    ? undefined
+                    : { label: "Open Inbox", href: "/smart-upload" }
+              }
             />
           ) : (
             <div>
@@ -1333,6 +1437,31 @@ export default function MyNotes() {
                             </button>
                             <button
                               type="button"
+                              onClick={() => { void generateMockExam(note.id); setMenuOpenNoteId(""); }}
+                              disabled={mockExamLoadingId !== null}
+                              className="kv-btn-ghost"
+                              style={{ width: "100%", justifyContent: "flex-start", padding: "8px 10px", fontSize: 12 }}
+                            >
+                              {mockExamLoadingId === note.id ? "Building…" : "Mock exam"}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => { router.push(`/listen/${note.id}`); setMenuOpenNoteId(""); }}
+                              className="kv-btn-ghost"
+                              style={{ width: "100%", justifyContent: "flex-start", padding: "8px 10px", fontSize: 12 }}
+                            >
+                              Listen
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => { router.push(tutorHref("chat", { noteId: note.id })); setMenuOpenNoteId(""); }}
+                              className="kv-btn-ghost"
+                              style={{ width: "100%", justifyContent: "flex-start", padding: "8px 10px", fontSize: 12 }}
+                            >
+                              Ask Nova
+                            </button>
+                            <button
+                              type="button"
                               onClick={() => { void exportNotePdf(note.id); setMenuOpenNoteId(""); }}
                               disabled={exportingNoteId === note.id}
                               className="kv-btn-ghost"
@@ -1348,6 +1477,22 @@ export default function MyNotes() {
                   </div>
                 );
               })}
+              {hasMore ? (
+                <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
+                  <button
+                    type="button"
+                    className="kv-btn-ghost"
+                    disabled={loadingMore}
+                    onClick={() => {
+                      const nextPage = page + 1;
+                      setPage(nextPage);
+                      void fetchNotes({ append: true, pageOverride: nextPage });
+                    }}
+                  >
+                    {loadingMore ? "Loading…" : "Load more"}
+                  </button>
+                </div>
+              ) : null}
             </div>
           )}
         </section>

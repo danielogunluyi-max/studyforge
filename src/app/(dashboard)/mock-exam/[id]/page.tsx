@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { useToast } from "~/app/_components/toast";
+import {
+  clearMockExamGen,
+  readMockExamGen,
+} from "~/lib/mock-exam-gen";
 import {
   clearMockExamResume,
   readMockExamResume,
@@ -107,14 +111,94 @@ export default function MockExamRunnerPage() {
   const startTimeRef = useRef<number>(0);
   const endsAtRef = useRef<number>(0);
 
+  /** Hub Batch L handoff: ?generating=1 */
+  const [bootGenerating, setBootGenerating] = useState(false);
+  const [bootGenError, setBootGenError] = useState("");
+  const bootStartedRef = useRef(false);
+
   // ── scratchpad state (per-question, ephemeral) ──
   const [scratchActive, setScratchActive] = useState(false);
   const [scratchPaths, setScratchPaths] = useState<Array<Array<[number, number]>>>([]);
   const drawingRef = useRef(false);
 
+  const reloadExam = useCallback(async () => {
+    const res = await fetch(`/api/mock-exam/${examId}/attempt`);
+    const data = (await res.json().catch(() => ({}))) as {
+      exam?: ExamPayload;
+      error?: string;
+    };
+    if (!res.ok || !data.exam) {
+      throw new Error(data.error ?? "Could not load exam.");
+    }
+    setExam(data.exam);
+    setSecondsLeft((data.exam.timeLimit ?? 45) * 60);
+    return data.exam;
+  }, [examId]);
+
+  const runBootGenerate = useCallback(async () => {
+    if (!examId) return;
+    setBootGenerating(true);
+    setBootGenError("");
+    setLoading(false);
+
+    const payload = readMockExamGen(examId);
+    if (!payload || (!payload.noteId && !(payload.sourceText && payload.sourceText.length >= 80))) {
+      setBootGenError(
+        "Couldn’t find what to build from. Go back to Mock Exam and start again.",
+      );
+      setBootGenerating(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/mock-exam/${examId}/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          noteId: payload.noteId,
+          sourceText: payload.sourceText,
+          subject: payload.subject,
+          curriculumCode: payload.curriculumCode,
+          numMultipleChoice: payload.numMultipleChoice,
+          numShortAnswer: payload.numShortAnswer,
+          timeLimitMinutes: payload.timeLimitMinutes,
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        setBootGenError(data.error ?? "Failed to build exam");
+        return;
+      }
+
+      clearMockExamGen(examId);
+      await reloadExam();
+      router.replace(`/mock-exam/${examId}`);
+      setBootGenerating(false);
+      showToast("Mock exam ready", "success");
+    } catch {
+      setBootGenError("Failed to build exam");
+    } finally {
+      setBootGenerating(false);
+    }
+  }, [examId, reloadExam, router, showToast]);
+
+  // Detect ?generating=1 after mount (hydration-safe) and fire once.
+  useEffect(() => {
+    if (!examId || bootStartedRef.current) return;
+    const sp = new URLSearchParams(window.location.search);
+    if (sp.get("generating") !== "1") return;
+    bootStartedRef.current = true;
+    void runBootGenerate();
+  }, [examId, runBootGenerate]);
+
   // ---- fetch exam (+ mid-exam resume / reopen results) ----
   useEffect(() => {
     if (!examId) return;
+    // Boot generate owns loading when ?generating=1
+    if (typeof window !== "undefined") {
+      const sp = new URLSearchParams(window.location.search);
+      if (sp.get("generating") === "1") return;
+    }
     let cancelled = false;
     (async () => {
       try {
@@ -145,7 +229,7 @@ export default function MockExamRunnerPage() {
         }
 
         const draft = readMockExamResume(examId);
-        if (draft?.started) {
+        if (draft?.started && loaded.questions.length > 0) {
           const left = Math.max(0, Math.round((draft.endsAt - Date.now()) / 1000));
           endsAtRef.current = draft.endsAt;
           startTimeRef.current = draft.endsAt - loaded.timeLimit * 60 * 1000;
@@ -349,6 +433,43 @@ export default function MockExamRunnerPage() {
   };
 
   // ---- error / loading states ----
+  if (bootGenerating || bootGenError) {
+    return (
+      <MockExamFrame meta="Kyvex / Mock exam">
+        <div className="px-4 py-10 text-center md:px-7">
+          {bootGenerating ? (
+            <>
+              <Loader2 className="mx-auto h-5 w-5 animate-spin" style={{ color: "var(--kv-accent)" }} />
+              <h1 className="kv-title mt-4" style={{ fontSize: 22 }}>Building your exam…</h1>
+              <p className="kv-sub mt-2">Nova is writing questions from your source. This usually takes a few seconds.</p>
+            </>
+          ) : (
+            <>
+              <h1 className="kv-title" style={{ fontSize: 22 }}>Couldn’t build this exam</h1>
+              <p className="kv-sub mt-2">{bootGenError}</p>
+              <div className="mt-4 flex flex-wrap justify-center gap-8">
+                <button
+                  type="button"
+                  className="kv-btn"
+                  style={{ minHeight: 44 }}
+                  onClick={() => {
+                    bootStartedRef.current = true;
+                    void runBootGenerate();
+                  }}
+                >
+                  Retry
+                </button>
+                <Link href="/mock-exam" className="kv-btn-ghost" style={{ minHeight: 44 }}>
+                  Back
+                </Link>
+              </div>
+            </>
+          )}
+        </div>
+      </MockExamFrame>
+    );
+  }
+
   if (loading) {
     return (
       <MockExamFrame meta="Kyvex / Mock exam">
@@ -368,6 +489,33 @@ export default function MockExamRunnerPage() {
           <Link href="/mock-exam" className="kv-btn-ghost mt-4" style={{ minHeight: 44 }}>
             Back
           </Link>
+        </div>
+      </MockExamFrame>
+    );
+  }
+
+  if (exam.questions.length === 0) {
+    return (
+      <MockExamFrame meta="Kyvex / Mock exam">
+        <div className="px-4 py-6 md:px-7">
+          <h1 className="kv-title" style={{ fontSize: 22 }}>Exam not ready</h1>
+          <p className="kv-sub mt-2">This draft has no questions yet.</p>
+          <div className="mt-4 flex flex-wrap gap-8">
+            <button
+              type="button"
+              className="kv-btn"
+              style={{ minHeight: 44 }}
+              onClick={() => {
+                bootStartedRef.current = true;
+                void runBootGenerate();
+              }}
+            >
+              Build exam
+            </button>
+            <Link href="/mock-exam" className="kv-btn-ghost" style={{ minHeight: 44 }}>
+              Back
+            </Link>
+          </div>
         </div>
       </MockExamFrame>
     );

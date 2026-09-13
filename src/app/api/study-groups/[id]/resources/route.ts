@@ -44,7 +44,18 @@ export async function POST(
       if (!canManageGroup(membership.role)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const resourceId = (body.resourceId ?? "").trim();
       if (!resourceId) return NextResponse.json({ error: "resourceId required" }, { status: 400 });
-      const resource = await db.groupResource.update({ where: { id: resourceId }, data: { pinned: Boolean(body.pinned) } });
+      const existing = await db.groupResource.findUnique({
+        where: { id: resourceId },
+        select: { id: true, groupId: true },
+      });
+      // IDOR guard: resource must belong to this group.
+      if (!existing || existing.groupId !== id) {
+        return NextResponse.json({ error: "Not found" }, { status: 404 });
+      }
+      const resource = await db.groupResource.update({
+        where: { id: resourceId },
+        data: { pinned: Boolean(body.pinned) },
+      });
       return NextResponse.json({ resource });
     }
 

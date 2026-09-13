@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
 import { getAuthSession } from '~/server/auth/session';
 import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 const prisma = db as any;
 
@@ -13,6 +14,8 @@ export async function POST(req: Request) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+  const limited = assertGroqRateLimit(session.user.id);
+  if (limited) return limited;
 
   const body = (await req.json().catch(() => ({}))) as {
     noteId?: string;

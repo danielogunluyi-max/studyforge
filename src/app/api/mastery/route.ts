@@ -145,6 +145,13 @@ export async function GET() {
           select: {
             title: true,
             subject: true,
+            code: true,
+            units: {
+              select: {
+                code: true,
+                expectations: { select: { code: true } },
+              },
+            },
           },
         },
       },
@@ -234,16 +241,29 @@ export async function GET() {
     const bucket = subjectMap[key];
     if (!bucket) continue;
 
+    const totalExpectations = progress.course.units.reduce(
+      (n, unit) => n + unit.expectations.length,
+      0,
+    );
     const completed = progress.completedExpectations.length;
+    const totalUnits = progress.course.units.length;
     const unitCount = progress.completedUnits.length;
     const confidenceRatio = Math.max(0, Math.min(1, (progress.confidence || 0) / 100));
 
-    const completionRatio = Math.max(0, Math.min(1, (completed + unitCount * 0.4) / 24));
-    const curriculumScore = Math.min(20, completionRatio * 14 + confidenceRatio * 6);
+    // Real denominators only — omit curriculum score when course has no expectations seeded.
+    let curriculumScore = 0;
+    if (totalExpectations > 0) {
+      const completionRatio = Math.max(0, Math.min(1, completed / totalExpectations));
+      const unitRatio = totalUnits > 0 ? Math.max(0, Math.min(1, unitCount / totalUnits)) : 0;
+      curriculumScore = Math.min(20, completionRatio * 14 + unitRatio * 3 + confidenceRatio * 3);
+    } else if (totalUnits > 0) {
+      const unitRatio = Math.max(0, Math.min(1, unitCount / totalUnits));
+      curriculumScore = Math.min(20, unitRatio * 14 + confidenceRatio * 6);
+    }
 
     bucket.curriculumScore = Math.max(bucket.curriculumScore, curriculumScore);
     bucket.activity.push({ date: toDayString(progress.updatedAt), type: "curriculum" });
-    bucket.topics.push(progress.course.title);
+    bucket.topics.push(progress.course.code || progress.course.title);
   }
 
   for (const exam of exams) {

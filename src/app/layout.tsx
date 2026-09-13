@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   creator: "Kyvex",
   publisher: "Kyvex",
   icons: [{ rel: "icon", url: "/Kyvex-logo.png" }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://kyvex.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://studyforge-nu.vercel.app"),
   openGraph: {
     type: "website",
     locale: "en_US",

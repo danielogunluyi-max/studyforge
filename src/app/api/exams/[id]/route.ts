@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 type StudyPlanDay = {
   date: string;
@@ -70,6 +71,8 @@ export async function PATCH(
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
 
     const { id } = await context.params;
     const body = (await request.json()) as PatchPayload;

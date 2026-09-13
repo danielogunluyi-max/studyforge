@@ -4,6 +4,7 @@ import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { runHandwritingScan } from "~/server/handwriting-scan";
 import { isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 type ScanRequestBody = {
   imageBase64?: string;
@@ -41,6 +42,8 @@ export async function POST(req: NextRequest) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
 
     const body = (await req.json().catch(() => ({}))) as ScanRequestBody;
     const imageBase64 = String(body.imageBase64 ?? "").trim();

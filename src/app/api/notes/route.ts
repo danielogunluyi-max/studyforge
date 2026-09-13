@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 type NotePayload = {
   title: string;
@@ -178,17 +179,34 @@ export async function GET(request: Request) {
     const period = (searchParams.get("period") ?? "").trim();
     const folderId = (searchParams.get("folderId") ?? "").trim();
     const sort = (searchParams.get("sort") ?? "newest").trim().toLowerCase();
+    const noteId = (searchParams.get("id") ?? "").trim();
+    const weakOnly = searchParams.get("weak") === "1";
     const page = parseInt(searchParams.get("page") ?? "1", 10);
-    const limit = parseInt(searchParams.get("limit") ?? "20", 10);
+    const limit = parseInt(searchParams.get("limit") ?? "50", 10);
 
     // Validate pagination params
     const pageNum = Math.max(1, page);
     const limitNum = Math.min(Math.max(1, limit), 100); // Max 100 per page
     const skip = (pageNum - 1) * limitNum;
 
+    let weakIds: string[] | null = null;
+    if (weakOnly) {
+      const { getWeakNoteIds } = await import("~/lib/weak-notes");
+      weakIds = await getWeakNoteIds(session.user.id);
+      if (weakIds.length === 0) {
+        return NextResponse.json({
+          notes: [],
+          recentlyViewed: [],
+          pagination: { page: 1, limit: limitNum, total: 0, totalPages: 0, hasMore: false },
+          weakNoteIds: [],
+        });
+      }
+    }
+
     // Build where clause
     const whereClause: NonNullable<Parameters<typeof db.note.findMany>[0]>["where"] = {
       userId: session.user.id,
+      ...(noteId ? { id: noteId } : weakIds ? { id: { in: weakIds } } : {}),
       ...(format ? { format } : {}),
       ...(tag ? { tags: { has: tag } } : {}),
       ...(folderId ? { folderId } : {}),
@@ -204,28 +222,47 @@ export async function GET(request: Request) {
         : {}),
     };
 
-    // Get total count and paginated notes in parallel
-    const [total, notes, recentlyViewed] = await Promise.all([
+    const noteSelect = {
+      id: true,
+      title: true,
+      format: true,
+      createdAt: true,
+      updatedAt: true,
+      content: true,
+      tags: true,
+      isPinned: true,
+      lastViewedAt: true,
+      isShared: true,
+      folderId: true,
+    } as const;
+
+    const secondaryOrder =
+      sort === "oldest"
+        ? { createdAt: "asc" as const }
+        : sort === "a-z"
+          ? { title: "asc" as const }
+          : sort === "updated"
+            ? { updatedAt: "desc" as const }
+            : { createdAt: "desc" as const };
+
+    // Search: score within a capped candidate set so relevance is honest across pages.
+    // Browse: DB orderBy so sort/pagination stay consistent at 50+.
+    const [total, notesRaw, recentlyViewed] = await Promise.all([
       db.note.count({ where: whereClause }),
-      db.note.findMany({
-        where: whereClause,
-        orderBy: [{ isPinned: "desc" }, { createdAt: "desc" }],
-        skip,
-        take: limitNum,
-        select: {
-          id: true,
-          title: true,
-          format: true,
-          createdAt: true,
-          updatedAt: true,
-          content: true,
-          tags: true,
-          isPinned: true,
-          lastViewedAt: true,
-          isShared: true,
-          folderId: true,
-        },
-      }),
+      q
+        ? db.note.findMany({
+            where: whereClause,
+            orderBy: [{ isPinned: "desc" }, { updatedAt: "desc" }],
+            take: 500,
+            select: noteSelect,
+          })
+        : db.note.findMany({
+            where: whereClause,
+            orderBy: [{ isPinned: "desc" }, secondaryOrder],
+            skip,
+            take: limitNum,
+            select: noteSelect,
+          }),
       db.note.findMany({
         where: {
           userId: session.user.id,
@@ -233,23 +270,11 @@ export async function GET(request: Request) {
         },
         orderBy: { lastViewedAt: "desc" },
         take: 3,
-        select: {
-          id: true,
-          title: true,
-          format: true,
-          createdAt: true,
-          updatedAt: true,
-          content: true,
-          tags: true,
-          isPinned: true,
-          lastViewedAt: true,
-          isShared: true,
-          folderId: true,
-        },
+        select: noteSelect,
       }),
     ]);
 
-    const withScore = notes.map((note) => ({
+    const withScore = notesRaw.map((note) => ({
       ...note,
       relevanceScore: calculateRelevance(note, q),
     }));
@@ -269,10 +294,16 @@ export async function GET(request: Request) {
         return a.title.localeCompare(b.title);
       }
 
+      if (sort === "updated") {
+        return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+      }
+
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     };
 
-    const sorted = withScore.sort(sortBy);
+    const ranked = q ? withScore.sort(sortBy) : withScore;
+    const searchTotal = q ? ranked.length : total;
+    const sorted = q ? ranked.slice(skip, skip + limitNum) : ranked;
 
     return NextResponse.json({
       notes: sorted,
@@ -280,10 +311,11 @@ export async function GET(request: Request) {
       pagination: {
         page: pageNum,
         limit: limitNum,
-        total,
-        totalPages: Math.ceil(total / limitNum),
-        hasMore: skip + notes.length < total,
+        total: searchTotal,
+        totalPages: Math.ceil(searchTotal / limitNum),
+        hasMore: skip + sorted.length < searchTotal,
       },
+      ...(weakIds ? { weakNoteIds: weakIds } : {}),
     });
   } catch (error) {
     console.error("Error fetching notes:", error);
@@ -307,6 +339,8 @@ export async function POST(request: Request) {
 
     let nextTags = sanitizeTags(tags);
     if (!nextTags.length) {
+      const limited = assertGroqRateLimit(session.user.id);
+      if (limited) return limited;
       nextTags = await autoGenerateTags(content);
     }
 
@@ -322,6 +356,13 @@ export async function POST(request: Request) {
     });
 
     await updateStudyStreak(session.user.id);
+
+    try {
+      const { writebackNoteTags } = await import("~/server/curriculum-writeback");
+      void writebackNoteTags(session.user.id, nextTags);
+    } catch (err) {
+      console.error("[curriculum-writeback] note create", err);
+    }
 
     return NextResponse.json({ note });
   } catch (error) {

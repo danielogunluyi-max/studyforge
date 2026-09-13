@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getAuthSession } from "~/server/auth/session";
 import { summarizeTranscriptChunked, splitTranscriptChunks } from "~/lib/chunk-summarize";
 import { isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
@@ -26,6 +27,8 @@ export async function POST(request: Request) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
 
     const body = (await request.json().catch(() => ({}))) as RequestBody;
     const transcript = String(body.transcript ?? "").trim();

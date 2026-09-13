@@ -13,6 +13,7 @@ type ExamOption = {
   date: string;
   notes: string;
   selected: boolean;
+  kind?: 'exam' | 'mock';
 };
 
 type HoursPerDay = {
@@ -115,36 +116,68 @@ export default function PlannerPage() {
   const [savedPlans, setSavedPlans] = useState<SavedStudyPlan[]>([]);
 
   useEffect(() => {
-    void fetch('/api/exams')
-      .then((response) => response.json())
-      .then((data: { exams?: Array<{ id: string; subject: string; examDate: string; topics?: string | null }> }) => {
-        const list = data.exams ?? [];
-        const now = Date.now();
-        const upcoming = list
-          .filter((exam) => {
-            const examTime = new Date(exam.examDate).getTime();
-            return Number.isFinite(examTime) && examTime > now;
-          })
-          .map((exam) => ({
-            id: exam.id,
-            subject: exam.subject,
-            date: formatExamDate(exam.examDate),
-            notes: exam.topics ?? '',
-            selected: true,
-          }))
-          .slice(0, 7);
-
-        setUpcomingExams(upcoming);
-        setExams(upcoming);
-
-        if (upcoming.length > 0) {
-          const uniqueSubjects = Array.from(new Set(upcoming.map((exam) => exam.subject))).slice(0, 6);
-          if (uniqueSubjects.length > 0) setSubjects(uniqueSubjects);
-        }
-      })
-      .catch(() => {
-        setUpcomingExams([]);
-      });
+    void Promise.all([
+      fetch('/api/exams')
+        .then((response) => response.json())
+        .then((data: { exams?: Array<{ id: string; subject: string; examDate: string; topics?: string | null }> }) => {
+          const list = data.exams ?? [];
+          const now = Date.now();
+          return list
+            .filter((exam) => {
+              const examTime = new Date(exam.examDate).getTime();
+              return Number.isFinite(examTime) && examTime > now;
+            })
+            .map((exam) => ({
+              id: exam.id,
+              subject: exam.subject,
+              date: formatExamDate(exam.examDate),
+              notes: exam.topics ?? '',
+              selected: true,
+              kind: 'exam' as const,
+            }))
+            .slice(0, 7);
+        })
+        .catch(() => [] as ExamOption[]),
+      fetch('/api/mock-exam')
+        .then((response) => response.json())
+        .then(
+          (data: {
+            exams?: Array<{
+              id: string;
+              title: string;
+              subject: string;
+              curriculumCode?: string | null;
+              createdAt: string;
+              attempts?: Array<{ score: number }>;
+            }>;
+          }) => {
+            const list = data.exams ?? [];
+            return list.slice(0, 5).map((mock) => {
+              const last = mock.attempts?.[0];
+              const code = mock.curriculumCode?.trim();
+              return {
+                id: `mock-${mock.id}`,
+                subject: code ? `${code} · Mock` : `Mock · ${mock.subject || mock.title}`,
+                date: formatExamDate(mock.createdAt),
+                notes: last
+                  ? `Last score ${Math.round(last.score)}% — retake or review misses`
+                  : 'Practice mock on your schedule',
+                selected: true,
+                kind: 'mock' as const,
+              };
+            });
+          },
+        )
+        .catch(() => [] as ExamOption[]),
+    ]).then(([realExams, mocks]) => {
+      const upcoming = [...realExams, ...mocks].slice(0, 10);
+      setUpcomingExams(upcoming);
+      setExams(upcoming);
+      if (upcoming.length > 0) {
+        const uniqueSubjects = Array.from(new Set(upcoming.map((exam) => exam.subject))).slice(0, 6);
+        if (uniqueSubjects.length > 0) setSubjects(uniqueSubjects);
+      }
+    });
 
     void fetch('/api/planner')
       .then((response) => response.json())

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { runGroqPrompt, extractJsonBlock, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 type SubmittedAnswer = {
   questionId: string;
@@ -99,6 +100,8 @@ export async function POST(
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
 
     const { id } = await context.params;
     const body = (await req.json().catch(() => ({}))) as SubmitPayload;
@@ -316,6 +319,19 @@ ${JSON.stringify(
         timeTaken: timeTakenSec,
       },
     });
+
+    try {
+      const { writebackMockAttempt } = await import("~/server/curriculum-writeback");
+      void writebackMockAttempt({
+        userId: session.user.id,
+        curriculumCode: exam.curriculumCode,
+        strengths,
+        weaknesses,
+        scorePercent,
+      });
+    } catch (err) {
+      console.error("[curriculum-writeback] mock attempt", err);
+    }
 
     return NextResponse.json({
       attemptId: attempt.id,

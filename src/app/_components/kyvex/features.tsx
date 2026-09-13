@@ -57,12 +57,12 @@ export function Features() {
             </p>
           </div>
 
-          {/* 24/7 AI Tutor */}
+          {/* Nova study coach */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 mb-4">
               <MessagesSquare className="h-5 w-5 text-primary" />
             </div>
-            <h3 className="text-lg font-heading font-semibold mb-1.5">24/7 AI Tutor</h3>
+            <h3 className="text-lg font-heading font-semibold mb-1.5">Nova study coach</h3>
             <p className="text-sm text-muted-foreground font-sans leading-relaxed">
               Ask anything from your syllabus. Get answers grounded in your own materials.
             </p>

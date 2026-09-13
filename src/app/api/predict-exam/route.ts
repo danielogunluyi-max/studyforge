@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 
 type Confidence = "High" | "Medium" | "Low";
@@ -368,6 +369,8 @@ export async function POST(request: Request) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
 
     const body = (await request.json()) as PredictPayload;
     const mode = body.mode ?? "predict";

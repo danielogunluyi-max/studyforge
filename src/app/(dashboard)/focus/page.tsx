@@ -147,7 +147,7 @@ export default async function FocusPage() {
         <div className="kv-crumb">Kyvex / <b>Focus Mode</b></div>
         <h1 className="kv-title" style={{ marginTop: 14 }}>Focus Mode</h1>
         <p className="kv-sub" style={{ marginTop: 10 }}>
-          Track your deep work sessions and build focus habits
+          Timed deep-work sessions with distraction tracking. Session quality lives here — Focus Score is merged in.
         </p>
 
         <div className="kv-stats" style={{ marginTop: 28, gridTemplateColumns: "repeat(3, 1fr)" }}>

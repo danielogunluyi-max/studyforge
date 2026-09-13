@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { runHandwritingScan } from "~/server/handwriting-scan";
 import { GROQ_VISION_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 export async function POST(request: Request) {
   try {
@@ -10,6 +11,8 @@ export async function POST(request: Request) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
 
     const formData = await request.formData();
     const image = formData.get("image");

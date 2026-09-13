@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '~/server/auth';
 import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from '~/server/groq';
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 type ImportedFlashcard = {
   question?: string;
@@ -27,6 +28,8 @@ export async function POST(req: Request) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+  const limited = assertGroqRateLimit(session.user.id);
+  if (limited) return limited;
 
   const body = (await req.json().catch(() => ({}))) as {
     assignmentText?: string;

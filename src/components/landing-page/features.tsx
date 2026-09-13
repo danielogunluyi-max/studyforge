@@ -5,7 +5,13 @@ import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 
 import { SectionReveal } from "@/components/landing-page/section-reveal";
+import { DISABLED_FEATURES } from "~/lib/disabled-features";
 import { navEntriesFor } from "~/lib/nav-registry";
+
+const LANDING_BLOCKED = new Set([
+  ...DISABLED_FEATURES.map((f) => f.path),
+  "/exam-predictor", // not marketed on public pages — dead / gated surface
+]);
 
 type FeatureItem = {
   href: string;
@@ -59,6 +65,7 @@ function FeatureRow({
 export function Features() {
   const features = navEntriesFor("landing")
     .filter((entry) => entry.description)
+    .filter((entry) => !LANDING_BLOCKED.has(entry.href))
     .map((entry) => ({
       href: entry.href,
       label: entry.label,

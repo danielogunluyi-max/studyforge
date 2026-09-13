@@ -3,6 +3,7 @@ import Groq from "groq-sdk";
 import { prisma } from "@/lib/prisma";
 import { getAuthSession } from "~/server/auth/session";
 import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 type TransformResult = {
   flashcards?: Array<{ question: string; answer: string }>;
@@ -32,6 +33,8 @@ export async function POST(req: Request) {
   if (!uid) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  const limited = assertGroqRateLimit(session.user.id);
+  if (limited) return limited;
 
   const body = (await req.json()) as {
     sourceType?: string;

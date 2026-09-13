@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 type PlannerExam = {
   subject: string;
@@ -179,6 +180,8 @@ export async function POST(request: Request) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
 
     const body = (await request.json().catch(() => ({}))) as GeneratePlanBody;
     const subjects = normalizeStringArray(body.subjects).slice(0, 12);

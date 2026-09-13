@@ -4,12 +4,15 @@ import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { type Prisma } from "@/lib/prisma";
 import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function POST(req: Request) {
   const session = await auth();
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const limited = assertGroqRateLimit(session.user.id);
+  if (limited) return limited;
 
   const { topic } = (await req.json()) as { topic?: string };
   if (!topic) return NextResponse.json({ error: "Missing topic" }, { status: 400 });

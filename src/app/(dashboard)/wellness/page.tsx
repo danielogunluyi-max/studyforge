@@ -109,6 +109,21 @@ export default function WellnessPage() {
     <main className="kv-page kv-animate-in">
       <h1 className="kv-page-title">Wellness Check-ins</h1>
       <p className="kv-page-subtitle">Track mood, energy, stress, and burnout risk over time.</p>
+      <p className="kv-sub" style={{ marginTop: 10, marginBottom: 16 }}>
+        If you&apos;re struggling, talk to someone. Kids Help Phone:{' '}
+        <a href="tel:1-800-668-6868" style={{ color: 'var(--kv-accent-text)', textDecoration: 'underline' }}>
+          1-800-668-6868
+        </a>
+        {' '}· text CONNECT to 686868 ·{' '}
+        <a
+          href="https://kidshelpphone.ca"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: 'var(--kv-accent-text)', textDecoration: 'underline' }}
+        >
+          kidshelpphone.ca
+        </a>
+      </p>
 
       <section className="kv-card" style={{ marginBottom: 16 }}>
         <div className="kv-grid-3" style={{ marginBottom: 12 }}>

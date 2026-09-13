@@ -22,6 +22,8 @@ type UserDeck = {
 
 const SUBJECTS = ['All', 'Math', 'Science', 'English', 'History', 'Biology', 'Chemistry', 'Physics', 'Computer Science'];
 const PRESETS = ['All', 'HIGHSCHOOL', 'COLLEGE', 'UNIVERSITY'];
+const COURSE_CODES = ['All', 'SCH4U', 'MHF4U', 'ENG4U', 'SBI4U', 'SPH4U', 'MCV4U'];
+const ONTARIO_COURSE = /^[A-Z]{3,4}\d[A-Z]$/i;
 
 export default function LibraryPage() {
   const [decks, setDecks] = useState<SharedDeck[]>([]);
@@ -29,6 +31,7 @@ export default function LibraryPage() {
   const [search, setSearch] = useState('');
   const [subject, setSubject] = useState('All');
   const [preset, setPreset] = useState('All');
+  const [courseCode, setCourseCode] = useState('All');
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [showShareModal, setShowShareModal] = useState(false);
@@ -43,7 +46,8 @@ export default function LibraryPage() {
   async function loadDecks() {
     const params = new URLSearchParams();
     if (search.trim()) params.set('q', search.trim());
-    if (subject !== 'All') params.set('subject', subject);
+    if (courseCode !== 'All') params.set('subject', courseCode);
+    else if (subject !== 'All') params.set('subject', subject);
     if (preset !== 'All') params.set('preset', preset);
 
     const response = await fetch(`/api/shared-decks${params.toString() ? `?${params.toString()}` : ''}`);
@@ -100,7 +104,7 @@ export default function LibraryPage() {
     }, 200);
 
     return () => clearTimeout(timer);
-  }, [search, subject, preset]);
+  }, [search, subject, preset, courseCode]);
 
   const selectedDeck = useMemo(() => myDecks.find((entry) => entry.id === shareDeckId) ?? null, [myDecks, shareDeckId]);
 
@@ -161,7 +165,7 @@ export default function LibraryPage() {
             <div className="kv-crumb">Kyvex / <b>Study Library</b></div>
             <h1 className="kv-title" style={{ marginTop: 14 }}>Study Library</h1>
             <p className="kv-sub" style={{ marginTop: 10 }}>
-              Explore and download study sets shared by other students
+              Shared decks with course codes front and center — the viral study loop.
             </p>
           </div>
           <button type="button" className="kv-btn" onClick={() => setShowShareModal(true)}>Share a Deck</button>
@@ -175,13 +179,34 @@ export default function LibraryPage() {
             onChange={(event) => setSearch(event.target.value)}
           />
 
-          <div className="kv-tabs" style={{ marginTop: 16, flexWrap: 'wrap' }}>
+          <p className="kv-meta" style={{ marginTop: 18 }}>Ontario course</p>
+          <div className="kv-tabs" style={{ marginTop: 10, flexWrap: 'wrap' }}>
+            {COURSE_CODES.map((entry) => (
+              <button
+                key={entry}
+                type="button"
+                className={courseCode === entry ? 'kv-tab on' : 'kv-tab'}
+                onClick={() => {
+                  setCourseCode(entry);
+                  if (entry !== 'All') setSubject('All');
+                }}
+              >
+                {entry === 'All' ? 'All courses' : entry}
+              </button>
+            ))}
+          </div>
+
+          <p className="kv-meta" style={{ marginTop: 18 }}>Subject</p>
+          <div className="kv-tabs" style={{ marginTop: 10, flexWrap: 'wrap' }}>
             {SUBJECTS.map((entry) => (
               <button
                 key={entry}
                 type="button"
                 className={subject === entry ? 'kv-tab on' : 'kv-tab'}
-                onClick={() => setSubject(entry)}
+                onClick={() => {
+                  setSubject(entry);
+                  if (entry !== 'All') setCourseCode('All');
+                }}
               >
                 {entry}
               </button>
@@ -213,16 +238,21 @@ export default function LibraryPage() {
           <p className="kv-sub" style={{ marginTop: 28 }}>No decks yet. Be the first to share a study deck.</p>
         ) : (
           <div style={{ marginTop: 8 }}>
-            {decks.map((deck) => (
+            {decks.map((deck) => {
+              const isCourse = ONTARIO_COURSE.test(deck.subject.trim());
+              return (
               <div key={deck.id} className="kv-row">
                 <div style={{ minWidth: 0, flex: 1 }}>
-                  <div className="kv-row-title">{deck.title}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                    {isCourse ? (
+                      <span className="kv-chip kv-chip-course" style={{ fontSize: 13, fontWeight: 600 }}>
+                        {deck.subject.trim().toUpperCase()}
+                      </span>
+                    ) : null}
+                    <div className="kv-row-title">{deck.title}</div>
+                  </div>
                   <div className="kv-row-sub">
-                    {/^[A-Z]{3,4}\d[A-Z]$/i.test(deck.subject.trim()) ? (
-                      <span className="kv-chip kv-chip-course">{deck.subject}</span>
-                    ) : (
-                      <span className="kv-chip">{deck.subject}</span>
-                    )}
+                    {!isCourse ? <span className="kv-chip">{deck.subject}</span> : null}
                     <span className="kv-chip">{deck.preset}</span>
                     <span className="kv-chip num">{deck.cardCount} cards</span>
                   </div>
@@ -230,11 +260,12 @@ export default function LibraryPage() {
                     by {deck.creatorName} · {deck.downloads} downloads
                   </p>
                 </div>
-                <button type="button" className="kv-btn-ghost" onClick={() => downloadDeck(deck.id)}>
+                <button type="button" className="kv-btn-ghost" style={{ minHeight: 44 }} onClick={() => void downloadDeck(deck.id)}>
                   Download to my library
                 </button>
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
@@ -283,8 +314,26 @@ export default function LibraryPage() {
             <label className="kv-meta" htmlFor="shareTitle">Title</label>
             <input id="shareTitle" className="kv-field" value={shareTitle} onChange={(event) => setShareTitle(event.target.value)} />
 
-            <label className="kv-meta" htmlFor="shareSubject">Subject</label>
-            <input id="shareSubject" className="kv-field" value={shareSubject} onChange={(event) => setShareSubject(event.target.value)} />
+            <label className="kv-meta" htmlFor="shareSubject">Course code (e.g. SCH4U)</label>
+            <input
+              id="shareSubject"
+              className="kv-field"
+              value={shareSubject}
+              onChange={(event) => setShareSubject(event.target.value)}
+              placeholder="SCH4U"
+            />
+            <div className="kv-tabs" style={{ flexWrap: 'wrap' }}>
+              {COURSE_CODES.filter((c) => c !== 'All').map((code) => (
+                <button
+                  key={code}
+                  type="button"
+                  className={shareSubject.toUpperCase() === code ? 'kv-tab on' : 'kv-tab'}
+                  onClick={() => setShareSubject(code)}
+                >
+                  {code}
+                </button>
+              ))}
+            </div>
 
             <label className="kv-meta" htmlFor="shareDescription">Description</label>
             <textarea

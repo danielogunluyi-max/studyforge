@@ -54,7 +54,7 @@ export default function ReferralPage() {
     setMsg(data?.message || data?.error || 'Done');
   }
 
-  const shareText = `I'm using Kyvex to ace my exams — join me! Use my code ${code} at kyvex.vercel.app`;
+  const shareText = `I'm using Kyvex to ace my exams — join me! Use my code ${code} at studyforge-nu.vercel.app`;
 
   return (
     <div className="kv-page" style={{ maxWidth: '960px', margin: '0 auto' }}>

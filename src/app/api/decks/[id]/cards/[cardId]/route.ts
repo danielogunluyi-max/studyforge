@@ -66,6 +66,20 @@ export async function PATCH(
         },
       });
 
+      // Curriculum write-back (deck subject → course progress)
+      try {
+        const deck = await prisma.flashcardDeck.findUnique({
+          where: { id },
+          select: { subject: true },
+        });
+        if (deck?.subject) {
+          const { writebackDeckStudy } = await import("~/server/curriculum-writeback");
+          void writebackDeckStudy(session.user.id, deck.subject);
+        }
+      } catch (err) {
+        console.error("[curriculum-writeback] deck study", err);
+      }
+
       return NextResponse.json({ card: updated });
     }
 

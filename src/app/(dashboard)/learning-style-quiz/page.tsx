@@ -178,7 +178,7 @@ const STYLE_THEME: Record<
     bestFeatures: [
       { label: "Study Groups", href: "/study-groups" },
       { label: "Battle Arena", href: "/battle" },
-      { label: "Exam Predictor", href: "/exam-predictor" },
+      { label: "Mock Exam", href: "/mock-exam" },
     ],
     avoid: "Avoid silent passive review for long periods.",
     toolkit: [
@@ -221,7 +221,7 @@ const STYLE_THEME: Record<
     techniques: ["Practice with timed drills", "Build mini-projects from theory", "Use movement-based review cycles"],
     bestFeatures: [
       { label: "Practice Quiz Arena", href: "/battle" },
-      { label: "Exam Predictor", href: "/exam-predictor" },
+      { label: "Mock Exam", href: "/mock-exam" },
       { label: "Study Groups", href: "/study-groups" },
     ],
     avoid: "Avoid passive reading — you need active engagement.",
@@ -635,8 +635,8 @@ export default function LearningStyleQuizPage() {
         {!result && (
           <>
             <PageHero
-              title="Learning Style Shapeshifter"
-              description="Discover how your brain learns best with a personalized quiz experience."
+              title="Learning Preferences"
+              description="A short preference quiz — how you like to study, not a measured ability score."
               actions={<Button href="/generator" variant="secondary" size="sm">Open Generator</Button>}
             />
 
@@ -819,7 +819,9 @@ export default function LearningStyleQuizPage() {
               <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6">
                 <h3 className="text-xl font-bold text-white">Your Style History</h3>
                 <p className="mt-1 text-sm text-gray-400">
-                  {dominantChanged ? "Your dominant style changed since your previous attempt." : "Your dominant style has stayed consistent so far."}
+                  {dominantChanged
+                    ? "Your preferred style shifted since last time — preferences change with context."
+                    : "Your preferred style has stayed consistent so far."}
                 </p>
                 <div className="mt-3 space-y-2">
                   {history.slice(0, 5).map((item, idx, arr) => (
@@ -844,7 +846,7 @@ export default function LearningStyleQuizPage() {
               </div>
               {showShareCard && (
                 <div className="mt-4 rounded-xl border border-gray-700 bg-gray-800 p-4">
-                  <p className="text-xs uppercase tracking-wide text-gray-400">Learning Style Card</p>
+                  <p className="text-xs uppercase tracking-wide text-gray-400">Preference card</p>
                   <p className="mt-1 text-lg font-bold text-white">{resultTheme.title}</p>
                   <p className="text-sm text-gray-300">Top trait: {STYLE_LABEL[result]}</p>
                   <p className="mt-2 text-xs text-gray-400">Visual {percentages.visual}% • Auditory {percentages.auditory}% • Reading {percentages.reading}% • Kinesthetic {percentages.kinesthetic}%</p>

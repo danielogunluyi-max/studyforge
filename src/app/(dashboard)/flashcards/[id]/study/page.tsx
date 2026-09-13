@@ -78,8 +78,13 @@ export default function StudyDeckPage() {
 
   const currentCard = queue[currentIndex] ?? null;
   const totalReviewed = history.length;
-  const correct = history.filter((item) => (item.rating ?? 0) >= 2).length;
-  const wrong = history.filter((item) => (item.rating ?? 0) < 2).length;
+  // SM-2 alignment: Again(0)=miss, Hard(1)=shaky but progress kept, Good(2)/Easy(3)=solid.
+  const again = history.filter((item) => (item.rating ?? 0) === 0).length;
+  const hard = history.filter((item) => (item.rating ?? 0) === 1).length;
+  const solid = history.filter((item) => (item.rating ?? 0) >= 2).length;
+  const shakyOrSolid = hard + solid;
+  /** Cards to restudy: Again only (Hard keeps SM-2 progress — not a full fail). */
+  const restudyCount = again;
   /** Honest progress: graded / original session size (survives mid-session resume). */
   const sessionProgress = sessionSize > 0 ? history.length / sessionSize : 0;
 
@@ -270,10 +275,10 @@ export default function StudyDeckPage() {
     }
   };
 
-  const restartWithWrong = () => {
-    const wrongCards = history.filter((item) => (item.rating ?? 0) < 2).map((item) => item.card);
-    if (wrongCards.length === 0) return;
-    const ordered = orderDueWeaknessFirst(wrongCards);
+  const restartWithAgain = () => {
+    const againCards = history.filter((item) => (item.rating ?? 0) === 0).map((item) => item.card);
+    if (againCards.length === 0) return;
+    const ordered = orderDueWeaknessFirst(againCards);
     setQueue(ordered);
     setCurrentIndex(0);
     setIsFlipped(false);
@@ -373,13 +378,18 @@ export default function StudyDeckPage() {
           </div>
           <div className="kv-stat">
             <span className="kv-meta">Good / Easy</span>
-            <b className="num">{correct}</b>
+            <b className="num">{solid}</b>
           </div>
           <div className="kv-stat">
-            <span className="kv-meta">Again / Hard</span>
-            <b className="num">{wrong}</b>
+            <span className="kv-meta">Hard (shaky)</span>
+            <b className="num">{hard}</b>
           </div>
         </div>
+        <p className="kv-meta" style={{ marginTop: 12, textAlign: "center" }}>
+          Again (missed): <span className="num">{again}</span>
+          {" · "}
+          Shaky + solid (progress kept): <span className="num">{shakyOrSolid}</span>
+        </p>
 
         {nextDueDate && (
           <p className="kv-meta" style={{ marginTop: 20, textAlign: "center" }}>
@@ -394,11 +404,11 @@ export default function StudyDeckPage() {
           </button>
           <button
             type="button"
-            onClick={restartWithWrong}
-            disabled={wrong === 0}
+            onClick={restartWithAgain}
+            disabled={restudyCount === 0}
             className="kv-btn-ghost"
           >
-            Study Again / Hard
+            Study Again cards
           </button>
         </div>
       </main>
@@ -419,7 +429,7 @@ export default function StudyDeckPage() {
             End Session
           </button>
           <span className="kv-meta num">
-            {correct} good · {wrong} again
+            {solid} good · {hard} hard · {again} again
           </span>
         </div>
 

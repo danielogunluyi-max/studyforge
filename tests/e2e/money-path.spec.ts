@@ -7,11 +7,11 @@ import { applyPreset, registerUser, type TestUser } from './support/auth'
  *
  * Mocked:
  *   POST /api/decks/:id/generate
- *   POST /api/mock-exam/generate
+ *   POST /api/mock-exam/:id/generate
  *   GET+POST /api/mock-exam/:id/attempt
  *   POST /api/tutor  (exact path; not /api/tutor/conversations)
  *
- * Not mocked: /api/auth/*, GET /api/notes, POST /api/notes, page loads.
+ * Not mocked: /api/auth/*, GET /api/notes, POST /api/notes, POST /api/mock-exam (draft), page loads.
  *
  * Generate persist lives inside the Groq route. Mocking that POST would leave
  * the deck empty because the editor loads cards via unmocked GET /api/decks/:id.
@@ -122,17 +122,18 @@ async function installAiMocks(page: Page) {
   )
 
   await page.route(
-    (url) => apiPath(url) === '/api/mock-exam/generate',
+    (url) => /\/api\/mock-exam\/[^/]+\/generate\/?$/.test(apiPath(url)),
     async (route) => {
       if (route.request().method() !== 'POST') {
         await route.continue()
         return
       }
+      const examId = apiPath(route.request().url()).split('/')[3] ?? EXAM_ID
       await route.fulfill({
         status: 201,
         json: {
           exam: {
-            id: EXAM_ID,
+            id: examId,
             title: 'Photosynthesis Check',
             subject: 'Biology',
             curriculumCode: 'SBI4U',
@@ -275,7 +276,7 @@ async function pasteIntoInboxDropzone(page: Page, text: string) {
 
 test.describe('money path', () => {
   test.use({ viewport: { width: 1440, height: 900 } })
-  test.describe.configure({ timeout: 240_000 })
+  test.describe.configure({ timeout: 300_000 })
 
   test('register through Inbox, flashcards, mock exam, and Nova with AI mocked', async ({ page }) => {
     const user = createMoneyUser()
@@ -377,15 +378,40 @@ test.describe('money path', () => {
       await expect(page.getByText(`→ ${card.back}`)).toBeVisible()
     }
 
-    // 5. Mock exam: intercept generate + attempt, answer one, results
+    // 5. Mock exam: Batch L draft → /:id?generating=1 → mocked generate → engage
     await page.goto(`/mock-exam?noteId=${encodeURIComponent(noteId!)}`, {
       waitUntil: 'domcontentloaded',
     })
     await expect(page.getByRole('heading', { name: /Configure the simulation/i })).toBeVisible()
     const startExam = page.getByRole('button', { name: /Start Mock Exam/ })
     await expect(startExam).toBeEnabled({ timeout: 20_000 })
+
+    // Arm listeners BEFORE click (same Batch L pattern as flashcards).
+    const mockCreateDone = page.waitForResponse(
+      (response) =>
+        apiPath(response.url()) === '/api/mock-exam' &&
+        response.request().method() === 'POST',
+      { timeout: 90_000 },
+    )
+    const mockGenerateDone = page.waitForResponse(
+      (response) =>
+        /\/api\/mock-exam\/[^/]+\/generate\/?$/.test(apiPath(response.url())) &&
+        response.request().method() === 'POST',
+      { timeout: 90_000 },
+    )
+
     await startExam.click()
-    await expect(page).toHaveURL(/\/mock-exam\/[^/?#]+$/, { timeout: 30_000 })
+
+    const mockCreateRes = await mockCreateDone
+    expect(mockCreateRes.ok(), `POST /api/mock-exam draft failed: ${mockCreateRes.status()}`).toBeTruthy()
+
+    await expect(page).toHaveURL(/\/mock-exam\/[^/?#]+(?:\?|$)/, { timeout: 30_000 })
+    const mockGenerateRes = await mockGenerateDone
+    expect(mockGenerateRes.ok(), `POST mock generate failed: ${mockGenerateRes.status()}`).toBeTruthy()
+
+    await expect(page.getByRole('button', { name: /Engage Simulation/ })).toBeVisible({
+      timeout: 30_000,
+    })
     await page.getByRole('button', { name: /Engage Simulation/ }).click()
     await page.getByRole('button', { name: MC_CORRECT }).click()
     await page.getByRole('button', { name: 'Submit Exam' }).click()

@@ -164,7 +164,9 @@ export default function MasteryPage() {
         {error ? <p className="kv-meta" style={{ color: '#E5484D' }}>{error}</p> : null}
         <div className="kv-crumb">Kyvex / <b>Mastery</b></div>
         <h1 className="kv-title" style={{ marginTop: 14 }}>Mastery</h1>
-        <p className="kv-sub" style={{ marginTop: 10 }}>Retention across subjects, from your notes, cards, and curriculum progress.</p>
+        <p className="kv-sub" style={{ marginTop: 10 }}>
+          Aggregated from your notes, SM-2 cards, curriculum checklists, exams, and mocks — no invented scores.
+        </p>
 
         <div className="kv-stats" style={{ marginTop: 28, gridTemplateColumns: 'repeat(3, 1fr)' }}>
           <div className="kv-stat">

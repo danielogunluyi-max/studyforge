@@ -71,6 +71,48 @@ export async function runGroqPrompt(input: {
   });
 }
 
+/** Stream token deltas from Groq (SSE-friendly). */
+export async function* streamGroqPrompt(input: {
+  system?: string;
+  user: string;
+  temperature?: number;
+  maxTokens?: number;
+}): AsyncGenerator<string, void, unknown> {
+  let lastError: unknown;
+  const messages: Groq.Chat.ChatCompletionMessageParam[] = [
+    ...(input.system ? [{ role: "system" as const, content: input.system }] : []),
+    { role: "user" as const, content: input.user },
+  ];
+
+  for (const model of GROQ_TEXT_FALLBACKS) {
+    try {
+      const body: Record<string, unknown> = {
+        model,
+        messages,
+        temperature: input.temperature ?? 0.6,
+        max_tokens: input.maxTokens ?? 1800,
+        stream: true,
+      };
+      if (model.startsWith("openai/gpt-oss")) {
+        body.reasoning_effort = "low";
+      }
+      const stream = await groq.chat.completions.create(
+        body as unknown as import("groq-sdk/resources/chat/completions").ChatCompletionCreateParamsStreaming,
+      );
+      for await (const chunk of stream) {
+        const delta = chunk.choices[0]?.delta?.content;
+        if (delta) yield delta;
+      }
+      return;
+    } catch (error) {
+      lastError = error;
+      if (!isMissingModel(error)) throw error;
+    }
+  }
+
+  throw lastError;
+}
+
 export function extractJsonBlock<T>(raw: string): T | null {
   const direct = raw.trim();
 

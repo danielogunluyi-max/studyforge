@@ -7,7 +7,7 @@ import EmptyState from '@/app/_components/empty-state';
 
 type CareerItem = {
   career: string;
-  match: number;
+  match?: number;
   description: string;
   requiredSubjects: string[];
   ontarioUniversities: string[];
@@ -93,10 +93,20 @@ export default function CareerPathPage() {
 
         {topMatch && (
           <div className="kv-card-gold kv-pulse-gold mt-5 kv-animate-in">
-            <p className="text-sm text-[var(--text-secondary)]">TOP MATCH</p>
+            <p className="text-sm text-[var(--text-secondary)]">TOP PATH</p>
             <h2 className="text-3xl font-black text-[var(--text-primary)]">{topPath || topMatch.career}</h2>
-            <p className="text-lg font-bold text-[var(--accent-gold)]">{clamp(topMatch.match)}% match</p>
-            <p className="text-sm text-[var(--text-secondary)]">Best match based on your {strongSubjects.join(', ') || 'study profile'}</p>
+            {typeof topMatch.match === 'number' ? (
+              <p className="text-lg font-bold text-[var(--accent-gold)]">
+                {clamp(topMatch.match)}% from your recorded marks
+              </p>
+            ) : (
+              <p className="text-sm text-[var(--text-secondary)]">
+                Guidance only — record exam marks to see a grounded match %.
+              </p>
+            )}
+            <p className="text-sm text-[var(--text-secondary)]">
+              Based on your {strongSubjects.join(', ') || 'study profile'}
+            </p>
           </div>
         )}
 
@@ -113,10 +123,27 @@ export default function CareerPathPage() {
                   <span className="kv-badge kv-badge-gold">{item.avgSalary}</span>
                 </div>
 
-                <div className="mb-2 text-sm text-[var(--text-secondary)]">{clamp(item.match)}% match</div>
-                <div className="kv-progress-track mb-3">
-                  <div className="kv-progress-fill" style={{ width: `${clamp(item.match)}%`, transition: 'width 0.8s ease-out', animation: `fillBar 0.8s ease-out` }} />
-                </div>
+                {typeof item.match === 'number' ? (
+                  <>
+                    <div className="mb-2 text-sm text-[var(--text-secondary)]">
+                      {clamp(item.match)}% from recorded marks in related subjects
+                    </div>
+                    <div className="kv-progress-track mb-3">
+                      <div
+                        className="kv-progress-fill"
+                        style={{
+                          width: `${clamp(item.match)}%`,
+                          transition: 'width 0.8s ease-out',
+                          animation: `fillBar 0.8s ease-out`,
+                        }}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <p className="mb-3 text-sm text-[var(--text-secondary)]">
+                    No related marks yet — path is guidance, not a scored match.
+                  </p>
+                )}
 
                 <p className="mb-3 text-sm text-[var(--text-secondary)]">{item.description}</p>
 

@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { db } from '~/server/db';
 import { auth } from '~/server/auth';
 import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 const prisma = db as any;
 
@@ -28,6 +29,9 @@ export async function POST(req: Request) {
   const subject = body.subject?.trim() ?? 'General';
 
   if (!body.reviewId) {
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
+
     if (!content) {
       return NextResponse.json({ error: 'Content is required' }, { status: 400 });
     }
@@ -69,13 +73,22 @@ Be specific, encouraging, and actionable. 3-4 sentences.`,
     return NextResponse.json({ review, aiFeedback });
   }
 
+  const existing = await prisma.peerReview.findUnique({
+    where: { id: body.reviewId },
+    select: { id: true, authorId: true },
+  });
+  // IDOR guard: only the author may update; 404 (not 403) to avoid leaking IDs.
+  if (!existing || existing.authorId !== session.user.id) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   const review = await prisma.peerReview.update({
     where: { id: body.reviewId },
     data: {
       reviewerId: session.user.id,
       feedback: body.feedback?.trim() || null,
       rating: body.rating ?? null,
-      status: 'reviewed',
+      status: "reviewed",
     },
   });
 

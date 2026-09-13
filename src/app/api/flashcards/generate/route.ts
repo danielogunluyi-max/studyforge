@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import { auth } from "~/server/auth";
 import { runGroqPrompt, extractJsonBlock, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 type Flashcard = {
   front: string;
@@ -36,6 +38,13 @@ Output format:
 
 export async function POST(request: Request) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
+
     if (!process.env.GROQ_API_KEY) {
       return NextResponse.json(
         { error: "GROQ_API_KEY is not configured on the server." },
@@ -79,9 +88,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate flashcard structure
     const validFlashcards = flashcards.filter(
-      (card) => card && typeof card.front === "string" && typeof card.back === "string"
+      (card) => card && typeof card.front === "string" && typeof card.back === "string",
     );
 
     if (validFlashcards.length === 0) {

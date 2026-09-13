@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Loader2, Trash2, X } from "lucide-react";
 import { useToast } from "~/app/_components/toast";
 import { renderMath } from "@/lib/mathRenderer";
 import { formatTorontoDate } from "~/lib/toronto-time";
 
 type Subject = "Math" | "Science" | "English" | "History" | "Chemistry" | "Physics" | "General";
+
+type WeekClause = { kind: "exam" | "due" | "misses"; text: string; href?: string };
 
 type ChatMessage = {
   id: string;
@@ -133,14 +137,22 @@ function formatNova(text: string): string {
   return renderMath(html);
 }
 
+const NOTE_BUDGET = 6000;
+const ONTARIO_COURSE_RE = /^[A-Z]{3,4}\d[A-Z]$/i;
+
+function looksLikeOntarioCourse(value: string): boolean {
+  return ONTARIO_COURSE_RE.test(value.trim());
+}
+
 export default function TutorChat() {
+  const router = useRouter();
   const [subject, setSubject] = useState<Subject>("General");
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: makeId(),
       role: "assistant",
       content:
-        "Hi! I'm **Nova**, your Ontario Grade 11–12 study companion. Ask me anything — concepts, quizzes, summaries, or working through a homework problem step by step. What are we studying today?",
+        "Hi! I'm **Nova**. I can see what's loaded into this chat (notes, decks, mocks) and I remember **this conversation** — not other chats. What are we studying today?",
       createdAt: new Date().toISOString(),
     },
   ]);
@@ -154,6 +166,14 @@ export default function TutorChat() {
   const [pendingNoteId, setPendingNoteId] = useState("");
   const [mockExamId, setMockExamId] = useState("");
   const [mockExamLabel, setMockExamLabel] = useState("");
+  const [weekLine, setWeekLine] = useState<string | null>(null);
+  const [weekClauses, setWeekClauses] = useState<WeekClause[]>([]);
+  const [weekDismissed, setWeekDismissed] = useState(false);
+  const [mockMissSummary, setMockMissSummary] = useState("");
+  const [deckId, setDeckId] = useState("");
+  const [deckLabel, setDeckLabel] = useState("");
+  const [noteCharCount, setNoteCharCount] = useState(0);
+  const [noteShownChars, setNoteShownChars] = useState(0);
   const [snippets, setSnippets] = useState<SavedSnippet[]>([]);
   const [savingId, setSavingId] = useState<string | null>(null);
   const [flashcardsLoading, setFlashcardsLoading] = useState(false);
@@ -252,6 +272,10 @@ export default function TutorChat() {
     if (noteId) setPendingNoteId(noteId);
     const mockId = sp.get("mockId")?.trim() ?? "";
     if (mockId) setMockExamId(mockId);
+    const urlDeckId = sp.get("deckId")?.trim() ?? "";
+    if (urlDeckId) setDeckId(urlDeckId);
+    const course = sp.get("course")?.trim() ?? "";
+    if (course && looksLikeOntarioCourse(course)) setCurriculumCode(course.toUpperCase());
   }, []);
 
   useEffect(() => {
@@ -262,7 +286,10 @@ export default function TutorChat() {
         if (!res.ok) return;
         const data = (await res.json().catch(() => ({}))) as {
           exam?: { title?: string; noteId?: string | null; curriculumCode?: string | null; subject?: string };
-          latestAttempt?: { scorePercent?: number } | null;
+          latestAttempt?: {
+            scorePercent?: number;
+            breakdown?: { perQuestion?: { isCorrect?: boolean }[] };
+          } | null;
         };
         if (data.exam?.title) {
           const score =
@@ -273,11 +300,67 @@ export default function TutorChat() {
         }
         if (data.exam?.curriculumCode) setCurriculumCode(data.exam.curriculumCode);
         if (data.exam?.noteId) setPendingNoteId(data.exam.noteId);
+        const per = data.latestAttempt?.breakdown?.perQuestion;
+        if (Array.isArray(per)) {
+          const misses = per
+            .map((q, i) => (q && q.isCorrect === false ? `Q${i + 1}` : null))
+            .filter((label): label is string => label !== null)
+            .slice(0, 4);
+          setMockMissSummary(misses.length > 0 ? misses.join(", ") : "");
+        } else {
+          setMockMissSummary("");
+        }
       } catch {
         // optional
       }
     })();
   }, [mockExamId]);
+
+  // Week context — after mount only (hydration-safe)
+  useEffect(() => {
+    void (async () => {
+      try {
+        const res = await fetch("/api/tutor/week");
+        if (!res.ok) return;
+        const data = (await res.json().catch(() => ({}))) as {
+          line?: string | null;
+          clauses?: WeekClause[];
+        };
+        setWeekLine(typeof data.line === "string" ? data.line : null);
+        setWeekClauses(Array.isArray(data.clauses) ? data.clauses : []);
+      } catch {
+        // optional
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (!deckId) {
+      setDeckLabel("");
+      return;
+    }
+    void (async () => {
+      try {
+        const res = await fetch(`/api/decks/${deckId}`);
+        if (!res.ok) return;
+        const data = (await res.json().catch(() => ({}))) as { deck?: { title?: string } };
+        if (data.deck?.title) setDeckLabel(data.deck.title);
+      } catch {
+        // optional
+      }
+    })();
+  }, [deckId]);
+
+  useEffect(() => {
+    if (!loadedNote) {
+      setNoteCharCount(0);
+      setNoteShownChars(0);
+      return;
+    }
+    const len = loadedNote.content.length;
+    setNoteCharCount(len);
+    setNoteShownChars(Math.min(len, NOTE_BUDGET));
+  }, [loadedNote]);
 
   useEffect(() => {
     void (async () => {
@@ -379,10 +462,90 @@ export default function TutorChat() {
           conversationId: conversationId || undefined,
           teachingStyle,
           mockExamId: mockExamId || undefined,
+          deckId: deckId || undefined,
+          stream: true,
         }),
       });
 
-      // Read response body once, parse defensively (server may return HTML error page)
+      const contentType = response.headers.get("Content-Type") ?? "";
+      const isEventStream = contentType.includes("text/event-stream");
+
+      if (isEventStream && response.body) {
+        if (!response.ok) {
+          setError(
+            response.status === 401
+              ? "Your session expired — please sign in again."
+              : `Nova is unavailable (HTTP ${response.status}).`,
+          );
+          return;
+        }
+
+        const assistantId = makeId();
+        setIsThinking(false);
+        setIsTypingResponse(true);
+        setMessages((prev) => [
+          ...prev,
+          { id: assistantId, role: "assistant", content: "", createdAt: new Date().toISOString() },
+        ]);
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+        let full = "";
+        let streamError: string | null = null;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          buffer = lines.pop() ?? "";
+
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed.startsWith("data:")) continue;
+            const payload = trimmed.slice(5).trim();
+            if (!payload || payload === "[DONE]") continue;
+
+            let evt: {
+              delta?: string;
+              done?: boolean;
+              conversationId?: string | null;
+              error?: string;
+            };
+            try {
+              evt = JSON.parse(payload) as typeof evt;
+            } catch {
+              continue;
+            }
+
+            if (evt.error) {
+              streamError = evt.error;
+              setError(evt.error);
+              continue;
+            }
+            if (typeof evt.delta === "string" && evt.delta) {
+              full += evt.delta;
+              streamingContentRef.current = full;
+              setMessages((prev) =>
+                prev.map((m) => (m.id === assistantId ? { ...m, content: full } : m)),
+              );
+            }
+            if (evt.done && evt.conversationId) {
+              setConversationId(evt.conversationId);
+            }
+          }
+        }
+
+        setIsTypingResponse(false);
+        if (!streamError && !full.trim()) {
+          setError("Nova returned an empty response.");
+        }
+        void refreshConversations();
+        return;
+      }
+
+      // JSON fallback (non-stream)
       const rawBody = await response.text();
       let data: { message?: string; error?: string; conversationId?: string | null } = {};
       try {
@@ -412,6 +575,7 @@ export default function TutorChat() {
       setError(`Failed to reach Nova: ${err instanceof Error ? err.message : "network error"}.`);
     } finally {
       setIsThinking(false);
+      setIsTypingResponse(false);
     }
   };
 
@@ -682,17 +846,78 @@ export default function TutorChat() {
                 Mock · {mockExamLabel}
               </span>
             ) : null}
+            {mockMissSummary ? (
+              <span className="kv-meta truncate" style={{ maxWidth: 240 }}>
+                Looking at your {mockMissSummary} misses.
+              </span>
+            ) : null}
+            {deckLabel ? (
+              <span className="kv-meta truncate" style={{ maxWidth: 200 }}>
+                Deck: {deckLabel}
+              </span>
+            ) : null}
             {loadedNote ? (
               <span className="kv-meta flex items-center gap-2">
-                Linked note
+                <span className="truncate" style={{ maxWidth: 200 }}>
+                  Reading: {loadedNote.title}
+                </span>
+                {noteCharCount > noteShownChars && noteShownChars > 0 ? (
+                  <span className="kv-chip" title={`Showing ${noteShownChars} of ${noteCharCount} characters`}>
+                    {noteShownChars}/{noteCharCount} chars
+                  </span>
+                ) : null}
                 {curriculumCode ? <span className="kv-chip kv-chip-course">{curriculumCode}</span> : null}
-                <span className="truncate" style={{ maxWidth: 180 }}>{loadedNote.title}</span>
               </span>
+            ) : curriculumCode ? (
+              <span className="kv-chip kv-chip-course">{curriculumCode}</span>
             ) : null}
           </div>
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-5">
+          {!weekDismissed && weekLine && messages.length <= 2 ? (
+            <div className="mb-6">
+              <p className="kv-meta">{weekLine}</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {weekClauses.map((clause, idx) =>
+                  clause.href ? (
+                    <Link
+                      key={`${clause.kind}-${idx}`}
+                      href={clause.href}
+                      className="kv-btn-ghost"
+                      style={{ minHeight: 40 }}
+                      onClick={(e) => {
+                        // Prefer client navigation for tutor mock deep-links
+                        if (clause.href?.startsWith("/tutor")) {
+                          e.preventDefault();
+                          router.push(clause.href);
+                        }
+                      }}
+                    >
+                      {clause.text}
+                    </Link>
+                  ) : (
+                    <button
+                      key={`${clause.kind}-${idx}`}
+                      type="button"
+                      className="kv-btn-ghost"
+                      style={{ minHeight: 40 }}
+                    >
+                      {clause.text}
+                    </button>
+                  ),
+                )}
+                <button
+                  type="button"
+                  className="kv-btn-ghost"
+                  style={{ minHeight: 40 }}
+                  onClick={() => setWeekDismissed(true)}
+                >
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          ) : null}
           {messages.map((message) =>
             message.role === "user" ? (
               <div key={message.id} className="mb-6 flex justify-end">
@@ -739,6 +964,24 @@ export default function TutorChat() {
                     >
                       {eli5Loading && eli5MessageId === message.id ? "Working…" : "Explain simpler"}
                     </button>
+                    {loadedNote ? (
+                      <>
+                        <Link
+                          href={`/flashcards?generateFrom=${encodeURIComponent(loadedNote.id)}`}
+                          className="kv-btn-ghost"
+                        >
+                          Make cards →
+                        </Link>
+                        <Link
+                          href={`/mock-exam?noteId=${encodeURIComponent(loadedNote.id)}${
+                            curriculumCode ? `&course=${encodeURIComponent(curriculumCode)}` : ""
+                          }`}
+                          className="kv-btn-ghost"
+                        >
+                          Practice mock →
+                        </Link>
+                      </>
+                    ) : null}
                   </div>
                 ) : null}
                 {eli5Results[message.id] ? (

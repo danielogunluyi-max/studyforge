@@ -61,6 +61,7 @@ const DELETED_FEATURE_KEYS = new Set([
   'study-dna',
   'mock-exam',
   'quizlet-import',
+  'exam-predictor',
 ])
 
 export default function FeaturesPage() {

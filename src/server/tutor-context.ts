@@ -4,6 +4,7 @@ export type StudentContext = {
   recentNotes: Array<{ id: string; title: string; subject?: string; updatedAt: Date; snippet: string; tags: string[] }>;
   loadedNoteScreenshots: Array<{ id: string; title: string; subject: string; createdAt: Date }>;
   recentDecks: Array<{ id: string; title: string; subject: string | null; updatedAt: Date; cardCount: number }>;
+  dueCardCount: number;
   recentSubjects: string[];
   detectedCourseCodes: string[];
   studyStreak: number;
@@ -41,12 +42,14 @@ export async function buildStudentContext(params: {
   subject?: string;
   curriculumCode?: string | null;
   loadedNoteId?: string | null;
+  focusedDeckId?: string | null;
 }): Promise<StudentContext> {
   const { userId, subject, curriculumCode, loadedNoteId } = params;
 
   const subjectFilter = subject && subject !== "General" ? subject : undefined;
+  const now = new Date();
 
-  const [user, recentNotes, loadedNoteScreenshots, recentDecks] = await Promise.all([
+  const [user, recentNotes, loadedNoteScreenshots, recentDecks, dueCardCount] = await Promise.all([
     prisma.user.findUnique({
       where: { id: userId },
       select: { studyStreak: true, lastActive: true },
@@ -99,6 +102,11 @@ export async function buildStudentContext(params: {
         _count: { select: { cards: true } },
       },
     }).catch(() => []),
+    prisma.flashcard
+      .count({
+        where: { deck: { userId }, nextReview: { lte: now } },
+      })
+      .catch(() => 0),
   ]);
 
   const recentSubjectsSet = new Set<string>();
@@ -129,6 +137,7 @@ export async function buildStudentContext(params: {
       updatedAt: d.updatedAt,
       cardCount: d._count?.cards ?? 0,
     })),
+    dueCardCount,
     recentSubjects: [...recentSubjectsSet].slice(0, 8),
     detectedCourseCodes,
     studyStreak: user?.studyStreak ?? 0,
@@ -151,6 +160,10 @@ export function studentContextToPrompt(ctx: StudentContext): string {
 
   if (ctx.studyStreak) {
     lines.push(`Study streak: ${ctx.studyStreak} day(s). Last active: ${fmtDate(ctx.lastActiveAt)}.`);
+  }
+
+  if (ctx.dueCardCount > 0) {
+    lines.push(`Flashcards currently due: ${ctx.dueCardCount} (deep-link /flashcards).`);
   }
 
   if (ctx.detectedCourseCodes.length) {

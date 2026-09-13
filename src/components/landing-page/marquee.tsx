@@ -1,4 +1,14 @@
 import { NAV_ENTRIES, navEntriesFor } from "~/lib/nav-registry";
+import { DISABLED_FEATURES } from "~/lib/disabled-features";
+
+const LANDING_BLOCKED_LABELS = new Set([
+  "Exam Predictor",
+  ...DISABLED_FEATURES.map((f) => f.name),
+  "Score Predictor",
+  "Kyvex IQ",
+  "Study DNA",
+  "Originality Check",
+]);
 
 /** Core product loop — always first (Mock Exam may lack `landing`). */
 const CORE = ["Inbox", "My Notes", "Flashcards", "Mock Exam", "Nova"] as const;
@@ -31,7 +41,9 @@ function toTickerLabel(label: string): string | null {
 }
 
 function buildMarqueeItems(): string[] {
-  const landingLabels = navEntriesFor("landing").map((e) => e.label);
+  const landingLabels = navEntriesFor("landing")
+    .map((e) => e.label)
+    .filter((label) => !LANDING_BLOCKED_LABELS.has(label));
   const mock = NAV_ENTRIES.find((e) => e.label === "Mock Exam");
   const raw = [...landingLabels];
   if (mock && !raw.includes(mock.label)) raw.push(mock.label);

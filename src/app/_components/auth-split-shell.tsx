@@ -101,7 +101,7 @@ function AITutorCard() {
         <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-xs">
           🤖
         </div>
-        <p className="text-xs font-semibold text-white">Nova AI Tutor</p>
+        <p className="text-xs font-semibold text-white">Nova</p>
         <span className="ml-auto h-1.5 w-1.5 rounded-full bg-emerald-400" />
       </div>
       <div className="mt-4 space-y-3">

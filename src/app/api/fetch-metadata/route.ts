@@ -1,5 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { auth } from "~/server/auth";
 import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 type AuthorFallback = {
   author?: string;
@@ -49,6 +51,13 @@ function normalizePublishedDate(input: string): string {
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
+
     const body = (await req.json()) as { url?: string; sourceType?: string };
     const normalizedUrl = normalizeUrl(body.url ?? "");
     const sourceType = String(body.sourceType ?? "website").trim() || "website";

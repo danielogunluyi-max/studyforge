@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useToast } from "~/app/_components/toast";
+import { writeMockExamGen } from "~/lib/mock-exam-gen";
 import { formatTorontoDate } from "~/lib/toronto-time";
 
 /* ─────────────────────────────────────────────────────────── */
@@ -51,7 +51,7 @@ const VOLUME_OPTS: { value: Volume; label: string; sub: string }[] = [
 ];
 
 const FOCUS_OPTS: { value: Focus; label: string; sub: string }[] = [
-  { value: "mc", label: "Multiple Choice", sub: "Pure recall" },
+  { value: "mc", label: "Multiple Choice", sub: "Recognition practice" },
   { value: "sa", label: "Short Answer", sub: "Written depth" },
   { value: "sim", label: "Simulator", sub: "MC + SA blend" },
 ];
@@ -85,7 +85,6 @@ function timeAgo(iso: string): string {
 
 export default function MockExamHubPage() {
   const router = useRouter();
-  const { showToast } = useToast();
 
   // notes
   const [notes, setNotes] = useState<NoteItem[]>([]);
@@ -183,41 +182,45 @@ export default function MockExamHubPage() {
     if (!canGenerate) return;
     setError(null);
     setIgniting(true);
-    void handleGenerate();
+    void createAndRedirect();
   };
 
-  const handleGenerate = async () => {
+  /** Batch L: create draft shell, redirect immediately, generate on exam page. */
+  const createAndRedirect = async () => {
     setGenerating(true);
     try {
-      const body: Record<string, unknown> = {
-        numMultipleChoice: split.mc,
-        numShortAnswer: split.sa,
-        timeLimitMinutes: timeLimit,
-        curriculumCode: courseCode,
-        subject: selectedTrack?.subject ?? "General",
-      };
-      if (selectedNoteId) {
-        body.noteId = selectedNoteId;
-      } else {
-        body.sourceText = pasteText.trim();
-      }
-
-      const res = await fetch("/api/mock-exam/generate", {
+      const subject = selectedTrack?.subject ?? "General";
+      const createRes = await fetch("/api/mock-exam", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          noteId: selectedNoteId ?? undefined,
+          subject,
+          curriculumCode: courseCode,
+          timeLimitMinutes: timeLimit,
+        }),
       });
-      const data = (await res.json().catch(() => ({}))) as {
+      const createData = (await createRes.json().catch(() => ({}))) as {
         exam?: { id: string };
         error?: string;
       };
-      if (!res.ok || !data.exam?.id) {
-        setError(data.error ?? "Failed to generate exam.");
+      if (!createRes.ok || !createData.exam?.id) {
+        setError(createData.error ?? "Failed to start exam.");
         setIgniting(false);
         return;
       }
-      showToast("Mock exam ready", "success");
-      router.push(`/mock-exam/${data.exam.id}`);
+
+      writeMockExamGen(createData.exam.id, {
+        noteId: selectedNoteId ?? undefined,
+        sourceText: selectedNoteId ? undefined : pasteText.trim(),
+        subject,
+        curriculumCode: courseCode,
+        numMultipleChoice: split.mc,
+        numShortAnswer: split.sa,
+        timeLimitMinutes: timeLimit,
+      });
+
+      router.push(`/mock-exam/${createData.exam.id}?generating=1`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Network error");
       setIgniting(false);
@@ -514,7 +517,7 @@ function IgnitionButton({
       disabled={disabled || isLoading}
       className="kv-btn mt-6 w-full justify-center"
     >
-      {isLoading ? "Igniting…" : label}
+      {isLoading ? "Starting…" : label}
     </button>
   );
 }

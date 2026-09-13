@@ -277,7 +277,7 @@ function addContentSlide(pptx: PptxGenJS, slide: SlideData, theme: ThemeConfig) 
       });
     });
 
-    pptSlide.addText("Created with Kyvex — kyvex.vercel.app", {
+    pptSlide.addText("Created with Kyvex — studyforge-nu.vercel.app", {
       x: 0.5,
       y: 5.1,
       w: 9.0,

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { extractJsonBlock, runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 import { bumpQuizStats, ensureGroupMember, isOwner } from "~/server/study-groups";
 
 type QuizQuestion = { question: string; options: string[]; correctAnswer: string };
@@ -43,6 +44,8 @@ export async function POST(
   try {
     const session = await auth();
     if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
     const { id } = await context.params;
 
     const membership = await ensureGroupMember(id, session.user.id);

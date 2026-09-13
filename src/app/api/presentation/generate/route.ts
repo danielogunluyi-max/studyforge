@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 import type { PresentationData, SlideData } from "~/types/presentation";
 import { generatePresentationRequestSchema, presentationDataSchema } from "~/types/presentation.schema";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
@@ -141,6 +142,8 @@ export async function POST(req: Request) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
 
     const rawBody = (await req.json().catch(() => ({}))) as GenerateRequestBody;
     const body = {

@@ -8,13 +8,21 @@ export function parseTutorMode(value: string | string[] | undefined | null): Tut
 
 export function tutorHref(
   mode: TutorMode,
-  extra?: { embed?: boolean; noteId?: string | null; mockId?: string | null },
+  extra?: {
+    embed?: boolean;
+    noteId?: string | null;
+    mockId?: string | null;
+    deckId?: string | null;
+    course?: string | null;
+  },
 ): string {
   const params = new URLSearchParams();
   if (mode !== "chat") params.set("mode", mode);
   if (extra?.embed) params.set("embed", "1");
   if (extra?.noteId) params.set("noteId", extra.noteId);
   if (extra?.mockId) params.set("mockId", extra.mockId);
+  if (extra?.deckId) params.set("deckId", extra.deckId);
+  if (extra?.course) params.set("course", extra.course);
   const query = params.toString();
   return query ? `/tutor?${query}` : "/tutor";
 }

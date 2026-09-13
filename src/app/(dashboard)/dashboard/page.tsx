@@ -18,6 +18,8 @@ import {
   Eye,
 } from 'lucide-react'
 
+type WeekClause = { kind: 'exam' | 'due' | 'misses' | 'units'; text: string; href?: string }
+
 /* ─── Types ─────────────────────────────────────────────────── */
 
 type NoteItem = {
@@ -208,6 +210,8 @@ export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [decayAlerts, setDecayAlerts] = useState<DecayAlert[]>([])
   const [tonight, setTonight] = useState<Array<{ subject: string; topic: string; href: string }>>([])
+  const [weekBriefing, setWeekBriefing] = useState<string | null>(null)
+  const [weekClauses, setWeekClauses] = useState<WeekClause[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [hidden, setHidden] = useState<Record<FeatureKey, boolean>>({
     notes: false,
@@ -243,10 +247,11 @@ export default function DashboardPage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const [statsRes, decayRes, plannerRes] = await Promise.all([
+        const [statsRes, decayRes, plannerRes, weekRes] = await Promise.all([
           fetch('/api/dashboard/stats'),
           fetch('/api/decay-alerts'),
           fetch('/api/planner'),
+          fetch('/api/tutor/week'),
         ])
         if (!statsRes.ok) throw new Error('Failed to load stats')
         const data = (await statsRes.json()) as DashboardStats
@@ -261,6 +266,16 @@ export default function DashboardPage() {
           const planner = (await plannerRes.json().catch(() => ({}))) as { plans?: unknown[] }
           const weekday = torontoWeekday(new Date())
           setTonight(tonightFromPlans(Array.isArray(planner.plans) ? planner.plans : [], weekday))
+        }
+
+        if (weekRes.ok) {
+          const week = (await weekRes.json().catch(() => ({}))) as {
+            briefing?: string | null
+            line?: string | null
+            clauses?: WeekClause[]
+          }
+          setWeekBriefing(week.briefing ?? week.line ?? null)
+          setWeekClauses(Array.isArray(week.clauses) ? week.clauses : [])
         }
       } catch {
         showToast('Failed to load dashboard stats', 'error')
@@ -319,15 +334,47 @@ export default function DashboardPage() {
     <main data-tour="dashboard">
       <div className="kv-crumb">Kyvex / <b>Home</b></div>
 
-      <h1 className="kv-title" style={{ marginTop: 14, fontSize: 44, lineHeight: 1.05 }}>
-        {nextExam && examWeekday ? (
-          <>Ready for <span className="kv-serif">{examWeekday}.</span></>
-        ) : (
-          <>{greeting}, {userName}</>
-        )}
-      </h1>
+      <p className="kv-meta" style={{ marginTop: 14 }}>
+        {greeting}, {userName}
+      </p>
 
-      {examMeta ? (
+      {weekBriefing ? (
+        <>
+          <h1 className="kv-title" style={{ marginTop: 8, fontSize: 32, lineHeight: 1.15, maxWidth: 720 }}>
+            {weekBriefing.replace(/\.\s*Want to start there\??$/i, '')}
+          </h1>
+          {weekClauses.length > 0 ? (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
+              {weekClauses.map((clause, idx) =>
+                clause.href ? (
+                  <Link
+                    key={`${clause.kind}-${idx}`}
+                    href={clause.href}
+                    className="kv-btn-ghost"
+                    style={{ minHeight: 40 }}
+                  >
+                    {clause.text}
+                  </Link>
+                ) : (
+                  <span key={`${clause.kind}-${idx}`} className="kv-chip">
+                    {clause.text}
+                  </span>
+                ),
+              )}
+            </div>
+          ) : null}
+        </>
+      ) : (
+        <h1 className="kv-title" style={{ marginTop: 8, fontSize: 44, lineHeight: 1.05 }}>
+          {nextExam && examWeekday ? (
+            <>Ready for <span className="kv-serif">{examWeekday}.</span></>
+          ) : (
+            <>{greeting}, {userName}</>
+          )}
+        </h1>
+      )}
+
+      {!weekBriefing && examMeta ? (
         <p className="kv-meta" style={{ marginTop: 10 }}>{examMeta}</p>
       ) : null}
 

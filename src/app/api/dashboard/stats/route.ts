@@ -88,7 +88,7 @@ export async function GET() {
       recommendations.push({
         type: "exam",
         message: `Your ${urgentExam.subject} exam is in ${daysUntil} day${daysUntil === 1 ? "" : "s"}.`,
-        action: { label: "Study Now", href: "/exams" },
+        action: { label: "Study Now", href: "/planner" },
         urgency: daysUntil <= 3 ? "high" : "medium",
       });
     }
@@ -104,7 +104,7 @@ export async function GET() {
       recommendations.push({
         type: "review",
         message: `You haven't reviewed notes in ${daysSinceNote} days. Time for a recap.`,
-        action: { label: "Review Notes", href: "/notes" },
+        action: { label: "Review Notes", href: "/my-notes" },
         urgency: "medium",
       });
     }
@@ -140,7 +140,7 @@ export async function GET() {
     recommendations.push({
       type: "readiness",
       message: `Study plan completion is at ${readiness}%. Catch up before your exams.`,
-      action: { label: "View Plan", href: "/exams" },
+      action: { label: "View Plan", href: "/planner" },
       urgency: "high",
     });
   }

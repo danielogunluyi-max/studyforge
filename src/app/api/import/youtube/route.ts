@@ -4,6 +4,7 @@ import { summarizeTranscriptChunked } from "~/lib/chunk-summarize";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 export const runtime = "nodejs";
 /** Chunked long lectures need headroom (1hr → several Groq passes). */
@@ -88,6 +89,8 @@ export async function POST(request: Request) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
 
     const body = (await request.json().catch(() => ({}))) as ImportRequest;
     const url = (body.url ?? body.youtubeUrl ?? "").trim();

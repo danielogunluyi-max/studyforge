@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 import { auth } from "~/server/auth";
 import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 type ExtensionGenerateBody = {
   text?: string;
@@ -45,6 +46,8 @@ export async function POST(request: NextRequest) {
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const limited = assertGroqRateLimit(userId);
+    if (limited) return limited;
 
     const body = (await request.json().catch(() => ({}))) as ExtensionGenerateBody;
     const text = String(body.text ?? "").trim();

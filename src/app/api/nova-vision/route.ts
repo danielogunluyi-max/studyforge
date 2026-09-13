@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { prisma } from "@/lib/prisma";
 import { GROQ_VISION_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 /**
  * Phase 3 — Nova Live Vision
@@ -127,6 +128,8 @@ export async function POST(request: Request) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  const limited = assertGroqRateLimit(session.user.id);
+  if (limited) return limited;
 
   const body = (await request.json().catch(() => null)) as NovaVisionRequest | null;
   if (!body || !Array.isArray(body.messages) || body.messages.length === 0) {

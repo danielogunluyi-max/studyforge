@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 import { bumpGroupStreak, bumpMessageStats, ensureGroupMember } from "~/server/study-groups";
 
 function getLinkPreview(text: string): { title: string; url: string; host: string } | null {
@@ -129,8 +130,15 @@ export async function POST(
 
     const topic = membership.group.topic || membership.group.name;
     const lowered = message.toLowerCase();
+    const wantsQuiz = lowered.includes("/quiz");
+    const wantsAi = lowered.includes("@ai") || lowered.includes("?");
 
-    if (lowered.includes("/quiz")) {
+    if (wantsQuiz || wantsAi) {
+      const limited = assertGroqRateLimit(session.user.id);
+      if (limited) return limited;
+    }
+
+    if (wantsQuiz) {
       const quizPrompt = await runGroqPrompt({
         system: "Return exactly one concise multiple-choice quiz question with 4 options and answer.",
         user: `Generate one ${topic} quiz question in plain text.`,
@@ -140,7 +148,7 @@ export async function POST(
       await sendAiMessage(id, `Kyvex AI Quiz:\n${quizPrompt.trim()}`);
     }
 
-    if (lowered.includes("@ai") || lowered.includes("?")) {
+    if (wantsAi) {
       const aiReply = await runGroqPrompt({
         system: "You are Kyvex AI moderator. Be concise and helpful.",
         user: `Group topic: ${topic}\nUser message: ${message}\nProvide a concise helpful response.`,
@@ -152,6 +160,8 @@ export async function POST(
 
     const totalMessages = await db.groupMessage.count({ where: { groupId: id } });
     if (totalMessages % 5 === 0) {
+      const limitedTip = assertGroqRateLimit(session.user.id);
+      if (limitedTip) return limitedTip;
       const recent = await db.groupMessage.findMany({
         where: { groupId: id },
         include: { user: { select: { name: true, email: true } } },

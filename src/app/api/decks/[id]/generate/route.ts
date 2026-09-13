@@ -4,6 +4,7 @@ import { auth } from "~/server/auth";
 import { prisma } from "@/lib/prisma";
 import { curriculumContextToPrompt, getCurriculumContext } from "~/server/curriculum";
 import { GROQ_TEXT_MODEL, isRateLimited, BUSY_MESSAGE } from "~/lib/groq";
+import { assertGroqRateLimit } from "~/lib/groq-guard";
 
 type GenerateBody = {
   topic?: string;
@@ -76,6 +77,8 @@ export async function POST(
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const limited = assertGroqRateLimit(session.user.id);
+    if (limited) return limited;
 
     const { id } = await context.params;
 
