@@ -5,6 +5,7 @@ export const DISABLED_FEATURES: DisabledFeature[] = [
   { path: "/study-dna", slug: "study-dna", name: "Study DNA" },
   { path: "/predictor", slug: "predictor", name: "Score Predictor" },
   { path: "/my-predictions", slug: "predictor", name: "My Predictions" },
+  { path: "/exam-predictor", slug: "exam-predictor", name: "Exam Predictor" },
 ];
 export function matchDisabledFeature(pathname: string) {
   return DISABLED_FEATURES.find(

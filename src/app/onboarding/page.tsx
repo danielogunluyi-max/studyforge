@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -101,6 +101,19 @@ export default function OnboardingPage() {
     persistProfile(grade, courses);
     router.replace("/dashboard");
   }
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        skip();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // skip closes with latest grade/courses via closure each render
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: Escape always available
+  }, [grade, courses]);
 
   return (
     <div className="auth-paper">

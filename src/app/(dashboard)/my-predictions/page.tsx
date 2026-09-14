@@ -42,8 +42,8 @@ export default function MyPredictionsPage() {
       <div className="container mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-3xl font-bold text-gray-900">My Predictions</h1>
-          <Link href="/exam-predictor" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-blue-700 hover:shadow-md">
-            New Prediction
+          <Link href="/dashboard" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-blue-700 hover:shadow-md">
+            Back to Dashboard
           </Link>
         </div>
 
@@ -51,10 +51,10 @@ export default function MyPredictionsPage() {
           <SkeletonList count={4} />
         ) : records.length === 0 ? (
           <EmptyState
-            title="No exam predictions yet"
-            description="Upload past exams to get AI-powered predictions for your upcoming tests with confidence scores."
-            actionLabel="Create First Prediction"
-            actionHref="/exam-predictor"
+            title="Exam Predictor is unavailable"
+            description="This tool is disabled for beta. Use Mock Exam and Nova on your notes instead."
+            actionLabel="Go to Dashboard"
+            actionHref="/dashboard"
           />
         ) : (
           <div className="space-y-4">

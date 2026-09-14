@@ -312,8 +312,50 @@ export default function FeatureMatrix({ initialEnabled, initialHidden }: Props) 
         <div>
           <p className="kv-meta">Feature matrix</p>
           <p className="kv-sub" style={{ marginTop: 8 }}>
-            Toggle surfaces on or off. Anything off leaves the sidebar, toolbars, and command palette.
+            Default sidebar is Focused (The Loop). Toggle surfaces on to opt in — anything off leaves
+            the sidebar, toolbars, and command palette.
           </p>
+          <button
+            type="button"
+            className="kv-btn-ghost"
+            style={{ marginTop: 10, padding: "6px 10px" }}
+            onClick={() => {
+              void (async () => {
+                try {
+                  const res = await fetch("/api/feature-preferences", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ resetToPreset: true, preset: "FOCUSED" }),
+                  });
+                  if (!res.ok) throw new Error("reset failed");
+                  const data = await res.json();
+                  const en: string[] = Array.isArray(data?.prefs?.enabledFeatures)
+                    ? data.prefs.enabledFeatures
+                    : [];
+                  const hi: string[] = Array.isArray(data?.prefs?.hiddenFeatures)
+                    ? data.prefs.hiddenFeatures
+                    : [];
+                  setEnabled(new Set(en));
+                  setHidden(new Set(hi));
+                  enabledRef.current = new Set(en);
+                  hiddenRef.current = new Set(hi);
+                  if (typeof window !== "undefined") {
+                    window.dispatchEvent(
+                      new CustomEvent(FEATURE_PREFS_EVENT, {
+                        detail: { enabledFeatures: en, hiddenFeatures: hi },
+                      }),
+                    );
+                  }
+                  setSaveStatus("saved");
+                } catch {
+                  setError("Could not reset to Focused.");
+                  setSaveStatus("error");
+                }
+              })();
+            }}
+          >
+            Reset to Focused
+          </button>
         </div>
         <div style={{ textAlign: "right" }}>
           {saveStatus === "saving" ? <p className="kv-meta">Saving…</p> : null}

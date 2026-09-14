@@ -1,7 +1,7 @@
 'use client';
 
+import { useCallback, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
 import PresetModal from './preset-modal';
 
 export default function PresetGate() {
@@ -20,9 +20,17 @@ export default function PresetGate() {
       });
   }, [session]);
 
-  if (!show) return null;
-  return <PresetModal onSelect={() => {
+  const dismiss = useCallback(() => {
     setShow(false);
-    window.location.reload();
-  }} />;
+  }, []);
+
+  if (!show) return null;
+  return (
+    <PresetModal
+      onSelect={() => {
+        setShow(false);
+      }}
+      onSkip={dismiss}
+    />
+  );
 }

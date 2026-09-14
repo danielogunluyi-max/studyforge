@@ -559,7 +559,8 @@ export const NAV_ENTRIES: NavEntry[] = [
     keywords: ["exam", "predictor", "questions"],
     description: "Predict likely exam questions from your notes.",
     featureKey: "exam-predictor",
-    surfaces: surf({ sidebar: true, palette: true, matrix: true }),
+    // Middleware-disabled — no signed-in chrome / matrix marketing.
+    surfaces: surf({}),
   },
 
   // ── track ─────────────────────────────────────────────────
