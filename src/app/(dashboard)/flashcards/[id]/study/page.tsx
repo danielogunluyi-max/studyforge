@@ -11,6 +11,7 @@ import {
   writeStudyResume,
 } from "~/lib/study-resume";
 import { formatTorontoDate, formatTorontoDateTime } from "~/lib/toronto-time";
+import { gradeTypedAnswer, type TypedGrade } from "~/lib/typed-answer";
 
 type Flashcard = {
   id: string;
@@ -25,11 +26,17 @@ type Flashcard = {
 };
 
 type RatingValue = 0 | 1 | 2 | 3;
+type AnswerMode = "flip" | "typed";
 
 type SessionCard = {
   card: Flashcard;
   rating?: RatingValue;
+  mode?: AnswerMode;
 };
+
+function typedModeKey(deckId: string): string {
+  return `kyvex:typed-mode:${deckId}`;
+}
 
 function formatIntervalDays(days: number): string {
   if (days <= 0) return "<1d";
@@ -74,19 +81,26 @@ export default function StudyDeckPage() {
   const [weaknessFirst, setWeaknessFirst] = useState(false);
   const [resumed, setResumed] = useState(false);
   const [sessionSize, setSessionSize] = useState(0);
+  /** Server-identical first paint; localStorage applied in effect. */
+  const [typedMode, setTypedMode] = useState(false);
+  const [typedInput, setTypedInput] = useState("");
+  const [typedResult, setTypedResult] = useState<TypedGrade | null>(null);
+  const [suggestedRating, setSuggestedRating] = useState<RatingValue | null>(null);
   const ratingLock = useRef(false);
+  const typedInputRef = useRef<HTMLInputElement>(null);
 
   const currentCard = queue[currentIndex] ?? null;
   const totalReviewed = history.length;
-  // SM-2 alignment: Again(0)=miss, Hard(1)=shaky but progress kept, Good(2)/Easy(3)=solid.
   const again = history.filter((item) => (item.rating ?? 0) === 0).length;
   const hard = history.filter((item) => (item.rating ?? 0) === 1).length;
   const solid = history.filter((item) => (item.rating ?? 0) >= 2).length;
   const shakyOrSolid = hard + solid;
-  /** Cards to restudy: Again only (Hard keeps SM-2 progress — not a full fail). */
   const restudyCount = again;
-  /** Honest progress: graded / original session size (survives mid-session resume). */
   const sessionProgress = sessionSize > 0 ? history.length / sessionSize : 0;
+  const typedCount = history.filter((h) => h.mode === "typed").length;
+  const flippedCount = history.filter((h) => h.mode === "flip").length;
+
+  const canGrade = typedMode ? typedResult !== null : isFlipped;
 
   const nextDueDate = useMemo(() => {
     const now = Date.now();
@@ -96,6 +110,28 @@ export default function StudyDeckPage() {
       .sort((a, b) => a - b)[0];
     return future ? new Date(future) : null;
   }, [allCards]);
+
+  useEffect(() => {
+    if (!deckId) return;
+    try {
+      setTypedMode(localStorage.getItem(typedModeKey(deckId)) === "1");
+    } catch {
+      setTypedMode(false);
+    }
+  }, [deckId]);
+
+  const persistTypedMode = (on: boolean) => {
+    setTypedMode(on);
+    try {
+      localStorage.setItem(typedModeKey(deckId), on ? "1" : "0");
+    } catch {
+      // quota / private mode
+    }
+    setIsFlipped(false);
+    setTypedInput("");
+    setTypedResult(null);
+    setSuggestedRating(null);
+  };
 
   const persistResume = (
     nextQueue: Flashcard[],
@@ -118,6 +154,13 @@ export default function StudyDeckPage() {
       weaknessFirst: nextWeaknessFirst,
       savedAt: Date.now(),
     });
+  };
+
+  const resetCardUi = () => {
+    setIsFlipped(false);
+    setTypedInput("");
+    setTypedResult(null);
+    setSuggestedRating(null);
   };
 
   const fetchCards = async () => {
@@ -172,7 +215,7 @@ export default function StudyDeckPage() {
           setSessionSize(size);
           setWeaknessFirst(Boolean(saved.weaknessFirst));
           setResumed(true);
-          setIsFlipped(false);
+          resetCardUi();
           setIsComplete(false);
           persistResume(remaining, 0, restoredHistory, Boolean(saved.weaknessFirst));
           return;
@@ -184,7 +227,7 @@ export default function StudyDeckPage() {
       const useWeakness = ordered.length > 1;
       setQueue(ordered);
       setCurrentIndex(0);
-      setIsFlipped(false);
+      resetCardUi();
       setHistory([]);
       setSessionSize(ordered.length);
       setWeaknessFirst(useWeakness);
@@ -208,8 +251,16 @@ export default function StudyDeckPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deckId]);
 
+  useEffect(() => {
+    if (!typedMode || typedResult || isComplete || !currentCard) return;
+    const frame = window.requestAnimationFrame(() => typedInputRef.current?.focus());
+    return () => window.cancelAnimationFrame(frame);
+  }, [typedMode, typedResult, isComplete, currentCard, currentIndex]);
+
   const rateCard = async (rating: RatingValue) => {
     if (!currentCard || ratingLock.current) return;
+    if (typedMode && !typedResult) return;
+    if (!typedMode && !isFlipped) return;
     ratingLock.current = true;
 
     try {
@@ -255,9 +306,10 @@ export default function StudyDeckPage() {
 
       trackNovaEvent("FLASHCARD_STUDIED");
 
-      const nextHistory = [...history, { card: currentCard, rating }];
+      const mode: AnswerMode = typedMode ? "typed" : "flip";
+      const nextHistory = [...history, { card: currentCard, rating, mode }];
       setHistory(nextHistory);
-      setIsFlipped(false);
+      resetCardUi();
 
       const isLast = currentIndex >= queue.length - 1;
       if (isLast) {
@@ -275,13 +327,20 @@ export default function StudyDeckPage() {
     }
   };
 
+  const submitTyped = () => {
+    if (!currentCard || typedResult) return;
+    const grade = gradeTypedAnswer(typedInput, currentCard.back);
+    setTypedResult(grade);
+    setSuggestedRating(grade.correct ? 2 : 0);
+  };
+
   const restartWithAgain = () => {
     const againCards = history.filter((item) => (item.rating ?? 0) === 0).map((item) => item.card);
     if (againCards.length === 0) return;
     const ordered = orderDueWeaknessFirst(againCards);
     setQueue(ordered);
     setCurrentIndex(0);
-    setIsFlipped(false);
+    resetCardUi();
     setHistory([]);
     setSessionSize(ordered.length);
     setIsComplete(false);
@@ -293,14 +352,37 @@ export default function StudyDeckPage() {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (isComplete) return;
-      if (event.key === " " || event.key === "Enter") {
-        event.preventDefault();
-        setIsFlipped((prev) => !prev);
-        return;
-      }
-      if (!isFlipped) return;
 
-      // 1 Again · 2 Hard · 3 Good · 4 Easy (matches buttons)
+      const target = event.target as HTMLElement | null;
+      const inField =
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        target?.isContentEditable;
+
+      if (typedMode) {
+        if (!typedResult) {
+          if (event.key === "Enter" && inField) {
+            event.preventDefault();
+            submitTyped();
+          }
+          return;
+        }
+        if (event.key === "Enter" && suggestedRating !== null && !inField) {
+          event.preventDefault();
+          void rateCard(suggestedRating);
+          return;
+        }
+      } else {
+        if (event.key === " " || event.key === "Enter") {
+          if (inField) return;
+          event.preventDefault();
+          setIsFlipped((prev) => !prev);
+          return;
+        }
+      }
+
+      if (!canGrade) return;
+
       if (event.key === "1" || event.key === "ArrowLeft") {
         event.preventDefault();
         void rateCard(0);
@@ -325,7 +407,20 @@ export default function StudyDeckPage() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isComplete, isFlipped, currentCard, currentIndex, queue, history, weaknessFirst]);
+  }, [
+    isComplete,
+    isFlipped,
+    typedMode,
+    typedResult,
+    typedInput,
+    suggestedRating,
+    canGrade,
+    currentCard,
+    currentIndex,
+    queue,
+    history,
+    weaknessFirst,
+  ]);
 
   if (isLoading) {
     return (
@@ -390,6 +485,11 @@ export default function StudyDeckPage() {
           {" · "}
           Shaky + solid (progress kept): <span className="num">{shakyOrSolid}</span>
         </p>
+        <p className="kv-meta" style={{ marginTop: 8, textAlign: "center" }}>
+          Typed retrieval: <span className="num">{typedCount}</span>
+          {" · "}
+          Flipped: <span className="num">{flippedCount}</span>
+        </p>
 
         {nextDueDate && (
           <p className="kv-meta" style={{ marginTop: 20, textAlign: "center" }}>
@@ -418,7 +518,7 @@ export default function StudyDeckPage() {
   return (
     <main className="kv-page" style={{ padding: "24px 16px 120px" }}>
       <div style={{ maxWidth: 640, margin: "0 auto" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
           <button
             type="button"
             onClick={() => router.push(`/flashcards/${deckId}`)}
@@ -428,6 +528,18 @@ export default function StudyDeckPage() {
           >
             End Session
           </button>
+          <label
+            className="kv-meta"
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, cursor: "pointer" }}
+          >
+            <input
+              type="checkbox"
+              checked={typedMode}
+              onChange={(e) => persistTypedMode(e.target.checked)}
+              style={{ accentColor: "var(--kv-accent)" }}
+            />
+            Type the answer
+          </label>
           <span className="kv-meta num">
             {solid} good · {hard} hard · {again} again
           </span>
@@ -450,6 +562,7 @@ export default function StudyDeckPage() {
             </span>
             <span className="kv-meta num">
               {Math.min(history.length + 1, sessionSize)} of {sessionSize}
+              {history.length > 0 ? ` · ${typedCount} typed / ${flippedCount} flip` : ""}
             </span>
           </div>
           <div
@@ -464,7 +577,76 @@ export default function StudyDeckPage() {
           </div>
         </div>
 
-        {currentCard && (
+        {currentCard && typedMode ? (
+          <div
+            style={{
+              width: "100%",
+              marginTop: 28,
+              padding: "40px 20px",
+              minHeight: 220,
+              textAlign: "center",
+              border: "1px solid var(--border-default)",
+            }}
+          >
+            <p className="kv-meta" style={{ marginBottom: 16 }}>Question</p>
+            <p style={{ margin: 0, fontSize: 20, fontWeight: 600, lineHeight: 1.45, color: "var(--kv-text-primary)" }}>
+              {currentCard.front}
+            </p>
+
+            {!typedResult ? (
+              <form
+                style={{ marginTop: 28, display: "flex", flexDirection: "column", gap: 12, alignItems: "stretch" }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  submitTyped();
+                }}
+              >
+                <label className="kv-meta" htmlFor="typed-answer" style={{ textAlign: "left" }}>
+                  Your answer
+                </label>
+                <input
+                  ref={typedInputRef}
+                  id="typed-answer"
+                  type="text"
+                  enterKeyHint="done"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  value={typedInput}
+                  onChange={(e) => setTypedInput(e.target.value)}
+                  className="kv-field"
+                  placeholder="Type from memory…"
+                  aria-label="Type the answer"
+                />
+                <button type="submit" className="kv-btn" disabled={!typedInput.trim()}>
+                  Check
+                </button>
+              </form>
+            ) : (
+              <div style={{ marginTop: 28 }}>
+                <p className="kv-meta" style={{ marginBottom: 8 }}>
+                  {typedResult.correct
+                    ? typedResult.spellingNote
+                      ? "Correct — check spelling"
+                      : "Correct"
+                    : "Not quite"}
+                </p>
+                <p style={{ margin: 0, fontSize: 18, lineHeight: 1.45, color: "var(--kv-text-secondary)" }}>
+                  {currentCard.back}
+                </p>
+                {typedResult.spellingNote ? (
+                  <p className="kv-sub" style={{ marginTop: 12 }}>
+                    Close enough (≤2 edits). Suggested grade: Good — override if you want honesty.
+                  </p>
+                ) : (
+                  <p className="kv-sub" style={{ marginTop: 12 }}>
+                    Suggested: {suggestedRating === 2 ? "Good" : "Again"} — tap to confirm or override.
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+        ) : currentCard ? (
           <button
             type="button"
             onClick={() => setIsFlipped((prev) => !prev)}
@@ -501,9 +683,8 @@ export default function StudyDeckPage() {
               </>
             )}
           </button>
-        )}
+        ) : null}
 
-        {/* Thumb-reach grade row — sticky bottom on narrow viewports */}
         <div
           className="study-grade-bar"
           style={{
@@ -511,29 +692,34 @@ export default function StudyDeckPage() {
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
             gap: 8,
-            opacity: isFlipped ? 1 : 0.35,
-            pointerEvents: isFlipped ? "auto" : "none",
+            opacity: canGrade ? 1 : 0.35,
+            pointerEvents: canGrade ? "auto" : "none",
           }}
-          aria-hidden={!isFlipped}
+          aria-hidden={!canGrade}
         >
-          {RATING_BUTTONS.map((btn) => (
-            <button
-              key={btn.rating}
-              type="button"
-              onClick={() => void rateCard(btn.rating)}
-              disabled={!isFlipped}
-              className="kv-btn-ghost"
-              style={{ flexDirection: "column", padding: "14px 6px", gap: 4, minHeight: 56 }}
-              aria-label={`${btn.label} — ${previewInterval(currentCard!, btn.rating)}`}
-            >
-              <span>{btn.label}</span>
-              <span className="kv-meta num">{currentCard ? previewInterval(currentCard, btn.rating) : ""}</span>
-            </button>
-          ))}
+          {RATING_BUTTONS.map((btn) => {
+            const suggested = suggestedRating === btn.rating;
+            return (
+              <button
+                key={btn.rating}
+                type="button"
+                onClick={() => void rateCard(btn.rating)}
+                disabled={!canGrade}
+                className={suggested ? "kv-btn" : "kv-btn-ghost"}
+                style={{ flexDirection: "column", padding: "14px 6px", gap: 4, minHeight: 56 }}
+                aria-label={`${btn.label} — ${previewInterval(currentCard!, btn.rating)}${suggested ? " (suggested)" : ""}`}
+              >
+                <span>{btn.label}</span>
+                <span className="kv-meta num">{currentCard ? previewInterval(currentCard, btn.rating) : ""}</span>
+              </button>
+            );
+          })}
         </div>
 
         <p className="kv-meta study-kbd-hint" style={{ marginTop: 16, textAlign: "center" }}>
-          Space / Enter flip · 1 Again · 2 Hard · 3 Good · 4 Easy · ← Again · → Easy
+          {typedMode
+            ? "Type → Enter check · 1 Again · 2 Hard · 3 Good · 4 Easy"
+            : "Space / Enter flip · 1 Again · 2 Hard · 3 Good · 4 Easy · ← Again · → Easy"}
         </p>
       </div>
     </main>

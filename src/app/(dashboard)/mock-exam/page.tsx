@@ -60,7 +60,8 @@ function splitForFocus(volume: Volume, focus: Focus): { mc: number; sa: number }
   // API caps: MC ≤20, SA ≤10 — keep configure honest with what will be generated.
   if (focus === "mc") return { mc: Math.min(volume, 20), sa: 0 };
   if (focus === "sa") return { mc: 0, sa: Math.min(volume, 10) };
-  const rawMc = Math.round(volume * 0.7);
+  // Simulator default: 50/50 MC/SA (was 70/30). Caps still apply: MC ≤20, SA ≤10.
+  const rawMc = Math.round(volume * 0.5);
   const mc = Math.min(rawMc, 20);
   const sa = Math.min(volume - mc, 10);
   return { mc, sa };
