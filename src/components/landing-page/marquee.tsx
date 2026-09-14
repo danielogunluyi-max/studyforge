@@ -2,12 +2,13 @@ import { NAV_ENTRIES, navEntriesFor } from "~/lib/nav-registry";
 import { DISABLED_FEATURES } from "~/lib/disabled-features";
 
 const LANDING_BLOCKED_LABELS = new Set([
-  "Exam Predictor",
   ...DISABLED_FEATURES.map((f) => f.name),
+  "Exam Predictor",
   "Score Predictor",
   "Kyvex IQ",
   "Study DNA",
   "Originality Check",
+  "My Predictions",
 ]);
 
 /** Core product loop — always first (Mock Exam may lack `landing`). */

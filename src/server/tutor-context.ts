@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { libraryNoiseTitleFilter } from "~/lib/note-noise";
 
 export type StudentContext = {
   recentNotes: Array<{ id: string; title: string; subject?: string; updatedAt: Date; snippet: string; tags: string[] }>;
@@ -57,15 +58,20 @@ export async function buildStudentContext(params: {
     prisma.note.findMany({
       where: {
         userId,
-        ...(subjectFilter
-          ? {
-              OR: [
-                { tags: { has: subjectFilter } },
-                { title: { contains: subjectFilter, mode: "insensitive" } },
-              ],
-            }
-          : {}),
-        ...(loadedNoteId ? { NOT: { id: loadedNoteId } } : {}),
+        AND: [
+          libraryNoiseTitleFilter(),
+          ...(loadedNoteId ? [{ NOT: { id: loadedNoteId } }] : []),
+          ...(subjectFilter
+            ? [
+                {
+                  OR: [
+                    { tags: { has: subjectFilter } },
+                    { title: { contains: subjectFilter, mode: "insensitive" as const } },
+                  ],
+                },
+              ]
+            : []),
+        ],
       },
       orderBy: { updatedAt: "desc" },
       take: 5,

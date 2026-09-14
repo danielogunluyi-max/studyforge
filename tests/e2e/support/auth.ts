@@ -143,7 +143,7 @@ async function postPreset(page: Page, preset: StudyPreset): Promise<ApiResult> {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         resetToPreset: true,
-        preset: value,
+        preset: 'FOCUSED',
       }),
     })
 
@@ -162,10 +162,23 @@ async function postPreset(page: Page, preset: StudyPreset): Promise<ApiResult> {
 }
 
 export async function dismissPresetModal(page: Page, preset: StudyPreset = 'HIGHSCHOOL') {
-  const getStarted = page.getByRole('button', { name: /get started/i })
-  const visible = await getStarted.isVisible().catch(() => false)
-  if (!visible) return
+  const dialog = page.getByRole('dialog', { name: /who are you studying as/i })
+  const visible = await dialog.isVisible().catch(() => false)
+  if (!visible) {
+    // Legacy: Get Started without dialog role
+    const getStarted = page.getByRole('button', { name: /get started/i })
+    if (!(await getStarted.isVisible().catch(() => false))) return
+  }
 
+  // Prefer Skip — never trap the money path behind education-level pick.
+  const skip = page.getByRole('button', { name: /^skip$/i }).first()
+  if (await skip.isVisible().catch(() => false)) {
+    await skip.click()
+    await dialog.waitFor({ state: 'hidden', timeout: 20_000 }).catch(() => undefined)
+    return
+  }
+
+  const getStarted = page.getByRole('button', { name: /get started/i })
   const labels: Record<StudyPreset, RegExp> = {
     HIGHSCHOOL: /high school/i,
     COLLEGE: /college/i,

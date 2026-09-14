@@ -22,8 +22,9 @@
   --input: #e2e8f0;
   --ring: #2563eb;
   --kv-radius: 2px;
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-heading: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  /* App chrome: Plus Jakarta (layout Google Fonts). Landing overrides --font-sans via next/font Inter_Tight. */
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
   --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
 }
 
@@ -319,7 +320,8 @@
   --transition-slow:   all 0.3s ease;
 
   /* Compatibility aliases — brand accents locked to paper lime */
-  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-inter: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
   --accent-50: color-mix(in srgb, var(--kv-accent) 18%, white);
   --accent-100: color-mix(in srgb, var(--kv-accent) 32%, white);
   --accent-500: var(--kv-accent);
@@ -344,8 +346,7 @@
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont,
-    'Segoe UI', sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -358,7 +359,7 @@ html {
 }
 
 ::selection {
-  background: rgba(99, 102, 241, 0.3);
+  background: color-mix(in srgb, var(--kv-accent) 35%, transparent);
 }
 
 ::-webkit-scrollbar { width: 6px; }
@@ -782,73 +783,6 @@ html.dark .site-select {
   .select-wrapper, select, .site-select { width: 100%; }
 }
 
-.app-premium-dark {
-  background: #030712 !important;
-  min-height: 100vh;
-}
-
-.app-premium-dark .bg-white,
-.app-premium-dark .bg-gray-50,
-.app-premium-dark .bg-gray-100 {
-  background-color: #111827 !important;
-}
-
-.app-premium-dark .border-gray-100,
-.app-premium-dark .border-gray-200,
-.app-premium-dark .border-gray-300 {
-  border-color: #374151 !important;
-}
-
-.app-premium-dark .text-gray-900,
-.app-premium-dark .text-gray-800,
-.app-premium-dark .text-gray-700 {
-  color: #f9fafb !important;
-}
-
-.app-premium-dark .text-gray-600,
-.app-premium-dark .text-gray-500 {
-  color: #9ca3af !important;
-}
-
-.app-premium-dark label,
-.app-premium-dark h1,
-.app-premium-dark h2,
-.app-premium-dark h3,
-.app-premium-dark .font-semibold {
-  color: #f9fafb !important;
-  font-weight: 600;
-}
-
-.app-premium-dark input,
-.app-premium-dark textarea,
-.app-premium-dark select,
-.app-premium-dark .listbox-button,
-.app-premium-dark .listbox-premium-button {
-  background-color: #1f2937 !important;
-  border-color: #4b5563 !important;
-  color: #f9fafb !important;
-}
-
-.app-premium-dark input::placeholder,
-.app-premium-dark textarea::placeholder {
-  color: #6b7280 !important;
-}
-
-.app-premium-dark input:focus,
-.app-premium-dark textarea:focus,
-.app-premium-dark select:focus,
-.app-premium-dark .listbox-premium-button:focus {
-  border-color: #3b82f6 !important;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.22) !important;
-}
-
-.app-premium-dark .rounded-xl.border,
-.app-premium-dark .rounded-lg.border {
-  border-color: #374151 !important;
-  background-color: #111827 !important;
-}
-
-
 [data-compact="true"] .p-6 {
   padding: 1.25rem !important;
 }
@@ -1167,7 +1101,7 @@ button, .inline-flex, .listbox-button {
 }
 
 body {
-  font-family: "Inter", -apple-system, sans-serif;
+  font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-primary);
@@ -1467,27 +1401,6 @@ textarea:focus {
   color: #fff;
   font-size: 13px;
   font-weight: 700;
-}
-
-/* Global premium constraints for authenticated pages */
-.app-premium-dark .shadow-sm,
-.app-premium-dark .shadow-md,
-.app-premium-dark .shadow-lg,
-.app-premium-dark .shadow-xl,
-.app-premium-dark .shadow-2xl {
-  box-shadow: none !important;
-}
-
-.app-premium-dark h1 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #ffffff;
-}
-
-.app-premium-dark h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #ffffff;
 }
 
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }

@@ -1,131 +1,121 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { MATRIX_FEATURE_KEYS } from "~/lib/nav-registry";
 import { auth } from "~/server/auth";
+import { db } from "~/server/db";
 
-const PRESET_FEATURES = {
-  HIGHSCHOOL: {
-    enabled: [
-      "generator", "flashcards", "feynman", "battle", "curriculum",
-      "grade-calc", "games", "planner", "calendar", "wellness",
-      "tutor", "rooms", "mock-exam", "audio", "scan", "photo-quiz",
-      "my-notes", "mastery", "achievements", "habits", "community",
-      "search", "capture", "listen", "diagrams", "podcast",
-      "battle-royale", "study-ghost", "wrapped", "kyvex-iq",
-      "decay-alerts", "predictor", "interleave", "narrative",
-      "compress", "debate", "crossover", "contract", "reading-speed",
-      "micro-lessons", "lecture", "focus-score", "smart-upload",
-      "cornell", "quizlet-import", "library", "study-mode",
-      "content-hub", "knowledge-map",
-    ],
-    hidden: ["career-path", "peer-review", "essay-grade", "counterargument", "debate-judge"],
-  },
-  COLLEGE: {
-    enabled: [
-      "generator", "flashcards", "feynman", "planner", "calendar",
-      "wellness", "tutor", "mock-exam", "audio", "my-notes",
-      "mastery", "achievements", "habits", "community", "search",
-      "capture", "diagrams", "essay-grade", "career-path",
-      "peer-review", "cornell", "syllabus", "classroom-import",
-      "presentations", "citations", "grammar", "plagiarism",
-      "kyvex-iq", "study-ghost", "wrapped", "contract",
-      "reading-speed", "micro-lessons", "lecture", "focus-score",
-      "smart-upload", "library", "study-mode", "content-hub",
-      "knowledge-map", "autopsy", "decay-alerts", "adaptive-notes",
-      "counterargument", "debate-judge", "crossover",
-    ],
-    hidden: ["curriculum", "grade-calc", "games", "battle-royale", "boss-battle"],
-  },
-  UNIVERSITY: {
-    enabled: [
-      "generator", "flashcards", "feynman", "planner", "calendar",
-      "tutor", "my-notes", "mastery", "community",
-      "search", "capture", "diagrams", "essay-grade", "career-path",
-      "peer-review", "cornell", "syllabus", "classroom-import",
-      "presentations", "citations", "grammar", "plagiarism",
-      "kyvex-iq", "study-ghost", "wrapped", "contract",
-      "reading-speed", "micro-lessons", "lecture", "focus-score",
-      "smart-upload", "library", "study-mode", "content-hub",
-      "knowledge-map", "autopsy", "decay-alerts", "adaptive-notes",
-      "counterargument", "debate-judge", "debate", "concept-collision",
-      "study-dna", "memory-sim", "note-evolution", "crossover",
-      "compress", "narrative", "interleave", "pdf-library",
-    ],
-    hidden: ["curriculum", "grade-calc", "games", "battle-royale", "battle", "photo-quiz"],
-  },
-} as const;
-
-const RETIRED_FEATURE_KEYS = new Set(["voice-tutor"]);
-
-const REQUIRED_FEATURE_KEYS = [
-  "concept-web",
-  "focus",
-  "learning-style-quiz",
+/**
+ * Single source of truth for feature keys.
+ * Keep this list in sync with FEATURE_CATALOG in
+ * src/app/(dashboard)/settings/features/page.tsx.
+ */
+const ALL_FEATURE_KEYS = [
+  "smart-upload",
+  "my-notes",
+  "library",
+  "flashcards",
+  "mock-exam",
+  "tutor",
+  "planner",
+  "curriculum",
+  "podcast",
+  "presentation",
   "study-groups",
+  "battle",
   "match",
-  "referral",
+  "essay-grader",
+  "peer-review",
+  "citations",
   "handwriting",
+  "diagrams",
+  "mindmap",
+  "concept-web",
+  "photo-quiz",
+  "syllabus",
+  "exam-predictor",
+  "mastery",
+  "wellness",
+  "focus",
+  "calendar",
+  "achievements",
+  "career-path",
+  "learning-style",
+  "study-wrapped",
+  "contracts",
+  "arcade",
+  "listen",
+  "results",
+  "search",
 ] as const;
 
-const UNIVERSAL_FEATURE_KEYS = Array.from(
-  new Set([
-    ...PRESET_FEATURES.HIGHSCHOOL.enabled,
-    ...PRESET_FEATURES.COLLEGE.enabled,
-    ...PRESET_FEATURES.UNIVERSITY.enabled,
-    ...REQUIRED_FEATURE_KEYS,
-    // Every matrix-toggleable registry key defaults on (reconcile + first prefs).
-    ...MATRIX_FEATURE_KEYS,
-  ]),
-);
+/** THE LOOP — Upload → Notes → Cards → Mock → Tutor. Default sidebar. */
+const LOOP_FEATURE_KEYS = [
+  "smart-upload",
+  "my-notes",
+  "flashcards",
+  "mock-exam",
+  "tutor",
+] as const;
 
-type PresetKey = keyof typeof PRESET_FEATURES;
+const ACADEMIC_PRESETS = ["HIGHSCHOOL", "COLLEGE", "UNIVERSITY"] as const;
+const FEATURE_PRESETS = [...ACADEMIC_PRESETS, "FOCUSED", "CUSTOM"] as const;
 
-function normalizePreset(value: string | null | undefined): PresetKey {
-  if (value === "COLLEGE" || value === "UNIVERSITY") return value;
-  return "HIGHSCHOOL";
+function normalizePreset(raw: string | null | undefined): string {
+  const p = (raw ?? "FOCUSED").toUpperCase();
+  return (FEATURE_PRESETS as readonly string[]).includes(p) ? p : "FOCUSED";
 }
 
-function buildUniversalDefaults() {
+/**
+ * Focused / THE LOOP — five core tools + account chrome only.
+ * Everything else stays in the Features matrix as an honest opt-in toggle.
+ */
+function buildFocusedDefaults() {
+  const loop = new Set<string>(LOOP_FEATURE_KEYS);
   return {
-    enabledFeatures: [...UNIVERSAL_FEATURE_KEYS],
-    hiddenFeatures: [] as string[],
+    enabledFeatures: [...LOOP_FEATURE_KEYS],
+    hiddenFeatures: ALL_FEATURE_KEYS.filter((k) => !loop.has(k)),
   };
 }
 
+function defaultsForPreset(_preset: string) {
+  // Beta: every named reset starts as THE LOOP; the matrix is how students opt in.
+  return buildFocusedDefaults();
+}
+
 function reconcileFeatureLists(
-  enabledFeatures: unknown,
-  hiddenFeatures: unknown,
-  options: { forceEnableAll: boolean },
+  enabledRaw: unknown,
+  hiddenRaw: unknown,
+  opts?: { forceEnableAll?: boolean },
 ) {
-  const enabled = Array.isArray(enabledFeatures)
-    ? enabledFeatures.filter((value): value is string => typeof value === "string" && !RETIRED_FEATURE_KEYS.has(value))
+  const enabled = Array.isArray(enabledRaw)
+    ? enabledRaw.filter((k): k is string => typeof k === "string")
     : [];
-  const hidden = Array.isArray(hiddenFeatures)
-    ? hiddenFeatures.filter((value): value is string => typeof value === "string" && !RETIRED_FEATURE_KEYS.has(value))
+  const hidden = Array.isArray(hiddenRaw)
+    ? hiddenRaw.filter((k): k is string => typeof k === "string")
     : [];
 
-  const enabledSet = new Set<string>(enabled);
-  const hiddenSet = new Set<string>(hidden);
+  const enabledSet = new Set(enabled);
+  const hiddenSet = new Set(hidden);
 
-  if (options.forceEnableAll) {
-    for (const key of UNIVERSAL_FEATURE_KEYS) {
+  if (opts?.forceEnableAll) {
+    for (const key of ALL_FEATURE_KEYS) {
       enabledSet.add(key);
       hiddenSet.delete(key);
     }
   } else {
-    for (const key of UNIVERSAL_FEATURE_KEYS) {
+    // Opt-in model: keys missing from both lists stay hidden until the matrix enables them.
+    for (const key of ALL_FEATURE_KEYS) {
       if (!enabledSet.has(key) && !hiddenSet.has(key)) {
-        enabledSet.add(key);
+        hiddenSet.add(key);
       }
     }
   }
 
-  const nextEnabled = Array.from(enabledSet);
-  const nextHidden = Array.from(hiddenSet).filter((key) => !enabledSet.has(key));
+  for (const key of [...hiddenSet]) {
+    if (enabledSet.has(key)) hiddenSet.delete(key);
+  }
 
   return {
-    enabledFeatures: nextEnabled,
-    hiddenFeatures: nextHidden,
+    enabledFeatures: [...enabledSet],
+    hiddenFeatures: [...hiddenSet],
   };
 }
 
@@ -136,57 +126,40 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let prefs = await prisma.featurePreference.findUnique({
-    where: { userId: uid },
-  });
+  let prefs = await db.featurePreference.findUnique({ where: { userId: uid } });
 
   if (!prefs) {
-    const user = await prisma.user.findUnique({
-      where: { id: uid },
-      select: { preset: true },
-    });
-
-    const preset = normalizePreset(user?.preset ?? "HIGHSCHOOL");
-    const defaults = buildUniversalDefaults();
-
-    prefs = await prisma.featurePreference.create({
+    const focused = buildFocusedDefaults();
+    prefs = await db.featurePreference.create({
       data: {
         userId: uid,
-        preset,
-        enabledFeatures: defaults.enabledFeatures,
-        hiddenFeatures: defaults.hiddenFeatures,
+        preset: "FOCUSED",
+        enabledFeatures: focused.enabledFeatures,
+        hiddenFeatures: focused.hiddenFeatures,
       },
     });
-  } else {
-    const normalized = reconcileFeatureLists(prefs.enabledFeatures, prefs.hiddenFeatures, {
-      forceEnableAll: false,
-    });
-
-    const currentEnabled = Array.isArray(prefs.enabledFeatures) ? prefs.enabledFeatures : [];
-    const currentHidden = Array.isArray(prefs.hiddenFeatures) ? prefs.hiddenFeatures : [];
-    const enabledChanged =
-      normalized.enabledFeatures.length !== currentEnabled.length ||
-      normalized.enabledFeatures.some((key) => !currentEnabled.includes(key));
-    const hiddenChanged =
-      normalized.hiddenFeatures.length !== currentHidden.length ||
-      normalized.hiddenFeatures.some((key) => !currentHidden.includes(key));
-
-    if (enabledChanged || hiddenChanged) {
-      prefs = await prisma.featurePreference.update({
+  } else if (!prefs.customized) {
+    // Non-customized → THE LOOP (Focused). Matrix opt-in sets customized=true.
+    const defaults = buildFocusedDefaults();
+    const same =
+      prefs.preset === "FOCUSED" &&
+      JSON.stringify([...(prefs.enabledFeatures as string[])].sort()) ===
+        JSON.stringify([...defaults.enabledFeatures].sort()) &&
+      JSON.stringify([...(prefs.hiddenFeatures as string[])].sort()) ===
+        JSON.stringify([...defaults.hiddenFeatures].sort());
+    if (!same) {
+      prefs = await db.featurePreference.update({
         where: { userId: uid },
         data: {
-          enabledFeatures: normalized.enabledFeatures,
-          hiddenFeatures: normalized.hiddenFeatures,
+          preset: "FOCUSED",
+          enabledFeatures: defaults.enabledFeatures,
+          hiddenFeatures: defaults.hiddenFeatures,
         },
       });
     }
   }
 
-  return NextResponse.json({
-    prefs,
-    presetDefaults: PRESET_FEATURES,
-    allFeatureKeys: UNIVERSAL_FEATURE_KEYS,
-  });
+  return NextResponse.json({ prefs });
 }
 
 export async function POST(req: Request) {
@@ -205,9 +178,9 @@ export async function POST(req: Request) {
 
   if (body.resetToPreset && body.preset) {
     const preset = normalizePreset(body.preset);
-    const defaults = buildUniversalDefaults();
+    const defaults = defaultsForPreset(preset);
 
-    const prefs = await prisma.featurePreference.upsert({
+    const prefs = await db.featurePreference.upsert({
       where: { userId: uid },
       update: {
         preset,
@@ -226,17 +199,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ prefs });
   }
 
-  const prefs = await prisma.featurePreference.upsert({
+  const prefs = await db.featurePreference.upsert({
     where: { userId: uid },
     update: {
       ...reconcileFeatureLists(body.enabledFeatures ?? [], body.hiddenFeatures ?? [], {
         forceEnableAll: false,
       }),
       customized: true,
+      preset: "CUSTOM",
     },
     create: {
       userId: uid,
-      preset: "HIGHSCHOOL",
+      preset: "CUSTOM",
       ...reconcileFeatureLists(body.enabledFeatures ?? [], body.hiddenFeatures ?? [], {
         forceEnableAll: false,
       }),

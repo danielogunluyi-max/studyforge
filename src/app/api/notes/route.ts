@@ -3,6 +3,7 @@ import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { runGroqPrompt, isRateLimited, BUSY_MESSAGE } from "~/server/groq";
 import { assertGroqRateLimit } from "~/lib/groq-guard";
+import { libraryNoiseTitleFilter } from "~/lib/note-noise";
 
 type NotePayload = {
   title: string;
@@ -206,7 +207,11 @@ export async function GET(request: Request) {
     // Build where clause
     const whereClause: NonNullable<Parameters<typeof db.note.findMany>[0]>["where"] = {
       userId: session.user.id,
-      ...(noteId ? { id: noteId } : weakIds ? { id: { in: weakIds } } : {}),
+      ...(noteId
+        ? { id: noteId }
+        : weakIds
+          ? { id: { in: weakIds }, ...libraryNoiseTitleFilter() }
+          : { ...libraryNoiseTitleFilter() }),
       ...(format ? { format } : {}),
       ...(tag ? { tags: { has: tag } } : {}),
       ...(folderId ? { folderId } : {}),
@@ -267,6 +272,7 @@ export async function GET(request: Request) {
         where: {
           userId: session.user.id,
           lastViewedAt: { not: null },
+          ...libraryNoiseTitleFilter(),
         },
         orderBy: { lastViewedAt: "desc" },
         take: 3,

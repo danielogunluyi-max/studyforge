@@ -491,21 +491,23 @@ export default function ScreenshotGallery() {
               type="button"
               onClick={() => setShowForm(false)}
               aria-label="Close save dialog"
-              className="absolute inset-0 cursor-default bg-black/70 backdrop-blur-md"
+              className="absolute inset-0 cursor-default"
+              style={{ background: 'color-mix(in srgb, var(--bg-base) 72%, transparent)' }}
             />
             <motion.div
               initial={{ opacity: 0, y: 16, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 16, scale: 0.96 }}
               transition={{ type: 'spring', stiffness: 280, damping: 24 }}
-              className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/90 p-6 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)] backdrop-blur-2xl"
+              className="card relative w-full max-w-md overflow-hidden p-6"
             >
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-base font-semibold text-white">Save Snippet</h3>
+                <h3 className="kv-row-title">Save Snippet</h3>
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="rounded-md p-1 text-zinc-500 transition hover:bg-white/10 hover:text-white"
+                  className="kv-btn-ghost"
+                  style={{ padding: 4 }}
                   aria-label="Close"
                 >
                   <X size={14} aria-hidden="true" />
@@ -513,7 +515,10 @@ export default function ScreenshotGallery() {
               </div>
 
               {currentImageData && (
-                <div className="mb-4 overflow-hidden rounded-xl border border-white/10 bg-black/40">
+                <div
+                  className="mb-4 overflow-hidden"
+                  style={{ border: '1px solid var(--border-default)' }}
+                >
                   <img
                     src={currentImageData}
                     alt="Snippet preview"
@@ -524,7 +529,7 @@ export default function ScreenshotGallery() {
 
               <div className="space-y-3">
                 <div>
-                  <label htmlFor="snip-title" className="mb-1 block text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
+                  <label htmlFor="snip-title" className="kv-meta mb-1 block">
                     Title
                   </label>
                   <input
@@ -532,13 +537,13 @@ export default function ScreenshotGallery() {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none transition focus:border-cyan-400/40 focus:shadow-[0_0_18px_rgba(34,211,238,0.18)]"
+                    className="kv-field"
                     placeholder="e.g. Quadratic formula derivation"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="snip-subject" className="mb-1 block text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
+                  <label htmlFor="snip-subject" className="kv-meta mb-1 block">
                     Subject / Course
                   </label>
                   <input
@@ -546,7 +551,7 @@ export default function ScreenshotGallery() {
                     type="text"
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none transition focus:border-purple-400/40 focus:shadow-[0_0_18px_rgba(168,85,247,0.18)]"
+                    className="kv-field"
                     placeholder="e.g. SCH4U, Math, History"
                   />
                 </div>
@@ -556,7 +561,7 @@ export default function ScreenshotGallery() {
                     type="button"
                     onClick={() => void handleSave()}
                     disabled={saving}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-cyan-400 to-purple-500 px-4 py-2 text-sm font-semibold text-white shadow-[0_0_24px_rgba(34,211,238,0.35)] transition hover:shadow-[0_0_32px_rgba(34,211,238,0.5)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="kv-btn flex flex-1 items-center justify-center gap-2"
                   >
                     {saving && <Loader2 size={14} className="animate-spin" aria-hidden="true" />}
                     {saving ? 'Saving…' : 'Save Snippet'}
@@ -564,7 +569,7 @@ export default function ScreenshotGallery() {
                   <button
                     type="button"
                     onClick={() => setShowForm(false)}
-                    className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-300 transition hover:bg-white/10 hover:text-white active:scale-95"
+                    className="kv-btn-ghost"
                   >
                     Cancel
                   </button>
