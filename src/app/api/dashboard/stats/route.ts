@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
+import { isLibraryNoiseTitle, libraryNoiseTitleFilter } from "~/lib/note-noise";
 
 export async function GET() {
   const session = await auth();
@@ -23,11 +24,11 @@ export async function GET() {
     },
   });
 
-  // ── Recent notes (last 5) ────────────────────────────────────
-  const recentNotes = await db.note.findMany({
-    where: { userId },
+  // ── Recent notes (last 5, probe litter excluded) ─────────────
+  const recentRaw = await db.note.findMany({
+    where: { userId, ...libraryNoiseTitleFilter() },
     orderBy: { createdAt: "desc" },
-    take: 5,
+    take: 24,
     select: {
       id: true,
       title: true,
@@ -35,9 +36,12 @@ export async function GET() {
       createdAt: true,
     },
   });
+  const recentNotes = recentRaw.filter((n) => !isLibraryNoiseTitle(n.title)).slice(0, 5);
 
-  // ── Note count ───────────────────────────────────────────────
-  const notesCount = await db.note.count({ where: { userId } });
+  // ── Note count (real library — exclude probe titles) ─────────
+  const notesCount = await db.note.count({
+    where: { userId, ...libraryNoiseTitleFilter() },
+  });
 
   // ── Exams ────────────────────────────────────────────────────
   const exams = await db.exam.findMany({

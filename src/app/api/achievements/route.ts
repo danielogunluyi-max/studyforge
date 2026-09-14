@@ -30,12 +30,67 @@ const ACHIEVEMENTS = [
   { key: "early_bird", title: "Early Bird", description: "Studied before 7am", emoji: "🐦" },
 ] as const;
 
+type AchievementKey = (typeof ACHIEVEMENTS)[number]["key"];
+
+function pickAchievement(count: number, keys: readonly AchievementKey[]): AchievementKey[] {
+  const out: AchievementKey[] = [];
+  if (count > 0 && keys[0]) out.push(keys[0]);
+  if (count >= 10 && keys[1]) out.push(keys[1]);
+  if (count >= 50 && keys[2]) out.push(keys[2]);
+  return out;
+}
+
+/** Server-side eligibility — never trust a client-supplied key alone. */
+async function eligibleKeys(userId: string): Promise<Set<AchievementKey>> {
+  const [
+    noteCount,
+    deckCount,
+    cardCount,
+    examCount,
+    feynmanCount,
+    podcastCount,
+    diagramCount,
+    communityCount,
+    wellnessCount,
+    dnaExists,
+    user,
+  ] = await Promise.all([
+    prisma.note.count({ where: { userId } }),
+    prisma.flashcardDeck.count({ where: { userId } }),
+    prisma.flashcard.count({ where: { deck: { userId } } }),
+    prisma.exam.count({ where: { userId } }),
+    prisma.feynmanSession.count({ where: { userId } }),
+    prisma.podcast.count({ where: { userId } }),
+    prisma.diagram.count({ where: { userId } }),
+    prisma.communityPost.count({ where: { userId } }),
+    prisma.wellnessEntry.count({ where: { userId } }),
+    prisma.studyDNA.findUnique({ where: { userId }, select: { id: true } }),
+    prisma.user.findUnique({ where: { id: userId }, select: { studyStreak: true } }),
+  ]);
+
+  const shouldUnlock = new Set<AchievementKey>();
+  pickAchievement(noteCount, ["first_note", "notes_10", "notes_50"]).forEach((k) => shouldUnlock.add(k));
+  if (deckCount > 0) shouldUnlock.add("first_flashcard");
+  if (cardCount >= 100) shouldUnlock.add("cards_100");
+  if (cardCount >= 500) shouldUnlock.add("cards_500");
+  if (examCount > 0) shouldUnlock.add("first_exam");
+  if (feynmanCount > 0) shouldUnlock.add("feynman_first");
+  if (feynmanCount >= 10) shouldUnlock.add("feynman_10");
+  if ((user?.studyStreak ?? 0) >= 7) shouldUnlock.add("streak_7");
+  if ((user?.studyStreak ?? 0) >= 30) shouldUnlock.add("streak_30");
+  if ((user?.studyStreak ?? 0) >= 100) shouldUnlock.add("streak_100");
+  if (podcastCount > 0) shouldUnlock.add("first_podcast");
+  if (diagramCount > 0) shouldUnlock.add("first_diagram");
+  if (dnaExists) shouldUnlock.add("dna_analyzed");
+  if (communityCount > 0) shouldUnlock.add("community_post");
+  if (wellnessCount > 0) shouldUnlock.add("first_wellness");
+  return shouldUnlock;
+}
 
 export async function GET() {
   const session = await getAuthSession();
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  // Fetch user to get unlocked achievements
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     select: { battleAchievements: true },
@@ -44,27 +99,37 @@ export async function GET() {
   const all = ACHIEVEMENTS.map((a) => ({
     ...a,
     unlocked: unlockedKeys.has(a.key),
-    unlockedAt: null, // No timestamp support in this model
+    unlockedAt: null,
   }));
 
   return NextResponse.json({ achievements: all, unlockedCount: unlockedKeys.size, total: ACHIEVEMENTS.length });
 }
 
+/**
+ * Unlock a single achievement only if server stats prove eligibility.
+ * Client-key forge (old behavior) is dead: unknown or unearned keys → 403.
+ */
 export async function POST(req: Request) {
   const session = await getAuthSession();
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { key } = (await req.json()) as { key?: string };
+  const { key } = (await req.json().catch(() => ({}))) as { key?: string };
   const achievement = ACHIEVEMENTS.find((a) => a.key === key);
-  if (!achievement) return NextResponse.json({ error: "Unknown achievement" }, { status: 400 });
+  if (!achievement || !key) {
+    return NextResponse.json({ error: "Unknown achievement" }, { status: 400 });
+  }
 
-  // Add achievement to user's unlocked list if not already present
+  const earned = await eligibleKeys(session.user.id);
+  if (!earned.has(key as AchievementKey)) {
+    return NextResponse.json({ error: "Not earned" }, { status: 403 });
+  }
+
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     select: { battleAchievements: true },
   });
   if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
-  if (user.battleAchievements?.includes(key!)) {
+  if (user.battleAchievements?.includes(key)) {
     return NextResponse.json({ isNew: false });
   }
   await prisma.user.update({

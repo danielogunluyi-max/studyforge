@@ -133,6 +133,25 @@ export default auth((req) => {
       }
     }
 
+    // Generous GET floor — DoS cushion, not a normal-user throttle.
+    if (req.method === "GET" && rateKey) {
+      const rl = checkSessionRateLimit(`api-get:${rateKey}`, {
+        limit: 300,
+        windowMs: 60_000,
+      });
+      if (!rl.allowed) {
+        return NextResponse.json(
+          { error: BUSY_MESSAGE },
+          {
+            status: 429,
+            headers: rl.retryAfterSec
+              ? { "Retry-After": String(rl.retryAfterSec) }
+              : undefined,
+          },
+        );
+      }
+    }
+
     return NextResponse.next();
   }
 

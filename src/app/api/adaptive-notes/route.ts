@@ -31,6 +31,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
   }
 
+  const owned = await prisma.note.findFirst({
+    where: { id: noteId, userId: session.user.id },
+    select: { id: true },
+  });
+  if (!owned) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
   let completion;
   try {
     completion = await groq.chat.completions.create({
@@ -111,6 +119,23 @@ export async function PATCH(req: Request) {
 
   if (!noteId || level < 1 || level > 4) {
     return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
+  }
+
+  // IDOR guard: note must belong to the caller.
+  const note = await prisma.note.findFirst({
+    where: { id: noteId, userId: session.user.id },
+    select: { id: true },
+  });
+  if (!note) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
+  const existing = await prisma.adaptiveNote.findFirst({
+    where: { noteId, userId: session.user.id },
+    select: { id: true },
+  });
+  if (!existing) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
   const adaptive = await prisma.adaptiveNote.update({
